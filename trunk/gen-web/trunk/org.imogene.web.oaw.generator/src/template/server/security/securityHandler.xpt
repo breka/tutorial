@@ -1,0 +1,44 @@
+«IMPORT core»
+«EXTENSION template::CommonEntityUtilExt» 
+«DEFINE generate(String projectName) FOR Project»
+«FILE projectName.toLowerCase()+"/server/servlet/security/ImogSecurityHandler.java"»
+
+package org.imogene.«projectName.toLowerCase()».server.servlet.security;
+
+import org.imogene.web.server.ImogSecurityPolicy;
+import org.imogene.web.server.dao.GenericDao;
+
+import org.imogene.«projectName.toLowerCase()».server.ApplicationContext;
+
+/**
+ * This class handles the application data security 
+ * by applying the application data access policy 
+ * @author MEDES-IMPS
+ */
+public class ImogSecurityHandler {
+
+	private GenericDao dao;
+	
+	/* The unique instance of this object */
+	private static ImogSecurityHandler instance=null;
+		
+	public static ImogSecurityHandler getInstance(){
+		if(instance == null)
+			instance = new ImogSecurityHandler();
+		return instance;
+	}
+	
+	public ImogSecurityHandler() {
+		dao = (GenericDao) ApplicationContext.getInstance().getBean("genericDao");
+	}	
+	
+	public ImogSecurityPolicy getPolicy(){
+		if(dao == null) return null;
+		return new Imog«projectName.toFirstUpper()»Policy(dao);
+	}
+	
+
+}
+«ENDFILE»
+«ENDDEFINE»
+«REM» ---------------------------------------------------------- «ENDREM»

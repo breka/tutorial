@@ -1,0 +1,481 @@
+«IMPORT core»
+
+«DEFINE generate(String projectName) FOR CardEntity»
+«FILE this.name.toFirstLower() + "CardReportTemplate.jrxml"-»
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport
+		 name="«this.name.toFirstLower()»CardReportTemplate"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="AllSectionsNoDetail"
+		 whenResourceMissingType="Empty"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false"
+		 resourceBundle="org.imogene.«projectName.toLowerCase()».client.i18n.«projectName.toFirstUpper()»Translations">
+		 
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<import value="org.imogene.«projectName.toLowerCase()».server.util.ServerMainFieldsUtilImpl" />
+	<import value="org.imogene.web.server.util.DateUtil" />
+	<import value="org.imogene.web.server.util.BooleanUtil" />
+	<import value="org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»" />
+	<import value="org.imogene.«projectName.toLowerCase()».server.servlet.security.ServerAccessManager" />
+	
+	<parameter name="roles" isForPrompting="false" class="java.util.Set"/>	
+	
+	«FOREACH this.groups.fields AS f-»
+		«IF !f.hidden -»
+		«EXPAND getSubReportParameter FOR f-»
+		«ENDIF -»
+	«ENDFOREACH-» 
+	
+	«FOREACH this.groups.fields AS f-»
+		«IF !f.hidden -»
+		«EXPAND defineField(projectName) FOR f-»
+		«ENDIF -»
+	«ENDFOREACH-» 	
+	
+		«FOREACH this.groups AS g-»
+		«EXPAND defineCanReadVariable FOR g-»
+	«ENDFOREACH-» 
+	
+	«FOREACH groups AS g ITERATOR iter1 -»
+		
+		<!-- Group Field «g.name» Text -->
+		<group  name="«g.name»_Group" isStartNewPage="true" >
+			<groupExpression><![CDATA[null]]></groupExpression>
+			<groupHeader>
+			<band height="35" isSplitAllowed="false" >			
+				<printWhenExpression>$V{canRead«g.name.toFirstUpper()»FieldGroup}</printWhenExpression>									
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="15"
+						width="535"
+						height="18"
+						forecolor="#FFFFFF"
+						backcolor="#666666"
+						key="«g.name»TextField"/>
+					<box leftPadding="4">					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Sylfaen" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$R{«g.parentCard.name.toFirstLower()»_group_«g.name.toFirstLower()»}.replaceAll( "\\n", "" )]]></textFieldExpression>
+				</textField>				
+	
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0" isSplitAllowed="false" >
+			</band>
+			</groupFooter>
+		</group>				
+		<!-- ==== -->				
+				
+		«FOREACH g.fields AS f ITERATOR iter2 -»
+		«IF !f.hidden -»
+		<!-- Field «f.name» -->	
+		<group  name="«f.name»_Field" isStartNewPage="true" >
+			<groupExpression><![CDATA[null]]></groupExpression>
+			<groupHeader>
+			«EXPAND setBandHeight FOR f-»				
+				<printWhenExpression>$V{canRead«g.name.toFirstUpper()»FieldGroup}</printWhenExpression>												
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="20"
+						y="0"
+						width="200"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="«f.name»LabelTextField"
+						positionType="Float"/>
+					<box>					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Sylfaen" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$R{«f.parentGroup.parentCard.name.toFirstLower()»_field_«f.name.toFirstLower()»}.replaceAll( "\\n", "" )]]></textFieldExpression>
+				</textField>		
+									
+			«EXPAND displayField(iter2.counter1) FOR f-»	
+			
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0" isSplitAllowed="false" >
+			</band>
+			</groupFooter>
+		</group>		
+
+		<group  name="«f.name»Line" isStartNewPage="true" >
+			<groupExpression><![CDATA[null]]></groupExpression>
+			<groupHeader>		
+			<band height="4" isSplitAllowed="false" >
+				<printWhenExpression>$V{canRead«g.name.toFirstUpper()»FieldGroup}</printWhenExpression>				
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="2"
+						width="535"
+						height="0"
+						forecolor="#999999"
+						key="line"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+					</graphicElement>
+				</line>	
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0" isSplitAllowed="false" >
+			</band>
+			</groupFooter>
+		</group>			
+		<!-- ==== -->		
+		«ENDIF-»								
+		«ENDFOREACH-»	
+
+	«ENDFOREACH-»
+	
+		<background>
+			<band height="0" isSplitAllowed="false" >
+			</band>
+		</background>
+		
+		<title>
+			<band height="50" isSplitAllowed="false" >				
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="0"
+						width="535"
+						height="30"
+						forecolor="#FFFFFF"
+						backcolor="#000000"
+						key="titleTextField"/>
+					<box>					
+						<!-- <pen lineWidth="0.0" lineStyle="Solid"/> -->
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Sylfaen" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$R{«this.name.toFirstLower()»_title}.replaceAll( "\\n", "" )]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		
+		<pageHeader>
+			<band height="0" isSplitAllowed="false" >
+			</band>
+		</pageHeader>
+		
+		<columnHeader>
+			<band height="0" isSplitAllowed="false" >
+			</band>
+		</columnHeader>
+		
+		<detail>
+			<band height="0" isSplitAllowed="false" >
+			</band>
+		</detail>
+		
+		<columnFooter>
+			<band height="0" isSplitAllowed="false" >
+			</band>
+		</columnFooter>
+		
+		<pageFooter>
+			<band height="27" isSplitAllowed="false" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="325"
+						y="4"
+						width="170"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box>					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Sylfaen" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="499"
+						y="4"
+						width="36"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box>					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font fontName="Sylfaen" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="3"
+						width="535"
+						height="0"
+						key="line"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="6"
+						y="6"
+						width="100"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box>					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font fontName="Sylfaen" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="205"
+						y="6"
+						width="116"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-8"/>
+					<box>					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font fontName="Sylfaen" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$R{report_application_title}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		
+		<summary>
+			<band height="0" isSplitAllowed="false" >
+			</band>
+		</summary>
+</jasperReport>	
+
+«ENDFILE»
+«ENDDEFINE»
+
+
+
+
+«REM» Define fields «ENDREM»
+«DEFINE defineField(String projectName) FOR FieldEntity-»
+	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" class="java.lang.String"/>
+«ENDDEFINE»
+«DEFINE defineField(String projectName) FOR FloatField-»
+	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" class="java.lang.Float"/>
+«ENDDEFINE»
+«DEFINE defineField(String projectName) FOR IntegerField-»
+	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" class="java.lang.Integer"/>
+«ENDDEFINE»
+«DEFINE defineField(String projectName) FOR DatesField-»
+	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" class="java.util.Date"/>
+«ENDDEFINE»
+«DEFINE defineField(String projectName) FOR BooleanField-»
+	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" class="java.lang.Boolean"/>
+«ENDDEFINE»
+«DEFINE defineField(String projectName) FOR RelationFieldEntity-»
+	«IF cardinality==1-»
+	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" class="org.imogene.«projectName.toLowerCase()».client.entity.«this.entity.name»"/>
+	«ELSE-»
+	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" class="java.util.Set"/>	
+	«ENDIF-»	
+«ENDDEFINE»
+«REM» ----------------------------- «ENDREM»
+
+
+«REM» Display fields in report «ENDREM»
+«DEFINE displayField(int nb) FOR FieldEntity-»				
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="229"
+						y="0"
+						width="300"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="«this.name»ValueTextField"
+						positionType="Float"/>
+					<box>					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Sylfaen" size="10"/>
+					</textElement>					
+					«EXPAND displayFieldValue FOR this-»					
+				</textField>						
+«ENDDEFINE»
+«DEFINE displayField(int nb) FOR RelationFieldEntity-»
+	«IF cardinality==1-»	
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="229"
+						y="0"
+						width="300"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="«this.name»ValueTextField"
+						positionType="Float"/>
+					<box>					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Sylfaen" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[(ServerMainFieldsUtilImpl.get().getDisplayValue($F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}, $P{REPORT_RESOURCE_BUNDLE}))]]></textFieldExpression>
+				</textField>					
+	«ELSE-»
+				<subreport isUsingCache="true">
+					<reportElement
+						x="100"
+						y="18"
+						width="435"
+						height="0"
+						key="«EXPAND template::CommonFieldUtil::propertyName FOR this-»SubReport"
+						positionType="Float"/>
+					<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+						<subreportParameterExpression>
+							<![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]>
+						</subreportParameterExpression>
+					</subreportParameter>						
+					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»})]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{«this.name.toFirstUpper()»SubReport}]]></subreportExpression>
+				</subreport>				
+	«ENDIF-»	
+«ENDDEFINE»
+«REM» ----------------------------- «ENDREM»
+
+«REM» Display field value «ENDREM»
+«DEFINE displayFieldValue FOR FieldEntity-»
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}]]></textFieldExpression>
+«ENDDEFINE»
+
+«DEFINE displayFieldValue FOR FloatField-»
+					<textFieldExpression class="java.lang.Float"><![CDATA[$F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}]]></textFieldExpression>
+«ENDDEFINE»
+
+«DEFINE displayFieldValue FOR IntegerField-»
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}]]></textFieldExpression>
+«ENDDEFINE»
+
+«DEFINE displayFieldValue FOR EnumField-»
+					<textFieldExpression class="java.lang.String"><![CDATA[(ServerMainFieldsUtilImpl.get().getEnumDisplayValue(«this.parentGroup.parentCard.name.toFirstUpper()».class, "«EXPAND template::CommonFieldUtil::propertyName FOR this-»" , $F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}, $P{REPORT_RESOURCE_BUNDLE}))]]></textFieldExpression>
+«ENDDEFINE»
+
+«DEFINE displayFieldValue FOR BooleanField-»
+					<textFieldExpression class="java.lang.String"><![CDATA[(BooleanUtil.getFormatedBoolean($F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}, $P{REPORT_RESOURCE_BUNDLE}))]]></textFieldExpression>	
+«ENDDEFINE»
+
+«DEFINE displayFieldValue FOR DateField-»
+					<textFieldExpression class="java.lang.String"><![CDATA[(new SimpleDateFormat($R{format_date})).format($F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}) ]]></textFieldExpression>
+«ENDDEFINE»
+«DEFINE displayFieldValue FOR TimeField-»
+					<textFieldExpression class="java.lang.String"><![CDATA[(new SimpleDateFormat($R{format_time})).format($F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}) ]]></textFieldExpression>
+«ENDDEFINE»
+«DEFINE displayFieldValue FOR DateTimeField-»
+					<textFieldExpression class="java.lang.String"><![CDATA[(new SimpleDateFormat($R{format_date} + " " + $R{format_time})).format($F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}) ]]></textFieldExpression>
+«ENDDEFINE»
+«REM» ----------------------------- «ENDREM»
+
+
+«REM» Configure subreport parameter when relationfield with cardinality>1 «ENDREM»
+«DEFINE getSubReportParameter FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getSubReportParameter FOR RelationFieldEntity-»
+	«IF (cardinality > 1 || cardinality == -1)-»	
+	<parameter name="«this.name.toFirstUpper()»SubReport" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>	
+	«ENDIF-»	
+«ENDDEFINE»
+«REM» ----------------------------- «ENDREM»
+
+«REM» set band height «ENDREM»
+«DEFINE setBandHeight FOR FieldEntity-»
+			<band height="14" isSplitAllowed="false" >	
+«ENDDEFINE»
+«DEFINE setBandHeight FOR RelationFieldEntity-»
+	«IF (cardinality > 1 || cardinality == -1)-»	
+			<band height="32" isSplitAllowed="false" >
+	«ELSE-»	
+			<band height="14" isSplitAllowed="false" >		
+	«ENDIF-»	
+«ENDDEFINE»
+«REM» ----------------------------- «ENDREM»
+
+«REM» define variable to store if a group a read privilege «ENDREM»
+«DEFINE defineCanReadVariable FOR FieldGroup-»
+	<variable name="canRead«this.name.toFirstUpper()»FieldGroup" class="java.lang.Boolean" >
+		<initialValueExpression>new Boolean(ServerAccessManager.canReadGroup("«this.parentCard.name.toLowerCase()».«this.name.toLowerCase()»", $P{roles}))</initialValueExpression>
+	</variable>
+«ENDDEFINE»
+«REM» ----------------------------- «ENDREM»

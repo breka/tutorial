@@ -1,0 +1,66 @@
+«IMPORT core»
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR Project»
+«FILE projectName.toLowerCase()+"/server/servlet/UtilServicesServlet.java"»
+package org.imogene.«projectName.toLowerCase()».server.servlet;
+
+import net.sf.gilead.core.PersistentBeanManager;
+import net.sf.gilead.gwt.PersistentRemoteService;
+import org.imogene.web.gwt.remote.UtilServices;
+import org.imogene.web.server.binary.Binary;
+import org.imogene.web.server.binary.BinaryDao;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+/**
+ * Utile services
+ * @author Medes-IMPS
+ */
+public class UtilServicesServlet extends PersistentRemoteService
+		implements
+			UtilServices {
+
+	/** serial version */
+	private static final long serialVersionUID = -8984271981044996291L;
+	private BinaryDao binaryDao;	
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());	
+		setBeanManager((PersistentBeanManager)wac.getBean("beanManager"));
+		binaryDao = (BinaryDao)wac.getBean("binaryDao");	
+	}	
+	
+	@Override
+	public String getBinaryDesc(String binaryId) {
+		StringBuffer result = new StringBuffer();
+		Binary binary = binaryDao.getBinary(binaryId);
+		if(binary!=null){
+			result.append(binary.getId());
+			result.append("/");
+			result.append(binary.getFileName());
+			result.append("/");
+			result.append(binary.getLength());
+		}		
+		return result.toString();
+	}
+
+	@Override
+	public String getSessionId() {
+		throw new RuntimeException("'getSessionId()' not implemented");
+	}
+
+	@Override
+	public String getUniqueId(String type) {
+		throw new RuntimeException("'getUniqueId()' not implemented");
+	}
+
+}
+
+«ENDFILE»
+«ENDDEFINE»

@@ -1,0 +1,94 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»
+«FILE projectName.toLowerCase()+"/client/entity/"+this.name.toFirstUpper() + "SelectionBox.java"»
+package org.imogene.«projectName.toLowerCase()».client.entity;
+
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import org.imogene.«projectName.toLowerCase()».client.remote.«name.toFirstUpper()»ServiceFacade;
+import org.imogene.web.gwt.client.ui.field.ImogRelationSelectionBox;
+import org.imogene.web.gwt.common.criteria.ImogJunction;
+
+public class «name.toFirstUpper()»SelectionBox extends ImogRelationSelectionBox<«name.toFirstUpper()»> {
+
+	private boolean nonAffected = false;
+	private boolean isFilteredByValue = false;
+	private String property = null;
+	private ImogJunction filterParameters = null;
+
+
+	/**
+	 * Creates a «name.toFirstUpper()»SelectionBox that contains all instances of the entity «name.toFirstUpper()»
+	 */
+	public «name.toFirstUpper()»SelectionBox(String colorStyle){
+		super(colorStyle);		
+	}
+	
+	/**
+	 * Creates a «name.toFirstUpper()»SelectionBox that can be filtered
+	 * @param isFilteredByValue true to filter the SelectionBox (call method setFilterParameters to define the filter parameters)
+	 */
+	public «name.toFirstUpper()»SelectionBox(boolean isFilteredByValue, String colorStyle) {
+		super(colorStyle);
+		this.isFilteredByValue = isFilteredByValue;
+	}	
+	
+	/**
+	 * Creates a «name.toFirstUpper()»SelectionBox that contains instances of entity «name.toFirstUpper()» that have non affected values for a given property (RelationField with card==1)
+	 * @param pProperty the property for which non affected values are searched
+	 */	
+	public «name.toFirstUpper()»SelectionBox(String pProperty, String colorStyle){
+		super(colorStyle);
+		nonAffected=true;
+		property=pProperty;
+	}	
+
+	@Override
+	public void populate() {
+		if(nonAffected)
+			«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(property, new ResultCallback());
+		else {
+			if (!isFilteredByValue)
+				«name.toFirstUpper()»ServiceFacade.getInstance().list«name.toFirstUpper()»(new ResultCallback());
+			else {
+				if (filterParameters != null)
+					«name.toFirstUpper()»ServiceFacade.getInstance().list«name.toFirstUpper()»(0, -1, filterParameters, null, true, new ResultCallback());
+			}
+		}				
+	}
+	
+	/**
+	 * Sets filtering criterions for which the SelectionBox values have to be filtered
+	 * @param criterions ImogJunction including the  criterions 
+	 * for which the SelectionBox values have to be filtered
+	 */
+	public void setFilterParameters(ImogJunction criterions) {
+		filterParameters=criterions;
+	}
+		
+	
+	/**
+	 * Result call back, filter the result to display 
+	 * only the not already selected entities.
+	 */
+	private class ResultCallback implements AsyncCallback<List<«name.toFirstUpper()»>> {
+		@Override
+		public void onFailure(Throwable arg0) {
+		}
+
+		@Override
+		public void onSuccess(List<«name.toFirstUpper()»> result) {
+			for («name.toFirstUpper()» se : result) {
+				if (!isPresent(se)) {
+					alls.put(se.getId(), se);
+					listSyncs.addItem(MainFieldsUtilImpl.get().getDisplayValue(se), se.getId());
+				}
+			}
+		}		
+	}	
+}
+«ENDFILE»
+«ENDDEFINE»

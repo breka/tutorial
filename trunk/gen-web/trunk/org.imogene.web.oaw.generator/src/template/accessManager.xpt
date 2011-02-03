@@ -1,0 +1,227 @@
+«IMPORT core»
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR Project»
+«FILE projectName.toLowerCase()+"/client/AccessManager.java"»
+package org.imogene.«projectName.toLowerCase()».client;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.imogene.web.gwt.client.LocalSession;
+import org.imogene.web.gwt.common.entity.ImogRole;
+
+
+/**
+ * Class to manage the access to the entity forms and 
+ * form groups in read and write mode on the Client side
+ * @author MEDES-IMPS
+ */
+public class AccessManager {
+	
+	«FOREACH entities AS e-»
+		«FOREACH e.groups AS g-»
+		/* «e.name» «g.name» */
+		public static Set<String> «e.name.toFirstLower()»«g.name.toFirstUpper()»Reader = new HashSet<String>();
+		static{
+			«FOREACH g.readers AS r-»
+				«e.name.toFirstLower()»«g.name.toFirstUpper()»Reader.add("«r.name»");
+			«ENDFOREACH-»			
+		}
+		public static Set<String> «e.name.toFirstLower()»«g.name.toFirstUpper()»Writer = new HashSet<String>();
+		static{
+			«FOREACH g.writers AS w-»
+				«e.name.toFirstLower()»«g.name.toFirstUpper()»Writer.add("«w.name»");
+			«ENDFOREACH-»
+		}	
+		«ENDFOREACH»
+		public static Set<String> «e.name.toFirstLower()»Creator = new HashSet<String>();
+		static{
+			«FOREACH e.creators AS c-»
+				«e.name.toFirstLower()»Creator.add("«c.name»");
+			«ENDFOREACH-»
+		}			
+	«ENDFOREACH -»	
+	
+
+	public static boolean canReadForm(String formName){
+		if(isAdmin() || isFormReadNotSecured(formName))
+			return true;
+		«FOREACH entities AS e-»
+		if("«e.name.toLowerCase()»".equals(formName)){
+			for(ImogRole role : LocalSession.get().getCurrentUser().getRoles()){
+				«FOREACH e.groups AS g -»
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Reader.contains(role.getId()))
+						return true;					
+				«ENDFOREACH -»
+			}			
+			return false;
+		}			
+		«ENDFOREACH»
+		return false;
+	}
+	
+	public static boolean canEditForm(String formName){
+		if(isAdmin() || isFormEditNotSecured(formName))
+			return true;
+		«FOREACH entities AS e-»
+		if("«e.name.toLowerCase()»".equals(formName)){
+			for(ImogRole role : LocalSession.get().getCurrentUser().getRoles()){
+				«FOREACH e.groups AS g -»
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Writer.contains(role.getId()))
+						return true;					
+				«ENDFOREACH -»
+			}			
+			return false;
+		}			
+		«ENDFOREACH»
+		return false;
+	}
+	
+	public static boolean canCreateForm(String formName){
+		if(isAdmin())
+			return true;
+		«FOREACH entities AS e-»
+		if("«e.name.toLowerCase()»".equals(formName)){
+			if(«e.name.toFirstLower()»Creator.size()==0)
+				return true;
+			else {
+				for(ImogRole role : LocalSession.get().getCurrentUser().getRoles()){
+					if(«e.name.toFirstLower()»Creator.contains(role.getId()))
+						return true;					
+				}				
+			}
+			return false;
+		}			
+		«ENDFOREACH»
+		return false;
+	}	
+	
+	public static boolean canReadGroup(String groupName){
+		if(isAdmin() || isGroupReadNotSecured(groupName))
+			return true;	
+		«FOREACH entities AS e -»	
+			«FOREACH e.groups AS g -»	
+			if("«e.name.toLowerCase()».«g.name.toLowerCase()»".equals(groupName)){
+				for(ImogRole role : LocalSession.get().getCurrentUser().getRoles()){				
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Reader.contains(role.getId()))
+						return true;
+				}
+				return false;
+			}
+			«ENDFOREACH -»		
+		«ENDFOREACH -»		
+		return false;
+	}
+	
+	public static boolean canEditGroup(String groupName){
+		if(isAdmin() || isGroupEditNotSecured(groupName))
+			return true;
+		«FOREACH entities AS e -»
+			«FOREACH e.groups AS g -»
+			if("«e.name.toLowerCase()».«g.name.toLowerCase()»".equals(groupName)){
+				for(ImogRole role : LocalSession.get().getCurrentUser().getRoles()){				
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Writer.contains(role.getId()))
+						return true;
+				}
+				return false;
+			}
+			«ENDFOREACH -»
+		«ENDFOREACH -»			
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	public static boolean isFormReadNotSecured(String formName){
+		«FOREACH entities AS e -»			
+			if("«e.name.toLowerCase()»".equals(formName)){
+				if(
+				«FOREACH e.groups AS g ITERATOR it -»
+					isGroupReadNotSecured("«e.name.toLowerCase()».«g.name.toLowerCase()»")
+					«IF it.counter1 != e.groups.size-»||«ENDIF -»
+				«ENDFOREACH -»
+				)
+				return true;
+			}						
+		«ENDFOREACH -»
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	public static boolean isFormEditNotSecured(String formName){
+		«FOREACH entities AS e -»			
+			if("«e.name.toLowerCase()»".equals(formName)){
+				if(
+				«FOREACH e.groups AS g ITERATOR it -»
+					isGroupEditNotSecured("«e.name.toLowerCase()».«g.name.toLowerCase()»")
+					«IF it.counter1 != e.groups.size-»||«ENDIF -»
+				«ENDFOREACH -»
+				)
+				return true;
+			}						
+		«ENDFOREACH -»
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	public static boolean isGroupReadNotSecured(String groupName){
+		«FOREACH entities AS e-»
+			«FOREACH e.groups AS g -»
+				if("«e.name.toLowerCase()».«g.name.toLowerCase()»".equals(groupName)){
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Reader.size()>0)
+						return false;
+					return true;
+				}
+			«ENDFOREACH -»
+		«ENDFOREACH -»
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	public static boolean isGroupEditNotSecured(String groupName){
+		«FOREACH entities AS e-»
+			«FOREACH e.groups AS g -»
+				if("«e.name.toLowerCase()».«g.name.toLowerCase()»".equals(groupName)){
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Writer.size()>0)
+						return false;
+					return true;
+				}
+			«ENDFOREACH -»
+		«ENDFOREACH -»
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static boolean isAdmin(){
+		for(ImogRole role : LocalSession.get().getCurrentUser().getRoles()){				
+			if("administrator".equals(role.getId()))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static boolean canDelete() {
+		for (ImogRole role : LocalSession.get().getCurrentUser().getRoles()) {
+			if ("delete".equals(role.getId()))
+				return true;
+		}
+		return false;
+	}
+		
+}
+«ENDFILE»
+«ENDDEFINE»
+
