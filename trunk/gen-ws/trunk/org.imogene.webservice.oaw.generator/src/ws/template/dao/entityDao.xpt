@@ -1,0 +1,137 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+«DEFINE generate(String packageName, String projectName) FOR CardEntity»
+«FILE packageName.toLowerCase() + "/dao/" + this.name.toFirstUpper() + "Dao.java"»
+package org.imogene.«projectName.toLowerCase()».dao;
+
+import java.util.List;
+
+import org.imogene.ws.criteria.MedooJunction;
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»;
+«IF Actor.isAssignableFrom(this.metaType) -»
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor;
+«ENDIF -»
+
+/**
+ * Manage persistence for «name.toFirstUpper()»
+ * @author Medes-IMPS
+ */
+public interface «name.toFirstUpper()»Dao {
+	
+	/**
+	 * Load the entity with the specified id
+	 * @param entityId the entity id
+	 * @return the entity or null
+	 */
+	public «name.toFirstUpper()» get«name.toFirstUpper()»(String id);
+	
+	/**
+	 * Load the entities with the specified ids
+	 * @return list of entities with the specified ids
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(List<String> ids);		
+	
+	/**
+	 * Load the entity with the specified id
+	 * @param entityId the entity id
+	 * @param criterions request criteria
+	 * @return the entity or null
+	 */
+	public «name.toFirstUpper()» get«name.toFirstUpper()»(String id, MedooJunction criterions);
+
+	/**
+	 * List entities of type «name.toFirstUpper()»
+	 * @param criterion request criteria
+	 * @return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(MedooJunction criterion);
+	
+	/**
+	 * List entities of type «name.toFirstUpper()»
+	 * @return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»();	
+	
+	/**
+	 * List entities of type «name.toFirstUpper()»
+	 * @param property the property used to sort
+	 * @param asc the sort order
+	 * @param criterion request criteria
+	 * @return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(String property, boolean asc, MedooJunction criterion);
+
+	/**
+	 * List entities of type «name.toFirstUpper()»
+	 * @param first first index to retrieve
+	 * @param max nb of items to retrieve
+	 * @param sortProperty the property used to sort the collection
+	 * @param sortOrder true for an ascendant sort
+	 * @return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int first, int max, String sortProperty, boolean sortOrder);
+	
+	/**
+	 * List entities of type «name.toFirstUpper()»
+	 * @param first first index to retrieve
+	 * @param max nb of items to retrieve	 
+	 * @param property the property used to sort the collection
+	 * @param sortOrder true for an ascendant sort
+	 * @param criterion request criteria
+	 * @return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int first, int max, String property, boolean sortOrder, MedooJunction criterion);
+	
+	/**
+	 * Count number of «name.toFirstLower()» in the database
+	 * @return the count
+	 */
+	public int count«name.toFirstUpper()»();
+	
+	/**
+	 * Count number of «name.toFirstLower()» in the database, 
+	 * that matches the criteria
+	 * @return the count
+	 */
+	public int count«name.toFirstUpper()»(MedooJunction criterion);
+	
+	/**
+	 * Delete the specified entity
+	 * @param entity the entity to delete
+	 */
+	public void delete(«name.toFirstUpper()» entity);
+	
+	/**
+	 * Save or update the entity
+	 * @param entity the entity to save or update
+	 * @param isNew true if it is a new entity added for the first time.
+	 */
+	public void saveOrUpdate(«name.toFirstUpper()» entity, boolean isNew);
+	
+	/**
+	 * Save or update the entity without modifing the upload date
+	 * @param entity the entity to save or update
+	 * @param isNew true if it is a new entity added for the first time.
+	 */
+	public void saveOrUpdateShadow(«name.toFirstUpper()» entity, boolean isNew);
+	
+	
+	«EXPAND specificPart FOR this -»
+	
+	«IF Actor.isAssignableFrom(this.metaType) -»
+	/**
+	 * Get the associated actor from the login id.
+	 * @param login the actor login
+	 * @return the actor if it exists or null
+	 */
+	public List<«name.toFirstUpper()»Actor> get«name.toFirstUpper()»ActorFromLogin(String login);
+	«ENDIF -»
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+
+
+«REM» Specific part AOP hook «ENDREM»
+«DEFINE specificPart FOR CardEntity »«ENDDEFINE»

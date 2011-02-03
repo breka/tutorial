@@ -1,0 +1,188 @@
+«IMPORT core»
+«DEFINE generate(String packageName, String projectName) FOR Project»
+«FILE packageName.toLowerCase()+ "/security/" + projectName.toFirstUpper() + "AccessManager.java"»
+package org.imogene.«projectName.toLowerCase()».security;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.imogene.ws.entity.MedooRole;
+
+
+/**
+ * Class to manage the access to the entities and 
+ * fields in read and write mode
+ * @author MEDES-IMPS
+ */
+public class «projectName.toFirstUpper()»AccessManager {
+	
+	«FOREACH entities AS e-»
+		«FOREACH e.groups AS g-»
+		/* «e.name» «g.name» */
+		public static Set<String> «e.name.toFirstLower()»«g.name.toFirstUpper()»Reader = new HashSet<String>();
+		static{
+			«FOREACH g.readers AS r-»
+				«e.name.toFirstLower()»«g.name.toFirstUpper()»Reader.add("«r.name»");
+			«ENDFOREACH-»			
+		}
+		public static Set<String> «e.name.toFirstLower()»«g.name.toFirstUpper()»Writer = new HashSet<String>();
+		static{
+			«FOREACH g.writers AS w-»
+				«e.name.toFirstLower()»«g.name.toFirstUpper()»Writer.add("«w.name»");
+			«ENDFOREACH-»
+		}	
+		«ENDFOREACH»
+	«ENDFOREACH -»	
+	
+
+	public static boolean canReadForm(String formName, Set<MedooRole> roles){
+		if(isAdmin(roles) || isFormReadNotSecured(formName))
+			return true;
+		«FOREACH entities AS e-»
+		if("«e.name.toLowerCase()»".equals(formName)){
+			for(MedooRole role : roles){
+				«FOREACH e.groups AS g -»
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Reader.contains(role.getId()))
+						return true;					
+				«ENDFOREACH -»
+			}			
+			return false;
+		}			
+		«ENDFOREACH»
+		return false;
+	}
+	
+	public static boolean canEditForm(String formName, Set<MedooRole> roles){
+		if(isAdmin(roles) || isFormEditNotSecured(formName))
+			return true;
+		«FOREACH entities AS e-»
+		if("«e.name.toLowerCase()»".equals(formName)){
+			for(MedooRole role : roles){
+				«FOREACH e.groups AS g -»
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Writer.contains(role.getId()))
+						return true;					
+				«ENDFOREACH -»
+			}			
+			return false;
+		}			
+		«ENDFOREACH»
+		return false;
+	}
+	
+	public static boolean canReadGroup(String groupName, Set<MedooRole> roles){
+		if(isAdmin(roles) || isGroupReadNotSecured(groupName))
+			return true;	
+		«FOREACH entities AS e -»	
+			«FOREACH e.groups AS g -»	
+			if("«e.name.toLowerCase()».«g.name.toLowerCase()»".equals(groupName)){
+				for(MedooRole role : roles){				
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Reader.contains(role.getId()))
+						return true;
+				}
+				return false;
+			}
+			«ENDFOREACH -»		
+		«ENDFOREACH -»		
+		return false;
+	}
+	
+	public static boolean canEditGroup(String groupName, Set<MedooRole> roles){
+		if(isAdmin(roles) || isGroupEditNotSecured(groupName))
+			return true;
+		«FOREACH entities AS e -»
+			«FOREACH e.groups AS g -»
+			if("«e.name.toLowerCase()».«g.name.toLowerCase()»".equals(groupName)){
+				for(MedooRole role : roles){				
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Writer.contains(role.getId()))
+						return true;
+				}
+				return false;
+			}
+			«ENDFOREACH -»
+		«ENDFOREACH -»			
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	public static boolean isFormReadNotSecured(String formName){
+		«FOREACH entities AS e -»			
+			if("«e.name.toLowerCase()»".equals(formName)){
+				if(
+				«FOREACH e.groups AS g ITERATOR it -»
+					isGroupReadNotSecured("«e.name.toLowerCase()».«g.name.toLowerCase()»")
+					«IF it.counter1 != e.groups.size-»||«ENDIF -»
+				«ENDFOREACH -»
+				)
+				return true;
+			}						
+		«ENDFOREACH -»
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	public static boolean isFormEditNotSecured(String formName){
+		«FOREACH entities AS e -»			
+			if("«e.name.toLowerCase()»".equals(formName)){
+				if(
+				«FOREACH e.groups AS g ITERATOR it -»
+					isGroupEditNotSecured("«e.name.toLowerCase()».«g.name.toLowerCase()»")
+					«IF it.counter1 != e.groups.size-»||«ENDIF -»
+				«ENDFOREACH -»
+				)
+				return true;
+			}						
+		«ENDFOREACH -»
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	public static boolean isGroupReadNotSecured(String groupName){
+		«FOREACH entities AS e-»
+			«FOREACH e.groups AS g -»
+				if("«e.name.toLowerCase()».«g.name.toLowerCase()»".equals(groupName)){
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Reader.size()>0)
+						return false;
+					return true;
+				}
+			«ENDFOREACH -»
+		«ENDFOREACH -»
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	public static boolean isGroupEditNotSecured(String groupName){
+		«FOREACH entities AS e-»
+			«FOREACH e.groups AS g -»
+				if("«e.name.toLowerCase()».«g.name.toLowerCase()»".equals(groupName)){
+					if(«e.name.toFirstLower()»«g.name.toFirstUpper()»Writer.size()>0)
+						return false;
+					return true;
+				}
+			«ENDFOREACH -»
+		«ENDFOREACH -»
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static boolean isAdmin(Set<MedooRole> roles){
+		for(MedooRole role : roles){				
+			if("administrator".equals(role.getId()))
+				return true;
+		}
+		return false;
+	}
+}
+«ENDFILE»
+«ENDDEFINE»
+
