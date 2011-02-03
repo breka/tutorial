@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+                                 
+     Imogene Synchronisation client
+                                                     
+     ====================================================================== -->
+<project name="ImogeneSyncClient" default="dist">
+	<description>
+    </description>
+
+	<target name="init">
+	      <tstamp>
+		    <format property="nowDate" pattern="dd/MM/yyyy HH:mm" locale="fr"/>
+	       </tstamp>
+		
+		<property name="jarDir" location="dist" />
+		<property name="binDir" location="bin"/>
+		<property name="jarName" value="${jarDir}/org.imogene.sync.client.jar"/>
+		<property name="version" value="Imogene 1.0" />
+	</target>
+	
+	<target name="prepare" depends="init">
+		<mkdir dir="${jarDir}" />
+	</target>
+
+	<target name="clean" depends="init">
+		<delete dir="${jarDir}"/>
+	</target>
+	
+	<!-- creation du jar d'util -->
+	<target name="dist" depends="clean,prepare">			
+			
+			<!-- Cree le manifest -->
+			 <manifest file="imogSynchro.mf">
+			  	<attribute name="Built-By" value="${user.name}"/>
+			   	<section name="common">
+			     		<attribute name="Specification-Title" value="Imogene J2SE synchro client"/>
+			     		<attribute name="Specification-Version" value="${version}"/>
+			     		<attribute name="Specification-Vendor" value="Medes-IMPS"/>
+			     		<attribute name="Implementation-Title" value="org.imogene.sync.client"/>
+			     		<attribute name="Implementation-Version" value="${version} ${nowDate}"/> 
+			     		<attribute name="Implementation-Vendor" value="Medes-IMPS"/>
+			   	</section>
+			 </manifest>
+			
+			<jar destfile="${jarName}" manifest="imogSynchro.mf">
+				<fileset dir="${binDir}" includes="org/imogene/**/*.*" excludes="org/imogene/testsynchro/**/*.*"/>								
+			</jar>					
+			<delete file="imogSynchro.mf"/>
+		</target>
+</project>

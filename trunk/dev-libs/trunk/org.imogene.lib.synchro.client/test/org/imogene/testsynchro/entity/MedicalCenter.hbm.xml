@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class lazy="false" name="org.imogene.testsynchro.entity.MedicalCenter" table="MedicalCenter">
+		<id column="MedicalCenter_ID" name="id"/>			
+		<property column="MedicalCenter_Code" name="code"/>
+		<property column="MedicalCenter_Name" name="name"/>
+			
+		<set lazy="true" name="medicalCenterDoctors">
+			    <key column="doctorMedicalCenter_ID"/>
+			    <one-to-many class="org.imogene.testsynchro.entity.Doctor"/>
+		</set>
+		<property column="MedicalCenter_Creator" name="createdBy"/>
+		<property column="MedicalCenter_CreationDate" name="created" type="timestamp"/>
+		<property column="MedicalCenter_Modifier" name="modifiedBy"/>
+		<property column="MedicalCenter_ModifiedFrom" name="modifiedFrom"/>
+		<property column="MedicalCenter_LastModificationDate" name="modified" type="timestamp"/>
+		<property column="MedicalCenter_UploadDate" name="uploadDate" type="timestamp"/>
+		
+		
+						
+    </class>		
+</hibernate-mapping>

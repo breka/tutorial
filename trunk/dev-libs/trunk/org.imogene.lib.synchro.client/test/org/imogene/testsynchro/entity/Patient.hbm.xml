@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class lazy="false" name="org.imogene.testsynchro.entity.Patient" table="Patient">
+		<id column="Patient_ID" name="id"/>			
+		<property column="Patient_Name" name="name"/>
+		<property column="Patient_FirstName" name="firstName"/>
+		<property column="Patient_Address" name="address"/>
+		<property column="Patient_Birthday" name="birthday" type="timestamp"/>
+		<property column="Patient_PhoneNumber" name="phoneNumber"/>
+				
+		<many-to-one column="patientMedicalCenter_ID" lazy="false" name="patientMedicalCenter" not-null="false"/>
+		<property column="Patient_Creator" name="createdBy"/>
+		<property column="Patient_CreationDate" name="created" type="timestamp"/>
+		<property column="Patient_Modifier" name="modifiedBy"/>
+		<property column="Patient_ModifiedFrom" name="modifiedFrom"/>
+		<property column="Patient_LastModificationDate" name="modified" type="timestamp"/>
+		<property column="Patient_UploadDate" name="uploadDate" type="timestamp"/>
+		
+		
+						
+    </class>		
+</hibernate-mapping>
