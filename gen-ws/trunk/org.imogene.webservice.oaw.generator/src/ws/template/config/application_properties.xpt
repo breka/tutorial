@@ -1,0 +1,19 @@
+«IMPORT core»
+«DEFINE generate(String jdbcDriver, String jdbcPath, String jdbcLogin, String jdbcPassword, String hibernateDialect, String binaryPath) FOR Project»
+«FILE "context.properties"»
+
+# Properties for the REST server
+jdbc.driverClassName=«jdbcDriver»
+jdbc.url=«jdbcPath»
+jdbc.username=«jdbcLogin»
+jdbc.password=«jdbcPassword»
+hibernate.dialect=«hibernateDialect»
+binary.path=«binaryPath»
+
+# Properties for the REST client
+restclient.url=http://localhost:8080/ImogeneWs
+restclient.username=toto
+restclient.password=totopassword
+
+«ENDFILE»
+«ENDDEFINE»

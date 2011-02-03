@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Imogene webservice generator
+Bundle-SymbolicName: org.imogene.webservice.oaw.generator
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.imogene.webservice.oaw.generator.OawGeneratorWebServicePlugin
+Bundle-Vendor: Medes-IMPS
+Require-Bundle: org.imogene.oaw.generator.common,
+ org.eclipse.emf.mwe.core,
+ org.eclipse.emf.mwe.utils,
+ org.eclipse.xpand,
+ org.eclipse.xtend,
+ org.eclipse.ui,
+ org.eclipse.core.runtime
+Eclipse-RegisterBuddy: org.imogene.oaw.generator.common
+Bundle-ActivationPolicy: lazy
+Export-Package: org.imogene.webservice.oaw.generator,
+ workflow,
+ ws.template
+Bundle-ClassPath: .,
+ src/
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -1,0 +1,401 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String projectName) FOR CardEntity»
+«FILE packageName.toLowerCase() + "/service/" + this.name.toFirstUpper() + "Service.java"»
+package org.imogene.«projectName.toLowerCase()».service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.imogene.ws.client.RestClient;
+import org.imogene.ws.criteria.BasicCriteria;
+import org.imogene.ws.criteria.CriteriaConstants;
+import org.imogene.ws.criteria.MedooConjunction;
+import org.imogene.ws.criteria.MedooDisjunction;
+import org.imogene.ws.criteria.MedooJunction;
+import org.imogene.ws.entity.MedooActor;
+import org.imogene.ws.http.SessionUtil;
+import org.imogene.ws.security.MedooSecurityHandler;
+import org.imogene.ws.sync.SyncConstants;
+import org.imogene.ws.util.MedooKeyGenerator;
+
+import org.imogene.«projectName.toLowerCase()».dao.«name.toFirstUpper()»Dao;
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»;
+«IF Actor.isAssignableFrom(this.metaType)-»
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor;
+«ENDIF-»
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»List;
+import org.imogene.«projectName.toLowerCase()».entity.display.«name.toFirstUpper()»Display;
+import org.imogene.«projectName.toLowerCase()».entity.display.«name.toFirstUpper()»DisplayList;
+import org.imogene.«projectName.toLowerCase()».security.«projectName.toFirstUpper()»AccessManager;
+
+«EXPAND importsForFilterFields(projectName) FOR this -»
+«FOREACH groups.fields AS e -»
+«EXPAND importsForRelation(projectName) FOR e-»
+«ENDFOREACH -»
+
+/**
+ * Controller that manages the Web Service requests
+ * for the entity «name.toFirstUpper()»
+ * @author MEDES-IMPS
+ */
+@Controller
+public class «name.toFirstUpper()»Service {
+	
+	private static Logger logger = Logger.getLogger("org.imogene.«projectName.toLowerCase()».service.«name.toFirstUpper()»Service");
+	
+	private «name.toFirstUpper()»Dao dao;		
+	private RestClient restClient;
+	
+
+	
+	/**
+	 * Gets entities of type «name.toFirstUpper()»
+	 * @return a list of «name.toFirstUpper()» serialized in XML
+	 */
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.GET, value="/«name.toLowerCase()»s")
+	public «name.toFirstUpper()»List get«name.toFirstUpper()»s() {
+	
+		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(SessionUtil.CURRENT_USER);
+		
+		«name.toFirstUpper()»List list = new «name.toFirstUpper()»List();
+
+		if («projectName.toFirstUpper()»AccessManager.canReadForm("«name.toLowerCase()»", actor.getRoles())) {
+			MedooJunction junction = createFilterJuntion(actor);			
+			List<«name.toFirstUpper()»> beans = dao.list«name.toFirstUpper()»(junction);					
+			«IF !Actor.isAssignableFrom(this.metaType)-»
+			List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) MedooSecurityHandler
+					.getInstance().getPolicy().toSecure(beans, actor);
+			«ELSE-»
+			List<«name.toFirstUpper()»Actor> securedBeans = (List<«name.toFirstUpper()»Actor>) MedooSecurityHandler
+					.getInstance().getPolicy().toSecure(beans, actor);			
+			«ENDIF-»
+						
+			list.set«name.toFirstUpper()»s(securedBeans);			
+		} 
+		return list;	
+	}
+	
+
+	/**
+	 * Gets the entity of type «name.toFirstUpper()» with the specified id
+	 * @param id the entity id
+	 * @return the entity serialized in XML
+	 */
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.GET, value="/«name.toLowerCase()»/{id}")
+	public «name.toFirstUpper()» get«name.toFirstUpper()»(@PathVariable String id) {
+	
+		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(	SessionUtil.CURRENT_USER);
+
+		«name.toFirstUpper()» securedBean = null;	
+
+		if («projectName.toFirstUpper()»AccessManager.canReadForm("«name.toLowerCase()»", actor.getRoles())) {
+			//MedooJunction junction = createFilterJuntion(actor);			
+			//«name.toFirstUpper()» bean = dao.get«name.toFirstUpper()»(id, junction);
+			«name.toFirstUpper()» bean = dao.get«name.toFirstUpper()»(id);
+			if (bean!=null)
+				securedBean = («name.toFirstUpper()»)MedooSecurityHandler.getInstance().getPolicy().toSecure(bean, actor);		
+		} 
+		return securedBean;	
+	}	
+	
+	/**
+	 * Saves or updates an entity of type «name.toFirstUpper()» 
+	 * @param body the HTTP request body
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.PUT, value="/«name.toLowerCase()»")
+	«IF !Actor.isAssignableFrom(this.metaType)-»
+	public void saveOrUpdate«name.toFirstUpper()»(@RequestBody «name.toFirstUpper()» bean) {	
+	«ELSE-»
+	public void saveOrUpdate«name.toFirstUpper()»(@RequestBody «name.toFirstUpper()»Actor bean) {	
+	«ENDIF-»
+
+		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(SessionUtil.CURRENT_USER);
+		
+		if(«projectName.toFirstUpper()»AccessManager.canEditForm("«name.toLowerCase()»", actor.getRoles())) {
+			
+			if (bean!=null) {
+			
+				if (bean.getId()==null || bean.getId().equals(""))
+					bean.setId(MedooKeyGenerator.generateKeyId("«shortName»"));					
+				if (bean.getCreationDate()==null)
+					bean.setCreationDate(new Date());
+				if (bean.getLastModificationDate()==null)
+					bean.setLastModificationDate(new Date(System.currentTimeMillis()));
+				if (bean.getUploadDate()==null)
+					bean.setUploadDate(new Date(System.currentTimeMillis()));
+				if (bean.getCreator()==null || bean.getCreator().equals(""))
+					bean.setCreator(actor.getLogin());
+				if (bean.getModifier()==null || bean.getModifier().equals(""))
+					bean.setModifier(actor.getLogin());
+				if (bean.getModifiedFrom()==null || bean.getModifiedFrom().equals(""))
+					bean.setModifiedFrom(SyncConstants.WS_ID_SYS);
+				
+				«name.toFirstUpper()» toBeSaved = («name.toFirstUpper()»)MedooSecurityHandler.getInstance().getPolicy().toHibernate(bean, actor);
+				
+				dao.saveOrUpdate(toBeSaved, true);					
+			}
+		}
+		else
+			logger.info("User '" + actor.getLogin() + "' does not have roles to save entity «name.toFirstUpper()»");
+	}	
+	
+	«FOREACH groups.fields AS f -»
+	«EXPAND getRelationFieldChilds((projectName)) FOR f-»
+	«ENDFOREACH -»	
+	
+	
+	/**
+	 * REST CLIENT PART
+	 */
+	
+	/**
+	 * Pushes an entity of type «name.toFirstUpper()» with the specified id
+	 * to an external Web Service
+	 * @param id the entity id
+	 */
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.GET, value = "/push/«name.toLowerCase()»/{id}")
+	public void push«name.toFirstUpper()»(@PathVariable String id) {
+	
+		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(	SessionUtil.CURRENT_USER);
+
+		«name.toFirstUpper()» securedBean = null;	
+
+		if («projectName.toFirstUpper()»AccessManager.canReadForm("«name.toLowerCase()»", actor.getRoles())) {
+			«name.toFirstUpper()» bean = dao.get«name.toFirstUpper()»(id);
+			if (bean!=null) {
+				securedBean = («name.toFirstUpper()»)MedooSecurityHandler.getInstance().getPolicy().toSecure(bean, actor);	
+				restClient.push(securedBean, "«name.toLowerCase()»");
+			}	
+		} 
+	}	
+	
+	
+	/**
+	 * PART CONCERNING THE CLIENT FILTER FIELDS
+	 */	
+	
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.GET, value="/filters/«name.toLowerCase()»s")
+	public «name.toFirstUpper()»DisplayList get«name.toFirstUpper()»sFilter() {
+	
+		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(SessionUtil.CURRENT_USER);
+		
+		«name.toFirstUpper()»DisplayList list = new «name.toFirstUpper()»DisplayList();
+
+		if («projectName.toFirstUpper()»AccessManager.canReadForm("«name.toLowerCase()»", actor.getRoles())) {
+			MedooJunction junction = createFilterJuntion(actor);
+			
+			List<«name.toFirstUpper()»Display> «name.toFirstLower()»DiplayList = new ArrayList<«name.toFirstUpper()»Display>();
+			List<«name.toFirstUpper()»> «name.toFirstLower()»s = dao.list«name.toFirstUpper()»(junction);
+			for(«name.toFirstUpper()» «name.toFirstLower()»:«name.toFirstLower()»s) {
+				«name.toFirstUpper()»Display display = new  «name.toFirstUpper()»Display();
+				display.set«name.toFirstUpper()»(«name.toFirstLower()»);
+				«name.toFirstLower()»DiplayList.add(display);
+			}
+			list.set«name.toFirstUpper()»s(«name.toFirstLower()»DiplayList);		
+		} 
+		return list;	
+	}
+	
+	«FOREACH groups.fields AS f -»
+	«EXPAND getRelationFieldChildsForClientFilters(projectName) FOR f-»
+	«ENDFOREACH -»	
+	
+	/**
+	 * Creates a junction based on the filter field declarations, for the current actor.
+	 * @param actor the current actor
+	 */
+	 private MedooJunction createFilterJuntion(MedooActor actor){
+	 	MedooConjunction filterConjunction = new MedooConjunction();
+	 	«EXPAND handleFilterField(this.name) FOREACH this.actorFilterFields -»
+	 	return filterConjunction;
+	 }		
+	
+	
+	/**
+	 * Setter for bean injection
+	 * @param dao
+	 */
+	public void setDao(«name.toFirstUpper()»Dao dao) {
+		this.dao = dao;
+	}
+	
+	/**
+	 * Setter for bean injection
+	 * @param restClient
+	 */	
+	public void setRestClient(RestClient restClient) {
+		this.restClient = restClient;
+	}
+	
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+
+
+«REM» ----------------------------------------------- «ENDREM»
+«DEFINE getRelationFieldChilds(String projectName) FOR FieldEntity»«ENDDEFINE»
+«DEFINE getRelationFieldChilds(String projectName) FOR RelationFieldEntity»
+«IF cardinality==-1 || cardinality>1 -»
+	/**
+	 * Gets the entities of type «entity.name.toFirstUpper()» that are related to the entity of type «this.parentGroup.parentCard.name.toFirstUpper()» with the specified id
+	 * @param id id of the entity of type «this.parentGroup.parentCard.name.toFirstUpper()»
+	 * @return a list of «entity.name.toFirstUpper()» serialized in XML
+	 */
+	 /*
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.GET, value="/«this.parentGroup.parentCard.name.toLowerCase()»/«name.toLowerCase()»/{id}")
+	public «entity.name.toFirstUpper()»List get«name.toFirstUpper()»(@PathVariable String id) {		
+		
+		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(SessionUtil.CURRENT_USER);
+		List<«entity.name.toFirstUpper()»> «entity.name.toFirstLower()»s = new ArrayList<«entity.name.toFirstUpper()»>();	
+		
+		if («projectName.toFirstUpper()»AccessManager.canReadGroup("«this.parentGroup.parentCard.name.toLowerCase()».«this.parentGroup.name.toLowerCase()»", actor.getRoles())
+		&& «projectName.toFirstUpper()»AccessManager.canReadForm("«entity.name.toLowerCase()»", actor.getRoles())) {
+				
+			«this.parentGroup.parentCard.name.toFirstUpper()» «this.parentGroup.parentCard.name.toFirstLower()» = dao.get«this.parentGroup.parentCard.name.toFirstUpper()»(id);		
+			if («this.parentGroup.parentCard.name.toFirstLower()»!=null) {
+				for(«entity.name.toFirstUpper()» «entity.name.toFirstLower()» : «this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this»()) {
+					«entity.name.toFirstLower()»s.add((«entity.name.toFirstUpper()»)MedooSecurityHandler.getInstance().getPolicy().toSecure(«entity.name.toFirstLower()», actor));
+				}			
+			}
+		}
+		return new «entity.name.toFirstUpper()»List(«entity.name.toFirstLower()»s);
+	}
+	*/
+«ELSE -»
+	/**
+	 * Gets the a list of «this.parentGroup.parentCard.name.toFirstUpper()» entities for a given «entity.name.toFirstUpper()»
+	 * @param id the id of the «entity.name.toFirstUpper()» used to filter the «this.parentGroup.parentCard.name.toFirstUpper()» entities
+	 * @return a list of «this.parentGroup.parentCard.name.toFirstUpper()» display values serialized in XML
+	 */
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.GET, value="/«this.parentGroup.parentCard.name.toLowerCase()»s/«name.toLowerCase()»/{id}")
+	public «this.parentGroup.parentCard.name.toFirstUpper()»List get«this.parentGroup.parentCard.name.toFirstUpper()»sBy«name.toFirstUpper()»(@PathVariable String id) {
+		
+		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(SessionUtil.CURRENT_USER);
+		«this.parentGroup.parentCard.name.toFirstUpper()»List list = new «this.parentGroup.parentCard.name.toFirstUpper()»List();	
+		
+		if («projectName.toFirstUpper()»AccessManager.canReadGroup("«this.parentGroup.parentCard.name.toLowerCase()».«this.parentGroup.name.toLowerCase()»", actor.getRoles())) {
+			MedooJunction criterion = createFilterJuntion(actor);	
+			BasicCriteria criteria = new BasicCriteria();
+			criteria.setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
+			criteria.setValue(id);
+			criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this».id");
+			criterion.add(criteria);
+			
+			List<«this.parentGroup.parentCard.name.toFirstUpper()»> «this.parentGroup.parentCard.name.toFirstLower()»s = dao.list«this.parentGroup.parentCard.name.toFirstUpper()»(criterion);
+			«IF !Actor.isAssignableFrom(this.parentGroup.parentCard.metaType)-»
+			List<«this.parentGroup.parentCard.name.toFirstUpper()»> securedBeans = (List<«this.parentGroup.parentCard.name.toFirstUpper()»>) MedooSecurityHandler.getInstance().getPolicy().toSecure(«this.parentGroup.parentCard.name.toFirstLower()»s, actor);
+			«ELSE-»
+			List<«this.parentGroup.parentCard.name.toFirstUpper()»Actor> securedBeans = (List<«this.parentGroup.parentCard.name.toFirstUpper()»Actor>) MedooSecurityHandler.getInstance().getPolicy().toSecure(«this.parentGroup.parentCard.name.toFirstLower()»s, actor);	
+			«ENDIF-»			
+			list.set«this.parentGroup.parentCard.name.toFirstUpper()»s(securedBeans);				
+		}
+		
+		return list;
+	}
+«ENDIF -»
+«ENDDEFINE»
+
+«REM» ----------------------------------------------- «ENDREM»
+«DEFINE getRelationFieldChildsForClientFilters(String projectName) FOR FieldEntity»«ENDDEFINE»
+«DEFINE getRelationFieldChildsForClientFilters(String projectName) FOR RelationFieldEntity»
+«IF cardinality==1 -»
+	/**
+	 * Gets the a list of «this.parentGroup.parentCard.name.toFirstUpper()» display values for a given «entity.name.toFirstUpper()»
+	 * @param id the id of the «entity.name.toFirstUpper()» used to filter the «this.parentGroup.parentCard.name.toFirstUpper()» entities
+	 * @return a list of «this.parentGroup.parentCard.name.toFirstUpper()» display values serialized in XML
+	 */
+	@ResponseBody
+	@RequestMapping(method=RequestMethod.GET, value="/filters/«this.parentGroup.parentCard.name.toLowerCase()»s/«name.toLowerCase()»/{id}")
+	public «this.parentGroup.parentCard.name.toFirstUpper()»DisplayList get«this.parentGroup.parentCard.name.toFirstUpper()»sBy«name.toFirstUpper()»Filter(@PathVariable String id) {
+			
+		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(SessionUtil.CURRENT_USER);
+		«this.parentGroup.parentCard.name.toFirstUpper()»DisplayList list = new «this.parentGroup.parentCard.name.toFirstUpper()»DisplayList();	
+		
+		if («projectName.toFirstUpper()»AccessManager.canReadGroup("«this.parentGroup.parentCard.name.toLowerCase()».«this.parentGroup.name.toLowerCase()»", actor.getRoles())) {
+			
+			MedooJunction criterion = createFilterJuntion(actor);		
+
+			BasicCriteria criteria = new BasicCriteria();
+			criteria.setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
+			criteria.setValue(id);
+			criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this».id");
+			criterion.add(criteria);
+		
+			List<«this.parentGroup.parentCard.name.toFirstUpper()»Display> «this.parentGroup.parentCard.name.toFirstLower()»DiplayList = new ArrayList<«this.parentGroup.parentCard.name.toFirstUpper()»Display>();
+			List<«this.parentGroup.parentCard.name.toFirstUpper()»> «this.parentGroup.parentCard.name.toFirstLower()»s = dao.list«this.parentGroup.parentCard.name.toFirstUpper()»(criterion);
+			for(«this.parentGroup.parentCard.name.toFirstUpper()» «this.parentGroup.parentCard.name.toFirstLower()»:«this.parentGroup.parentCard.name.toFirstLower()»s) {
+				«this.parentGroup.parentCard.name.toFirstUpper()»Display display = new  «this.parentGroup.parentCard.name.toFirstUpper()»Display();
+				display.set«this.parentGroup.parentCard.name.toFirstUpper()»(«this.parentGroup.parentCard.name.toFirstLower()»);
+				«this.parentGroup.parentCard.name.toFirstLower()»DiplayList.add(display);
+			}
+			list.set«this.parentGroup.parentCard.name.toFirstUpper()»s(«this.parentGroup.parentCard.name.toFirstLower()»DiplayList);
+		}
+		return list;
+	}
+	
+«ENDIF -»
+«ENDDEFINE»
+
+
+«REM» Imports implied by the relation fields «ENDREM»
+«DEFINE importsForRelation(String projectName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE importsForRelation(String projectName) FOR RelationFieldEntity-»
+import org.imogene.«projectName.toLowerCase()».entity.«entity.name.toFirstUpper()»;
+«IF cardinality==-1 || cardinality>1 -»
+import org.imogene.«projectName.toLowerCase()».entity.«entity.name.toFirstUpper()»List;
+«ENDIF -»
+«ENDDEFINE»
+
+
+
+«REM»---------------------------------------------------- «ENDREM»
+«REM»-------------------- FILTER FIELDS ----------------- «ENDREM»
+«REM»---------------------------------------------------- «ENDREM»
+
+«REM» Imports for filter fields «ENDREM»
+«DEFINE importsForFilterFields(String projectName) FOR CardEntity -»
+	«FOREACH this.actorFilterFields AS actorField-»
+import org.imogene.«projectName.toLowerCase()».entity.«actorField.actorField.parentActor.name.toFirstUpper()»Actor;
+import org.imogene.«projectName.toLowerCase()».entity.«actorField.entityField.entity.name.toFirstUpper()»;
+	«ENDFOREACH-»
+«ENDDEFINE»
+
+«REM» Filter field handling «ENDREM»
+«DEFINE handleFilterField(String entityName) FOR ActorFilter -»
+	/* add filter field for actor «actorField.parentActor.name.toFirstUpper()» */
+	if(actor instanceof «actorField.parentActor.name.toFirstUpper()»Actor){	
+		MedooJunction «actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()» = new MedooDisjunction();
+		for(Object «entityField.entity.name.toFirstLower()»:((«actorField.parentActor.name.toFirstUpper()»Actor)actor).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
+			BasicCriteria criteria = new BasicCriteria();
+			criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
+			criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");
+			criteria.setValue(((«entityField.entity.name.toFirstUpper()»)«this.entityField.entity.name.toFirstLower()»).getId());
+			«actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()».add(criteria);
+		}
+		filterConjunction.add(«actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()»);
+	}
+«ENDDEFINE»
+
+
