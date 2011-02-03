@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MedooIdEncrypter Plug-in
+Bundle-SymbolicName: org.imogene.tools.encrypter;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.imogene.tools.encrypter.Activator
+Bundle-Vendor: Medes-IMPS
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
