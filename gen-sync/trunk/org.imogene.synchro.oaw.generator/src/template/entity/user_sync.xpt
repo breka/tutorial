@@ -1,0 +1,124 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR Actor»
+«FILE packagePath.toLowerCase() + "/entity/" + name.toFirstUpper() + "User.java"»
+package «packageName.toLowerCase()».entity;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.imogene.common.data.SynchronizableUser;
+import org.imogene.uao.role.Role;
+import org.imogene.uao.synchronizable.SynchronizableEntity;
+
+/**
+ * User Bean Implementation
+ * @author Medes-IMPS
+ */
+public class «this.name.toFirstUpper()»User extends «this.name.toFirstUpper()» implements SynchronizableUser {
+
+	private String login;
+
+	private String password;
+	
+	/** 
+	 * Store the assigned roles as they are set in the external user management application 
+	 */
+	private Set<Role> assignedRoles = new HashSet<Role>();
+
+	/** 
+	 * Store the assigned synchronizable entities as they are set in the external user management application 
+	 */
+	private Set<SynchronizableEntity> assignedSynchronizables = new HashSet<SynchronizableEntity>();
+			
+	
+	public «this.name»User() {
+		super();
+	}
+		
+	/* SynchronizableUser getters and setters */	
+
+	public String getLogin() {
+		return login;
+	}
+	
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}	
+	
+	public Set<Role> getRoles() {
+		return assignedRoles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.assignedRoles = roles;
+	}
+	
+	public void addRole(Role role) {
+		this.assignedRoles.add(role);
+	}
+	
+	public Set<SynchronizableEntity> getSynchronizables() {
+		return assignedSynchronizables;
+	}
+
+	public void setSynchronizables(Set<SynchronizableEntity> synchronizables) {
+		this.assignedSynchronizables = synchronizables;
+	}	
+	
+	public void addSynchronizable(SynchronizableEntity synchronizable) {
+		assignedSynchronizables.add(synchronizable);
+	}
+	
+	
+	/* Filter fields management */ 
+	
+	«EXPAND filterField FOREACH this.filters»
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM»An empty definition for card entities«ENDREM»
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR CardEntity»
+«ENDDEFINE»
+
+
+«REM» Create variable, getter and setter for the filter fields «ENDREM»
+«DEFINE filterField FOR FilterField»
+
+	/** 
+	 * Filter fields for the «this.entity.name» entity 
+	 */		
+	private Set<«this.entity.name»> «EXPAND template::CommonFieldUtil::propertyName FOR this» = new HashSet<«this.entity.name»>();
+	
+	/**
+	 * Set the list of allowed «this.entity.name»s for card access.
+	 */
+	public void «EXPAND template::CommonFieldUtil::setterName FOR this»(Set<«this.entity.name»> filterFields){
+		«EXPAND template::CommonFieldUtil::propertyName FOR this» = filterFields;
+	}
+	
+	/**
+	 * Get the list of allowed «this.entity.name»s for card access.
+	 * @return a list of «this.entity.name»s 
+	 */
+	public Set<«this.entity.name»> «EXPAND template::CommonFieldUtil::getterName FOR this»(){
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this»;
+	} 
+	
+	/**
+	 * Add a «this.entity.name» to list of allowed «this.entity.name»s for card access.
+	 */
+	public void add«name.toFirstUpper()-»FilterField(«this.entity.name» synchronizable) {
+		«EXPAND template::CommonFieldUtil::propertyName FOR this».add(synchronizable);
+	}
+«ENDDEFINE»

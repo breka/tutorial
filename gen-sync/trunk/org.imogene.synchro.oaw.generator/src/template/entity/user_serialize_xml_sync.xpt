@@ -1,0 +1,59 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR Actor»
+«FILE packagePath.toLowerCase() + "/serializer/xml/" + name + "UserConverter.java"»
+package «packageName.toLowerCase()».serializer.xml;
+
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
+import «packageName.toLowerCase()».entity.«this.name»User;
+import org.imogene.sync.serializer.xml.SynchronizableUserConverter;
+
+/**
+ * XStream converter for the a «this.name»User.
+ * @author Medes-IMPS
+ */
+public class «this.name»UserConverter extends SynchronizableUserConverter  {
+		
+	
+	/*
+	 * (non-Javadoc)
+	 * @see Converter#marshal(Object, HierarchicalStreamWriter, MarshallingContext)
+	 */
+	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {		
+		«this.name»User user = («this.name»User) value;
+		marshalUser(writer, user);	
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see Converter#unmarshal(HierarchicalStreamReader, UnmarshallingContext)
+	 */
+	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {	
+		«this.name»User user = new «this.name»User();
+		unmarshalUser(reader, user);
+		return user;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ConverterMatcher#canConvert(java.lang.Class)
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean canConvert(Class toConvert) {		
+		return toConvert.equals(«this.name»User.class);
+	}
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR CardEntity»
+«ENDDEFINE»
+
+
+
+
