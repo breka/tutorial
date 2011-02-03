@@ -13,4 +13,6 @@ public class Constants {
 	public static final String SYNC_DESC_PATH="libs/synchro.xml";
 	
 	public static final String NOTIF_DESC_PATH="libs/notifier.xml";
+	
+	public static final String INIT_DESC_PATH="libs/initializer.xml";
 }
