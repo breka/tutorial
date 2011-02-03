@@ -1,0 +1,22 @@
+package org.imogene.android.preference.filter;
+
+import org.imogene.android.W;
+import org.imogene.android.common.filter.FloatFilter;
+import org.imogene.android.util.FormatHelper;
+
+import android.content.Context;
+import android.util.AttributeSet;
+
+public class FloatFilterPreference extends NumberFilterPreference<Float, FloatFilter> {
+
+	public FloatFilterPreference(Context context, AttributeSet attrs) {
+		super(context, attrs, FloatFilter.FILTER_CREATOR);
+		setDialogLayoutResource(W.layout.dialog_float_filter);
+	}
+
+	@Override
+	protected Float parseNumber(String str) {
+		return FormatHelper.toFloat(str);
+	}
+
+}

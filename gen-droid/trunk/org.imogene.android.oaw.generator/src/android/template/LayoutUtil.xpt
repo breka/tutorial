@@ -1,0 +1,154 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+
+
+
+
+«DEFINE dividerLayout FOR FieldEntity-»
+<View android:id="@+id/«shortName.toLowerCase()-»_divider"
+    android:layout_width="fill_parent"
+    android:layout_height="1dip"
+    «IF hidden-»
+    android:visibility="gone"
+    «ENDIF-»
+    android:background="?android:attr/listDivider" />
+«ENDDEFINE»
+
+
+
+
+«DEFINE layout FOR FieldEntity-»
+<org.imogene.android.widget.field.edit.«EXPAND class FOR this-»
+	android:id="@+id/«shortName.toLowerCase()»"
+	android:layout_height="wrap_content" 
+	android:layout_width="fill_parent"
+	android:background="@android:drawable/list_selector_background"
+	android:minHeight="?android:attr/listPreferredItemHeight"
+	android:paddingRight="?android:attr/scrollbarSize"
+	«IF hidden-»
+    android:visibility="gone"
+    «ENDIF-»
+	app:dependent="«fieldDependentVisibility.size > 0»"
+	app:readOnly="«readOnly»"
+	app:required="«required»"
+	app:title="@string/«shortName.toLowerCase()»"
+	app:divider="@+id/«shortName.toLowerCase()-»_divider"
+	«IF hasHelp(descriptions)-»
+	app:help="@string/«shortName.toLowerCase()»_help"
+	«ENDIF-»
+	«EXPAND specificAttributes FOR this-»
+/>
+«ENDDEFINE»
+
+«DEFINE class FOR FieldEntity-»ERROR«ENDDEFINE»
+
+«DEFINE class FOR StringField-»StringFieldEdit«ENDDEFINE»
+
+«DEFINE class FOR BarcodeField»BarcodeFieldEdit«ENDDEFINE»
+
+«DEFINE class FOR GeoField»GeoFieldEdit«ENDDEFINE»
+
+«DEFINE class FOR FloatField»FloatFieldEdit«ENDDEFINE»
+
+«DEFINE class FOR IntegerField»IntegerFieldEdit«ENDDEFINE»
+
+«DEFINE class FOR BooleanField»BooleanFieldEdit«ENDDEFINE»
+
+«DEFINE class FOR EnumField»«IF multipleSelection»EnumMultipleFieldEdit«ELSE»EnumSingleFieldEdit«ENDIF»«ENDDEFINE»
+
+«DEFINE class FOR DatesField»«IF DateField.isAssignableFrom(metaType)-»DateFieldEdit«ELSEIF TimeField.isAssignableFrom(metaType)-»TimeFieldEdit«ELSE-»DateTimeFieldEdit«ENDIF»«ENDDEFINE»
+
+«DEFINE class FOR BinaryField»«IF PhotoField.isAssignableFrom(metaType)-»PhotoFieldEdit«ELSEIF VideoField.isAssignableFrom(metaType)-»VideoFieldEdit«ELSEIF SoundField.isAssignableFrom(metaType)-»SoundFieldEdit«ELSE»BinaryFieldEdit«ENDIF»«ENDDEFINE»
+
+«DEFINE class FOR RelationFieldEntity»«IF cardinality == 1»RelationOneFieldEdit«ELSE-»RelationManyFieldEdit«ENDIF-»«ENDDEFINE»
+
+
+
+
+«DEFINE specificAttributes FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE specificAttributes FOR StringField-»
+«IF AddressField.isAssignableFrom(metaType)-»
+app:stringType="address"
+«ELSEIF EmailField.isAssignableFrom(metaType)-»
+app:stringType="email"
+«ELSEIF PhoneField.isAssignableFrom(metaType)-»
+app:stringType="phone"
+«ELSEIF TextField.isAssignableFrom(metaType)-»
+app:stringType="text"
+«ELSE-»
+app:stringType="string"
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE specificAttributes FOR GeoField-»
+«LET getGeoType(this) AS geoType-»
+«IF geoType == 0»
+app:geoType="gps"
+«ELSEIF geoType == 1»
+app:geoType="network"
+«ELSEIF geoType == 2»
+app:geoType="map"
+«ELSEIF geoType == 3»
+app:geoType="best"
+«ENDIF»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE specificAttributes FOR FloatField-»
+«IF unit.length > 0-»
+app:unit="@string/«shortName.toLowerCase()»_unit"
+«ENDIF-»
+«IF max != null && max.length > 0-»
+app:floatMax="«max»"
+«ENDIF-»
+«IF min != null && min.length > 0-»
+app:floatMin="«min»"
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE specificAttributes FOR IntegerField-»
+«IF unit.length > 0-»
+app:unit="@string/«shortName.toLowerCase()»_unit"
+«ENDIF-»
+«IF max != null && max.length > 0-»
+app:intMax="«max»"
+«ENDIF-»
+«IF min != null && min.length > 0-»
+app:intMin="«min»"
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE specificAttributes FOR EnumField-»
+app:entries="@array/«shortName.toLowerCase()»"
+app:array="@array/«shortName.toLowerCase()»_values"
+app:size="«enumValues.size»"
+«ENDDEFINE»
+
+«DEFINE specificAttributes FOR DatesField-»
+«IF max != null && max.length > 0-»
+app:dateMax="«max»"
+«ENDIF-»
+«IF min != null && min.length > 0-»
+app:dateMin="«min»"
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE specificAttributes FOR RelationFieldEntity-»
+app:hasReverse="«oppositeRelationField != null»"
+app:displayPl="@string/«entity.shortName.toLowerCase()-»_des_sg"
+app:displaySg="@string/«entity.shortName.toLowerCase()-»_des_sg"
+app:oppositeCardinality="«getOppositeCardinality(this)-»"
+app:type="«IF MainRelationFieldEntity.isAssignableFrom(metaType)»main«ELSE»reverse«ENDIF»"
+«IF oppositeRelationField != null-»
+app:oppositeRelationField="«oppositeRelationField.name.toFirstLower()»"
+«ENDIF-»
+app:fieldName="«name.toFirstLower()»"
+app:tableName="«parentGroup.parentCard.name.toLowerCase()»"
+«IF relationHierarchicalFilter.size == 2-»
+app:hierarchicalField="«relationHierarchicalFilter.get(1).name.toFirstLower()»"
+app:hierarchicalParent="@id/«relationHierarchicalFilter.get(0).shortName.toLowerCase()»"
+«ENDIF-»
+«ENDDEFINE»

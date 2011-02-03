@@ -1,0 +1,153 @@
+«IMPORT core»
+«DEFINE generate FOR Project »
+«FILE "/" + name.toLowerCase() + "/service/" + name.toFirstUpper() + "SyncService.java"-»
+package org.imogene.android.«name.toLowerCase()-».service;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+import org.xmlpull.v1.XmlSerializer;
+
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteStatement;
+import android.util.Xml;
+import org.imogene.android.Constants.Keys;
+import org.imogene.android.Constants.Status;
+import org.imogene.android.Constants.Tables;
+import org.imogene.android.Constants.Intents;
+import org.imogene.android.common.Binary;
+import org.imogene.android.common.ClientFilter;
+import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.database.sqlite.BinaryCursor;
+import org.imogene.android.database.sqlite.ClientFilterCursor;
+import org.imogene.android.sync.binary.BinarySerializer;
+import org.imogene.android.sync.filter.ClientFilterSerializer;
+import org.imogene.android.«name.toLowerCase()-».app.SyncResume;
+«FOREACH entities AS entity-»
+import org.imogene.android.«name.toLowerCase()-».database.sqlite.«entity.name.toFirstUpper()-»Cursor;
+«ENDFOREACH-»
+«FOREACH entities AS entity-»
+import org.imogene.android.«name.toLowerCase()-».entities.«entity.name.toFirstUpper()-»;
+«ENDFOREACH-»
+«FOREACH entities AS entity-»
+import org.imogene.android.«name.toLowerCase()-».roles.«entity.name.toFirstUpper()-»Roles;
+«ENDFOREACH-»
+import org.imogene.android.«name.toLowerCase()-».sync.parser.«name.toFirstUpper()-»Parser;
+«FOREACH entities AS entity-»
+import org.imogene.android.«name.toLowerCase()-».sync.serializer.«entity.name.toFirstUpper()-»Serializer;
+«ENDFOREACH-»
+import org.imogene.android.service.AbstractSyncService;
+import org.imogene.android.util.WakeLockSingleton;
+import org.imogene.android.util.database.DatabaseUtils;
+
+public class «name.toFirstUpper()-»SyncService extends AbstractSyncService {
+	
+	@Override
+	protected AbstractSynchronizer newSynchronizer(Context context, String action) {
+		return new Synchronizer(this, action);
+	}
+
+	@Override
+	protected Intent getResumeIntent(int received) {
+		return SyncResume.createResumeIntent(this, received);
+	}
+	
+	protected class Synchronizer extends AbstractSynchronizer {
+
+		public Synchronizer(Context context, String action) {
+			super(context, action);
+		}
+		
+		@Override
+		protected void markAsReadHidden() {
+			«FOREACH entities AS e-»
+			«IF e.creators.size > 0-»
+			if (!«e.name.toFirstUpper()»Roles.canCreate(mContext)) {
+			«ELSE-»
+			if (!«e.name.toFirstUpper()-»Roles.canRead(mContext) && !«e.name.toFirstUpper()-»Roles.canWrite(mContext)) {
+			«ENDIF-»
+				DatabaseUtils.markAs(getContentResolver(), «e.name.toFirstUpper()-».CONTENT_URI, false);
+			}
+			«ENDFOREACH-»
+		}
+		
+		@Override
+		protected void markAsSentForSession(long time) {
+			ContentValues values = new ContentValues();
+			values.put(Keys.KEY_SYNCHRONIZED, 1);
+		
+			ContentResolver res = getContentResolver();
+		
+			res.update(ClientFilter.CONTENT_URI, values, Keys.KEY_MODIFIED + " < " + time, null);
+			«FOREACH entities AS entity-»
+			res.update(«entity.name.toFirstUpper()-».CONTENT_URI, values, Keys.KEY_MODIFIED + " < " + time, null);
+			«ENDFOREACH-»
+		}
+
+		@Override
+		protected int applyIncomingModifications(InputStream is) throws XmlPullParserException, IOException {
+			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			XmlPullParser parser = factory.newPullParser();
+			parser.setInput(is, null);
+			return «name.toFirstUpper()-»Parser.parse(mContext, parser);
+		}
+
+		@Override
+		protected int getDataToSynchronize(FileOutputStream fos) throws IllegalArgumentException, IllegalStateException, IOException {
+			AbstractDatabase helper = AbstractDatabase.getSuper(mContext);
+			SQLiteStatement stat = helper.getReadableDatabase().compileStatement("select max("+Keys.KEY_DATE+") from "+Tables.TABLE_SYNCHISTORY+" where "+Keys.KEY_STATUS+" = "+Status.STATUS_OK);
+			long date = stat.simpleQueryForLong();
+			stat.close();
+
+			String where = Keys.KEY_MODIFIED + " > " + date + " AND " + Keys.KEY_MODIFIEDFROM + " = '" + hardwareId + "'";
+			String sortOrder = Keys.KEY_MODIFIED + " ASC";
+
+			int count = 0;
+
+			XmlSerializer serializer = Xml.newSerializer();
+			serializer.setOutput(fos, null);
+			serializer.startDocument(null, Boolean.valueOf(true));
+			serializer.startTag(null, "entities");
+			
+			BinaryCursor cBinary = (BinaryCursor) helper.query(Binary.CONTENT_URI, where, sortOrder);
+			while (cBinary.moveToNext())
+				BinarySerializer.serialize(mContext, cBinary, serializer);
+			cBinary.close();
+			cBinary = null;
+
+			ClientFilterCursor cClientFilter = (ClientFilterCursor) helper.query(ClientFilter.CONTENT_URI, where, sortOrder);
+			while (cClientFilter.moveToNext())
+				ClientFilterSerializer.serialize(mContext, cClientFilter, serializer);
+			cClientFilter.close();
+			cClientFilter = null;
+
+			«FOREACH entities AS entity»
+			«entity.name.toFirstUpper()-»Cursor c«entity.name.toFirstUpper()-» = («entity.name.toFirstUpper()-»Cursor) helper.query(«entity.name.toFirstUpper()-».CONTENT_URI, where, sortOrder);
+			while (c«entity.name.toFirstUpper()-».moveToNext()) {
+				«entity.name.toFirstUpper()-»Serializer.serialize(mContext, c«entity.name.toFirstUpper()-», serializer);
+				count++;
+			}
+		
+			c«entity.name.toFirstUpper()-».close();
+			c«entity.name.toFirstUpper()-» = null;
+			«ENDFOREACH»		
+		
+			serializer.endTag(null, "entities");
+		
+			serializer.endDocument();
+		
+			return count;
+		}
+	}
+
+}
+«ENDFILE»
+«ENDDEFINE»

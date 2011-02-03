@@ -1,0 +1,164 @@
+«IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate FOR Project »
+«FILE "/" + name.toLowerCase() + "/app/SyncResume.java"-»
+package org.imogene.android.«name.toLowerCase()-».app;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.database.ContentObserver;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
+import org.imogene.android.Constants.Extras;
+import org.imogene.android.Constants.Keys;
+import org.imogene.android.Constants.SortOrder;
+import org.imogene.android.Constants.Sync;
+import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.util.database.DatabaseUtils;
+«FOREACH entities AS e-»
+import org.imogene.android.«name.toLowerCase()».entities.«e.name.toFirstUpper()»;
+«ENDFOREACH-»
+«FOREACH entities AS e-»
+«IF e.topLevel-»
+import org.imogene.android.«name.toLowerCase()».roles.«e.name.toFirstUpper()»Roles;
+«ENDIF-»
+«ENDFOREACH-»
+import org.imogene.android.«name.toLowerCase()».R;
+
+public class SyncResume extends Activity implements OnClickListener {
+
+	private static final String EXTRA_RECEIVED = "«name.toFirstUpper()-»SyncResume_received";
+
+	public static Intent createResumeIntent(Context context, int received) {
+		Intent intent = new Intent(context, SyncResume.class);
+		intent.putExtra(EXTRA_RECEIVED, received);
+		return intent;
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.«name.toLowerCase()-»_sync_resume);
+		
+		findViewById(R.id.exit).setOnClickListener(this);
+		findViewById(R.id.mark_all_as_read).setOnClickListener(this);
+		
+		int received = getIntent().getIntExtra(EXTRA_RECEIVED, 0);
+		
+		if (received > 0) {
+			findViewById(R.id.received_sync_text).setVisibility(View.VISIBLE);
+			findViewById(R.id.before_received_item_divider).setVisibility(View.VISIBLE);
+			((TextView) findViewById(R.id.received_sync_text)).setText(getString(R.string.synchro_resume_detail, received));
+		} else {
+			findViewById(R.id.received_sync_text).setVisibility(View.GONE);
+			findViewById(R.id.before_received_item_divider).setVisibility(View.GONE);
+		}
+		
+		refresh();
+		
+		«FOREACH entities AS e-»
+		«IF e.topLevel-»
+		getContentResolver().registerContentObserver(«e.name.toFirstUpper()-».CONTENT_URI, true, mContentObserver);
+		«ENDIF-»
+		«ENDFOREACH-»
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		getContentResolver().unregisterContentObserver(mContentObserver);
+	}
+	
+	private void refresh() {
+		SQLiteDatabase db = AbstractDatabase.getSuper(this).getReadableDatabase();
+		
+		boolean hasOne = false;
+		
+		SQLiteBuilder builder = new SQLiteBuilder();
+		builder.setSelect("count(*)");
+		builder.appendEq(Keys.KEY_UNREAD, 1);
+		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+
+		SQLiteStatement stat;
+		«FOREACH entities AS e-»
+		«IF e.topLevel-»
+		stat = db.compileStatement(builder.setTable(«e.name.toFirstUpper()».TABLE_NAME).create().toSQL());
+		long «e.name.toFirstLower()-»Count = stat.simpleQueryForLong();
+		stat.close();
+		«IF e.creators.size > 0-»
+		if («e.name.toFirstLower()-»Count != 0 && «e.name.toFirstUpper()»Roles.canCreate(this)) {
+		«ELSE-»
+		if («e.name.toFirstLower()-»Count != 0 && («e.name.toFirstUpper()-»Roles.canRead(this) || «e.name.toFirstUpper()-»Roles.canWrite(this))) {
+		«ENDIF-»
+			findViewById(R.id.«e.shortName.toLowerCase()-»_sync_layout).setVisibility(View.VISIBLE);
+			findViewById(R.id.«e.shortName.toLowerCase()-»_sync_divider).setVisibility(View.VISIBLE);
+			if («e.name.toFirstLower()-»Count > 1)
+				((TextView) findViewById(R.id.«e.shortName.toLowerCase()-»_sync_text))
+					.setText(«e.name.toFirstLower()-»Count + " " + getString(R.string.«e.shortName.toLowerCase()-»_des_sg));
+			else
+				((TextView) findViewById(R.id.«e.shortName.toLowerCase()-»_sync_text))
+					.setText(«e.name.toFirstLower()-»Count + " " + getString(R.string.«e.shortName.toLowerCase()-»_des_pl));
+					
+			findViewById(R.id.«e.shortName.toLowerCase()-»_sync_layout).setOnClickListener(this);
+			
+			hasOne = true;
+		} else {
+			findViewById(R.id.«e.shortName.toLowerCase()-»_sync_layout).setVisibility(View.GONE);
+			findViewById(R.id.«e.shortName.toLowerCase()-»_sync_divider).setVisibility(View.GONE);
+		}
+		«ENDIF»		
+		«ENDFOREACH-»
+
+		if (hasOne) {		
+			findViewById(R.id.empty_unread).setVisibility(View.GONE);
+			findViewById(R.id.mark_all_as_read).setVisibility(View.VISIBLE);
+			findViewById(R.id.before_received_item_divider).setVisibility(View.VISIBLE);
+		} else {
+			findViewById(R.id.empty_unread).setVisibility(View.VISIBLE);
+			findViewById(R.id.mark_all_as_read).setVisibility(View.GONE);
+			findViewById(R.id.before_received_item_divider).setVisibility(View.GONE);
+		}
+	}
+	
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.exit:
+			finish();
+			break;
+		case R.id.mark_all_as_read:
+			«FOREACH entities AS e-»
+			DatabaseUtils.markAs(getContentResolver(), «e.name.toFirstUpper()-».CONTENT_URI, false);
+			«ENDFOREACH-»
+			break;
+		«FOREACH entities AS e-»
+		«IF e.topLevel-»
+		case R.id.«e.shortName.toLowerCase()-»_sync_layout:
+			Intent «e.shortName.toLowerCase()-»List = new Intent(Intent.ACTION_VIEW, «e.name.toFirstUpper()-».CONTENT_URI);
+			«e.shortName.toLowerCase()-»List.putExtra(Extras.EXTRA_SORT_KEY, Keys.KEY_UNREAD);
+			«e.shortName.toLowerCase()-»List.putExtra(Extras.EXTRA_SORT_ORDER, SortOrder.DESCENDANT_ORDER);
+			startActivity(«e.shortName.toLowerCase()-»List);
+			break;
+		«ENDIF-»
+		«ENDFOREACH»
+		default:
+			break;
+		}
+	}
+	
+	private final ContentObserver mContentObserver = new ContentObserver(new Handler()) {
+		public void onChange(boolean selfChange) {
+			refresh();
+		};
+	};
+
+}
+«ENDFILE»
+«ENDDEFINE»

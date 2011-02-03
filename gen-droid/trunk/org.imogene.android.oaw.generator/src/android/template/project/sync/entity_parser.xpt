@@ -1,0 +1,141 @@
+«IMPORT core»
+«DEFINE generate(String projectName, boolean multilogin) FOR CardEntity»
+«FILE "/" + projectName.toLowerCase() + "/sync/parser/" + name.toFirstUpper() + "Parser.java"»
+package org.imogene.android.«projectName.toLowerCase()-».sync.parser;
+
+import static org.xmlpull.v1.XmlPullParser.END_TAG;
+import static org.xmlpull.v1.XmlPullParser.START_TAG;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import android.content.Context;
+import org.imogene.android.Constants.Keys;
+import org.imogene.android.«projectName.toLowerCase()-».entities.«name.toFirstUpper()-»;
+«EXPAND organizeImport(projectName) FOREACH groups.fields-»
+import org.imogene.android.«projectName.toLowerCase()-».R;
+import org.imogene.android.sync.FieldHandler;
+import org.imogene.android.sync.handler.BinaryHandler;
+import org.imogene.android.sync.handler.BooleanHandler;
+import org.imogene.android.sync.handler.ByteArrayHandler;
+import org.imogene.android.sync.handler.EnumHandler;
+import org.imogene.android.sync.handler.EnumMultiHandler;
+import org.imogene.android.sync.handler.FloatHandler;
+import org.imogene.android.sync.handler.GpsHandler;
+import org.imogene.android.sync.handler.IntegerHandler;
+import org.imogene.android.sync.handler.LongHandler;
+import org.imogene.android.sync.handler.MultiEntHandler;
+import org.imogene.android.sync.handler.PrimitiveLongHandler;
+import org.imogene.android.sync.handler.RolesHandler;
+import org.imogene.android.sync.handler.SingleEntHandler;
+import org.imogene.android.sync.handler.StringHandler;
+
+public class «name.toFirstUpper()-»Parser {
+
+	private static final HashMap<String, FieldHandler<«name.toFirstUpper()-»>> mHandlers = new HashMap<String, FieldHandler<«name.toFirstUpper()-»>>();
+
+	static {
+		try {
+			mHandlers.put(Keys.KEY_ID, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setId"));
+			mHandlers.put(Keys.KEY_MODIFIED, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModified"));
+			mHandlers.put(Keys.KEY_MODIFIEDBY, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModifiedBy"));
+			mHandlers.put(Keys.KEY_MODIFIEDFROM, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModifiedFrom"));
+			mHandlers.put(Keys.KEY_UPLOADDATE, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setUploadDate"));
+			mHandlers.put(Keys.KEY_CREATED, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setCreated"));
+			mHandlers.put(Keys.KEY_CREATEDBY, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setCreatedBy"));
+			«IF multilogin && Actor.isAssignableFrom(metaType) -»
+			mHandlers.put(Keys.KEY_LOGIN, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setLogin"));
+			mHandlers.put(Keys.KEY_PASSWORD, new ByteArrayHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setPassword"));
+			mHandlers.put(Keys.KEY_ROLES, new RolesHandler<«name.toFirstUpper()-»>());
+			«ENDIF-»
+			«EXPAND handler(this) FOREACH groups.fields-»
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static final void parse(Context context, XmlPullParser parser) throws XmlPullParserException, IOException {
+		«name.toFirstUpper()-» «name.toFirstLower()-» = new «name.toFirstUpper()-»();
+		
+		«name.toFirstLower()-».reset();
+		
+		«name.toFirstLower()-».setUnread(true);
+		«name.toFirstLower()-».setSynchronized(true);
+		
+		while (parser.getEventType() != END_TAG || !«name.toFirstUpper()-».PACKAGE.equals(parser.getName())) {
+			if (parser.next() == START_TAG) {
+				String name = parser.getName();
+				if (mHandlers.containsKey(name)) {
+					mHandlers.get(name).parse(context, parser, «name.toFirstLower()-»);
+				}
+			}
+		}
+		
+		«name.toFirstLower()-».commit(context, false, false);
+	}
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE organizeImport(String projectName) FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE organizeImport(String projectName) FOR RelationFieldEntity»
+import org.imogene.android.«projectName.toLowerCase()-».entities.«entity.name.toFirstUpper()-»;
+«ENDDEFINE»
+
+
+
+
+
+
+
+«DEFINE handler(CardEntity card) FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR StringField-»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new StringHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR IntegerField-»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new IntegerHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR FloatField»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new FloatHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR DatesField»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new LongHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR BooleanField»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new BooleanHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR EnumField»
+«IF multipleSelection-»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new EnumMultiHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»", R.array.«shortName.toLowerCase()»_values));
+«ELSE-»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new EnumHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»", R.array.«shortName.toLowerCase()»_values));
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR GeoField»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new GpsHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR BinaryField»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new BinaryHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR RelationFieldEntity»
+«IF cardinality == -1-»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new MultiEntHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "get«name.toFirstUpper()-»", «entity.name.toFirstUpper()-».PACKAGE, «entity.name.toFirstUpper()-».CONTENT_URI));
+«ELSE-»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new SingleEntHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»", «entity.name.toFirstUpper()-».PACKAGE, «entity.name.toFirstUpper()-».CONTENT_URI));
+«ENDIF-»
+«ENDDEFINE»

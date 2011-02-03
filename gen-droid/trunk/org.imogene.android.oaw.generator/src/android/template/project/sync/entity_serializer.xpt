@@ -1,0 +1,183 @@
+«IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate(String projectName) FOR CardEntity»
+«FILE "/" + projectName.toLowerCase() + "/sync/serializer/" + name.toFirstUpper() + "Serializer.java"»
+package org.imogene.android.«projectName.toLowerCase()-».sync.serializer;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.xmlpull.v1.XmlSerializer;
+
+import android.content.Context;
+import android.location.Location;
+import android.net.Uri;
+import org.imogene.android.Constants.Keys;
+import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.util.field.EnumConverter;
+import org.imogene.android.«projectName.toLowerCase()-».database.sqlite.«name.toFirstUpper()-»Cursor;
+import org.imogene.android.«projectName.toLowerCase()-».entities.«name.toFirstUpper()-»;
+«EXPAND organizeImport(projectName) FOREACH groups.fields-»
+import org.imogene.android.«projectName.toLowerCase()-».R;
+
+public class «name.toFirstUpper()-»Serializer {
+
+	public static void serialize(Context context, «name.toFirstUpper()-»Cursor cursor, XmlSerializer serializer) throws IllegalArgumentException, IllegalStateException, IOException {
+		
+		serializer.startTag(null, «name.toFirstUpper()-».PACKAGE);
+		
+		serializer.startTag(null, Keys.KEY_ID);
+		serializer.text(cursor.getId());
+		serializer.endTag(null, Keys.KEY_ID);
+
+		serializer.startTag(null, Keys.KEY_MODIFIED);
+		serializer.attribute(null, "class", "sql-timestamp");
+		serializer.text(String.valueOf(cursor.getModified()));
+		serializer.endTag(null, Keys.KEY_MODIFIED);
+		
+		serializer.startTag(null, Keys.KEY_UPLOADDATE);
+		serializer.attribute(null, "class", "sql-timestamp");
+		serializer.text(String.valueOf(cursor.getUploadDate()));
+		serializer.endTag(null, Keys.KEY_UPLOADDATE);
+		
+		serializer.startTag(null, Keys.KEY_MODIFIEDBY);
+		serializer.text(cursor.getModifiedBy());
+		serializer.endTag(null, Keys.KEY_MODIFIEDBY);
+		
+		serializer.startTag(null, Keys.KEY_MODIFIEDFROM);
+		serializer.text(cursor.getModifiedFrom());
+		serializer.endTag(null, Keys.KEY_MODIFIEDFROM);
+		
+		serializer.startTag(null, Keys.KEY_CREATED);
+		serializer.attribute(null, "class", "sql-timestamp");
+		serializer.text(String.valueOf(cursor.getCreated()));
+		serializer.endTag(null, Keys.KEY_CREATED);
+		
+		serializer.startTag(null, Keys.KEY_CREATEDBY);
+		serializer.text(cursor.getCreatedBy());
+		serializer.endTag(null, Keys.KEY_CREATEDBY);
+		
+		«EXPAND serialization FOREACH groups.fields »
+		
+		serializer.endTag(null, «name.toFirstUpper()-».PACKAGE);
+		
+		serializer.flush();
+	
+	}
+
+}
+«ENDFILE-»
+«ENDDEFINE»
+
+
+
+
+«DEFINE organizeImport(String projectName) FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE organizeImport(String projectName) FOR RelationFieldEntity»
+import org.imogene.android.«projectName.toLowerCase()-».entities.«entity.name.toFirstUpper()-»;
+«ENDDEFINE»
+
+
+
+
+
+«DEFINE serialization FOR FieldEntity»
+«ENDDEFINE»
+
+«DEFINE serialization FOR StringField»
+String «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.text(«shortName.toLowerCase()-»);
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ENDDEFINE»
+
+«DEFINE serialization FOR IntegerField»
+Integer «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.text(«shortName.toLowerCase()-».toString());
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ENDDEFINE»
+
+«DEFINE serialization FOR FloatField»
+Float «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.text(«shortName.toLowerCase()-».toString());
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ENDDEFINE»
+
+«DEFINE serialization FOR DatesField»
+Long «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.attribute(null, "class", "sql-timestamp");
+	serializer.text(«shortName.toLowerCase()-».toString());
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ENDDEFINE»
+
+«DEFINE serialization FOR BooleanField»
+Boolean «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.text(«shortName.toLowerCase()-».toString());
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ENDDEFINE»
+
+«DEFINE serialization FOR EnumField»
+serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+serializer.text(EnumConverter.convert(context, R.array.«shortName.toLowerCase()»_values, cursor.get«name.toFirstUpper()»()));
+serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+«ENDDEFINE»
+
+«DEFINE serialization FOR GeoField»
+Location «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.text(«shortName.toLowerCase()-».getLatitude()+";"+«shortName.toLowerCase()-».getLongitude());
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ENDDEFINE»
+
+«DEFINE serialization FOR BinaryField»
+Uri «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.text(AbstractDatabase.getSuper(context).queryId(«shortName.toLowerCase()-»));
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ENDDEFINE»
+
+«DEFINE serialization FOR RelationFieldEntity»
+«IF cardinality == 1-»
+Uri «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.startTag(null, «entity.name.toFirstUpper()-».PACKAGE);
+	serializer.attribute(null, "id", AbstractDatabase.getSuper(context).queryId(«shortName.toLowerCase()-»));
+	serializer.endTag(null, «entity.name.toFirstUpper()-».PACKAGE);
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ELSE-»
+serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+serializer.startTag(null, "collection");
+ArrayList<Uri> «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if (!«shortName.toLowerCase()-».isEmpty()) {
+	for (Uri uri : «shortName.toLowerCase()-») {			
+		serializer.startTag(null, «entity.name.toFirstUpper()-».PACKAGE);
+		serializer.attribute(null, "id", AbstractDatabase.getSuper(context).queryId(uri));
+		serializer.endTag(null, «entity.name.toFirstUpper()-».PACKAGE);
+	}
+}
+serializer.endTag(null, "collection");
+serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+«ENDIF-»
+«ENDDEFINE»
