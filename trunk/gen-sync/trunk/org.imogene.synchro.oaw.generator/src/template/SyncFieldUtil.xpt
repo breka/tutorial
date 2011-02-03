@@ -1,0 +1,82 @@
+«IMPORT core»
+
+
+«REM» ---------------------------------------------------- «ENDREM»
+«REM» Get java type for fieldEntity type                   «ENDREM»
+«REM» ---------------------------------------------------- «ENDREM»
+«DEFINE fieldType FOR FieldEntity-»String«ENDDEFINE»
+
+«DEFINE fieldType FOR FloatField-»Float«ENDDEFINE»
+
+«DEFINE fieldType FOR IntegerField-»Integer«ENDDEFINE»
+
+«DEFINE fieldType FOR BooleanField-»Boolean«ENDDEFINE»
+
+«DEFINE fieldType FOR DatesField-»Date«ENDDEFINE»
+
+«DEFINE fieldType FOR RelationFieldEntity-»
+	«IF (cardinality > 1) || (cardinality == -1) -»
+	Set<«entity.name-»>
+	«ELSE-»
+	«entity.name-»
+	«ENDIF-»
+«ENDDEFINE»
+
+
+
+«REM»-------------------------------------------------------------------- «ENDREM»
+«REM»  Retourne le nom du setter dans le javabean selon le nom du champs  «ENDREM»
+«REM»-------------------------------------------------------------------- 
+«DEFINE setterName FOR FieldEntity-»set«name.toFirstUpper()-»«ENDDEFINE»«ENDREM»
+
+«REM»-------------------------------------------------------------------- «ENDREM»
+«REM»  Retourne le nom du getter dans le javabean selon le nom du champs  «ENDREM»
+«REM»-------------------------------------------------------------------- 
+«DEFINE getterName FOR FieldEntity-»get«name.toFirstUpper()-»«ENDDEFINE»«ENDREM»
+
+«REM»-------------------------------------------------------------------- «ENDREM»
+«REM»  Retourne le nom du getter dans le javabean selon le nom du champs  «ENDREM»
+«REM»-------------------------------------------------------------------- 
+«DEFINE getterName FOR RelationFieldEntity-»get«parentGroup.parentCard.name.toFirstUpper()»«name.toFirstUpper()-»«ENDDEFINE»«ENDREM»
+
+«REM»-------------------------------------------------------------------- «ENDREM»
+«REM»  Retourne le nom du setter dans le javabean selon le nom du champs  «ENDREM»
+«REM»-------------------------------------------------------------------- 
+«DEFINE setterName FOR RelationFieldEntity-»set«parentGroup.parentCard.name.toFirstUpper()»«name.toFirstUpper()-»«ENDDEFINE»«ENDREM»
+
+«REM»-------------------------------------------------------------------- «ENDREM»
+«REM»                   setter name for FilterField                       «ENDREM»
+«REM»-------------------------------------------------------------------- 
+«DEFINE setterName FOR FilterField-»set«parentActor.name.toFirstUpper()»«name.toFirstUpper()»«ENDDEFINE»«ENDREM»
+
+«REM»-------------------------------------------------------------------- «ENDREM»
+«REM»                   setter name for FilterField                       «ENDREM»
+«REM»-------------------------------------------------------------------- 
+«DEFINE getterName FOR FilterField-»get«parentActor.name.toFirstUpper()»«name.toFirstUpper()»«ENDDEFINE»«ENDREM»
+
+«REM»----------------------------------------------------------- «ENDREM»
+«REM» Retourne le nom d'une propriété en fonction du champs      «ENDREM»
+«REM»----------------------------------------------------------- «
+«DEFINE propertyName FOR FieldEntity-»«name.toFirstLower()-»«ENDDEFINE»
+
+«DEFINE propertyName FOR RelationFieldEntity-»«parentGroup.parentCard.name.toFirstLower()-»«name.toFirstUpper()-»«ENDDEFINE»ENDREM»
+
+«REM»«DEFINE propertyName FOR FilterField-»«name.toFirstLower()-»FilterField«ENDDEFINE»
+«DEFINE propertyName FOR FilterField -»«parentActor.name.toFirstLower()»«name.toFirstUpper()»«ENDDEFINE»«ENDREM»
+
+
+«REM»----------------------------------------------------------- «ENDREM»
+«REM» Génère un import selon le type de champs recu.             «ENDREM»
+«REM»----------------------------------------------------------- «ENDREM»
+«DEFINE generateImportsForFields FOR CardEntity-»
+  «EXPAND importForField FOREACH groups.fields»
+«ENDDEFINE»
+
+«DEFINE importForField FOR FieldEntity-»
+«ENDDEFINE»
+«DEFINE importForField FOR RelationFieldEntity-»
+«IF (cardinality > 1) || (cardinality == -1) -»
+import java.util.Set;
+«ENDIF-»
+«ENDDEFINE»
+

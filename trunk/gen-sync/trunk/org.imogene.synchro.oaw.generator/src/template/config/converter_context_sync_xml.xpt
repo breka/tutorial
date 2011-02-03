@@ -1,0 +1,114 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String packagePath) FOR Project»
+«FILE "converter-context.xml"»
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<!-- Initialize the Association Converter -->
+	<bean id="associationConverter" class="org.imogene.sync.serializer.xml.AssociationConverter">
+		<property name="dataHandlerManager" ref="dataHandlerManager"/>
+	</bean>
+	
+	<!-- Initialize the Collection Converter -->
+	<bean id="collectionConverter" class="org.imogene.sync.serializer.xml.CollectionConverter">
+		<property name="dataHandlerManager" ref="dataHandlerManager"/>
+	</bean>
+	
+	<!-- Initialize the Password Converter -->
+	<bean class="org.imogene.sync.serializer.xml.PasswordConverter" id="passwordConverter"/>
+	
+	<!-- Initialize the Roles Converter -->
+	<bean class="org.imogene.sync.serializer.xml.RolesConverter" id="rolesConverter"/>
+			
+	<!-- Initialize the Synchronizable Entities Converter -->
+	<bean class="org.imogene.sync.serializer.xml.SynchronizablesConverter" id="synchronizablesConverter"/>	
+	
+	<!-- Initialize the Binary Converter -->
+	<bean id="binaryConverter" class="org.imogene.sync.server.binary.file.BinaryFileConverter"/> 	
+	
+	<bean id="binaryClassConverter" class="org.imogene.sync.serializer.xml.ClassConverter">
+		<property name="alias" value="org.imogene.data.Binary"/>
+		<property name="classType" value="org.imogene.sync.server.binary.file.BinaryFile"/>
+		<property name="converter" ref="binaryConverter"/>
+	</bean>	
+
+	«REM»
+	<!-- Initialize the User Converters -->
+	
+    «FOREACH entities AS e-»
+    	«IF Actor.isAssignableFrom(e.metaType)-»
+	<bean id="«e.name.toFirstLower()»UserConverter" class="«packageName.toLowerCase()».serializer.xml.«e.name»UserConverter"/> 
+	
+	<bean id="«e.name.toFirstLower()»UserClassConverter" class="org.imogene.sync.serializer.xml.ClassConverter">
+		<property name="alias" value="«packageName.toLowerCase()».entity.«e.name»User"/>
+		<property name="classType" value="«packageName.toLowerCase()».entity.«e.name»User"/>
+		<property name="converter" ref="«e.name.toFirstLower()»UserConverter"/>
+	</bean>		
+		«ENDIF -»
+	«ENDFOREACH»	
+	«ENDREM»
+	
+	<!-- Initialize the Entity Converters -->
+	
+    «FOREACH entities AS e-»
+    	«FOREACH e.groups.fields AS f-»
+    		«EXPAND getConverter(packageName) FOR f-»
+    	«ENDFOREACH»  	
+    	«IF Actor.isAssignableFrom(e.metaType)-»
+    <bean class="org.imogene.sync.serializer.xml.PropertyConverter" id="password«e.name.toFirstUpper()»Converter">
+		<property name="className" value="«packageName.toLowerCase()».entity.«e.name»User"/>
+		<property name="propertyName" value="password"/>
+		<property name="converter" ref="passwordConverter"/>
+	</bean>	 
+	
+	<bean class="org.imogene.sync.serializer.xml.PropertyConverter" id="roles«e.name.toFirstUpper()»Converter">
+		<property name="className" value="«packageName.toLowerCase()».entity.«e.name»User"/>
+		<property name="propertyName" value="assignedRoles"/>
+		<property name="converter" ref="rolesConverter"/>
+	</bean>	 	
+	
+	<bean class="org.imogene.sync.serializer.xml.PropertyConverter" id="synchronizables«e.name.toFirstUpper()»Converter">
+		<property name="className" value="«packageName.toLowerCase()».entity.«e.name»User"/>
+		<property name="propertyName" value="assignedSynchronizables"/>
+		<property name="converter" ref="synchronizablesConverter"/>
+	</bean>	 
+	
+	«EXPAND filterField(packageName) FOREACH ((Actor)e).filters-»
+		«ENDIF -»	    	
+	«ENDFOREACH»		
+	
+</beans>
+«ENDFILE»	
+«ENDDEFINE»	
+«REM» ------------------------------------------ «ENDREM»
+
+
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE getConverter(String packageName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getConverter(String packageName) FOR RelationFieldEntity»
+	<bean id="«EXPAND template::CommonFieldUtil::propertyName FOR this»«parentGroup.parentCard.name.toFirstUpper()»Converter" class="org.imogene.sync.serializer.xml.PropertyConverter">
+		<property name="className" value="«packageName.toLowerCase()».entity.«this.parentGroup.parentCard.name»"/>
+		<property name="propertyName" value="«EXPAND template::CommonFieldUtil::propertyName FOR this»"/>
+	«IF this.cardinality == 1 -»
+		<property name="converter" ref="associationConverter"/>
+	«ELSE -»
+		<property name="converter" ref="collectionConverter"/>
+	«ENDIF -»
+	</bean>	  
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+«DEFINE filterField(String packageName) FOR FilterField-»
+	<bean class="«packageName.toLowerCase()».serializer.xml.«this.name.toFirstUpper()»«this.parentActor.name.toFirstUpper()»FilterFieldConverter" id="«EXPAND template::CommonFieldUtil::propertyName FOR this-»Converter"/>	
+	<bean class="org.imogene.sync.serializer.xml.PropertyConverter" id="«EXPAND template::CommonFieldUtil::propertyName FOR this-»PropertyConverter">
+		<property name="className" value="«packageName.toLowerCase()».entity.«this.parentActor.name.toFirstUpper()»User"/>
+		<property name="propertyName" value="«EXPAND template::CommonFieldUtil::propertyName FOR this-»"/>
+		<property name="converter" ref="«EXPAND template::CommonFieldUtil::propertyName FOR this-»Converter"/>
+	</bean>	 	
+«ENDDEFINE»
+
+
+
+	   
