@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class lazy="false" name="org.imogene.sync.client.history.SyncHistory" table="SyncHistory">
+		<id column="SyncHistory_Id" name="id"/>		
+		<property column="SyncHistory_date" name="date" type="timestamp"/>
+		<property column="SyncHistory_status" name="status"/>
+		<property column="SyncHistory_level" name="level"/>												
+    </class>	
+    	
+</hibernate-mapping>

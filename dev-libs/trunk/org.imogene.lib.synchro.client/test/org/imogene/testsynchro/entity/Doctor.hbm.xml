@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class lazy="false" name="org.imogene.testsynchro.entity.Doctor" table="Doctor">
+		<id column="Doctor_ID" name="id"/>			
+		<property column="Doctor_Name" name="name"/>
+		<property column="Doctor_FirstName" name="firstName"/>
+				
+		<many-to-one column="doctorMedicalCenter_ID" lazy="false" name="doctorMedicalCenter" not-null="false"/>
+		<property column="Doctor_photo" name="photo"/>
+		<property column="Doctor_Address" name="address"/>
+		<property column="Doctor_PhoneNumber" name="phoneNumber"/>
+		<property column="Doctor_MobileNumber" name="mobileNumber"/>
+		<property column="Doctor_Creator" name="createdBy"/>
+		<property column="Doctor_CreationDate" name="created" type="timestamp"/>
+		<property column="Doctor_Modifier" name="modifiedBy"/>
+		<property column="Doctor_ModifiedFrom" name="modifiedFrom"/>	
+		<property column="Doctor_LastModificationDate" name="modified" type="timestamp"/>
+		<property column="Doctor_UploadDate" name="uploadDate" type="timestamp"/>
+		
+		
+	    <joined-subclass lazy="false" name="org.imogene.testsynchro.entity.DoctorUser" table="DoctorActor">
+	        <key column="Doctor_ID"/>
+		    <property column="DoctorActor_Login" name="login"/>
+		    <property column="DoctorActor_Password" name="password"/>
+			<set lazy="false" name="roles" table="DoctorRoles">
+				<key column="Doctor_ID"/>
+				<many-to-many class="org.imogene.uao.role.Role" column="Role_ID"/>
+			</set>	
+			<set lazy="false" name="synchronizables" table="Doctor_Synchronizables">
+				<key column="Doctor_ID"/>
+				<many-to-many class="org.imogene.uao.synchronizable.SynchronizableEntity" column="Synchronizable_Id"/>
+			</set>		 
+			
+			<set lazy="false" name="medicalCenterFilterDoctorFilterField">
+				<key column="Doctor_ID"/>
+				<many-to-many class="org.imogene.testsynchro.entity.MedicalCenter" column="medicalCenterFilterDoctorFields_ID"/>
+			</set>
+	    </joined-subclass>  		
+						
+    </class>		
+</hibernate-mapping>

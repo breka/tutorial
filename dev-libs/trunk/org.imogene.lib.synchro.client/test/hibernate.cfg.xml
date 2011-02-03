@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="show_sql">false</property>
+		<property name="format_sql">true</property>
+		<property name="dialect">org.imogene.dao.sqlite.SQLiteDialect</property>
+		<property name="connection.driver_class">org.sqlite.JDBC</property>
+		<property name="connection.url">jdbc:sqlite:1.db</property>
+		<property name="connection.username"></property>
+		<property name="connection.password"></property>
+		<property name="hbm2ddl.auto">update</property>
+		
+		<mapping resource="org/imogene/sync/client/binary/BinaryFile.hbm.xml"/>
+		<mapping resource="org/imogene/testsynchro/entity/Doctor.hbm.xml"/>
+		<mapping resource="org/imogene/testsynchro/entity/MedicalCenter.hbm.xml"/>
+		<mapping resource="org/imogene/testsynchro/entity/MedicalRequest.hbm.xml"/>
+		<mapping resource="org/imogene/testsynchro/entity/Patient.hbm.xml"/>
+		<mapping resource="org/imogene/uao/role/Role.hbm.xml"/>
+		<mapping resource="org/imogene/sync/client/SyncParameters.hbm.xml"/>
+		<mapping resource="org/imogene/uao/synchronizable/SynchronizableEntity.hbm.xml"/>
+		<mapping resource="org/imogene/sync/client/history/SyncHistory.hbm.xml"/>
+	</session-factory>
+</hibernate-configuration>

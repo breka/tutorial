@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class lazy="false" name="org.imogene.sync.client.SyncParameters" table="SyncParameters">
+		<id column="SyncParameters_Id" name="id"/>		
+		<property column="SyncParameters_created" name="created" type="timestamp"/>
+		<property column="SyncParameters_createdBy" name="createdBy"/>
+		<property column="SyncParameters_modified" name="modified" type="timestamp"/>
+		<property column="SyncParameters_modifiedBy" name="modifiedBy"/>
+		<property column="SyncParameters_login" name="login"/>
+		<property column="SyncParameters_password" name="password"/>
+		<property column="SyncParameters_terminalId" name="modifiedFrom"/>
+		<property column="SyncParameters_type" name="type"/>
+		<property column="SyncParameters_url" name="url"/>
+		<set lazy="true" name="synchronizable">
+		    <key column="syncParametersSynchronizables_ID"/>
+		    <one-to-many class="org.imogene.uao.synchronizable.SynchronizableEntity"/>
+		</set>	
+			<set lazy="true" name="directSend">
+		    <key column="syncParametersDirectSend_ID"/>
+		    <one-to-many class="org.imogene.uao.synchronizable.SynchronizableEntity"/>
+		</set>																
+    </class>	
+    	
+</hibernate-mapping>
