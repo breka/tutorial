@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.imogene.studio.contrib.ui.navigator.AdminShadow;
+import org.imogene.studio.contrib.ui.navigator.InitializerShadow;
 import org.imogene.studio.contrib.ui.navigator.NotifierShadow;
 import org.imogene.studio.contrib.ui.navigator.SynchroShadow;
 import org.imogene.studio.contrib.ui.navigator.WebShadow;
@@ -36,6 +37,9 @@ public class ClassContainerInitializer extends
 		}
 		else if(p.hasNature(AdminShadow.NATURE)){
 			con = new WebAdminClasspathContainer();
+		}
+		else if(p.hasNature(InitializerShadow.NATURE)){
+			con = new InitializerClasspathContainer();
 		}
 		if(con==null)
 			con = new AllClasspathContainer();

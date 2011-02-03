@@ -9,6 +9,7 @@ import org.imogene.library.Constants;
 import org.imogene.library.LibraryPlugin;
 import org.imogene.library.Tools;
 import org.imogene.studio.contrib.ui.navigator.AdminShadow;
+import org.imogene.studio.contrib.ui.navigator.InitializerShadow;
 import org.imogene.studio.contrib.ui.navigator.NotifierShadow;
 import org.imogene.studio.contrib.ui.navigator.SynchroShadow;
 import org.imogene.studio.contrib.ui.navigator.WebServiceShadow;
@@ -27,6 +28,8 @@ public class ExportManager {
 			return getEntries(Constants.ADMIN_DESC_PATH);
 		} else if(WebServiceShadow.NATURE.equals(id)){
 			return getEntries(Constants.WS_DESC_PATH);
+		} else if(InitializerShadow.NATURE.equals(id)){
+			return getEntries(Constants.INIT_DESC_PATH);
 		}
 		return new ArrayList<ExportedEntry>();
 	}

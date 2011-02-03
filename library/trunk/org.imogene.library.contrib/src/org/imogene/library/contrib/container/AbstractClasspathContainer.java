@@ -47,6 +47,11 @@ public abstract class AbstractClasspathContainer implements IClasspathContainer 
 		addJarsToEntries(confFile);
 	}
 	
+	protected void addInitializer(){
+		URL confFile = LibraryPlugin.getDefault().getBundle().getEntry(Constants.INIT_DESC_PATH);
+		addJarsToEntries(confFile);
+	}
+	
 	@SuppressWarnings("unchecked")
 	protected void addAll(){
 		Enumeration<URL> jars = LibraryPlugin.getDefault().getBundle().findEntries(Constants.JAR_PATH, "*.jar", true);	
