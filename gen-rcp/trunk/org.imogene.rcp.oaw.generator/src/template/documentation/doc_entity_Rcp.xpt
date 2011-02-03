@@ -1,0 +1,92 @@
+«IMPORT core»
+«DEFINE generate(String moduleName) FOR CardEntity»
+«FILE moduleName.toLowerCase() + "." + this.name.toLowerCase()+ "/index.html"-»
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Aide «EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this»</title>
+</head>
+<body>
+<font size="-1">
+
+<p>
+<table>
+<tr>
+<td>
+«IF (this.icon!=null && this.icon!="") -»
+<img src="/«this.icon»">
+«ELSE -» 
+<img src="/defaultIcon.gif">
+«ENDIF -»  
+</td>
+<td>
+<u>Formulaire <b>«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this»</b></u>
+</td>
+</tr>
+</table>
+</p>
+
+<p><b>Description</b></p>
+<p>Ce formulaire permet de renseigner les informations relatives &agrave; un «EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this».</p>
+<p><b>Champs obligatoires</b></p>
+	<ul>
+	«FOREACH this.groups.fields AS f-»
+		«IF f.required -»
+	<li><i>«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR f»</i></li>
+		«ENDIF -» 
+	«ENDFOREACH-»	
+	</ul>
+
+<p><b>Champs format&eacute;s</b></p>
+	<ul>
+	«FOREACH this.groups.fields AS f-»
+		«EXPAND getValidatedFields FOR f»
+	«ENDFOREACH-»	
+	</ul>	
+
+<p><b>Champs born&eacute;s</b></p>
+	<ul>
+	«FOREACH this.groups.fields AS f-»
+		«EXPAND getNarrowedFields FOR f»
+	«ENDFOREACH-»	
+	</ul>	
+	
+</font>
+</body>
+</html>
+«ENDFILE»
+«ENDDEFINE»
+
+
+
+«DEFINE getValidatedFields FOR FieldEntity-»          
+«ENDDEFINE»
+«DEFINE getValidatedFields FOR StringField-»
+	«IF this.validationRules!=null && !this.validationRules.isEmpty »		
+		«FOREACH this.validationRules AS rule ITERATOR iter-»
+			«IF rule.descriptions!=null && rule.descriptions.size>0 »
+	<li><i>«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this»: «rule.descriptions.get(0).display-»</i></li>
+			«ENDIF-»		
+		«ENDFOREACH-»	
+	«ENDIF-»
+«ENDDEFINE»
+
+
+«DEFINE getNarrowedFields FOR FieldEntity-»          
+«ENDDEFINE»
+«DEFINE getNarrowedFields FOR DatesField-»          
+	«IF this.min!=null && this.min.length>0 -»
+	<li><i>«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this»: La valeur doit &ecirc;tre apr&egrave;s le «this.min-»</i></li>
+	«ENDIF-»
+	«IF this.max!=null && this.max.length>0 -»
+	<li><i>«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this»: La valeur doit &ecirc;tre avant le «this.max-»</i></li>
+	«ENDIF-»		                    
+«ENDDEFINE»
+«DEFINE getNarrowedFields FOR NumericField-»
+	«IF this.min!=null && this.min.length>0 -»
+	<li><i>«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this»: La valeur doit &ecirc;tre sup&eacute;rieure &agrave; «this.min-»</i></li>
+	«ENDIF-»
+	«IF this.max!=null && this.max.length>0 -»
+	<li><i>«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this»: La valeur doit &ecirc;tre inf&eacute;rieure &agrave; «this.max-»</i></li>
+	«ENDIF-»
+«ENDDEFINE»

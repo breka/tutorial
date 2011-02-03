@@ -1,0 +1,72 @@
+«IMPORT core»
+«DEFINE generate(String moduleName) FOR Project»
+«FILE moduleName.toLowerCase()+ "/"+ moduleName.toFirstUpper()+ "PerspectiveFactory.java"-»
+package org.imogene.«moduleName.toLowerCase()»;
+
+import org.eclipse.ui.IFolderLayout;
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IPerspectiveFactory;
+
+import org.imogene.rcp.core.view.HelpView;
+import org.imogene.rcp.core.view.SyncViewImpl;
+import org.imogene.«moduleName.toLowerCase()».view.MenuView;
+import org.imogene.«moduleName.toLowerCase()».view.WelcomeView;
+
+«FOREACH entities AS e-»
+import org.imogene.«moduleName.toLowerCase()».view.«e.name.toLowerCase()».«e.name.toFirstUpper()»RcpForm;
+«IF e.topLevel == true -»
+import org.imogene.«moduleName.toLowerCase()».view.«e.name.toLowerCase()».«e.name.toFirstUpper()»RcpList;
+«ENDIF -»
+«ENDFOREACH-»
+
+
+
+/**
+ * Creates the initial perspective of the Imog RCP module.
+ */
+public class «moduleName.toFirstUpper()»PerspectiveFactory implements IPerspectiveFactory {
+
+	public final static String ID="Imog.«moduleName.toFirstUpper()».Perspective";
+	
+	private final static String LEFT_FOLDER_ID="LEFT";
+	
+	private final static String CENTER_FOLDER_ID="CENTER";
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui.IPageLayout)
+	 */
+	public void createInitialLayout(IPageLayout layout) {
+	
+		String editorArea = layout.getEditorArea();
+		layout.setEditorAreaVisible(false);
+		
+		/* left */
+		IFolderLayout leftFolder = layout.createFolder(LEFT_FOLDER_ID, IPageLayout.LEFT, 0.83f, editorArea);
+		leftFolder.addView(MenuView.ID);
+		layout.getViewLayout(MenuView.ID).setCloseable(false);
+		layout.getViewLayout(MenuView.ID).setMoveable(false);
+		leftFolder.addPlaceholder(HelpView.ID);
+		leftFolder.addView(SyncViewImpl.ID);
+		layout.getViewLayout(SyncViewImpl.ID).setCloseable(false);
+		layout.getViewLayout(SyncViewImpl.ID).setMoveable(false);
+		
+		/* center */
+		IFolderLayout centerFolder = layout.createFolder(CENTER_FOLDER_ID, IPageLayout.RIGHT, 0.17f, LEFT_FOLDER_ID);
+		
+		centerFolder.addView(WelcomeView.ID);
+		layout.getViewLayout(WelcomeView.ID).setCloseable(false);
+		layout.getViewLayout(WelcomeView.ID).setMoveable(false);		
+		
+		«FOREACH entities AS e»
+		centerFolder.addPlaceholder(«e.name.toFirstUpper()»RcpForm.ID + ":*");	
+		«IF e.topLevel == true -»
+		centerFolder.addPlaceholder(«e.name.toFirstUpper()»RcpList.ID);
+		«ENDIF -»
+		«ENDFOREACH»
+	}
+
+}
+
+«ENDFILE»
+«ENDDEFINE»
