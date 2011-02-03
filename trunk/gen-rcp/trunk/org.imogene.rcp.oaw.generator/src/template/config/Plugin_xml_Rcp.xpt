@@ -1,0 +1,313 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt»
+«EXTENSION template::ImogRcpFieldUtilExt»
+
+«DEFINE generate(String moduleName) FOR Project»
+«FILE "plugin.xml"»
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+<!-- views -->
+<extension
+         point="org.eclipse.ui.views">   
+
+      <view
+            class="org.imogene.«moduleName.toLowerCase()».view.MenuView"
+            id="Imog.«moduleName.toFirstUpper()».MenuView"
+            name="Menu" icon="resources/menu_16.png">
+      </view>  
+      
+      <view class="org.imogene.«moduleName.toLowerCase()».view.WelcomeView" 
+      id="Imog.«moduleName.toFirstUpper()».WelcomeView" 
+      name="%view.name.welcome" icon="resources/menu_16.png">
+      </view>        
+         
+      «FOREACH entities AS e»
+      <view
+            class="org.imogene.«moduleName.toLowerCase()».view.«e.name.toLowerCase()».«e.name.toFirstUpper()»RcpList"
+            id="Imog.«moduleName.toFirstUpper()».«e.name.toFirstUpper()».List"
+            «IF (e.icon!=null && e.icon!="") -»
+			icon="icons/small/«e.icon»"
+			«ELSE -» 
+			icon="icons/small/defaultIcon.gif"
+			«ENDIF -» 
+            name="«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR e» List">
+      </view>
+      <view
+      		allowMultiple="true"
+            class="org.imogene.«moduleName.toLowerCase()».view.«e.name.toLowerCase()».«e.name.toFirstUpper()»RcpForm"
+            id="Imog.«moduleName.toFirstUpper()».«e.name.toFirstUpper()».Form"
+            «IF (e.icon!=null && e.icon!="") -»
+			icon="icons/small/«e.icon»"
+			«ELSE -» 
+			icon="icons/small/defaultIcon.gif"
+			«ENDIF -» 			
+            name="«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR e» Form">
+      </view>
+      «ENDFOREACH-»
+
+</extension>
+
+<!-- actions -->
+<extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="Imog.«moduleName.toFirstUpper()».Sample"
+            label="Sample"
+            visible="true">
+         <action
+               class="org.imogene.«moduleName.toLowerCase()».action.OpenModule"
+               id="Imog.«moduleName.toFirstUpper()».OpenModule"
+               label="«moduleName.toFirstUpper()»"
+               menubarPath="modulesMenu/content">
+         </action>
+      </actionSet>
+</extension>
+ 
+<!-- perspective -->
+<extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.imogene.«moduleName.toLowerCase()».«moduleName.toFirstUpper()»PerspectiveFactory"
+            icon="icons/small/defaultIcon.gif"
+            id="Imog.«moduleName.toFirstUpper()».Perspective"
+            name="«moduleName.toFirstUpper()»">
+      </perspective>
+</extension>
+ 
+<!-- entities -->
+ «FOREACH entities AS e»
+<extension
+     point="org.imogene.rcp.core.Entity">
+   <Entity
+   		name="«e.name.toFirstUpper()»"
+        className="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»"      
+        displayName="«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR e»"    
+        description="A «EXPAND template::ImogRcpFieldUtil::getDisplayName FOR e»"
+		«IF (e.icon!=null && e.icon!="") -»
+		iconName="«e.icon»"
+		«ELSE -» 
+		iconName="defaultIcon.gif"
+		«ENDIF -»             
+        id="Imog.«moduleName.toFirstUpper()».«e.name.toFirstUpper()»"
+        «IF e.topLevel == true -»
+        inMenu="true"
+        «ELSE -»
+        inMenu="false"
+        «ENDIF -»
+        mappingFile="mapping/«e.name».hbm.xml"
+        «LET getFirstThemaName(e,this) AS thema  -»
+        «IF (thema!=null) -»
+		thema="«thema»"
+		«ENDIF -» 
+		«ENDLET -»
+		synchronizable="true"
+        shortName="«e.shortName»">
+      </Entity>         
+</extension>
+	«REM»incomplete entities for the entity lists «ENDREM»
+	«IF e.topLevel == true -» 
+<extension
+     point="org.imogene.rcp.core.Entity">
+   <Entity
+   		name="«e.name.toFirstUpper()»ForList"
+        className="org.imogene.«moduleName.toLowerCase()».entity.list.«e.name.toFirstUpper()»ForList"      
+        displayName="«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR e»"    
+        description="A «EXPAND template::ImogRcpFieldUtil::getDisplayName FOR e»"
+		«IF (e.icon!=null && e.icon!="") -»
+		iconName="«e.icon»"
+		«ELSE -» 
+		iconName="defaultIcon.gif"
+		«ENDIF -»             
+        id="Imog.«moduleName.toFirstUpper()».«e.name.toFirstUpper()»ForList"
+        «REM»used to display entities in the list instead of complete entities, but should not appear in menus«ENDREM»
+        inMenu="false"
+        mappingFile="mapping/list/«e.name»ForList.hbm.xml"
+        «LET getFirstThemaName(e,this) AS thema  -»
+        «IF (thema!=null) -»
+		thema="«thema»"
+		«ENDIF -» 
+		«ENDLET -»
+		synchronizable="false"
+        shortName="«e.shortName»_L">
+      </Entity>         
+</extension>
+		«IF e.columnFields.isEmpty -»
+			«EXPAND getOneToOneRelations(moduleName, e.mainFields, this) FOR e-»		
+		«ELSE -»
+			«EXPAND getOneToOneRelations(moduleName, e.columnFields, this) FOR e-»
+		«ENDIF- »	
+	«ENDIF -» 
+«ENDFOREACH»
+
+<!-- DataHandlers -->
+ «FOREACH entities AS e»
+   <extension
+         point="org.imogene.rcp.core.DataHandler">
+      <DataHandler
+			«IF Actor.isAssignableFrom(e.metaType)-»
+			actorClassName="org.imogene.«moduleName.toLowerCase()».entity.«moduleName.toLowerCase()»User"
+			«ENDIF -»          
+            dao="org.imogene.«moduleName.toLowerCase()».dao.hibernate.«e.name.toFirstUpper()»Dao"
+            entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»"
+            handler="org.imogene.«moduleName.toLowerCase()».handler.«e.name.toFirstUpper()»Handler">
+      </DataHandler>
+   </extension>
+   «IF Actor.isAssignableFrom(e.metaType)-»
+    <extension
+         point="org.imogene.rcp.core.DataHandler">
+      <DataHandler        
+            dao="org.imogene.«moduleName.toLowerCase()».dao.hibernate.«e.name.toFirstUpper()»Dao"
+            entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»User"
+            handler="org.imogene.«moduleName.toLowerCase()».handler.«e.name.toFirstUpper()»Handler">
+      </DataHandler>
+   </extension>  
+   «ENDIF -»  
+   
+«ENDFOREACH»
+
+<!-- PropertyConverters -->
+    «FOREACH entities AS e-»
+    	«FOREACH e.groups.fields AS f-»
+    		«EXPAND getConverter(moduleName) FOR f-»
+    	«ENDFOREACH»  	
+    	«IF Actor.isAssignableFrom(e.metaType)-»	
+   <extension point="org.imogene.rcp.core.PropertyConverter">
+      <PropertyConverter entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»User" propertyName="password" type="password">
+      </PropertyConverter>
+   </extension>   
+   
+   <extension point="org.imogene.rcp.core.PropertyConverter">
+      <PropertyConverter entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»User" propertyName="assignedRoles" type="roles">
+      </PropertyConverter>
+   </extension>   	
+   
+   <extension point="org.imogene.rcp.core.PropertyConverter">
+      <PropertyConverter entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»User" propertyName="assignedSynchronizables" type="synchronizables">
+      </PropertyConverter>
+   </extension>    
+   
+   «EXPAND filterField(moduleName) FOREACH ((Actor)e).filters-»  	
+    	«ENDIF -»
+	«ENDFOREACH»	
+
+«REM»
+<!-- ClassConverters ? -->
+ «FOREACH entities AS e»
+   <extension
+         point="org.imogene.rcp.core.PropertyConverter">
+      <PropertyConverter
+            entityClassName="org.imogene.«moduleName.toFirstLower()».entity.MedicalRequest"
+            propertyName="medicalRequestPatient"
+            type="association">
+      </PropertyConverter>
+   </extension>
+«ENDFOREACH»
+«ENDREM»
+
+   <extension
+         point="org.imogene.rcp.core.Modules">
+      <Module
+            id="«moduleName.toFirstUpper()».Module"
+            icon="icons/small/defaultIcon.gif"
+            perspective="Imog.«moduleName.toFirstUpper()».Perspective">
+      </Module>
+   </extension>   
+   
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.imogene.rcp.core.application"
+            name="«moduleName.toFirstUpper()»">
+         <property
+               name="startupProgressRect"
+               value="0,200,320,15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>      
+   
+
+</plugin>
+
+«ENDFILE»
+«ENDDEFINE»
+
+
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE getConverter(String moduleName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getConverter(String moduleName) FOR RelationFieldEntity»
+   <extension
+         point="org.imogene.rcp.core.PropertyConverter">
+      <PropertyConverter
+            entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«this.parentGroup.parentCard.name.toFirstUpper()»"
+            propertyName="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+			«IF this.cardinality == 1 -»
+				type="association">
+			«ELSE -»
+				type="collection">
+			«ENDIF -»               
+      </PropertyConverter>
+   </extension>
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+
+«REM» go through fields to identify one to one relations «ENDREM»
+«DEFINE getOneToOneRelations(String moduleName, List[FieldEntity] fieldList, Project proj) FOR CardEntity»
+	«FOREACH fieldList AS field-» 
+	«EXPAND getOneToOneRelation(moduleName, proj) FOR field-»		
+	«ENDFOREACH-»
+«ENDDEFINE»
+
+«REM» for a one to one relation, on the reverse side, generate bean and mapping of related entity «ENDREM»
+«DEFINE getOneToOneRelation(String packageName, Project proj) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getOneToOneRelation(String packageName, Project proj) FOR ReverseRelationFieldEntity-»
+	«IF (this.cardinality == 1)-»
+		«IF (getOppositeCardinality(this) == 1)-»
+		«REM»Relation 1 <-> 1 «ENDREM»
+<extension
+     point="org.imogene.rcp.core.Entity">
+   <Entity
+   		name="«this.entity.name»For«this.oppositeRelationField.name.toFirstUpper()»List"
+        className="org.imogene.«packageName.toLowerCase()».entity.list.«this.entity.name.toFirstUpper()»For«this.oppositeRelationField.name.toFirstUpper()»List"      
+        displayName="«EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this.entity»"    
+        description="A «EXPAND template::ImogRcpFieldUtil::getDisplayName FOR this.entity»"
+		«IF (this.entity.icon!=null && this.entity.icon!="") -»
+		iconName="«this.entity.icon»"
+		«ELSE -» 
+		iconName="defaultIcon.gif"
+		«ENDIF -»             
+        id="Imog.«packageName.toFirstUpper()».«this.entity.name.toFirstUpper()»For«this.oppositeRelationField.name.toFirstUpper()»List"
+        «REM»used to display entities in the list instead of complete entities, but should not appear in menus«ENDREM»
+        inMenu="false"
+        mappingFile="mapping/list/«this.entity.name»For«this.oppositeRelationField.name.toFirstUpper()»List.hbm.xml"
+        «LET getFirstThemaName(this.entity,proj) AS thema  -»
+        «IF (thema!=null) -»
+		thema="«thema»"
+		«ENDIF -» 
+		«ENDLET -»
+		synchronizable="false"
+        shortName="«this.entity.shortName»_L_«this.oppositeRelationField.name.toFirstUpper()»">
+      </Entity>         
+</extension>
+		«ENDIF-»
+	«ENDIF-»
+«ENDDEFINE»
+
+
+«DEFINE filterField(String packageName) FOR FilterField-»
+   <extension point="org.imogene.rcp.core.PropertyConverter">
+      <PropertyConverter
+            entityClassName="org.imogene.«packageName.toLowerCase()».entity.«this.parentActor.name.toFirstUpper()»User"
+            propertyName="«EXPAND template::CommonFieldUtil::propertyName FOR this-»"
+            type="filterfield">
+      </PropertyConverter>
+   </extension>	
+«ENDDEFINE»
