@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Constant key names -->
+	<string name="multilogin">MULTILOGIN</string>
+	<string name="admin_login_key">ADMIN_LOGIN</string>
+	<string name="admin_password_key">ADMIN_PASSWORD</string>
+	<string name="admin_roles_key">ADMIN_ROLES</string>
+	<string name="current_login_key">CURRENT_LOGIN</string>
+	<string name="current_roles_key">CURRENT_ROLES</string>	
+	<string name="sync_login_key">SYNC_LOGIN</string>
+	<string name="sync_password_key">SYNC_PASSWORD</string>
+	<string name="sync_roles_key">SYNC_ROLES</string>
+	<string name="sync_hardware_key">ANDROID_HW_ID</string>
+	<string name="sync_server_url_key">SYNC_SERVER_URL</string>
+	<string name="sync_time_key">SYN_SERVER_TIME</string>
+	<string name="sync_on_off_key">SYNC_ON_OFF</string>
+	<string name="sync_one_shot_key">SYNC_ONE_SHOT</string>
+	<string name="sync_bidirectional_key">SYNC_BIDIRECTIONAL</string>
+	<string name="sync_shortpw_key">SHORT_PASSWORD</string>
+	<string name="app_wizard_key">WIZARD_ON_OFF</string>
+	<string name="debug_save_key">DEBUG_SAVE</string>
+	<string name="debug_safe_key">DEBUG_SAFE</string>
+	<string name="debug_smsnb_key">SMS_NUMBER</string>
+	<string name="ntp_server_key">NTP_SERVER</string>
+	<string name="ntp_offset_key">NTP_OFFSET</string>
+	<string name="webservice_url_key">WEBSERVICE</string>
+</resources>

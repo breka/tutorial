@@ -1,0 +1,183 @@
+«IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate FOR Project »
+«FILE 'values/strings.xml'-»
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">"«name-»"</string>
+	
+	<string name="«name.toLowerCase()-»_downloader">"«name.toFirstUpper()-» downloader"</string>
+	
+	<!--  Modify and delete keys for preferences -->
+	«FOREACH entities AS entity»
+	<string name="«entity.shortName.toLowerCase()-»_modify">"«entity.shortName.toUpperCase()-»_MODIFY"</string>
+	<string name="«entity.shortName.toLowerCase()-»_delete">"«entity.shortName.toUpperCase()-»_DELETE"</string>
+	«ENDFOREACH-»
+	
+
+	<!--  Description for each entity field -->
+	«IF hasMiscellaneousThema(entities, themas)-»
+	<string name="thema_miscellaneous">"Miscellaneous"</string>
+	«ENDIF-»
+	«FOREACH themas AS thema-»
+	<string name="thema_«thema.name.toLowerCase()»">"«thema.name»"</string>
+	«ENDFOREACH-»
+	
+	«FOREACH entities AS entity-»	
+	<string name="«entity.shortName.toLowerCase()-»_noEntitiesHelpText">
+		"You don\'t have any «entity.name-».\n
+		\nTo add a «entity.name-», press <font fgcolor="#ffffffff"><b>Menu</b></font> and select:\n
+ 		\n<li><font fgcolor="#ffffffff"><b>"New «entity.name-»"</b></font>" to create a new «entity.name-» from scratch"</li>"
+ 	</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_sg">"«entity.name-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_pl">"«entity.name-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_insert">"New «entity.name-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_edit">"Edit «entity.name-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_listof">"List of «entity.name-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_search">"Search in «entity.name-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_new">"New «entity.name-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_view">"View «entity.name-»"</string>
+	«FOREACH entity.groups AS group-»
+	<string name="«group.shortName.toLowerCase()-»">"«group.name-»"</string>
+	«FOREACH group.fields AS field-»
+	<string name="«field.shortName.toLowerCase()-»">"«field.name-»"</string>
+	
+	«EXPAND getHelp("en") FOR field-»
+	«EXPAND getUnit FOR field-»
+	«EXPAND getValidationDescription("en") FOR field-»
+	«ENDFOREACH-»
+	«ENDFOREACH-»
+	«ENDFOREACH-»
+
+</resources>
+«ENDFILE»
+
+«FOREACH languages AS language -»
+«LET language.isoCode AS iso-»
+«FILE "values-"+iso+"/strings.xml"-»
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">"«EXPAND getDescription(iso) FOR this-»"</string>
+
+	<!--  Description for each entity field -->
+	«IF hasMiscellaneousThema(entities, themas)-»
+	<string name="thema_miscellaneous">"Miscellaneous"</string>
+	«ENDIF-»
+	«EXPAND getDescription(iso) FOREACH themas-»
+	
+	«FOREACH entities AS entity-»	
+	<string name="«entity.shortName.toLowerCase()-»_noEntitiesHelpText">
+		"You don\'t have any «EXPAND getDescription(iso) FOR entity-».\n
+		\nTo add a «EXPAND getDescription(iso) FOR entity-», press <font fgcolor="#ffffffff"><b>Menu</b></font> and select:\n
+ 		\n<li><font fgcolor="#ffffffff"><b>"New «EXPAND getDescription(iso) FOR entity-»"</b></font>" to create a new «EXPAND getDescription(iso) FOR entity-» from scratch"</li>"
+ 	</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_sg">"«EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_pl">"«EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_insert">"New «EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_edit">"Edit «EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_listof">"List of «EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_search">"Search in «EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_new">"New «EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.shortName.toLowerCase()-»_des_view">"View «EXPAND getDescription(iso) FOR entity-»"</string>
+	«FOREACH entity.groups AS group-»
+		«EXPAND getDescription(iso) FOR group-»
+		«FOREACH group.fields AS field-»
+			«EXPAND getHelp(iso) FOR field-»
+			«EXPAND getDescription(iso) FOR field-»
+			«EXPAND getUnit FOR field-»
+			«EXPAND getValidationDescription(iso) FOR field-»
+		«ENDFOREACH-»
+	«ENDFOREACH-»
+	«ENDFOREACH-»
+
+</resources>
+«ENDFILE-»
+«ENDLET-»
+«ENDFOREACH-»
+«ENDDEFINE»
+
+«DEFINE getDescription(String isoCode) FOR Project»
+«LET description.locale.indexOf(isoCode) AS isoPos-»
+«IF (isoPos != -1)-»«description.get(isoPos).display-»
+«ELSE-»«name-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE getDescription(String isoCode) FOR CardEntity-»
+«LET descriptions.locale.indexOf(isoCode) AS isoPos-»
+«IF (isoPos != -1)-»«descriptions.get(isoPos).display-»
+«ELSE»«name-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE getDescription(String isoCode) FOR FieldGroup-»
+«LET descriptions.locale.indexOf(isoCode) AS isoPos-»
+«IF (isoPos != -1)-»
+<string name="«shortName.toLowerCase()-»">"«descriptions.get(isoPos).display-»"</string>
+«ELSE-»
+<string name="«shortName.toLowerCase()-»">"«name-»_«isoCode-»"</string>
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE getDescription(String isoCode) FOR FieldEntity-»
+«LET descriptions.locale.indexOf(isoCode) AS isoPos-»
+«IF (isoPos != -1)»
+<string name="«shortName.toLowerCase()-»">"«descriptions.get(isoPos).display-»"</string>
+«ELSE»
+<string name="«shortName.toLowerCase()-»">"«name-»_description_«isoCode-»"</string>
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE getDescription(String isoCode) FOR Thema-»
+«LET descriptions.locale.indexOf(isoCode) AS isoPos-»
+«IF (isoPos != -1)»
+<string name="thema_«name.toLowerCase()-»">"«descriptions.get(isoPos).display-»"</string>
+«ELSE»
+<string name="thema_«name.toLowerCase()-»">"«name-»_thema_«isoCode-»"</string>
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE getHelp(String isoCode) FOR FieldEntity-»
+«IF hasHelp(descriptions)-»
+	«LET descriptions.locale.indexOf(isoCode) AS isoPos-»
+		«IF (isoPos != -1)»
+		<string name="«shortName.toLowerCase()-»_help">"«descriptions.get(isoPos).help-»"</string>
+		«ELSE-»
+		<string name="«shortName.toLowerCase()-»_help">"«name-»_help_«isoCode-»"</string>
+		«ENDIF-»
+	«ENDLET-»
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE getUnit FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE getUnit FOR NumericField-»
+«IF unit.length > 0-»
+<string name="«shortName.toLowerCase()»_unit">"«unit-»"</string>
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE getValidationDescription(String isoCode) FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE getValidationDescription(String isoCode) FOR StringField-»
+«IF (validationRules.size > 0)-»
+«FOREACH validationRules AS val ITERATOR i-»
+«LET val.descriptions.locale.indexOf(isoCode) AS isoPos-»
+«IF isoPos != -1-»
+<string name="«shortName.toLowerCase()-»_val«i.counter0-»">"«val.descriptions.get(isoPos).display-»"</string>
+«ELSE-»
+<string name="«shortName.toLowerCase()-»_val«i.counter0-»">"«name-»Validate_«isoCode-»"</string>
+«ENDIF»
+«ENDLET-»
+«ENDFOREACH-»
+«ENDIF»
+«ENDDEFINE»

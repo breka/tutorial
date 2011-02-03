@@ -1,0 +1,509 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate FOR Project »
+«FILE "/" + name.toLowerCase() + "/provider/" + name.toFirstUpper() + "Provider.java"-»
+package org.imogene.android.«name.toLowerCase()-».provider;
+
+import android.app.SearchManager;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.UriMatcher;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
+import android.util.Log;
+import org.imogene.android.Constants;
+import org.imogene.android.Constants.Databases;
+import org.imogene.android.Constants.Keys;
+import org.imogene.android.common.Binary;
+import org.imogene.android.common.ClientFilter;
+import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.database.interfaces.EntityCursor;
+import org.imogene.android.database.sqlite.BinaryCursor;
+import org.imogene.android.database.sqlite.ClientFilterCursor;
+import org.imogene.android.provider.AbstractProvider;
+«FOREACH entities AS entity-»
+import org.imogene.android.«name.toLowerCase()-».database.sqlite.«entity.name.toFirstUpper()-»Cursor;
+«ENDFOREACH-»
+«FOREACH entities AS entity-»
+import org.imogene.android.«name.toLowerCase()-».entities.«entity.name.toFirstUpper()-»;
+«ENDFOREACH-»
+import org.imogene.android.«name.toLowerCase()-».search.«name.toFirstUpper()-»SearchSupport;
+
+public class «name.toFirstUpper()-»Provider extends AbstractProvider {
+
+	private static final String TAG = «name.toFirstUpper()-»Provider.class.getName();
+
+	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+	
+	private static final String VND_ITEM = "vnd.org.imogene.android.«name.toLowerCase()».cursor.item/";
+	private static final String VND_DIR = "vnd.org.imogene.android.«name.toLowerCase()».cursor.dir/";
+
+	private static final int BINARIES = 1;
+	private static final int BINARIES_ID = 2;
+	private static final int CLIENT_FILTERS = 3;
+	private static final int CLIENT_FILTERS_ID = 4;
+	
+	«FOREACH entities AS entity ITERATOR i-»
+	private static final int «entity.name.toUpperCase()» = «3 * i.counter1 + 2-»;
+	private static final int «entity.name.toUpperCase()»_ID = «3 * i.counter1 + 3-»;
+	private static final int «entity.name.toUpperCase()»_SEARCH_SUGGEST = «3 * i.counter1 + 4-»;
+	«ENDFOREACH-»
+
+	static {
+
+		sURIMatcher.addURI(Constants.AUTHORITY, Binary.TABLE_NAME, BINARIES);
+		sURIMatcher.addURI(Constants.AUTHORITY, Binary.TABLE_NAME + "/#", BINARIES_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.TABLE_NAME, CLIENT_FILTERS);
+		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.TABLE_NAME + "/#", CLIENT_FILTERS_ID);
+		«FOREACH entities AS entity-»
+		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME, «entity.name.toUpperCase()»);
+		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME + "/#", «entity.name.toUpperCase()»_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME + "/" + SearchManager.SUGGEST_URI_PATH_QUERY, «entity.name.toUpperCase()»_SEARCH_SUGGEST);
+		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME + "/" + SearchManager.SUGGEST_URI_PATH_QUERY + "/*", «entity.name.toUpperCase()»_SEARCH_SUGGEST);
+		«ENDFOREACH-»
+	}
+	
+	private SQLiteDatabase sqlDB = null;
+	private «name.toFirstUpper()»Database dbHelper = null;
+	
+	@Override
+	public boolean onCreate() {
+		dbHelper = «name.toFirstUpper()-»Database.getInstance(getContext());
+		return true;
+	}
+	
+	protected final «name.toFirstUpper()»Database getHelper() {
+		return dbHelper;
+	}
+	
+	protected final boolean matchBinary(Uri uri) {
+		return sURIMatcher.match(uri) == BINARIES_ID;
+	}
+
+	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		int result = -1;
+		switch (sURIMatcher.match(uri)) {
+		«FOREACH entities AS entity-»
+		case «entity.name.toUpperCase()»:
+			result = deleteMulti(«entity.name.toFirstUpper()».TABLE_NAME, selection, selectionArgs);
+			break;
+		case «entity.name.toUpperCase()»_ID:
+			String «entity.shortName.toLowerCase()»Id = uri.getPathSegments().get(1);
+			result = deleteSingle(«entity.name.toFirstUpper()».TABLE_NAME, «entity.shortName.toLowerCase()»Id, selection, selectionArgs);
+			break;
+		«ENDFOREACH-»
+		case BINARIES:
+			result = deleteMultiBinary(Binary.TABLE_NAME, selection, selectionArgs);
+			break;
+		case BINARIES_ID:
+			String binaryId = uri.getPathSegments().get(1);
+			result = deleteSingleBinary(Binary.TABLE_NAME, binaryId, selection,
+					selectionArgs);
+			break;
+		case CLIENT_FILTERS:
+			result = deleteMulti(ClientFilter.TABLE_NAME, selection, selectionArgs);
+			break;
+		case CLIENT_FILTERS_ID:
+			String clientFilterId = uri.getPathSegments().get(1);
+			result = deleteSingle(ClientFilter.TABLE_NAME, clientFilterId, selection, selectionArgs);
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown URL" + uri);
+		}
+		getContext().getContentResolver().notifyChange(uri, null);
+		return result;
+	}
+
+
+
+	@Override
+	public String getType(Uri uri) {
+		switch (sURIMatcher.match(uri)) {
+		«FOREACH entities AS entity-»
+		case «entity.name.toUpperCase()»:
+			return VND_DIR + "«entity.name.toLowerCase()»";
+		case «entity.name.toUpperCase()»_ID:
+			return VND_ITEM + "«entity.name.toLowerCase()»";
+		«ENDFOREACH-»
+		case BINARIES:
+			return VND_DIR + "binaries";
+		case BINARIES_ID:
+			sqlDB = dbHelper.getReadableDatabase();
+			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+			qb.setTables(Binary.TABLE_NAME);
+			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+			Cursor c = qb.query(sqlDB, new String[] {Keys.KEY_CONTENT_TYPE}, null, null, null, null, null);
+			String result = VND_ITEM + "binaries";
+			if (c.getCount() == 1) {
+				c.moveToFirst();
+				result = c.getString(0);
+			}
+			c.close();
+			return result;
+		case CLIENT_FILTERS:
+			return VND_DIR + "clientfilters";
+		case CLIENT_FILTERS_ID:
+			return VND_ITEM + "clientfilters";
+		default:
+			throw new IllegalArgumentException("Unknown URL " + uri);
+		}
+	}
+
+	@Override
+	public Uri insert(Uri uri, ContentValues values) {
+		Log.i(TAG, "Insert");
+		switch (sURIMatcher.match(uri)) {
+		«FOREACH entities AS entity-»
+		case «entity.name.toUpperCase()»:
+			return insertInTable(«entity.name.toFirstUpper()-».TABLE_NAME, «entity.name.toFirstUpper()-».CONTENT_URI, values);
+		«ENDFOREACH»
+		case BINARIES:
+			return insertInTableBinary(values);
+		case CLIENT_FILTERS:
+			return insertInTable(ClientFilter.TABLE_NAME, ClientFilter.CONTENT_URI, values);
+		default:
+			throw new IllegalArgumentException("Unknown URL " + uri);
+		}
+	}
+
+	@Override
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
+		sqlDB = dbHelper.getWritableDatabase();
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		switch (sURIMatcher.match(uri)) {
+		«FOREACH entities AS entity-»
+		case «entity.name.toUpperCase()»:
+			qb.setTables(«entity.name.toFirstUpper()».TABLE_NAME);
+			break;
+		case «entity.name.toUpperCase()»_ID:
+			qb.setTables(«entity.name.toFirstUpper()».TABLE_NAME);
+			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+			break;
+		case «entity.name.toUpperCase()»_SEARCH_SUGGEST:
+			return «name.toFirstUpper()-»SearchSupport.get«entity.name.toFirstUpper()-»Suggestions(getContext(), sqlDB, uri.getLastPathSegment());
+		«ENDFOREACH-»
+		case BINARIES:
+			qb.setTables(Binary.TABLE_NAME);
+			break;
+		case BINARIES_ID:
+			qb.setTables(Binary.TABLE_NAME);
+			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+			break;
+		case CLIENT_FILTERS:
+			qb.setTables(ClientFilter.TABLE_NAME);
+			break;
+		case CLIENT_FILTERS_ID:
+			qb.setTables(ClientFilter.TABLE_NAME);
+			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown URL " + uri);
+		}
+		Cursor c = qb.query(sqlDB, projection, selection, selectionArgs, null,
+				null, sortOrder);
+		c.setNotificationUri(getContext().getContentResolver(), uri);
+		return c;
+	}
+
+	@Override
+	public int update(Uri uri, ContentValues values, String selection,
+			String[] selectionArgs) {
+		int result = -1;
+		switch (sURIMatcher.match(uri)) {
+		«FOREACH entities AS entity-»
+		case «entity.name.toUpperCase()»:
+			result = updateMulti(«entity.name.toFirstUpper()».TABLE_NAME, values, selection, selectionArgs);
+			break;
+		case «entity.name.toUpperCase()»_ID:
+			String «entity.shortName.toLowerCase()»Id = uri.getPathSegments().get(1);
+			result = updateSingle(«entity.name.toFirstUpper()».TABLE_NAME, «entity.shortName.toLowerCase()»Id, values, selection, selectionArgs);
+			break;
+		«ENDFOREACH-»
+		case BINARIES:
+			result = updateMulti(Binary.TABLE_NAME, values, selection, selectionArgs);
+			break;
+		case BINARIES_ID:
+			String binaryId = uri.getPathSegments().get(1);
+			result = updateSingle(Binary.TABLE_NAME, binaryId, values, selection,
+					selectionArgs);
+			break;
+		case CLIENT_FILTERS:
+			result = updateMulti(ClientFilter.TABLE_NAME, values, selection, selectionArgs);
+			break;
+		case CLIENT_FILTERS_ID:
+			String clientFilterId = uri.getPathSegments().get(1);
+			result = updateSingle(ClientFilter.TABLE_NAME, clientFilterId, values, selection, selectionArgs);
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown URL " + uri);
+		}
+		getContext().getContentResolver().notifyChange(uri, null);
+		return result;
+	}
+
+	private static class «name.toFirstUpper()-»Database extends AbstractDatabase {
+
+		private static final String TAG = «name.toFirstUpper()-»Database.class.getName();
+	
+		private static final int DATABASE_VERSION = «getDatabaseVersion()-»;
+
+		«FOREACH entities AS entity-»
+		private static final String DATABASE_CREATE_«entity.name.toUpperCase()» = 
+			"create table if not exists «entity.name.toLowerCase()» ("
+				+ Keys.KEY_ROWID	+ " integer primary key autoincrement, "
+				+ Keys.KEY_MODIFIED + " integer, "
+				+ Keys.KEY_MODIFIEDBY + " text, "
+				+ Keys.KEY_MODIFIEDFROM + " text, "
+				+ Keys.KEY_UPLOADDATE + " integer, "
+				+ Keys.KEY_CREATED + " integer, "
+				+ Keys.KEY_CREATEDBY + " text, "
+				+ Keys.KEY_UNREAD + " integer, "
+				+ Keys.KEY_SYNCHRONIZED + " integer, "
+				«IF Actor.isAssignableFrom(entity.metaType) -»
+				+ Keys.KEY_LOGIN + " text, "
+				+ Keys.KEY_PASSWORD + " blob, "
+				+ Keys.KEY_ROLES + " text, "
+				«ENDIF-»
+				«EXPAND getKey FOREACH entity.groups.fields-»
+				+ Keys.KEY_ID + " text not null);";
+		«ENDFOREACH-»
+	
+		«EXPAND buildTableManyToMany FOREACH entities.groups.fields-»
+	
+		static {
+			CREATOR = new Creator<«name.toFirstUpper()-»Database>() {
+				@Override
+				public «name.toFirstUpper()-»Database getDatabase(Context context) {
+					return «name.toFirstUpper()-»Database.getInstance(context);
+				}
+			};
+		}
+			
+		private static «name.toFirstUpper()-»Database sSingleton = null;
+		/**
+		* Private constructor, callers should obtain an instance through
+		* {@link #getInstance(android.content.Context)} instead.
+		*/
+		«name.toFirstUpper()-»Database(Context context) {
+			super(context, Databases.DATABASE_NAME, null, DATABASE_VERSION);
+		}
+	
+		private static final synchronized «name.toFirstUpper()-»Database getInstance(Context context) {
+			if (sSingleton == null) {
+				sSingleton = new «name.toFirstUpper()-»Database(context);
+			}
+			return sSingleton;
+		}
+	
+		@Override
+		public void onCreate(SQLiteDatabase db) {
+			super.onCreate(db);
+			«FOREACH entities AS entity-»
+			db.execSQL(DATABASE_CREATE_«entity.name.toUpperCase()»);
+			«ENDFOREACH-»
+		
+			«EXPAND buildSQLManyToMany FOREACH entities.groups.fields-»
+		}
+
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
+				+ newVersion + ", which will destroy all old data");
+			onCreate(db);
+			«EXPAND upgradeField FOREACH entities.groups.fields-»
+		}
+	
+		public final Uri findInDatabase(String scanned) {
+    		long id;
+    		«FOREACH entities AS e SEPARATOR " else "»
+   	 		if ((id = queryRowId(«e.name.toFirstUpper()-».CONTENT_URI, scanned)) != -1)
+    			return ContentUris.withAppendedId(«e.name.toFirstUpper()-».CONTENT_URI, id);
+    		«ENDFOREACH»
+    		else
+    			return null;
+    	}
+    	
+    	@Override
+		public EntityCursor query(Uri uri, String where, String order) {
+			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+			switch (sURIMatcher.match(uri)) {
+			«FOREACH entities AS entity-»
+			case «entity.name.toUpperCase()»:
+				qb.setCursorFactory(new «entity.name.toFirstUpper()»Cursor.Factory());
+				qb.setTables(«entity.name.toFirstUpper()».TABLE_NAME);
+				break;
+			case «entity.name.toUpperCase()»_ID:
+				qb.setCursorFactory(new «entity.name.toFirstUpper()»Cursor.Factory());
+				qb.setTables(«entity.name.toFirstUpper()».TABLE_NAME);
+				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+				break;
+			«ENDFOREACH-»
+			case BINARIES:
+				qb.setCursorFactory(new BinaryCursor.Factory());
+				qb.setTables(Binary.TABLE_NAME);
+				break;
+			case BINARIES_ID:
+				qb.setCursorFactory(new BinaryCursor.Factory());
+				qb.setTables(Binary.TABLE_NAME);
+				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+				break;
+			case CLIENT_FILTERS:
+				qb.setCursorFactory(new ClientFilterCursor.Factory());
+				qb.setTables(ClientFilter.TABLE_NAME);
+				break;
+			case CLIENT_FILTERS_ID:
+				qb.setCursorFactory(new ClientFilterCursor.Factory());
+				qb.setTables(ClientFilter.TABLE_NAME);
+				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown URL " + uri);
+			}
+			SQLiteDatabase db = getReadableDatabase();
+			EntityCursor c = (EntityCursor) qb.query(db, null, where, null, null, null, order);
+			c.setNotificationUri(getContext().getContentResolver(), uri);
+			return c;
+		}
+
+		@Override
+		public String queryId(Uri uri) {
+			if (uri == null)
+				return null;
+			switch (sURIMatcher.match(uri)) {
+			«FOREACH entities AS entity-»
+			case «entity.name.toUpperCase()»_ID:
+				return getEntityId(«entity.name.toFirstUpper()».TABLE_NAME, uri);
+			«ENDFOREACH-»
+			case BINARIES_ID:
+				return getEntityId(Binary.TABLE_NAME, uri);
+			case CLIENT_FILTERS_ID:
+				return getEntityId(ClientFilter.TABLE_NAME, uri);
+			}
+			return null;
+		}
+
+		@Override
+		public long queryRowId(Uri uri, String id) {
+			switch (sURIMatcher.match(uri)) {
+			«FOREACH entities AS entity-»
+			case «entity.name.toUpperCase()»:
+				return getEntityRowId(«entity.name.toFirstUpper()».TABLE_NAME, id);
+			«ENDFOREACH-»
+			case BINARIES:
+				return getEntityRowId(Binary.TABLE_NAME, id);
+			case CLIENT_FILTERS:
+				return getEntityRowId(ClientFilter.TABLE_NAME, id);
+			}
+			return -1;
+		}
+	}
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+«DEFINE getKey FOR FieldEntity-»
++ "«name.toFirstLower()» text, "
+«ENDDEFINE»
+
+«DEFINE getKey FOR DatesField-»
++ "«name.toFirstLower()» integer, "
+«ENDDEFINE»
+
+«DEFINE getKey FOR IntegerField-»
++ "«name.toFirstLower()» integer, "
+«ENDDEFINE»
+
+«DEFINE getKey FOR FloatField-»
++ "«name.toFirstLower()» float, "
+«ENDDEFINE»
+
+«DEFINE getKey FOR MainRelationFieldEntity-»
+«IF (cardinality == 1)-»
++ "«name.toFirstLower()» text, "
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE getKey FOR ReverseRelationFieldEntity-»
+«IF (cardinality ==1 && getOppositeCardinality(this) != 1)-»
++ "«name.toFirstLower()» text, "
+«ENDIF-»
+«ENDDEFINE»
+
+
+
+«DEFINE buildTableManyToMany FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE buildTableManyToMany FOR MainRelationFieldEntity-»
+«IF (cardinality != 1 && getOppositeCardinality(this) != 1)-»
+private static final String DATABASE_CREATE_«shortName.toUpperCase()» = "create table if not exists «shortName.toLowerCase()» ("
+	+ Keys.KEY_ROWID + " integer primary key autoincrement, "
+	+ "«parentGroup.parentCard.name.toLowerCase()» text not null, "
+	+ "«entity.name.toLowerCase()» text not null);";
+«ENDIF-»
+«ENDDEFINE»
+
+
+
+«DEFINE buildSQLManyToMany FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE buildSQLManyToMany FOR MainRelationFieldEntity-»
+«IF (cardinality != 1)-»
+«IF ((oppositeRelationField != null && oppositeRelationField.cardinality != 1) || (oppositeRelationField == null && InverseCardinality != 1))-»
+	db.execSQL(DATABASE_CREATE_«shortName.toUpperCase()»);
+«ENDIF-»
+«ENDIF-»
+«ENDDEFINE»
+
+
+
+«DEFINE upgradeField FOR FieldEntity-»
+try {
+	db.compileStatement("select «name.toFirstLower()-» from «parentGroup.parentCard.name.toLowerCase()-» limit 1").close();
+} catch (Exception e) {
+	db.execSQL("alter table «parentGroup.parentCard.name.toLowerCase()-» add column «name.toFirstLower()-» text;");
+}
+«ENDDEFINE»
+
+«DEFINE upgradeField FOR DatesField-»
+try {
+	db.compileStatement("select «name.toFirstLower()-» from «parentGroup.parentCard.name.toLowerCase()-» limit 1").close();
+} catch (Exception e) {
+	db.execSQL("alter table «parentGroup.parentCard.name.toLowerCase()-» add column «name.toFirstLower()-» integer;");
+}
+«ENDDEFINE»
+
+«DEFINE upgradeField FOR IntegerField-»
+try {
+	db.compileStatement("select «name.toFirstLower()-» from «parentGroup.parentCard.name.toLowerCase()-» limit 1").close();
+} catch (Exception e) {
+	db.execSQL("alter table «parentGroup.parentCard.name.toLowerCase()-» add column «name.toFirstLower()-» integer;");
+}
+«ENDDEFINE»
+
+«DEFINE upgradeField FOR FloatField-»
+try {
+	db.compileStatement("select «name.toFirstLower()-» from «parentGroup.parentCard.name.toLowerCase()-» limit 1").close();
+} catch (Exception e) {
+	db.execSQL("alter table «parentGroup.parentCard.name.toLowerCase()-» add column «name.toFirstLower()-» float;");
+}
+«ENDDEFINE»
+
+«DEFINE upgradeField FOR RelationFieldEntity-»
+«IF (cardinality == 1)-»
+try {
+	db.compileStatement("select «name.toFirstLower()-» from «parentGroup.parentCard.name.toLowerCase()-» limit 1").close();
+} catch (Exception e) {
+	db.execSQL("alter table «parentGroup.parentCard.name.toLowerCase()-» add column «name.toFirstLower()-» text;");
+}
+«ENDIF-»
+«ENDDEFINE»

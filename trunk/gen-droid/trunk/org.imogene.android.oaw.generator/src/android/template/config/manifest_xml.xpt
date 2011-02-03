@@ -1,0 +1,215 @@
+«IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate(String versionCode, String secretCode) FOR Project »
+«FILE 'AndroidManifest.xml'-»
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="org.imogene.android.«name.toLowerCase()»" android:versionCode="«versionCode-»">
+	<application
+		android:name="org.imogene.android.«name.toLowerCase()».app.MainApp"
+		android:icon="@drawable/logo_android_s"
+		android:label="@string/app_name"
+	 	android:debuggable="true">
+
+		<activity android:name="org.imogene.android.app.MainActivity" android:label="@string/app_name" android:windowSoftInputMode="adjustPan">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+			
+		<activity android:label="@string/high_preferences"
+			android:name="org.imogene.android.app.HighPreferences">
+			<action android:name="android.intent.action.MAIN" />
+			<category android:name="android.intent.category.DEFAULT" />
+		</activity>
+		
+		<service android:name="org.imogene.android.service.MetadataService">
+		</service>
+		
+		<activity android:name="org.imogene.android.app.setup.AccountCreationIntroduction"
+			android:label="@string/account_creation_introduction_title"/>
+		
+		<activity android:name="org.imogene.android.app.setup.AccountSetupBasics" android:windowSoftInputMode="adjustPan"
+			android:label="@string/account_setup_basics_title" android:exported="true" />
+			
+		<activity android:name="org.imogene.android.app.setup.AccountSetupShortPassword" android:windowSoftInputMode="adjustPan"
+			android:label="@string/account_setup_shortpw_title" />
+		
+		<activity
+			android:label="@string/camera"
+			android:icon="@drawable/ic_launcher_camera" 
+			android:name="org.imogene.android.app.ImageCapture"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+			<intent-filter>
+				<action android:name="android.intent.action.GET_CONTENT"/>
+				<data android:mimeType="image/*"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="org.imogene.android.«name.toLowerCase()».category.IMAGE_CATPURE"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:label="@string/list_availables_entities" android:name=".app.ThemaListing" >
+			<intent-filter>
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.LIST_ENTITIES" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		
+		<activity 
+		«IF hasFilter(this)-»
+			android:name=".app.ExtendedPreferences"
+		«ELSE-»
+			android:name="org.imogene.android.app.Preferences"
+		«ENDIF-»
+			android:label="@string/preferences" />
+		
+		«FOREACH entities AS entity»
+		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_listof" android:name=".app.«entity.name.toFirstUpper()-»Listing" >
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.PICK" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.dir/«entity.name.toLowerCase()-»"/>
+			</intent-filter>
+			
+			<intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable" 
+                       android:resource="@xml/«entity.name.toLowerCase()-»_searchable" />
+		</activity>
+		
+		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_view" android:name=".app.«entity.name.toFirstUpper()-»View" >
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.item/«entity.name.toLowerCase()-»"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_insert" android:name=".app.«entity.name.toFirstUpper()-»Edit" «REM»android:theme="@android:style/Theme.Light"«ENDREM»>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="org.imogene.android.category.CLASSIC" />
+				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.dir/«entity.name.toLowerCase()-»"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_insert" android:name=".app.«entity.name.toFirstUpper()-»Wizard" «REM»android:theme="@style/Theme.Light.Hack"comment«ENDREM»>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="org.imogene.android.category.WIZARD" />
+				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.dir/«entity.name.toLowerCase()-»"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_edit" android:name=".app.«entity.name.toFirstUpper()-»Edit" «REM»android:theme="@android:style/Theme.Light"«ENDREM»>
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.item/«entity.name.toLowerCase()-»"/>
+			</intent-filter>
+		</activity>
+		
+		«ENDFOREACH»
+		
+		<activity android:label="UserListing" android:name=".app.MultiUserListing" >
+			<category android:name="android.intent.category.DEFAULT"/>
+		</activity>
+		
+		<activity android:label="@string/synchro_resume" android:name=".app.SyncResume"
+			android:theme="@android:style/Theme.Light">
+			<category android:name="android.intent.category.DEFAULT"/>
+		</activity>
+		
+		<activity 
+			android:label="@string/«name.toLowerCase()-»_downloader"
+			android:name=".app.EntityDownloader"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation|keyboardHidden" >
+			<intent-filter>
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.SEARCH_ENTITY" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:label="offset"
+			android:name="org.imogene.android.app.OffsetActivity"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation|keyboardHidden">
+		</activity>
+		
+		<activity
+			android:label="authentication"
+			android:name="org.imogene.android.app.Authentication"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation|keyboardHidden">
+		</activity>
+		
+		<activity android:name="org.imogene.android.app.UnSyncDialog"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		
+		<receiver android:name="org.imogene.android.receiver.OperationSmsReceiver">
+			<intent-filter>
+				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name="org.imogene.android.receiver.ServicingReceiver">
+ 			<intent-filter>
+ 				<action android:name="android.provider.Telephony.SECRET_CODE" />
+ 				<data android:scheme="android_secret_code" android:host="«secretCode»" />
+ 			</intent-filter>
+ 			<intent-filter>
+ 				<action android:name="android.intent.action.BOOT_COMPLETED" />
+ 				<action android:name="android.intent.action.CONFIGURATION_CHANGED"/>
+ 				<action android:name="org.imogene.android.«name.toLowerCase()».action.RM_SYNC_HISTORY" />
+ 				<action android:name="org.imogene.android.«name.toLowerCase()».action.RM_DATABASE" />
+ 			</intent-filter>
+ 		</receiver>
+		
+		<receiver android:name="org.imogene.android.receiver.SynchronizationReceiver">
+			<intent-filter>
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.CHECK_SYNC" />
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.RESCHEDULE" />
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.CANCEL" />
+			</intent-filter>
+		</receiver>
+		
+		<service android:name=".service.«name.toFirstUpper()-»SyncService" >
+			<intent-filter>
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.CHECK_SYNC" />
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.RESCHEDULE" />
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.CANCEL" />
+			</intent-filter>
+		</service>
+
+		<provider android:authorities="org.imogene.android.«name.toLowerCase()».entity" android:name=".provider.«name.toFirstUpper()-»Provider" />
+	</application>
+	
+	<uses-permission android:name="android.permission.CALL_PHONE" />
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.WRITE_SMS" />
+	<uses-permission android:name="android.permission.CALL_PRIVILEGED" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.VIBRATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<!--
+	<supports-screens android:smallScreens="true"
+		android:normalScreens="true" android:largeScreens="true"
+		android:anyDensity="true" />
+	-->
+</manifest>
+«ENDFILE»
+«ENDDEFINE»

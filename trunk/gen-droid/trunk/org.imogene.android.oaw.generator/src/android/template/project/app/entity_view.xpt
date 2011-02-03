@@ -1,0 +1,285 @@
+«IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate(String canDelete, String canModify, String projectName) FOR CardEntity»
+«FILE "/" + projectName.toLowerCase() + "/app/" + name.toFirstUpper() + "View.java"»
+package org.imogene.android.«projectName.toLowerCase()-».app;
+
+import android.content.ContentUris;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import org.imogene.android.Constants.Extras;
+import org.imogene.android.app.AbstractEntityView;
+import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.widget.ScrollingTabHost;
+import org.imogene.android.widget.field.FieldManager;
+import org.imogene.android.widget.field.FieldManager.RelationManager;
+import org.imogene.android.widget.field.view.AddressFieldView;
+import org.imogene.android.widget.field.view.BinaryFieldView;
+import org.imogene.android.widget.field.view.BooleanFieldView;
+import org.imogene.android.widget.field.view.DateFieldView;
+import org.imogene.android.widget.field.view.DateTimeFieldView;
+import org.imogene.android.widget.field.view.EmailFieldView;
+import org.imogene.android.widget.field.view.EnumMultipleFieldView;
+import org.imogene.android.widget.field.view.EnumSingleFieldView;
+import org.imogene.android.widget.field.view.FloatFieldView;
+import org.imogene.android.widget.field.view.GeoFieldView;
+import org.imogene.android.widget.field.view.IntegerFieldView;
+import org.imogene.android.widget.field.view.PhoneFieldView;
+import org.imogene.android.widget.field.view.RelationManyFieldView;
+import org.imogene.android.widget.field.view.RelationOneFieldView;
+import org.imogene.android.widget.field.view.StringFieldView;
+import org.imogene.android.widget.field.view.TimeFieldView;
+import org.imogene.android.«projectName.toLowerCase()».R;
+import org.imogene.android.«projectName.toLowerCase()».entities.«name.toFirstUpper()-»;
+«EXPAND android::template::EntityUtil::organizeEntityImport(projectName) FOREACH groups.fields-»
+import org.imogene.android.«projectName.toLowerCase()».roles.«name.toFirstUpper()»Roles;
+«IF getMoreFields(groups.fields).size > 0 -»
+«FOREACH getMoreFields(groups.fields) AS f-»
+import org.imogene.android.«projectName.toLowerCase()».roles.«f.entity.name.toFirstUpper()»Roles;
+«ENDFOREACH-»
+«ENDIF-»
+
+public class «name.toFirstUpper()-»View extends AbstractEntityView implements RelationManager {
+
+	private FieldManager mManager;
+
+	«FOREACH groups.fields AS f-»
+	private «EXPAND nameViewField FOR f» «f.name.toFirstLower()»;
+	«ENDFOREACH»
+	
+	private «name.toFirstUpper()-» mEntity = null;
+	
+	public «name.toFirstUpper()-»View() {
+		super(«IF icon.length > 0-»R.drawable.«icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»);
+	}
+	
+	@Override
+	protected «name.toFirstUpper()-» getEntity() {
+		return mEntity;
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mCanDelete = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_delete), «canDelete»);
+		mCanModify = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_modify), «canModify»);
+		
+		mCanWrite = «name.toFirstUpper()-»Roles.canWrite(this);
+		
+		mManager = new FieldManager(this, this, 100);
+		
+		ScrollingTabHost tabHost = getTabHost();
+		
+		LayoutInflater.from(this).inflate(R.layout.«name.toLowerCase()-»_view, tabHost.getTabContentView(), true);
+		
+		«FOREACH groups.fields AS f-»
+			«f.name.toFirstLower()» = («EXPAND nameViewField FOR f») findViewById(R.id.«f.shortName.toLowerCase()»);
+		«ENDFOREACH-»
+
+		«FOREACH groups.fields AS f-»
+			«f.name.toFirstLower()».onAttachedToHierarchy(mManager);
+			«EXPAND specificInit FOR f-»
+			«EXPAND dependency FOREACH f.fieldDependentVisibility-»
+		«ENDFOREACH-»
+
+		«EXPAND newTabSpec(this) FOREACH groups-»
+		
+		refresh();
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		mManager.dispatchActivityResult(requestCode, resultCode, data);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mManager.dispatchActivityDestroy();
+	}
+	
+	@Override
+	protected final void refresh() {
+		mEntity = new «name.toFirstUpper()-»(this, getIntent().getData());
+		
+		int firstVisible = -1;
+		«FOREACH groups AS group ITERATOR i-»
+		if («name.toFirstUpper()-»Roles.canRead«group.name.toFirstUpper()-»(this)) {
+			boolean visible = false;
+			«FOREACH group.fields AS f-»
+			«f.name.toFirstLower()».setValue(mEntity.get«f.name.toFirstUpper()»());
+			«ENDFOREACH-»
+			
+			«FOREACH group.fields AS f-»
+			visible |= «f.name.toFirstLower()».getVisibility() == View.VISIBLE;
+			«ENDFOREACH-»
+			
+			if (visible) {
+				if (firstVisible == -1) {
+					firstVisible = «i.counter0-»;
+				}
+				getTabWidget().getChildTabViewAt(«i.counter0-»).setVisibility(View.VISIBLE);
+			} else {
+				getTabWidget().getChildTabViewAt(«i.counter0-»).setVisibility(View.GONE);
+				findViewById(R.id.«group.shortName.toLowerCase()-»).setVisibility(View.GONE);
+			}
+		} else {
+			getTabWidget().getChildTabViewAt(«i.counter0-»).setVisibility(View.GONE);
+			findViewById(R.id.«group.shortName.toLowerCase()-»).setVisibility(View.GONE);
+		}
+		«ENDFOREACH-»
+		getTabHost().setCurrentTab(firstVisible);
+	}
+	
+	«IF getMoreFields(groups.fields).size > 0-»
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		boolean result = super.onCreateOptionsMenu(menu);
+		boolean hasMoreMenu = false;
+		«FOREACH getMoreFields(groups.fields) AS f-»
+		hasMoreMenu |= «f.entity.name.toFirstUpper()»Roles.canWrite(this);
+		«ENDFOREACH-»
+		if (hasMoreMenu) {
+			getMenuInflater().inflate(R.menu.«name.toLowerCase()»_more_menu, menu.addSubMenu(R.string.menu_actions).setIcon(android.R.drawable.ic_menu_more));
+			«FOREACH getMoreFields(groups.fields) AS f-»
+			menu.findItem(R.id.menu_action_new_«f.name.toLowerCase()»).setVisible(«f.entity.name.toFirstUpper()»Roles.canWrite(this));
+			«ENDFOREACH-»
+		}
+		return result;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		«FOREACH getMoreFields(groups.fields) AS f-»
+		case R.id.menu_action_new_«f.name.toLowerCase()»: {
+			Intent intent = new Intent(Intent.ACTION_INSERT, «f.entity.name.toFirstUpper()».CONTENT_URI)
+				.addCategory(PreferenceHelper.getEditionCategory(this));
+			«IF f.oppositeRelationField.cardinality == 1 || f.commonFields.size > 0-»
+			Bundle bundle = new Bundle();
+			«FOREACH f.commonFields AS c ITERATOR i-»
+			«IF (mod2(i.counter0) == 0)-»
+			«IF f.commonFields.get(i.counter0).cardinality == 1-»
+			bundle.putParcelable(
+				"«f.commonFields.get(i.counter1).name.toFirstLower()»", 
+				mEntity.get«f.commonFields.get(i.counter0).name.toFirstUpper()»());
+			«ELSE-»
+			bundle.putParcelableArrayList(
+				"«f.commonFields.get(i.counter1).name.toFirstLower()»", 
+				mEntity.get«f.commonFields.get(i.counter0).name.toFirstUpper()»());
+			«ENDIF-»
+			«ENDIF-»
+			«ENDFOREACH-»
+			«IF f.oppositeRelationField.cardinality == 1-»
+			bundle.putParcelable(
+				"«f.oppositeRelationField.name.toFirstLower()»",
+				ContentUris.withAppendedId(
+					«name.toFirstUpper()-».CONTENT_URI,
+					mEntity.getRowId()));
+			«ENDIF-»
+			intent.putExtra(Extras.EXTRA_ENTITY, bundle);
+			«ENDIF-»
+			startActivity(intent);
+			return false;
+		}
+		«ENDFOREACH-»
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	«ENDIF»
+	
+	public String getCurrentId() {
+		return mEntity.getId();
+	}
+	
+	public long getCurrentRowId() {
+		return mEntity.getRowId();
+	}
+	
+	public Uri getCurrentContentUri() {
+		return «name.toFirstUpper()».CONTENT_URI;
+	}
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+
+
+«DEFINE newTabSpec(CardEntity card) FOR FieldGroup»
+tabHost.addTab(tabHost.newTabSpec("«shortName.toLowerCase()-»")
+«IF icon != null && icon.length > 0-»
+.setIndicator(getString(R.string.«shortName.toLowerCase()-»), getResources().getDrawable(R.drawable.«icon.split("\\.").get(0).toLowerCase()»))
+«ELSE-»
+.setIndicator(getString(R.string.«shortName.toLowerCase()-»))
+«ENDIF-»
+.setContent(R.id.«shortName.toLowerCase()-»));
+«ENDDEFINE»
+
+
+
+«DEFINE nameViewField FOR FieldEntity-»Nothing«ENDDEFINE»
+
+«DEFINE nameViewField FOR StringField-»StringFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR AddressField-»AddressFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR EmailField-»EmailFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR PhoneField-»PhoneFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR GeoField-»GeoFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR BooleanField-»BooleanFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR EnumField-»«IF multipleSelection-»EnumMultipleFieldView«ELSE»EnumSingleFieldView«ENDIF»«ENDDEFINE»
+
+«DEFINE nameViewField FOR DateField»DateFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR TimeField»TimeFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR DateTimeField»DateTimeFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR BinaryField»BinaryFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR FloatField»FloatFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR IntegerField»IntegerFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR RelationFieldEntity»«IF cardinality == 1»RelationOneFieldView«ELSE»RelationManyFieldView«ENDIF»«ENDDEFINE»
+
+
+
+
+
+«DEFINE specificInit FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE specificInit FOR RelationFieldEntity-»
+«name.toFirstLower()».setDrawable(«entity.name.toFirstUpper()-».COLOR);
+«IF cardinality != 1»
+«name.toFirstLower()».setContentUri(«entity.name.toFirstUpper()-».CONTENT_URI);
+«ENDIF»
+«ENDDEFINE»
+
+
+
+
+
+«DEFINE dependency FOR FieldDependentVisibility-»
+«IF !dependencyField.hidden-»
+«dependencyField.name.toFirstLower()».registerDependent(«parentFieldEntity.name.toFirstLower()», "«dependencyFieldValue»");
+«ENDIF-»
+«ENDDEFINE»
