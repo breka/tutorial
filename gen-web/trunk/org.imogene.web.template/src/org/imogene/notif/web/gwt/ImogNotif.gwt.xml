@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- 
+The Imog common module declaration
+author Medes-IMPS 
+--><!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
+
+<module rename-to="imogNotif"> 
+  <!-- Inherit the core Web Toolkit stuff.-->  
+  <inherits name="com.google.gwt.user.User"/>   
+  <inherits name="com.google.gwt.i18n.I18N"/>
+    
+  <!-- Inherits external modules     -->
+  <inherits name="org.imogene.web.gwt.ImogBase"/>
+  
+  <!-- available locale -->
+  <extend-property name="locale" values="fr"/>
+  <extend-property name="locale" values="en"/>  
+  
+  <!-- for tests
+  <extend-property name="locale" values="en"/>
+  <set-property name="locale" value="en"/>
+  <set-property name="user.agent" value="gecko1_8" />
+  -->
+  <set-property name="user.agent" value="%navigators%"/>
+  
+  <!-- Module style sheet -->
+  <stylesheet src="ImogNotif.css"/>  
+      
+  <!-- entry point that permits to test the module -->
+  <entry-point class="org.imogene.notif.web.gwt.client.ImogNotifEntryPoint"/>
+  
+  <!-- Module sources -->
+  <source path="client"/>  
+  <source path="remote"/>  
+</module>
