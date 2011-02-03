@@ -1,0 +1,14 @@
+«IMPORT core»
+«DEFINE generate(String projectName, String jdbcDriver, String jdbcPath, String jdbcLogin, String jdbcPassword, String hibernateDialect, String smtpServer) FOR Project»
+«FILE "org/imogene/notifier/server/application.properties"»
+# JDBC properties
+jdbc.driverClassName=«jdbcDriver»
+jdbc.url=«jdbcPath»
+jdbc.username=«jdbcLogin»
+jdbc.password=«jdbcPassword»
+hibernate.dialect=«hibernateDialect»
+
+# SMTP properties
+smtp.server=«smtpServer»
+«ENDFILE»
+«ENDDEFINE»
