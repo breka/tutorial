@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<project name="org.imogene.lib.gwt.widgets" default="jarCommon">
+	<description>
+		Build a jar file which contained 
+		libraries for the medes specific gwt widgets.
+    </description>
+
+	<target name="init">	
+		<property name="binDir" location="classes" />
+		<property name="tmpDir" location="tmpUnjar" />
+		<property name="jarsDir" location="jars" />
+		<property name="src" location="src" />	
+		<property name="dependencies" location="dependencies" />
+
+		<mkdir dir="${binDir}" />
+		<mkdir dir="${jarsDir}" />
+	</target>
+
+	<target name="javacompile">
+		<javac debug="on" destdir="${binDir}"  deprecation="on" target="1.6" source="1.6">
+			<src>				
+				<pathelement path="${src}" />
+			</src>
+			 <classpath>
+				<pathelement path="${dependencies}" />				
+				<fileset dir="${dependencies}" includes="*.jar" />				
+			</classpath> 
+			
+		</javac>		
+	</target>
+
+	
+	<!-- creation du jar d'util -->
+	<target name="jarCommon" depends="init, javacompile">
+		<jar destfile="${jarsDir}/org.imogene.gwt.widgets.jar">
+			<fileset dir="${binDir}" includes="org/imogene/gwt/widgets/**/*.*" />
+			<fileset dir="${src}" includes="org/imogene/gwt/widgets/**/*.*" />
+		</jar>
+		<!-- AJOUTER MANIFEST -->		
+		<delete dir="${tmpDir}"/>
+	</target>
+
+
+</project>
