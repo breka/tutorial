@@ -1,0 +1,38 @@
+«IMPORT core»
+«DEFINE generate(String projectName, String modelName) FOR Project»
+«FILE projectName.toFirstUpper() + "-servlet.xml"»
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+  - DispatcherServlet application context for the Spring web MVC
+  - implementation of «projectName» web tier.
+  -->
+  
+<beans>
+
+	<!-- JASPERREPORTS PART -->
+	<!-- url handler for Spring 'classic' controller -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<!-- for jasperreports reporting -->
+				<prop key="/getCardReportFile.sprg">cardReportController</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.view.XmlViewResolver" id="xmlFileViewResolver"></bean>
+
+	<!--  Controller for report generation -->
+	<bean
+		class="org.imogene.«modelName.toLowerCase()».server.servlet.CardReportServiceController"
+		id="cardReportController">
+		<property name="genericDao" ref="genericDao" />
+	</bean>
+
+
+</beans>
+«ENDFILE»
+«ENDDEFINE»

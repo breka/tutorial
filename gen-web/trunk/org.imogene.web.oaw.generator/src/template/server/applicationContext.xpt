@@ -1,0 +1,75 @@
+«IMPORT core»
+«DEFINE generate(String packageName, String projectName) FOR Project»
+«FILE projectName.toLowerCase()+"/server/ApplicationContext.java"»
+package org.imogene.«projectName.toLowerCase()».server;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+
+/**
+ * This class enables to access to the Spring 
+ * application context file that contains the bean definitions.
+ * @author Medes-IMPS
+ */
+public class ApplicationContext {
+
+	private static Logger logger = Logger.getLogger("imogene-server");
+	
+	/**
+	 * The stateless configuration file
+	 */
+	private static final String STATEFULL_CONTEXT_FILE = "org/imogene/«projectName.toLowerCase()»/server/applicationContext.xml";
+		
+	private static final String AOP_CONTEXT_FILE = "org/imogene/«projectName.toLowerCase()»/server/aopContext.xml";	
+	
+	/**
+	 * Unique instance of the singleton
+	 */
+	private static ApplicationContext instance;
+	
+	/**
+	 * Spring context
+	 */
+	protected GenericApplicationContext springContext;
+
+	/**
+	 * @return the unique instance of the singleton
+	 */
+	public static synchronized final ApplicationContext getInstance() {
+		if (instance == null)
+		{
+			instance = new ApplicationContext();
+			logger.debug("Application context created");
+		}
+		return instance;
+	}
+
+	/**
+	 * Constructor
+	 */
+	protected ApplicationContext() {
+		initContextFile();
+	}
+	
+	/**
+	 * Get a bean from its name
+	 */
+	public Object getBean(String beanName) {
+		return springContext.getBean(beanName);
+	}
+	
+	/**
+	 * Init Spring context
+	 */
+	private void initContextFile() {
+		springContext = new GenericApplicationContext();
+		XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(springContext);
+		xmlReader.loadBeanDefinitions(new ClassPathResource(STATEFULL_CONTEXT_FILE));
+		xmlReader.loadBeanDefinitions(new ClassPathResource(AOP_CONTEXT_FILE));
+		springContext.refresh();
+	}
+}
+«ENDFILE»
+«ENDDEFINE»
