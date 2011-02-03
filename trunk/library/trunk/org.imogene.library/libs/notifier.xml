@@ -2,7 +2,7 @@
 <library id="org.imogene.library.notifier" name="Imogene notifier library" desc="Imogene notifier library">
 	
 	<!-- COMMON libraries -->
-	<jar file="aopalliance-1.0.jar"/>
+	<!-- <jar file="aopalliance-1.0.jar"/> -->
 	<jar file="antlr-2.7.6.jar"/>
 	<jar file="c3p0-0.9.1.2.jar"/>
 	<jar file="commons-codec-1.3.jar"/>
@@ -16,8 +16,7 @@
 	<jar file="postgresql-9.0-801.jdbc3.jar"/>
 	<jar file="slf4j-api-1.6.1.jar"/>
 	<jar file="slf4j-log4j12-1.6.1.jar"/>	
-	<jar file="cglib-nodep-2.1_3.jar"/>
-	<jar file="commons-fileupload-1.2.jar"/>
+	<jar file="cglib-nodep-2.1_3.jar"/>	
 	<jar file="mail-1.4.3.jar"/>
 	
 	<!--  SPRING framework -->
