@@ -1,0 +1,180 @@
+«IMPORT core»
+
+«DEFINE generate(String projectName, String jdbcDriver, String jdbcPath, String jdbcLogin, String jdbcPassword, String packageName) FOR Project»
+«FILE projectName + "InitialSqlInsert.java"»
+
+package org.imogene.initializer;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+
+/**
+ * Class that enables to insert rows in the Imogene database tables:
+ *  - the default user and its association with the default roles
+ *  - the default roles
+ *  - the roles defined in the medany model
+ *  - the entities that can be synchronized
+ */
+public class «projectName»InitialSqlInsert {
+
+	private static String db_key="dbPath";
+	private static String login_key="login";
+	private static String passwd_key="passwd";
+	private static String jdbc_key="driver";
+
+	public static void main(String[] args) {
+
+		Connection connection = null; 
+		Logger log = Logger.getLogger("SqlInsert");
+		ResourceBundle appProperties = ResourceBundle.getBundle("application");
+		String login = 	appProperties.getString(login_key);
+		String passwd = appProperties.getString(passwd_key);
+		String dbPath = appProperties.getString(db_key);
+		String jdbcDriver = appProperties.getString(jdbc_key);
+		
+		try {
+				//Logger set up
+			    Handler fh = new FileHandler("«projectName»SqlInsert.log");
+			    Logger.getLogger("").addHandler(fh);			
+			    fh.setFormatter(new SimpleFormatter());
+			
+				// Setup connexion
+				Class.forName(jdbcDriver);
+				connection = DriverManager.getConnection(dbPath, login, passwd);
+				
+				/* Run insert statements */
+				Statement s = connection.createStatement();
+				int  NbIns=0;
+				
+				try{
+					// Default user 'admin'
+					NbIns = s.executeUpdate("insert into DefaultUser (User_ID,User_Login,User_Password) values('admin','admin','epipassword')");
+					log.log(Level.INFO, NbIns + " row inserted for defaultUser 'admin'");
+				}catch(SQLException ex1){
+					log.log(Level.SEVERE, "SQL exception while processing the default user 'admin'.", ex1);
+				}
+				«REM»
+				try{
+					// Default role 'web' for web consultation
+					NbIns = s.executeUpdate("insert into Role (Role_ID, Role_Name) values('web','web')");
+					log.log(Level.INFO, NbIns + " row inserted for role 'web'");
+				}catch(SQLException ex2){
+					log.log(Level.SEVERE, "SQL exception while processing the default role 'web'.", ex2);
+				}
+				«ENDREM»
+				
+				try{
+					// Default role 'administrator' for user administration
+					NbIns = s.executeUpdate("insert into Role (Role_ID, Role_Name) values('administrator','administrator')");
+					log.log(Level.INFO, NbIns + " row inserted for role 'administrator'");
+				}catch(SQLException ex3){
+					log.log(Level.SEVERE, "SQL exception while processing the default role 'administrator'.", ex3);
+				}
+				
+				try{
+					// Default role 'delete' for user administration
+					NbIns = s.executeUpdate("insert into Role (Role_ID, Role_Name) values('delete','delete')");
+					log.log(Level.INFO, NbIns + " row inserted for role 'delete'");
+				}catch(SQLException ex3){
+					log.log(Level.SEVERE, "SQL exception while processing the default role 'delete'.", ex3);
+				}				
+
+				«REM»
+				try{
+					// Affectation of role 'web' to DefaultUser 'admin'
+					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('web','admin')");
+					log.log(Level.INFO, NbIns + " row inserted into roles for role 'web' affected to 'admin'");	
+				}catch(SQLException ex4){
+					log.log(Level.SEVERE, "SQL exception while affecting the role 'web' to DefaultUser 'admin'.", ex4);
+				}
+				«ENDREM»
+				
+				try{
+					// Affectation of role 'administrator' to DefaultUser 'admin'
+					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('administrator','admin')");
+					log.log(Level.INFO, NbIns + " row inserted into roles for role 'administrator' affected to 'admin'");
+				}catch(SQLException ex5){
+					log.log(Level.SEVERE, "SQL exception while affecting the role 'administrator' to DefaultUser 'admin'.", ex5);
+				}	
+				
+				try{
+					// Affectation of role 'delete' to DefaultUser 'admin'
+					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('delete','admin')");
+					log.log(Level.INFO, NbIns + " row inserted into roles for role 'delete' affected to 'admin'");
+				}catch(SQLException ex5){
+					log.log(Level.SEVERE, "SQL exception while affecting the role 'delete' to DefaultUser 'admin'.", ex5);
+				}									
+				
+				«FOREACH roles AS r -»
+				try{
+					// Role '«r.name»'
+					NbIns = s.executeUpdate("insert into Role (Role_ID, Role_Name) values('«r.name»','«r.name»')");
+					log.log(Level.INFO, NbIns + " row inserted for role '«r.name»'");
+				}catch(SQLException «r.name.toFirstLower()»){
+					log.log(Level.SEVERE, "SQL exception while processing the role '«r.name»'.", «r.name.toFirstLower()»);
+				}	
+				
+				try{
+					// Affectation of role '«r.name»' to DefaultUser 'admin'
+					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('«r.name»','admin')");
+					log.log(Level.INFO, NbIns + " row inserted into roles for role '«r.name»' affected to 'admin'");	
+				}catch(SQLException «r.name.toFirstLower()»Affect){
+					log.log(Level.SEVERE, "SQL exception while affecting the role '«r.name»' to 'admin'.", «r.name.toFirstLower()»Affect);
+				}			
+				«ENDFOREACH-»
+				
+				«FOREACH this.entities AS e -»
+				try{
+					// Entity '«e.name»'
+					NbIns = s.executeUpdate("insert into sync_entity (synchronizableentity_id, synchronizableentity_name) values ('«e.shortName»','«packageName.toLowerCase()».entity.«e.name»')");
+					log.log(Level.INFO, NbIns + " row inserted for entity '«e.name»'");
+				}catch(SQLException «e.name.toFirstLower()»){
+					log.log(Level.SEVERE, "SQL exception while inserting the entity '«e.name»' into sync_entity.",«e.name.toFirstLower()» );
+				}			
+				«ENDFOREACH-»
+				
+				«FOREACH this.entities AS e -»
+				try {
+					// Entity '«e.name»' is synchronizable for default user
+					NbIns = s.executeUpdate("insert into user_synchronizables (user_id, synchronizable_id) values ('admin','«e.shortName»')");
+					log.log(Level.INFO, NbIns + " row inserted for entity '«e.name»'");
+				} catch (SQLException «e.name.toFirstLower()») {
+					log.log(Level.SEVERE, "SQL exception while affecting the synchronizable entity '«e.name»' to the default user", «e.name.toFirstLower()»);
+				}				
+				«ENDFOREACH-»
+				
+				try{
+					// Entity 'BinaryFile'
+					NbIns = s.executeUpdate("insert into sync_entity (synchronizableentity_id, synchronizableentity_name) values('BIN','org.imogene.sync.server.binary.file.BinaryFile')");
+					log.log(Level.INFO, NbIns + " row inserted for entity 'BinaryFile'");
+				}catch(SQLException e){
+					log.log(Level.SEVERE, "SQL exception while affecting the synchronizable entity 'BinaryFile' to the default user", e);
+				}	
+				
+				try {
+					// Entity 'BinaryFile' is synchronizable for default user
+					NbIns = s.executeUpdate("insert into user_synchronizables (user_id, synchronizable_id) values ('admin','BIN')");
+					log.log(Level.INFO, NbIns + " row inserted for entity 'user'");
+				} catch (SQLException e) {
+					log.log(Level.SEVERE, "SQL exception while affecting the synchronizable entity 'BinaryFile' to the default user", e);
+				}							
+												
+				// Close connexion
+				connection.close();
+		}			
+		catch (Exception ex) {
+			log.log(Level.SEVERE, "Uncaught exception", ex);
+		}		
+	}
+}
+«ENDFILE»
+«ENDDEFINE»
