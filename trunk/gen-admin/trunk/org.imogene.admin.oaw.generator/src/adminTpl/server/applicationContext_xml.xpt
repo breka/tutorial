@@ -1,0 +1,140 @@
+«IMPORT core»
+«DEFINE generate(String projectName) FOR Project»
+«FILE projectName.toLowerCase()+"/server/applicationContext.xml"»
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<!-- Application properties -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+		    <value>classpath:org/imogene/«projectName.toLowerCase()»/server/application.properties</value>
+		</property>
+	</bean>	
+	
+	<!-- data source, that manage 
+		 a jdbc database connection 
+	<bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="dataSource">
+		<property name="driverClassName"
+			value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean> -->	
+	
+	<!--  C3PO data source -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl"     value="${jdbc.url}" />
+        <property name="user"        value="${jdbc.username}" />
+        <property name="password"    value="${jdbc.password}" />        
+    </bean>
+	
+	<!-- Session factory -->
+	<bean
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+		id="sessionFactory">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				«FOREACH entities AS e -»
+				<value>org/imogene/«projectName.toLowerCase()»/server/dao/hibernate/«e.name.toFirstUpper()».hbm.xml</value>	
+				«ENDFOREACH -»				
+				<value>org/imogene/web/server/binary/file/BinaryFile.hbm.xml</value>
+				<value>org/imogene/web/server/dao/hibernate/RoleBeanImpl.hbm.xml</value>
+				<value>org/imogene/web/server/dao/hibernate/DefaultActor.hbm.xml</value>
+				<value>org/imogene/notif/web/gwt/server/dao/hibernate/Notification.hbm.xml</value>
+				<value>org/imogene/web/gwt/client/sync/SynchronizableEntity.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!-- C3PO configuration -->
+				<prop key="hibernate.connection.release_mode">auto</prop>
+                <prop key="hibernate.c3p0.acquire_increment">1</prop>
+                <prop key="hibernate.c3p0.minPoolSize">3</prop>
+                <prop key="hibernate.c3p0.maxPoolSize">20</prop>
+                <prop key="hibernate.c3p0.timeout">50</prop>
+                <prop key="hibernate.c3p0.max_statement">0</prop>
+                <prop key="hibernate.c3p0.idle_test_period">30</prop>				
+			</props>
+		</property>
+		<property name="eventListeners">
+			<map>
+				<entry key="merge">
+					<bean
+						class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 
+		transaction manager for the Hibernate session factory
+	-->
+	<bean
+		id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">		
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- 
+		Entity Hibernate dao 
+	-->
+	«FOREACH entities AS e -»
+	<bean 
+		id="«e.name.toFirstLower()»DaoBase"
+		class="org.imogene.«projectName.toLowerCase()».server.dao.hibernate.«e.name.toFirstUpper()»DaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	«ENDFOREACH -»
+	<!-- role actor dao -->
+	<bean class="org.imogene.«projectName.toLowerCase()».server.dao.hibernate.RoleActorDaoImpl" id="roleActorDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!-- notification dao -->
+	<bean class="org.imogene.notif.web.gwt.server.dao.hibernate.NotificationDaoImpl" id="notificationDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!-- binary dao -->	
+	<bean class="org.imogene.web.server.dao.hibernate.BinaryFileDaoHibernate" id="binaryDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!-- limited generic dao -->
+	<bean class="org.imogene.web.server.dao.hibernate.GenericDaoHibernate" id="genericDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!--
+		Configuration that permits to adapt the pojos 
+		to be detached to the GWT client side. 
+	 -->	
+	<bean id="persistenceUtil" class="net.sf.gilead.core.hibernate.HibernateUtil">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="proxyStore" class="net.sf.gilead.core.store.stateful.HttpSessionProxyStore">
+		<property name="persistenceUtil" ref="persistenceUtil" />
+	</bean>
+
+	<bean id="beanManager" class="net.sf.gilead.core.PersistentBeanManager">
+		<property name="proxyStore" ref="proxyStore" />
+		<property name="persistenceUtil" ref="persistenceUtil" />
+	</bean>
+	
+	<!--  encryption system initialization -->
+	<bean id="encryptionKeyProvider" class="org.imogene.web.server.encryption.DefaultSecretKeyProvider"/>	
+	<bean id="encryptionManager" class="org.imogene.encryption.EncryptionManager" init-method="getInstance">
+		<property name="keyProvider" ref="encryptionKeyProvider"/>
+	</bean>
+	
+</beans>
+«ENDFILE»
+«ENDDEFINE»

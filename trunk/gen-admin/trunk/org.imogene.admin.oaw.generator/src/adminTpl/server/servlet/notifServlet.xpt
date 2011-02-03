@@ -1,0 +1,123 @@
+«IMPORT core»
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR Project»
+«FILE projectName.toLowerCase()+"/server/servlet/"+projectName.toFirstUpper() + "NotificationServlet.java"»
+package org.imogene.«projectName.toLowerCase()».server.servlet;
+
+import java.util.List;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import net.sf.gilead.core.PersistentBeanManager;
+import net.sf.gilead.gwt.PersistentRemoteService;
+import org.imogene.notif.web.gwt.client.NotificationTemplate;
+import org.imogene.notif.web.gwt.remote.NotificationService;
+import org.imogene.notif.web.gwt.server.dao.NotificationDao;
+import org.imogene.web.gwt.common.criteria.ImogConjunction;
+import org.imogene.web.gwt.common.criteria.ImogJunction;
+import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.web.server.ServerConstants;
+
+/**
+ * This servlet exposes RPC services to handle the Notification description
+ *@author Medes-IMPS
+ */
+public class «projectName.toFirstUpper()»NotificationServlet extends PersistentRemoteService implements NotificationService{
+
+	/** serial version */
+	private static final long serialVersionUID = 5832372767860319124L;	
+	
+	private NotificationDao notificationDao;
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
+		setBeanManager((PersistentBeanManager)wac.getBean("beanManager"));
+		notificationDao = (NotificationDao)wac.getBean("notificationDao");		
+	}	
+
+	/**
+	 * Load the entity with the specified id
+	 *@param entityId the entity id
+	 *@return the entity or null
+	 */
+	public NotificationTemplate getNotification(String entityId) {
+		return notificationDao.getNotification(entityId);
+	}
+
+	/**
+	 * List notification template
+	 *@param i first index to retrieve
+	 *@param j nb of items to retrieve
+	 *@param sortProperty the property used to sort the collection
+	 *@param sortOrder true for an ascendant sort
+	 *@return list of biology
+	 */
+	public List<NotificationTemplate> listNotification(int i, int j, String sortProperty,
+			boolean sortOrder) {
+		ImogJunction junction = createFilterJuntion((ImogActor) getThreadLocalRequest()
+				.getSession().getAttribute(ServerConstants.SESSION_USER));
+		return notificationDao.listNotification(i, j, sortProperty, sortOrder, junction);
+	}
+
+	/**
+	 * List notification template
+	 *@param i first index to retrieve
+	 *@param j nb of items to retrieve
+	 *@param criterion request criteria
+	 *@param sortProperty the property used to sort the collection
+	 *@param sortOrder true for an ascendant sort
+	 *@return list of biology
+	 */
+	public List<NotificationTemplate> listNotification(int i, int j, ImogJunction criterion,
+			String property, boolean sortOrder) {
+		ImogJunction junction = createFilterJuntion((ImogActor) getThreadLocalRequest()
+				.getSession().getAttribute(ServerConstants.SESSION_USER));
+		junction.add(criterion);
+		return notificationDao.listNotification(i, j, property, sortOrder, junction);
+	}
+
+	/**
+	 *Count number of biology in the database
+	 *@return the count
+	 */
+	public int countNotification() {
+		return notificationDao.countNotification();
+	}
+
+	/**
+	 *Count number of biology in the database, 
+	 *that matches the criteria
+	 *@return the count
+	 */
+	public int countNotification(ImogJunction criterion) {
+		return notificationDao.countNotification(criterion);
+	}
+
+	/**
+	 *Save or update the entity
+	 *@param entity the entity to save or update
+	 *@param isNew true if it is a new entity added for the first time.
+	 */
+	public void saveOrUpdate(NotificationTemplate entity, boolean isNew) {
+		notificationDao.saveOrUpdate(entity, isNew);
+	}
+
+	/* relation dependences */
+
+	/**
+	 * Create a junction based on the filter field declarations, for the current actor.
+	 * @param actor the current actor
+	 */
+	private ImogJunction createFilterJuntion(ImogActor actor) {
+		ImogConjunction filterConjunction = new ImogConjunction();
+		return filterConjunction;
+	}
+
+}
+«ENDFILE»
+«ENDDEFINE»
