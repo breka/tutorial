@@ -12,6 +12,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.imogene.library.LibraryDesc;
+import org.imogene.library.LibraryPlugin;
 
 public class ContainerWizardPage extends NewElementWizardPage implements IClasspathContainerPage,  IClasspathContainerPageExtension {	
 	
@@ -50,7 +52,13 @@ public class ContainerWizardPage extends NewElementWizardPage implements IClassp
 		Composite mainComposite = new Composite(parent, SWT.NONE);
 		mainComposite.setLayout(new GridLayout());
 		Label label = new Label(mainComposite, SWT.NONE);
-		label.setText("Imogene library for the web applications generated.");			
+		label.setText("Imogene library for the web applications generated.");
+		Label descTitle = new Label(mainComposite, SWT.NONE);
+		descTitle.setText("Available libraries:");
+		for(LibraryDesc desc : LibraryPlugin.getDefault().getAvailableLibraries()){
+			Label dLabel = new Label(mainComposite, SWT.NONE);
+			dLabel.setText(desc.getId());
+		}
 		setControl(mainComposite);
 	}
 

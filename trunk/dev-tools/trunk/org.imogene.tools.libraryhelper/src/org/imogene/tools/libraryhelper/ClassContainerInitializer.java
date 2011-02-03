@@ -34,17 +34,18 @@ public class ClassContainerInitializer extends
 			JavaCore.setClasspathContainer(containerPath,
 					new IJavaProject[] { project },
 					new IClasspathContainer[] { con }, null);
-		}catch (Exception e) {
+		}catch (Exception e) {	
+			if(Display.getCurrent()!=null && Display.getCurrent().getActiveShell()!=null){
+				MessageDialog.openError(Display.getCurrent().getActiveShell(), "Error adding the container path", 
+					"An error occured adding this library, maybe you forgot to add the appropriate nature to your project.\n Error caused by: "+e.getMessage());
+			}
 			e.printStackTrace();
-			MessageDialog.openError(Display.getCurrent().getActiveShell(), "Error adding the container path", 
-					"An error occured adding this library, maybe you forgot to add the appropriate nature to your project");
 		}
 	}		
 	
 	private LibraryDesc getLibrary(IProject project) throws CoreException {
-		List<LibraryDesc> libs = LibraryPlugin.getDefault().getAvailableLibraries();
-		//debug("Libraries available: "+ libs.size());
-		for(LibraryDesc lib : libs){
+		List<LibraryDesc> libs = LibraryPlugin.getDefault().getAvailableLibraries();		
+		for(LibraryDesc lib : libs){			
 			if(project.hasNature(lib.getId()))
 					return lib;
 		}
