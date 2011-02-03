@@ -1,0 +1,178 @@
+«IMPORT core»
+«EXTENSION template::CommonEntityUtilExt»
+«EXTENSION template::CommonFieldUtilExt»
+«REM» 
+Template that generates Hibernate mapping for entities «ENDREM»
+«DEFINE generate(String projectName) FOR CardEntity-»
+«FILE projectName.toLowerCase()+"/dao/hibernate/" + name.toFirstUpper() + ".hbm.xml"-»
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class lazy="false" table="«name»" name="org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»">
+		<id name="id" column="«name»_ID"/>			
+		«EXPAND fieldMapping("org.imogene."+projectName.toLowerCase()+".entity") FOREACH this.groups.fields-»		
+		<property column="«name»_Creator" name="creator"/>
+		<property column="«name»_CreationDate" name="creationDate" type="timestamp"/>
+		<property column="«name»_Modifier" name="modifier"/>
+		<property column="«name»_ModifiedFrom" name="modifiedFrom"/>
+		<property column="«name»_LastModificationDate" name="lastModificationDate" type="timestamp"/>
+		<property column="«name»_UploadDate" name="uploadDate" type="timestamp"/>		
+		
+		«REM»
+		Inheritance specific to Actor entities «ENDREM»
+		«IF Actor.isAssignableFrom(this.metaType)-»
+	    <joined-subclass name="org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor" table="«name.toFirstUpper()»Actor" lazy="false">
+	        <key column="«name»_ID"/>
+		    <property name="login" column="«name»Actor_Login"/>
+		    <property name="password" column="«name»Actor_Password"/>
+			<set lazy="false" name="roles" table="«name»Roles" >
+				<key column="«name»_ID"/>
+				<many-to-many class="org.imogene.common.entity.RoleBeanImpl" column="Role_ID"/>
+			</set>		    
+		    <property name="notificationLocale" column="«name»Actor_NotifLocale"/>
+		    <property name="notificationMethod" column="«name»Actor_NotifMethod"/> 
+		    <property name="beNotified" column="«name»Actor_CanBeNotified" type="boolean"/>			
+			<!--<many-to-one name="delegate" column="Delegate_ID"  not-null="false" lazy="false"/>-->	
+			<property name="lastLoginDate" column="«name»Actor_LastLoginDate" type="timestamp"/>
+			«EXPAND filterField(projectName) FOREACH ((Actor)this).filters»		    						      	    
+	    </joined-subclass>  		
+		«ENDIF -»
+						
+    </class>		
+</hibernate-mapping>
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE fieldMapping(String packageName) FOR FieldEntity-»
+		<property name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" column="«parentGroup.parentCard.name»_«name»"/>
+«ENDDEFINE»
+
+«DEFINE fieldMapping(String packageName) FOR TextField-»
+		<property name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" column="«parentGroup.parentCard.name»_«name»" type="text"/>
+«ENDDEFINE»
+
+«DEFINE fieldMapping(String packageName) FOR DatesField-»
+		<property name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" column="«parentGroup.parentCard.name»_«name»" type="timestamp"/>
+«ENDDEFINE»
+
+
+«REM»
+
+	Mapping for MainRelationEntity
+	WARNING, table name should always be deducted 
+	from the property name, and NOT from the name
+	of the type of the entity handled.
+
+«ENDREM»
+«DEFINE fieldMapping(String packageName) FOR MainRelationFieldEntity-»			
+	«IF (this.cardinality == 1)-»		 
+		«IF (getOppositeCardinality(this) == 1)-»
+		«REM»
+		Relation 1 <-> 1 «ENDREM»
+		<many-to-one name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" 
+					 unique="true" 
+					 column="«EXPAND template::CommonFieldUtil::propertyName FOR this»_ID"  
+					 not-null="false" 
+					 «IF (this.type.toString() == (core::RelationType::Composition).toString())-»
+					 cascade="all" «ENDIF»
+					 lazy="false"/>
+		«ELSE-»
+		«REM»
+		Relation 1 <-> N «ENDREM»		
+		<many-to-one name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" 					  
+					 column="«EXPAND template::CommonFieldUtil::propertyName FOR this»«parentGroup.parentCard.name.toFirstUpper()»_ID"  
+					 not-null="false" 
+					 «IF (this.type.toString() == (core::RelationType::Composition).toString())-»
+					 cascade="all" «ENDIF»
+					 lazy="false"/>
+		«ENDIF-»		
+	«ELSE-»	
+		«IF (getOppositeCardinality(this) == 1)-»
+		«REM»
+		Relation N <-> 1 «ENDREM»	
+		<set name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" 
+			 «IF (this.type.toString() == (core::RelationType::Composition).toString())-»
+			 cascade="all-delete-orphan" «ENDIF»
+			 lazy="true">
+			    <key column="«EXPAND template::CommonFieldUtil::propertyName FOR this-»«parentGroup.parentCard.name.toFirstUpper()»_ID"/>
+			    <one-to-many class="«packageName-».«entity.name.toFirstUpper()»"/>
+		</set>
+		«ELSE-»
+		«REM»
+		Relation N <-> N «ENDREM»
+		<set name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" table ="«EXPAND template::CommonFieldUtil::propertyName FOR this-»«parentGroup.parentCard.name.toFirstUpper()»«entity.name.toFirstUpper()»" lazy="true">		    	
+		    	<key column="«parentGroup.parentCard.name.toFirstUpper()»_ID"/>			    		    	
+			    <many-to-many column="«entity.name.toFirstUpper()»_ID" class="«packageName».«entity.name.toFirstUpper()»"/>
+		</set>		
+		«ENDIF-»
+		
+	«ENDIF-»
+«ENDDEFINE»
+
+«REM»
+
+	Mapping for ReverseRelationEntity
+	WARNING, table name should always be deducted 
+	from the property name, and NOT from the name
+	of the type of the entity handled.
+
+«ENDREM»
+«DEFINE fieldMapping(String packageName) FOR ReverseRelationFieldEntity-»	
+	«IF (this.cardinality == 1)-»		 
+		«IF (getOppositeCardinality(this) == 1)-»
+		«REM»Relation 1 <-> 1 «ENDREM»		
+			 «IF (getOppositeRelationType(this) == (core::RelationType::Association).toString())-»
+		<one-to-one name="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+				    class="«packageName-».«entity.name.toFirstUpper()»" 
+				    cascade="merge" 
+				    property-ref="«EXPAND template::CommonFieldUtil::propertyName FOR this.oppositeRelationField»"/>			
+			«ELSE-»	    
+		<one-to-one name="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+				    class="«packageName-».«entity.name.toFirstUpper()»"
+				    property-ref="«EXPAND template::CommonFieldUtil::propertyName FOR this.oppositeRelationField»"/>		
+						    
+			«ENDIF-»				    
+		«ELSE-»
+		«REM»
+		Relation 1 <-> N «ENDREM»		
+		<many-to-one name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" 					  
+					 column="«EXPAND template::CommonFieldUtil::propertyName FOR this.oppositeRelationField»«oppositeRelationField.parentGroup.parentCard.name.toFirstUpper()»_ID"  
+					 not-null="false" 
+					 «IF (this.type.toString() == (core::RelationType::Composition).toString())-»
+					 cascade="all" «ENDIF»
+					 lazy="false"/>
+					 
+		«ENDIF-»		
+	«ELSE-»	
+		«IF (getOppositeCardinality(this) == 1)-»
+		«REM»
+		Relation N <-> 1 «ENDREM»	
+		<set name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" 
+			 «IF (this.type.toString() == (core::RelationType::Composition).toString())-»
+			 cascade="all-delete-orphan" «ENDIF»
+			 lazy="true">
+			    <key column="«EXPAND template::CommonFieldUtil::propertyName FOR this.oppositeRelationField-»«oppositeRelationField.parentGroup.parentCard.name.toFirstUpper()»_ID"/>
+			    <one-to-many class="«packageName-».«entity.name.toFirstUpper()»"/>
+		</set>
+		
+		«ELSE-»
+		«REM»
+		Relation N <-> N «ENDREM»
+		<set name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»"  table="«EXPAND template::CommonFieldUtil::propertyName FOR this.oppositeRelationField-»«oppositeRelationField.parentGroup.parentCard.name.toFirstUpper()»«parentGroup.parentCard.name.toFirstUpper()»" lazy="true">		    	
+		    	<key column="«parentGroup.parentCard.name.toFirstUpper()»_ID"/>			    		    	
+			    <many-to-many column="«entity.name.toFirstUpper()»_ID" class="«packageName-».«entity.name.toFirstUpper()»"/>
+		</set>
+		
+		«ENDIF-»		
+	«ENDIF-»
+«ENDDEFINE»
+
+«REM»
+Define the relation between the actor an the filter fields values «ENDREM»
+«DEFINE filterField(String projectName) FOR FilterField»
+	«REM»<set name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" lazy="false">
+		<key column="«this.parentActor.name.toFirstUpper()»_ID"/>
+		<many-to-many class="org.imogene.«projectName.toLowerCase()».entity.«this.entity.name.toFirstUpper()»" column="«this.name.toFirstLower()»Fields_ID"/>
+	</set>«ENDREM»
+«ENDDEFINE»
+
