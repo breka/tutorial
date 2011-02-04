@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.SimpleAdapter;
 
 public abstract class AbstractEntityView extends ScrollingTabActivity implements OnClickListener {
@@ -38,8 +37,6 @@ public abstract class AbstractEntityView extends ScrollingTabActivity implements
 	protected boolean mCanModify;
 	protected boolean mCanWrite;
 
-	private final int mLeftIcon;
-
 	private final Handler mHandler = new Handler();
 
 	private final ContentObserver mContentObserver = new ContentObserver(mHandler) {
@@ -48,18 +45,12 @@ public abstract class AbstractEntityView extends ScrollingTabActivity implements
 		};
 	};
 
-	public AbstractEntityView(final int leftIcon) {
-		mLeftIcon = leftIcon;
-	}
-
 	protected abstract void refresh();
 
 	protected abstract Entity getEntity();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (mLeftIcon != 0)
-			requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		super.onCreate(savedInstanceState);
 		DatabaseUtils.markAs(getContentResolver(), getIntent().getData(), false);
 		getContentResolver().registerContentObserver(getIntent().getData(),
@@ -84,13 +75,6 @@ public abstract class AbstractEntityView extends ScrollingTabActivity implements
 		} catch (ActivityNotFoundException e) {
 			IntentUtils.treatException(e, this, intent);
 		}
-	}
-
-	@Override
-	protected void onPostCreate(Bundle icicle) {
-		super.onPostCreate(icicle);
-		if (mLeftIcon != 0)
-			setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, mLeftIcon);
 	}
 
 	@Override

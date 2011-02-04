@@ -36,7 +36,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.Window;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -96,7 +95,6 @@ public abstract class AbstractEntityListing extends ListActivity implements
 	private final int mNewDescription;
 	private final int mNoEntityDescription;
 	private final int mSearchDescription;
-	private final int mLeftIcon;
 
 	protected boolean mCanDelete;
 	protected boolean mCanModify;
@@ -113,13 +111,12 @@ public abstract class AbstractEntityListing extends ListActivity implements
 
 	public AbstractEntityListing(final Uri uri, final Drawable color,
 			final int newDescription, final int noEntityDescription,
-			final int searchDescription, final int leftIcon) {
+			final int searchDescription) {
 		mUri = uri;
 		mColor = color;
 		mNewDescription = newDescription;
 		mNoEntityDescription = noEntityDescription;
 		mSearchDescription = searchDescription;
-		mLeftIcon = leftIcon;
 	}
 	
 	public void setCursorWrapperFactory(CursorWrapperFactory factory) {
@@ -132,9 +129,6 @@ public abstract class AbstractEntityListing extends ListActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (mLeftIcon != 0) {
-			requestWindowFeature(Window.FEATURE_LEFT_ICON);
-		}
 		super.onCreate(savedInstanceState);
 
 		if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
@@ -223,13 +217,6 @@ public abstract class AbstractEntityListing extends ListActivity implements
 		}
 
 		registerForContextMenu(getListView());
-	}
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		if (mLeftIcon != 0)
-			setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, mLeftIcon);
 	}
 
 	@Override

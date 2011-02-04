@@ -11,15 +11,19 @@
 		android:label="@string/app_name"
 	 	android:debuggable="true">
 
-		<activity android:name="org.imogene.android.app.MainActivity" android:label="@string/app_name" android:windowSoftInputMode="adjustPan">
+		<activity
+			android:name="org.imogene.android.app.MainActivity"
+			android:label="@string/app_name"
+			android:windowSoftInputMode="adjustPan">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 			
-		<activity android:label="@string/high_preferences"
-			android:name="org.imogene.android.app.HighPreferences">
+		<activity
+			android:name="org.imogene.android.app.HighPreferences"
+			android:label="@string/high_preferences" >
 			<action android:name="android.intent.action.MAIN" />
 			<category android:name="android.intent.category.DEFAULT" />
 		</activity>
@@ -27,19 +31,25 @@
 		<service android:name="org.imogene.android.service.MetadataService">
 		</service>
 		
-		<activity android:name="org.imogene.android.app.setup.AccountCreationIntroduction"
+		<activity 
+			android:name="org.imogene.android.app.setup.AccountCreationIntroduction"
 			android:label="@string/account_creation_introduction_title"/>
 		
-		<activity android:name="org.imogene.android.app.setup.AccountSetupBasics" android:windowSoftInputMode="adjustPan"
-			android:label="@string/account_setup_basics_title" android:exported="true" />
+		<activity 
+			android:name="org.imogene.android.app.setup.AccountSetupBasics"
+			android:label="@string/account_setup_basics_title"
+			android:exported="true"
+			android:windowSoftInputMode="adjustPan"/>
 			
-		<activity android:name="org.imogene.android.app.setup.AccountSetupShortPassword" android:windowSoftInputMode="adjustPan"
-			android:label="@string/account_setup_shortpw_title" />
+		<activity
+			android:name="org.imogene.android.app.setup.AccountSetupShortPassword"
+			android:label="@string/account_setup_shortpw_title"
+			android:windowSoftInputMode="adjustPan"/>
 		
 		<activity
+			android:name="org.imogene.android.app.ImageCapture"
 			android:label="@string/camera"
 			android:icon="@drawable/ic_launcher_camera" 
-			android:name="org.imogene.android.app.ImageCapture"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
 			<intent-filter>
 				<action android:name="android.intent.action.GET_CONTENT"/>
@@ -49,7 +59,10 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:label="@string/list_availables_entities" android:name=".app.ThemaListing" >
+		<activity 
+			android:name=".app.ThemaListing"
+			android:label="@string/list_availables_entities"
+			android:icon="@drawable/logo_android_s" >
 			<intent-filter>
 				<action android:name="org.imogene.android.«name.toLowerCase()».action.LIST_ENTITIES" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -65,7 +78,10 @@
 			android:label="@string/preferences" />
 		
 		«FOREACH entities AS entity»
-		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_listof" android:name=".app.«entity.name.toFirstUpper()-»Listing" >
+		<activity
+			android:name=".app.«entity.name.toFirstUpper()-»Listing"
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_listof"
+			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<action android:name="android.intent.action.PICK" />
@@ -81,7 +97,10 @@
                        android:resource="@xml/«entity.name.toLowerCase()-»_searchable" />
 		</activity>
 		
-		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_view" android:name=".app.«entity.name.toFirstUpper()-»View" >
+		<activity
+			android:name=".app.«entity.name.toFirstUpper()-»View" 
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_view"
+			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -89,7 +108,11 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_insert" android:name=".app.«entity.name.toFirstUpper()-»Edit" «REM»android:theme="@android:style/Theme.Light"«ENDREM»>
+		<activity
+			android:name=".app.«entity.name.toFirstUpper()-»Edit"
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_insert"
+			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-»
+			«REM»android:theme="@android:style/Theme.Light"«ENDREM» >
 			<intent-filter>
 				<action android:name="android.intent.action.INSERT" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -98,7 +121,11 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_insert" android:name=".app.«entity.name.toFirstUpper()-»Wizard" «REM»android:theme="@style/Theme.Light.Hack"comment«ENDREM»>
+		<activity 
+			android:name=".app.«entity.name.toFirstUpper()-»Wizard"
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_insert"
+			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-»
+			«REM»android:theme="@style/Theme.Light.Hack"comment«ENDREM» >
 			<intent-filter>
 				<action android:name="android.intent.action.INSERT" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -107,7 +134,11 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:label="@string/«entity.shortName.toLowerCase()-»_des_edit" android:name=".app.«entity.name.toFirstUpper()-»Edit" «REM»android:theme="@android:style/Theme.Light"«ENDREM»>
+		<activity
+			android:name=".app.«entity.name.toFirstUpper()-»Edit" 
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_edit"
+			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-»
+			«REM»android:theme="@android:style/Theme.Light"«ENDREM»>
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -117,18 +148,22 @@
 		
 		«ENDFOREACH»
 		
-		<activity android:label="UserListing" android:name=".app.MultiUserListing" >
-			<category android:name="android.intent.category.DEFAULT"/>
-		</activity>
-		
-		<activity android:label="@string/synchro_resume" android:name=".app.SyncResume"
-			android:theme="@android:style/Theme.Light">
+		<activity 
+			android:name=".app.MultiUserListing"
+			android:label="UserListing" >
 			<category android:name="android.intent.category.DEFAULT"/>
 		</activity>
 		
 		<activity 
-			android:label="@string/«name.toLowerCase()-»_downloader"
+			android:name=".app.SyncResume"
+			android:label="@string/synchro_resume"
+			android:theme="@android:style/Theme.Light" >
+			<category android:name="android.intent.category.DEFAULT"/>
+		</activity>
+		
+		<activity 
 			android:name=".app.EntityDownloader"
+			android:label="@string/«name.toLowerCase()-»_downloader"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			android:configChanges="orientation|keyboardHidden" >
 			<intent-filter>
@@ -138,33 +173,36 @@
 		</activity>
 		
 		<activity
-			android:label="offset"
 			android:name="org.imogene.android.app.OffsetActivity"
+			android:label="offset"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			android:configChanges="orientation|keyboardHidden">
 		</activity>
 		
 		<activity
-			android:label="authentication"
 			android:name="org.imogene.android.app.Authentication"
+			android:label="authentication"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			android:configChanges="orientation|keyboardHidden">
 		</activity>
 		
-		<activity android:name="org.imogene.android.app.UnSyncDialog"
+		<activity
+			android:name="org.imogene.android.app.UnSyncDialog"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
 			<intent-filter>
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
 		
-		<receiver android:name="org.imogene.android.receiver.OperationSmsReceiver">
+		<receiver
+			android:name="org.imogene.android.receiver.OperationSmsReceiver">
 			<intent-filter>
 				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name="org.imogene.android.receiver.ServicingReceiver">
+		<receiver
+			android:name="org.imogene.android.receiver.ServicingReceiver">
  			<intent-filter>
  				<action android:name="android.provider.Telephony.SECRET_CODE" />
  				<data android:scheme="android_secret_code" android:host="«secretCode»" />
@@ -177,7 +215,8 @@
  			</intent-filter>
  		</receiver>
 		
-		<receiver android:name="org.imogene.android.receiver.SynchronizationReceiver">
+		<receiver
+			android:name="org.imogene.android.receiver.SynchronizationReceiver">
 			<intent-filter>
 				<action android:name="org.imogene.android.«name.toLowerCase()».action.CHECK_SYNC" />
 				<action android:name="org.imogene.android.«name.toLowerCase()».action.RESCHEDULE" />
@@ -185,7 +224,8 @@
 			</intent-filter>
 		</receiver>
 		
-		<service android:name=".service.«name.toFirstUpper()-»SyncService" >
+		<service
+			android:name=".service.«name.toFirstUpper()-»SyncService" >
 			<intent-filter>
 				<action android:name="org.imogene.android.«name.toLowerCase()».action.CHECK_SYNC" />
 				<action android:name="org.imogene.android.«name.toLowerCase()».action.RESCHEDULE" />
@@ -193,7 +233,9 @@
 			</intent-filter>
 		</service>
 
-		<provider android:authorities="org.imogene.android.«name.toLowerCase()».entity" android:name=".provider.«name.toFirstUpper()-»Provider" />
+		<provider 
+			android:authorities="org.imogene.android.«name.toLowerCase()».entity" 
+			android:name=".provider.«name.toFirstUpper()-»Provider" />
 	</application>
 	
 	<uses-permission android:name="android.permission.CALL_PHONE" />
