@@ -41,7 +41,7 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 	protected int mRequestCode;
 	protected Uri mContentUri;
 
-	private RelationOneFieldEdit mHierarchicalParent = null;
+	private RelationFieldEdit<?> mHierarchicalParent = null;
 	private String mHierarchicalField;
 
 	public RelationFieldEdit(Context context, AttributeSet attrs) {
@@ -67,8 +67,8 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 		manager.registerOnActivityResultListener(this);
 		mRequestCode = manager.getNextId();
 		final View view = manager.getActivity().findViewById(mHierarchicalParentId);
-		if (view != null && view instanceof RelationOneFieldEdit) {
-			mHierarchicalParent = (RelationOneFieldEdit) view;
+		if (view != null && view instanceof RelationFieldEdit<?>) {
+			mHierarchicalParent = (RelationFieldEdit<?>) view;
 			if (mHierarchicalParent != null && mHierarchicalField != null) {
 				mHierarchicalParent.registerHierarchicalDependent(this);
 			}
@@ -133,15 +133,31 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 		boolean sqlTouched = onPrepareSQLBuilder(builder);
 		onPrepareIntent(intent);
 		if (mHierarchicalParent != null && mHierarchicalField != null) {
-			final Uri uri = mHierarchicalParent.getValue();
-			if (uri != null) {
-				final String id = AbstractDatabase.getSuper(getContext()).queryId(uri);
-				builder.appendEq(mHierarchicalField, id);
-				sqlTouched = true;
-			} else {
-				final String fieldName = getResources().getString(mHierarchicalParent.getTitleId());
-				Toast.makeText(getContext(), getResources().getString(W.string.relation_hierarchical_parent_unset, fieldName), Toast.LENGTH_LONG).show();
-				return;
+			if (mHierarchicalParent instanceof RelationOneFieldEdit) {
+				final Uri uri = ((RelationOneFieldEdit) mHierarchicalParent).getValue();
+				if (uri != null) {
+					final String id = AbstractDatabase.getSuper(getContext()).queryId(uri);
+					builder.appendEq(mHierarchicalField, id);
+					sqlTouched = true;
+				} else {
+					final String fieldName = getResources().getString(mHierarchicalParent.getTitleId());
+					Toast.makeText(getContext(), getResources().getString(W.string.relation_hierarchical_parent_unset, fieldName), Toast.LENGTH_LONG).show();
+					return;
+				}
+			} else if (mHierarchicalParent instanceof RelationManyFieldEdit) {
+				final ArrayList<Uri> uris = ((RelationManyFieldEdit) mHierarchicalParent).getValue();
+				if (uris != null && uris.size() > 0) {
+					String[] ids = new String[uris.size()];
+					for (int i = 0; i < uris.size(); i++) {
+						ids[i] = AbstractDatabase.getSuper(getContext()).queryId(uris.get(i));
+					}
+					builder.appendIn(mHierarchicalField, ids);
+					sqlTouched = true;
+				} else {
+					final String fieldName = getResources().getString(mHierarchicalParent.getTitleId());
+					Toast.makeText(getContext(), getResources().getString(W.string.relation_hierarchical_parent_unset, fieldName), Toast.LENGTH_LONG).show();
+					return;
+				}
 			}
 		}
 		if (sqlTouched) {

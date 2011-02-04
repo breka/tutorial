@@ -11,31 +11,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.view.Window;
 
 public abstract class AbstractEntityWizard extends FieldFlipperActivity implements OnClickListener {
 	
 	private static final int DIALOG_UNCOMPLETE_ID = 1;
 	
-	private final int mLeftIcon;
-	
-	public AbstractEntityWizard(final int leftIcon) {
-		mLeftIcon = leftIcon;
-	}
-	
 	protected abstract void save(boolean temporary);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (mLeftIcon != 0) requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		super.onCreate(savedInstanceState);
 		IamLost.getInstance().add(getTitle().toString());
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle icicle) {
-		super.onPostCreate(icicle);
-		if (mLeftIcon != 0) setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, mLeftIcon);
 	}
 	
 	@Override

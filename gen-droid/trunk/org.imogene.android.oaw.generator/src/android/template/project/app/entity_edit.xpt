@@ -47,10 +47,6 @@ public class «name.toFirstUpper()-»Edit extends AbstractEntityEdit implements Re
 	
 	private «name.toFirstUpper()-» mEntity;
 	
-	public «name.toFirstUpper()-»Edit() {
-		super(«IF icon.length > 0-»R.drawable.«icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»);
-	}
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

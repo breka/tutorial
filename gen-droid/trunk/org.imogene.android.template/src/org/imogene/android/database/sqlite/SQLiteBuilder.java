@@ -107,6 +107,23 @@ public class SQLiteBuilder implements Parcelable {
 		}
 		return this;
 	}
+	
+	public SQLiteBuilder appendIn(String property, String[] list) {
+		if (list != null && list.length > 0) {
+			StringBuilder builder = new StringBuilder();
+			boolean first = true;
+			for (int i = 0; i < list.length; i++) {
+				if (first) {
+					first = false;
+				} else {
+					builder.append(',');
+				}
+				builder.append("'"+list[i]+"'");
+			}
+			return appendWhere(property + " in (" + builder.toString() + ")");
+		}
+		return this;
+	}
 
 	public SQLiteBuilder appendNotIn(String property, SQLiteRequest select) {
 		if (select instanceof SQLiteSelect)

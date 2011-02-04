@@ -45,8 +45,7 @@ public class «name.toFirstUpper()-»Listing extends AbstractEntityListing {
 			«name.toFirstUpper()-».COLOR,
 			R.string.«shortName.toLowerCase()-»_des_new,
 			R.string.«shortName.toLowerCase()-»_noEntitiesHelpText,
-			R.string.«shortName.toLowerCase()-»_des_search,
-			«IF icon.length > 0-»R.drawable.«icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»
+			R.string.«shortName.toLowerCase()-»_des_search
 			);
 	}
 	

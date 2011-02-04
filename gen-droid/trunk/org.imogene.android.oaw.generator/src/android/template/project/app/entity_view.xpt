@@ -56,10 +56,6 @@ public class «name.toFirstUpper()-»View extends AbstractEntityView implements Re
 	
 	private «name.toFirstUpper()-» mEntity = null;
 	
-	public «name.toFirstUpper()-»View() {
-		super(«IF icon.length > 0-»R.drawable.«icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»);
-	}
-	
 	@Override
 	protected «name.toFirstUpper()-» getEntity() {
 		return mEntity;

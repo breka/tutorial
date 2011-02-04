@@ -24,7 +24,6 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -48,7 +47,6 @@ public abstract class AbstractThemaListing extends ExpandableListActivity
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		super.onCreate(savedInstanceState);
 
 		fillData();
@@ -56,12 +54,6 @@ public abstract class AbstractThemaListing extends ExpandableListActivity
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		mPreferences.registerOnSharedPreferenceChangeListener(this);
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, W.drawable.logo_android_s);
 	}
 	
 	@Override

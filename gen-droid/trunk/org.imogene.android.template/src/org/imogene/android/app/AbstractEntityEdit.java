@@ -18,7 +18,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.SimpleAdapter;
 
 public abstract class AbstractEntityEdit extends ScrollingTabActivity implements OnClickListener {
@@ -32,29 +31,16 @@ public abstract class AbstractEntityEdit extends ScrollingTabActivity implements
 	private static final int DIALOG_ERROR_ID = 2;
 	private static final int DIALOG_IAMLOST_ID = 3;
 	
-	private final int mLeftIcon;
-	
-	public AbstractEntityEdit(final int leftIcon) {
-		mLeftIcon = leftIcon;
-	}
-	
 	protected abstract void save(boolean temporary);
 	
 	protected abstract ArrayList<HashMap<String, String>> getErrors();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (mLeftIcon != 0) requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		super.onCreate(savedInstanceState);
 		if (!Intent.ACTION_INSERT.equals(getIntent().getAction()))
 			DatabaseUtils.markAs(getContentResolver(), getIntent().getData(), false);
 		IamLost.getInstance().add(getTitle().toString());
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle icicle) {
-		super.onPostCreate(icicle);
-		if (mLeftIcon != 0) setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, mLeftIcon);
 	}
 	
 	@Override

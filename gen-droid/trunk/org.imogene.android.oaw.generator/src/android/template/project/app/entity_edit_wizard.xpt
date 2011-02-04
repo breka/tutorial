@@ -40,10 +40,6 @@ public class «name.toFirstUpper()-»Wizard extends AbstractEntityWizard implement
 	
 	private «name.toFirstUpper()-» mEntity;
 	
-	public «name.toFirstUpper()-»Wizard() {
-		super(«IF icon.length > 0-»R.drawable.«icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»);
-	}
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
