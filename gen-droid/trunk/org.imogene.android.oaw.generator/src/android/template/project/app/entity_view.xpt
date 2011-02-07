@@ -34,7 +34,7 @@ import org.imogene.android.widget.field.view.IntegerFieldView;
 import org.imogene.android.widget.field.view.PhoneFieldView;
 import org.imogene.android.widget.field.view.RelationManyFieldView;
 import org.imogene.android.widget.field.view.RelationOneFieldView;
-import org.imogene.android.widget.field.view.StringFieldView;
+import org.imogene.android.widget.field.view.TextFieldView;
 import org.imogene.android.widget.field.view.TimeFieldView;
 import org.imogene.android.«projectName.toLowerCase()».R;
 import org.imogene.android.«projectName.toLowerCase()».entities.«name.toFirstUpper()-»;
@@ -228,7 +228,7 @@ tabHost.addTab(tabHost.newTabSpec("«shortName.toLowerCase()-»")
 
 «DEFINE nameViewField FOR FieldEntity-»Nothing«ENDDEFINE»
 
-«DEFINE nameViewField FOR StringField-»StringFieldView«ENDDEFINE»
+«DEFINE nameViewField FOR StringField-»TextFieldView«ENDDEFINE»
 
 «DEFINE nameViewField FOR AddressField-»AddressFieldView«ENDDEFINE»
 

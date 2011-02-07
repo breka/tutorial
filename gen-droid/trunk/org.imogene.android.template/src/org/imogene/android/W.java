@@ -228,12 +228,12 @@ public final class W {
 		public static final int period_picker_dialog = R.layout.period_picker_dialog;
 		public static final int relation_field_entity = R.layout.relation_field_entity;
 		public static final int select_dialog = R.layout.select_dialog;
-		public static final int string_field_edit = R.layout.string_field_edit;
 		public static final int tab_content = R.layout.tab_content;
 		public static final int tab_indicator = R.layout.tab_indicator;
 		public static final int tab_layout = R.layout.tab_layout;
 		public static final int tab_left_arrow = R.layout.tab_left_arrow;
 		public static final int tab_right_arrow = R.layout.tab_right_arrow;
+		public static final int text_field_edit = R.layout.text_field_edit;
 		public static final int wizard_content = R.layout.wizard_content;}
 
 	public static final class menu {
@@ -510,5 +510,5 @@ public final class W {
 		public static final int[] RelationFilterPreference = R.styleable.RelationFilterPreference;
 		public static final int RelationFilterPreference_entityws = R.styleable.RelationFilterPreference_entityws;
 		public static final int RelationFilterPreference_hierarchicalField = R.styleable.RelationFilterPreference_hierarchicalField;
-		public static final int[] StringFieldEdit = R.styleable.StringFieldEdit;
-		public static final int StringFieldEdit_stringType = R.styleable.StringFieldEdit_stringType;}}
+		public static final int[] TextFieldEdit = R.styleable.TextFieldEdit;
+		public static final int TextFieldEdit_stringType = R.styleable.TextFieldEdit_stringType;}}

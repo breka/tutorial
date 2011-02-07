@@ -4,9 +4,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
-public class StringFieldView extends DefaultEntityView<String> {
+public class TextFieldView extends DefaultEntityView<String> {
 	
-	public StringFieldView(Context context, AttributeSet attrs) {
+	public TextFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 	
