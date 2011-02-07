@@ -15,17 +15,17 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-public class StringFieldEdit extends FieldEntity<String> implements TextWatcher {
+public class TextFieldEdit extends FieldEntity<String> implements TextWatcher {
 	
 	private String[] mRegexs;
 	private int[] mRegexDisplayIds;
 	
 	private int mStringType;
 	
-	public StringFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.string_field_edit);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.StringFieldEdit, 0, 0);
-		setStringType(a.getInt(W.styleable.StringFieldEdit_stringType, InputType.TYPE_NULL));
+	public TextFieldEdit(Context context, AttributeSet attrs) {
+		super(context, attrs, W.layout.text_field_edit);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.TextFieldEdit, 0, 0);
+		setStringType(a.getInt(W.styleable.TextFieldEdit_stringType, InputType.TYPE_NULL));
 		a.recycle();
 		setFocusable(false);		
 	}

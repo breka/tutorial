@@ -6,7 +6,7 @@
 
 «DEFINE nameEditField FOR FieldEntity-»Nothing«ENDDEFINE»
 
-«DEFINE nameEditField FOR StringField-»StringFieldEdit«ENDDEFINE»
+«DEFINE nameEditField FOR StringField-»TextFieldEdit«ENDDEFINE»
 
 «DEFINE nameEditField FOR BarcodeField-»BarcodeFieldEdit«ENDDEFINE»
 

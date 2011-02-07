@@ -87,7 +87,7 @@
 		<attr name="readOnly" format="boolean" />
 	</declare-styleable>
 	
-	<declare-styleable name="StringFieldEdit">
+	<declare-styleable name="TextFieldEdit">
 		<!-- The input type -->
 		<attr name="stringType" />
 	</declare-styleable>
