@@ -59,7 +59,7 @@
 	  * Select {{{Server}}}.
 	  * Click {{{Next}}}.
 	  * Keep the {{{Tomcat v6,0 Server}}} default option
-	  * Click {{{Next and {{{Finish}}}.
+	  * Click {{{Next}}} and {{{Finish}}}.
 	
 					http://imogene.googlecode.com/svn/wiki/images/install/image2.png
 					http://imogene.googlecode.com/svn/wiki/images/install/image4.png
@@ -86,9 +86,9 @@
 == 5. Install the Android plugins for Eclipse and the Android SDK ==
 	=== Download and install the SDK starter package ===
 	
-	|| *Platform* ||*Package* ||
-	|| Windows ||[http://developer.android.com/sdk/download.html?v=android-sdk_r06-windows.zip android-sdk_r06-windows.zip] ||
-	|| Mac OS X (intel) ||[http://developer.android.com/sdk/download.html?v=android-sdk_r06-mac_86.zip android-sdk_r06-mac_86.zip] ||
+	|| *Platform* || *Package* ||
+	|| Windows || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-windows.zip android-sdk_r06-windows.zip] ||
+	|| Mac OS X (intel) || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-mac_86.zip android-sdk_r06-mac_86.zip] ||
 	|| Linux (i386) || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-linux_86.tgz android-sdk_r06-linux_86.tgz] ||
 	
 	Select a starter package from the table and download it to your development computer. To install the SDK, simply unpack the starter package to a safe location. It can be useful to add the location to your PATH as follow:
@@ -101,7 +101,7 @@
 	
 	Use Update Manager feature of your Eclipse installation to install the latest revision of ADT on your development computer. 
 	
-	  * Start Eclipse, then select {{{Help > Install New Software.
+	  * Start Eclipse, then select {{{Help > Install New Software}}}.
 					http://imogene.googlecode.com/svn/wiki/images/install/image13.png
 	
 	
@@ -143,15 +143,19 @@
 == 6. Install the imogene plugins for Eclipse ==
 
 	  * In the Eclipse menu, select {{{Help/Install New software...}}}.
+	  
 	  * Click on the {{{Add}}} button at the top right of the window.You will add a new update site to Eclipse. This update site will enable to install and update the _*imogene*_ plugins.
+	  
 	  * Enter _*imogene*_ as {{{Name}}} and {{{http://unhcr.i-mogene.org/update}}} 
 	
-	  * Click {{{OK}}}.
-	The _*imogene*_ update site is added to the update site list (label 'Work with').
+	  * Click {{{OK}}}. The _*imogene*_ update site is added to the update site list (label 'Work with').
+	 
 	  * In this {{{Work with}}} drop down list, select the newly added _*imogene*_ update site.
+	  
 	  * To see the _*imogene*_ plugin, unselect the checkbox {{{group Items by Category}}}. The _*imogene*_ plugins appear in the plugin name list.
 	  
 	  * Select all the plugins from the list.
+	 
 	  * Click {{{Next}}}, {{{Next}}} again, Accept the terms of the licence Agreement, and click {{{Finish}}}'.
 	
 	Eclipse starts the installation of the _*imogene*_ plugins and of all the other complementary plugins that _*imogene*_ requires.
