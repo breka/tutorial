@@ -39,21 +39,22 @@ import org.imogene.model.core.Role;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getDescriptions <em>Descriptions</em>}</li>
- *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getMainFields <em>Main Fields</em>}</li>
- *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getColumnFields <em>Column Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getShortName <em>Short Name</em>}</li>
+ *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getDescriptions <em>Descriptions</em>}</li>
+ *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getColumnFields <em>Column Fields</em>}</li>
+ *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getMainFields <em>Main Fields</em>}</li>
+ *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getSecondaryFields <em>Secondary Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getIcon <em>Icon</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#isTopLevel <em>Top Level</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getClientFilterFields <em>Client Filter Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getGroups <em>Groups</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getSortFields <em>Sort Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getActorFilterFields <em>Actor Filter Fields</em>}</li>
- *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getSecondaryFields <em>Secondary Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getColor <em>Color</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#isDisplayQRCode <em>Display QR Code</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getCreators <em>Creators</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#isClientPeriodFilterable <em>Client Period Filterable</em>}</li>
+ *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getDirectAccess <em>Direct Access</em>}</li>
  * </ul>
  * </p>
  *
@@ -88,36 +89,6 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getDescriptions() <em>Descriptions</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescriptions()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Description> descriptions;
-
-	/**
-	 * The cached value of the '{@link #getMainFields() <em>Main Fields</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMainFields()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<FieldEntity> mainFields;
-
-	/**
-	 * The cached value of the '{@link #getColumnFields() <em>Column Fields</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getColumnFields()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<FieldEntity> columnFields;
-
-	/**
 	 * The default value of the '{@link #getShortName() <em>Short Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -136,6 +107,46 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 	 * @ordered
 	 */
 	protected String shortName = SHORT_NAME_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getDescriptions() <em>Descriptions</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescriptions()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Description> descriptions;
+
+	/**
+	 * The cached value of the '{@link #getColumnFields() <em>Column Fields</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getColumnFields()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<FieldEntity> columnFields;
+
+	/**
+	 * The cached value of the '{@link #getMainFields() <em>Main Fields</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMainFields()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<FieldEntity> mainFields;
+
+	/**
+	 * The cached value of the '{@link #getSecondaryFields() <em>Secondary Fields</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSecondaryFields()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<FieldEntity> secondaryFields;
 
 	/**
 	 * The default value of the '{@link #getIcon() <em>Icon</em>}' attribute.
@@ -218,16 +229,6 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 	protected EList<ActorFilter> actorFilterFields;
 
 	/**
-	 * The cached value of the '{@link #getSecondaryFields() <em>Secondary Fields</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSecondaryFields()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<FieldEntity> secondaryFields;
-
-	/**
 	 * The default value of the '{@link #getColor() <em>Color</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -296,6 +297,16 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 	 * @ordered
 	 */
 	protected boolean clientPeriodFilterable = CLIENT_PERIOD_FILTERABLE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getDirectAccess() <em>Direct Access</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDirectAccess()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Role> directAccess;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -576,6 +587,18 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Role> getDirectAccess() {
+		if (directAccess == null) {
+			directAccess = new EObjectResolvingEList<Role>(Role.class, this, ImogenePackage.CARD_ENTITY__DIRECT_ACCESS);
+		}
+		return directAccess;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -612,14 +635,16 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 		switch (featureID) {
 			case ImogenePackage.CARD_ENTITY__NAME:
 				return getName();
-			case ImogenePackage.CARD_ENTITY__DESCRIPTIONS:
-				return getDescriptions();
-			case ImogenePackage.CARD_ENTITY__MAIN_FIELDS:
-				return getMainFields();
-			case ImogenePackage.CARD_ENTITY__COLUMN_FIELDS:
-				return getColumnFields();
 			case ImogenePackage.CARD_ENTITY__SHORT_NAME:
 				return getShortName();
+			case ImogenePackage.CARD_ENTITY__DESCRIPTIONS:
+				return getDescriptions();
+			case ImogenePackage.CARD_ENTITY__COLUMN_FIELDS:
+				return getColumnFields();
+			case ImogenePackage.CARD_ENTITY__MAIN_FIELDS:
+				return getMainFields();
+			case ImogenePackage.CARD_ENTITY__SECONDARY_FIELDS:
+				return getSecondaryFields();
 			case ImogenePackage.CARD_ENTITY__ICON:
 				return getIcon();
 			case ImogenePackage.CARD_ENTITY__TOP_LEVEL:
@@ -632,8 +657,6 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				return getSortFields();
 			case ImogenePackage.CARD_ENTITY__ACTOR_FILTER_FIELDS:
 				return getActorFilterFields();
-			case ImogenePackage.CARD_ENTITY__SECONDARY_FIELDS:
-				return getSecondaryFields();
 			case ImogenePackage.CARD_ENTITY__COLOR:
 				return getColor();
 			case ImogenePackage.CARD_ENTITY__DISPLAY_QR_CODE:
@@ -642,6 +665,8 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				return getCreators();
 			case ImogenePackage.CARD_ENTITY__CLIENT_PERIOD_FILTERABLE:
 				return isClientPeriodFilterable();
+			case ImogenePackage.CARD_ENTITY__DIRECT_ACCESS:
+				return getDirectAccess();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -658,20 +683,24 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 			case ImogenePackage.CARD_ENTITY__NAME:
 				setName((String)newValue);
 				return;
+			case ImogenePackage.CARD_ENTITY__SHORT_NAME:
+				setShortName((String)newValue);
+				return;
 			case ImogenePackage.CARD_ENTITY__DESCRIPTIONS:
 				getDescriptions().clear();
 				getDescriptions().addAll((Collection<? extends Description>)newValue);
-				return;
-			case ImogenePackage.CARD_ENTITY__MAIN_FIELDS:
-				getMainFields().clear();
-				getMainFields().addAll((Collection<? extends FieldEntity>)newValue);
 				return;
 			case ImogenePackage.CARD_ENTITY__COLUMN_FIELDS:
 				getColumnFields().clear();
 				getColumnFields().addAll((Collection<? extends FieldEntity>)newValue);
 				return;
-			case ImogenePackage.CARD_ENTITY__SHORT_NAME:
-				setShortName((String)newValue);
+			case ImogenePackage.CARD_ENTITY__MAIN_FIELDS:
+				getMainFields().clear();
+				getMainFields().addAll((Collection<? extends FieldEntity>)newValue);
+				return;
+			case ImogenePackage.CARD_ENTITY__SECONDARY_FIELDS:
+				getSecondaryFields().clear();
+				getSecondaryFields().addAll((Collection<? extends FieldEntity>)newValue);
 				return;
 			case ImogenePackage.CARD_ENTITY__ICON:
 				setIcon((String)newValue);
@@ -695,10 +724,6 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				getActorFilterFields().clear();
 				getActorFilterFields().addAll((Collection<? extends ActorFilter>)newValue);
 				return;
-			case ImogenePackage.CARD_ENTITY__SECONDARY_FIELDS:
-				getSecondaryFields().clear();
-				getSecondaryFields().addAll((Collection<? extends FieldEntity>)newValue);
-				return;
 			case ImogenePackage.CARD_ENTITY__COLOR:
 				setColor((String)newValue);
 				return;
@@ -711,6 +736,10 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				return;
 			case ImogenePackage.CARD_ENTITY__CLIENT_PERIOD_FILTERABLE:
 				setClientPeriodFilterable((Boolean)newValue);
+				return;
+			case ImogenePackage.CARD_ENTITY__DIRECT_ACCESS:
+				getDirectAccess().clear();
+				getDirectAccess().addAll((Collection<? extends Role>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -727,17 +756,20 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 			case ImogenePackage.CARD_ENTITY__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case ImogenePackage.CARD_ENTITY__SHORT_NAME:
+				setShortName(SHORT_NAME_EDEFAULT);
+				return;
 			case ImogenePackage.CARD_ENTITY__DESCRIPTIONS:
 				getDescriptions().clear();
-				return;
-			case ImogenePackage.CARD_ENTITY__MAIN_FIELDS:
-				getMainFields().clear();
 				return;
 			case ImogenePackage.CARD_ENTITY__COLUMN_FIELDS:
 				getColumnFields().clear();
 				return;
-			case ImogenePackage.CARD_ENTITY__SHORT_NAME:
-				setShortName(SHORT_NAME_EDEFAULT);
+			case ImogenePackage.CARD_ENTITY__MAIN_FIELDS:
+				getMainFields().clear();
+				return;
+			case ImogenePackage.CARD_ENTITY__SECONDARY_FIELDS:
+				getSecondaryFields().clear();
 				return;
 			case ImogenePackage.CARD_ENTITY__ICON:
 				setIcon(ICON_EDEFAULT);
@@ -757,9 +789,6 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 			case ImogenePackage.CARD_ENTITY__ACTOR_FILTER_FIELDS:
 				getActorFilterFields().clear();
 				return;
-			case ImogenePackage.CARD_ENTITY__SECONDARY_FIELDS:
-				getSecondaryFields().clear();
-				return;
 			case ImogenePackage.CARD_ENTITY__COLOR:
 				setColor(COLOR_EDEFAULT);
 				return;
@@ -771,6 +800,9 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				return;
 			case ImogenePackage.CARD_ENTITY__CLIENT_PERIOD_FILTERABLE:
 				setClientPeriodFilterable(CLIENT_PERIOD_FILTERABLE_EDEFAULT);
+				return;
+			case ImogenePackage.CARD_ENTITY__DIRECT_ACCESS:
+				getDirectAccess().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -786,14 +818,16 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 		switch (featureID) {
 			case ImogenePackage.CARD_ENTITY__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case ImogenePackage.CARD_ENTITY__DESCRIPTIONS:
-				return descriptions != null && !descriptions.isEmpty();
-			case ImogenePackage.CARD_ENTITY__MAIN_FIELDS:
-				return mainFields != null && !mainFields.isEmpty();
-			case ImogenePackage.CARD_ENTITY__COLUMN_FIELDS:
-				return columnFields != null && !columnFields.isEmpty();
 			case ImogenePackage.CARD_ENTITY__SHORT_NAME:
 				return SHORT_NAME_EDEFAULT == null ? shortName != null : !SHORT_NAME_EDEFAULT.equals(shortName);
+			case ImogenePackage.CARD_ENTITY__DESCRIPTIONS:
+				return descriptions != null && !descriptions.isEmpty();
+			case ImogenePackage.CARD_ENTITY__COLUMN_FIELDS:
+				return columnFields != null && !columnFields.isEmpty();
+			case ImogenePackage.CARD_ENTITY__MAIN_FIELDS:
+				return mainFields != null && !mainFields.isEmpty();
+			case ImogenePackage.CARD_ENTITY__SECONDARY_FIELDS:
+				return secondaryFields != null && !secondaryFields.isEmpty();
 			case ImogenePackage.CARD_ENTITY__ICON:
 				return ICON_EDEFAULT == null ? icon != null : !ICON_EDEFAULT.equals(icon);
 			case ImogenePackage.CARD_ENTITY__TOP_LEVEL:
@@ -806,8 +840,6 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				return sortFields != null && !sortFields.isEmpty();
 			case ImogenePackage.CARD_ENTITY__ACTOR_FILTER_FIELDS:
 				return actorFilterFields != null && !actorFilterFields.isEmpty();
-			case ImogenePackage.CARD_ENTITY__SECONDARY_FIELDS:
-				return secondaryFields != null && !secondaryFields.isEmpty();
 			case ImogenePackage.CARD_ENTITY__COLOR:
 				return COLOR_EDEFAULT == null ? color != null : !COLOR_EDEFAULT.equals(color);
 			case ImogenePackage.CARD_ENTITY__DISPLAY_QR_CODE:
@@ -816,6 +848,8 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				return creators != null && !creators.isEmpty();
 			case ImogenePackage.CARD_ENTITY__CLIENT_PERIOD_FILTERABLE:
 				return clientPeriodFilterable != CLIENT_PERIOD_FILTERABLE_EDEFAULT;
+			case ImogenePackage.CARD_ENTITY__DIRECT_ACCESS:
+				return directAccess != null && !directAccess.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

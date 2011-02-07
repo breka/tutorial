@@ -208,6 +208,27 @@ public class RelationFieldEntityItemProvider
 				 null,
 				 null));
 	}
+	
+	/**
+     * overrided to make the DefaultValue property not settable anymore
+     * @generated NOT
+     */
+    @Override
+    protected void addDefaultValuePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+		(createItemPropertyDescriptor
+			(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+			 getResourceLocator(),
+			 getString("_UI_FieldEntity_defaultValue_feature"),
+			 getString("_UI_PropertyDescriptor_description", "_UI_FieldEntity_defaultValue_feature", "_UI_FieldEntity_type"),
+			 ImogenePackage.Literals.FIELD_ENTITY__DEFAULT_VALUE,
+			 false,
+			 false,
+			 false,
+			 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+			 null,
+			 null));
+    }
 
 	/**
 	 * This returns RelationFieldEntity.gif.

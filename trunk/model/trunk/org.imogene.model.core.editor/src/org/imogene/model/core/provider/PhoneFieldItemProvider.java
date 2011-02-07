@@ -93,6 +93,27 @@ public class PhoneFieldItemProvider
 				 null,
 				 null));
 	}
+	
+	/**
+     * overrided to set the translatable property to false and not settable anymore
+     * @generated NOT
+     */
+	@Override
+	protected void addTranslatablePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+		(createItemPropertyDescriptor
+			(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+			 getResourceLocator(),
+			 getString("_UI_StringField_translatable_feature"),
+			 getString("_UI_PropertyDescriptor_description", "_UI_StringField_translatable_feature", "_UI_StringField_type"),
+			 ImogenePackage.Literals.STRING_FIELD__TRANSLATABLE,
+			 false,
+			 false,
+			 false,
+			 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+			 null,
+			 null));
+	}
 
 	/**
 	 * This returns PhoneField.gif.

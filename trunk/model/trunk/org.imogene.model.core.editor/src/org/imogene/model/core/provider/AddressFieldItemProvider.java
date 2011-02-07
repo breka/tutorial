@@ -12,14 +12,17 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 import org.imogene.model.core.AddressField;
+import org.imogene.model.core.ImogenePackage;
 
 /**
  * This is the item provider adapter for a {@link org.imogene.model.core.AddressField} object.
@@ -65,6 +68,27 @@ public class AddressFieldItemProvider
 
 		}
 		return itemPropertyDescriptors;
+	}
+	
+	/**
+     * overrided to set the translatable property to false and not settable anymore
+     * @generated NOT
+     */
+	@Override
+	protected void addTranslatablePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+		(createItemPropertyDescriptor
+			(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+			 getResourceLocator(),
+			 getString("_UI_StringField_translatable_feature"),
+			 getString("_UI_PropertyDescriptor_description", "_UI_StringField_translatable_feature", "_UI_StringField_type"),
+			 ImogenePackage.Literals.STRING_FIELD__TRANSLATABLE,
+			 false,
+			 false,
+			 false,
+			 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+			 null,
+			 null));
 	}
 
 	/**

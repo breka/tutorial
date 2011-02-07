@@ -1406,8 +1406,7 @@ public class ImogeneEditor
 						getActionBarContributor().shareGlobalActions(this, actionBars);
 					}
 				};
-			//propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
-				propertySheetPage.setPropertySourceProvider(new CustomAdapterFactoryContentProvider(adapterFactory));
+			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
 		}
 
 		return propertySheetPage;

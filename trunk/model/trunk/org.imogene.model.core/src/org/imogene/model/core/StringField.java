@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.imogene.model.core.StringField#getValidationRules <em>Validation Rules</em>}</li>
+ *   <li>{@link org.imogene.model.core.StringField#isTranslatable <em>Translatable</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,5 +46,31 @@ public interface StringField extends FieldEntity {
 	 * @generated
 	 */
 	EList<ValidationRule> getValidationRules();
+
+	/**
+	 * Returns the value of the '<em><b>Translatable</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Indique si le champs est traduisible ou non
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Translatable</em>' attribute.
+	 * @see #setTranslatable(boolean)
+	 * @see org.imogene.model.core.ImogenePackage#getStringField_Translatable()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isTranslatable();
+
+	/**
+	 * Sets the value of the '{@link org.imogene.model.core.StringField#isTranslatable <em>Translatable</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Translatable</em>' attribute.
+	 * @see #isTranslatable()
+	 * @generated
+	 */
+	void setTranslatable(boolean value);
 
 } // StringField
