@@ -8,15 +8,15 @@ package org.imogene.model.core;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Email Field</b></em>'.
+ * A representation of the model object '<em><b>Text Area Field</b></em>'.
  * <!-- end-user-doc -->
  *
  *
- * @see org.imogene.model.core.ImogenePackage#getEmailField()
+ * @see org.imogene.model.core.ImogenePackage#getTextAreaField()
  * @model
  * @generated
  */
-public interface EmailField extends TextField {
+public interface TextAreaField extends TextField {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -24,4 +24,4 @@ public interface EmailField extends TextField {
 	 */
 	String copyright = "Medes-IMPS 2011";
 
-} // EmailField
+} // TextAreaField

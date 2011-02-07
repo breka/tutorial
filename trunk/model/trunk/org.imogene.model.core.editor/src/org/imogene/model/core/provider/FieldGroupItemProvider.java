@@ -294,7 +294,52 @@ public class FieldGroupItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createStringField()));
+				 ImogeneFactory.eINSTANCE.createBooleanField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createIntegerField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createFloatField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createTextField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createTextAreaField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createAddressField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createEmailField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createGeoField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createBarcodeField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createPhoneField()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -314,27 +359,22 @@ public class FieldGroupItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createIntegerField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createFloatField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
 				 ImogeneFactory.eINSTANCE.createEnumField()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createEmailField()));
+				 ImogeneFactory.eINSTANCE.createVideoField()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createVideoField()));
+				 ImogeneFactory.eINSTANCE.createPhotoField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
+				 ImogeneFactory.eINSTANCE.createSoundField()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -354,47 +394,7 @@ public class FieldGroupItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createPhoneField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createPhotoField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createSoundField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createBooleanField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createTextField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
 				 ImogeneFactory.eINSTANCE.createFilterField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createAddressField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createGeoField()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ImogenePackage.Literals.FIELD_GROUP__FIELDS,
-				 ImogeneFactory.eINSTANCE.createBarcodeField()));
 	}
 
 	/**

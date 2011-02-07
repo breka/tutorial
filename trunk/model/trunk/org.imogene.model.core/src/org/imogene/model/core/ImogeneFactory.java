@@ -50,15 +50,6 @@ public interface ImogeneFactory extends EFactory {
 	Description createDescription();
 
 	/**
-	 * Returns a new object of class '<em>String Field</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>String Field</em>'.
-	 * @generated
-	 */
-	StringField createStringField();
-
-	/**
 	 * Returns a new object of class '<em>Main Relation Field Entity</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -219,6 +210,15 @@ public interface ImogeneFactory extends EFactory {
 	 * @generated
 	 */
 	TextField createTextField();
+
+	/**
+	 * Returns a new object of class '<em>Text Area Field</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Text Area Field</em>'.
+	 * @generated
+	 */
+	TextAreaField createTextAreaField();
 
 	/**
 	 * Returns a new object of class '<em>Role</em>'.

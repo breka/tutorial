@@ -7,19 +7,19 @@ package org.imogene.model.core.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.imogene.model.core.EmailField;
 import org.imogene.model.core.ImogenePackage;
+import org.imogene.model.core.TextAreaField;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Email Field</b></em>'.
+ * An implementation of the model object '<em><b>Text Area Field</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class EmailFieldImpl extends TextFieldImpl implements EmailField {
+public class TextAreaFieldImpl extends TextFieldImpl implements TextAreaField {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -32,7 +32,7 @@ public class EmailFieldImpl extends TextFieldImpl implements EmailField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EmailFieldImpl() {
+	protected TextAreaFieldImpl() {
 		super();
 	}
 
@@ -43,7 +43,7 @@ public class EmailFieldImpl extends TextFieldImpl implements EmailField {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ImogenePackage.Literals.EMAIL_FIELD;
+		return ImogenePackage.Literals.TEXT_AREA_FIELD;
 	}
 
-} //EmailFieldImpl
+} //TextAreaFieldImpl

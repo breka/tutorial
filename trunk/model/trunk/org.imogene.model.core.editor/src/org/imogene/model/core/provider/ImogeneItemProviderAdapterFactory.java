@@ -128,29 +128,6 @@ public class ImogeneItemProviderAdapterFactory extends ImogeneAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.imogene.model.core.StringField} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected StringFieldItemProvider stringFieldItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.imogene.model.core.StringField}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createStringFieldAdapter() {
-		if (stringFieldItemProvider == null) {
-			stringFieldItemProvider = new StringFieldItemProvider(this);
-		}
-
-		return stringFieldItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.imogene.model.core.MainRelationFieldEntity} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -562,6 +539,29 @@ public class ImogeneItemProviderAdapterFactory extends ImogeneAdapterFactory imp
 		}
 
 		return textFieldItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.imogene.model.core.TextAreaField} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected TextAreaFieldItemProvider textAreaFieldItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.imogene.model.core.TextAreaField}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createTextAreaFieldAdapter() {
+		if (textAreaFieldItemProvider == null) {
+			textAreaFieldItemProvider = new TextAreaFieldItemProvider(this);
+		}
+
+		return textAreaFieldItemProvider;
 	}
 
 	/**
@@ -985,39 +985,39 @@ public class ImogeneItemProviderAdapterFactory extends ImogeneAdapterFactory imp
 	 * @generated
 	 */
 	public void dispose() {
+		if (projectItemProvider != null) projectItemProvider.dispose();
 		if (cardEntityItemProvider != null) cardEntityItemProvider.dispose();
-		if (descriptionItemProvider != null) descriptionItemProvider.dispose();
-		if (stringFieldItemProvider != null) stringFieldItemProvider.dispose();
-		if (mainRelationFieldEntityItemProvider != null) mainRelationFieldEntityItemProvider.dispose();
-		if (reverseRelationFieldEntityItemProvider != null) reverseRelationFieldEntityItemProvider.dispose();
+		if (fieldGroupItemProvider != null) fieldGroupItemProvider.dispose();
+		if (booleanFieldItemProvider != null) booleanFieldItemProvider.dispose();
 		if (integerFieldItemProvider != null) integerFieldItemProvider.dispose();
 		if (floatFieldItemProvider != null) floatFieldItemProvider.dispose();
-		if (enumFieldItemProvider != null) enumFieldItemProvider.dispose();
+		if (validationRuleItemProvider != null) validationRuleItemProvider.dispose();
+		if (addressFieldItemProvider != null) addressFieldItemProvider.dispose();
 		if (emailFieldItemProvider != null) emailFieldItemProvider.dispose();
-		if (videoFieldItemProvider != null) videoFieldItemProvider.dispose();
+		if (geoFieldItemProvider != null) geoFieldItemProvider.dispose();
+		if (textFieldItemProvider != null) textFieldItemProvider.dispose();
+		if (textAreaFieldItemProvider != null) textAreaFieldItemProvider.dispose();
+		if (barcodeFieldItemProvider != null) barcodeFieldItemProvider.dispose();
+		if (phoneFieldItemProvider != null) phoneFieldItemProvider.dispose();
+		if (mainRelationFieldEntityItemProvider != null) mainRelationFieldEntityItemProvider.dispose();
+		if (reverseRelationFieldEntityItemProvider != null) reverseRelationFieldEntityItemProvider.dispose();
+		if (enumFieldItemProvider != null) enumFieldItemProvider.dispose();
+		if (enumValueItemProvider != null) enumValueItemProvider.dispose();
 		if (binaryFieldItemProvider != null) binaryFieldItemProvider.dispose();
+		if (videoFieldItemProvider != null) videoFieldItemProvider.dispose();
+		if (photoFieldItemProvider != null) photoFieldItemProvider.dispose();
+		if (soundFieldItemProvider != null) soundFieldItemProvider.dispose();
 		if (dateFieldItemProvider != null) dateFieldItemProvider.dispose();
 		if (dateTimeFieldItemProvider != null) dateTimeFieldItemProvider.dispose();
 		if (timeFieldItemProvider != null) timeFieldItemProvider.dispose();
-		if (projectItemProvider != null) projectItemProvider.dispose();
-		if (phoneFieldItemProvider != null) phoneFieldItemProvider.dispose();
-		if (photoFieldItemProvider != null) photoFieldItemProvider.dispose();
-		if (soundFieldItemProvider != null) soundFieldItemProvider.dispose();
-		if (booleanFieldItemProvider != null) booleanFieldItemProvider.dispose();
-		if (enumValueItemProvider != null) enumValueItemProvider.dispose();
-		if (textFieldItemProvider != null) textFieldItemProvider.dispose();
-		if (roleItemProvider != null) roleItemProvider.dispose();
-		if (fieldGroupItemProvider != null) fieldGroupItemProvider.dispose();
 		if (actorItemProvider != null) actorItemProvider.dispose();
+		if (roleItemProvider != null) roleItemProvider.dispose();
+		if (filterFieldItemProvider != null) filterFieldItemProvider.dispose();
 		if (notificationInfoItemProvider != null) notificationInfoItemProvider.dispose();
+		if (descriptionItemProvider != null) descriptionItemProvider.dispose();
 		if (languageItemProvider != null) languageItemProvider.dispose();
 		if (fieldDependentVisibilityItemProvider != null) fieldDependentVisibilityItemProvider.dispose();
-		if (validationRuleItemProvider != null) validationRuleItemProvider.dispose();
 		if (actorFilterItemProvider != null) actorFilterItemProvider.dispose();
-		if (filterFieldItemProvider != null) filterFieldItemProvider.dispose();
-		if (addressFieldItemProvider != null) addressFieldItemProvider.dispose();
-		if (geoFieldItemProvider != null) geoFieldItemProvider.dispose();
-		if (barcodeFieldItemProvider != null) barcodeFieldItemProvider.dispose();
 		if (themaItemProvider != null) themaItemProvider.dispose();
 		if (cardEntityUIFormatItemProvider != null) cardEntityUIFormatItemProvider.dispose();
 	}

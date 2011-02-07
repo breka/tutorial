@@ -93,21 +93,34 @@ public class ImogeneSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case ImogenePackage.PROJECT: {
+				Project project = (Project)theEObject;
+				T result = caseProject(project);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ImogenePackage.CARD_ENTITY: {
 				CardEntity cardEntity = (CardEntity)theEObject;
 				T result = caseCardEntity(cardEntity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ImogenePackage.DESCRIPTION: {
-				Description description = (Description)theEObject;
-				T result = caseDescription(description);
+			case ImogenePackage.FIELD_GROUP: {
+				FieldGroup fieldGroup = (FieldGroup)theEObject;
+				T result = caseFieldGroup(fieldGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ImogenePackage.FIELD_ENTITY: {
 				FieldEntity fieldEntity = (FieldEntity)theEObject;
 				T result = caseFieldEntity(fieldEntity);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.BOOLEAN_FIELD: {
+				BooleanField booleanField = (BooleanField)theEObject;
+				T result = caseBooleanField(booleanField);
+				if (result == null) result = caseFieldEntity(booleanField);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -118,10 +131,93 @@ public class ImogeneSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ImogenePackage.INTEGER_FIELD: {
+				IntegerField integerField = (IntegerField)theEObject;
+				T result = caseIntegerField(integerField);
+				if (result == null) result = caseNumericField(integerField);
+				if (result == null) result = caseFieldEntity(integerField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.FLOAT_FIELD: {
+				FloatField floatField = (FloatField)theEObject;
+				T result = caseFloatField(floatField);
+				if (result == null) result = caseNumericField(floatField);
+				if (result == null) result = caseFieldEntity(floatField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ImogenePackage.STRING_FIELD: {
 				StringField stringField = (StringField)theEObject;
 				T result = caseStringField(stringField);
 				if (result == null) result = caseFieldEntity(stringField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.VALIDATION_RULE: {
+				ValidationRule validationRule = (ValidationRule)theEObject;
+				T result = caseValidationRule(validationRule);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.ADDRESS_FIELD: {
+				AddressField addressField = (AddressField)theEObject;
+				T result = caseAddressField(addressField);
+				if (result == null) result = caseTextAreaField(addressField);
+				if (result == null) result = caseTextField(addressField);
+				if (result == null) result = caseStringField(addressField);
+				if (result == null) result = caseFieldEntity(addressField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.EMAIL_FIELD: {
+				EmailField emailField = (EmailField)theEObject;
+				T result = caseEmailField(emailField);
+				if (result == null) result = caseTextField(emailField);
+				if (result == null) result = caseStringField(emailField);
+				if (result == null) result = caseFieldEntity(emailField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.GEO_FIELD: {
+				GeoField geoField = (GeoField)theEObject;
+				T result = caseGeoField(geoField);
+				if (result == null) result = caseStringField(geoField);
+				if (result == null) result = caseFieldEntity(geoField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.TEXT_FIELD: {
+				TextField textField = (TextField)theEObject;
+				T result = caseTextField(textField);
+				if (result == null) result = caseStringField(textField);
+				if (result == null) result = caseFieldEntity(textField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.TEXT_AREA_FIELD: {
+				TextAreaField textAreaField = (TextAreaField)theEObject;
+				T result = caseTextAreaField(textAreaField);
+				if (result == null) result = caseTextField(textAreaField);
+				if (result == null) result = caseStringField(textAreaField);
+				if (result == null) result = caseFieldEntity(textAreaField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.BARCODE_FIELD: {
+				BarcodeField barcodeField = (BarcodeField)theEObject;
+				T result = caseBarcodeField(barcodeField);
+				if (result == null) result = caseStringField(barcodeField);
+				if (result == null) result = caseFieldEntity(barcodeField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.PHONE_FIELD: {
+				PhoneField phoneField = (PhoneField)theEObject;
+				T result = casePhoneField(phoneField);
+				if (result == null) result = caseTextField(phoneField);
+				if (result == null) result = caseStringField(phoneField);
+				if (result == null) result = caseFieldEntity(phoneField);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -156,22 +252,6 @@ public class ImogeneSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ImogenePackage.INTEGER_FIELD: {
-				IntegerField integerField = (IntegerField)theEObject;
-				T result = caseIntegerField(integerField);
-				if (result == null) result = caseNumericField(integerField);
-				if (result == null) result = caseFieldEntity(integerField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.FLOAT_FIELD: {
-				FloatField floatField = (FloatField)theEObject;
-				T result = caseFloatField(floatField);
-				if (result == null) result = caseNumericField(floatField);
-				if (result == null) result = caseFieldEntity(floatField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ImogenePackage.ENUM_FIELD: {
 				EnumField enumField = (EnumField)theEObject;
 				T result = caseEnumField(enumField);
@@ -179,11 +259,16 @@ public class ImogeneSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ImogenePackage.EMAIL_FIELD: {
-				EmailField emailField = (EmailField)theEObject;
-				T result = caseEmailField(emailField);
-				if (result == null) result = caseStringField(emailField);
-				if (result == null) result = caseFieldEntity(emailField);
+			case ImogenePackage.ENUM_VALUE: {
+				EnumValue enumValue = (EnumValue)theEObject;
+				T result = caseEnumValue(enumValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.BINARY_FIELD: {
+				BinaryField binaryField = (BinaryField)theEObject;
+				T result = caseBinaryField(binaryField);
+				if (result == null) result = caseFieldEntity(binaryField);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -196,10 +281,28 @@ public class ImogeneSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ImogenePackage.BINARY_FIELD: {
-				BinaryField binaryField = (BinaryField)theEObject;
-				T result = caseBinaryField(binaryField);
-				if (result == null) result = caseFieldEntity(binaryField);
+			case ImogenePackage.PHOTO_FIELD: {
+				PhotoField photoField = (PhotoField)theEObject;
+				T result = casePhotoField(photoField);
+				if (result == null) result = caseMediaFileField(photoField);
+				if (result == null) result = caseBinaryField(photoField);
+				if (result == null) result = caseFieldEntity(photoField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.SOUND_FIELD: {
+				SoundField soundField = (SoundField)theEObject;
+				T result = caseSoundField(soundField);
+				if (result == null) result = caseMediaFileField(soundField);
+				if (result == null) result = caseBinaryField(soundField);
+				if (result == null) result = caseFieldEntity(soundField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.DATES_FIELD: {
+				DatesField datesField = (DatesField)theEObject;
+				T result = caseDatesField(datesField);
+				if (result == null) result = caseFieldEntity(datesField);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -227,63 +330,10 @@ public class ImogeneSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ImogenePackage.PROJECT: {
-				Project project = (Project)theEObject;
-				T result = caseProject(project);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.DATES_FIELD: {
-				DatesField datesField = (DatesField)theEObject;
-				T result = caseDatesField(datesField);
-				if (result == null) result = caseFieldEntity(datesField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.PHONE_FIELD: {
-				PhoneField phoneField = (PhoneField)theEObject;
-				T result = casePhoneField(phoneField);
-				if (result == null) result = caseStringField(phoneField);
-				if (result == null) result = caseFieldEntity(phoneField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.PHOTO_FIELD: {
-				PhotoField photoField = (PhotoField)theEObject;
-				T result = casePhotoField(photoField);
-				if (result == null) result = caseMediaFileField(photoField);
-				if (result == null) result = caseBinaryField(photoField);
-				if (result == null) result = caseFieldEntity(photoField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.SOUND_FIELD: {
-				SoundField soundField = (SoundField)theEObject;
-				T result = caseSoundField(soundField);
-				if (result == null) result = caseMediaFileField(soundField);
-				if (result == null) result = caseBinaryField(soundField);
-				if (result == null) result = caseFieldEntity(soundField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.BOOLEAN_FIELD: {
-				BooleanField booleanField = (BooleanField)theEObject;
-				T result = caseBooleanField(booleanField);
-				if (result == null) result = caseFieldEntity(booleanField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.ENUM_VALUE: {
-				EnumValue enumValue = (EnumValue)theEObject;
-				T result = caseEnumValue(enumValue);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.TEXT_FIELD: {
-				TextField textField = (TextField)theEObject;
-				T result = caseTextField(textField);
-				if (result == null) result = caseStringField(textField);
-				if (result == null) result = caseFieldEntity(textField);
+			case ImogenePackage.ACTOR: {
+				Actor actor = (Actor)theEObject;
+				T result = caseActor(actor);
+				if (result == null) result = caseCardEntity(actor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -293,22 +343,23 @@ public class ImogeneSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ImogenePackage.FIELD_GROUP: {
-				FieldGroup fieldGroup = (FieldGroup)theEObject;
-				T result = caseFieldGroup(fieldGroup);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.ACTOR: {
-				Actor actor = (Actor)theEObject;
-				T result = caseActor(actor);
-				if (result == null) result = caseCardEntity(actor);
+			case ImogenePackage.FILTER_FIELD: {
+				FilterField filterField = (FilterField)theEObject;
+				T result = caseFilterField(filterField);
+				if (result == null) result = caseRelationFieldEntity(filterField);
+				if (result == null) result = caseFieldEntity(filterField);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ImogenePackage.NOTIFICATION_INFO: {
 				NotificationInfo notificationInfo = (NotificationInfo)theEObject;
 				T result = caseNotificationInfo(notificationInfo);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImogenePackage.DESCRIPTION: {
+				Description description = (Description)theEObject;
+				T result = caseDescription(description);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -324,48 +375,9 @@ public class ImogeneSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ImogenePackage.VALIDATION_RULE: {
-				ValidationRule validationRule = (ValidationRule)theEObject;
-				T result = caseValidationRule(validationRule);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ImogenePackage.ACTOR_FILTER: {
 				ActorFilter actorFilter = (ActorFilter)theEObject;
 				T result = caseActorFilter(actorFilter);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.FILTER_FIELD: {
-				FilterField filterField = (FilterField)theEObject;
-				T result = caseFilterField(filterField);
-				if (result == null) result = caseRelationFieldEntity(filterField);
-				if (result == null) result = caseFieldEntity(filterField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.ADDRESS_FIELD: {
-				AddressField addressField = (AddressField)theEObject;
-				T result = caseAddressField(addressField);
-				if (result == null) result = caseTextField(addressField);
-				if (result == null) result = caseStringField(addressField);
-				if (result == null) result = caseFieldEntity(addressField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.GEO_FIELD: {
-				GeoField geoField = (GeoField)theEObject;
-				T result = caseGeoField(geoField);
-				if (result == null) result = caseStringField(geoField);
-				if (result == null) result = caseFieldEntity(geoField);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ImogenePackage.BARCODE_FIELD: {
-				BarcodeField barcodeField = (BarcodeField)theEObject;
-				T result = caseBarcodeField(barcodeField);
-				if (result == null) result = caseStringField(barcodeField);
-				if (result == null) result = caseFieldEntity(barcodeField);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -772,6 +784,21 @@ public class ImogeneSwitch<T> {
 	 * @generated
 	 */
 	public T caseTextField(TextField object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Text Area Field</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Text Area Field</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTextAreaField(TextAreaField object) {
 		return null;
 	}
 

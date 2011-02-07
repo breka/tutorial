@@ -54,6 +54,7 @@ import org.imogene.model.core.ReverseRelationFieldEntity;
 import org.imogene.model.core.Role;
 import org.imogene.model.core.SoundField;
 import org.imogene.model.core.StringField;
+import org.imogene.model.core.TextAreaField;
 import org.imogene.model.core.TextField;
 import org.imogene.model.core.Thema;
 import org.imogene.model.core.TimeField;
@@ -255,6 +256,13 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * @generated
 	 */
 	private EClass textFieldEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass textAreaFieldEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -799,15 +807,6 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStringField_Translatable() {
-		return (EAttribute)stringFieldEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getMediaFileField() {
 		return mediaFileFieldEClass;
 	}
@@ -1206,6 +1205,24 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 */
 	public EClass getTextField() {
 		return textFieldEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTextField_Translatable() {
+		return (EAttribute)textFieldEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTextAreaField() {
+		return textAreaFieldEClass;
 	}
 
 	/**
@@ -1722,6 +1739,15 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		isCreated = true;
 
 		// Create classes and their features
+		projectEClass = createEClass(PROJECT);
+		createEAttribute(projectEClass, PROJECT__NAME);
+		createEReference(projectEClass, PROJECT__DESCRIPTION);
+		createEReference(projectEClass, PROJECT__ENTITIES);
+		createEReference(projectEClass, PROJECT__ENTITY_UI_FORMATS);
+		createEReference(projectEClass, PROJECT__THEMAS);
+		createEReference(projectEClass, PROJECT__ROLES);
+		createEReference(projectEClass, PROJECT__LANGUAGES);
+
 		cardEntityEClass = createEClass(CARD_ENTITY);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__NAME);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__SHORT_NAME);
@@ -1741,10 +1767,15 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		createEAttribute(cardEntityEClass, CARD_ENTITY__CLIENT_PERIOD_FILTERABLE);
 		createEReference(cardEntityEClass, CARD_ENTITY__DIRECT_ACCESS);
 
-		descriptionEClass = createEClass(DESCRIPTION);
-		createEAttribute(descriptionEClass, DESCRIPTION__DISPLAY);
-		createEAttribute(descriptionEClass, DESCRIPTION__HELP);
-		createEAttribute(descriptionEClass, DESCRIPTION__LOCALE);
+		fieldGroupEClass = createEClass(FIELD_GROUP);
+		createEReference(fieldGroupEClass, FIELD_GROUP__DESCRIPTIONS);
+		createEReference(fieldGroupEClass, FIELD_GROUP__FIELDS);
+		createEReference(fieldGroupEClass, FIELD_GROUP__PARENT_CARD);
+		createEAttribute(fieldGroupEClass, FIELD_GROUP__NAME);
+		createEReference(fieldGroupEClass, FIELD_GROUP__READERS);
+		createEReference(fieldGroupEClass, FIELD_GROUP__WRITERS);
+		createEAttribute(fieldGroupEClass, FIELD_GROUP__SHORT_NAME);
+		createEAttribute(fieldGroupEClass, FIELD_GROUP__ICON);
 
 		fieldEntityEClass = createEClass(FIELD_ENTITY);
 		createEAttribute(fieldEntityEClass, FIELD_ENTITY__NAME);
@@ -1758,14 +1789,41 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		createEAttribute(fieldEntityEClass, FIELD_ENTITY__CALCULATION_FUNCTION_NAME);
 		createEReference(fieldEntityEClass, FIELD_ENTITY__FIELD_DEPENDENT_VISIBILITY);
 
+		booleanFieldEClass = createEClass(BOOLEAN_FIELD);
+
 		numericFieldEClass = createEClass(NUMERIC_FIELD);
 		createEAttribute(numericFieldEClass, NUMERIC_FIELD__MIN);
 		createEAttribute(numericFieldEClass, NUMERIC_FIELD__MAX);
 		createEAttribute(numericFieldEClass, NUMERIC_FIELD__UNIT);
 
+		integerFieldEClass = createEClass(INTEGER_FIELD);
+
+		floatFieldEClass = createEClass(FLOAT_FIELD);
+		createEAttribute(floatFieldEClass, FLOAT_FIELD__DECIMAL_NUMBER);
+
 		stringFieldEClass = createEClass(STRING_FIELD);
 		createEReference(stringFieldEClass, STRING_FIELD__VALIDATION_RULES);
-		createEAttribute(stringFieldEClass, STRING_FIELD__TRANSLATABLE);
+
+		validationRuleEClass = createEClass(VALIDATION_RULE);
+		createEAttribute(validationRuleEClass, VALIDATION_RULE__VALIDATION_REGULAR_EXPRESSION);
+		createEReference(validationRuleEClass, VALIDATION_RULE__DESCRIPTIONS);
+
+		addressFieldEClass = createEClass(ADDRESS_FIELD);
+
+		emailFieldEClass = createEClass(EMAIL_FIELD);
+
+		geoFieldEClass = createEClass(GEO_FIELD);
+		createEAttribute(geoFieldEClass, GEO_FIELD__TYPE);
+
+		textFieldEClass = createEClass(TEXT_FIELD);
+		createEAttribute(textFieldEClass, TEXT_FIELD__TRANSLATABLE);
+
+		textAreaFieldEClass = createEClass(TEXT_AREA_FIELD);
+
+		barcodeFieldEClass = createEClass(BARCODE_FIELD);
+
+		phoneFieldEClass = createEClass(PHONE_FIELD);
+		createEAttribute(phoneFieldEClass, PHONE_FIELD__PHONE_TYPE);
 
 		mediaFileFieldEClass = createEClass(MEDIA_FILE_FIELD);
 
@@ -1782,21 +1840,27 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 
 		reverseRelationFieldEntityEClass = createEClass(REVERSE_RELATION_FIELD_ENTITY);
 
-		integerFieldEClass = createEClass(INTEGER_FIELD);
-
-		floatFieldEClass = createEClass(FLOAT_FIELD);
-		createEAttribute(floatFieldEClass, FLOAT_FIELD__DECIMAL_NUMBER);
-
 		enumFieldEClass = createEClass(ENUM_FIELD);
 		createEReference(enumFieldEClass, ENUM_FIELD__ENUM_VALUES);
 		createEAttribute(enumFieldEClass, ENUM_FIELD__MULTIPLE_SELECTION);
 
-		emailFieldEClass = createEClass(EMAIL_FIELD);
-
-		videoFieldEClass = createEClass(VIDEO_FIELD);
+		enumValueEClass = createEClass(ENUM_VALUE);
+		createEAttribute(enumValueEClass, ENUM_VALUE__VALUE);
+		createEAttribute(enumValueEClass, ENUM_VALUE__NAME);
+		createEReference(enumValueEClass, ENUM_VALUE__DESCRIPTIONS);
 
 		binaryFieldEClass = createEClass(BINARY_FIELD);
 		createEAttribute(binaryFieldEClass, BINARY_FIELD__CATEGORY);
+
+		videoFieldEClass = createEClass(VIDEO_FIELD);
+
+		photoFieldEClass = createEClass(PHOTO_FIELD);
+
+		soundFieldEClass = createEClass(SOUND_FIELD);
+
+		datesFieldEClass = createEClass(DATES_FIELD);
+		createEAttribute(datesFieldEClass, DATES_FIELD__MIN);
+		createEAttribute(datesFieldEClass, DATES_FIELD__MAX);
 
 		dateFieldEClass = createEClass(DATE_FIELD);
 
@@ -1804,57 +1868,26 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 
 		timeFieldEClass = createEClass(TIME_FIELD);
 
-		projectEClass = createEClass(PROJECT);
-		createEAttribute(projectEClass, PROJECT__NAME);
-		createEReference(projectEClass, PROJECT__DESCRIPTION);
-		createEReference(projectEClass, PROJECT__ENTITIES);
-		createEReference(projectEClass, PROJECT__ENTITY_UI_FORMATS);
-		createEReference(projectEClass, PROJECT__THEMAS);
-		createEReference(projectEClass, PROJECT__ROLES);
-		createEReference(projectEClass, PROJECT__LANGUAGES);
-
-		datesFieldEClass = createEClass(DATES_FIELD);
-		createEAttribute(datesFieldEClass, DATES_FIELD__MIN);
-		createEAttribute(datesFieldEClass, DATES_FIELD__MAX);
-
-		phoneFieldEClass = createEClass(PHONE_FIELD);
-		createEAttribute(phoneFieldEClass, PHONE_FIELD__PHONE_TYPE);
-
-		photoFieldEClass = createEClass(PHOTO_FIELD);
-
-		soundFieldEClass = createEClass(SOUND_FIELD);
-
-		booleanFieldEClass = createEClass(BOOLEAN_FIELD);
-
-		enumValueEClass = createEClass(ENUM_VALUE);
-		createEAttribute(enumValueEClass, ENUM_VALUE__VALUE);
-		createEAttribute(enumValueEClass, ENUM_VALUE__NAME);
-		createEReference(enumValueEClass, ENUM_VALUE__DESCRIPTIONS);
-
-		textFieldEClass = createEClass(TEXT_FIELD);
-
-		roleEClass = createEClass(ROLE);
-		createEAttribute(roleEClass, ROLE__NAME);
-
-		fieldGroupEClass = createEClass(FIELD_GROUP);
-		createEReference(fieldGroupEClass, FIELD_GROUP__DESCRIPTIONS);
-		createEReference(fieldGroupEClass, FIELD_GROUP__FIELDS);
-		createEReference(fieldGroupEClass, FIELD_GROUP__PARENT_CARD);
-		createEAttribute(fieldGroupEClass, FIELD_GROUP__NAME);
-		createEReference(fieldGroupEClass, FIELD_GROUP__READERS);
-		createEReference(fieldGroupEClass, FIELD_GROUP__WRITERS);
-		createEAttribute(fieldGroupEClass, FIELD_GROUP__SHORT_NAME);
-		createEAttribute(fieldGroupEClass, FIELD_GROUP__ICON);
-
 		actorEClass = createEClass(ACTOR);
 		createEReference(actorEClass, ACTOR__AUTHORIZED_ROLES);
 		createEReference(actorEClass, ACTOR__NOTIFICATION_INFOS);
 		createEReference(actorEClass, ACTOR__ADMIN_FIELDS);
 		createEReference(actorEClass, ACTOR__FILTERS);
 
+		roleEClass = createEClass(ROLE);
+		createEAttribute(roleEClass, ROLE__NAME);
+
+		filterFieldEClass = createEClass(FILTER_FIELD);
+		createEReference(filterFieldEClass, FILTER_FIELD__PARENT_ACTOR);
+
 		notificationInfoEClass = createEClass(NOTIFICATION_INFO);
 		createEReference(notificationInfoEClass, NOTIFICATION_INFO__DATA_FIELD);
 		createEAttribute(notificationInfoEClass, NOTIFICATION_INFO__METHOD);
+
+		descriptionEClass = createEClass(DESCRIPTION);
+		createEAttribute(descriptionEClass, DESCRIPTION__DISPLAY);
+		createEAttribute(descriptionEClass, DESCRIPTION__HELP);
+		createEAttribute(descriptionEClass, DESCRIPTION__LOCALE);
 
 		languageEClass = createEClass(LANGUAGE);
 		createEAttribute(languageEClass, LANGUAGE__NAME);
@@ -1869,24 +1902,10 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		createEAttribute(fieldDependentVisibilityEClass, FIELD_DEPENDENT_VISIBILITY__DEPENDENCY_FIELD_VALUE);
 		createEReference(fieldDependentVisibilityEClass, FIELD_DEPENDENT_VISIBILITY__PARENT_FIELD_ENTITY);
 
-		validationRuleEClass = createEClass(VALIDATION_RULE);
-		createEAttribute(validationRuleEClass, VALIDATION_RULE__VALIDATION_REGULAR_EXPRESSION);
-		createEReference(validationRuleEClass, VALIDATION_RULE__DESCRIPTIONS);
-
 		actorFilterEClass = createEClass(ACTOR_FILTER);
 		createEReference(actorFilterEClass, ACTOR_FILTER__ENTITY_FIELD);
 		createEReference(actorFilterEClass, ACTOR_FILTER__ACTOR_FIELD);
 		createEAttribute(actorFilterEClass, ACTOR_FILTER__SUFFICIENT);
-
-		filterFieldEClass = createEClass(FILTER_FIELD);
-		createEReference(filterFieldEClass, FILTER_FIELD__PARENT_ACTOR);
-
-		addressFieldEClass = createEClass(ADDRESS_FIELD);
-
-		geoFieldEClass = createEClass(GEO_FIELD);
-		createEAttribute(geoFieldEClass, GEO_FIELD__TYPE);
-
-		barcodeFieldEClass = createEClass(BARCODE_FIELD);
 
 		themaEClass = createEClass(THEMA);
 		createEAttribute(themaEClass, THEMA__NAME);
@@ -1898,10 +1917,10 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		createEAttribute(cardEntityUIFormatEClass, CARD_ENTITY_UI_FORMAT__WITH_TABULATIONS);
 
 		// Create enums
+		geoTypeEEnum = createEEnum(GEO_TYPE);
 		phoneTypeEEnum = createEEnum(PHONE_TYPE);
 		relationTypeEEnum = createEEnum(RELATION_TYPE);
 		notificationMethodEEnum = createEEnum(NOTIFICATION_METHOD);
-		geoTypeEEnum = createEEnum(GEO_TYPE);
 	}
 
 	/**
@@ -1932,34 +1951,44 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		booleanFieldEClass.getESuperTypes().add(this.getFieldEntity());
 		numericFieldEClass.getESuperTypes().add(this.getFieldEntity());
+		integerFieldEClass.getESuperTypes().add(this.getNumericField());
+		floatFieldEClass.getESuperTypes().add(this.getNumericField());
 		stringFieldEClass.getESuperTypes().add(this.getFieldEntity());
+		addressFieldEClass.getESuperTypes().add(this.getTextAreaField());
+		emailFieldEClass.getESuperTypes().add(this.getTextField());
+		geoFieldEClass.getESuperTypes().add(this.getStringField());
+		textFieldEClass.getESuperTypes().add(this.getStringField());
+		textAreaFieldEClass.getESuperTypes().add(this.getTextField());
+		barcodeFieldEClass.getESuperTypes().add(this.getStringField());
+		phoneFieldEClass.getESuperTypes().add(this.getTextField());
 		mediaFileFieldEClass.getESuperTypes().add(this.getBinaryField());
 		relationFieldEntityEClass.getESuperTypes().add(this.getFieldEntity());
 		mainRelationFieldEntityEClass.getESuperTypes().add(this.getRelationFieldEntity());
 		reverseRelationFieldEntityEClass.getESuperTypes().add(this.getRelationFieldEntity());
-		integerFieldEClass.getESuperTypes().add(this.getNumericField());
-		floatFieldEClass.getESuperTypes().add(this.getNumericField());
 		enumFieldEClass.getESuperTypes().add(this.getFieldEntity());
-		emailFieldEClass.getESuperTypes().add(this.getStringField());
-		videoFieldEClass.getESuperTypes().add(this.getMediaFileField());
 		binaryFieldEClass.getESuperTypes().add(this.getFieldEntity());
+		videoFieldEClass.getESuperTypes().add(this.getMediaFileField());
+		photoFieldEClass.getESuperTypes().add(this.getMediaFileField());
+		soundFieldEClass.getESuperTypes().add(this.getMediaFileField());
+		datesFieldEClass.getESuperTypes().add(this.getFieldEntity());
 		dateFieldEClass.getESuperTypes().add(this.getDatesField());
 		dateTimeFieldEClass.getESuperTypes().add(this.getDatesField());
 		timeFieldEClass.getESuperTypes().add(this.getDatesField());
-		datesFieldEClass.getESuperTypes().add(this.getFieldEntity());
-		phoneFieldEClass.getESuperTypes().add(this.getStringField());
-		photoFieldEClass.getESuperTypes().add(this.getMediaFileField());
-		soundFieldEClass.getESuperTypes().add(this.getMediaFileField());
-		booleanFieldEClass.getESuperTypes().add(this.getFieldEntity());
-		textFieldEClass.getESuperTypes().add(this.getStringField());
 		actorEClass.getESuperTypes().add(this.getCardEntity());
 		filterFieldEClass.getESuperTypes().add(this.getRelationFieldEntity());
-		addressFieldEClass.getESuperTypes().add(this.getTextField());
-		geoFieldEClass.getESuperTypes().add(this.getStringField());
-		barcodeFieldEClass.getESuperTypes().add(this.getStringField());
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(projectEClass, Project.class, "Project", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProject_Name(), ecorePackage.getEString(), "name", "entities", 1, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProject_Description(), this.getDescription(), null, "description", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProject_Entities(), this.getCardEntity(), null, "entities", null, 1, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProject_EntityUIFormats(), this.getCardEntityUIFormat(), null, "entityUIFormats", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProject_Themas(), this.getThema(), null, "themas", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProject_Roles(), this.getRole(), null, "roles", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProject_Languages(), this.getLanguage(), null, "languages", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(cardEntityEClass, CardEntity.class, "CardEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCardEntity_Name(), ecorePackage.getEString(), "name", null, 1, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCardEntity_ShortName(), ecorePackage.getEString(), "shortName", null, 1, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1979,10 +2008,17 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		initEAttribute(getCardEntity_ClientPeriodFilterable(), ecorePackage.getEBoolean(), "clientPeriodFilterable", "false", 0, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCardEntity_DirectAccess(), this.getRole(), null, "directAccess", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(descriptionEClass, Description.class, "Description", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDescription_Display(), ecorePackage.getEString(), "display", null, 1, 1, Description.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDescription_Help(), ecorePackage.getEString(), "help", null, 0, 1, Description.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDescription_Locale(), ecorePackage.getEString(), "locale", null, 0, 1, Description.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(fieldGroupEClass, FieldGroup.class, "FieldGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFieldGroup_Descriptions(), this.getDescription(), null, "descriptions", null, 0, -1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFieldGroup_Fields(), this.getFieldEntity(), this.getFieldEntity_ParentGroup(), "fields", null, 1, -1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFieldGroup_ParentCard(), this.getCardEntity(), this.getCardEntity_Groups(), "parentCard", null, 1, 1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFieldGroup_Name(), ecorePackage.getEString(), "name", null, 1, 1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFieldGroup_Readers(), this.getRole(), null, "readers", null, 0, -1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFieldGroup_Writers(), this.getRole(), null, "writers", null, 0, -1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFieldGroup_ShortName(), ecorePackage.getEString(), "shortName", null, 0, 1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFieldGroup_Icon(), ecorePackage.getEString(), "icon", null, 0, 1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(fieldGroupEClass, ecorePackage.getEBoolean(), "containsOnlyHiddenFields", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(fieldEntityEClass, FieldEntity.class, "FieldEntity", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFieldEntity_Name(), ecorePackage.getEString(), "name", null, 1, 1, FieldEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1998,14 +2034,41 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 
 		addEOperation(fieldEntityEClass, null, "validate", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		initEClass(booleanFieldEClass, BooleanField.class, "BooleanField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		initEClass(numericFieldEClass, NumericField.class, "NumericField", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNumericField_Min(), ecorePackage.getEString(), "min", "", 0, 1, NumericField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNumericField_Max(), ecorePackage.getEString(), "max", "", 0, 1, NumericField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNumericField_Unit(), ecorePackage.getEString(), "unit", null, 0, 1, NumericField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(stringFieldEClass, StringField.class, "StringField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(integerFieldEClass, IntegerField.class, "IntegerField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(floatFieldEClass, FloatField.class, "FloatField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getFloatField_DecimalNumber(), ecorePackage.getEInt(), "DecimalNumber", "-1", 0, 1, FloatField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(stringFieldEClass, StringField.class, "StringField", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStringField_ValidationRules(), this.getValidationRule(), null, "validationRules", null, 0, -1, StringField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStringField_Translatable(), ecorePackage.getEBoolean(), "translatable", "false", 0, 1, StringField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(validationRuleEClass, ValidationRule.class, "ValidationRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getValidationRule_ValidationRegularExpression(), ecorePackage.getEString(), "validationRegularExpression", null, 0, 1, ValidationRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getValidationRule_Descriptions(), this.getDescription(), null, "descriptions", null, 0, -1, ValidationRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(addressFieldEClass, AddressField.class, "AddressField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(emailFieldEClass, EmailField.class, "EmailField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(geoFieldEClass, GeoField.class, "GeoField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getGeoField_Type(), this.getGeoType(), "type", "", 1, 1, GeoField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(textFieldEClass, TextField.class, "TextField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTextField_Translatable(), ecorePackage.getEBoolean(), "translatable", "false", 0, 1, TextField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(textAreaFieldEClass, TextAreaField.class, "TextAreaField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(barcodeFieldEClass, BarcodeField.class, "BarcodeField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(phoneFieldEClass, PhoneField.class, "PhoneField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPhoneField_PhoneType(), this.getPhoneType(), "phoneType", "", 1, 1, PhoneField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mediaFileFieldEClass, MediaFileField.class, "MediaFileField", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2022,21 +2085,27 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 
 		initEClass(reverseRelationFieldEntityEClass, ReverseRelationFieldEntity.class, "ReverseRelationFieldEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(integerFieldEClass, IntegerField.class, "IntegerField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(floatFieldEClass, FloatField.class, "FloatField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getFloatField_DecimalNumber(), ecorePackage.getEInt(), "DecimalNumber", "-1", 0, 1, FloatField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(enumFieldEClass, EnumField.class, "EnumField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEnumField_EnumValues(), this.getEnumValue(), null, "enumValues", null, 2, -1, EnumField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEnumField_MultipleSelection(), ecorePackage.getEBoolean(), "multipleSelection", "false", 0, 1, EnumField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(emailFieldEClass, EmailField.class, "EmailField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(videoFieldEClass, VideoField.class, "VideoField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(enumValueEClass, EnumValue.class, "EnumValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getEnumValue_Value(), ecorePackage.getEInt(), "value", null, 1, 1, EnumValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEnumValue_Name(), ecorePackage.getEString(), "name", "", 0, 1, EnumValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEnumValue_Descriptions(), this.getDescription(), null, "descriptions", null, 0, -1, EnumValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(binaryFieldEClass, BinaryField.class, "BinaryField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBinaryField_Category(), ecorePackage.getEString(), "category", null, 1, 1, BinaryField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(videoFieldEClass, VideoField.class, "VideoField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(photoFieldEClass, PhotoField.class, "PhotoField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(soundFieldEClass, SoundField.class, "SoundField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(datesFieldEClass, DatesField.class, "DatesField", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDatesField_Min(), ecorePackage.getEString(), "min", null, 0, 1, DatesField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDatesField_Max(), ecorePackage.getEString(), "max", null, 0, 1, DatesField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dateFieldEClass, DateField.class, "DateField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2044,59 +2113,26 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 
 		initEClass(timeFieldEClass, TimeField.class, "TimeField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(projectEClass, Project.class, "Project", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getProject_Name(), ecorePackage.getEString(), "name", "entities", 1, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProject_Description(), this.getDescription(), null, "description", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProject_Entities(), this.getCardEntity(), null, "entities", null, 1, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProject_EntityUIFormats(), this.getCardEntityUIFormat(), null, "entityUIFormats", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProject_Themas(), this.getThema(), null, "themas", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProject_Roles(), this.getRole(), null, "roles", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProject_Languages(), this.getLanguage(), null, "languages", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(datesFieldEClass, DatesField.class, "DatesField", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDatesField_Min(), ecorePackage.getEString(), "min", null, 0, 1, DatesField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDatesField_Max(), ecorePackage.getEString(), "max", null, 0, 1, DatesField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(phoneFieldEClass, PhoneField.class, "PhoneField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPhoneField_PhoneType(), this.getPhoneType(), "phoneType", "", 1, 1, PhoneField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(photoFieldEClass, PhotoField.class, "PhotoField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(soundFieldEClass, SoundField.class, "SoundField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(booleanFieldEClass, BooleanField.class, "BooleanField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(enumValueEClass, EnumValue.class, "EnumValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getEnumValue_Value(), ecorePackage.getEInt(), "value", null, 1, 1, EnumValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEnumValue_Name(), ecorePackage.getEString(), "name", "", 0, 1, EnumValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEnumValue_Descriptions(), this.getDescription(), null, "descriptions", null, 0, -1, EnumValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(textFieldEClass, TextField.class, "TextField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(roleEClass, Role.class, "Role", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRole_Name(), ecorePackage.getEString(), "name", null, 1, 1, Role.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(fieldGroupEClass, FieldGroup.class, "FieldGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getFieldGroup_Descriptions(), this.getDescription(), null, "descriptions", null, 0, -1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFieldGroup_Fields(), this.getFieldEntity(), this.getFieldEntity_ParentGroup(), "fields", null, 1, -1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFieldGroup_ParentCard(), this.getCardEntity(), this.getCardEntity_Groups(), "parentCard", null, 1, 1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFieldGroup_Name(), ecorePackage.getEString(), "name", null, 1, 1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFieldGroup_Readers(), this.getRole(), null, "readers", null, 0, -1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFieldGroup_Writers(), this.getRole(), null, "writers", null, 0, -1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFieldGroup_ShortName(), ecorePackage.getEString(), "shortName", null, 0, 1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFieldGroup_Icon(), ecorePackage.getEString(), "icon", null, 0, 1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(fieldGroupEClass, ecorePackage.getEBoolean(), "containsOnlyHiddenFields", 1, 1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(actorEClass, Actor.class, "Actor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getActor_AuthorizedRoles(), this.getRole(), null, "authorizedRoles", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_NotificationInfos(), this.getNotificationInfo(), null, "notificationInfos", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_AdminFields(), this.getFieldEntity(), null, "adminFields", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActor_Filters(), this.getFilterField(), this.getFilterField_ParentActor(), "filters", null, 0, -1, Actor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(roleEClass, Role.class, "Role", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRole_Name(), ecorePackage.getEString(), "name", null, 1, 1, Role.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(filterFieldEClass, FilterField.class, "FilterField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFilterField_ParentActor(), this.getActor(), this.getActor_Filters(), "parentActor", null, 0, 1, FilterField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(notificationInfoEClass, NotificationInfo.class, "NotificationInfo", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNotificationInfo_DataField(), this.getFieldEntity(), null, "dataField", null, 1, 1, NotificationInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNotificationInfo_Method(), this.getNotificationMethod(), "method", null, 0, 1, NotificationInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(descriptionEClass, Description.class, "Description", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDescription_Display(), ecorePackage.getEString(), "display", null, 1, 1, Description.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDescription_Help(), ecorePackage.getEString(), "help", null, 0, 1, Description.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDescription_Locale(), ecorePackage.getEString(), "locale", null, 0, 1, Description.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(languageEClass, Language.class, "Language", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLanguage_Name(), ecorePackage.getEString(), "name", null, 1, 1, Language.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2111,24 +2147,10 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		initEAttribute(getFieldDependentVisibility_DependencyFieldValue(), ecorePackage.getEString(), "dependencyFieldValue", null, 1, 1, FieldDependentVisibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFieldDependentVisibility_ParentFieldEntity(), this.getFieldEntity(), this.getFieldEntity_FieldDependentVisibility(), "parentFieldEntity", null, 0, 1, FieldDependentVisibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(validationRuleEClass, ValidationRule.class, "ValidationRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getValidationRule_ValidationRegularExpression(), ecorePackage.getEString(), "validationRegularExpression", null, 0, 1, ValidationRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getValidationRule_Descriptions(), this.getDescription(), null, "descriptions", null, 0, -1, ValidationRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(actorFilterEClass, ActorFilter.class, "ActorFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getActorFilter_EntityField(), this.getRelationFieldEntity(), null, "entityField", null, 1, 1, ActorFilter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActorFilter_ActorField(), this.getFilterField(), null, "actorField", null, 1, 1, ActorFilter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getActorFilter_Sufficient(), ecorePackage.getEBoolean(), "sufficient", null, 0, 1, ActorFilter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(filterFieldEClass, FilterField.class, "FilterField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getFilterField_ParentActor(), this.getActor(), this.getActor_Filters(), "parentActor", null, 0, 1, FilterField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(addressFieldEClass, AddressField.class, "AddressField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(geoFieldEClass, GeoField.class, "GeoField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getGeoField_Type(), this.getGeoType(), "type", "", 1, 1, GeoField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(barcodeFieldEClass, BarcodeField.class, "BarcodeField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(themaEClass, Thema.class, "Thema", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getThema_Name(), ecorePackage.getEString(), "name", null, 1, 1, Thema.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2140,6 +2162,13 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		initEAttribute(getCardEntityUIFormat_WithTabulations(), ecorePackage.getEBoolean(), "withTabulations", null, 1, 1, CardEntityUIFormat.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
+		initEEnum(geoTypeEEnum, GeoType.class, "GeoType");
+		addEEnumLiteral(geoTypeEEnum, GeoType.NOTHING);
+		addEEnumLiteral(geoTypeEEnum, GeoType.GPS_VALUE);
+		addEEnumLiteral(geoTypeEEnum, GeoType.NETWORK_TYPE);
+		addEEnumLiteral(geoTypeEEnum, GeoType.MAP_TYPE);
+		addEEnumLiteral(geoTypeEEnum, GeoType.BEST_TYPE);
+
 		initEEnum(phoneTypeEEnum, PhoneType.class, "PhoneType");
 		addEEnumLiteral(phoneTypeEEnum, PhoneType.PHONE_NUMBER_LITERAL);
 		addEEnumLiteral(phoneTypeEEnum, PhoneType.FAX_NUMBER_LITERAL);
@@ -2157,13 +2186,6 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		addEEnumLiteral(notificationMethodEEnum, NotificationMethod.VOCAL_METHOD_LITERAL);
 		addEEnumLiteral(notificationMethodEEnum, NotificationMethod.WEB_SERVICE_METHOD_LITERAL);
 
-		initEEnum(geoTypeEEnum, GeoType.class, "GeoType");
-		addEEnumLiteral(geoTypeEEnum, GeoType.NOTHING);
-		addEEnumLiteral(geoTypeEEnum, GeoType.GPS_VALUE);
-		addEEnumLiteral(geoTypeEEnum, GeoType.NETWORK_TYPE);
-		addEEnumLiteral(geoTypeEEnum, GeoType.MAP_TYPE);
-		addEEnumLiteral(geoTypeEEnum, GeoType.BEST_TYPE);
-
 		// Create resource
 		createResource(eNS_URI);
 
@@ -2179,14 +2201,14 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";																					
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";																						
 		addAnnotation
 		  (getNotificationInfo_DataField(), 
 		   source, 
 		   new String[] {
 			 "name", "dataField",
 			 "namespace", ""
-		   });					
+		   });				
 	}
 
 } //ImogenePackageImpl

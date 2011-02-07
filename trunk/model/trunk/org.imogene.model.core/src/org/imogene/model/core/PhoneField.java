@@ -22,7 +22,7 @@ package org.imogene.model.core;
  * @model
  * @generated
  */
-public interface PhoneField extends StringField {
+public interface PhoneField extends TextField {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
