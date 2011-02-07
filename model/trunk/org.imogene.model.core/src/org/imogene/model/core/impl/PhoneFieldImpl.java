@@ -28,7 +28,7 @@ import org.imogene.model.core.PhoneType;
  *
  * @generated
  */
-public class PhoneFieldImpl extends StringFieldImpl implements PhoneField {
+public class PhoneFieldImpl extends TextFieldImpl implements PhoneField {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

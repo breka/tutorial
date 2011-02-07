@@ -78,24 +78,72 @@ public class ImogeneAdapterFactory extends AdapterFactoryImpl {
 	protected ImogeneSwitch<Adapter> modelSwitch =
 		new ImogeneSwitch<Adapter>() {
 			@Override
+			public Adapter caseProject(Project object) {
+				return createProjectAdapter();
+			}
+			@Override
 			public Adapter caseCardEntity(CardEntity object) {
 				return createCardEntityAdapter();
 			}
 			@Override
-			public Adapter caseDescription(Description object) {
-				return createDescriptionAdapter();
+			public Adapter caseFieldGroup(FieldGroup object) {
+				return createFieldGroupAdapter();
 			}
 			@Override
 			public Adapter caseFieldEntity(FieldEntity object) {
 				return createFieldEntityAdapter();
 			}
 			@Override
+			public Adapter caseBooleanField(BooleanField object) {
+				return createBooleanFieldAdapter();
+			}
+			@Override
 			public Adapter caseNumericField(NumericField object) {
 				return createNumericFieldAdapter();
 			}
 			@Override
+			public Adapter caseIntegerField(IntegerField object) {
+				return createIntegerFieldAdapter();
+			}
+			@Override
+			public Adapter caseFloatField(FloatField object) {
+				return createFloatFieldAdapter();
+			}
+			@Override
 			public Adapter caseStringField(StringField object) {
 				return createStringFieldAdapter();
+			}
+			@Override
+			public Adapter caseValidationRule(ValidationRule object) {
+				return createValidationRuleAdapter();
+			}
+			@Override
+			public Adapter caseAddressField(AddressField object) {
+				return createAddressFieldAdapter();
+			}
+			@Override
+			public Adapter caseEmailField(EmailField object) {
+				return createEmailFieldAdapter();
+			}
+			@Override
+			public Adapter caseGeoField(GeoField object) {
+				return createGeoFieldAdapter();
+			}
+			@Override
+			public Adapter caseTextField(TextField object) {
+				return createTextFieldAdapter();
+			}
+			@Override
+			public Adapter caseTextAreaField(TextAreaField object) {
+				return createTextAreaFieldAdapter();
+			}
+			@Override
+			public Adapter caseBarcodeField(BarcodeField object) {
+				return createBarcodeFieldAdapter();
+			}
+			@Override
+			public Adapter casePhoneField(PhoneField object) {
+				return createPhoneFieldAdapter();
 			}
 			@Override
 			public Adapter caseMediaFileField(MediaFileField object) {
@@ -114,28 +162,32 @@ public class ImogeneAdapterFactory extends AdapterFactoryImpl {
 				return createReverseRelationFieldEntityAdapter();
 			}
 			@Override
-			public Adapter caseIntegerField(IntegerField object) {
-				return createIntegerFieldAdapter();
-			}
-			@Override
-			public Adapter caseFloatField(FloatField object) {
-				return createFloatFieldAdapter();
-			}
-			@Override
 			public Adapter caseEnumField(EnumField object) {
 				return createEnumFieldAdapter();
 			}
 			@Override
-			public Adapter caseEmailField(EmailField object) {
-				return createEmailFieldAdapter();
+			public Adapter caseEnumValue(EnumValue object) {
+				return createEnumValueAdapter();
+			}
+			@Override
+			public Adapter caseBinaryField(BinaryField object) {
+				return createBinaryFieldAdapter();
 			}
 			@Override
 			public Adapter caseVideoField(VideoField object) {
 				return createVideoFieldAdapter();
 			}
 			@Override
-			public Adapter caseBinaryField(BinaryField object) {
-				return createBinaryFieldAdapter();
+			public Adapter casePhotoField(PhotoField object) {
+				return createPhotoFieldAdapter();
+			}
+			@Override
+			public Adapter caseSoundField(SoundField object) {
+				return createSoundFieldAdapter();
+			}
+			@Override
+			public Adapter caseDatesField(DatesField object) {
+				return createDatesFieldAdapter();
 			}
 			@Override
 			public Adapter caseDateField(DateField object) {
@@ -150,52 +202,24 @@ public class ImogeneAdapterFactory extends AdapterFactoryImpl {
 				return createTimeFieldAdapter();
 			}
 			@Override
-			public Adapter caseProject(Project object) {
-				return createProjectAdapter();
-			}
-			@Override
-			public Adapter caseDatesField(DatesField object) {
-				return createDatesFieldAdapter();
-			}
-			@Override
-			public Adapter casePhoneField(PhoneField object) {
-				return createPhoneFieldAdapter();
-			}
-			@Override
-			public Adapter casePhotoField(PhotoField object) {
-				return createPhotoFieldAdapter();
-			}
-			@Override
-			public Adapter caseSoundField(SoundField object) {
-				return createSoundFieldAdapter();
-			}
-			@Override
-			public Adapter caseBooleanField(BooleanField object) {
-				return createBooleanFieldAdapter();
-			}
-			@Override
-			public Adapter caseEnumValue(EnumValue object) {
-				return createEnumValueAdapter();
-			}
-			@Override
-			public Adapter caseTextField(TextField object) {
-				return createTextFieldAdapter();
+			public Adapter caseActor(Actor object) {
+				return createActorAdapter();
 			}
 			@Override
 			public Adapter caseRole(Role object) {
 				return createRoleAdapter();
 			}
 			@Override
-			public Adapter caseFieldGroup(FieldGroup object) {
-				return createFieldGroupAdapter();
-			}
-			@Override
-			public Adapter caseActor(Actor object) {
-				return createActorAdapter();
+			public Adapter caseFilterField(FilterField object) {
+				return createFilterFieldAdapter();
 			}
 			@Override
 			public Adapter caseNotificationInfo(NotificationInfo object) {
 				return createNotificationInfoAdapter();
+			}
+			@Override
+			public Adapter caseDescription(Description object) {
+				return createDescriptionAdapter();
 			}
 			@Override
 			public Adapter caseLanguage(Language object) {
@@ -206,28 +230,8 @@ public class ImogeneAdapterFactory extends AdapterFactoryImpl {
 				return createFieldDependentVisibilityAdapter();
 			}
 			@Override
-			public Adapter caseValidationRule(ValidationRule object) {
-				return createValidationRuleAdapter();
-			}
-			@Override
 			public Adapter caseActorFilter(ActorFilter object) {
 				return createActorFilterAdapter();
-			}
-			@Override
-			public Adapter caseFilterField(FilterField object) {
-				return createFilterFieldAdapter();
-			}
-			@Override
-			public Adapter caseAddressField(AddressField object) {
-				return createAddressFieldAdapter();
-			}
-			@Override
-			public Adapter caseGeoField(GeoField object) {
-				return createGeoFieldAdapter();
-			}
-			@Override
-			public Adapter caseBarcodeField(BarcodeField object) {
-				return createBarcodeFieldAdapter();
 			}
 			@Override
 			public Adapter caseThema(Thema object) {
@@ -618,6 +622,20 @@ public class ImogeneAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTextFieldAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.imogene.model.core.TextAreaField <em>Text Area Field</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.imogene.model.core.TextAreaField
+	 * @generated
+	 */
+	public Adapter createTextAreaFieldAdapter() {
 		return null;
 	}
 

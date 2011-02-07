@@ -11,25 +11,24 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.imogene.model.core.AddressField;
-import org.imogene.model.core.ImogenePackage;
+
+import org.imogene.model.core.TextAreaField;
 
 /**
- * This is the item provider adapter for a {@link org.imogene.model.core.AddressField} object.
+ * This is the item provider adapter for a {@link org.imogene.model.core.TextAreaField} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class AddressFieldItemProvider
-	extends TextAreaFieldItemProvider
+public class TextAreaFieldItemProvider
+	extends TextFieldItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -49,7 +48,7 @@ public class AddressFieldItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AddressFieldItemProvider(AdapterFactory adapterFactory) {
+	public TextAreaFieldItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -69,35 +68,14 @@ public class AddressFieldItemProvider
 	}
 
 	/**
-	 * override to disable translatable
-	 * @generated NOT
-	 */
-	@Override
-	protected void addTranslatablePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_TextField_translatable_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TextField_translatable_feature", "_UI_TextField_type"),
-				 ImogenePackage.Literals.TEXT_FIELD__TRANSLATABLE,
-				 false,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-	
-	/**
-	 * This returns AddressField.gif.
+	 * This returns TextAreaField.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/AddressField"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/TextAreaField"));
 	}
 
 	/**
@@ -108,10 +86,10 @@ public class AddressFieldItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((AddressField)object).getName();
+		String label = ((TextAreaField)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_AddressField_type") :
-			getString("_UI_AddressField_type") + " " + label;
+			getString("_UI_TextAreaField_type") :
+			getString("_UI_TextAreaField_type") + " " + label;
 	}
 
 	/**

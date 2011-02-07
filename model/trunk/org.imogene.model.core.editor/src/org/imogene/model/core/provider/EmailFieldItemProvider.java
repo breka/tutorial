@@ -29,7 +29,7 @@ import org.imogene.model.core.ImogenePackage;
  * @generated
  */
 public class EmailFieldItemProvider
-	extends StringFieldItemProvider
+	extends TextFieldItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -69,24 +69,24 @@ public class EmailFieldItemProvider
 	}
 	
 	/**
-     * overrided to set the translatable property to false and not settable anymore
-     * @generated NOT
-     */
+	 * override to disable translatable
+	 * @generated NOT
+	 */
 	@Override
 	protected void addTranslatablePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-		(createItemPropertyDescriptor
-			(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-			 getResourceLocator(),
-			 getString("_UI_StringField_translatable_feature"),
-			 getString("_UI_PropertyDescriptor_description", "_UI_StringField_translatable_feature", "_UI_StringField_type"),
-			 ImogenePackage.Literals.STRING_FIELD__TRANSLATABLE,
-			 false,
-			 false,
-			 false,
-			 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-			 null,
-			 null));
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_TextField_translatable_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_TextField_translatable_feature", "_UI_TextField_type"),
+				 ImogenePackage.Literals.TEXT_FIELD__TRANSLATABLE,
+				 false,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**

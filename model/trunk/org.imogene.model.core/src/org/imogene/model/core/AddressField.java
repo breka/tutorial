@@ -16,7 +16,7 @@ package org.imogene.model.core;
  * @model
  * @generated
  */
-public interface AddressField extends TextField {
+public interface AddressField extends TextAreaField {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

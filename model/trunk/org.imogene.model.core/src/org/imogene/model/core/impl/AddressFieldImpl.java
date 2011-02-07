@@ -19,7 +19,7 @@ import org.imogene.model.core.ImogenePackage;
  *
  * @generated
  */
-public class AddressFieldImpl extends TextFieldImpl implements AddressField {
+public class AddressFieldImpl extends TextAreaFieldImpl implements AddressField {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

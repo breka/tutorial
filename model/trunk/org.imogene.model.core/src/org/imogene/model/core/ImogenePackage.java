@@ -74,7 +74,269 @@ public interface ImogenePackage extends EPackage {
 	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getCardEntity()
 	 * @generated
 	 */
-	int CARD_ENTITY = 0;
+	int CARD_ENTITY = 1;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.DescriptionImpl <em>Description</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.DescriptionImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getDescription()
+	 * @generated
+	 */
+	int DESCRIPTION = 35;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.FieldEntityImpl <em>Field Entity</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.FieldEntityImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFieldEntity()
+	 * @generated
+	 */
+	int FIELD_ENTITY = 3;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.NumericFieldImpl <em>Numeric Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.NumericFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getNumericField()
+	 * @generated
+	 */
+	int NUMERIC_FIELD = 5;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.StringFieldImpl <em>String Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.StringFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getStringField()
+	 * @generated
+	 */
+	int STRING_FIELD = 8;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.BinaryFieldImpl <em>Binary Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.BinaryFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getBinaryField()
+	 * @generated
+	 */
+	int BINARY_FIELD = 23;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.MediaFileFieldImpl <em>Media File Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.MediaFileFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getMediaFileField()
+	 * @generated
+	 */
+	int MEDIA_FILE_FIELD = 17;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.RelationFieldEntityImpl <em>Relation Field Entity</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.RelationFieldEntityImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getRelationFieldEntity()
+	 * @generated
+	 */
+	int RELATION_FIELD_ENTITY = 18;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.MainRelationFieldEntityImpl <em>Main Relation Field Entity</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.MainRelationFieldEntityImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getMainRelationFieldEntity()
+	 * @generated
+	 */
+	int MAIN_RELATION_FIELD_ENTITY = 19;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.ReverseRelationFieldEntityImpl <em>Reverse Relation Field Entity</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.ReverseRelationFieldEntityImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getReverseRelationFieldEntity()
+	 * @generated
+	 */
+	int REVERSE_RELATION_FIELD_ENTITY = 20;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.IntegerFieldImpl <em>Integer Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.IntegerFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getIntegerField()
+	 * @generated
+	 */
+	int INTEGER_FIELD = 6;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.FloatFieldImpl <em>Float Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.FloatFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFloatField()
+	 * @generated
+	 */
+	int FLOAT_FIELD = 7;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.EnumFieldImpl <em>Enum Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.EnumFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getEnumField()
+	 * @generated
+	 */
+	int ENUM_FIELD = 21;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.EmailFieldImpl <em>Email Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.EmailFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getEmailField()
+	 * @generated
+	 */
+	int EMAIL_FIELD = 11;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.VideoFieldImpl <em>Video Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.VideoFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getVideoField()
+	 * @generated
+	 */
+	int VIDEO_FIELD = 24;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.DatesFieldImpl <em>Dates Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.DatesFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getDatesField()
+	 * @generated
+	 */
+	int DATES_FIELD = 27;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.DateFieldImpl <em>Date Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.DateFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getDateField()
+	 * @generated
+	 */
+	int DATE_FIELD = 28;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.DateTimeFieldImpl <em>Date Time Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.DateTimeFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getDateTimeField()
+	 * @generated
+	 */
+	int DATE_TIME_FIELD = 29;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.TimeFieldImpl <em>Time Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.TimeFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getTimeField()
+	 * @generated
+	 */
+	int TIME_FIELD = 30;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.ProjectImpl <em>Project</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.ProjectImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getProject()
+	 * @generated
+	 */
+	int PROJECT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT__DESCRIPTION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Entities</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT__ENTITIES = 2;
+
+	/**
+	 * The feature id for the '<em><b>Entity UI Formats</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT__ENTITY_UI_FORMATS = 3;
+
+	/**
+	 * The feature id for the '<em><b>Themas</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT__THEMAS = 4;
+
+	/**
+	 * The feature id for the '<em><b>Roles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT__ROLES = 5;
+
+	/**
+	 * The feature id for the '<em><b>Languages</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT__LANGUAGES = 6;
+
+	/**
+	 * The number of structural features of the '<em>Project</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT_FEATURE_COUNT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -239,60 +501,175 @@ public interface ImogenePackage extends EPackage {
 	int CARD_ENTITY_FEATURE_COUNT = 17;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.DescriptionImpl <em>Description</em>}' class.
+	 * The meta object id for the '{@link org.imogene.model.core.impl.PhoneFieldImpl <em>Phone Field</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.DescriptionImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getDescription()
+	 * @see org.imogene.model.core.impl.PhoneFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getPhoneField()
 	 * @generated
 	 */
-	int DESCRIPTION = 1;
+	int PHONE_FIELD = 16;
 
 	/**
-	 * The feature id for the '<em><b>Display</b></em>' attribute.
+	 * The meta object id for the '{@link org.imogene.model.core.impl.PhotoFieldImpl <em>Photo Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.PhotoFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getPhotoField()
+	 * @generated
+	 */
+	int PHOTO_FIELD = 25;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.SoundFieldImpl <em>Sound Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.SoundFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getSoundField()
+	 * @generated
+	 */
+	int SOUND_FIELD = 26;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.BooleanFieldImpl <em>Boolean Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.BooleanFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getBooleanField()
+	 * @generated
+	 */
+	int BOOLEAN_FIELD = 4;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.EnumValueImpl <em>Enum Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.EnumValueImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getEnumValue()
+	 * @generated
+	 */
+	int ENUM_VALUE = 22;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.TextFieldImpl <em>Text Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.TextFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getTextField()
+	 * @generated
+	 */
+	int TEXT_FIELD = 13;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.TextAreaFieldImpl <em>Text Area Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.TextAreaFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getTextAreaField()
+	 * @generated
+	 */
+	int TEXT_AREA_FIELD = 14;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.RoleImpl <em>Role</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.RoleImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getRole()
+	 * @generated
+	 */
+	int ROLE = 32;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.FieldGroupImpl <em>Field Group</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.FieldGroupImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFieldGroup()
+	 * @generated
+	 */
+	int FIELD_GROUP = 2;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DESCRIPTION__DISPLAY = 0;
+	int FIELD_GROUP__DESCRIPTIONS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Help</b></em>' attribute.
+	 * The feature id for the '<em><b>Fields</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DESCRIPTION__HELP = 1;
+	int FIELD_GROUP__FIELDS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Locale</b></em>' attribute.
+	 * The feature id for the '<em><b>Parent Card</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DESCRIPTION__LOCALE = 2;
+	int FIELD_GROUP__PARENT_CARD = 2;
 
 	/**
-	 * The number of structural features of the '<em>Description</em>' class.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DESCRIPTION_FEATURE_COUNT = 3;
+	int FIELD_GROUP__NAME = 3;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.FieldEntityImpl <em>Field Entity</em>}' class.
+	 * The feature id for the '<em><b>Readers</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.FieldEntityImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFieldEntity()
 	 * @generated
+	 * @ordered
 	 */
-	int FIELD_ENTITY = 2;
+	int FIELD_GROUP__READERS = 4;
+
+	/**
+	 * The feature id for the '<em><b>Writers</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIELD_GROUP__WRITERS = 5;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIELD_GROUP__SHORT_NAME = 6;
+
+	/**
+	 * The feature id for the '<em><b>Icon</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIELD_GROUP__ICON = 7;
+
+	/**
+	 * The number of structural features of the '<em>Field Group</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIELD_GROUP_FEATURE_COUNT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -394,14 +771,103 @@ public interface ImogenePackage extends EPackage {
 	int FIELD_ENTITY_FEATURE_COUNT = 10;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.NumericFieldImpl <em>Numeric Field</em>}' class.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.NumericFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getNumericField()
 	 * @generated
+	 * @ordered
 	 */
-	int NUMERIC_FIELD = 3;
+	int BOOLEAN_FIELD__NAME = FIELD_ENTITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD__SHORT_NAME = FIELD_ENTITY__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD__DESCRIPTIONS = FIELD_ENTITY__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD__DEFAULT_VALUE = FIELD_ENTITY__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD__REQUIRED = FIELD_ENTITY__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD__HIDDEN = FIELD_ENTITY__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD__READ_ONLY = FIELD_ENTITY__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD__PARENT_GROUP = FIELD_ENTITY__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD__CALCULATION_FUNCTION_NAME = FIELD_ENTITY__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD__FIELD_DEPENDENT_VISIBILITY = FIELD_ENTITY__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The number of structural features of the '<em>Boolean Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -530,14 +996,265 @@ public interface ImogenePackage extends EPackage {
 	int NUMERIC_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.StringFieldImpl <em>String Field</em>}' class.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.StringFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getStringField()
 	 * @generated
+	 * @ordered
 	 */
-	int STRING_FIELD = 4;
+	int INTEGER_FIELD__NAME = NUMERIC_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__SHORT_NAME = NUMERIC_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__DESCRIPTIONS = NUMERIC_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__DEFAULT_VALUE = NUMERIC_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__REQUIRED = NUMERIC_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__HIDDEN = NUMERIC_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__READ_ONLY = NUMERIC_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__PARENT_GROUP = NUMERIC_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__CALCULATION_FUNCTION_NAME = NUMERIC_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__FIELD_DEPENDENT_VISIBILITY = NUMERIC_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Min</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__MIN = NUMERIC_FIELD__MIN;
+
+	/**
+	 * The feature id for the '<em><b>Max</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__MAX = NUMERIC_FIELD__MAX;
+
+	/**
+	 * The feature id for the '<em><b>Unit</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD__UNIT = NUMERIC_FIELD__UNIT;
+
+	/**
+	 * The number of structural features of the '<em>Integer Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_FIELD_FEATURE_COUNT = NUMERIC_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__NAME = NUMERIC_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__SHORT_NAME = NUMERIC_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__DESCRIPTIONS = NUMERIC_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__DEFAULT_VALUE = NUMERIC_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__REQUIRED = NUMERIC_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__HIDDEN = NUMERIC_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__READ_ONLY = NUMERIC_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__PARENT_GROUP = NUMERIC_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__CALCULATION_FUNCTION_NAME = NUMERIC_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__FIELD_DEPENDENT_VISIBILITY = NUMERIC_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Min</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__MIN = NUMERIC_FIELD__MIN;
+
+	/**
+	 * The feature id for the '<em><b>Max</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__MAX = NUMERIC_FIELD__MAX;
+
+	/**
+	 * The feature id for the '<em><b>Unit</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__UNIT = NUMERIC_FIELD__UNIT;
+
+	/**
+	 * The feature id for the '<em><b>Decimal Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD__DECIMAL_NUMBER = NUMERIC_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Float Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_FIELD_FEATURE_COUNT = NUMERIC_FIELD_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -639,32 +1356,959 @@ public interface ImogenePackage extends EPackage {
 	int STRING_FIELD__VALIDATION_RULES = FIELD_ENTITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_FIELD__TRANSLATABLE = FIELD_ENTITY_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>String Field</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 2;
+	int STRING_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.BinaryFieldImpl <em>Binary Field</em>}' class.
+	 * The meta object id for the '{@link org.imogene.model.core.impl.ActorImpl <em>Actor</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.BinaryFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getBinaryField()
+	 * @see org.imogene.model.core.impl.ActorImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getActor()
 	 * @generated
 	 */
-	int BINARY_FIELD = 14;
+	int ACTOR = 31;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.NotificationInfoImpl <em>Notification Info</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.NotificationInfoImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getNotificationInfo()
+	 * @generated
+	 */
+	int NOTIFICATION_INFO = 34;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.LanguageImpl <em>Language</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.LanguageImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getLanguage()
+	 * @generated
+	 */
+	int LANGUAGE = 36;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.FieldDependentVisibilityImpl <em>Field Dependent Visibility</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.FieldDependentVisibilityImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFieldDependentVisibility()
+	 * @generated
+	 */
+	int FIELD_DEPENDENT_VISIBILITY = 37;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.ValidationRuleImpl <em>Validation Rule</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.ValidationRuleImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getValidationRule()
+	 * @generated
+	 */
+	int VALIDATION_RULE = 9;
+
+	/**
+	 * The feature id for the '<em><b>Validation Regular Expression</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATION_RULE__VALIDATION_REGULAR_EXPRESSION = 0;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATION_RULE__DESCRIPTIONS = 1;
+
+	/**
+	 * The number of structural features of the '<em>Validation Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATION_RULE_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.ActorFilterImpl <em>Actor Filter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.ActorFilterImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getActorFilter()
+	 * @generated
+	 */
+	int ACTOR_FILTER = 38;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.FilterFieldImpl <em>Filter Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.FilterFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFilterField()
+	 * @generated
+	 */
+	int FILTER_FIELD = 33;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.AddressFieldImpl <em>Address Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.AddressFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getAddressField()
+	 * @generated
+	 */
+	int ADDRESS_FIELD = 10;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.GeoFieldImpl <em>Geo Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.GeoFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getGeoField()
+	 * @generated
+	 */
+	int GEO_FIELD = 12;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__NAME = STRING_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__SHORT_NAME = STRING_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__DESCRIPTIONS = STRING_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__DEFAULT_VALUE = STRING_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__REQUIRED = STRING_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__HIDDEN = STRING_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__READ_ONLY = STRING_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__PARENT_GROUP = STRING_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__CALCULATION_FUNCTION_NAME = STRING_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__FIELD_DEPENDENT_VISIBILITY = STRING_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
+
+	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__TRANSLATABLE = STRING_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Text Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD_FEATURE_COUNT = STRING_FIELD_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__NAME = TEXT_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__SHORT_NAME = TEXT_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__DESCRIPTIONS = TEXT_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__DEFAULT_VALUE = TEXT_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__REQUIRED = TEXT_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__HIDDEN = TEXT_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__READ_ONLY = TEXT_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__PARENT_GROUP = TEXT_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__CALCULATION_FUNCTION_NAME = TEXT_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__FIELD_DEPENDENT_VISIBILITY = TEXT_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__VALIDATION_RULES = TEXT_FIELD__VALIDATION_RULES;
+
+	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD__TRANSLATABLE = TEXT_FIELD__TRANSLATABLE;
+
+	/**
+	 * The number of structural features of the '<em>Text Area Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA_FIELD_FEATURE_COUNT = TEXT_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__NAME = TEXT_AREA_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__SHORT_NAME = TEXT_AREA_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__DESCRIPTIONS = TEXT_AREA_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__DEFAULT_VALUE = TEXT_AREA_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__REQUIRED = TEXT_AREA_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__HIDDEN = TEXT_AREA_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__READ_ONLY = TEXT_AREA_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__PARENT_GROUP = TEXT_AREA_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__CALCULATION_FUNCTION_NAME = TEXT_AREA_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__FIELD_DEPENDENT_VISIBILITY = TEXT_AREA_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__VALIDATION_RULES = TEXT_AREA_FIELD__VALIDATION_RULES;
+
+	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__TRANSLATABLE = TEXT_AREA_FIELD__TRANSLATABLE;
+
+	/**
+	 * The number of structural features of the '<em>Address Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD_FEATURE_COUNT = TEXT_AREA_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__NAME = TEXT_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__SHORT_NAME = TEXT_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__DESCRIPTIONS = TEXT_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__DEFAULT_VALUE = TEXT_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__REQUIRED = TEXT_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__HIDDEN = TEXT_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__READ_ONLY = TEXT_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__PARENT_GROUP = TEXT_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__CALCULATION_FUNCTION_NAME = TEXT_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__FIELD_DEPENDENT_VISIBILITY = TEXT_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__VALIDATION_RULES = TEXT_FIELD__VALIDATION_RULES;
+
+	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__TRANSLATABLE = TEXT_FIELD__TRANSLATABLE;
+
+	/**
+	 * The number of structural features of the '<em>Email Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD_FEATURE_COUNT = TEXT_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__NAME = STRING_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__SHORT_NAME = STRING_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__DESCRIPTIONS = STRING_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__DEFAULT_VALUE = STRING_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__REQUIRED = STRING_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__HIDDEN = STRING_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__READ_ONLY = STRING_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__PARENT_GROUP = STRING_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__CALCULATION_FUNCTION_NAME = STRING_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__FIELD_DEPENDENT_VISIBILITY = STRING_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__TYPE = STRING_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Geo Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD_FEATURE_COUNT = STRING_FIELD_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.imogene.model.core.impl.BarcodeFieldImpl <em>Barcode Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.imogene.model.core.impl.BarcodeFieldImpl
+	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getBarcodeField()
+	 * @generated
+	 */
+	int BARCODE_FIELD = 15;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__NAME = STRING_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__SHORT_NAME = STRING_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__DESCRIPTIONS = STRING_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__DEFAULT_VALUE = STRING_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__REQUIRED = STRING_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__HIDDEN = STRING_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__READ_ONLY = STRING_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__PARENT_GROUP = STRING_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__CALCULATION_FUNCTION_NAME = STRING_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__FIELD_DEPENDENT_VISIBILITY = STRING_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
+
+	/**
+	 * The number of structural features of the '<em>Barcode Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD_FEATURE_COUNT = STRING_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__NAME = TEXT_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__SHORT_NAME = TEXT_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__DESCRIPTIONS = TEXT_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__DEFAULT_VALUE = TEXT_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__REQUIRED = TEXT_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__HIDDEN = TEXT_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__READ_ONLY = TEXT_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__PARENT_GROUP = TEXT_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__CALCULATION_FUNCTION_NAME = TEXT_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__FIELD_DEPENDENT_VISIBILITY = TEXT_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__VALIDATION_RULES = TEXT_FIELD__VALIDATION_RULES;
+
+	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__TRANSLATABLE = TEXT_FIELD__TRANSLATABLE;
+
+	/**
+	 * The feature id for the '<em><b>Phone Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__PHONE_TYPE = TEXT_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Phone Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD_FEATURE_COUNT = TEXT_FIELD_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -775,16 +2419,6 @@ public interface ImogenePackage extends EPackage {
 	int BINARY_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.MediaFileFieldImpl <em>Media File Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.MediaFileFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getMediaFileField()
-	 * @generated
-	 */
-	int MEDIA_FILE_FIELD = 5;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -891,16 +2525,6 @@ public interface ImogenePackage extends EPackage {
 	 * @ordered
 	 */
 	int MEDIA_FILE_FIELD_FEATURE_COUNT = BINARY_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.RelationFieldEntityImpl <em>Relation Field Entity</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.RelationFieldEntityImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getRelationFieldEntity()
-	 * @generated
-	 */
-	int RELATION_FIELD_ENTITY = 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1054,16 +2678,6 @@ public interface ImogenePackage extends EPackage {
 	 * @ordered
 	 */
 	int RELATION_FIELD_ENTITY_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 6;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.MainRelationFieldEntityImpl <em>Main Relation Field Entity</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.MainRelationFieldEntityImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getMainRelationFieldEntity()
-	 * @generated
-	 */
-	int MAIN_RELATION_FIELD_ENTITY = 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1228,16 +2842,6 @@ public interface ImogenePackage extends EPackage {
 	int MAIN_RELATION_FIELD_ENTITY_FEATURE_COUNT = RELATION_FIELD_ENTITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.ReverseRelationFieldEntityImpl <em>Reverse Relation Field Entity</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.ReverseRelationFieldEntityImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getReverseRelationFieldEntity()
-	 * @generated
-	 */
-	int REVERSE_RELATION_FIELD_ENTITY = 8;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1391,297 +2995,6 @@ public interface ImogenePackage extends EPackage {
 	int REVERSE_RELATION_FIELD_ENTITY_FEATURE_COUNT = RELATION_FIELD_ENTITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.IntegerFieldImpl <em>Integer Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.IntegerFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getIntegerField()
-	 * @generated
-	 */
-	int INTEGER_FIELD = 9;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__NAME = NUMERIC_FIELD__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__SHORT_NAME = NUMERIC_FIELD__SHORT_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__DESCRIPTIONS = NUMERIC_FIELD__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__DEFAULT_VALUE = NUMERIC_FIELD__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__REQUIRED = NUMERIC_FIELD__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__HIDDEN = NUMERIC_FIELD__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__READ_ONLY = NUMERIC_FIELD__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__PARENT_GROUP = NUMERIC_FIELD__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__CALCULATION_FUNCTION_NAME = NUMERIC_FIELD__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__FIELD_DEPENDENT_VISIBILITY = NUMERIC_FIELD__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Min</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__MIN = NUMERIC_FIELD__MIN;
-
-	/**
-	 * The feature id for the '<em><b>Max</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__MAX = NUMERIC_FIELD__MAX;
-
-	/**
-	 * The feature id for the '<em><b>Unit</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD__UNIT = NUMERIC_FIELD__UNIT;
-
-	/**
-	 * The number of structural features of the '<em>Integer Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTEGER_FIELD_FEATURE_COUNT = NUMERIC_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.FloatFieldImpl <em>Float Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.FloatFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFloatField()
-	 * @generated
-	 */
-	int FLOAT_FIELD = 10;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__NAME = NUMERIC_FIELD__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__SHORT_NAME = NUMERIC_FIELD__SHORT_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__DESCRIPTIONS = NUMERIC_FIELD__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__DEFAULT_VALUE = NUMERIC_FIELD__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__REQUIRED = NUMERIC_FIELD__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__HIDDEN = NUMERIC_FIELD__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__READ_ONLY = NUMERIC_FIELD__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__PARENT_GROUP = NUMERIC_FIELD__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__CALCULATION_FUNCTION_NAME = NUMERIC_FIELD__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__FIELD_DEPENDENT_VISIBILITY = NUMERIC_FIELD__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Min</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__MIN = NUMERIC_FIELD__MIN;
-
-	/**
-	 * The feature id for the '<em><b>Max</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__MAX = NUMERIC_FIELD__MAX;
-
-	/**
-	 * The feature id for the '<em><b>Unit</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__UNIT = NUMERIC_FIELD__UNIT;
-
-	/**
-	 * The feature id for the '<em><b>Decimal Number</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD__DECIMAL_NUMBER = NUMERIC_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Float Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FLOAT_FIELD_FEATURE_COUNT = NUMERIC_FIELD_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.EnumFieldImpl <em>Enum Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.EnumFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getEnumField()
-	 * @generated
-	 */
-	int ENUM_FIELD = 11;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1799,14 +3112,13 @@ public interface ImogenePackage extends EPackage {
 	int ENUM_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.EmailFieldImpl <em>Email Field</em>}' class.
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.EmailFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getEmailField()
 	 * @generated
+	 * @ordered
 	 */
-	int EMAIL_FIELD = 12;
+	int ENUM_VALUE__VALUE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1815,16 +3127,7 @@ public interface ImogenePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EMAIL_FIELD__NAME = STRING_FIELD__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD__SHORT_NAME = STRING_FIELD__SHORT_NAME;
+	int ENUM_VALUE__NAME = 1;
 
 	/**
 	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
@@ -1833,107 +3136,16 @@ public interface ImogenePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EMAIL_FIELD__DESCRIPTIONS = STRING_FIELD__DESCRIPTIONS;
+	int ENUM_VALUE__DESCRIPTIONS = 2;
 
 	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * The number of structural features of the '<em>Enum Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EMAIL_FIELD__DEFAULT_VALUE = STRING_FIELD__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD__REQUIRED = STRING_FIELD__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD__HIDDEN = STRING_FIELD__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD__READ_ONLY = STRING_FIELD__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD__PARENT_GROUP = STRING_FIELD__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD__CALCULATION_FUNCTION_NAME = STRING_FIELD__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD__FIELD_DEPENDENT_VISIBILITY = STRING_FIELD__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
-
-	/**
-	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
-
-	/**
-	 * The number of structural features of the '<em>Email Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EMAIL_FIELD_FEATURE_COUNT = STRING_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.VideoFieldImpl <em>Video Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.VideoFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getVideoField()
-	 * @generated
-	 */
-	int VIDEO_FIELD = 13;
+	int ENUM_VALUE_FEATURE_COUNT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2044,14 +3256,220 @@ public interface ImogenePackage extends EPackage {
 	int VIDEO_FIELD_FEATURE_COUNT = MEDIA_FILE_FIELD_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.DatesFieldImpl <em>Dates Field</em>}' class.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.DatesFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getDatesField()
 	 * @generated
+	 * @ordered
 	 */
-	int DATES_FIELD = 19;
+	int PHOTO_FIELD__NAME = MEDIA_FILE_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__SHORT_NAME = MEDIA_FILE_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__DESCRIPTIONS = MEDIA_FILE_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__DEFAULT_VALUE = MEDIA_FILE_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__REQUIRED = MEDIA_FILE_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__HIDDEN = MEDIA_FILE_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__READ_ONLY = MEDIA_FILE_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__PARENT_GROUP = MEDIA_FILE_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__CALCULATION_FUNCTION_NAME = MEDIA_FILE_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__FIELD_DEPENDENT_VISIBILITY = MEDIA_FILE_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Category</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD__CATEGORY = MEDIA_FILE_FIELD__CATEGORY;
+
+	/**
+	 * The number of structural features of the '<em>Photo Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHOTO_FIELD_FEATURE_COUNT = MEDIA_FILE_FIELD_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__NAME = MEDIA_FILE_FIELD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__SHORT_NAME = MEDIA_FILE_FIELD__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__DESCRIPTIONS = MEDIA_FILE_FIELD__DESCRIPTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__DEFAULT_VALUE = MEDIA_FILE_FIELD__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__REQUIRED = MEDIA_FILE_FIELD__REQUIRED;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__HIDDEN = MEDIA_FILE_FIELD__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__READ_ONLY = MEDIA_FILE_FIELD__READ_ONLY;
+
+	/**
+	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__PARENT_GROUP = MEDIA_FILE_FIELD__PARENT_GROUP;
+
+	/**
+	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__CALCULATION_FUNCTION_NAME = MEDIA_FILE_FIELD__CALCULATION_FUNCTION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__FIELD_DEPENDENT_VISIBILITY = MEDIA_FILE_FIELD__FIELD_DEPENDENT_VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Category</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD__CATEGORY = MEDIA_FILE_FIELD__CATEGORY;
+
+	/**
+	 * The number of structural features of the '<em>Sound Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOUND_FIELD_FEATURE_COUNT = MEDIA_FILE_FIELD_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2171,16 +3589,6 @@ public interface ImogenePackage extends EPackage {
 	int DATES_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.DateFieldImpl <em>Date Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.DateFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getDateField()
-	 * @generated
-	 */
-	int DATE_FIELD = 15;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2296,16 +3704,6 @@ public interface ImogenePackage extends EPackage {
 	 * @ordered
 	 */
 	int DATE_FIELD_FEATURE_COUNT = DATES_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.DateTimeFieldImpl <em>Date Time Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.DateTimeFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getDateTimeField()
-	 * @generated
-	 */
-	int DATE_TIME_FIELD = 16;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2425,16 +3823,6 @@ public interface ImogenePackage extends EPackage {
 	int DATE_TIME_FIELD_FEATURE_COUNT = DATES_FIELD_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.TimeFieldImpl <em>Time Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.TimeFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getTimeField()
-	 * @generated
-	 */
-	int TIME_FIELD = 17;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2550,871 +3938,6 @@ public interface ImogenePackage extends EPackage {
 	 * @ordered
 	 */
 	int TIME_FIELD_FEATURE_COUNT = DATES_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.ProjectImpl <em>Project</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.ProjectImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getProject()
-	 * @generated
-	 */
-	int PROJECT = 18;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROJECT__NAME = 0;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROJECT__DESCRIPTION = 1;
-
-	/**
-	 * The feature id for the '<em><b>Entities</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROJECT__ENTITIES = 2;
-
-	/**
-	 * The feature id for the '<em><b>Entity UI Formats</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROJECT__ENTITY_UI_FORMATS = 3;
-
-	/**
-	 * The feature id for the '<em><b>Themas</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROJECT__THEMAS = 4;
-
-	/**
-	 * The feature id for the '<em><b>Roles</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROJECT__ROLES = 5;
-
-	/**
-	 * The feature id for the '<em><b>Languages</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROJECT__LANGUAGES = 6;
-
-	/**
-	 * The number of structural features of the '<em>Project</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROJECT_FEATURE_COUNT = 7;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.PhoneFieldImpl <em>Phone Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.PhoneFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getPhoneField()
-	 * @generated
-	 */
-	int PHONE_FIELD = 20;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__NAME = STRING_FIELD__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__SHORT_NAME = STRING_FIELD__SHORT_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__DESCRIPTIONS = STRING_FIELD__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__DEFAULT_VALUE = STRING_FIELD__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__REQUIRED = STRING_FIELD__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__HIDDEN = STRING_FIELD__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__READ_ONLY = STRING_FIELD__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__PARENT_GROUP = STRING_FIELD__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__CALCULATION_FUNCTION_NAME = STRING_FIELD__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__FIELD_DEPENDENT_VISIBILITY = STRING_FIELD__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
-
-	/**
-	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
-
-	/**
-	 * The feature id for the '<em><b>Phone Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD__PHONE_TYPE = STRING_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Phone Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHONE_FIELD_FEATURE_COUNT = STRING_FIELD_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.PhotoFieldImpl <em>Photo Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.PhotoFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getPhotoField()
-	 * @generated
-	 */
-	int PHOTO_FIELD = 21;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__NAME = MEDIA_FILE_FIELD__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__SHORT_NAME = MEDIA_FILE_FIELD__SHORT_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__DESCRIPTIONS = MEDIA_FILE_FIELD__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__DEFAULT_VALUE = MEDIA_FILE_FIELD__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__REQUIRED = MEDIA_FILE_FIELD__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__HIDDEN = MEDIA_FILE_FIELD__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__READ_ONLY = MEDIA_FILE_FIELD__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__PARENT_GROUP = MEDIA_FILE_FIELD__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__CALCULATION_FUNCTION_NAME = MEDIA_FILE_FIELD__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__FIELD_DEPENDENT_VISIBILITY = MEDIA_FILE_FIELD__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Category</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD__CATEGORY = MEDIA_FILE_FIELD__CATEGORY;
-
-	/**
-	 * The number of structural features of the '<em>Photo Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHOTO_FIELD_FEATURE_COUNT = MEDIA_FILE_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.SoundFieldImpl <em>Sound Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.SoundFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getSoundField()
-	 * @generated
-	 */
-	int SOUND_FIELD = 22;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__NAME = MEDIA_FILE_FIELD__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__SHORT_NAME = MEDIA_FILE_FIELD__SHORT_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__DESCRIPTIONS = MEDIA_FILE_FIELD__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__DEFAULT_VALUE = MEDIA_FILE_FIELD__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__REQUIRED = MEDIA_FILE_FIELD__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__HIDDEN = MEDIA_FILE_FIELD__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__READ_ONLY = MEDIA_FILE_FIELD__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__PARENT_GROUP = MEDIA_FILE_FIELD__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__CALCULATION_FUNCTION_NAME = MEDIA_FILE_FIELD__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__FIELD_DEPENDENT_VISIBILITY = MEDIA_FILE_FIELD__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Category</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD__CATEGORY = MEDIA_FILE_FIELD__CATEGORY;
-
-	/**
-	 * The number of structural features of the '<em>Sound Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOUND_FIELD_FEATURE_COUNT = MEDIA_FILE_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.BooleanFieldImpl <em>Boolean Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.BooleanFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getBooleanField()
-	 * @generated
-	 */
-	int BOOLEAN_FIELD = 23;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__NAME = FIELD_ENTITY__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__SHORT_NAME = FIELD_ENTITY__SHORT_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__DESCRIPTIONS = FIELD_ENTITY__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__DEFAULT_VALUE = FIELD_ENTITY__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__REQUIRED = FIELD_ENTITY__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__HIDDEN = FIELD_ENTITY__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__READ_ONLY = FIELD_ENTITY__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__PARENT_GROUP = FIELD_ENTITY__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__CALCULATION_FUNCTION_NAME = FIELD_ENTITY__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD__FIELD_DEPENDENT_VISIBILITY = FIELD_ENTITY__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The number of structural features of the '<em>Boolean Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BOOLEAN_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.EnumValueImpl <em>Enum Value</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.EnumValueImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getEnumValue()
-	 * @generated
-	 */
-	int ENUM_VALUE = 24;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUM_VALUE__VALUE = 0;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUM_VALUE__NAME = 1;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUM_VALUE__DESCRIPTIONS = 2;
-
-	/**
-	 * The number of structural features of the '<em>Enum Value</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUM_VALUE_FEATURE_COUNT = 3;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.TextFieldImpl <em>Text Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.TextFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getTextField()
-	 * @generated
-	 */
-	int TEXT_FIELD = 25;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__NAME = STRING_FIELD__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__SHORT_NAME = STRING_FIELD__SHORT_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__DESCRIPTIONS = STRING_FIELD__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__DEFAULT_VALUE = STRING_FIELD__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__REQUIRED = STRING_FIELD__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__HIDDEN = STRING_FIELD__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__READ_ONLY = STRING_FIELD__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__PARENT_GROUP = STRING_FIELD__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__CALCULATION_FUNCTION_NAME = STRING_FIELD__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__FIELD_DEPENDENT_VISIBILITY = STRING_FIELD__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
-
-	/**
-	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
-
-	/**
-	 * The number of structural features of the '<em>Text Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_FIELD_FEATURE_COUNT = STRING_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.RoleImpl <em>Role</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.RoleImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getRole()
-	 * @generated
-	 */
-	int ROLE = 26;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ROLE__NAME = 0;
-
-	/**
-	 * The number of structural features of the '<em>Role</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ROLE_FEATURE_COUNT = 1;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.FieldGroupImpl <em>Field Group</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.FieldGroupImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFieldGroup()
-	 * @generated
-	 */
-	int FIELD_GROUP = 27;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_GROUP__DESCRIPTIONS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Fields</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_GROUP__FIELDS = 1;
-
-	/**
-	 * The feature id for the '<em><b>Parent Card</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_GROUP__PARENT_CARD = 2;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_GROUP__NAME = 3;
-
-	/**
-	 * The feature id for the '<em><b>Readers</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_GROUP__READERS = 4;
-
-	/**
-	 * The feature id for the '<em><b>Writers</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_GROUP__WRITERS = 5;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_GROUP__SHORT_NAME = 6;
-
-	/**
-	 * The feature id for the '<em><b>Icon</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_GROUP__ICON = 7;
-
-	/**
-	 * The number of structural features of the '<em>Field Group</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_GROUP_FEATURE_COUNT = 8;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.ActorImpl <em>Actor</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.ActorImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getActor()
-	 * @generated
-	 */
-	int ACTOR = 28;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -3615,253 +4138,22 @@ public interface ImogenePackage extends EPackage {
 	int ACTOR_FEATURE_COUNT = CARD_ENTITY_FEATURE_COUNT + 4;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.NotificationInfoImpl <em>Notification Info</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.NotificationInfoImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getNotificationInfo()
-	 * @generated
-	 */
-	int NOTIFICATION_INFO = 29;
-
-	/**
-	 * The feature id for the '<em><b>Data Field</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NOTIFICATION_INFO__DATA_FIELD = 0;
-
-	/**
-	 * The feature id for the '<em><b>Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NOTIFICATION_INFO__METHOD = 1;
-
-	/**
-	 * The number of structural features of the '<em>Notification Info</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NOTIFICATION_INFO_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.LanguageImpl <em>Language</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.LanguageImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getLanguage()
-	 * @generated
-	 */
-	int LANGUAGE = 30;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LANGUAGE__NAME = 0;
+	int ROLE__NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Date Format</b></em>' attribute.
+	 * The number of structural features of the '<em>Role</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LANGUAGE__DATE_FORMAT = 1;
-
-	/**
-	 * The feature id for the '<em><b>Time Format</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LANGUAGE__TIME_FORMAT = 2;
-
-	/**
-	 * The feature id for the '<em><b>Integer Format</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LANGUAGE__INTEGER_FORMAT = 3;
-
-	/**
-	 * The feature id for the '<em><b>Float Format</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LANGUAGE__FLOAT_FORMAT = 4;
-
-	/**
-	 * The feature id for the '<em><b>Iso Code</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LANGUAGE__ISO_CODE = 5;
-
-	/**
-	 * The number of structural features of the '<em>Language</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LANGUAGE_FEATURE_COUNT = 6;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.FieldDependentVisibilityImpl <em>Field Dependent Visibility</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.FieldDependentVisibilityImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFieldDependentVisibility()
-	 * @generated
-	 */
-	int FIELD_DEPENDENT_VISIBILITY = 31;
-
-	/**
-	 * The feature id for the '<em><b>Dependency Field</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_DEPENDENT_VISIBILITY__DEPENDENCY_FIELD = 0;
-
-	/**
-	 * The feature id for the '<em><b>Dependency Field Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_DEPENDENT_VISIBILITY__DEPENDENCY_FIELD_VALUE = 1;
-
-	/**
-	 * The feature id for the '<em><b>Parent Field Entity</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_DEPENDENT_VISIBILITY__PARENT_FIELD_ENTITY = 2;
-
-	/**
-	 * The number of structural features of the '<em>Field Dependent Visibility</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FIELD_DEPENDENT_VISIBILITY_FEATURE_COUNT = 3;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.ValidationRuleImpl <em>Validation Rule</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.ValidationRuleImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getValidationRule()
-	 * @generated
-	 */
-	int VALIDATION_RULE = 32;
-
-	/**
-	 * The feature id for the '<em><b>Validation Regular Expression</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATION_RULE__VALIDATION_REGULAR_EXPRESSION = 0;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATION_RULE__DESCRIPTIONS = 1;
-
-	/**
-	 * The number of structural features of the '<em>Validation Rule</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATION_RULE_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.ActorFilterImpl <em>Actor Filter</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.ActorFilterImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getActorFilter()
-	 * @generated
-	 */
-	int ACTOR_FILTER = 33;
-
-	/**
-	 * The feature id for the '<em><b>Entity Field</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACTOR_FILTER__ENTITY_FIELD = 0;
-
-	/**
-	 * The feature id for the '<em><b>Actor Field</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACTOR_FILTER__ACTOR_FIELD = 1;
-
-	/**
-	 * The feature id for the '<em><b>Sufficient</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACTOR_FILTER__SUFFICIENT = 2;
-
-	/**
-	 * The number of structural features of the '<em>Actor Filter</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACTOR_FILTER_FEATURE_COUNT = 3;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.FilterFieldImpl <em>Filter Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.FilterFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getFilterField()
-	 * @generated
-	 */
-	int FILTER_FIELD = 34;
+	int ROLE_FEATURE_COUNT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4026,14 +4318,67 @@ public interface ImogenePackage extends EPackage {
 	int FILTER_FIELD_FEATURE_COUNT = RELATION_FIELD_ENTITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.AddressFieldImpl <em>Address Field</em>}' class.
+	 * The feature id for the '<em><b>Data Field</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.AddressFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getAddressField()
 	 * @generated
+	 * @ordered
 	 */
-	int ADDRESS_FIELD = 35;
+	int NOTIFICATION_INFO__DATA_FIELD = 0;
+
+	/**
+	 * The feature id for the '<em><b>Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NOTIFICATION_INFO__METHOD = 1;
+
+	/**
+	 * The number of structural features of the '<em>Notification Info</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NOTIFICATION_INFO_FEATURE_COUNT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Display</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DESCRIPTION__DISPLAY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Help</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DESCRIPTION__HELP = 1;
+
+	/**
+	 * The feature id for the '<em><b>Locale</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DESCRIPTION__LOCALE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Description</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DESCRIPTION_FEATURE_COUNT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4042,378 +4387,133 @@ public interface ImogenePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__NAME = TEXT_FIELD__NAME;
+	int LANGUAGE__NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Date Format</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__SHORT_NAME = TEXT_FIELD__SHORT_NAME;
+	int LANGUAGE__DATE_FORMAT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Time Format</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__DESCRIPTIONS = TEXT_FIELD__DESCRIPTIONS;
+	int LANGUAGE__TIME_FORMAT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Integer Format</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__DEFAULT_VALUE = TEXT_FIELD__DEFAULT_VALUE;
+	int LANGUAGE__INTEGER_FORMAT = 3;
 
 	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
+	 * The feature id for the '<em><b>Float Format</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__REQUIRED = TEXT_FIELD__REQUIRED;
+	int LANGUAGE__FLOAT_FORMAT = 4;
 
 	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * The feature id for the '<em><b>Iso Code</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__HIDDEN = TEXT_FIELD__HIDDEN;
+	int LANGUAGE__ISO_CODE = 5;
 
 	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
+	 * The number of structural features of the '<em>Language</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__READ_ONLY = TEXT_FIELD__READ_ONLY;
+	int LANGUAGE_FEATURE_COUNT = 6;
 
 	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
+	 * The feature id for the '<em><b>Dependency Field</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__PARENT_GROUP = TEXT_FIELD__PARENT_GROUP;
+	int FIELD_DEPENDENT_VISIBILITY__DEPENDENCY_FIELD = 0;
 
 	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Dependency Field Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__CALCULATION_FUNCTION_NAME = TEXT_FIELD__CALCULATION_FUNCTION_NAME;
+	int FIELD_DEPENDENT_VISIBILITY__DEPENDENCY_FIELD_VALUE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parent Field Entity</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__FIELD_DEPENDENT_VISIBILITY = TEXT_FIELD__FIELD_DEPENDENT_VISIBILITY;
+	int FIELD_DEPENDENT_VISIBILITY__PARENT_FIELD_ENTITY = 2;
 
 	/**
-	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
+	 * The number of structural features of the '<em>Field Dependent Visibility</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__VALIDATION_RULES = TEXT_FIELD__VALIDATION_RULES;
+	int FIELD_DEPENDENT_VISIBILITY_FEATURE_COUNT = 3;
 
 	/**
-	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * The feature id for the '<em><b>Entity Field</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD__TRANSLATABLE = TEXT_FIELD__TRANSLATABLE;
+	int ACTOR_FILTER__ENTITY_FIELD = 0;
 
 	/**
-	 * The number of structural features of the '<em>Address Field</em>' class.
+	 * The feature id for the '<em><b>Actor Field</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDRESS_FIELD_FEATURE_COUNT = TEXT_FIELD_FEATURE_COUNT + 0;
+	int ACTOR_FILTER__ACTOR_FIELD = 1;
 
 	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.GeoFieldImpl <em>Geo Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.GeoFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getGeoField()
-	 * @generated
-	 */
-	int GEO_FIELD = 36;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Sufficient</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEO_FIELD__NAME = STRING_FIELD__NAME;
+	int ACTOR_FILTER__SUFFICIENT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * The number of structural features of the '<em>Actor Filter</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEO_FIELD__SHORT_NAME = STRING_FIELD__SHORT_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__DESCRIPTIONS = STRING_FIELD__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__DEFAULT_VALUE = STRING_FIELD__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__REQUIRED = STRING_FIELD__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__HIDDEN = STRING_FIELD__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__READ_ONLY = STRING_FIELD__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__PARENT_GROUP = STRING_FIELD__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__CALCULATION_FUNCTION_NAME = STRING_FIELD__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__FIELD_DEPENDENT_VISIBILITY = STRING_FIELD__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
-
-	/**
-	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD__TYPE = STRING_FIELD_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Geo Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEO_FIELD_FEATURE_COUNT = STRING_FIELD_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.imogene.model.core.impl.BarcodeFieldImpl <em>Barcode Field</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.imogene.model.core.impl.BarcodeFieldImpl
-	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getBarcodeField()
-	 * @generated
-	 */
-	int BARCODE_FIELD = 37;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__NAME = STRING_FIELD__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__SHORT_NAME = STRING_FIELD__SHORT_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__DESCRIPTIONS = STRING_FIELD__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__DEFAULT_VALUE = STRING_FIELD__DEFAULT_VALUE;
-
-	/**
-	 * The feature id for the '<em><b>Required</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__REQUIRED = STRING_FIELD__REQUIRED;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__HIDDEN = STRING_FIELD__HIDDEN;
-
-	/**
-	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__READ_ONLY = STRING_FIELD__READ_ONLY;
-
-	/**
-	 * The feature id for the '<em><b>Parent Group</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__PARENT_GROUP = STRING_FIELD__PARENT_GROUP;
-
-	/**
-	 * The feature id for the '<em><b>Calculation Function Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__CALCULATION_FUNCTION_NAME = STRING_FIELD__CALCULATION_FUNCTION_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Field Dependent Visibility</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__FIELD_DEPENDENT_VISIBILITY = STRING_FIELD__FIELD_DEPENDENT_VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Validation Rules</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
-
-	/**
-	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
-
-	/**
-	 * The number of structural features of the '<em>Barcode Field</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BARCODE_FIELD_FEATURE_COUNT = STRING_FIELD_FEATURE_COUNT + 0;
+	int ACTOR_FILTER_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.imogene.model.core.impl.ThemaImpl <em>Thema</em>}' class.
@@ -4423,7 +4523,7 @@ public interface ImogenePackage extends EPackage {
 	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getThema()
 	 * @generated
 	 */
-	int THEMA = 38;
+	int THEMA = 39;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4469,7 +4569,7 @@ public interface ImogenePackage extends EPackage {
 	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getCardEntityUIFormat()
 	 * @generated
 	 */
-	int CARD_ENTITY_UI_FORMAT = 39;
+	int CARD_ENTITY_UI_FORMAT = 40;
 
 	/**
 	 * The feature id for the '<em><b>Entity</b></em>' reference.
@@ -4506,7 +4606,7 @@ public interface ImogenePackage extends EPackage {
 	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getPhoneType()
 	 * @generated
 	 */
-	int PHONE_TYPE = 40;
+	int PHONE_TYPE = 42;
 
 	/**
 	 * The meta object id for the '{@link org.imogene.model.core.RelationType <em>Relation Type</em>}' enum.
@@ -4516,7 +4616,7 @@ public interface ImogenePackage extends EPackage {
 	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getRelationType()
 	 * @generated
 	 */
-	int RELATION_TYPE = 41;
+	int RELATION_TYPE = 43;
 
 	/**
 	 * The meta object id for the '{@link org.imogene.model.core.NotificationMethod <em>Notification Method</em>}' enum.
@@ -4526,7 +4626,7 @@ public interface ImogenePackage extends EPackage {
 	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getNotificationMethod()
 	 * @generated
 	 */
-	int NOTIFICATION_METHOD = 42;
+	int NOTIFICATION_METHOD = 44;
 
 	/**
 	 * The meta object id for the '{@link org.imogene.model.core.GeoType <em>Geo Type</em>}' enum.
@@ -4536,7 +4636,7 @@ public interface ImogenePackage extends EPackage {
 	 * @see org.imogene.model.core.impl.ImogenePackageImpl#getGeoType()
 	 * @generated
 	 */
-	int GEO_TYPE = 43;
+	int GEO_TYPE = 41;
 
 
 	/**
@@ -4962,17 +5062,6 @@ public interface ImogenePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStringField_ValidationRules();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.imogene.model.core.StringField#isTranslatable <em>Translatable</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Translatable</em>'.
-	 * @see org.imogene.model.core.StringField#isTranslatable()
-	 * @see #getStringField()
-	 * @generated
-	 */
-	EAttribute getStringField_Translatable();
 
 	/**
 	 * Returns the meta object for class '{@link org.imogene.model.core.MediaFileField <em>Media File Field</em>}'.
@@ -5447,6 +5536,27 @@ public interface ImogenePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getTextField();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.imogene.model.core.TextField#isTranslatable <em>Translatable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Translatable</em>'.
+	 * @see org.imogene.model.core.TextField#isTranslatable()
+	 * @see #getTextField()
+	 * @generated
+	 */
+	EAttribute getTextField_Translatable();
+
+	/**
+	 * Returns the meta object for class '{@link org.imogene.model.core.TextAreaField <em>Text Area Field</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Text Area Field</em>'.
+	 * @see org.imogene.model.core.TextAreaField
+	 * @generated
+	 */
+	EClass getTextAreaField();
 
 	/**
 	 * Returns the meta object for class '{@link org.imogene.model.core.Role <em>Role</em>}'.
@@ -6369,14 +6479,6 @@ public interface ImogenePackage extends EPackage {
 		EReference STRING_FIELD__VALIDATION_RULES = eINSTANCE.getStringField_ValidationRules();
 
 		/**
-		 * The meta object literal for the '<em><b>Translatable</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STRING_FIELD__TRANSLATABLE = eINSTANCE.getStringField_Translatable();
-
-		/**
 		 * The meta object literal for the '{@link org.imogene.model.core.impl.MediaFileFieldImpl <em>Media File Field</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -6777,6 +6879,24 @@ public interface ImogenePackage extends EPackage {
 		 * @generated
 		 */
 		EClass TEXT_FIELD = eINSTANCE.getTextField();
+
+		/**
+		 * The meta object literal for the '<em><b>Translatable</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEXT_FIELD__TRANSLATABLE = eINSTANCE.getTextField_Translatable();
+
+		/**
+		 * The meta object literal for the '{@link org.imogene.model.core.impl.TextAreaFieldImpl <em>Text Area Field</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.imogene.model.core.impl.TextAreaFieldImpl
+		 * @see org.imogene.model.core.impl.ImogenePackageImpl#getTextAreaField()
+		 * @generated
+		 */
+		EClass TEXT_AREA_FIELD = eINSTANCE.getTextAreaField();
 
 		/**
 		 * The meta object literal for the '{@link org.imogene.model.core.impl.RoleImpl <em>Role</em>}' class.

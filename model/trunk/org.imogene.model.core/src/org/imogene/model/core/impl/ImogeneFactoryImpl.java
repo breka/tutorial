@@ -67,39 +67,39 @@ public class ImogeneFactoryImpl extends EFactoryImpl implements ImogeneFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case ImogenePackage.PROJECT: return createProject();
 			case ImogenePackage.CARD_ENTITY: return createCardEntity();
-			case ImogenePackage.DESCRIPTION: return createDescription();
-			case ImogenePackage.STRING_FIELD: return createStringField();
-			case ImogenePackage.MAIN_RELATION_FIELD_ENTITY: return createMainRelationFieldEntity();
-			case ImogenePackage.REVERSE_RELATION_FIELD_ENTITY: return createReverseRelationFieldEntity();
+			case ImogenePackage.FIELD_GROUP: return createFieldGroup();
+			case ImogenePackage.BOOLEAN_FIELD: return createBooleanField();
 			case ImogenePackage.INTEGER_FIELD: return createIntegerField();
 			case ImogenePackage.FLOAT_FIELD: return createFloatField();
-			case ImogenePackage.ENUM_FIELD: return createEnumField();
+			case ImogenePackage.VALIDATION_RULE: return createValidationRule();
+			case ImogenePackage.ADDRESS_FIELD: return createAddressField();
 			case ImogenePackage.EMAIL_FIELD: return createEmailField();
-			case ImogenePackage.VIDEO_FIELD: return createVideoField();
+			case ImogenePackage.GEO_FIELD: return createGeoField();
+			case ImogenePackage.TEXT_FIELD: return createTextField();
+			case ImogenePackage.TEXT_AREA_FIELD: return createTextAreaField();
+			case ImogenePackage.BARCODE_FIELD: return createBarcodeField();
+			case ImogenePackage.PHONE_FIELD: return createPhoneField();
+			case ImogenePackage.MAIN_RELATION_FIELD_ENTITY: return createMainRelationFieldEntity();
+			case ImogenePackage.REVERSE_RELATION_FIELD_ENTITY: return createReverseRelationFieldEntity();
+			case ImogenePackage.ENUM_FIELD: return createEnumField();
+			case ImogenePackage.ENUM_VALUE: return createEnumValue();
 			case ImogenePackage.BINARY_FIELD: return createBinaryField();
+			case ImogenePackage.VIDEO_FIELD: return createVideoField();
+			case ImogenePackage.PHOTO_FIELD: return createPhotoField();
+			case ImogenePackage.SOUND_FIELD: return createSoundField();
 			case ImogenePackage.DATE_FIELD: return createDateField();
 			case ImogenePackage.DATE_TIME_FIELD: return createDateTimeField();
 			case ImogenePackage.TIME_FIELD: return createTimeField();
-			case ImogenePackage.PROJECT: return createProject();
-			case ImogenePackage.PHONE_FIELD: return createPhoneField();
-			case ImogenePackage.PHOTO_FIELD: return createPhotoField();
-			case ImogenePackage.SOUND_FIELD: return createSoundField();
-			case ImogenePackage.BOOLEAN_FIELD: return createBooleanField();
-			case ImogenePackage.ENUM_VALUE: return createEnumValue();
-			case ImogenePackage.TEXT_FIELD: return createTextField();
-			case ImogenePackage.ROLE: return createRole();
-			case ImogenePackage.FIELD_GROUP: return createFieldGroup();
 			case ImogenePackage.ACTOR: return createActor();
+			case ImogenePackage.ROLE: return createRole();
+			case ImogenePackage.FILTER_FIELD: return createFilterField();
 			case ImogenePackage.NOTIFICATION_INFO: return createNotificationInfo();
+			case ImogenePackage.DESCRIPTION: return createDescription();
 			case ImogenePackage.LANGUAGE: return createLanguage();
 			case ImogenePackage.FIELD_DEPENDENT_VISIBILITY: return createFieldDependentVisibility();
-			case ImogenePackage.VALIDATION_RULE: return createValidationRule();
 			case ImogenePackage.ACTOR_FILTER: return createActorFilter();
-			case ImogenePackage.FILTER_FIELD: return createFilterField();
-			case ImogenePackage.ADDRESS_FIELD: return createAddressField();
-			case ImogenePackage.GEO_FIELD: return createGeoField();
-			case ImogenePackage.BARCODE_FIELD: return createBarcodeField();
 			case ImogenePackage.THEMA: return createThema();
 			case ImogenePackage.CARD_ENTITY_UI_FORMAT: return createCardEntityUIFormat();
 			default:
@@ -115,14 +115,14 @@ public class ImogeneFactoryImpl extends EFactoryImpl implements ImogeneFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
+			case ImogenePackage.GEO_TYPE:
+				return createGeoTypeFromString(eDataType, initialValue);
 			case ImogenePackage.PHONE_TYPE:
 				return createPhoneTypeFromString(eDataType, initialValue);
 			case ImogenePackage.RELATION_TYPE:
 				return createRelationTypeFromString(eDataType, initialValue);
 			case ImogenePackage.NOTIFICATION_METHOD:
 				return createNotificationMethodFromString(eDataType, initialValue);
-			case ImogenePackage.GEO_TYPE:
-				return createGeoTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -136,14 +136,14 @@ public class ImogeneFactoryImpl extends EFactoryImpl implements ImogeneFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
+			case ImogenePackage.GEO_TYPE:
+				return convertGeoTypeToString(eDataType, instanceValue);
 			case ImogenePackage.PHONE_TYPE:
 				return convertPhoneTypeToString(eDataType, instanceValue);
 			case ImogenePackage.RELATION_TYPE:
 				return convertRelationTypeToString(eDataType, instanceValue);
 			case ImogenePackage.NOTIFICATION_METHOD:
 				return convertNotificationMethodToString(eDataType, instanceValue);
-			case ImogenePackage.GEO_TYPE:
-				return convertGeoTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -167,16 +167,6 @@ public class ImogeneFactoryImpl extends EFactoryImpl implements ImogeneFactory {
 	public Description createDescription() {
 		DescriptionImpl description = new DescriptionImpl();
 		return description;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public StringField createStringField() {
-		StringFieldImpl stringField = new StringFieldImpl();
-		return stringField;
 	}
 
 	/**
@@ -357,6 +347,16 @@ public class ImogeneFactoryImpl extends EFactoryImpl implements ImogeneFactory {
 	public TextField createTextField() {
 		TextFieldImpl textField = new TextFieldImpl();
 		return textField;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TextAreaField createTextAreaField() {
+		TextAreaFieldImpl textAreaField = new TextAreaFieldImpl();
+		return textAreaField;
 	}
 
 	/**
