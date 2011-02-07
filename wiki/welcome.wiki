@@ -1,4 +1,4 @@
-   = Welcome to imogene =
+= Welcome to imogene =
 
 _*imogene*_ is an Open Source *Rapid Application Development Studio* for data collection system.
 
@@ -33,7 +33,7 @@ The generated Information Systems include the following functionalities:
         * The IS applications are based on technologies and follow development standards that enable a remote update of the deployed applications.
 
 
-   = Starting Points =
+= Starting Points =
 
     * Read some [[User experience]].
     * Find out [[How to install]] the studio
