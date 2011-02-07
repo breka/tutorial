@@ -8,7 +8,7 @@
 
 	_*imogene*_ is basicaly a set of [http://www.eclipse.org/ Eclipse] plugin. It takes advantage of the code already developed in renowned existing open source projects like [http://www.springsource.org/ Spring], [http://www.hibernate.org/ Hibernate], [http://tomcat.apache.org/ Apache Tomcat] or [http://code.google.com/webtoolkit/ Google Web tool Kit]. 
 
-http://code.google.com/p/imogene/wiki/images/is_archi.png
+images/is_archi.png
 
 	The generated Information Systems include the following functionalities:
 
