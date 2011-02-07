@@ -86,22 +86,22 @@ public interface ImogenePackage extends EPackage {
 	int CARD_ENTITY__NAME = 0;
 
 	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARD_ENTITY__SHORT_NAME = 1;
+
+	/**
 	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CARD_ENTITY__DESCRIPTIONS = 1;
-
-	/**
-	 * The feature id for the '<em><b>Main Fields</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CARD_ENTITY__MAIN_FIELDS = 2;
+	int CARD_ENTITY__DESCRIPTIONS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Column Fields</b></em>' reference list.
@@ -113,67 +113,13 @@ public interface ImogenePackage extends EPackage {
 	int CARD_ENTITY__COLUMN_FIELDS = 3;
 
 	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Main Fields</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CARD_ENTITY__SHORT_NAME = 4;
-
-	/**
-	 * The feature id for the '<em><b>Icon</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CARD_ENTITY__ICON = 5;
-
-	/**
-	 * The feature id for the '<em><b>Top Level</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CARD_ENTITY__TOP_LEVEL = 6;
-
-	/**
-	 * The feature id for the '<em><b>Client Filter Fields</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CARD_ENTITY__CLIENT_FILTER_FIELDS = 7;
-
-	/**
-	 * The feature id for the '<em><b>Groups</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CARD_ENTITY__GROUPS = 8;
-
-	/**
-	 * The feature id for the '<em><b>Sort Fields</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CARD_ENTITY__SORT_FIELDS = 9;
-
-	/**
-	 * The feature id for the '<em><b>Actor Filter Fields</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CARD_ENTITY__ACTOR_FILTER_FIELDS = 10;
+	int CARD_ENTITY__MAIN_FIELDS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Secondary Fields</b></em>' reference list.
@@ -182,7 +128,61 @@ public interface ImogenePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CARD_ENTITY__SECONDARY_FIELDS = 11;
+	int CARD_ENTITY__SECONDARY_FIELDS = 5;
+
+	/**
+	 * The feature id for the '<em><b>Icon</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARD_ENTITY__ICON = 6;
+
+	/**
+	 * The feature id for the '<em><b>Top Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARD_ENTITY__TOP_LEVEL = 7;
+
+	/**
+	 * The feature id for the '<em><b>Client Filter Fields</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARD_ENTITY__CLIENT_FILTER_FIELDS = 8;
+
+	/**
+	 * The feature id for the '<em><b>Groups</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARD_ENTITY__GROUPS = 9;
+
+	/**
+	 * The feature id for the '<em><b>Sort Fields</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARD_ENTITY__SORT_FIELDS = 10;
+
+	/**
+	 * The feature id for the '<em><b>Actor Filter Fields</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARD_ENTITY__ACTOR_FILTER_FIELDS = 11;
 
 	/**
 	 * The feature id for the '<em><b>Color</b></em>' attribute.
@@ -221,13 +221,22 @@ public interface ImogenePackage extends EPackage {
 	int CARD_ENTITY__CLIENT_PERIOD_FILTERABLE = 15;
 
 	/**
+	 * The feature id for the '<em><b>Direct Access</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARD_ENTITY__DIRECT_ACCESS = 16;
+
+	/**
 	 * The number of structural features of the '<em>Card Entity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CARD_ENTITY_FEATURE_COUNT = 16;
+	int CARD_ENTITY_FEATURE_COUNT = 17;
 
 	/**
 	 * The meta object id for the '{@link org.imogene.model.core.impl.DescriptionImpl <em>Description</em>}' class.
@@ -630,13 +639,22 @@ public interface ImogenePackage extends EPackage {
 	int STRING_FIELD__VALIDATION_RULES = FIELD_ENTITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_FIELD__TRANSLATABLE = FIELD_ENTITY_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>String Field</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 1;
+	int STRING_FIELD_FEATURE_COUNT = FIELD_ENTITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.imogene.model.core.impl.BinaryFieldImpl <em>Binary Field</em>}' class.
@@ -1890,6 +1908,15 @@ public interface ImogenePackage extends EPackage {
 	int EMAIL_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
 
 	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMAIL_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
+
+	/**
 	 * The number of structural features of the '<em>Email Field</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2716,6 +2743,15 @@ public interface ImogenePackage extends EPackage {
 	int PHONE_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
 
 	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PHONE_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
+
+	/**
 	 * The feature id for the '<em><b>Phone Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3234,6 +3270,15 @@ public interface ImogenePackage extends EPackage {
 	int TEXT_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
 
 	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
+
+	/**
 	 * The number of structural features of the '<em>Text Field</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3381,6 +3426,15 @@ public interface ImogenePackage extends EPackage {
 	int ACTOR__NAME = CARD_ENTITY__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__SHORT_NAME = CARD_ENTITY__SHORT_NAME;
+
+	/**
 	 * The feature id for the '<em><b>Descriptions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3388,15 +3442,6 @@ public interface ImogenePackage extends EPackage {
 	 * @ordered
 	 */
 	int ACTOR__DESCRIPTIONS = CARD_ENTITY__DESCRIPTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Main Fields</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACTOR__MAIN_FIELDS = CARD_ENTITY__MAIN_FIELDS;
 
 	/**
 	 * The feature id for the '<em><b>Column Fields</b></em>' reference list.
@@ -3408,13 +3453,22 @@ public interface ImogenePackage extends EPackage {
 	int ACTOR__COLUMN_FIELDS = CARD_ENTITY__COLUMN_FIELDS;
 
 	/**
-	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Main Fields</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTOR__SHORT_NAME = CARD_ENTITY__SHORT_NAME;
+	int ACTOR__MAIN_FIELDS = CARD_ENTITY__MAIN_FIELDS;
+
+	/**
+	 * The feature id for the '<em><b>Secondary Fields</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__SECONDARY_FIELDS = CARD_ENTITY__SECONDARY_FIELDS;
 
 	/**
 	 * The feature id for the '<em><b>Icon</b></em>' attribute.
@@ -3471,15 +3525,6 @@ public interface ImogenePackage extends EPackage {
 	int ACTOR__ACTOR_FILTER_FIELDS = CARD_ENTITY__ACTOR_FILTER_FIELDS;
 
 	/**
-	 * The feature id for the '<em><b>Secondary Fields</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACTOR__SECONDARY_FIELDS = CARD_ENTITY__SECONDARY_FIELDS;
-
-	/**
 	 * The feature id for the '<em><b>Color</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3514,6 +3559,15 @@ public interface ImogenePackage extends EPackage {
 	 * @ordered
 	 */
 	int ACTOR__CLIENT_PERIOD_FILTERABLE = CARD_ENTITY__CLIENT_PERIOD_FILTERABLE;
+
+	/**
+	 * The feature id for the '<em><b>Direct Access</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__DIRECT_ACCESS = CARD_ENTITY__DIRECT_ACCESS;
 
 	/**
 	 * The feature id for the '<em><b>Authorized Roles</b></em>' reference list.
@@ -4081,6 +4135,15 @@ public interface ImogenePackage extends EPackage {
 	int ADDRESS_FIELD__VALIDATION_RULES = TEXT_FIELD__VALIDATION_RULES;
 
 	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDRESS_FIELD__TRANSLATABLE = TEXT_FIELD__TRANSLATABLE;
+
+	/**
 	 * The number of structural features of the '<em>Address Field</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4197,6 +4260,15 @@ public interface ImogenePackage extends EPackage {
 	 * @ordered
 	 */
 	int GEO_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
+
+	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEO_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -4324,6 +4396,15 @@ public interface ImogenePackage extends EPackage {
 	 * @ordered
 	 */
 	int BARCODE_FIELD__VALIDATION_RULES = STRING_FIELD__VALIDATION_RULES;
+
+	/**
+	 * The feature id for the '<em><b>Translatable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BARCODE_FIELD__TRANSLATABLE = STRING_FIELD__TRANSLATABLE;
 
 	/**
 	 * The number of structural features of the '<em>Barcode Field</em>' class.
@@ -4645,6 +4726,17 @@ public interface ImogenePackage extends EPackage {
 	EAttribute getCardEntity_ClientPeriodFilterable();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.imogene.model.core.CardEntity#getDirectAccess <em>Direct Access</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Direct Access</em>'.
+	 * @see org.imogene.model.core.CardEntity#getDirectAccess()
+	 * @see #getCardEntity()
+	 * @generated
+	 */
+	EReference getCardEntity_DirectAccess();
+
+	/**
 	 * Returns the meta object for class '{@link org.imogene.model.core.Description <em>Description</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4870,6 +4962,17 @@ public interface ImogenePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStringField_ValidationRules();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.imogene.model.core.StringField#isTranslatable <em>Translatable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Translatable</em>'.
+	 * @see org.imogene.model.core.StringField#isTranslatable()
+	 * @see #getStringField()
+	 * @generated
+	 */
+	EAttribute getStringField_Translatable();
 
 	/**
 	 * Returns the meta object for class '{@link org.imogene.model.core.MediaFileField <em>Media File Field</em>}'.
@@ -6082,6 +6185,14 @@ public interface ImogenePackage extends EPackage {
 		EAttribute CARD_ENTITY__CLIENT_PERIOD_FILTERABLE = eINSTANCE.getCardEntity_ClientPeriodFilterable();
 
 		/**
+		 * The meta object literal for the '<em><b>Direct Access</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CARD_ENTITY__DIRECT_ACCESS = eINSTANCE.getCardEntity_DirectAccess();
+
+		/**
 		 * The meta object literal for the '{@link org.imogene.model.core.impl.DescriptionImpl <em>Description</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -6256,6 +6367,14 @@ public interface ImogenePackage extends EPackage {
 		 * @generated
 		 */
 		EReference STRING_FIELD__VALIDATION_RULES = eINSTANCE.getStringField_ValidationRules();
+
+		/**
+		 * The meta object literal for the '<em><b>Translatable</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STRING_FIELD__TRANSLATABLE = eINSTANCE.getStringField_Translatable();
 
 		/**
 		 * The meta object literal for the '{@link org.imogene.model.core.impl.MediaFileFieldImpl <em>Media File Field</em>}' class.

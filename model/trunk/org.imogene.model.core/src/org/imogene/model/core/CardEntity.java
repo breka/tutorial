@@ -18,21 +18,22 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.imogene.model.core.CardEntity#getName <em>Name</em>}</li>
- *   <li>{@link org.imogene.model.core.CardEntity#getDescriptions <em>Descriptions</em>}</li>
- *   <li>{@link org.imogene.model.core.CardEntity#getMainFields <em>Main Fields</em>}</li>
- *   <li>{@link org.imogene.model.core.CardEntity#getColumnFields <em>Column Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#getShortName <em>Short Name</em>}</li>
+ *   <li>{@link org.imogene.model.core.CardEntity#getDescriptions <em>Descriptions</em>}</li>
+ *   <li>{@link org.imogene.model.core.CardEntity#getColumnFields <em>Column Fields</em>}</li>
+ *   <li>{@link org.imogene.model.core.CardEntity#getMainFields <em>Main Fields</em>}</li>
+ *   <li>{@link org.imogene.model.core.CardEntity#getSecondaryFields <em>Secondary Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#getIcon <em>Icon</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#isTopLevel <em>Top Level</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#getClientFilterFields <em>Client Filter Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#getGroups <em>Groups</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#getSortFields <em>Sort Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#getActorFilterFields <em>Actor Filter Fields</em>}</li>
- *   <li>{@link org.imogene.model.core.CardEntity#getSecondaryFields <em>Secondary Fields</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#getColor <em>Color</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#isDisplayQRCode <em>Display QR Code</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#getCreators <em>Creators</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#isClientPeriodFilterable <em>Client Period Filterable</em>}</li>
+ *   <li>{@link org.imogene.model.core.CardEntity#getDirectAccess <em>Direct Access</em>}</li>
  * </ul>
  * </p>
  *
@@ -375,5 +376,20 @@ public interface CardEntity extends EObject {
 	 * @generated
 	 */
 	void setClientPeriodFilterable(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Direct Access</b></em>' reference list.
+	 * The list contents are of type {@link org.imogene.model.core.Role}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Roles autorisés à voir l'entité en top level
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Direct Access</em>' reference list.
+	 * @see org.imogene.model.core.ImogenePackage#getCardEntity_DirectAccess()
+	 * @model
+	 * @generated
+	 */
+	EList<Role> getDirectAccess();
 
 } // CardEntity

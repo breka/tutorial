@@ -467,7 +467,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * @generated
 	 */
 	public EReference getCardEntity_Descriptions() {
-		return (EReference)cardEntityEClass.getEStructuralFeatures().get(1);
+		return (EReference)cardEntityEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -476,7 +476,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * @generated
 	 */
 	public EReference getCardEntity_MainFields() {
-		return (EReference)cardEntityEClass.getEStructuralFeatures().get(2);
+		return (EReference)cardEntityEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -494,7 +494,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * @generated
 	 */
 	public EAttribute getCardEntity_ShortName() {
-		return (EAttribute)cardEntityEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)cardEntityEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -503,15 +503,6 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * @generated
 	 */
 	public EAttribute getCardEntity_Icon() {
-		return (EAttribute)cardEntityEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCardEntity_TopLevel() {
 		return (EAttribute)cardEntityEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -520,8 +511,8 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCardEntity_ClientFilterFields() {
-		return (EReference)cardEntityEClass.getEStructuralFeatures().get(7);
+	public EAttribute getCardEntity_TopLevel() {
+		return (EAttribute)cardEntityEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -529,7 +520,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCardEntity_Groups() {
+	public EReference getCardEntity_ClientFilterFields() {
 		return (EReference)cardEntityEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -538,7 +529,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCardEntity_SortFields() {
+	public EReference getCardEntity_Groups() {
 		return (EReference)cardEntityEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -547,7 +538,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCardEntity_ActorFilterFields() {
+	public EReference getCardEntity_SortFields() {
 		return (EReference)cardEntityEClass.getEStructuralFeatures().get(10);
 	}
 
@@ -556,8 +547,17 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCardEntity_SecondaryFields() {
+	public EReference getCardEntity_ActorFilterFields() {
 		return (EReference)cardEntityEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCardEntity_SecondaryFields() {
+		return (EReference)cardEntityEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -594,6 +594,15 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 */
 	public EAttribute getCardEntity_ClientPeriodFilterable() {
 		return (EAttribute)cardEntityEClass.getEStructuralFeatures().get(15);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCardEntity_DirectAccess() {
+		return (EReference)cardEntityEClass.getEStructuralFeatures().get(16);
 	}
 
 	/**
@@ -783,6 +792,15 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 */
 	public EReference getStringField_ValidationRules() {
 		return (EReference)stringFieldEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStringField_Translatable() {
+		return (EAttribute)stringFieldEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1706,21 +1724,22 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		// Create classes and their features
 		cardEntityEClass = createEClass(CARD_ENTITY);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__NAME);
-		createEReference(cardEntityEClass, CARD_ENTITY__DESCRIPTIONS);
-		createEReference(cardEntityEClass, CARD_ENTITY__MAIN_FIELDS);
-		createEReference(cardEntityEClass, CARD_ENTITY__COLUMN_FIELDS);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__SHORT_NAME);
+		createEReference(cardEntityEClass, CARD_ENTITY__DESCRIPTIONS);
+		createEReference(cardEntityEClass, CARD_ENTITY__COLUMN_FIELDS);
+		createEReference(cardEntityEClass, CARD_ENTITY__MAIN_FIELDS);
+		createEReference(cardEntityEClass, CARD_ENTITY__SECONDARY_FIELDS);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__ICON);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__TOP_LEVEL);
 		createEReference(cardEntityEClass, CARD_ENTITY__CLIENT_FILTER_FIELDS);
 		createEReference(cardEntityEClass, CARD_ENTITY__GROUPS);
 		createEReference(cardEntityEClass, CARD_ENTITY__SORT_FIELDS);
 		createEReference(cardEntityEClass, CARD_ENTITY__ACTOR_FILTER_FIELDS);
-		createEReference(cardEntityEClass, CARD_ENTITY__SECONDARY_FIELDS);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__COLOR);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__DISPLAY_QR_CODE);
 		createEReference(cardEntityEClass, CARD_ENTITY__CREATORS);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__CLIENT_PERIOD_FILTERABLE);
+		createEReference(cardEntityEClass, CARD_ENTITY__DIRECT_ACCESS);
 
 		descriptionEClass = createEClass(DESCRIPTION);
 		createEAttribute(descriptionEClass, DESCRIPTION__DISPLAY);
@@ -1746,6 +1765,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 
 		stringFieldEClass = createEClass(STRING_FIELD);
 		createEReference(stringFieldEClass, STRING_FIELD__VALIDATION_RULES);
+		createEAttribute(stringFieldEClass, STRING_FIELD__TRANSLATABLE);
 
 		mediaFileFieldEClass = createEClass(MEDIA_FILE_FIELD);
 
@@ -1942,21 +1962,22 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(cardEntityEClass, CardEntity.class, "CardEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCardEntity_Name(), ecorePackage.getEString(), "name", null, 1, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCardEntity_Descriptions(), this.getDescription(), null, "descriptions", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCardEntity_MainFields(), this.getFieldEntity(), null, "mainFields", null, 1, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCardEntity_ColumnFields(), this.getFieldEntity(), null, "columnFields", null, 1, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCardEntity_ShortName(), ecorePackage.getEString(), "shortName", null, 1, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCardEntity_Descriptions(), this.getDescription(), null, "descriptions", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCardEntity_ColumnFields(), this.getFieldEntity(), null, "columnFields", null, 1, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCardEntity_MainFields(), this.getFieldEntity(), null, "mainFields", null, 1, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCardEntity_SecondaryFields(), this.getFieldEntity(), null, "secondaryFields", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCardEntity_Icon(), ecorePackage.getEString(), "icon", null, 0, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCardEntity_TopLevel(), ecorePackage.getEBoolean(), "topLevel", "true", 0, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCardEntity_ClientFilterFields(), this.getFieldEntity(), null, "clientFilterFields", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCardEntity_Groups(), this.getFieldGroup(), this.getFieldGroup_ParentCard(), "groups", null, 1, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCardEntity_SortFields(), this.getFieldEntity(), null, "sortFields", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCardEntity_ActorFilterFields(), this.getActorFilter(), null, "actorFilterFields", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCardEntity_SecondaryFields(), this.getFieldEntity(), null, "secondaryFields", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCardEntity_Color(), ecorePackage.getEString(), "color", "", 0, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCardEntity_DisplayQRCode(), ecorePackage.getEBoolean(), "DisplayQRCode", "false", 1, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCardEntity_Creators(), this.getRole(), null, "creators", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCardEntity_ClientPeriodFilterable(), ecorePackage.getEBoolean(), "clientPeriodFilterable", "false", 0, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCardEntity_DirectAccess(), this.getRole(), null, "directAccess", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(descriptionEClass, Description.class, "Description", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDescription_Display(), ecorePackage.getEString(), "display", null, 1, 1, Description.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1984,6 +2005,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 
 		initEClass(stringFieldEClass, StringField.class, "StringField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStringField_ValidationRules(), this.getValidationRule(), null, "validationRules", null, 0, -1, StringField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStringField_Translatable(), ecorePackage.getEBoolean(), "translatable", "false", 0, 1, StringField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mediaFileFieldEClass, MediaFileField.class, "MediaFileField", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2157,7 +2179,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";																			
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";																					
 		addAnnotation
 		  (getNotificationInfo_DataField(), 
 		   source, 

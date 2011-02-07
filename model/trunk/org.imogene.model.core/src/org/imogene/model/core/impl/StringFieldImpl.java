@@ -7,6 +7,7 @@ package org.imogene.model.core.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -14,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -29,6 +31,7 @@ import org.imogene.model.core.ValidationRule;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.imogene.model.core.impl.StringFieldImpl#getValidationRules <em>Validation Rules</em>}</li>
+ *   <li>{@link org.imogene.model.core.impl.StringFieldImpl#isTranslatable <em>Translatable</em>}</li>
  * </ul>
  * </p>
  *
@@ -51,6 +54,26 @@ public class StringFieldImpl extends FieldEntityImpl implements StringField {
 	 * @ordered
 	 */
 	protected EList<ValidationRule> validationRules;
+
+	/**
+	 * The default value of the '{@link #isTranslatable() <em>Translatable</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isTranslatable()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean TRANSLATABLE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isTranslatable() <em>Translatable</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isTranslatable()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean translatable = TRANSLATABLE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -88,6 +111,27 @@ public class StringFieldImpl extends FieldEntityImpl implements StringField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isTranslatable() {
+		return translatable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTranslatable(boolean newTranslatable) {
+		boolean oldTranslatable = translatable;
+		translatable = newTranslatable;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ImogenePackage.STRING_FIELD__TRANSLATABLE, oldTranslatable, translatable));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -107,6 +151,8 @@ public class StringFieldImpl extends FieldEntityImpl implements StringField {
 		switch (featureID) {
 			case ImogenePackage.STRING_FIELD__VALIDATION_RULES:
 				return getValidationRules();
+			case ImogenePackage.STRING_FIELD__TRANSLATABLE:
+				return isTranslatable();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -124,6 +170,9 @@ public class StringFieldImpl extends FieldEntityImpl implements StringField {
 				getValidationRules().clear();
 				getValidationRules().addAll((Collection<? extends ValidationRule>)newValue);
 				return;
+			case ImogenePackage.STRING_FIELD__TRANSLATABLE:
+				setTranslatable((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -139,6 +188,9 @@ public class StringFieldImpl extends FieldEntityImpl implements StringField {
 			case ImogenePackage.STRING_FIELD__VALIDATION_RULES:
 				getValidationRules().clear();
 				return;
+			case ImogenePackage.STRING_FIELD__TRANSLATABLE:
+				setTranslatable(TRANSLATABLE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -153,8 +205,26 @@ public class StringFieldImpl extends FieldEntityImpl implements StringField {
 		switch (featureID) {
 			case ImogenePackage.STRING_FIELD__VALIDATION_RULES:
 				return validationRules != null && !validationRules.isEmpty();
+			case ImogenePackage.STRING_FIELD__TRANSLATABLE:
+				return translatable != TRANSLATABLE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (translatable: ");
+		result.append(translatable);
+		result.append(')');
+		return result.toString();
 	}
 
 } //StringFieldImpl
