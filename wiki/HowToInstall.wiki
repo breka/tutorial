@@ -4,162 +4,161 @@
 
 == Prerequisite ==
 
-Before following these installation instructions, check that the Java runtime environment is installed on the machine.
-
-To test this, run the following command in a command window: 
-
-{{{ java -version }}}
-
-Or check it using the url: [http://www.java.com/fr/download/installed.jsp check java]
-If the Java runtime environment is not installed on the machine, proceed to step 2.3 before step 2.2
+	Before following these installation instructions, check that the Java runtime environment is installed on the machine.
+	
+	To test this, run the following command in a command window: {{{ java -version }}}
+	Or check it using the url: [http://www.java.com/fr/download/installed.jsp check java]
+	
+	If the Java runtime environment is not installed on the machine, proceed to step 2.3 before step 2.2
 
 == 1. Install the Eclipse IDE ==
 
-Install the Eclipse IDE (Galileo version). It can be downloaded from the [http://www.eclipse.org/downloads/ Eclipse web site]. Select the version “Eclipse IDE for Java EE Developers”.
+	Install the *Eclipse IDE* (Galileo version). It can be downloaded from the [http://www.eclipse.org/downloads/packages/release/galileo/sr2 Eclipse web site]. 
+	Select the version {{{Eclipse IDE for Java EE Developers}}}.
 
 == 2. Install the JDK and configure it for Eclipse ==
-Install the Java Development Kit version 6 (Standard Edition/JDK 6 ). It can be downloaded on the [http://java.sun.com/javase/downloads/index.jsp Java/Sun website].
-Configure *Eclipse* to use the installed JDK.
-
- * In the Eclipse menu, select {{{ Window/Preferences }}}
-
-				http://imogene.googlecode.com/svn/wiki/images/install/image7.png
-
- * In the dialog box, select in the tree-view, {{{  Java/Installed JREs }}}.
- * On the right side of the dialog box, click on the *Add* button.
- * Select *Standard VM*, and in the following dialog box, press the button *Directory* to browse to the folder where the JDK is installed.
-				http://imogene.googlecode.com/svn/wiki/images/install/image9.png
-
- * Once configured, click the button *Finish*. 
- * Once done, in the Installed JREs window, select the installed JDK as the default JRE by activating its radio button.
-				http://imogene.googlecode.com/svn/wiki/images/install/image10.png
+	Install the *Java Development Kit version 6* (Standard Edition/JDK 6 ). It can be downloaded on the [http://java.sun.com/javase/downloads/index.jsp Java/Sun website].
+	Configure Eclipse to use the installed JDK.
+	
+	 * In the Eclipse menu, select {{{ Window/Preferences }}}
+	
+					http://imogene.googlecode.com/svn/wiki/images/install/image7.png
+	
+	 * In the dialog box, select in the tree-view, {{{  Java/Installed JREs }}}.
+	 * On the right side of the dialog box, click on the {{{ Add }}} button.
+	 * Select {{{ Standard VM }}}, and in the following dialog box, press the button {{{Directory}}} to browse to the folder where the JDK is installed.
+					http://imogene.googlecode.com/svn/wiki/images/install/image9.png
+	
+	 * Once configured, click the button {{{Finish}}}. 
+	 * Once done, in the Installed JREs window, select the installed JDK as the default JRE by activating its radio button.
+					http://imogene.googlecode.com/svn/wiki/images/install/image10.png
 
 == 3. Install the servlet container Tomcat and configure it for Eclipse ==
 
-Install *Tomcat* version 6. It can be downloaded on the [http://tomcat.apache.org/download-60.cgi Apache Tomcat website]. (For Windows, do not select the option to start the service at start-up).
-
-Install Tomcat as a Server Runtime Environment
-
-Configure Eclipse to use the installed Apache Tomcat.
- * In the Eclipse menu, select {{{Window/Preferences}}}
- * In the dialog box, select in the treeview, {{{Server/Runtime Environments}}}.
- * On the right side of the dialog box, click on the 'Add' button.
-				http://imogene.googlecode.com/svn/wiki/images/install/image1.png
-
- * In the following dialog window, select *Apache Tomcat v6,0*.
-				http://imogene.googlecode.com/svn/wiki/images/install/image4.png
-
-Press the button *Browse* to browse to the folder where *Tomcat* is installed.
-				http://imogene.googlecode.com/svn/wiki/images/install/image3.png
-
- * Click *Finish* and then *OK*.
-
-Add *Tomcat* as a server in the *Eclipse* Workbench 
-  * In the Eclipse menu, select {{{ File/New/Other }}}.
-  * In the following window, go to the 'Server' folder.
-  * Select 'Server'.
-  * Click Next.
-  * Keep the 'Tomcat v6,0 Server' default option
-  * Click Next and Finish.
-
-				http://imogene.googlecode.com/svn/wiki/images/install/image2.png
-				http://imogene.googlecode.com/svn/wiki/images/install/image4.png
+	Install *Tomcat version 6*. It can be downloaded on the [http://tomcat.apache.org/download-60.cgi Apache Tomcat website]. (For Windows, do not select the option to start the service at start-up).
+	
+	Install Tomcat as a Server Runtime Environment
+	
+	Configure Eclipse to use the installed Apache Tomcat.
+	 * In the Eclipse menu, select {{{Window/Preferences}}}
+	 * In the dialog box, select in the treeview, {{{Server/Runtime Environments}}}.
+	 * On the right side of the dialog box, click on the {{{Add}}} button.
+					http://imogene.googlecode.com/svn/wiki/images/install/image1.png
+	
+	 * In the following dialog window, select {{{Apache Tomcat v6,0}}}.
+					http://imogene.googlecode.com/svn/wiki/images/install/image4.png
+	
+	Press the button {{{Browse}}} to browse to the folder where Tomcat is installed.
+					http://imogene.googlecode.com/svn/wiki/images/install/image3.png
+	
+	 * Click {{{Finish}}} and then {{{OK}}}.
+	
+	Add Tomcat as a server in the Eclipse Workbench 
+	  * In the Eclipse menu, select {{{ File/New/Other }}}.
+	  * In the following window, go to the {{{Server}}} folder.
+	  * Select {{{Server}}}.
+	  * Click {{{Next}}}.
+	  * Keep the {{{Tomcat v6,0 Server}}} default option
+	  * Click {{{Next and {{{Finish}}}.
+	
+					http://imogene.googlecode.com/svn/wiki/images/install/image2.png
+					http://imogene.googlecode.com/svn/wiki/images/install/image4.png
   
 == 4. Install the GWT plugins for Eclipse ==
-  * In the Eclipse menu, select *Help/Install New software...*.
-  * Click on the *Add* button at the top right of the window.
-
-You will add a new update site to *Eclipse*. This update site will enable to install and update the GWT plugins.
-Enter 'GWT' as 'Name' and 'http://dl.google.com/eclipse/plugin/3.5' as 'Location'.
-				http://imogene.googlecode.com/svn/wiki/images/install/image11.png
-
-  * Click OK.The GWT update site is added to the update site list (label 'Work with').
-  * In this 'Work with' drop down list, select the newly added GWT update site.The GWT plugins appear in the plugin name list.
-				http://imogene.googlecode.com/svn/wiki/images/install/image12.png
-
-  * In the GWT plugin list, select 'Google Plugin for Eclipse', and 'Google Web Toolkit SDK'.
-  * Click *Next*, *Next* again, Accept the terms of the licence Agreement, and click *Finish*.
-
-Eclipse starts the installation of the GWT plugins and of all the other complementary plugins that GWT requires.
-
-A warning message informs you about the unverified certificates, select the *Eclipse.org* certificate, and click OK to trust the certificate.
+	  * In the Eclipse menu, select {{{Help/Install New software...}}}.
+	  * Click on the {{{Add}}} button at the top right of the window.
+	
+	You will add a new update site to Eclipse. This update site will enable to install and update the GWT plugins.
+	Enter {{{GWT}}} as {{{Name}}} and {{{http://dl.google.com/eclipse/plugin/3.5}}} as {{{Location}}}.
+					http://imogene.googlecode.com/svn/wiki/images/install/image11.png
+	
+	  * Click {{{OK}}}.The GWT update site is added to the update site list (label 'Work with').
+	  * In this {{{Work with}}} drop down list, select the newly added GWT update site.The GWT plugins appear in the plugin name list.
+					http://imogene.googlecode.com/svn/wiki/images/install/image12.png
+	
+	  * In the GWT plugin list, select {{{Google Plugin for Eclipse}}}, and {{{Google Web Toolkit SDK}}}.
+	  * Click {{{Next}}}, {{{Next}}} again, Accept the terms of the licence Agreement, and click {{{Finish}}}.
+	
+	Eclipse starts the installation of the GWT plugins and of all the other complementary plugins that GWT requires.
+	
+	A warning message informs you about the unverified certificates, select the {{{Eclipse.org}}} certificate, and click {{{OK}}} to trust the certificate.
 
 == 5. Install the Android plugins for Eclipse and the Android SDK ==
-=== Download and install the SDK starter package ===
-
-||= *Platform* =||=*Package* =||
-||= Windows =||=[http://developer.android.com/sdk/download.html?v=android-sdk_r06-windows.zip android-sdk_r06-windows.zip] =||
-||= Mac OS X (intel) =||=[http://developer.android.com/sdk/download.html?v=android-sdk_r06-mac_86.zip android-sdk_r06-mac_86.zip] =||
-||= Linux (i386) =||= [http://developer.android.com/sdk/download.html?v=android-sdk_r06-linux_86.tgz android-sdk_r06-linux_86.tgz] =||
-
-Select a starter package from the table and download it to your development computer. To install the SDK, simply unpack the starter package to a safe location. It can be useful to add the location to your PATH as follow:
-* On Linux, edit your ~/.bash_profile or ~/.bashrc file. Look for a line that sets the PATH environment variable and add the full path to the tools/ directory to it. If you don't see a line setting the path, you can add one: export PATH=${PATH}:<your_sdk_dir>/tools 
-* On a Mac OS X, look in your home directory for .bash_profile and proceed as for Linux. You can create the .bash_profile if you haven't already set one up on your machine.
-* On Windows, right-click on My Computer, and select Properties. Under the Advanced tab, hit the Environment Variables button, and in the dialog that comes up, double-click on Path (under System Variables). Add the full path to the tools/ directory to the path.
-
-=== Downloading the ADT Plugin ===
-
-Use Update Manager feature of your Eclipse installation to install the latest revision of ADT on your development computer. 
-
-  * Start Eclipse, then select Help > Install New Software.
-				http://imogene.googlecode.com/svn/wiki/images/install/image13.png
-
-
-  * In the Available Software dialog, click Add....
-  * In the Add Site dialog that appears, enter a name for the remote site (for example, "Android Plugin") in the "Name" field.In the "Location" field, enter this URL:https://dl-ssl.google.com/android/eclipse/Note: If you have trouble acquiring the plugin, you can try using "http" in the URL, instead of "https" (https is preferred for security reasons). Click *OK*.
-				http://imogene.googlecode.com/svn/wiki/images/install/image14.png
-
-  * Back in the Available Software view, you should now see *"Developer Tools"* added to the list. Select the check box next to *Developer Tools*, which will automatically select the nested tools Android DDMS and Android Development Tools. Click *Next*.
-
-				http://imogene.googlecode.com/svn/wiki/images/install/image17.png
-
-  * In the resulting Install Details dialog, the *Android DDMS* and *Android Development Tools* features are listed. Click *Next* to read and accept the license agreement and install any dependencies, then click *Finish*.
-				http://imogene.googlecode.com/svn/wiki/images/install/image18.png
-
-  * Restart Eclipse.
-  
-=== Configuring the ADT Plugin ===
-Once you've successfully downloaded ADT as described above, the next step is to modify your *ADT* preferences in *Eclipse* to point to the *Android* SDK directory: 
-  * Select *Window > Preferences...' ''to open the Preferences panel (Mac OS X: Eclipse > Preferences). 
-  * Select *Android* from the left panel. 
-  * For the SDK Location in the main panel, click Browse... and locate your downloaded SDK directory. 
-  * Click Apply, then OK. 
-				http://imogene.googlecode.com/svn/wiki/images/install/image19.png
-
-=== Adding Android Platforms and Other Components ===
-  * Back to your *Eclipse*, select *Window > Android SDK and AVD Manager*.
-  * In the *Android* SDK and AVD Manager dialog, select *Available Packages* from the left panel.
-  
-Select *SDK Platform Android X.X, API X revision X* and *Google APIs by Google Inc, Android API X, revision X*.
-				http://imogene.googlecode.com/svn/wiki/images/install/image20.png
-
-  * Click *Install Selected*.
-  * In the Choose Packages to Install select *Accept All*
-				http://imogene.googlecode.com/svn/wiki/images/install/image15.png
-
-  * Click *Install*
-
-Done! If you haven't encountered any problems, then the installation is complete.
+	=== Download and install the SDK starter package ===
+	
+	|| *Platform* ||*Package* ||
+	|| Windows ||[http://developer.android.com/sdk/download.html?v=android-sdk_r06-windows.zip android-sdk_r06-windows.zip] ||
+	|| Mac OS X (intel) ||[http://developer.android.com/sdk/download.html?v=android-sdk_r06-mac_86.zip android-sdk_r06-mac_86.zip] ||
+	|| Linux (i386) || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-linux_86.tgz android-sdk_r06-linux_86.tgz] ||
+	
+	Select a starter package from the table and download it to your development computer. To install the SDK, simply unpack the starter package to a safe location. It can be useful to add the location to your PATH as follow:
+	
+	  * On Linux, edit your {{{~/.bash_profile}}} or {{{~/.bashrc file}}}. Look for a line that sets the PATH environment variable and add the full path to the {{{tools/}}} directory to it. If you don't see a line setting the path, you can add one: {{{export PATH=${PATH}:<your_sdk_dir>/tools}}} 
+	  * On a Mac OS X, look in your home directory for {{{.bash_profile}}} and proceed as for Linux. You can create the {{{.bash_profile}}} if you haven't already set one up on your machine.
+	  * On Windows, right-click on {{{My Computer}}}, and select {{{Properties}}}. Under the {{{Advanced}}} tab, hit the {{{Environment Variables}}} button, and in the dialog that comes up, double-click on Path (under System Variables). Add the full path to the {{{tools/}}} directory to the path.
+	
+	=== Downloading the ADT Plugin ===
+	
+	Use Update Manager feature of your Eclipse installation to install the latest revision of ADT on your development computer. 
+	
+	  * Start Eclipse, then select {{{Help > Install New Software.
+					http://imogene.googlecode.com/svn/wiki/images/install/image13.png
+	
+	
+	  * In the Available Software dialog, click {{{Add....}}}
+	  * In the Add Site dialog that appears, enter a name for the remote site (for example, "Android Plugin") in the {{{Name}}} field. In the {{{Location}}} field, enter this {{{URL:https://dl-ssl.google.com/android/eclipse/}}} Note: If you have trouble acquiring the plugin, you can try using "http" in the URL, instead of "https" (https is preferred for security reasons). Click {{{OK}}}.
+					http://imogene.googlecode.com/svn/wiki/images/install/image14.png
+	
+	  * Back in the Available Software view, you should now see {{{Developer Tools}}} added to the list. Select the check box next to {{{Developer Tools}}}, which will automatically select the nested tools Android DDMS and Android Development Tools. Click {{{Next}}}.
+					http://imogene.googlecode.com/svn/wiki/images/install/image17.png
+	
+	  * In the resulting Install Details dialog, the {{{Android DDMS}}} and {{{Android Development Tools}}} features are listed. Click {{{Next}}} to read and accept the license agreement and install any dependencies, then click {{{Finish}}}.
+					http://imogene.googlecode.com/svn/wiki/images/install/image18.png
+	
+	  * Restart Eclipse.
+	  
+	=== Configuring the ADT Plugin ===
+	Once you've successfully downloaded ADT as described above, the next step is to modify your {{{ADT}}} preferences in Eclipse to point to the {{{Android SDK}}} directory: 
+	  * Select {{{Window > Preferences...}}} to open the Preferences panel (Mac OS X: {{{Eclipse > Preferences}}}). 
+	  * Select {{{Android}}} from the left panel. 
+	  * For the SDK Location in the main panel, click {{{Browse...}}} and locate your downloaded SDK directory. 
+	  * Click {{{Apply}}}, then {{{OK}}}. 
+					http://imogene.googlecode.com/svn/wiki/images/install/image19.png
+	
+	=== Adding Android Platforms and Other Components ===
+	  * Back to your Eclipse, select {{{Window > Android SDK and AVD Manager}}}.
+	  * In the Android SDK and AVD Manager dialog, select {{{Available Packages}}} from the left panel.
+	  
+	Select {{{SDK Platform Android X.X, API X revision X}}} and {{{Google APIs by Google Inc, Android API X, revision X}}}.
+					http://imogene.googlecode.com/svn/wiki/images/install/image20.png
+	
+	  * Click {{{Install Selected}}}.
+	  * In the Choose Packages to Install select {{{Accept All}}}
+					http://imogene.googlecode.com/svn/wiki/images/install/image15.png
+	
+	  * Click {{{Install}}}
+	
+	Done! If you haven't encountered any problems, then the installation is complete.
 
 == 6. Install the imogene plugins for Eclipse ==
 
-  * In the *Eclipse* menu, select {{{Help/Install New software...}}}.''
-  * Click on the *Add* button at the top right of the window.You will add a new update site to *Eclipse*. This update site will enable to install and update the _*imogene*_ plugins.
-  * Enter _*imogene*_ as *Name* and 'http://unhcr.i-mogene.org/update' 
-
-  * Click OK.
-The _*imogene*_ update site is added to the update site list (label 'Work with').
-  * In this 'Work with' drop down list, select the newly added _*imogene*_ update site.
-  * To see the _*imogene*_ plugin, unselect the checkbox 'group Items by Category'. The _*imogene*_ plugins appear in the plugin name list.
-  
-  * Select all the plugins from the list.
-  * Click Next, Next again, Accept the terms of the licence Agreement, and click 'Finish'.
-
-Eclipse starts the installation of the *imogene* plugins and of all the other complementary plugins that *imogene* requires.
-
-A warning message informs you about the unverified certificates, select the Eclipse.org certificate, and click OK to trust the certificate.
+	  * In the Eclipse menu, select {{{Help/Install New software...}}}.
+	  * Click on the {{{Add}}} button at the top right of the window.You will add a new update site to Eclipse. This update site will enable to install and update the _*imogene*_ plugins.
+	  * Enter _*imogene*_ as {{{Name}}} and {{{http://unhcr.i-mogene.org/update}}} 
+	
+	  * Click {{{OK}}}.
+	The _*imogene*_ update site is added to the update site list (label 'Work with').
+	  * In this {{{Work with}}} drop down list, select the newly added _*imogene*_ update site.
+	  * To see the _*imogene*_ plugin, unselect the checkbox {{{group Items by Category}}}. The _*imogene*_ plugins appear in the plugin name list.
+	  
+	  * Select all the plugins from the list.
+	  * Click {{{Next}}}, {{{Next}}} again, Accept the terms of the licence Agreement, and click {{{Finish}}}'.
+	
+	Eclipse starts the installation of the _*imogene*_ plugins and of all the other complementary plugins that _*imogene*_ requires.
+	
+	A warning message informs you about the unverified certificates, select the Eclipse.org certificate, and click OK to trust the certificate.
 
 = Update the imogene installation =
-*Eclipse* provides a mechanism to update the installed plugins including the _*imogene*_ ones.
-
-To update your installation go to the menu *Help* and select *Check for updates*.
+	Eclipse provides a mechanism to update the installed plugins including the _*imogene*_ ones.
+	
+	To update your installation go to the menu Help and select {{{Check for updates}}}.
