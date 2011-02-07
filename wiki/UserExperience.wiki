@@ -1,75 +1,79 @@
+
+
 = Models for humanitarian surveillance system =
 
-Below are some *template* models for humanitarian surveillance system.
+	Below are some *template* models for humanitarian surveillance system based on use cases defined by [http://www.unhcr.org UNHCR] (Contact: [mailto:legoupil@unhcr.org Edouard Legoupil]).
+	
+	Humanitarian data manager can easily adapt those templates to their specific context. In addition of the traditional desktop interface, they will benefit form all _*imogene*_ features (mobility, synchronization, web client, etc.)
+	
+	All templates can be used on the same database. This way the same referential (administrative units, codification for vulnerability, for sectors for indicators. etc.) can be used across the different systems.
+	
+	At a global level, the main advantage of using _*imogene*_ in humanitarian context is that it is possible promote a "trunk" data model and allows as many branches as necessary (i.e one per operation). This way, it is possible to enforce useful standard for further data consolidation and allow local customization at the same time. 
+	
+	Thus specific field needs and HQ consistency constraint can be be reconciled...
+	
+	Please check the development server to see the [http://dedibox2.cartong.org/tomcat/docs/android.html Demos] or read the description below and download the related templates
 
-Humanitarian data manager can easily adapt those templates to their specific context. In addition of the traditional desktop interface, they will benefit form all _*imogene*_ features (mobility, synchronization, web client, etc.)
 
-All templates can be used on the same database. This way the same referential (administrative units, codification for vulnerability, for sectors for indicators. etc.) can be used across the different systems.
-
-At a global level, the main advantage of using _*imogene*_ in humanitarian context is that it is possible promote a "trunk" data model and allows as many branches as necessary (i.e one per operation). This way, it is possible to enforce useful standard for further data consolidation and allow local customization at the same time. 
-
-Thus specific field needs and HQ consistency constraint can be be reconciled...
-
-Please check the development server to see the [http://dedibox2.cartong.org/tomcat/docs/android.html Demos] or read the description below and download the related templates
-
-[[BR]][[BR]]
 == 1. Quick registration & Assistance tracking ==
 
-This model cover the collection of basic bio data information for humanitarian activities beneficiaries. 
+	This model cover the collection of basic bio data information for humanitarian activities beneficiaries. 
+	
+	The model is consistent with the international guidelines for [http://www.unhcr.org/refworld/pdfid/3f967dc14.pdf registration]
+	
+	It includes as well the capacity to record humanitarian distribution events and their beneficiaries.
+	
+	[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrRegistration/UnhcrRegistration/ Registration template]
 
-The model is consistent with the international guidelines for [http://www.unhcr.org/refworld/pdfid/3f967dc14.pdf registration]
 
-It includes as well the capacity to record humanitarian distribution events and their beneficiaries.
-[[BR]]
-[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrRegistration/UnhcrRegistration/ Registration template]
-
-[[BR]][[BR]]
 == 2. Site and needs assessment ==
 
-This model is designed to collect information about demographics, access and basic facilities in various sites.
+	This model is designed to collect information about demographics, access and basic facilities in various sites.
+	
+	Such information is used to evaluate the gap between a recorded situation and humanitarian standard such as [http://www.sphereproject.org/ Sphere]
+	 
+	The information is also used to evaluate the absorption capacity of a site in case of the return of refugees or internally displaced persons.
+	
+	The data can also be used in the context of [http://www.nrc.no/?aid=9380323 Camp Management]
+	
+	This model is currently under test in Goma, DRC in the [http://www.dc4idp.org/htdocs/modules/mobiledatacollection/ DC4IDP project]
 
-Such information is used to evaluate the gap between a recorded situation and humanitarian standard such as [http://www.sphereproject.org/ Sphere]
- 
-The information is also used to evaluate the absorption capacity of a site in case of the return of refugees or internally displaced persons.
+	[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrAssessment/ Assessment template]
 
-The data can also be used in the context of [http://www.nrc.no/?aid=9380323 Camp Management]
 
-This model is currently under test in Goma, DRC in the [http://www.dc4idp.org/htdocs/modules/mobiledatacollection/ DC4IDP project]
-[[BR]]
-[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrAssessment/ Assessment template]
-[[BR]][[BR]]
 == 3. Activity Monitoring ==
 
-This model is designed to record humanitarian project activities description through a [http://en.wikipedia.org/wiki/Logical_framework_approach Logical framework] and to facilitate the monitoring of their indicators.
+	This model is designed to record humanitarian project activities description through a [http://en.wikipedia.org/wiki/Logical_framework_approach Logical framework] and to facilitate the monitoring of their indicators.
+	
+	A logical framework does usually comply with a reference "Result based framework" defined in a [http://www.oecd.org/dataoecd/23/27/35281194.pdf Result Based management] document.
+	
+	In the model, we have 3 main actors:
+	
+	1 - The "programme officer" are responsible to define their main objectives and record the baseline (value at n) for each of the indicators that linked with the defined objectives. The programme officer is also responsible for the selection of project proposal
+	
+	2 - The "project leader" record the project proposal description (i.e. the definition of the population group and sites were the project is offering to operate plus a combination of activities, indicators and targeted post-project value per indicator) inline with the objectives define in the above programme
+	
+	3 - The "monitoring and Evaluation officer" organize field visits.  When he reaches a site, he retrieves the different activities of the project proposal selected by the programme officer. Then he record the observed value for each of the indicators defined in the various project description. The report showing the value of the indicators will be the frist part of the project monitoring report (the second one concerning usually the financial aspects)
+	
+	Each indicator has therefore a standard (defined  for instance in [http://www.sphereproject.org/ Sphere]), a baseline (defined in the programme), a target (expected value at n=1 set in the project proposal) and a possibly many observed values (as recorded at n+1 by the monitoring officer)
+	
+	[http://trac.i-mogene.org/attachment/wiki/User%20experience/Activity_insertdefaultdata.zip Download the default referential for Objectives and Indicators]
 
-A logical framework does usually comply with a reference "Result based framework" defined in a [http://www.oecd.org/dataoecd/23/27/35281194.pdf Result Based management] document.
+	[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrActivityMonitoring/ Activity template]
 
-In the model, we have 3 main actors:
 
-1 - The "programme officer" are responsible to define their main objectives and record the baseline (value at n) for each of the indicators that linked with the defined objectives. The programme officer is also responsible for the selection of project proposal
-
-2 - The "project leader" record the project proposal description (i.e. the definition of the population group and sites were the project is offering to operate plus a combination of activities, indicators and targeted post-project value per indicator) inline with the objectives define in the above programme
-
-3 - The "monitoring and Evaluation officer" organize field visits.  When he reaches a site, he retrieves the different activities of the project proposal selected by the programme officer. Then he record the observed value for each of the indicators defined in the various project description. The report showing the value of the indicators will be the frist part of the project monitoring report (the second one concerning usually the financial aspects)
-
-Each indicator has therefore a standard (defined  for instance in [http://www.sphereproject.org/ Sphere]), a baseline (defined in the programme), a target (expected value at n=1 set in the project proposal) and a possibly many observed values (as recorded at n+1 by the monitoring officer)
-
-[http://trac.i-mogene.org/attachment/wiki/User%20experience/Activity_insertdefaultdata.zip Download the default referential for Objectives and Indicators]
-[[BR]]
-[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrActivityMonitoring/ Activity template]
-[[BR]][[BR]]
 == 4. Population Movement Tracking ==
 
-The goal of the Population Movement Tracking is to provide the overall trends and patterns of movements of an Internally Displaced Populations (IDP), as well as to highlight its key issues. NGOs monitor key locations such as IDP settlements, bus stations, roads, etc. and report on IDP movements using a standard reporting form.
+	The goal of the Population Movement Tracking is to provide the overall trends and patterns of movements of an Internally Displaced Populations (IDP), as well as to highlight its key issues. NGOs monitor key locations such as IDP settlements, bus stations, roads, etc. and report on IDP movements using a standard reporting form.
+	
+	Information concerning the reasons for displacement, the willing to return and the coping strategies can be recorded.
+	Information from the Population Movement Tracking is usually complemented by information from other assessments.
 
-Information concerning the reasons for displacement, the willing to return and the coping strategies can be recorded.
-Information from the Population Movement Tracking is usually complemented by information from other assessments.
-[[BR]]
-[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrPMT/ Population Movement Tracking template]
-[[BR]][[BR]]
+	[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrPMT/ Population Movement Tracking template]
+
+
 == 5. Health Information System ==
 
-The goal here is to monitor a list of standardized indicators concerning Health.
-[[BR]]
-[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrHealthInfo/ Health Info template]
-[[BR]][[BR]]
+	The goal here is to monitor a list of standardized indicators concerning Health.
+
+	[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrHealthInfo/ Health Info template]
