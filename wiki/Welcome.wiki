@@ -35,6 +35,7 @@
 
 = Starting Points =
 
+		* Discover the _*imogene*_ Concept
         * Read some UserExperience
         * Find out [[How to install]] the studio
         * Understand the  [[Modeling system]] 
