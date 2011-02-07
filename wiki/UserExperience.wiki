@@ -57,7 +57,7 @@
 	
 	Each indicator has therefore a standard (defined  for instance in [http://www.sphereproject.org/ Sphere]), a baseline (defined in the programme), a target (expected value at n=1 set in the project proposal) and a possibly many observed values (as recorded at n+1 by the monitoring officer)
 	
-	[http://trac.i-mogene.org/attachment/wiki/User%20experience/Activity_insertdefaultdata.zip Download the default referential for Objectives and Indicators]
+	[http://imogene.googlecode.com/svn/wiki/resources/Activity_insertdefaultdata.zip Download the default referential for Objectives and Indicators]
 
 	[http://unhcrro:eizu8Thu@svn.epidefender.org/svn/unhcr/model/UnhcrActivityMonitoring/ Activity template]
 

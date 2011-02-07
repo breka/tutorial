@@ -35,7 +35,7 @@
 
 = Starting Points =
 
-        * Read some [[User experience]].
+        * Read some UserExperience
         * Find out [[How to install]] the studio
         * Understand the  [[Modeling system]] 
         * Get the [[Technical documentation]]
