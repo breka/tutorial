@@ -1,31 +1,8 @@
 = Who are the developers behind imogene =
 
-	_*imogene*_ has been developed by [http://www.medes.fr MEDES] for 3 years. It is only at the begin of 2011 that the project has been released with a LGPL license.
+	_*imogene*_ has been developed by [http://www.medes.fr MEDES-IMPS] for 3 years. It was primarly built up to be an internal tool that would help the team to develop the information systems that were to be developed for their projects.
+	These projects were dealing with telemedicine, epidemiology and disaster medicine but the platform has been defined from the beginning to manage any type of data.
+	After some time, some organisations showed an interest in using _*imogene*_ so that they could be independant in the building of their own information systems.
+	To answer this request, it was decided to release _*imogene*_ as an open source project. It has been officialy published as such at the beginning of 2011 under the LGPL license.
+	_*imogene*_ is the definitive name of the solution. It had different names in the past such as epidefender or medany.
 
-
-= What kind of server do I need to install the generated applications? =
-
-	You need a Java server - Tomcat version 6 and (ideally) a PostgreSQL database
-
-
-= Do I need a specific configuration on my server? =
-
-	In many networks, the firewall is set up to allow only port 80.
-	Tomcat default port is 8080. If you want your application to use the port 80, you will need to configure [http://httpd.apache.org/docs/2.2/mod/mod_proxy.html Apache reverse proxy]
-	
-	{{{
-	
-	 # yourapp synchronisation
-	 ProxyPass /PMTsync http://127.0.0.1:8180/YourAppSync 
-	 ProxyPassReverse /YourAppSync http://127.0.0.1:8180/YourAppSync 
-	 <Proxy http://127.0.0.1:8180/YourAppSync>
-	        Order deny,allow
-	        Allow from all
-	 </Proxy>
-	
-	}}}
-
-
-= How do I migrate my legacy database to this system =
-
-	You can use an Open Source ETL like [http://www.talend.com/download.php Talend].
