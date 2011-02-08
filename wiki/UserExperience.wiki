@@ -7,11 +7,11 @@
 
 	Below are some *template* models for humanitarian surveillance systems based on use cases defined by [http://www.unhcr.org UNHCR] (contact: [mailto:legoupil@unhcr.org Edouard Legoupil]).
 	
-	Humanitarian data manager can easily adapt those templates to their specific context. In addition of the traditional desktop interface, they will benefit form all _*imogene*_ features (mobility, synchronization, web client, etc.)
+	Humanitarian data manager can easily adapt those templates to their specific context. In addition of the traditional desktop interface, they will benefit form all *imogene* features (mobility, synchronization, web client, etc.)
 	
 	All templates can be used on the same database. This way the same referential (administrative units, codification for vulnerability, for sectors for indicators. etc.) can be used across the different systems.
 	
-	At a global level, the main advantage of using _*imogene*_ in humanitarian context is that it is possible promote a "trunk" data model and allows as many branches as necessary (i.e one per operation). This way, it is possible to enforce useful standard for further data consolidation and allow local customization at the same time. 
+	At a global level, the main advantage of using *imogene* in humanitarian context is that it is possible promote a "trunk" data model and allows as many branches as necessary (i.e one per operation). This way, it is possible to enforce useful standard for further data consolidation and allow local customization at the same time. 
 	
 	Thus specific field needs and HQ consistency constraint can be be reconciled...
 	

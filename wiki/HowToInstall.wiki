@@ -147,25 +147,25 @@
 
 	  * In the Eclipse menu, select {{{Help/Install New software...}}}.
 	  
-	  * Click on the {{{Add}}} button at the top right of the window.You will add a new update site to Eclipse. This update site will enable to install and update the _*imogene*_ plugins.
+	  * Click on the {{{Add}}} button at the top right of the window.You will add a new update site to Eclipse. This update site will enable to install and update the *imogene* plugins.
 	  
-	  * Enter _*imogene*_ as {{{Name}}} and {{{http://unhcr.i-mogene.org/update}}} 
+	  * Enter *imogene* as {{{Name}}} and {{{http://unhcr.i-mogene.org/update}}} 
 	
-	  * Click {{{OK}}}. The _*imogene*_ update site is added to the update site list (label 'Work with').
+	  * Click {{{OK}}}. The *imogene* update site is added to the update site list (label 'Work with').
 	 
-	  * In this {{{Work with}}} drop down list, select the newly added _*imogene*_ update site.
+	  * In this {{{Work with}}} drop down list, select the newly added *imogene* update site.
 	  
-	  * To see the _*imogene*_ plugin, unselect the checkbox {{{group Items by Category}}}. The _*imogene*_ plugins appear in the plugin name list.
+	  * To see the *imogene* plugin, unselect the checkbox {{{group Items by Category}}}. The *imogene* plugins appear in the plugin name list.
 	  
 	  * Select all the plugins from the list.
 	 
 	  * Click {{{Next}}}, {{{Next}}} again, Accept the terms of the licence Agreement, and click {{{Finish}}}'.
 	
-	Eclipse starts the installation of the _*imogene*_ plugins and of all the other complementary plugins that _*imogene*_ requires.
+	Eclipse starts the installation of the *imogene* plugins and of all the other complementary plugins that *imogene* requires.
 	
 	A warning message informs you about the unverified certificates, select the Eclipse.org certificate, and click OK to trust the certificate.
 
 = Update the imogene installation =
-	Eclipse provides a mechanism to update the installed plugins including the _*imogene*_ ones.
+	Eclipse provides a mechanism to update the installed plugins including the *imogene* ones.
 	
 	To update your installation go to the menu Help and select {{{Check for updates}}}.
