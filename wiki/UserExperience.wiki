@@ -1,4 +1,4 @@
-#summary _*imogene*_ Use cases
+#summary imogene use cases
 #labels Modeling,Use case
 
 = Models for humanitarian surveillance system =

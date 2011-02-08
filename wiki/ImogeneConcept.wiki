@@ -1,4 +1,4 @@
-#summary Description of the concept behind _*imogene*_
+#summary Description of the concept behind imogene
 #labels Modeling,Generation,MDA
 
 = An application generator =

@@ -1,4 +1,4 @@
-#summary How to use _*imogene*_
+#summary How to use imogene
 #labels Modeling,Generation,Eclipse,Android
 
 == Pre-requisites ==

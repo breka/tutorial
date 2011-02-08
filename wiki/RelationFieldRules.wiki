@@ -1,4 +1,4 @@
-#summary Rules to follow when modeling relations beween forms
+#summary Rules to follow when modeling relations between forms
 #labels Modeling
 
 = Principles =

@@ -1,4 +1,4 @@
-#summary _*imogene*_ Welcome page
+#summary imogene Welcome page
 #labels Modeling,Generation,Data Collection,Open source
 
 = Welcome to imogene =
