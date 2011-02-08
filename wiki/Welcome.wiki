@@ -1,3 +1,6 @@
+#summary _*imogene*_ Welcome page
+#labels Modeling,Generation,Data Collection,Open source
+
 = Welcome to imogene =
 
 	_*imogene*_ is an Open Source *Rapid Application Development Studio* for Data Collection Information Systems.

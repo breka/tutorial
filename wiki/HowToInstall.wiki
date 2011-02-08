@@ -1,6 +1,7 @@
+#summary How to install _*imogene*_
+#labels Eclipse,Java,Tomcat,GWT,Android,
+
 = Installation instructions =
-
-
 
 == Prerequisite ==
 

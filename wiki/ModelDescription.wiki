@@ -1,3 +1,5 @@
+#summary Description of the entities that can be modeled within _*imogene*_
+#labels Modeling
 
 = Project =
 	 _*Description*_

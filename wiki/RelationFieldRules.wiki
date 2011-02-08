@@ -1,3 +1,6 @@
+#summary Rules to follow when modeling relations beween forms
+#labels Modeling
+
 = Principles =
 
 	== Uni-directional and Bi-directional Relations ==

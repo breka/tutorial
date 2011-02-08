@@ -1,3 +1,6 @@
+#summary Description of the concept behind _*imogene*_
+#labels Modeling,Generation,MDA
+
 = An application generator =
 
 	_*imogene*_ is a solution to develop and deploy integrated Data Collection Information Systems for any type of activity.

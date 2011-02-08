@@ -1,3 +1,5 @@
+#summary FAQ
+
 = Who are the developers behind imogene =
 
 	_*imogene*_ is being developed by the [http://www.medes.fr MEDES-IMPS] team for 3 years. It was primarly built up to be an internal tool that would help the team to develop the information systems that they had to develop for their projects.

@@ -1,8 +1,9 @@
-
+#summary _*imogene*_ Use cases
+#labels Modeling,Use case
 
 = Models for humanitarian surveillance system =
 
-	Below are some *template* models for humanitarian surveillance system based on use cases defined by [http://www.unhcr.org UNHCR] (contact: [mailto:legoupil@unhcr.org Edouard Legoupil]).
+	Below are some *template* models for humanitarian surveillance systems based on use cases defined by [http://www.unhcr.org UNHCR] (contact: [mailto:legoupil@unhcr.org Edouard Legoupil]).
 	
 	Humanitarian data manager can easily adapt those templates to their specific context. In addition of the traditional desktop interface, they will benefit form all _*imogene*_ features (mobility, synchronization, web client, etc.)
 	
