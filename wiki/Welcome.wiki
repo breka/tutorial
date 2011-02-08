@@ -43,3 +43,5 @@
         * Find out HowToInstall the studio
         * Find out HowToUse the studio 
         * Check the ImogeneFaq
+        
+<wiki:toc max_depth="3" />
