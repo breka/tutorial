@@ -462,7 +462,7 @@
 || '2.5;5.8' || The value should be between 2.5 and 5.8 ||
 
 
-|| Date Field || Here are the combinations of values/operators that should be used:
+|| Date Field || Here are the combinations of values/operators that should be used: ||
 || *Dependency Field Value* || *Meaning* ||
 || '03/10/2010<=' || The value should be after or equal than 03/10/2010 ||
 || '03/10/2010<' || The value should be after than 03/10/2010 ||
