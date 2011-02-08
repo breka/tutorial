@@ -105,7 +105,7 @@
 	
 	Right click on the _*imogene*_ model project name and select the item 'Properties'.
 	
-	In the dialog box that opens, select the item 'Génération imogene'. The corresponding opens and presents the _*imogene*_ properties that have to be set.
+	In the dialog box that opens, select the item 'Generation imogene'. The corresponding opens and presents the _*imogene*_ properties that have to be set.
 
 		==== Project version ====
 	To be completed
@@ -114,23 +114,21 @@
 	These properties define how the applications will connect to the central database that will store the collected data. They are required. They depend on the type of database that is used. Until now the 2 following database have been successfully tested, MySQL and PostgreSQL. Other databases should be supported but have not been tested until now.
 	
 	
-	* '''Driver JDBC''': the JDBC driver used to connect to the database
+	* *Driver JDBC*: the JDBC driver used to connect to the database
+		* for MySQL: com.mysql.jdbc.Driver
+		* for PostgreSQL: org.postgresql.Driver
 	
-	* for MySQL: com.mysql.jdbc.Driver
-	* for PostgreSQL: org.postgresql.Driver
+	* *URL JDBC*: the JDBC URL to connect to the database
+		* for MySQL: {{{jdbc:mysql://server_adress/db_name}}}
+		* for PostgreSQL: {{{jdbc:postgresql://server_adress/db_name}}}
 	
-	* '''URL JDBC''': the JDBC URL to connect to the database
+	* *Login JDBC*: the login to connect to the database
 	
-	* for MySQL: {{{jdbc:mysql://server_adress/db_name}}}
-	* for PostgreSQL: {{{jdbc:postgresql://server_adress/db_name}}}
+	* *Password JDBC*: the password to connect to the database
 	
-	* '''Login JDBC''': the login to connect to the database
-	* '''Password JDBC''': the password to connect to the database
-	
-	* '''Hibernate Dialect''': the dialect used to communicate with the database
-	
-	* for MySQL: org.hibernate.dialect.MySQLDialect
-	* for PostgreSQL: org.hibernate.dialect.PostgreSQLDialect
+	* *Hibernate Dialect*: the dialect used to communicate with the database
+		* for MySQL: org.hibernate.dialect.MySQLDialect
+		* for PostgreSQL: org.hibernate.dialect.PostgreSQLDialect
 
 		==== Binaries and media ====
 	The Binary data (photos, videos, sound, etc) that are collected via the applications are not stored in the database. They are stored in the server file system, the server where the Web application and the 
@@ -138,43 +136,43 @@
 	Synchronization application are deployed. Both these applications are going to access that folder so the folder should be accessible in read and write mode by both applications.
 	
 	
-	* '''Binaries folder on the server''': the folder on the server where the binary files are going to be copied.
-	* '''Video to .flv''': the program to convert video files into flash. If not set, no convertion will be performed by the program
-	* '''Audio to .mp3''': the program to convert audio files into mp3. If not set, no convertion will be performed by the program
+	* *Binaries folder on the server*: the folder on the server where the binary files are going to be copied.
+	* *Video to .flv*: the program to convert video files into flash. If not set, no convertion will be performed by the program
+	* *Audio to .mp3*: the program to convert audio files into mp3. If not set, no convertion will be performed by the program
 
 		==== URL for deployment ====
 	These properties are only required if the applications are configured to send notifications.
 	
 	
-	* '''SMTP Serveur''': the SMTP server that will be used to send email notifications
-	* '''SMTP Login''': the login to connect to the SMTP server
-	* '''SMTP Password''': the password to connect to the SMTP server
+	* *SMTP Serveur*: the SMTP server that will be used to send email notifications
+	* *SMTP Login*: the login to connect to the SMTP server
+	* *SMTP Password*: the password to connect to the SMTP server
 
 	==== SMTP server properties ====
 	These properties are only required if the applications are configured to send notifications.
 	
-	* '''Web Application''': The imogene Web application url
-	* '''Synchronisation Server''': The imogene Synchronisation Server url
-	* '''Notification Server''': The imogene Notification Server url
+	* *Web Application*: The imogene Web application url
+	* *Synchronisation Server*: The imogene Synchronisation Server url
+	* *Notification Server*: The imogene Notification Server url
 
 	=== Generating the imogene applications ===
 	Once the _*imogene*_ model is validated and the _*imogene*_ model project properties set, the _*imogene*_, applications can be generated. In order to generate an application, right click on the _*imogene*_ project name and select 'imogene' in the context menu. Then select in the list the application type to generate.
 	
 	Several application types can be generated:
 	
-	* ''''Web Application Generation'''': This item enables to generate the _*imogene*_ Web application.
+	* *'Web Application Generation*': This item enables to generate the _*imogene*_ Web application.
 	* 
-	* ''''Synchronization server Generation'''': This item enables to generate the synchronization server that will synchronize the data between the Mobile and Desktop applications locally stored data and the central database data.
+	* *'Synchronization server Generation*': This item enables to generate the synchronization server that will synchronize the data between the Mobile and Desktop applications locally stored data and the central database data.
 	
-	* ''''Generation Initializer'''': This item enables to generate an application that will enable to initialize the _*imogene*_ central database with default parameters like a default user and default roles
+	* *'Generation Initializer*': This item enables to generate an application that will enable to initialize the _*imogene*_ central database with default parameters like a default user and default roles
 	
-	* ''''Desktop RCP Generation'''': This item enables to generate the _*imogene*_ Desktop application.
+	* *'Desktop RCP Generation*': This item enables to generate the _*imogene*_ Desktop application.
 	
-	* ''''Notifier Generation'''': This item enables to generate the _*imogene*_ application that will manage Notifications sending.
+	* *'Notifier Generation*': This item enables to generate the _*imogene*_ application that will manage Notifications sending.
 	* 
-	* ''''Generation Android'''': This item enables to generate the _*imogene*_ Android application that run on Android mobile terminals.
+	* *'Generation Android*': This item enables to generate the _*imogene*_ Android application that run on Android mobile terminals.
 	
-	* ''''Administration Generation'''': This item enables to generate the _*imogene*_ Web application to administrate the Information Users.
+	* *'Administration Generation*': This item enables to generate the _*imogene*_ Web application to administrate the Information Users.
 	
 	In the wizard, enter the name of the project.
 	
@@ -203,7 +201,7 @@
 	
 	Right click on the 'imogene Initializer' application project name. In the context window, select 'Run as' and select 'Java application'. Select the Sql Insert application name in the Java application list. Click OK, the application is launched and inserts default user and role instances in the database tables.
 	
-	The application default user login is '''admin'''. Its password is '''epipassword'''.
+	The application default user login is *admin*. Its password is *epipassword*.
 	
 	Now that the default user and roles have been inserted in the database, the Web application administrator can login to the application.
 
@@ -242,9 +240,9 @@
 	To be completed
 
 		==== First installation on the Android terminal ====
-	To be completed?
+	To be completed
 
-		=== Deploying the imogene Android application copying the apk directly (Short way, for development only) ===
+	=== Deploying the imogene Android application copying the apk directly (Short way, for development only) ===
 	To be completed
 
 
