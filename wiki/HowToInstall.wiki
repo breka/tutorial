@@ -86,10 +86,10 @@
 == 5. Install the Android plugins for Eclipse and the Android SDK ==
 	=== Download and install the SDK starter package ===
 	
-	|| *Platform* || *Package* ||
-	|| Windows || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-windows.zip android-sdk_r06-windows.zip] ||
-	|| Mac OS X (intel) || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-mac_86.zip android-sdk_r06-mac_86.zip] ||
-	|| Linux (i386) || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-linux_86.tgz android-sdk_r06-linux_86.tgz] ||
+|| *Platform* || *Package* ||
+|| Windows || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-windows.zip android-sdk_r06-windows.zip] ||
+|| Mac OS X (intel) || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-mac_86.zip android-sdk_r06-mac_86.zip] ||
+|| Linux (i386) || [http://developer.android.com/sdk/download.html?v=android-sdk_r06-linux_86.tgz android-sdk_r06-linux_86.tgz] ||
 	
 	Select a starter package from the table and download it to your development computer. To install the SDK, simply unpack the starter package to a safe location. It can be useful to add the location to your PATH as follow:
 	

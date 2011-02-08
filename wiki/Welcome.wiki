@@ -35,12 +35,10 @@
 
 = Starting Points =
 
-        * Discover the _*imogene*_ Concept
+        * Discover the ImogeneConcept
         * Read some UserExperience
         * Find out HowToInstall the studio
         * Understand the ModelingSystem 
-        * Get the [[Technical documentation]]
-        * Check the [[Frequently Asked Questions]]
-        * Learn how to [[File a bug or report a feature request]] 
+        * Check the FAQ
 
 For a complete list of local wiki pages, see TitleIndex.
