@@ -1,8 +1,5 @@
-#summary imogene Welcome page
+#summary Welcome page
 #labels Modeling,Generation,Data Collection,Open source
-#sidebar TableOfContents
-    * [ImogeneFaq FAQ]
-  * [UserEsperience User experience]
 
 = Welcome to imogene =
 
