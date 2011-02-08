@@ -38,7 +38,7 @@
         * Discover the _*imogene*_ Concept
         * Read some UserExperience
         * Find out HowToInstall the studio
-        * Understand the  [[Modeling system]] 
+        * Understand the ModelingSystem 
         * Get the [[Technical documentation]]
         * Check the [[Frequently Asked Questions]]
         * Learn how to [[File a bug or report a feature request]] 
