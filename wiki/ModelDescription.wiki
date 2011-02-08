@@ -12,7 +12,8 @@
 	* A Role
 	* A Language
 	
-	 _*Properties*_ 
+	 _*Properties*_
+	 
 	|| *Property name* || *'Meaning* || *Default value* || *Possible values* || *Required* ||
 	|| Name  || The project name. It will give its name to the data collection applications. ||  The name entered in the Epidefender project creation wizard  ||  Any string ||  yes  ||
 
