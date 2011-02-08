@@ -1,53 +1,61 @@
 
 = Project =
-	 _*Description*_
-	The root of the Model is the Project. 
-	
-	The Editor enables to add the following objects to the project:
-	* A Description
-	* A Card Entity
-	* An Actor
-	* A Card Entity UI Format
-	* A Thema
-	* A Role
-	* A Language
-	
-	 _*Properties*_
-	 
-	|| *Property name* || *'Meaning* || *Default value* || *Possible values* || *Required* ||
-	|| Name  || The project name. It will give its name to the data collection applications. ||  The name entered in the Epidefender project creation wizard  ||  Any string ||  yes  ||
+ _*Description*_
+The root of the Model is the Project. 
+
+The Editor enables to add the following objects to the project:
+* A Description
+* A Card Entity
+* An Actor
+* A Card Entity UI Format
+* A Thema
+* A Role
+* A Language
+
+ _*Properties*_
+ 
+|| *Property name* || *'Meaning* || *Default value* || *Possible values* || *Required* ||
+|| Name  || The project name. It will give its name to the data collection applications. ||  The name entered in the Epidefender project creation wizard  ||  Any string ||  yes  ||
 
 
+[[BR]][[BR]]
 = Card Entity =
-	 _*Description*_
-	A Card Entity is a specific object of interest to a business area that the user wishes to store data about. In the Epidefender IS applications, it will represent a form for data collection/consultation. The Card Entity has fields (form fields) that can be grouped in field groups.
-	Different types of fields can be added to a form like String fields, Integer fields, Float fields, Boolean fields, Enumeration fields, Date fields, Binary fields (Photo, Video, Sound, etc) as well as Relation fields that enable to create a relation between 2 card entities.
-	A Model must contain at least one Card Entity.
-	
-	The Editor enables to add the following objects to a Card Entity:
-	
-	* A Description
-	* A Field Group
-	
-	 _*Properties*_
-	
-	|| '''Property name''' || *'Meaning* ||  '''Default value''' ||  '''Possible values''' ||  '''Required'''  ||
-	|| Actor Filter Fields ||  See the Filter Fields chapter ||   ||    || ||
-	|| Client Filter Fields ||  Not used for the moment ||   ||    || ||
-	|| Client Period Filterable ||  Not used for the moment ||   ||  ||  ||
-	|| Color ||  A color that will be associated with the Card Entity in the application user interfaces ||   ||  Any color HTML color notation, exp: '0391ce' ||  no ||
-	|| Column Fields ||  The fields that it will be displayed in the table that lists the entity instances that have been entered. This concerns the web and desktop applications ||   ||  A list of fields belonging to the card entity ||  yes ||
-	|| Creators  || A set of Roles which will have the privilege to create instances of the form. (If a user does not have this privilege, the form will not appear in the menu list (even if the property Top Level is set to true)  ||  || A list of Roles selected among the Roles of the project. If no role is assigned to the creators, all actors with “edit” access on some fieldgroups will be able to create instances of the form || no ||
-	|| Display QR Code  || If set to yes, the applications will display in the card entity instance unique ID as a QR Code in the form  || false || True or False  || yes ||
-	|| Icon  || The icon that will be associated with the card entity in the application user interfaces. This name will reference big icons (32*32) and small icons (24*24)  || If no name is defined, default icons will be used in the applications  || An icon name (exp: Form1.png). The icon should be at the png format. The big icons (32*32) should be copied in the icons folder of the model project. The small icons (24*24) should be copied in the icons/small folder of the model project. Big and small icons should have the same name for a given entity.  || no ||
-	|| Main Fields  || The fields that will be used as a display value for an entity instance. For all applications, it will be used to display the RelationField/Subform value. For the Android application, these are the fields that will be displayed in the list view that lists the entity instances that have been entered.  ||  || A list of fields belonging to the card entity  || yes ||
-	|| Name  || The Card Entity Name  ||  || Any string. Should be unique in the model. Should start with an upper case by convention. No white space, no accent, strange character allowed || yes ||
-	|| Secondary Fields  || Additional fields that will be used as a display value for an entity instance. It concerns the Android application. In an instance form, These fields will appear as a sub list under the mainfields  ||  || A list of fields belonging to the card entity  || no ||
-	|| Short Name  || A Short Name identifying the Card Entity  || || Any short string, in upper case by convention, should be unique in the model. There is a tool that enables to automatically generate short names, but a meaningful one should be put for Card Entities.  || yes ||
-	|| Sort Fields  || A list of fields used to sort the entity instances in the table listing the entity instances that have been entered in the IS.  || The entity instance modification date  || A list of fields belonging to the card entity. Only the first defined sort field is used until now  || no  ||
-	|| Top Level  || Indicates if a Card Entity is an entity on its own or if it is an entity that depends on another one.  || true  || True or false. If it is Top Level, the entity will appear in the application menus, otherwise, it will only be accessible from another entity form (only appear as referenced by this entity)  || yes  ||
+ _*Description*_
+A Card Entity is a specific object of interest to a business area that the user wishes to store data about. In the Epidefender IS applications, it will represent a form for data collection/consultation. The Card Entity has fields (form fields) that can be grouped in field groups.
+Different types of fields can be added to a form like String fields, Integer fields, Float fields, Boolean fields, Enumeration fields, Date fields, Binary fields (Photo, Video, Sound, etc) as well as Relation fields that enable to create a relation between 2 card entities.
+A Model must contain at least one Card Entity.
+
+[[Image:|thumb|<center>''Illustration 14: The Card Entity object and its possible childs''</center>]]
+
+The Editor enables to add the following objects to a Card Entity:
+
+* A Description
+* A Field Group
+
+ _*Properties*_
+[[Image:|thumb|<center>''Illustration 15: Card Entity properties''</center>]]
+
+|| '''Property name''' || *'Meaning* ||  '''Default value''' ||  '''Possible values''' ||  '''Required'''  ||
+|| Actor Filter Fields ||  See the Filter Fields chapter ||   ||    || ||
+|| Client Filter Fields ||  Not used for the moment ||   ||    || ||
+|| Client Period Filterable ||  Not used for the moment ||   ||  ||  ||
+|| Color ||  A color that will be associated with the Card Entity in the application user interfaces ||   ||  Any color HTML color notation, exp: '0391ce' ||  no ||
+|| Column Fields ||  The fields that it will be displayed in the table that lists the entity instances that have been entered. This concerns the web and desktop applications ||   ||  A list of fields belonging to the card entity ||  yes ||
+|| Creators  || A set of Roles which will have the privilege to create instances of the form. (If a user does not have this privilege, the form will not appear in the menu list (even if the property Top Level is set to true)  ||  || A list of Roles selected among the Roles of the project. If no role is assigned to the creators, all actors with “edit” access on some fieldgroups will be able to create instances of the form || no ||
+|| Display QR Code  || If set to yes, the applications will display in the card entity instance unique ID as a QR Code in the form  || false || True or False  || yes ||
+|| Icon  || The icon that will be associated with the card entity in the application user interfaces. This name will reference big icons (32*32) and small icons (24*24)  || If no name is defined, default icons will be used in the applications  || An icon name (exp: Form1.png). The icon should be at the png format. The big icons (32*32) should be copied in the icons folder of the model project. The small icons (24*24) should be copied in the icons/small folder of the model project. Big and small icons should have the same name for a given entity.  || no ||
+|| Main Fields  || The fields that will be used as a display value for an entity instance. For all applications, it will be used to display the RelationField/Subform value. For the Android application, these are the fields that will be displayed in the list view that lists the entity instances that have been entered.  ||  || A list of fields belonging to the card entity  || yes ||
+|| Name  || The Card Entity Name  ||  || Any string. Should be unique in the model. Should start with an upper case by convention. No white space, no accent, strange character allowed || yes ||
+|| Secondary Fields  || Additional fields that will be used as a display value for an entity instance. It concerns the Android application. In an instance form, These fields will appear as a sub list under the mainfields  ||  || A list of fields belonging to the card entity  || no ||
+|| Short Name  || A Short Name identifying the Card Entity  || || Any short string, in upper case by convention, should be unique in the model. There is a tool that enables to automatically generate short names, but a meaningful one should be put for Card Entities.  || yes ||
+|| Sort Fields  || A list of fields used to sort the entity instances in the table listing the entity instances that have been entered in the IS.  || The entity instance modification date  || A list of fields belonging to the card entity. Only the first defined sort field is used until now  || no  ||
+|| Top Level  || Indicates if a Card Entity is an entity on its own or if it is an entity that depends on another one.  || true  || True or false. If it is Top Level, the entity will appear in the application menus, otherwise, it will only be accessible from another entity form (only appear as referenced by this entity)  || yes  ||
+
+[[Image:|thumb|<center>''Illustration 16: Folder where the icons that are defined in the model should be copied''</center>]]
 
 
+
+[[BR]][[BR]]
 = Actor =
  _*Description*_
 An Actor is a specific type of Card Entity. It is a form that represents a type of user of the application. A specific type of Card Entity is necessary to model application users because these ones will have specific properties, privileges, etc. For instance, a user will be able to log in the applications so it will have user specific privileges fields. A user will be able to receive notifications, so it will have specific notification fields too.
