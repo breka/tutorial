@@ -176,8 +176,7 @@
 || Name || The Field Group Name ||  || Any string. No white space, no accent allowed || yes  ||
 || Readers || A set of Roles which will have read access to the field group ||  || A list of Roles selected among the Roles of the project. If no role is assigned to the readers, all actors will have read access to the field group || no  ||
 || Short Name || A Short Name identifying the Field Group ||  || Any string, in upper case by convention, should be unique in the model || yes  ||
-|| Writers || A set of Roles which will have write access to the field group ||  || A list of Roles selected among the Roles of the project.
-	If no role is assigned to the writers , write access is restricted to the roles defined as readers. || no  ||
+|| Writers || A set of Roles which will have write access to the field group ||  || A list of Roles selected among the Roles of the project. If no role is assigned to the writers , write access is restricted to the roles defined as readers. || no  ||
 
 
 = Field common properties =
