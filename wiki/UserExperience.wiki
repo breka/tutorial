@@ -1,7 +1,7 @@
 #summary Use cases
 #labels Modeling,Use case
 
-<wiki:toc max_depth="1" />
+<wiki:toc max_depth="2" />
 
 = Models for humanitarian surveillance system =
 
