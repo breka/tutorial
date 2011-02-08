@@ -1,13 +1,11 @@
-#summary One-sentence summary of this page.
+#sidebar TableOfContents
 
-= Introduction =
+	* [Welcome Welcome page]
+		* [ImogeneConcept imogene concept]
+		* [UserExperience Use cases]
+		* [HowToInstall How to install]		
+		* [HowToUse How to use]
+		* [ImogeneFaq FAQ]
+		* [ModelDescription What to model]
+			* [RelationFieldRules Rules to model relation fields]
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages

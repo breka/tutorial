@@ -1,6 +1,8 @@
 #summary Description of the entities that can be modeled within imogene
 #labels Modeling
 
+<wiki:toc max_depth="1" />
+
 = Project =
 	 _*Description*_
 	The root of the Model is the Project. 

@@ -1,6 +1,8 @@
 #summary Rules to follow when modeling relations between forms
 #labels Modeling
 
+<wiki:toc max_depth="1" />
+
 = Principles =
 
 	== Uni-directional and Bi-directional Relations ==

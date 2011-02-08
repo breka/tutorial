@@ -1,6 +1,8 @@
 #summary How to install imogene
 #labels Eclipse,Java,Tomcat,GWT,Android,
 
+<wiki:toc max_depth="2" />
+
 = Installation instructions =
 
 == Prerequisite ==

@@ -1,6 +1,8 @@
 #summary How to use imogene
 #labels Modeling,Generation,Eclipse,Android
 
+<wiki:toc max_depth="2" />
+
 == Pre-requisites ==
 	=== User knowledge ===
 	The _*imogene*_ studio is an application development platform. It aims to develop applications more easily and more quickly.

@@ -1,6 +1,8 @@
 #summary Use cases
 #labels Modeling,Use case
 
+<wiki:toc max_depth="1" />
+
 = Models for humanitarian surveillance system =
 
 	Below are some *template* models for humanitarian surveillance systems based on use cases defined by [http://www.unhcr.org UNHCR] (contact: [mailto:legoupil@unhcr.org Edouard Legoupil]).
