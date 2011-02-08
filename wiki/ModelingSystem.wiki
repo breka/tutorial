@@ -236,7 +236,7 @@
 	As for the Synchronisation application, in order to deploy the Web and Administration applications, do a right click on the application project. In the context menu, select 'Run on Server' in order to run the application on the local Tomcat service for instance. Or do a right click on the application project. In the context menu, select 'Export' and in the resulting Dialog Box, select 'Web.War File'. This War file can then be deployed in Tomcat.
 
 	=== Deploying the imogene Android application using the imogene Market (Normal way) ===
-		==== Android application market creation ====
+	==== Android application market creation ====
 	To be completed
 
 		==== First installation on the Android terminal ====
