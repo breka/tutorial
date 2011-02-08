@@ -65,7 +65,7 @@
 	But it will have too a set of additional ones which are the following: 
 || *Property name* || *Meaning* || *Default value* || *Possible values* || *Required* ||
 || Admin Fields  || The Actor standard Card Entity fields which should be present too in the User Administration application form.  ||  || A list of fields (excluding RelatonFields) belonging to the actor.  || no  ||
-|| Authorized Roles || The Roles (see the Role Object) that can be assigned to an Actor || If no role is referenced, all the roles that have been defined in the project will be taken into account, including the default « web » (for application access) and « administrator » (for accessing the administration module) roles || A list of Roles selected among the Roles of the project || no  ||
+|| Authorized Roles || The Roles (see the Role Object) that can be assigned to an Actor || If no role is referenced, all the roles that have been defined in the project will be taken into account, including the default 'web' (for application access) and 'administrator' (for accessing the administration module) roles || A list of Roles selected among the Roles of the project || no  ||
  
 
 = Description =
@@ -221,7 +221,7 @@
 	 _*Field common properties*_ 
 || *Property name* || *Meaning* || *Default value* || *Possible values* || *Required* ||
 || Calculation Function Name || To define that the value of the field is calculated. For the moment, the generation will create an empty method in the generated application code so that the user can complete it with the calculation algorythm ||  || A name string that will be used for the field calculation method.  || no  ||
-|| Default Value || To set a default value to the field. (Not for Relation field and Binary fields) ||  || Dates: «now» will pre-fill the date field with the current date.Boolean: true or false. Enumeration with simple selection: The value of one of possible choices || no  ||
+|| Default Value || To set a default value to the field. (Not for Relation field and Binary fields) ||  || Dates: 'now' will pre-fill the date field with the current date.Boolean: true or false. Enumeration with simple selection: The value of one of possible choices || no  ||
 || Hidden || To set if the field is hidden in the user interface or not || false || True: The field is hidden, it will not be displayed in the user interface. Or False || no  ||
 || Name || The Field name ||  || Any string. No white space, no accent allowed || yes  ||
 || Read Only || To set if the field is read-only or not || false || True: The field is read-only. The user will not be able to edit it even when editing the form. Or False || no  ||
@@ -402,8 +402,8 @@
  	_*Main Relation Fields properties*_
  
 || *Property name* || *Meaning* || *Default value* || *Possible values* || *Required* ||
-|| Opposite Relation Field || The related Relation Field (The Relation Field on the other side of the Relation) ||  || The Relation Field of the related Card Entity referencing the current Card Entity Relation Field - In the case of a uni-directionnal Relation, there isn't any related Relation Field, the value is null. || See [[ Rules to follow ]] ||
-|| Inverse Cardinality || The Cardinality of the the related Card Entity ||  ||  || See « rules to follow » section ||
+|| Opposite Relation Field || The related Relation Field (The Relation Field on the other side of the Relation) ||  || The Relation Field of the related Card Entity referencing the current Card Entity Relation Field - In the case of a uni-directionnal Relation, there isn't any related Relation Field, the value is null. || See RelationFieldRules to follow ||
+|| Inverse Cardinality || The Cardinality of the the related Card Entity ||  ||  || See 'rules to follow' section ||
 
  	_*Reverse Relation Fields properties*_
 || *Property name* || *Meaning* || *Default value* || *Possible values* || *Required* ||
@@ -425,52 +425,52 @@
 	The following table presents the different types of regular expressions that should be entered by type of field:
 
 || *Field Type* || *Regular expression examples* ||
-|| Boolean Field  || '''true''' or '''false''' ||
+|| Boolean Field  || 'true' or 'false' ||
 || Enumeration Field where the user can select only one value || One value among the Enumeration Enum Values, or a regular expression applying to the enumeration values. ||
 
-Exp1: '''1''' indicates that if the user selects in the list the item whose value is 1, the concerned field will be visible
-
-Exp2: '''1|3''' indicates that if the user selects in the list the item whose value is 1 or the item whose value is 3, the concerned field will be visible
+	Exp1: '1'' indicates that if the user selects in the list the item whose value is 1, the concerned field will be visible
+	
+	Exp2: '1|3' indicates that if the user selects in the list the item whose value is 1 or the item whose value is 3, the concerned field will be visible
 
 || Enumeration Field where the user can select several values || A regular expression applying to the enumeration values. For this type of enumeration, the multiple values are separated by the character ';'. ||
 
-Exp1:''' (.*\\D)?1(\\D.*)?''' indicates that if, among the selected values, the user has selected the item whose value is 1, the concerned field will be visible.
+	Exp1:' (.*\\D)?1(\\D.*)?' indicates that if, among the selected values, the user has selected the item whose value is 1, the concerned field will be visible.
 
-Exp1: '''(.*\\D)?1(\\D.*)?|(.*\\D)?3(\\D.*)?''' indicates the if, among the selected values, the user has selected the item whose value is 1 and/or the item whose value is 3, the concerned field will be visible
+	Exp2: '(.*\\D)?1(\\D.*)?|(.*\\D)?3(\\D.*)?' indicates the if, among the selected values, the user has selected the item whose value is 1 and/or the item whose value is 3, the concerned field will be visible
 
-|| String/Email/Phone/text/Address/Geo/Barcode Field || Any regular expression. For example: '''<nowiki>[^\\s]+ </nowiki>'''indicates that if the Dependency Field has a value (it is not empty), the concerned field is visible. ''e'' indicates an empty string||
+|| String/Email/Phone/text/Address/Geo/Barcode Field || Any regular expression. For example: '[^\\s]'indicates that if the Dependency Field has a value (it is not empty), the concerned field is visible. 'e' indicates an empty string ||
 
 || Integer Field || Here are the combinations of values/operators that should be used: ||
-|| '''Dependency Field Value''' || '''Meaning''' ||
-|| '''<nowiki>2<=</nowiki>''' || The value should be greater or equal than 2 ||
-|| '''<nowiki>2<</nowiki>''' || The value should be greater than 2 ||
-|| '''2>=''' || The value should be lower or equal than 2 ||
-|| '''2>''' || The value should be greater than 2 ||
-|| '''2!=''' || The value should not be equal to 2 ||
-|| '''2=''' || The value should be equal to 2 ||
-|| '''2;5''' || The value should be between 2 and 5 ||
+|| *Dependency Field Value* || *Meaning* ||
+|| '2<=' || The value should be greater or equal than 2 ||
+|| '2<' || The value should be greater than 2 ||
+|| '2>=' || The value should be lower or equal than 2 ||
+|| '2>' || The value should be greater than 2 ||
+|| '2!='' || The value should not be equal to 2 ||
+|| '2=' || The value should be equal to 2 ||
+|| '2;5' || The value should be between 2 and 5 ||
 
 
 || Float Field || Here are the combinations of values/operators that should be used: ||
-|| '''Dependency Field Value''' || '''Meaning''' ||
-|| '''<nowiki>2.5<=</nowiki>''' || The value should be greater or equal than 2.5 ||
-|| '''<nowiki>2.5<</nowiki>''' || The value should be greater than 2.5 ||
-|| '''2.5>=''' || The value should be lower or equal than 2.5 ||
-|| '''2.5>''' || The value should be lower than 2.5 ||
-|| '''2.5!=''' || The value should not be equal to 2.5 ||
-|| '''2.5=''' || The value should be equal to 2.5 ||
-|| '''2.5;5.8''' || The value should be between 2.5 and 5.8 ||
+|| *Dependency Field Value* || *Meaning* ||
+|| '2.5<='' || The value should be greater or equal than 2.5 ||
+|| '2.5<' || The value should be greater than 2.5 ||
+|| '2.5>=' || The value should be lower or equal than 2.5 ||
+|| '2.5>'' || The value should be lower than 2.5 ||
+|| '2.5!=' || The value should not be equal to 2.5 ||
+|| '2.5=' || The value should be equal to 2.5 ||
+|| '2.5;5.8' || The value should be between 2.5 and 5.8 ||
 
 
 || Date Field || Here are the combinations of values/operators that should be used:
-|| '''Dependency Field Value''' || '''Meaning''' ||
-|| '''<nowiki>03/10/2010<=</nowiki>''' || The value should be after or equal than 03/10/2010 ||
-|| '''<nowiki>03/10/2010<</nowiki>''' || The value should be after than 03/10/2010 ||
-|| '''03/10/2010>=''' || The value should be before or equal than 03/10/2010 ||
-|| '''03/10/2010>''' || The value should be before than 03/10/2010 ||
-|| '''03/10/2010!=''' || The value should not be equal to 03/10/2010 ||
-|| '''03/10/2010=''' || The value should be equal to 03/10/2010 ||
-|| '''03/10/2010;03/11/2010''' || The value should be between 03/10/2010 and 03/11/2010 ||
+|| *Dependency Field Value* || *Meaning* ||
+|| '03/10/2010<=' || The value should be after or equal than 03/10/2010 ||
+|| '03/10/2010<' || The value should be after than 03/10/2010 ||
+|| '03/10/2010>=' || The value should be before or equal than 03/10/2010 ||
+|| '03/10/2010>' || The value should be before than 03/10/2010 ||
+|| '03/10/2010!=' || The value should not be equal to 03/10/2010 ||
+|| ''03/10/2010=' || The value should be equal to 03/10/2010 ||
+|| '03/10/2010;03/11/2010' || The value should be between 03/10/2010 and 03/11/2010 ||
 
 	This link indicates how to build a regular expression:
 	
@@ -500,11 +500,11 @@ Exp1: '''(.*\\D)?1(\\D.*)?|(.*\\D)?3(\\D.*)?''' indicates the if, among the sele
 
 	Here are some regular expression examples:
 	
-	<nowiki>[0-9]{2}: The entered value should have 2 digits. Exp: 18</nowiki>
+	{2}: The entered value should have 2 digits. Exp: 18
 	
-	<nowiki>[0-9]{1,4}: The entered value should have between 1 and 4 digits. Exp: 18</nowiki>
+	[0-9]{1,4}: The entered value should have between 1 and 4 digits. Exp: 18
 	
-	<nowiki>[A-Z].*: The entered value should start by an upper case.</nowiki>
+	[A-Z].*: The entered value should start by an upper case.
 
 
 = Filter Fields =
@@ -545,8 +545,8 @@ Exp1: '''(.*\\D)?1(\\D.*)?|(.*\\D)?3(\\D.*)?''' indicates the if, among the sele
 	
 	One on the side of the CardEntity that will contain the hierarchical lists. The hierarchical lists are made of 2 lists. 
 	
-	* A 'parent' list which is the relationField that will serve as a filter. It must be of cardinality 1.
-	* A 'child' list which is the relationField whose values are going to be filtered. It can be of cardinality 1 or n.
+		* A 'parent' list which is the relationField that will serve as a filter. It must be of cardinality 1.
+		* A 'child' list which is the relationField whose values are going to be filtered. It can be of cardinality 1 or n.
 	
 	And on the side of the CardEntity that is referenced by the child RelationField. This CardEntity must also have a RelationField (cardinality 1) referencing the CardEntity that is referenced by the parent RelationField
 	
