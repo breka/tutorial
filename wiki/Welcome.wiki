@@ -39,6 +39,6 @@
         * Read some UserExperience
         * Find out HowToInstall the studio
         * Understand the ModelingSystem 
-        * Check the FAQ
+        * Check the ImogeneFAQ
 
 For a complete list of local wiki pages, see TitleIndex.
