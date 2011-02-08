@@ -1,3 +1,4 @@
+#summary Wiki side bar
 #sidebar TableOfContents
 
 	* [Welcome Welcome page]
