@@ -18,12 +18,12 @@
 	
 	 _*Properties*_
 || *Property name* || *Meaning* || *Default value* || *Possible values* || *Required* ||
-|| Name  || The project name. It will give its name to the data collection applications. ||  The name entered in the Epidefender project creation wizard  ||  Any string ||  yes  ||
+|| Name  || The project name. It will give its name to the data collection applications. ||  The name entered in the imogene project creation wizard  ||  Any string ||  yes  ||
 
 
 = Card Entity =
 	 _*Description*_
-	A Card Entity is a specific object of interest to a business area that the user wishes to store data about. In the Epidefender IS applications, it will represent a form for data collection/consultation. The Card Entity has fields (form fields) that can be grouped in field groups.
+	A Card Entity is a specific object of interest to a business area that the user wishes to store data about. In the imogene IS applications, it will represent a form for data collection/consultation. The Card Entity has fields (form fields) that can be grouped in field groups.
 	Different types of fields can be added to a form like String fields, Integer fields, Float fields, Boolean fields, Enumeration fields, Date fields, Binary fields (Photo, Video, Sound, etc) as well as Relation fields that enable to create a relation between 2 card entities.
 	A Model must contain at least one Card Entity.
 	
@@ -145,7 +145,7 @@
 
 = Field Group =
 	 _*Description*_
-	Card Entities and Actors represent forms for data collection/consultation in the Epidefender IS applications. These forms have fields that can be grouped in field groups. A field group enables to group fields that deal with the same issue. The Field Group object enables to model these field groups.
+	Card Entities and Actors represent forms for data collection/consultation in the imogene IS applications. These forms have fields that can be grouped in field groups. A field group enables to group fields that deal with the same issue. The Field Group object enables to model these field groups.
 	
 	A Card Entity or an Actor must contain at least one Field Group.
 	
