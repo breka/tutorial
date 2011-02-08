@@ -12,15 +12,16 @@
 	
 	== For Compositions ==
 	
-			* Composition can be declared on only one side of a Relation. If a Card Entity existence depends on another Card Entity existence, the other way round is impossible.
-			* Composition can only be declared in a Main Relation Field. Since the other Card Entity existence depends on the Card Entity that declares the Composition, it is considered that the Card Entity that declares a Composition is the Main Relation Field of the Relation.
+	Compositions:
+		* Composition can be declared on only one side of a Relation. If a Card Entity existence depends on another Card Entity existence, the other way round is impossible.
+		* Composition can only be declared in a Main Relation Field. Since the other Card Entity existence depends on the Card Entity that declares the Composition, it is considered that the Card Entity that declares a Composition is the Main Relation Field of the Relation.
 	
 	
 	When a Card Entity is referenced by a Composition, its side's Cardinality must be 1.
 	
 	It concerns 2 cases:	
-			* In the case of a bi-directional Relation, the Reverse Relation Field must have a Cardinality of 1.	
-			* In the case of a uni-directional Relation, the Inverse Cardinality of the Main Relation Field must be 1
+		* In the case of a bi-directional Relation, the Reverse Relation Field must have a Cardinality of 1.	
+		* In the case of a uni-directional Relation, the Inverse Cardinality of the Main Relation Field must be 1
 	
 	
 	== For uni-directional Relations == 
@@ -46,30 +47,27 @@
 	# If on the Doctor's side, we are not interested in listing all the Patients (there might be many), we are going to create a one-direction Relation, that means that we will only declare the Relation on the Patient's side and not on the Doctor's side.
 	
 	On the Patient side, we will create a Main Relation Field which will have the following properties:
-	
-			* Cardinality = 1 (A Patient has only one Doctor)
-			* Entity = Doctor (The related Card Entity)
-			* Type = Association (The existence of one does not depend on the existence of the other)
-			* Opposite Relation Field = empty (there isn't any related Relation Field since we do not declare the Relation on the Doctors side)
-			* Inverse Cardinality = -1 (To define the Relation, we need to know the (virtual) cardinality of the other side of the relation, in this example, a given Doctor has many Patients so the inverse cardinality is -1)
+		* Cardinality = 1 (A Patient has only one Doctor)
+		* Entity = Doctor (The related Card Entity)
+		* Type = Association (The existence of one does not depend on the existence of the other)
+		* Opposite Relation Field = empty (there isn't any related Relation Field since we do not declare the Relation on the Doctors side)
+		* Inverse Cardinality = -1 (To define the Relation, we need to know the (virtual) cardinality of the other side of the relation, in this example, a given Doctor has many Patients so the inverse cardinality is -1)
 	
 	
 	# If on the Doctor's side, we are interested in listing all the Patients, we are going to create a bi-directional Relation, that means that we will declare the Relation on the Patient's side and on the Doctor's side.
 	
-	On the Patient side, we will create a Main Relation Field which will have the following properties:
-	
-			* Cardinality = 1 (A Patient has only one Doctor)
-			* Entity = Doctor (The related Card Entity)
-			* Type = Association (The existence of one does not depend on the existence of the other)
-			* Opposite Relation Field = The Reverse Relation Field declared in the Doctor Card Entity
-			* Inverse Cardinality = -1
+	On the Patient side, we will create a Main Relation Field which will have the following properties:	
+		* Cardinality = 1 (A Patient has only one Doctor)
+		* Entity = Doctor (The related Card Entity)
+		* Type = Association (The existence of one does not depend on the existence of the other)
+		* Opposite Relation Field = The Reverse Relation Field declared in the Doctor Card Entity
+		* Inverse Cardinality = -1
 	
 	On the Doctor side, we will create a Reverse Relation Field which will have the following properties:
-	
-			* Cardinality = -1 (A Doctor can have more than one Patient)
-			* Entity = Patient (The related Card Entity)
-			* Type = Association (The existence of one does not depend on the existence of the other)
-			* Opposite Relation Field = The Reverse Relation Field declared in the Patient Card Entity
+		* Cardinality = -1 (A Doctor can have more than one Patient)
+		* Entity = Patient (The related Card Entity)
+		* Type = Association (The existence of one does not depend on the existence of the other)
+		* Opposite Relation Field = The Reverse Relation Field declared in the Patient Card Entity
 	
 	
 	Let's assume that a Patient and its Doctor must belong to the same Health Organization. The model will have a Health Organization Card Entity.
