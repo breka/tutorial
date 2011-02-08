@@ -4,16 +4,16 @@
 	The root of the Model is the Project. 
 	
 	The Editor enables to add the following objects to the project:
-	* A Description
-	* A Card Entity
-	* An Actor
-	* A Card Entity UI Format
-	* A Thema
-	* A Role
-	* A Language
+		* A Description
+		* A Card Entity
+		* An Actor
+		* A Card Entity UI Format
+		* A Thema
+		* A Role
+		* A Language
 	
 	 _*Properties*_
-|| *Property name* || *'Meaning* || *Default value* || *Possible values* || *Required* ||
+|| *Property name* || *Meaning* || *Default value* || *Possible values* || *Required* ||
 || Name  || The project name. It will give its name to the data collection applications. ||  The name entered in the Epidefender project creation wizard  ||  Any string ||  yes  ||
 
 
@@ -24,12 +24,11 @@
 	A Model must contain at least one Card Entity.
 	
 	The Editor enables to add the following objects to a Card Entity:
-	
-	* A Description
-	* A Field Group
+		* A Description
+		* A Field Group
 	
 	 _*Properties*_
-|| '''Property name''' || *'Meaning* ||  '''Default value''' ||  '''Possible values''' ||  '''Required'''  ||
+|| *Property name* || *Meaning* || *Default value* || *Possible values* || *Required*  ||
 || Actor Filter Fields ||  See the Filter Fields chapter ||   ||    || ||
 || Client Filter Fields ||  Not used for the moment ||   ||    || ||
 || Client Period Filterable ||  Not used for the moment ||   ||  ||  ||
