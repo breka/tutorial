@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -21,9 +20,9 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.imogene.model.core.ImogenePackage;
 import org.imogene.model.core.MainRelationFieldEntity;
+import org.imogene.model.core.RelationFieldEntity;
 
 /**
  * This is the item provider adapter for a {@link org.imogene.model.core.MainRelationFieldEntity} object.
@@ -105,19 +104,36 @@ public class MainRelationFieldEntityItemProvider
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/MainRelationFieldEntity"));
 	}
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getText(Object object) {
-		String label = ((MainRelationFieldEntity)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_MainRelationFieldEntity_type") :
-			getString("_UI_MainRelationFieldEntity_type") + " " + label;
-	}
+	   /**
+     * This returns the label text for the adapted class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public String getText(Object object)
+    {
+        MainRelationFieldEntity rf = (MainRelationFieldEntity) object;
+        String label = ((RelationFieldEntity) object).getName();
+        String cardinality = (rf.getCardinality() == -1) ? " *" : " " + rf.getCardinality();
+        String targetEntity = (rf.getEntity() == null) ? " NOT DEFINED" : " " + rf.getEntity().getName();
+        RelationFieldEntity opposite = rf.getOppositeRelationField();
+        int oppositeCardinality = (opposite == null) ? rf.getInverseCardinality() : opposite.getCardinality();
+        String oppCard = (oppositeCardinality == -1) ? "*" : "" + oppositeCardinality;
+        String oppositeName = (opposite == null) ? " (<- OPPOSITE NOT DEFINED)" : " " + "(<- " + opposite.getName() + ")";
+        String result = null;
+        if (label == null || label.length() == 0)
+            result = getString("_UI_MainRelationFieldEntity_type");
+        else
+        {
+            // on retourne :  Car.Drivers : Composition *,1 to Driver (<- parentCar)
+            result = getParentName(rf) + "." + label + " (Main) : " + 
+                     rf.getType().getLiteral() + 
+                     cardinality + "," + oppCard + " to "
+                        + targetEntity + oppositeName;
+        }
+        
+        return result;
+    }
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

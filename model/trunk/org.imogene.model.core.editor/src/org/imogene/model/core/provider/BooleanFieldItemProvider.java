@@ -11,15 +11,12 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
-import org.imogene.model.core.BooleanField;
 
 /**
  * This is the item provider adapter for a {@link org.imogene.model.core.BooleanField} object.
@@ -78,19 +75,16 @@ public class BooleanFieldItemProvider
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/BooleanField"));
 	}
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getText(Object object) {
-		String label = ((BooleanField)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_BooleanField_type") :
-			getString("_UI_BooleanField_type") + " " + label;
-	}
+    /**
+     * This returns the label text for the adapted class.
+     * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public String getText(Object object)
+    {
+        return getText(object, "_UI_BooleanField_type");
+    }
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

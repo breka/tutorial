@@ -19,7 +19,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.imogene.model.core.EmailField;
 import org.imogene.model.core.ImogenePackage;
 
 /**
@@ -100,19 +99,16 @@ public class EmailFieldItemProvider
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/EmailField"));
 	}
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getText(Object object) {
-		String label = ((EmailField)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_EmailField_type") :
-			getString("_UI_EmailField_type") + " " + label;
-	}
+    /**
+     * This returns the label text for the adapted class.
+     * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public String getText(Object object)
+    {
+        return getText(object, "_UI_EmailField_type"); 
+    }
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

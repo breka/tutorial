@@ -11,11 +11,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -26,11 +23,10 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
+import org.imogene.model.core.CardEntity;
 import org.imogene.model.core.FieldEntity;
 import org.imogene.model.core.ImogeneFactory;
 import org.imogene.model.core.ImogenePackage;
-
 import org.imogene.model.core.editor.ImogeneModelEditPlugin;
 
 /**
@@ -271,19 +267,42 @@ public class FieldEntityItemProvider
 		return super.getChildFeature(object, child);
 	}
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getText(Object object) {
-		String label = ((FieldEntity)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_FieldEntity_type") :
-			getString("_UI_FieldEntity_type") + " " + label;
-	}
+    /**
+     * Return the parent name to help understanding field source. 
+     * @return the parent card name if field is in a cardentity, of fieldComment name
+     * if field is in a fieldComment. 
+     * @generated NOT
+     */
+    public String getParentName(FieldEntity f)
+    {
+        CardEntity parent = f.getParentCard();
+        return (parent != null) ? parent.getShortName() : "";
+    }
+    
+    /**
+     * Return the parent name to help understanding field source. 
+     * @return the parent card name if field is in a cardentity, of fieldComment name
+     * if field is in a fieldComment. 
+     * @generated NOT
+     */
+    public String getText(Object object, String typeKey, String suf)
+    {
+        String label = ((FieldEntity)object).getName();
+        String parent= getParentName((FieldEntity) object);
+        if (parent == null)
+            parent = "" ;
+        else if (parent.length() > 0)
+            parent = parent+suf;
+        String type = " (" + getString(typeKey) + ")";
+        return label == null || label.length() == 0 ? parent + type : parent + label + type;
+ 
+    }
+    
+    public String getText(Object object, String typeKey)
+    {
+        return getText(object, typeKey, ".");
+    
+    }
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

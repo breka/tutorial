@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -19,7 +18,6 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.imogene.model.core.ImogenePackage;
@@ -105,19 +103,16 @@ public class TextFieldItemProvider
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/TextField"));
 	}
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getText(Object object) {
-		String label = ((TextField)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_TextField_type") :
-			getString("_UI_TextField_type") + " " + label;
-	}
+    /**
+     * This returns the label text for the adapted class.
+     * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public String getText(Object object)
+    {
+        return getText(object, "_UI_TextField_type");  
+    }
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
