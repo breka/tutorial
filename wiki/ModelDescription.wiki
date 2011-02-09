@@ -24,7 +24,7 @@
 = Card Entity =
 	 _*Description*_
 	A Card Entity is a specific object of interest to a business area that the user wishes to store data about. In the imogene IS applications, it will represent a form for data collection/consultation. The Card Entity has fields (form fields) that can be grouped in field groups.
-	Different types of fields can be added to a form like String fields, Integer fields, Float fields, Boolean fields, Enumeration fields, Date fields, Binary fields (Photo, Video, Sound, etc) as well as Relation fields that enable to create a relation between 2 card entities.
+	Different types of fields can be added to a form like Text fields, Integer fields, Float fields, Boolean fields, Enumeration fields, Date fields, Binary fields (Photo, Video, Sound, etc) as well as Relation fields that enable to create a relation between 2 card entities.
 	A Model must contain at least one Card Entity.
 	
 	The Editor enables to add the following objects to a Card Entity:
@@ -152,7 +152,7 @@
 	In the application user interfaces, Field Groups will enable to group fields in Tab Panels. The Tab title will be the name of the Field Groupn or the Description display name if a description has been defined for the Field Group.
 	
 	The Editor enables to add the following objects to a Field Group:
-		* A String Field
+		* A Text Field
 		* A Binary Field
 		* A Main Relation Field Entity
 		* A Reverse Relation Field Entity
@@ -168,7 +168,7 @@
 		* A Photo Field
 		* A Sound Field
 		* A Boolean Field
-		* A Text Field
+		* A TextArea Field
 		* An Adress Field
 		* A Geo Field
 		* A Barcode Field
@@ -187,7 +187,7 @@
 	 _*Description*_
 	A Field is a Form field. It enables to enter data for a specific item.
 	Fields deal with different types of data (text, date, etc). The editor enables to add a specific the following field types:
-		* A String Field
+		* A Text Field
 		* A Binary Field
 		* A Main Relation Field Entity
 		* A Reverse Relation Field Entity
@@ -203,7 +203,7 @@
 		* A Photo Field
 		* A Sound Field
 		* A Boolean Field
-		* A Text Field
+		* A TextArea Field
 		* An Adress Field
 		* A Geo Field
 		* A Barcode Field
@@ -233,12 +233,12 @@
 || Short Name || A Short Name identifying the Field ||  || Any string, in upper case by convention, should be unique in the model. A tool enables to automatically generate the short names for all the model objects. || yes  ||
 
 
-= String Field =
-	A String Field is a text field displayed on one row used to enter text values.
-
-
 = Text Field =
-	A Text Field is a text field displayed on several rows used to enter text values.
+	A Text Field is a text field displayed on one row used to enter text values.
+
+
+= TextArea Field =
+	A TextArea Field is a text field displayed on several rows used to enter text values.
 
 
 = Integer Field =
@@ -484,10 +484,10 @@
 = Validation Rule =
 	 _*Description*_
 	This object can be added to the following types of fields:
-		* String Field
+		* Text Field
 		* Email Field
 		* Phone Field
-		* Text Field
+		* TextArea Field
 		* Address Field
 		* Geo Field
 		* Barcode Field<br/> 
