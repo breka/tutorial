@@ -488,10 +488,10 @@ import org.imogene.«moduleName».view.«entity.name.toLowerCase()».«entity.name.to
 
 «REM»Generate the declaration of the widget for display and set fields «ENDREM»
 «DEFINE fieldEditorDeclaration FOR FieldEntity-»
-	private StringFieldComposite «name.toFirstLower()»Field;	
-«ENDDEFINE»
-«DEFINE fieldEditorDeclaration FOR TextField-»
 	private TextFieldComposite «name.toFirstLower()»Field;	
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR TextAreaField-»
+	private TextAreaFieldComposite «name.toFirstLower()»Field;	
 «ENDDEFINE»
 «DEFINE fieldEditorDeclaration FOR IntegerField-»
 	private IntegerFieldComposite «name.toFirstLower()»Field;	
@@ -533,10 +533,10 @@ import org.imogene.«moduleName».view.«entity.name.toLowerCase()».«entity.name.to
 ----- Generate the instanciation of the widget for display and set fields 
 ------------------------------------------------------------------------ «ENDREM»
 «DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR FieldEntity-»
-		«name.toFirstLower()»Field = new StringFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
-«ENDDEFINE»
-«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR TextField-»	
 		«name.toFirstLower()»Field = new TextFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR TextAreaField-»	
+		«name.toFirstLower()»Field = new TextAreaFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
 «ENDDEFINE»
 «DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR IntegerField-»
 		«name.toFirstLower()»Field = new IntegerFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
@@ -804,7 +804,7 @@ if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
 
 «REM» Write specificaly defined validation rule ----------------------------------- «ENDREM»
 «DEFINE writeValidation FOR FieldEntity-»«ENDDEFINE»
-«DEFINE writeValidation FOR StringField-»
+«DEFINE writeValidation FOR TextField-»
 	«IF this.validationRules!=null && !this.validationRules.isEmpty »		
 		«FOREACH this.validationRules AS rule ITERATOR iter-»
 		/* specific validation for field «this.name.toFirstUpper()-» */
@@ -899,7 +899,7 @@ if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
 
 «REM» ---------------------------------------------------------------- «ENDREM»
 «DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR FieldEntity-»«ENDDEFINE»
-«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR StringField-»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR TextField-»
 	«IF conditionValue.length>0-»
 		if (((Text)«this.name.toFirstLower()»Field.getValueControl()).getText().matches("«conditionValue-»")) {
 			condition«this.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk=true;

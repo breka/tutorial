@@ -61,7 +61,7 @@
 
 «DEFINE getValidatedFields FOR FieldEntity-»          
 «ENDDEFINE»
-«DEFINE getValidatedFields FOR StringField-»
+«DEFINE getValidatedFields FOR TextField-»
 	«IF this.validationRules!=null && !this.validationRules.isEmpty »		
 		«FOREACH this.validationRules AS rule ITERATOR iter-»
 			«IF rule.descriptions!=null && rule.descriptions.size>0 »
