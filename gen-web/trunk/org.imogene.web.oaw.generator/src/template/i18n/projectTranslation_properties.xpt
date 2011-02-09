@@ -125,7 +125,7 @@ report_application_title= Application «this.name.toFirstUpper() -»
 «parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()» = «getDisplayFromDescription(isoCode,this)»                     
 «ENDDEFINE»
 
-«DEFINE getFieldTexts(String isoCode) FOR StringField-»
+«DEFINE getFieldTexts(String isoCode) FOR TextField-»
 «parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()» = «getDisplayFromDescription(isoCode,this)»
 «FOREACH this.validationRules AS r ITERATOR i -»
 «parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»_rule_«i.counter0» = «getDisplayFromDescription(isoCode,r)»
