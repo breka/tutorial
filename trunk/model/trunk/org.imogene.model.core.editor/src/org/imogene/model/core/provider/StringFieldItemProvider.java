@@ -110,19 +110,16 @@ public class StringFieldItemProvider
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/StringField"));
 	}
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getText(Object object) {
-		String label = ((StringField)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_StringField_type") :
-			getString("_UI_StringField_type") + " " + label;
-	}
+    /**
+     * This returns the label text for the adapted class.
+     * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public String getText(Object object)
+    {
+        return getText(object, "_UI_StringField_type");  
+    }
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

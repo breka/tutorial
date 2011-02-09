@@ -11,14 +11,13 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
+import org.imogene.model.core.RelationFieldEntity;
 import org.imogene.model.core.ReverseRelationFieldEntity;
 
 /**
@@ -78,19 +77,33 @@ public class ReverseRelationFieldEntityItemProvider
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/ReverseRelationFieldEntity"));
 	}
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getText(Object object) {
-		String label = ((ReverseRelationFieldEntity)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_ReverseRelationFieldEntity_type") :
-			getString("_UI_ReverseRelationFieldEntity_type") + " " + label;
-	}
+	   /**
+     * This returns the label text for the adapted class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public String getText(Object object)
+    {
+        ReverseRelationFieldEntity rf = (ReverseRelationFieldEntity) object;
+        String label = ((RelationFieldEntity) object).getName();
+        String cardinality = (rf.getCardinality() == 1) ? " 1" : " n";
+        String targetEntity = (rf.getEntity() == null) ? " NOT DEFINED" : " " + rf.getEntity().getName();
+        // RelationFieldEntity opposite = rf.getOppositeRelationField();
+        String result = null;
+        if (label == null || label.length() == 0)
+            result = getString("_UI_ReverseRelationFieldEntity_type");
+        else
+        {
+            // on retourne :  Car.Drivers : Association *,1 to Driver (<- parentCar)
+            result = getParentName(rf) + "." + label + " (Reverse) : " + 
+                     rf.getType().getLiteral() + 
+                     cardinality + " to " + targetEntity;
+        }
+        
+        return result;
+    
+    }
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

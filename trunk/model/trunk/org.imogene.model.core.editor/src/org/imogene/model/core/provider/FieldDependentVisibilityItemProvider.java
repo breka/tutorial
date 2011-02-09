@@ -11,9 +11,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -24,10 +22,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.imogene.model.core.FieldDependentVisibility;
 import org.imogene.model.core.ImogenePackage;
-
 import org.imogene.model.core.editor.ImogeneModelEditPlugin;
 
 /**
@@ -137,16 +133,20 @@ public class FieldDependentVisibilityItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+     * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((FieldDependentVisibility)object).getDependencyFieldValue();
-		return label == null || label.length() == 0 ?
+		String label;
+		String value = ((FieldDependentVisibility)object).getDependencyFieldValue();
+		String field = "";
+		if (((FieldDependentVisibility)object).getDependencyField()!=null)	
+			field = ((FieldDependentVisibility)object).getDependencyField().getName();
+		label = "'" + field + "' matches '" + value + "'";
+		return field.length() == 0 ?
 			getString("_UI_FieldDependentVisibility_type") :
-			getString("_UI_FieldDependentVisibility_type") + " " + label;
+			getString("_UI_FieldDependentVisibility_type") + ": " + label;
 	}
-
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.

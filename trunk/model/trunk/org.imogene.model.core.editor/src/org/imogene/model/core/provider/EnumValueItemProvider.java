@@ -11,11 +11,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -26,11 +23,9 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.imogene.model.core.EnumValue;
 import org.imogene.model.core.ImogeneFactory;
 import org.imogene.model.core.ImogenePackage;
-
 import org.imogene.model.core.editor.ImogeneModelEditPlugin;
 
 /**
@@ -166,19 +161,18 @@ public class EnumValueItemProvider
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/EnumValue"));
 	}
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getText(Object object) {
-		String label = ((EnumValue)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_EnumValue_type") :
-			getString("_UI_EnumValue_type") + " " + label;
-	}
+    /**
+     * This returns the label text for the adapted class. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     * 
+     * @generated NOT
+     */
+    public String getText(Object object)
+    {
+        String label = ((EnumValue) object).getName();
+        return label == null || label.length() == 0 ? getString("_UI_EnumValue_type") : getString("_UI_EnumValue_type")
+                + " " + label;
+    }
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

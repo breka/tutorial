@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -21,9 +20,9 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.imogene.model.core.ImogenePackage;
 import org.imogene.model.core.RelationFieldEntity;
+import org.imogene.model.core.RelationType;
 
 /**
  * This is the item provider adapter for a {@link org.imogene.model.core.RelationFieldEntity} object.
@@ -230,16 +229,35 @@ public class RelationFieldEntityItemProvider
 			 null));
     }
 
-	/**
-	 * This returns RelationFieldEntity.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/RelationFieldEntity"));
-	}
+    /**
+     * This returns RelationFieldEntity.gif. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated NOT
+     */
+    public Object getImage(Object object)
+    {
+        RelationFieldEntity rf = (RelationFieldEntity) object;
+        String imagePath = "full/obj16/RelationFieldEntity";
+
+        if (rf.getType().getValue() == RelationType.ASSOCIATION)
+        {
+            imagePath = (rf.getCardinality() == 1) ? "full/obj16/assoType" : "full/obj16/assonType";
+        }
+        else
+        {
+            // This is a composition. Must check if reverse field is set.
+            if (rf.getOppositeRelationField() == null)
+            {
+                imagePath = (rf.getCardinality() == 1) ? "full/obj16/compoType-red" : "full/obj16/componType-red";
+            }
+            else
+            {
+                imagePath = (rf.getCardinality() == 1) ? "full/obj16/compoType" : "full/obj16/componType";
+            }
+        }
+        return overlayImage(object, getResourceLocator().getImage(imagePath));
+    }
 
 	/**
 	 * This returns the label text for the adapted class.

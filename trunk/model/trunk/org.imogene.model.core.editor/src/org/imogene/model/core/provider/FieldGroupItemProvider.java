@@ -7,15 +7,15 @@ package org.imogene.model.core.provider;
 
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -26,11 +26,10 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.imogene.model.core.FieldGroup;
 import org.imogene.model.core.ImogeneFactory;
 import org.imogene.model.core.ImogenePackage;
-
+import org.imogene.model.core.Role;
 import org.imogene.model.core.editor.ImogeneModelEditPlugin;
 
 /**
@@ -236,19 +235,39 @@ public class FieldGroupItemProvider
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/FieldGroup"));
 	}
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getText(Object object) {
-		String label = ((FieldGroup)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_FieldGroup_type") :
-			getString("_UI_FieldGroup_type") + " " + label;
-	}
+    /**
+     * This returns the label text for the adapted class.
+     * <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public String getText(Object object)
+    {
+        FieldGroup fg = (FieldGroup) object;   
+        String label = fg.getName();
+        // Create a set of readers and writers to write access property.
+        Set<Role> roles = new HashSet<Role>(fg.getReaders());
+        roles.addAll(fg.getWriters());
+        
+        StringBuffer buf = new StringBuffer("   Access : ");
+        if (roles.size() == 0)
+            buf.append(" NOT DEFINED");
+        for (Iterator<Role> it = roles.iterator(); it.hasNext(); )
+        {
+            Role r = (Role) it.next();
+            buf.append(r.getName());
+            buf.append(" (");
+            if (fg.getReaders().contains(r)) buf.append("R");
+            if (fg.getWriters().contains(r)) buf.append("W");
+            buf.append(")");
+            if (it.hasNext())
+                buf.append(", ");
+        }
+        
+        return label == null || label.length() == 0 ?
+            getString("_UI_FieldGroup_type") + " " + buf.toString() :
+            getString("_UI_FieldGroup_type") + " " + label + " " + buf.toString();
+    }
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
