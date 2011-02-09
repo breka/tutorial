@@ -1388,7 +1388,7 @@ public class ImogeneEditor
 	 * This accesses a cached version of the property sheet.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public IPropertySheetPage getPropertySheetPage() {
 		if (propertySheetPage == null) {
@@ -1406,7 +1406,8 @@ public class ImogeneEditor
 						getActionBarContributor().shareGlobalActions(this, actionBars);
 					}
 				};
-			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+			//propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+			propertySheetPage.setPropertySourceProvider(new CustomAdapterFactoryContentProvider(adapterFactory));
 		}
 
 		return propertySheetPage;
