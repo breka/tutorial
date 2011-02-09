@@ -24,7 +24,7 @@
 	<component class="org.eclipse.xpand2.Generator">
 		<fileEncoding value="iso-8859-1"/>
 		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
-		<expand value='template::initializer::generate("${gen-project-name}","${JDBCDRIVER}","${JDBCPATH}","${JDBCLOGIN}","${JDBCPASSWORD}","${packageName}") FOR project' />
+		<expand value='template::initializer::generate("${gen-project-name}","${ADMINPASSWORD}","${JDBCDRIVER}","${JDBCPATH}","${JDBCLOGIN}","${JDBCPASSWORD}","${packageName}") FOR project' />
 		<genPath value="${home-gen}/src/org/imogene/initializer" />
 		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
 	</component>
