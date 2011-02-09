@@ -1,5 +1,5 @@
 #summary How to install imogene
-#labels Eclipse,Java,Tomcat,GWT,Android,
+#labels Eclipse,Java,Tomcat,GWT,Android
 
 <wiki:toc max_depth="2" />
 
@@ -149,7 +149,7 @@
 	  
 	  * Click on the {{{Add}}} button at the top right of the window.You will add a new update site to Eclipse. This update site will enable to install and update the _*imogene*_ plugins.
 	  
-	  * Enter _*imogene*_ as {{{Name}}} and {{{http://unhcr.i-mogene.org/update}}} 
+	  * Enter _*imogene*_ as {{{Name}}} and {{{http://update-site.i-mogene.org/}}} 
 	
 	  * Click {{{OK}}}. The _*imogene*_ update site is added to the update site list (label 'Work with').
 	 
