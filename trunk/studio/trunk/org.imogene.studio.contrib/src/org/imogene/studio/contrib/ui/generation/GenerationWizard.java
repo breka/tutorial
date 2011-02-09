@@ -261,6 +261,12 @@ public class GenerationWizard extends Wizard {
 		Map<String, String> properties = new HashMap<String, String>();
 
 		value = selectedProject.getPersistentProperty(new QualifiedName("", //$NON-NLS-1$
+				GenerationPropertiesPage.ADMINPASSWORD_PROPERTY));
+		properties.put(GenerationPropertiesPage.ADMINPASSWORD_PROPERTY,
+				(value != null) ? value
+						: GenerationPropertiesPage.ADMINPASSWORD_DEFAULT);
+		
+		value = selectedProject.getPersistentProperty(new QualifiedName("", //$NON-NLS-1$
 				GenerationPropertiesPage.BINARIESPATH_PROPERTY));
 		properties.put(GenerationPropertiesPage.BINARIESPATH_PROPERTY,
 				(value != null) ? value
