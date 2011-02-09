@@ -145,6 +145,10 @@
 
 == 6. Install the imogene plugins for Eclipse ==
 
+	Will be available soon. 
+
+<wiki:comment>
+
 	  * In the Eclipse menu, select {{{Help/Install New software...}}}.
 	  
 	  * Click on the {{{Add}}} button at the top right of the window.You will add a new update site to Eclipse. This update site will enable to install and update the _*imogene*_ plugins.
@@ -169,3 +173,5 @@
 	Eclipse provides a mechanism to update the installed plugins including the _*imogene*_ ones.
 	
 	To update your installation go to the menu Help and select {{{Check for updates}}}.
+
+</wiki:comment>
