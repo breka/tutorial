@@ -78,7 +78,7 @@ public interface «projectName.toFirstUpper()»Translations extends Constants {
 	String «parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»();
 «ENDDEFINE»
 
-«DEFINE getFieldTexts FOR StringField-»
+«DEFINE getFieldTexts FOR TextField-»
 	String «parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»();
 	«FOREACH validationRules AS r ITERATOR i-»
 	String «parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»_rule_«i.counter0-»();

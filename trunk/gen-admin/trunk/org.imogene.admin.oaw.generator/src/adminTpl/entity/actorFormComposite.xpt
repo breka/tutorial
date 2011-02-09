@@ -612,7 +612,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	«ENDIF-»
 «ENDDEFINE»
 
-«DEFINE createFieldView(String entityName) FOR StringField -»
+«DEFINE createFieldView(String entityName) FOR TextField -»
 	«name.toFirstLower()» = new ImogTextBox();
 	«EXPAND allPropertiesPackage FOR this -»
 	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
@@ -621,7 +621,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	«ENDFOREACH-» 
 «ENDDEFINE»
 
-«DEFINE createFieldView(String entityName) FOR TextField -»
+«DEFINE createFieldView(String entityName) FOR TextAreaField -»
 	«name.toFirstLower()» = new ImogTextArea();
 	«EXPAND allPropertiesPackage FOR this -»
 	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
@@ -1009,7 +1009,7 @@ import «packageName».«entity.name.toFirstUpper()»ServiceFacade;
 «REM»
 	Test value for field denpendent visibility «ENDREM»
 «DEFINE expandTestForVisibility(String value) FOR FieldEntity-»«ENDDEFINE»
-«DEFINE expandTestForVisibility(String value) FOR TextField-»
+«DEFINE expandTestForVisibility(String value) FOR TextAreaField-»
 	"«value»".equals(«name.toFirstLower()».getValue())
 «ENDDEFINE»
 «DEFINE expandTestForVisibility(String value) FOR IntegerField-»

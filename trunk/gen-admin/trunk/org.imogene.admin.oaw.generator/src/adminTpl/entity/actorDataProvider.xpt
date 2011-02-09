@@ -399,7 +399,7 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 «REM»
 	Create the search full text function «ENDREM»
 «DEFINE createListCriteria FOR FieldEntity-»«ENDDEFINE»
-«DEFINE createListCriteria FOR StringField-»
+«DEFINE createListCriteria FOR TextField-»
 	// Search field «this.name»
 	BasicCriteria «this.name»Crit = new BasicCriteria();
 	«this.name»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
