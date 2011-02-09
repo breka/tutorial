@@ -1,6 +1,6 @@
 «IMPORT core»
 
-«DEFINE generate(String projectName, String jdbcDriver, String jdbcPath, String jdbcLogin, String jdbcPassword, String packageName) FOR Project»
+«DEFINE generate(String projectName, String password, String jdbcDriver, String jdbcPath, String jdbcLogin, String jdbcPassword, String packageName) FOR Project»
 «FILE projectName + "InitialSqlInsert.java"»
 
 package org.imogene.initializer;
@@ -57,7 +57,7 @@ public class «projectName»InitialSqlInsert {
 				
 				try{
 					// Default user 'admin'
-					NbIns = s.executeUpdate("insert into DefaultUser (User_ID,User_Login,User_Password) values('admin','admin','epipassword')");
+					NbIns = s.executeUpdate("insert into DefaultUser (User_ID,User_Login,User_Password) values('admin','admin','«password»')");
 					log.log(Level.INFO, NbIns + " row inserted for defaultUser 'admin'");
 				}catch(SQLException ex1){
 					log.log(Level.SEVERE, "SQL exception while processing the default user 'admin'.", ex1);
