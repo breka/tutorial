@@ -50,7 +50,7 @@
 		<property name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" column="«parentGroup.parentCard.name»_«name»"/>
 «ENDDEFINE»
 
-«DEFINE fieldMapping(String packageName) FOR TextField-»
+«DEFINE fieldMapping(String packageName) FOR TextAreaField-»
 		<property name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" column="«parentGroup.parentCard.name»_«name»" type="text"/>
 «ENDDEFINE»
 
