@@ -29,7 +29,7 @@
 
 «REM» Field widget declarations «ENDREM»
 «DEFINE formFieldType FOR FieldEntity»ImogTextBox«ENDDEFINE»
-«DEFINE formFieldType FOR StringField»ImogTextBox«ENDDEFINE»
+«DEFINE formFieldType FOR TextField»ImogTextBox«ENDDEFINE»
 «DEFINE formFieldType FOR BinaryField»ImogBinaryField«ENDDEFINE»
 «DEFINE formFieldType FOR EnumField»ImogEnumField«ENDDEFINE»
 «DEFINE formFieldType FOR EmailField»ImogEmailField«ENDDEFINE»
@@ -41,7 +41,7 @@
 «DEFINE formFieldType FOR PhotoField»ImogPhotoField«ENDDEFINE»
 «DEFINE formFieldType FOR SoundField»ImogAudioField«ENDDEFINE»
 «DEFINE formFieldType FOR BooleanField»ImogBooleanField«ENDDEFINE»
-«DEFINE formFieldType FOR TextField»ImogTextArea«ENDDEFINE»
+«DEFINE formFieldType FOR TextAreaField»ImogTextArea«ENDDEFINE»
 «DEFINE formFieldType FOR AddressField»ImogAddressField«ENDDEFINE»
 «DEFINE formFieldType FOR IntegerField»ImogIntegerField«ENDDEFINE»
 «DEFINE formFieldType FOR FloatField»ImogFloatField«ENDDEFINE»
