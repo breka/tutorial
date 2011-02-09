@@ -17,6 +17,10 @@ import org.eclipse.ui.dialogs.PropertyPage;
 
 public class GenerationPropertiesPage extends PropertyPage {
 	
+	private static final String ADMINPASSWORD_TITLE = "Admnistrator password";
+	public static final String ADMINPASSWORD_PROPERTY = "ADMINPASSWORD"; //$NON-NLS-1$
+	public static final String ADMINPASSWORD_DEFAULT = "epipassword";
+	
 	private static final String AUDIOCONVERTER_TITLE = Messages.GenerationPropertiesPage_0;
 	public static final String AUDIOCONVERTER_PROPERTY = "audioConverter"; //$NON-NLS-1$
 	public static final String AUDIOCONVERTER_DEFAULT = "ffmpeg -i %IN% %OUT%"; //$NON-NLS-1$
@@ -136,6 +140,8 @@ public class GenerationPropertiesPage extends PropertyPage {
 	private static final int TEXT_FIELD_WIDTH = 50;
 
 	/* widgets */
+	
+	private Text adminPasswordText;
 
 	private Text versionText;
 
@@ -205,6 +211,12 @@ public class GenerationPropertiesPage extends PropertyPage {
 	private void addFirstSection(Composite parent) {
 		Composite composite = createDefaultComposite(parent);
 
+		/* admin password */
+		Group adminPasswordGroup = createGroup(composite, "Administrator account");
+		adminPasswordText = createField(adminPasswordGroup, ADMINPASSWORD_TITLE,
+				ADMINPASSWORD_PROPERTY, ADMINPASSWORD_DEFAULT);
+		adminPasswordText.setEchoChar('*');
+		
 		/* version properties */
 		Group versionGroup = createGroup(composite, Messages.GenerationPropertiesPage_49);
 		versionText = createField(versionGroup, PROJECTVERSION_TITLE,
@@ -287,6 +299,7 @@ public class GenerationPropertiesPage extends PropertyPage {
 
 	protected void performDefaults() {
 		// Populate the owner text field with the default value
+		adminPasswordText.setText(ADMINPASSWORD_DEFAULT);
 		versionText.setText(PROJECTVERSION_DEFAULT);
 		jdbcpathText.setText(JDBCPATH_DEFAULT);
 		jdbcdriverText.setText(JDBCDRIVER_DEFAULT);
@@ -312,6 +325,10 @@ public class GenerationPropertiesPage extends PropertyPage {
 	public boolean performOk() {
 		if (isValid()) {
 			try {
+				((IResource) getElement()).setPersistentProperty(
+						new QualifiedName("", ADMINPASSWORD_PROPERTY), //$NON-NLS-1$
+						adminPasswordText.getText());
+				
 				((IResource) getElement()).setPersistentProperty(
 						new QualifiedName("", PROJECTVERSION_PROPERTY), //$NON-NLS-1$
 						versionText.getText());
@@ -381,14 +398,21 @@ public class GenerationPropertiesPage extends PropertyPage {
 
 	@Override
 	public boolean isValid() {
+		boolean isValid=true;
 		try {
 			Integer.parseInt(versionText.getText());
-			setErrorMessage(null);
-			return true;
+			setErrorMessage(null);			
+			isValid = isValid && true;
 		} catch (Exception e) {
 			setErrorMessage(Messages.GenerationPropertiesPage_77);
-			return false;
+			isValid = isValid && false;
 		}
+		if(adminPasswordText.getText()==null && adminPasswordText.getText().length()<1){
+			isValid = isValid && false;
+		}else{
+			isValid = isValid && true;
+		}
+		return isValid;
 	}
 
 }
