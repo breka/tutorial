@@ -16,7 +16,8 @@ import android.location.Location;
 import android.net.Uri;
 import org.imogene.android.Constants.Sync;
 import org.imogene.android.common.Binary;
-import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.common.LocalizedText;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.database.interfaces.EntityCursor;
 «IF Actor.isAssignableFrom(metaType)-»
 import org.imogene.android.database.sqlite.UserCursorImpl;
@@ -24,6 +25,7 @@ import org.imogene.android.database.sqlite.UserCursorImpl;
 import org.imogene.android.database.sqlite.EntityCursorImpl;
 «ENDIF-»
 import org.imogene.android.util.FormatHelper;
+import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.«projectName.toLowerCase()».R;
 «EXPAND organizeImports(projectName) FOREACH groups.fields-»
 
@@ -94,6 +96,18 @@ import org.imogene.android.«projectName.toLowerCase()-».entities.«entity.name.to
 public final String get«name.toFirstUpper()»() {
 	return getString(getColumnIndexOrThrow("«name.toFirstLower()-»"));
 }
+«ENDDEFINE»
+
+«DEFINE createGetter FOR TextField-»
+«IF translatable-»
+public final LocalizedTextList get«name.toFirstUpper()»() {
+	return getLocalizedText(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ELSE-»
+public final String get«name.toFirstUpper()»() {
+	return getString(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ENDIF-»
 «ENDDEFINE»
 
 «DEFINE createGetter FOR IntegerField-»
@@ -233,15 +247,36 @@ getEntities(«entity.name.toFirstUpper()-».CONTENT_URI, "«entity.name.toLowerCase
 «ENDDEFINE»
 
 «DEFINE getDisplay FOR StringField-»
-if (get«name.toFirstUpper()-»() != null) {
-	str.append(get«name.toFirstUpper()-»());
+String «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(«shortName.toLowerCase()»);
 	str.append(" ");
 }
 «ENDDEFINE»
 
+«DEFINE getDisplay FOR TextField-»
+«IF translatable-»
+LocalizedTextList «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	String localized = «shortName.toLowerCase()».getLocalized();
+	if (localized != null) {
+		str.append(localized);
+		str.append(" ");
+	}
+}
+«ELSE-»
+String «shortName.toLowerCase()» = get«name.toFirstUpper()»();
+if («shortName.toLowerCase()» != null) {
+	str.append(«shortName.toLowerCase()»);
+	str.append(" ");
+}
+«ENDIF-»
+«ENDDEFINE»
+
 «DEFINE getDisplay FOR NumericField-»
-if (get«name.toFirstUpper()»() != null) {
-	str.append(get«name.toFirstUpper()»().toString());
+Number «shortName.toLowerCase()» = get«name.toFirstUpper()»();
+if («shortName.toLowerCase()» != null) {
+	str.append(«shortName.toLowerCase()».toString());
 	str.append(" ");
 	«IF unit.length > 0-»
 	str.append(context.getString(R.string.«shortName.toLowerCase()»_unit));
@@ -251,31 +286,35 @@ if (get«name.toFirstUpper()»() != null) {
 «ENDDEFINE»
 
 «DEFINE getDisplay FOR DateField-»
-if (get«name.toFirstUpper()-»() != null) {
-	str.append(FormatHelper.displayAsDate(get«name.toFirstUpper()-»()));
+Long «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(FormatHelper.displayAsDate(«shortName.toLowerCase()»));
 	str.append(" ");
 }
 «ENDDEFINE»
 
 «DEFINE getDisplay FOR DateTimeField-»
-if (get«name.toFirstUpper()-»() != null) {
-	str.append(FormatHelper.displayAsDateTime(get«name.toFirstUpper()-»()));
+Long «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(FormatHelper.displayAsDateTime(«shortName.toLowerCase()»));
 	str.append(" ");
 }
 «ENDDEFINE»
 
 «DEFINE getDisplay FOR TimeField-»
-if (get«name.toFirstUpper()-»() != null) {
-	str.append(FormatHelper.displayAsTime(get«name.toFirstUpper()-»()));
+Long «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(FormatHelper.displayAsTime(«shortName.toLowerCase()»));
 	str.append(" ");
 }
 «ENDDEFINE»
 
 «DEFINE getDisplay FOR EnumField-»
 «IF !multipleSelection -»
-if (get«name.toFirstUpper()-»() != -1) {
+int «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != -1) {
 	String[] array = context.getResources().getStringArray(R.array.«shortName.toLowerCase()»);
-	str.append(array[get«name.toFirstUpper()-»()]);
+	str.append(array[«shortName.toLowerCase()»]);
 	str.append(" ");
 }
 «ENDIF-»
@@ -283,8 +322,9 @@ if (get«name.toFirstUpper()-»() != -1) {
 
 «DEFINE getDisplay FOR RelationFieldEntity-»
 «IF cardinality == 1-»
-if (get«name.toFirstUpper()-»() != null) {
-	EntityCursor c = AbstractDatabase.getSuper(context).query(get«name.toFirstUpper()-»(), null, null);
+Uri «shortName.toLowerCase()» = get«name.toFirstUpper()-»(); 
+if («shortName.toLowerCase()» != null) {
+	EntityCursor c = AbstractDatabase.getSuper(context).query(«shortName.toLowerCase()», null, null);
 	c.moveToFirst();	
 	str.append(c.getMainDisplay(context));
 	c.close();

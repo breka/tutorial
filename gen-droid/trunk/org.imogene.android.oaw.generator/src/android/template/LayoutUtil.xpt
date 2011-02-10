@@ -45,6 +45,8 @@
 
 «DEFINE class FOR StringField-»TextFieldEdit«ENDDEFINE»
 
+«DEFINE class FOR TextField-»«IF translatable»LocalizedTextFieldEdit«ELSE»TextFieldEdit«ENDIF»«ENDDEFINE»
+
 «DEFINE class FOR BarcodeField»BarcodeFieldEdit«ENDDEFINE»
 
 «DEFINE class FOR GeoField»GeoFieldEdit«ENDDEFINE»

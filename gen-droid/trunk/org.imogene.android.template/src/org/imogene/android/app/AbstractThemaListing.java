@@ -3,7 +3,7 @@ package org.imogene.android.app;
 import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
-import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.widget.ThemaExpandableListAdapter.EntityChild;
 

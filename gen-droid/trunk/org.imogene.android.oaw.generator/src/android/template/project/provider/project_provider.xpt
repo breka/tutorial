@@ -5,25 +5,10 @@
 «FILE "/" + name.toLowerCase() + "/provider/" + name.toFirstUpper() + "Provider.java"-»
 package org.imogene.android.«name.toLowerCase()-».provider;
 
-import android.app.SearchManager;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.UriMatcher;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
-import android.net.Uri;
-import android.util.Log;
 import org.imogene.android.Constants;
 import org.imogene.android.Constants.Databases;
 import org.imogene.android.Constants.Keys;
-import org.imogene.android.common.Binary;
-import org.imogene.android.common.ClientFilter;
-import org.imogene.android.database.AbstractDatabase;
 import org.imogene.android.database.interfaces.EntityCursor;
-import org.imogene.android.database.sqlite.BinaryCursor;
-import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.provider.AbstractProvider;
 «FOREACH entities AS entity-»
 import org.imogene.android.«name.toLowerCase()-».database.sqlite.«entity.name.toFirstUpper()-»Cursor;
@@ -33,32 +18,28 @@ import org.imogene.android.«name.toLowerCase()-».entities.«entity.name.toFirstUp
 «ENDFOREACH-»
 import org.imogene.android.«name.toLowerCase()-».search.«name.toFirstUpper()-»SearchSupport;
 
+import android.app.SearchManager;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
+import android.util.Log;
+
 public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 
-	private static final String TAG = «name.toFirstUpper()-»Provider.class.getName();
-
-	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-	
 	private static final String VND_ITEM = "vnd.org.imogene.android.«name.toLowerCase()».cursor.item/";
 	private static final String VND_DIR = "vnd.org.imogene.android.«name.toLowerCase()».cursor.dir/";
-
-	private static final int BINARIES = 1;
-	private static final int BINARIES_ID = 2;
-	private static final int CLIENT_FILTERS = 3;
-	private static final int CLIENT_FILTERS_ID = 4;
 	
 	«FOREACH entities AS entity ITERATOR i-»
-	private static final int «entity.name.toUpperCase()» = «3 * i.counter1 + 2-»;
-	private static final int «entity.name.toUpperCase()»_ID = «3 * i.counter1 + 3-»;
-	private static final int «entity.name.toUpperCase()»_SEARCH_SUGGEST = «3 * i.counter1 + 4-»;
+	private static final int «entity.name.toUpperCase()» = LAST_INDEX + «3 * i.counter0 + 1-»;
+	private static final int «entity.name.toUpperCase()»_ID = LAST_INDEX + «3 * i.counter0 + 2-»;
+	private static final int «entity.name.toUpperCase()»_SEARCH_SUGGEST = LAST_INDEX + «3 * i.counter0 + 3-»;
 	«ENDFOREACH-»
 
 	static {
-
-		sURIMatcher.addURI(Constants.AUTHORITY, Binary.TABLE_NAME, BINARIES);
-		sURIMatcher.addURI(Constants.AUTHORITY, Binary.TABLE_NAME + "/#", BINARIES_ID);
-		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.TABLE_NAME, CLIENT_FILTERS);
-		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.TABLE_NAME + "/#", CLIENT_FILTERS_ID);
 		«FOREACH entities AS entity-»
 		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME, «entity.name.toUpperCase()»);
 		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME + "/#", «entity.name.toUpperCase()»_ID);
@@ -80,8 +61,12 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		return dbHelper;
 	}
 	
-	protected final boolean matchBinary(Uri uri) {
-		return sURIMatcher.match(uri) == BINARIES_ID;
+	protected final String getVndDir() {
+		return VND_DIR;
+	}
+	
+	protected final String getVndItem() {
+		return VND_ITEM;
 	}
 
 	@Override
@@ -97,23 +82,8 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			result = deleteSingle(«entity.name.toFirstUpper()».TABLE_NAME, «entity.shortName.toLowerCase()»Id, selection, selectionArgs);
 			break;
 		«ENDFOREACH-»
-		case BINARIES:
-			result = deleteMultiBinary(Binary.TABLE_NAME, selection, selectionArgs);
-			break;
-		case BINARIES_ID:
-			String binaryId = uri.getPathSegments().get(1);
-			result = deleteSingleBinary(Binary.TABLE_NAME, binaryId, selection,
-					selectionArgs);
-			break;
-		case CLIENT_FILTERS:
-			result = deleteMulti(ClientFilter.TABLE_NAME, selection, selectionArgs);
-			break;
-		case CLIENT_FILTERS_ID:
-			String clientFilterId = uri.getPathSegments().get(1);
-			result = deleteSingle(ClientFilter.TABLE_NAME, clientFilterId, selection, selectionArgs);
-			break;
 		default:
-			throw new IllegalArgumentException("Unknown URL" + uri);
+			return super.delete(uri, selection, selectionArgs);
 		}
 		getContext().getContentResolver().notifyChange(uri, null);
 		return result;
@@ -130,44 +100,20 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		case «entity.name.toUpperCase()»_ID:
 			return VND_ITEM + "«entity.name.toLowerCase()»";
 		«ENDFOREACH-»
-		case BINARIES:
-			return VND_DIR + "binaries";
-		case BINARIES_ID:
-			sqlDB = dbHelper.getReadableDatabase();
-			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-			qb.setTables(Binary.TABLE_NAME);
-			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
-			Cursor c = qb.query(sqlDB, new String[] {Keys.KEY_CONTENT_TYPE}, null, null, null, null, null);
-			String result = VND_ITEM + "binaries";
-			if (c.getCount() == 1) {
-				c.moveToFirst();
-				result = c.getString(0);
-			}
-			c.close();
-			return result;
-		case CLIENT_FILTERS:
-			return VND_DIR + "clientfilters";
-		case CLIENT_FILTERS_ID:
-			return VND_ITEM + "clientfilters";
 		default:
-			throw new IllegalArgumentException("Unknown URL " + uri);
+			return super.getType(uri);
 		}
 	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		Log.i(TAG, "Insert");
 		switch (sURIMatcher.match(uri)) {
 		«FOREACH entities AS entity-»
 		case «entity.name.toUpperCase()»:
 			return insertInTable(«entity.name.toFirstUpper()-».TABLE_NAME, «entity.name.toFirstUpper()-».CONTENT_URI, values);
 		«ENDFOREACH»
-		case BINARIES:
-			return insertInTableBinary(values);
-		case CLIENT_FILTERS:
-			return insertInTable(ClientFilter.TABLE_NAME, ClientFilter.CONTENT_URI, values);
 		default:
-			throw new IllegalArgumentException("Unknown URL " + uri);
+			return super.insert(uri, values);
 		}
 	}
 
@@ -188,22 +134,8 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		case «entity.name.toUpperCase()»_SEARCH_SUGGEST:
 			return «name.toFirstUpper()-»SearchSupport.get«entity.name.toFirstUpper()-»Suggestions(getContext(), sqlDB, uri.getLastPathSegment());
 		«ENDFOREACH-»
-		case BINARIES:
-			qb.setTables(Binary.TABLE_NAME);
-			break;
-		case BINARIES_ID:
-			qb.setTables(Binary.TABLE_NAME);
-			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
-			break;
-		case CLIENT_FILTERS:
-			qb.setTables(ClientFilter.TABLE_NAME);
-			break;
-		case CLIENT_FILTERS_ID:
-			qb.setTables(ClientFilter.TABLE_NAME);
-			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
-			break;
 		default:
-			throw new IllegalArgumentException("Unknown URL " + uri);
+			return super.query(uri, projection, selection, selectionArgs, sortOrder);
 		}
 		Cursor c = qb.query(sqlDB, projection, selection, selectionArgs, null,
 				null, sortOrder);
@@ -225,23 +157,8 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			result = updateSingle(«entity.name.toFirstUpper()».TABLE_NAME, «entity.shortName.toLowerCase()»Id, values, selection, selectionArgs);
 			break;
 		«ENDFOREACH-»
-		case BINARIES:
-			result = updateMulti(Binary.TABLE_NAME, values, selection, selectionArgs);
-			break;
-		case BINARIES_ID:
-			String binaryId = uri.getPathSegments().get(1);
-			result = updateSingle(Binary.TABLE_NAME, binaryId, values, selection,
-					selectionArgs);
-			break;
-		case CLIENT_FILTERS:
-			result = updateMulti(ClientFilter.TABLE_NAME, values, selection, selectionArgs);
-			break;
-		case CLIENT_FILTERS_ID:
-			String clientFilterId = uri.getPathSegments().get(1);
-			result = updateSingle(ClientFilter.TABLE_NAME, clientFilterId, values, selection, selectionArgs);
-			break;
 		default:
-			throw new IllegalArgumentException("Unknown URL " + uri);
+			return super.update(uri, values, selection, selectionArgs);
 		}
 		getContext().getContentResolver().notifyChange(uri, null);
 		return result;
@@ -344,26 +261,8 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 				break;
 			«ENDFOREACH-»
-			case BINARIES:
-				qb.setCursorFactory(new BinaryCursor.Factory());
-				qb.setTables(Binary.TABLE_NAME);
-				break;
-			case BINARIES_ID:
-				qb.setCursorFactory(new BinaryCursor.Factory());
-				qb.setTables(Binary.TABLE_NAME);
-				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
-				break;
-			case CLIENT_FILTERS:
-				qb.setCursorFactory(new ClientFilterCursor.Factory());
-				qb.setTables(ClientFilter.TABLE_NAME);
-				break;
-			case CLIENT_FILTERS_ID:
-				qb.setCursorFactory(new ClientFilterCursor.Factory());
-				qb.setTables(ClientFilter.TABLE_NAME);
-				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
-				break;
 			default:
-				throw new IllegalArgumentException("Unknown URL " + uri);
+				return super.query(uri, where, order);
 			}
 			SQLiteDatabase db = getReadableDatabase();
 			EntityCursor c = (EntityCursor) qb.query(db, null, where, null, null, null, order);
@@ -380,12 +279,9 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			case «entity.name.toUpperCase()»_ID:
 				return getEntityId(«entity.name.toFirstUpper()».TABLE_NAME, uri);
 			«ENDFOREACH-»
-			case BINARIES_ID:
-				return getEntityId(Binary.TABLE_NAME, uri);
-			case CLIENT_FILTERS_ID:
-				return getEntityId(ClientFilter.TABLE_NAME, uri);
+			default:
+				return super.queryId(uri);
 			}
-			return null;
 		}
 
 		@Override
@@ -395,12 +291,9 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			case «entity.name.toUpperCase()»:
 				return getEntityRowId(«entity.name.toFirstUpper()».TABLE_NAME, id);
 			«ENDFOREACH-»
-			case BINARIES:
-				return getEntityRowId(Binary.TABLE_NAME, id);
-			case CLIENT_FILTERS:
-				return getEntityRowId(ClientFilter.TABLE_NAME, id);
+			default:
+				return super.queryRowId(uri, id);
 			}
-			return -1;
 		}
 	}
 

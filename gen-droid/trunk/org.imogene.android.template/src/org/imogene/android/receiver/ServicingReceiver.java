@@ -9,9 +9,9 @@ import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Tables;
 import org.imogene.android.app.HighPreferences;
 import org.imogene.android.app.UnSyncDialog;
-import org.imogene.android.database.AbstractDatabase;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.FormatHelper;
 
 import android.content.BroadcastReceiver;

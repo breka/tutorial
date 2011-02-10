@@ -2,7 +2,7 @@ package org.imogene.android.database.sqlite;
 
 import java.util.List;
 
-public class SQLiteWhere implements SQLiteRequest {
+class SQLiteWhere implements SQLiteRequest {
 
 	public static enum Separator {
 		AND(" and "), OR(" or ");

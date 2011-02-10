@@ -21,6 +21,7 @@ import org.imogene.android.widget.field.edit.EnumSingleFieldEdit;
 import org.imogene.android.widget.field.edit.FloatFieldEdit;
 import org.imogene.android.widget.field.edit.GeoFieldEdit;
 import org.imogene.android.widget.field.edit.IntegerFieldEdit;
+import org.imogene.android.widget.field.edit.LocalizedTextFieldEdit;
 import org.imogene.android.widget.field.edit.RelationManyFieldEdit;
 import org.imogene.android.widget.field.edit.RelationOneFieldEdit;
 import org.imogene.android.widget.field.edit.TextFieldEdit;

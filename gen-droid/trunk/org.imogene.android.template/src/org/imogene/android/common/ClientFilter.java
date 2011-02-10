@@ -1,9 +1,9 @@
 package org.imogene.android.common;
 
 import org.imogene.android.Constants.Keys;
-import org.imogene.android.database.AbstractDatabase;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.FormatHelper;
 
 import android.content.ContentValues;
@@ -55,7 +55,7 @@ public class ClientFilter extends EntityImpl {
 	
 	protected static abstract class DefaultCreator<T extends ClientFilter> implements Creator<T> {
 		
-		public T create(Context context, String userId,
+		public final T create(Context context, String userId,
 				String terminalId, String entity, String field) {
 			String where = new SQLiteBuilder()
 			.setAnd(true)
@@ -68,6 +68,7 @@ public class ClientFilter extends EntityImpl {
 			T filter;
 			ClientFilterCursor c = (ClientFilterCursor) AbstractDatabase.getSuper(context).query(CONTENT_URI, where, null);
 			if (c.getCount() == 1) {
+				c.moveToFirst();
 				filter = newFilter(c);
 			} else {
 				filter = newFilter();
@@ -100,8 +101,8 @@ public class ClientFilter extends EntityImpl {
 	private String mDisplay = null;
 	private Boolean mIsNew = null;
 
-	protected ClientFilter(ClientFilterCursor cursor) {
-		super(cursor);
+	public ClientFilter(ClientFilterCursor cursor) {
+		init(cursor);
 		mUserId = cursor.getUserId();
 		mTerminalId = cursor.getTerminalId();
 		mCardEntity = cursor.getCardEntity();
@@ -110,7 +111,6 @@ public class ClientFilter extends EntityImpl {
 		mFieldValue = cursor.getFieldValue();
 		mDisplay = cursor.getDisplay();
 		mIsNew = cursor.getIsNew();
-		cursor.close();
 	}
 
 	public ClientFilter() {
@@ -177,6 +177,10 @@ public class ClientFilter extends EntityImpl {
 	}
 	
 	@Override
+	protected void preCommit(Context context, boolean local, boolean temporary) {
+		preCommit();
+	}
+	
 	protected void preCommit() {
 		mIsNew = Boolean.TRUE;
 	}

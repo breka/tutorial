@@ -1,8 +1,8 @@
 package org.imogene.android.widget.field.view;
 
 import org.imogene.android.W;
-import org.imogene.android.database.AbstractDatabase;
 import org.imogene.android.database.interfaces.EntityCursor;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 
 import android.content.Context;
 import android.content.Intent;

@@ -18,13 +18,15 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import org.imogene.android.common.Binary;
+import org.imogene.android.common.LocalizedText;
 «IF Actor.isAssignableFrom(metaType)-»
 import org.imogene.android.common.UserImpl;
 «ELSE-»
 import org.imogene.android.common.EntityImpl;
 «ENDIF-»
-import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.FormatHelper;
+import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.Tools;
 import org.imogene.android.util.database.GpsTableUtils;
 import org.imogene.android.«projectName.toLowerCase()-».database.sqlite.«name.toFirstUpper()-»Cursor;
@@ -45,17 +47,15 @@ public class «name.toFirstUpper()-» extends
 	«EXPAND declaration FOREACH groups.fields-»
 	
 	public «name.toFirstUpper()-»(Context context, Uri uri) {
-		this((«name.toFirstUpper()-»Cursor) AbstractDatabase.getSuper(context).query(uri, null, null));
-	}
-
-	public «name.toFirstUpper()-»(«name.toFirstUpper()-»Cursor cursor) {
-		super(cursor);
+		«name.toFirstUpper()-»Cursor cursor = («name.toFirstUpper()-»Cursor) AbstractDatabase.getSuper(context).query(uri, null, null);
+		cursor.moveToFirst();
+		init(cursor);
 		«FOREACH groups.fields AS field -»
 		m«field.name.toFirstUpper()-» = cursor.get«field.name.toFirstUpper()-»();
 		«ENDFOREACH-»
 		cursor.close();
 	}
-	
+
 	public «name.toFirstUpper()»(Bundle bundle) {
 		«EXPAND createFromBundle FOREACH groups.fields-»
 	}
@@ -74,6 +74,11 @@ public class «name.toFirstUpper()-» extends
 	@Override
 	protected final String getBeanType() {
 		return TYPE;
+	}
+	
+	@Override
+	protected final void preCommit(Context context, boolean local, boolean temporary) {
+		«EXPAND preCommit FOREACH groups.fields-»
 	}
 	
 	@Override
@@ -109,6 +114,18 @@ public class «name.toFirstUpper()-» extends
 private String m«name.toFirstUpper()-» = "«defaultValue-»";
 «ELSE-»
 private String m«name.toFirstUpper()-» = null;
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE declaration FOR TextField-»
+«IF translatable-»
+private LocalizedTextList m«name.toFirstUpper()-» = null;
+«ELSE-»
+«IF defaultValue != null && defaultValue.length != 0-»
+private String m«name.toFirstUpper()-» = "«defaultValue-»";
+«ELSE-»
+private String m«name.toFirstUpper()-» = null;
+«ENDIF-»
 «ENDIF-»
 «ENDDEFINE»
 
@@ -222,6 +239,18 @@ public final String get«name.toFirstUpper()-»() {
 }
 «ENDDEFINE»
 
+«DEFINE generateGetter FOR TextField-»
+«IF translatable-»
+public final LocalizedTextList get«name.toFirstUpper()-»() {
+	return m«name.toFirstUpper()-»;
+}
+«ELSE-»
+public final String get«name.toFirstUpper()-»() {
+	return m«name.toFirstUpper()-»;
+}
+«ENDIF-»
+«ENDDEFINE»
+
 «DEFINE generateGetter FOR IntegerField-»
 public final Integer get«name.toFirstUpper()-»() {
 	return m«name.toFirstUpper()-»;
@@ -294,6 +323,18 @@ public final ArrayList<Uri> get«name.toFirstUpper()-»() {
 public final void set«name.toFirstUpper()-»(String «name.toFirstLower()-») {
 	m«name.toFirstUpper()-» = «name.toFirstLower()-»;
 }
+«ENDDEFINE»
+
+«DEFINE generateSetter FOR TextField-»
+«IF translatable-»
+public final void set«name.toFirstUpper()»(LocalizedTextList «name.toFirstLower()») {
+	m«name.toFirstUpper()-» = «name.toFirstLower()-»;
+}
+«ELSE-»
+public final void set«name.toFirstUpper()-»(String «name.toFirstLower()-») {
+	m«name.toFirstUpper()-» = «name.toFirstLower()-»;
+}
+«ENDIF-»
 «ENDDEFINE»
 
 «DEFINE generateSetter FOR IntegerField-»
@@ -379,10 +420,34 @@ if (bundle.containsKey("«name.toFirstLower()»")) {
 
 
 
+«DEFINE preCommit FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE preCommit FOR TextField-»
+«IF translatable-»
+m«name.toFirstUpper()-».saveThemAll(context, local);
+«ENDIF-»
+«ENDDEFINE»
+
+
+
+
 
 
 «DEFINE commit FOR FieldEntity-»
 values.put("«name.toFirstLower()-»", m«name.toFirstUpper()-»);
+«ENDDEFINE»
+
+«DEFINE commit FOR TextField-»
+«IF translatable-»
+if (m«name.toFirstUpper()» != null) {
+	values.put("«name.toFirstLower()-»", m«name.toFirstUpper()-».getTextId());
+} else {
+	values.putNull("«name.toFirstLower()-»");
+}
+«ELSE-»
+values.put("«name.toFirstLower()-»", m«name.toFirstUpper()-»);
+«ENDIF-»
 «ENDDEFINE»
 
 «DEFINE commit FOR BooleanField-»

@@ -9,9 +9,9 @@ import org.imogene.android.Constants.Intents;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Tables;
 import org.imogene.android.app.AbstractEntityListing;
-import org.imogene.android.database.AbstractDatabase;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 
 import android.content.ContentUris;
 import android.content.ContentValues;

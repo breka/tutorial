@@ -153,5 +153,10 @@
 		<!-- The hierarchical parent field view id -->
 		<attr name="hierarchicalParent" format="reference" />
 	</declare-styleable>
+	
+	<declare-styleable name="LocalizedTextFieldEdit">
+		<!-- The input type -->
+		<attr name="stringType" />
+	</declare-styleable>
 		
 </resources>

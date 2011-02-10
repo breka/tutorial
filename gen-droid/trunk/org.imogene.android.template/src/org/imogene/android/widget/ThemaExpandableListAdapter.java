@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.imogene.android.W;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Sync;
-import org.imogene.android.database.AbstractDatabase;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

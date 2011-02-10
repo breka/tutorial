@@ -8,6 +8,10 @@ public final class W {
 
 		public static final int entries_period_preference = R.array.entries_period_preference;
 		public static final int entryvalues_period_preference = R.array.entryvalues_period_preference;
+		public static final int languages_display = R.array.languages_display;
+		public static final int languages_editors = R.array.languages_editors;
+		public static final int languages_iso = R.array.languages_iso;
+		public static final int languages_views = R.array.languages_views;
 		public static final int numeric_filter_values = R.array.numeric_filter_values;
 		public static final int period_filter_values = R.array.period_filter_values;
 		public static final int select_yes_no = R.array.select_yes_no;
@@ -61,11 +65,19 @@ public final class W {
 	public static final class drawable {
 
 		public static final int arrow_icon = R.drawable.arrow_icon;
+		public static final int btn_circle = R.drawable.btn_circle;
+		public static final int btn_circle_disable = R.drawable.btn_circle_disable;
+		public static final int btn_circle_disable_focused = R.drawable.btn_circle_disable_focused;
+		public static final int btn_circle_normal = R.drawable.btn_circle_normal;
+		public static final int btn_circle_pressed = R.drawable.btn_circle_pressed;
+		public static final int btn_circle_selected = R.drawable.btn_circle_selected;
 		public static final int button_indicator_next = R.drawable.button_indicator_next;
 		public static final int button_indicator_previous = R.drawable.button_indicator_previous;
 		public static final int divider_vertical_bright = R.drawable.divider_vertical_bright;
 		public static final int header_background = R.drawable.header_background;
 		public static final int help = R.drawable.help;
+		public static final int ic_btn_round_less = R.drawable.ic_btn_round_less;
+		public static final int ic_btn_round_more = R.drawable.ic_btn_round_more;
 		public static final int ic_dialog_time = R.drawable.ic_dialog_time;
 		public static final int ic_launcher_camera = R.drawable.ic_launcher_camera;
 		public static final int ic_launcher_video_camera = R.drawable.ic_launcher_video_camera;
@@ -150,6 +162,7 @@ public final class W {
 		public static final int increment = R.id.increment;
 		public static final int infimum = R.id.infimum;
 		public static final int interval = R.id.interval;
+		public static final int less_button = R.id.less_button;
 		public static final int list_color = R.id.list_color;
 		public static final int list_icon = R.id.list_icon;
 		public static final int list_main = R.id.list_main;
@@ -168,6 +181,7 @@ public final class W {
 		public static final int menu_search = R.id.menu_search;
 		public static final int minute = R.id.minute;
 		public static final int month = R.id.month;
+		public static final int more_button = R.id.more_button;
 		public static final int network = R.id.network;
 		public static final int next = R.id.next;
 		public static final int next_field = R.id.next_field;
@@ -222,6 +236,8 @@ public final class W {
 		public static final int entity_row = R.layout.entity_row;
 		public static final int entity_row_multiple = R.layout.entity_row_multiple;
 		public static final int intent_chooser_item = R.layout.intent_chooser_item;
+		public static final int localized_text_editor = R.layout.localized_text_editor;
+		public static final int localized_text_field_edit = R.layout.localized_text_field_edit;
 		public static final int number_picker = R.layout.number_picker;
 		public static final int numeric_field_edit = R.layout.numeric_field_edit;
 		public static final int period_picker = R.layout.period_picker;
@@ -450,6 +466,8 @@ public final class W {
 
 	public static final class style {
 
+		public static final int LessButton = R.style.LessButton;
+		public static final int MoreButton = R.style.MoreButton;
 		public static final int Theme_Dialog_Alert = R.style.Theme_Dialog_Alert;
 		public static final int Theme_Light_Hack = R.style.Theme_Light_Hack;}
 
@@ -496,6 +514,8 @@ public final class W {
 		public static final int IntegerFieldEdit_intMax = R.styleable.IntegerFieldEdit_intMax;
 		public static final int IntegerFieldEdit_intMin = R.styleable.IntegerFieldEdit_intMin;
 		public static final int IntegerFieldEdit_unit = R.styleable.IntegerFieldEdit_unit;
+		public static final int[] LocalizedTextFieldEdit = R.styleable.LocalizedTextFieldEdit;
+		public static final int LocalizedTextFieldEdit_stringType = R.styleable.LocalizedTextFieldEdit_stringType;
 		public static final int[] RelationFieldEdit = R.styleable.RelationFieldEdit;
 		public static final int RelationFieldEdit_displayPl = R.styleable.RelationFieldEdit_displayPl;
 		public static final int RelationFieldEdit_displaySg = R.styleable.RelationFieldEdit_displaySg;

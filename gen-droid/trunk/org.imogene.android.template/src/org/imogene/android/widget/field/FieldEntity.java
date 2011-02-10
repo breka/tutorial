@@ -252,7 +252,7 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	}
 	
 	public boolean matchesDependencyValue(String dependencyValue) {
-		return true;
+		return mValue != null;
 	}
 	
 	protected boolean isDependentVisible() {
