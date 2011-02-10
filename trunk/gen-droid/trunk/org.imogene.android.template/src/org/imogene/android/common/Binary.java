@@ -42,15 +42,15 @@ public final class Binary extends EntityImpl {
 	public Binary() {
 	}
 
-	public Binary(BinaryCursor c) {
-		super(c);
+	@SuppressWarnings("unused")
+	private Binary(BinaryCursor c) {
+		init(c);
 		mParentEntity = c.getParentEntity();
 		mParentFieldGetter = c.getParentFieldGetter();
 		mParentKey = c.getParentKey();
 		mFileName = c.getFileName();
 		mLength = c.getLength();
 		mData = c.getData();
-		c.close();
 	}
 
 	public final String getParentEntity() {

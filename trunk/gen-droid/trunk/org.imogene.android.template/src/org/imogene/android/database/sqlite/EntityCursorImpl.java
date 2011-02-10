@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Sync;
+import org.imogene.android.common.LocalizedText;
 import org.imogene.android.database.interfaces.EntityCursor;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.FormatHelper;
+import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.database.GpsTableUtils;
 
 import android.content.ContentUris;
@@ -72,13 +75,17 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	
 	protected final Uri getEntity(Uri contentUri, String table, int columnIndex) {
 		String id = getString(columnIndex);
-		SQLiteStatement stat = getDatabase().compileStatement("select count(*) from " + table + " where id='" + id + "' and "+Keys.KEY_MODIFIEDFROM+"!='"+Sync.SYNC_SYSTEM+"'");
+		SQLiteBuilder builder = new SQLiteBuilder(table, "count(*)");
+		builder.appendEq(Keys.KEY_ID, id);
+		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+		SQLiteStatement stat = getDatabase().compileStatement(builder.toSQL());
 		long count = stat.simpleQueryForLong();
 		stat.close();
 		if (count != 1) {
 			return null;
 		} else {
-			stat = getDatabase().compileStatement("select _id from " + table + " where id='" + id + "'");
+			builder.setSelect(Keys.KEY_ROWID);
+			stat = getDatabase().compileStatement(builder.toSQL());
 			long rowId = stat.simpleQueryForLong();
 			stat.close();
 			return ContentUris.withAppendedId(contentUri, rowId);
@@ -87,13 +94,17 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	
 	protected final Uri getEntity(Uri contentUri, String table, String key) {
 		String id = getString(getColumnIndexOrThrow(Keys.KEY_ID));
-		SQLiteStatement stat = getDatabase().compileStatement("select count(*) from " + table + " where " + key + "='" + id + "' and "+Keys.KEY_MODIFIEDFROM+"!='"+Sync.SYNC_SYSTEM+"'");
+		SQLiteBuilder builder = new SQLiteBuilder(table, "count(*)");
+		builder.appendEq(key, id);
+		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+		SQLiteStatement stat = getDatabase().compileStatement(builder.toSQL());
 		long count = stat.simpleQueryForLong();
 		stat.close();
 		if (count != 1) {
 			return null;
 		} else {
-			stat = getDatabase().compileStatement("select _id from " + table + " where " + key +"='" + id + "'");
+			builder.setSelect(Keys.KEY_ROWID);
+			stat = getDatabase().compileStatement(builder.toSQL());
 			long rowId = stat.simpleQueryForLong();
 			stat.close();
 			return ContentUris.withAppendedId(contentUri, rowId);
@@ -132,6 +143,25 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 		}
 		c.close();
 		
+		return result;
+	}
+	
+	protected final LocalizedTextList getLocalizedText(int columnIndex) {
+		String key = getString(columnIndex);
+		LocalizedTextList result = null;
+		
+		SQLiteBuilder builder = new SQLiteBuilder();
+		builder.appendEq(Keys.KEY_FIELD_ID, key);
+		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+		
+		LocalizedTextCursor c = (LocalizedTextCursor) AbstractDatabase.getSuper(null).query(LocalizedText.CONTENT_URI, builder.toSQL(), null);
+		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+			if (result == null) {
+				result = new LocalizedTextList(key);
+			}
+			result.add(new LocalizedText(c));
+		}
+		c.close();
 		return result;
 	}
 	

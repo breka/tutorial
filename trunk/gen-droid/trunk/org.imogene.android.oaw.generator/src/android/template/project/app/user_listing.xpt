@@ -7,7 +7,7 @@ package org.imogene.android.«name.toLowerCase()-».app;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.app.AbstractEntityListing;
 import org.imogene.android.app.AbstractUserListing;
-import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.database.UserCursorJoiner;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 «EXPAND importCursor(name) FOREACH entities-»

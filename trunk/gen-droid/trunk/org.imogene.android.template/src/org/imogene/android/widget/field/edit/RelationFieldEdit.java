@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.database.AbstractDatabase;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;

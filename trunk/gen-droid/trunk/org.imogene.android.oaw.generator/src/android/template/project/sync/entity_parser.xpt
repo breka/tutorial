@@ -26,6 +26,7 @@ import org.imogene.android.sync.handler.EnumMultiHandler;
 import org.imogene.android.sync.handler.FloatHandler;
 import org.imogene.android.sync.handler.GpsHandler;
 import org.imogene.android.sync.handler.IntegerHandler;
+import org.imogene.android.sync.handler.LocalizedTextHandler;
 import org.imogene.android.sync.handler.LongHandler;
 import org.imogene.android.sync.handler.MultiEntHandler;
 import org.imogene.android.sync.handler.PrimitiveLongHandler;
@@ -98,6 +99,14 @@ import org.imogene.android.«projectName.toLowerCase()-».entities.«entity.name.to
 
 «DEFINE handler(CardEntity card) FOR StringField-»
 mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new StringHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ENDDEFINE»
+
+«DEFINE handler(CardEntity card) FOR TextField-»
+«IF translatable-»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new LocalizedTextHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ELSE-»
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new StringHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»"));
+«ENDIF-»
 «ENDDEFINE»
 
 «DEFINE handler(CardEntity card) FOR IntegerField-»

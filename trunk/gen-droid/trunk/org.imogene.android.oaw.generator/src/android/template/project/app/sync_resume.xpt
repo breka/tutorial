@@ -19,7 +19,7 @@ import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.SortOrder;
 import org.imogene.android.Constants.Sync;
-import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.util.database.DatabaseUtils;
 «FOREACH entities AS e-»

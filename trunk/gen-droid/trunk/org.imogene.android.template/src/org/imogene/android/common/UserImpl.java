@@ -2,11 +2,9 @@ package org.imogene.android.common;
 
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.common.interfaces.User;
-import org.imogene.android.database.interfaces.EntityCursor;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.os.Parcel;
 import android.text.TextUtils;
 
 public abstract class UserImpl extends EntityImpl implements User {
@@ -14,17 +12,6 @@ public abstract class UserImpl extends EntityImpl implements User {
 	protected String mLogin = null;
 	protected byte[] mPassword = null;
 	protected String mRoles = null;
-	
-	public UserImpl() {
-	}
-	
-	public UserImpl(EntityCursor cursor) {
-		super(cursor);
-	}
-
-	public UserImpl(Parcel in) {
-		super(in);
-	}
 	
 	public final void setLogin(String login) {
 		mLogin = login;

@@ -8,6 +8,8 @@
 
 «DEFINE nameEditField FOR StringField-»TextFieldEdit«ENDDEFINE»
 
+«DEFINE nameEditField FOR TextField-»«IF translatable»LocalizedTextFieldEdit«ELSE»TextFieldEdit«ENDIF»«ENDDEFINE»
+
 «DEFINE nameEditField FOR BarcodeField-»BarcodeFieldEdit«ENDDEFINE»
 
 «DEFINE nameEditField FOR GeoField-»GeoFieldEdit«ENDDEFINE»

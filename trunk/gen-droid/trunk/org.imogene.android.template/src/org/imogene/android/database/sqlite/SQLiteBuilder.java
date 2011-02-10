@@ -11,17 +11,17 @@ public class SQLiteBuilder implements Parcelable {
 
 	private Separator mSeparator;
 	private String mTable;
-	private String mSelect;
+	private String[] mSelect;
 	private final ArrayList<String> mWhere = new ArrayList<String>();
 	
 	private SQLiteBuilder(Parcel in) {
-		mSelect = in.readString();
+		mSelect = in.createStringArray();
 		mTable = in.readString();
 		mSeparator = Separator.values()[in.readInt()];
 		in.readStringList(mWhere);
 	}
 
-	public SQLiteBuilder(String table, String select) {
+	public SQLiteBuilder(String table, String... select) {
 		this();
 		mTable = table;
 		mSelect = select;
@@ -45,12 +45,12 @@ public class SQLiteBuilder implements Parcelable {
 		return this;
 	}
 
-	public SQLiteBuilder setSelect(String select) {
+	public SQLiteBuilder setSelect(String... select) {
 		mSelect = select;
 		return this;
 	}
 
-	public SQLiteBuilder setSelectInTable(String table, String select) {
+	public SQLiteBuilder setSelectInTable(String table, String... select) {
 		mTable = table;
 		mSelect = select;
 		return this;
@@ -91,7 +91,7 @@ public class SQLiteBuilder implements Parcelable {
 		return this;
 	}
 	
-	public SQLiteBuilder appendIn(String property, long[] list) {
+	public SQLiteBuilder appendIn(String property, long... list) {
 		if (list != null && list.length > 0) {
 			StringBuilder builder = new StringBuilder();
 			boolean first = true;
@@ -108,7 +108,7 @@ public class SQLiteBuilder implements Parcelable {
 		return this;
 	}
 	
-	public SQLiteBuilder appendIn(String property, String[] list) {
+	public SQLiteBuilder appendIn(String property, String... list) {
 		if (list != null && list.length > 0) {
 			StringBuilder builder = new StringBuilder();
 			boolean first = true;
@@ -147,7 +147,7 @@ public class SQLiteBuilder implements Parcelable {
 
 	public SQLiteRequest create() {
 		if (mTable != null && mSelect != null) {
-			return new SQLiteSelect(mTable, mSelect, new SQLiteWhere(mWhere, mSeparator));
+			return new SQLiteSelect(mTable, new SQLiteWhere(mWhere, mSeparator), mSelect);
 		} else {
 			return new SQLiteWhere(mWhere, mSeparator);
 		}
@@ -162,7 +162,7 @@ public class SQLiteBuilder implements Parcelable {
 	}
 
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(mSelect);
+		dest.writeStringArray(mSelect);
 		dest.writeString(mTable);
 		dest.writeInt(mSeparator.ordinal());
 		dest.writeStringList(mWhere);

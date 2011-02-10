@@ -3,10 +3,10 @@ package org.imogene.android.widget.field.edit;
 import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Keys;
-import org.imogene.android.database.AbstractDatabase;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 import org.imogene.android.widget.field.FieldManager.RelationManager;
 

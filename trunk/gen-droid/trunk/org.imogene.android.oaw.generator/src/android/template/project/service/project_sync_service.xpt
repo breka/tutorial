@@ -24,7 +24,7 @@ import org.imogene.android.Constants.Tables;
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.common.Binary;
 import org.imogene.android.common.ClientFilter;
-import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.sync.binary.BinarySerializer;

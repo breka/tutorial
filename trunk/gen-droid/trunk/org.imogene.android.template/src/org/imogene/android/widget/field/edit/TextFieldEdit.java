@@ -27,7 +27,7 @@ public class TextFieldEdit extends FieldEntity<String> implements TextWatcher {
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.TextFieldEdit, 0, 0);
 		setStringType(a.getInt(W.styleable.TextFieldEdit_stringType, InputType.TYPE_NULL));
 		a.recycle();
-		setFocusable(false);		
+		setFocusable(false);
 	}
 	
 	@Override

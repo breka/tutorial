@@ -13,7 +13,8 @@ import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 import org.imogene.android.Constants.Keys;
-import org.imogene.android.database.AbstractDatabase;
+import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.field.EnumConverter;
 import org.imogene.android.«projectName.toLowerCase()-».database.sqlite.«name.toFirstUpper()-»Cursor;
 import org.imogene.android.«projectName.toLowerCase()-».entities.«name.toFirstUpper()-»;
@@ -93,6 +94,24 @@ if («shortName.toLowerCase()-» != null) {
 	serializer.text(«shortName.toLowerCase()-»);
 	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 }
+«ENDDEFINE»
+
+«DEFINE serialization FOR TextField»
+«IF translatable-»
+LocalizedTextList «shortName.toLowerCase()» = cursor.get«name.toFirstUpper()»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.text(«shortName.toLowerCase()-».getTextId());
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ELSE-»
+String «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()-» != null) {
+	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	serializer.text(«shortName.toLowerCase()-»);
+	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+}
+«ENDIF-»
 «ENDDEFINE»
 
 «DEFINE serialization FOR IntegerField»
