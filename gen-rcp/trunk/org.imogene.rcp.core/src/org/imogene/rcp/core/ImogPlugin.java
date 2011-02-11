@@ -492,11 +492,11 @@ public class ImogPlugin extends AbstractUIPlugin {
 	public void restartServer(boolean loop, int period){
 				
 		if(!loop && s.getLoop()){
-			System.out.println("Was auto set manual => We stop the server.");
+			//System.out.println("Was auto set manual => We stop the server.");
 			s.stopSynchronizer();
 		}
 		if(loop && (!s.getLoop() || period!= s.getPeriod())){
-			System.out.println("Was manual set auto => We restart the server.");
+			//System.out.println("Was manual set auto => We restart the server.");
 			s.stopSynchronizer();					
 				new Thread() {
 					@Override
