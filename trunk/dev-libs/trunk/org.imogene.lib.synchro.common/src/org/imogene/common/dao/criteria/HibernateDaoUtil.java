@@ -70,7 +70,7 @@ public class HibernateDaoUtil {
 					cal.set(Calendar.MINUTE, 59);
 					cal.set(Calendar.SECOND, 59);
 					
-					System.out.println("end date = " + cal.getTime().toString());
+					//System.out.println("end date = " + cal.getTime().toString());
 					junction.add(Restrictions.le(property, cal.getTime()));
 				} catch (Exception e) {
 					// date is provided as a string
@@ -88,7 +88,7 @@ public class HibernateDaoUtil {
 					cal.set(Calendar.SECOND, 0);
 					cal.set(Calendar.MILLISECOND, 0);
 					
-					System.out.println("start date = " + cal.getTime().toString());
+					//System.out.println("start date = " + cal.getTime().toString());
 					
 					
 					junction.add(Restrictions.ge(property, cal.getTime()));
