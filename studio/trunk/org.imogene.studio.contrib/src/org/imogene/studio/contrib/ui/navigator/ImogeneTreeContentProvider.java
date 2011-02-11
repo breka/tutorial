@@ -94,9 +94,9 @@ public class ImogeneTreeContentProvider extends ArrayContentProvider implements
 					/* Initializer project, we display the properties files */
 					else if (p.hasNature(InitializerShadow.NATURE)) {
 						List<IResource> files = new Vector<IResource>();		
-						System.out.println("Looking for properties files");
+						//System.out.println("Looking for properties files");
 						files.addAll(recursivFindMembers((IContainer)p.findMember("src"), ".*\\.properties")); //$NON-NLS-1$ //$NON-NLS-2$
-						System.out.println(files.size()+" files found");
+						//System.out.println(files.size()+" files found");
 						return files.toArray();
 					}
 					/* other IProject, here, could only by a Medoo model project */
