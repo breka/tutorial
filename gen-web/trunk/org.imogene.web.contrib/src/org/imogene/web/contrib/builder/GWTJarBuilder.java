@@ -29,15 +29,15 @@ public class GWTJarBuilder extends IncrementalProjectBuilder {
 		/*IJavaModel root = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
 		IJavaProject project = root.getJavaProject(getProject().getName());*/
 		IJavaProject project = JavaCore.create(getProject());
-		System.out.println("Running the builder");
+		//System.out.println("Running the builder");
 		GWTRuntime runtime = GWTRuntime.findSdkFor(project);
 		for (File f : Arrays.asList(runtime.getWebAppClasspathFiles())) {		
 			IFolder library = (IFolder)project.getProject().findMember(CTX_OUT+"/WEB-INF/lib/");			
 			File folder = new File(library.getLocation().toOSString());
 			File lib = new File(folder, f.getName());
-			System.out.println("Src: "+f.getAbsolutePath());
-			System.out.println("Dest: "+lib.getAbsolutePath());
-			System.out.println("Should copy: "+shouldCopy(f, lib));
+			//System.out.println("Src: "+f.getAbsolutePath());
+			//System.out.println("Dest: "+lib.getAbsolutePath());
+			//System.out.println("Should copy: "+shouldCopy(f, lib));
 			if(shouldCopy(f, lib)){
 				try{
 					
