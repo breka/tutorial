@@ -52,7 +52,7 @@ public class EntityNotifServlet extends HttpServlet {
 		OutputStream os = resp.getOutputStream();
 		if(validateParameters(type, id, op)){
 			Set<NotificationInstance> instances = factory.createNotification(type, id, op);
-			System.out.println("Nb. of instances : "+instances.size());
+			//System.out.println("Nb. of instances : "+instances.size());
 			for(NotificationInstance instance : instances){
 				if(Constants.SMSMethod == instance.getMethod())				
 					smsService.sendNotification(instance);
