@@ -229,7 +229,7 @@ public class View extends ViewPart {
 		      }
 		      in.close();
 		      out.close();
-		      System.out.println("File copied.");
+		      //System.out.println("File copied.");
 		    }
 		    catch(Exception ex){
 		      ex.printStackTrace();
