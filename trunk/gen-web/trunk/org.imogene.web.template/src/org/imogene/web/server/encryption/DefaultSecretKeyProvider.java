@@ -14,7 +14,7 @@ public class DefaultSecretKeyProvider implements KeyProvider, ServletContextAwar
 	
 	private String DEFAULT_KEY = "WEB-INF/encryption.key";
 	
-	private ServletContext context;
+	private static ServletContext context;
 
 	@Override
 	public SecretKey getKey() throws SecretKeyLoadingException {

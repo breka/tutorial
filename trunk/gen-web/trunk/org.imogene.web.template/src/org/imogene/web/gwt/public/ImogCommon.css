@@ -147,7 +147,7 @@ h1 {
 
 .imogene-Logo {
  	height 			: 30px;
- 	padding-left	: 30px;
+ 	padding-left	: 10px;
  	padding-right	: 30px;
 }
 
@@ -176,7 +176,7 @@ h1 {
  /* ----------------------- */
  .imogene-ContentComposite {
  	width				: 90%; 	
- 	margin-left			: 30px;
+ 	margin-left			: 10px;
  	margin-right		: 30px;
  } 
  
