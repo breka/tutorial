@@ -195,8 +195,8 @@ public class SyncController extends MultiActionController {
 			
 		try {			
 			logger.debug("Satrting to parse the received file");	
-			System.err.println("file length : " + command.getData().getSize());
-			System.out.println("file :\n"+new String(command.getData().getBytes()));
+			//System.err.println("file length : " + command.getData().getSize());
+			//System.out.println("file :\n"+new String(command.getData().getBytes()));
 			int code = syncServer.applyClientModifications(sessionId, command.getData().getInputStream());
 			if (code != -1)
 				resp.getOutputStream().print("ACK_" + code);
