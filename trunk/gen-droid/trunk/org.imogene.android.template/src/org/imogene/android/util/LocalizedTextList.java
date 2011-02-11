@@ -141,14 +141,17 @@ public class LocalizedTextList {
 	}
 	
 	public String[][] createLocalizedArray() {
-		String[][] result = new String[2][mMap.size()];
-		int i = 0;
-		for (LocalizedText lt : mMap.values()) {
-			result[0][i] = lt.getLocale();
-			result[1][i] = lt.getValue();
-			i++;
+		if (mMap != null && mMap.size() > 0) {
+			String[][] result = new String[2][mMap.size()];
+			int i = 0;
+			for (LocalizedText lt : mMap.values()) {
+				result[0][i] = lt.getLocale();
+				result[1][i] = lt.getValue();
+				i++;
+			}
+			return result;
 		}
-		return result;
+		return null;
 	}
 	
 	public ArrayList<String> getAvailableLocales() {
@@ -156,7 +159,7 @@ public class LocalizedTextList {
 			ArrayList<String> result = new ArrayList<String>(mMap.size());
 			for (String locale : mMap.keySet()) {
 				String value = mMap.get(locale).getValue();
-				if (value != null) {
+				if (!TextUtils.isEmpty(value)) {
 					result.add(locale);
 				}
 			}
