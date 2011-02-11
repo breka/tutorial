@@ -28,7 +28,7 @@ public class SecureBackup {
 			File backupFile = new File(backupPath, cardId + ".backup");
 			if (backupFile.exists())
 				backupFile.delete();
-			System.out.println(backupFile.getAbsolutePath());
+			//System.out.println(backupFile.getAbsolutePath());
 			try {
 				Properties properties = getProperties(toSave);
 				FileOutputStream output = new FileOutputStream(backupFile);
