@@ -24,7 +24,7 @@ public class ClassContainerInitializer extends
 		
 		IProject p = project.getProject();
 		AbstractClasspathContainer con = null;
-		displayInfoAboutProject(p);				
+		//displayInfoAboutProject(p);				
 		
 		if(p.hasNature(NotifierShadow.NATURE)){
 			con = new NotifierClasspathContainer();
