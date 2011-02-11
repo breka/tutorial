@@ -27,7 +27,7 @@ public class ClassContainerInitializer extends
 		
 		IProject p = project.getProject();
 		AbstractClasspathContainer con = null;
-		displayInfoAboutProject(p);								
+		//displayInfoAboutProject(p);								
 		try{			
 			//debug("Library url: "+lib);
 			con = new ImogeneClasspathContainer(getLibrary(p));
