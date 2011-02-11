@@ -1,6 +1,6 @@
 «IMPORT core»
-«DEFINE generate(String projectName) FOR Project»
-«FILE projectName.toLowerCase()+"/server/aopContext.xml"»
+«DEFINE generate(String projectName) FOR Project-»
+«FILE projectName.toLowerCase()+"/server/aopContext.xml"-»
 <?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
 <beans>
