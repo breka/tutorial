@@ -154,6 +154,7 @@ public final class W {
 		public static final int footer = R.id.footer;
 		public static final int footer_downloading = R.id.footer_downloading;
 		public static final int footer_error = R.id.footer_error;
+		public static final int gallery = R.id.gallery;
 		public static final int gps = R.id.gps;
 		public static final int help = R.id.help;
 		public static final int help_layout = R.id.help_layout;
@@ -162,11 +163,14 @@ public final class W {
 		public static final int increment = R.id.increment;
 		public static final int infimum = R.id.infimum;
 		public static final int interval = R.id.interval;
+		public static final int left = R.id.left;
 		public static final int less_button = R.id.less_button;
 		public static final int list_color = R.id.list_color;
 		public static final int list_icon = R.id.list_icon;
 		public static final int list_main = R.id.list_main;
 		public static final int list_secondary = R.id.list_secondary;
+		public static final int locale = R.id.locale;
+		public static final int localized = R.id.localized;
 		public static final int main = R.id.main;
 		public static final int map = R.id.map;
 		public static final int menu_change_user = R.id.menu_change_user;
@@ -195,6 +199,7 @@ public final class W {
 		public static final int previous_field = R.id.previous_field;
 		public static final int required_layout = R.id.required_layout;
 		public static final int reverse = R.id.reverse;
+		public static final int right = R.id.right;
 		public static final int saveButton = R.id.saveButton;
 		public static final int select_dialog_listview = R.id.select_dialog_listview;
 		public static final int spinner = R.id.spinner;
@@ -238,6 +243,8 @@ public final class W {
 		public static final int intent_chooser_item = R.layout.intent_chooser_item;
 		public static final int localized_text_editor = R.layout.localized_text_editor;
 		public static final int localized_text_field_edit = R.layout.localized_text_field_edit;
+		public static final int localized_text_field_view = R.layout.localized_text_field_view;
+		public static final int localized_text_viewer = R.layout.localized_text_viewer;
 		public static final int number_picker = R.layout.number_picker;
 		public static final int numeric_field_edit = R.layout.numeric_field_edit;
 		public static final int period_picker = R.layout.period_picker;

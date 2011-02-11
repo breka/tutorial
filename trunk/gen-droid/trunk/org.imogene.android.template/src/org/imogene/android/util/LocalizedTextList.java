@@ -1,5 +1,6 @@
 package org.imogene.android.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -150,5 +151,18 @@ public class LocalizedTextList {
 		return result;
 	}
 	
+	public ArrayList<String> getAvailableLocales() {
+		if (mMap != null && !mMap.isEmpty()) {
+			ArrayList<String> result = new ArrayList<String>(mMap.size());
+			for (String locale : mMap.keySet()) {
+				String value = mMap.get(locale).getValue();
+				if (value != null) {
+					result.add(locale);
+				}
+			}
+			return result;
+		}
+		return null;
+	}
 	
 }

@@ -31,6 +31,7 @@ import org.imogene.android.widget.field.view.EnumSingleFieldView;
 import org.imogene.android.widget.field.view.FloatFieldView;
 import org.imogene.android.widget.field.view.GeoFieldView;
 import org.imogene.android.widget.field.view.IntegerFieldView;
+import org.imogene.android.widget.field.view.LocalizedTextFieldView;
 import org.imogene.android.widget.field.view.PhoneFieldView;
 import org.imogene.android.widget.field.view.RelationManyFieldView;
 import org.imogene.android.widget.field.view.RelationOneFieldView;
@@ -229,6 +230,8 @@ tabHost.addTab(tabHost.newTabSpec("«shortName.toLowerCase()-»")
 «DEFINE nameViewField FOR FieldEntity-»Nothing«ENDDEFINE»
 
 «DEFINE nameViewField FOR StringField-»TextFieldView«ENDDEFINE»
+
+«DEFINE nameViewField FOR TextField»«IF translatable»LocalizedTextFieldView«ELSE»TextFieldView«ENDIF»«ENDDEFINE»
 
 «DEFINE nameViewField FOR AddressField-»AddressFieldView«ENDDEFINE»
 

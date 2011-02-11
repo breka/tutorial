@@ -63,6 +63,8 @@
 
 «DEFINE class FOR StringField-»TextFieldView«ENDDEFINE»
 
+«DEFINE class FOR TextField-»«IF translatable»LocalizedTextFieldView«ELSE»TextFieldView«ENDIF»«ENDDEFINE»
+
 «DEFINE class FOR AddressField-»AddressFieldView«ENDDEFINE»
 
 «DEFINE class FOR EmailField-»EmailFieldView«ENDDEFINE»
