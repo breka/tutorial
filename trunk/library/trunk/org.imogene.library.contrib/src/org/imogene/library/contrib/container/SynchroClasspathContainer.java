@@ -12,7 +12,7 @@ public class SynchroClasspathContainer extends AbstractClasspathContainer {
 	private static String DESCRIPTION = "Imogene synchronizer library";
 	
 	public SynchroClasspathContainer(){		
-		System.out.println(DESCRIPTION);
+		//System.out.println(DESCRIPTION);
 		addSynchro();
 	}
 	
