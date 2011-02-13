@@ -1,9 +1,11 @@
 package org.imogene.android.widget.field.edit;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.imogene.android.W;
 import org.imogene.android.util.LocalizedTextList;
+import org.imogene.android.util.Tools;
 import org.imogene.android.widget.field.FieldEntity;
 
 import android.content.Context;
@@ -41,6 +43,16 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 		
 		isoArray = context.getResources().getStringArray(W.array.languages_iso);
 		displayArray = context.getResources().getStringArray(W.array.languages_display);
+		
+		int pos = Tools.find(isoArray, Locale.getDefault().getLanguage());
+		if (pos > -1) {
+			String tmp = isoArray[0];
+			isoArray[0] = isoArray[pos];
+			isoArray[pos] = tmp;
+			tmp = displayArray[0];
+			displayArray[0] = displayArray[pos];
+			displayArray[pos] = tmp;
+		}
 		
 		mEditors = new ArrayList<EditText>(isoArray.length);
 		mLanguages = new ArrayList<TextView>(isoArray.length);

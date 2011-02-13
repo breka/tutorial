@@ -33,5 +33,14 @@ public class Tools {
 		d.setCornerRadii(CORNERS);
 		return d;
 	}
+	
+	public final static <T> int find(T[] array, T object) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i].equals(object)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
 }
