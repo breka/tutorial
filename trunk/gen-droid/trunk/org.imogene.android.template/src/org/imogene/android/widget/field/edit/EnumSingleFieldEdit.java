@@ -23,9 +23,9 @@ public class EnumSingleFieldEdit extends FieldEntity<Integer> implements DialogI
 	
 	public EnumSingleFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.default_field_entity);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumFieldEdit, 0, 0);
-		mEntries = a.getResourceId(W.styleable.EnumFieldEdit_entries, 0);
-		mArray = a.getResourceId(W.styleable.EnumFieldEdit_array, 0);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumSingleFieldEdit, 0, 0);
+		mEntries = a.getResourceId(W.styleable.EnumSingleFieldEdit_entries, 0);
+		mArray = a.getResourceId(W.styleable.EnumSingleFieldEdit_array, 0);
 		a.recycle();
 		setValue(-1);
 	}

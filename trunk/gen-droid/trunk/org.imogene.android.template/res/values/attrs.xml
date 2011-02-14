@@ -39,6 +39,12 @@
 		<enum name="reverse" value="1" />
 	</attr>
 	
+	<!-- Reference to the plural display value -->
+	<attr name="displayPl" format="reference" />
+	
+	<!-- Reference to the singular display value -->
+	<attr name="displaySg" format="reference" />
+	
 	<declare-styleable name="DateTimePicker">
 		<!-- The first year (inclusive) i.e. 1940 -->
 		<attr name="startYear" format="integer" />
@@ -97,13 +103,39 @@
 		<attr name="geoType" />
 	</declare-styleable>
 	
-	<declare-styleable name="EnumFieldEdit">
+	<declare-styleable name="EnumSingleFieldEdit">
+		<!-- The human-readable array to present as a list -->
+		<attr name="entries" />
+		<!-- Conversion array for enumerate field -->
+		<attr name="array" />
+	</declare-styleable>
+	
+	<declare-styleable name="EnumMultipleFieldEdit">
 		<!-- The human-readable array to present as a list -->
 		<attr name="entries" />
 		<!-- Conversion array for enumerate field -->
 		<attr name="array" />
 		<!-- Array size presented as list -->
 		<attr name="size" />
+	</declare-styleable>
+	
+	<declare-styleable name="EnumSingleFieldView">
+		<!-- The human-readable array to present as a list -->
+		<attr name="entries" />
+		<!-- Conversion array for enumerate field -->
+		<attr name="array" />
+	</declare-styleable>
+	
+	<declare-styleable name="EnumMultipleFieldView">
+		<!-- The human-readable array to present as a list -->
+		<attr name="entries" />
+		<!-- Conversion array for enumerate field -->
+		<attr name="array" />
+	</declare-styleable>
+	
+	<declare-styleable name="NumberFieldView">
+		<!-- Unit reference id of a numeric field -->
+		<attr name="unit" />
 	</declare-styleable>
 	
 	<declare-styleable name="IntegerFieldEdit">
@@ -131,13 +163,20 @@
 		<attr name="dateMax" format="integer" />
 	</declare-styleable>
 	
+	<declare-styleable name="RelationManyFieldView">
+		<!-- Reference to the plural display value -->
+		<attr name="displayPl" />
+		<!-- Reference to the singular display value -->
+		<attr name="displaySg" />
+	</declare-styleable>
+	
 	<declare-styleable name="RelationFieldEdit">
 		<!-- Has a reverse relation field -->
 		<attr name="hasReverse" format="boolean" />
 		<!-- Reference to the plural display value -->
-		<attr name="displayPl" format="reference" />
+		<attr name="displayPl" />
 		<!-- Reference to the singular display value -->
-		<attr name="displaySg" format="reference" />
+		<attr name="displaySg" />
 		<!-- Opposite cardinality -->
 		<attr name="oppositeCardinality" format="integer" />
 		<!-- Relation type (main or reverse) -->

@@ -46,12 +46,8 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 		
 		int pos = Tools.find(isoArray, Locale.getDefault().getLanguage());
 		if (pos > -1) {
-			String tmp = isoArray[0];
-			isoArray[0] = isoArray[pos];
-			isoArray[pos] = tmp;
-			tmp = displayArray[0];
-			displayArray[0] = displayArray[pos];
-			displayArray[pos] = tmp;
+			Tools.replace(isoArray, 0, pos);
+			Tools.replace(displayArray, 0, pos);
 		}
 		
 		mEditors = new ArrayList<EditText>(isoArray.length);

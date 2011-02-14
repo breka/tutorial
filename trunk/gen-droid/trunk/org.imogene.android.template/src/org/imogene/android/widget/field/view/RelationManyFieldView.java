@@ -24,9 +24,9 @@ public class RelationManyFieldView extends FieldEntityView<ArrayList<Uri>> {
 
 	public RelationManyFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.relation_field_entity);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationFieldEdit, 0, 0);
-		displayPlId = a.getResourceId(W.styleable.RelationFieldEdit_displayPl, 0);
-		displaySgId = a.getResourceId(W.styleable.RelationFieldEdit_displaySg, 0);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationManyFieldView, 0, 0);
+		displayPlId = a.getResourceId(W.styleable.RelationManyFieldView_displayPl, 0);
+		displaySgId = a.getResourceId(W.styleable.RelationManyFieldView_displaySg, 0);
 		a.recycle();
 		setOnClickListener(this);
 		setIconId(android.R.drawable.sym_contact_card);

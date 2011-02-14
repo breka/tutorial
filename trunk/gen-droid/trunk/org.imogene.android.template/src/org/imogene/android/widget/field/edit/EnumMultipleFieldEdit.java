@@ -28,10 +28,10 @@ public class EnumMultipleFieldEdit extends FieldEntity<boolean[]> implements OnM
 	
 	public EnumMultipleFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.default_field_entity);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumFieldEdit, 0, 0);
-		mEntries = a.getResourceId(W.styleable.EnumFieldEdit_entries, 0);
-		mArray = a.getResourceId(W.styleable.EnumFieldEdit_array, 0);
-		mSize = a.getInteger(W.styleable.EnumFieldEdit_size, 0);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumMultipleFieldEdit, 0, 0);
+		mEntries = a.getResourceId(W.styleable.EnumMultipleFieldEdit_entries, 0);
+		mArray = a.getResourceId(W.styleable.EnumMultipleFieldEdit_array, 0);
+		mSize = a.getInteger(W.styleable.EnumMultipleFieldEdit_size, 0);
 		a.recycle();
 		setValue(new boolean[mSize]);
 	}

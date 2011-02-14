@@ -495,15 +495,24 @@ public final class W {
 		public static final int[] DatesFieldEdit = R.styleable.DatesFieldEdit;
 		public static final int DatesFieldEdit_dateMax = R.styleable.DatesFieldEdit_dateMax;
 		public static final int DatesFieldEdit_dateMin = R.styleable.DatesFieldEdit_dateMin;
-		public static final int[] EnumFieldEdit = R.styleable.EnumFieldEdit;
-		public static final int EnumFieldEdit_array = R.styleable.EnumFieldEdit_array;
-		public static final int EnumFieldEdit_entries = R.styleable.EnumFieldEdit_entries;
-		public static final int EnumFieldEdit_size = R.styleable.EnumFieldEdit_size;
 		public static final int[] EnumFilterPreference = R.styleable.EnumFilterPreference;
 		public static final int EnumFilterPreference_array = R.styleable.EnumFilterPreference_array;
 		public static final int EnumFilterPreference_entries = R.styleable.EnumFilterPreference_entries;
 		public static final int EnumFilterPreference_multiple = R.styleable.EnumFilterPreference_multiple;
 		public static final int EnumFilterPreference_size = R.styleable.EnumFilterPreference_size;
+		public static final int[] EnumMultipleFieldEdit = R.styleable.EnumMultipleFieldEdit;
+		public static final int EnumMultipleFieldEdit_array = R.styleable.EnumMultipleFieldEdit_array;
+		public static final int EnumMultipleFieldEdit_entries = R.styleable.EnumMultipleFieldEdit_entries;
+		public static final int EnumMultipleFieldEdit_size = R.styleable.EnumMultipleFieldEdit_size;
+		public static final int[] EnumMultipleFieldView = R.styleable.EnumMultipleFieldView;
+		public static final int EnumMultipleFieldView_array = R.styleable.EnumMultipleFieldView_array;
+		public static final int EnumMultipleFieldView_entries = R.styleable.EnumMultipleFieldView_entries;
+		public static final int[] EnumSingleFieldEdit = R.styleable.EnumSingleFieldEdit;
+		public static final int EnumSingleFieldEdit_array = R.styleable.EnumSingleFieldEdit_array;
+		public static final int EnumSingleFieldEdit_entries = R.styleable.EnumSingleFieldEdit_entries;
+		public static final int[] EnumSingleFieldView = R.styleable.EnumSingleFieldView;
+		public static final int EnumSingleFieldView_array = R.styleable.EnumSingleFieldView_array;
+		public static final int EnumSingleFieldView_entries = R.styleable.EnumSingleFieldView_entries;
 		public static final int[] FieldEntity = R.styleable.FieldEntity;
 		public static final int FieldEntity_dependent = R.styleable.FieldEntity_dependent;
 		public static final int FieldEntity_divider = R.styleable.FieldEntity_divider;
@@ -526,6 +535,8 @@ public final class W {
 		public static final int IntegerFieldEdit_unit = R.styleable.IntegerFieldEdit_unit;
 		public static final int[] LocalizedTextFieldEdit = R.styleable.LocalizedTextFieldEdit;
 		public static final int LocalizedTextFieldEdit_stringType = R.styleable.LocalizedTextFieldEdit_stringType;
+		public static final int[] NumberFieldView = R.styleable.NumberFieldView;
+		public static final int NumberFieldView_unit = R.styleable.NumberFieldView_unit;
 		public static final int[] RelationFieldEdit = R.styleable.RelationFieldEdit;
 		public static final int RelationFieldEdit_displayPl = R.styleable.RelationFieldEdit_displayPl;
 		public static final int RelationFieldEdit_displaySg = R.styleable.RelationFieldEdit_displaySg;
@@ -540,6 +551,9 @@ public final class W {
 		public static final int[] RelationFilterPreference = R.styleable.RelationFilterPreference;
 		public static final int RelationFilterPreference_entityws = R.styleable.RelationFilterPreference_entityws;
 		public static final int RelationFilterPreference_hierarchicalField = R.styleable.RelationFilterPreference_hierarchicalField;
+		public static final int[] RelationManyFieldView = R.styleable.RelationManyFieldView;
+		public static final int RelationManyFieldView_displayPl = R.styleable.RelationManyFieldView_displayPl;
+		public static final int RelationManyFieldView_displaySg = R.styleable.RelationManyFieldView_displaySg;
 		public static final int[] TextFieldEdit = R.styleable.TextFieldEdit;
 		public static final int TextFieldEdit_stringType = R.styleable.TextFieldEdit_stringType;}}
 «ENDFILE»

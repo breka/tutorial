@@ -14,11 +14,6 @@ public class DefaultEntityView<T> extends FieldEntityView<T> {
 		setOnClickListener(this);
 	}
 	
-	public DefaultEntityView(Context context, AttributeSet attrs, int layoutId) {
-		super(context, attrs, layoutId);
-		setOnClickListener(this);
-	}
-	
 	@Override
 	protected void dispatchClick(View v) {
 		showDialog(null);
