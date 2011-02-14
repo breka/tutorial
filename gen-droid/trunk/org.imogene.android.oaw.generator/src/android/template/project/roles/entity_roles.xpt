@@ -45,6 +45,20 @@ public class «name.toFirstUpper()-»Roles {
 		}
 	}
 	«ENDIF-»
+	
+	«IF directAccess.size > 0-»
+	public static final boolean directAccess(Context context) {
+		String roles = PreferenceHelper.getCurrentRoles(context);
+		if (
+			«FOREACH directAccess AS da SEPARATOR  "||"-»
+			roles.contains(«projectName.toFirstUpper()-»Roles.«da.name.toUpperCase()-»)
+			«ENDFOREACH-») {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	«ENDIF-»
 
 	«EXPAND canRead(projectName) FOREACH groups»
 	«EXPAND canWrite(projectName) FOREACH groups»

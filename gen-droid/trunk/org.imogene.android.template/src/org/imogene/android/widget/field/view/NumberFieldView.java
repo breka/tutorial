@@ -12,8 +12,8 @@ public class NumberFieldView<T extends Number> extends DefaultEntityView<T> {
 
 	public NumberFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.IntegerFieldEdit, 0, 0);
-		final int unitId = a.getResourceId(W.styleable.IntegerFieldEdit_unit, -1);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberFieldView, 0, 0);
+		final int unitId = a.getResourceId(W.styleable.NumberFieldView_unit, -1);
 		a.recycle();
 		if (unitId != -1) {
 			final View unit = findViewById(W.id.unit);

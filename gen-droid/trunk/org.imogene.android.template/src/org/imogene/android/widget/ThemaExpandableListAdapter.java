@@ -11,6 +11,8 @@ import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -87,9 +89,11 @@ public final class ThemaExpandableListAdapter extends BaseExpandableListAdapter 
 			secondary.setText(mContext.getString(W.string.entity_count_sg, count));
 		}
 	
+		ImageView icon = (ImageView) view.findViewById(W.id.list_icon);
 		if (entity.mDrawable != 0) {
-			ImageView icon = (ImageView) view.findViewById(W.id.list_icon);
 			icon.setImageResource(entity.mDrawable);
+		} else {
+			icon.setImageResource(android.R.color.transparent);
 		}
 	
 		View v = view.findViewById(W.id.list_color);

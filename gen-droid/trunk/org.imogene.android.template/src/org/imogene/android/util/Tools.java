@@ -42,5 +42,11 @@ public class Tools {
 		}
 		return -1;
 	}
+	
+	public final static <T> void replace(T[] array, int replace, int by) {
+		T tmp = array[replace];
+		array[replace] = array[by];
+		array[by] = tmp;
+	}
 
 }

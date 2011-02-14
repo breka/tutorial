@@ -18,7 +18,7 @@ import android.widget.Gallery;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class LocalizedTextFieldView extends DefaultEntityView<LocalizedTextList> implements OnItemSelectedListener {
+public class LocalizedTextFieldView extends FieldEntityView<LocalizedTextList> implements OnItemSelectedListener {
 
 	private Gallery mGallery;
 	private int mItemsCount = 0;
