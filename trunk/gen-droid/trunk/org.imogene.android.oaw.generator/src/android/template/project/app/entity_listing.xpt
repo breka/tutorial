@@ -58,13 +58,17 @@ public class «name.toFirstUpper()-»Listing extends AbstractEntityListing {
 	@Override
 	protected final void init() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mCanDelete = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_delete), «canDelete»);
-		mCanModify = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_modify), «canModify»);
+		boolean canDelete = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_delete), «canDelete»);
+		boolean canModify = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_modify), «canModify»);
 		
 		«IF creators.size > 0-»
-		mCanWrite = «name.toFirstUpper()-»Roles.canCreate(this);
+		mCanCreate = «name.toFirstUpper()-»Roles.canCreate(this);
+		mCanDelete = canDelete && mCanCreate;
+		mCanModify = canModify && «name.toFirstUpper()-»Roles.canWrite(this);
 		«ELSE-»
-		mCanWrite = «name.toFirstUpper()-»Roles.canWrite(this);
+		mCanCreate = «name.toFirstUpper()-»Roles.canWrite(this);
+		mCanDelete = canDelete && mCanCreate;
+		mCanModify = canModify && mCanCreate;
 		«ENDIF-»
 	}
 

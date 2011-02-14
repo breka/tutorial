@@ -35,7 +35,6 @@ public abstract class AbstractEntityView extends ScrollingTabActivity implements
 	
 	protected boolean mCanDelete;
 	protected boolean mCanModify;
-	protected boolean mCanWrite;
 
 	private final Handler mHandler = new Handler();
 
@@ -87,8 +86,8 @@ public abstract class AbstractEntityView extends ScrollingTabActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(W.menu.menu_entity_view, menu);
-		menu.findItem(W.id.menu_edit).setVisible(mCanWrite && mCanModify);
-		menu.findItem(W.id.menu_delete).setVisible(mCanWrite && mCanDelete);
+		menu.findItem(W.id.menu_edit).setVisible(mCanModify);
+		menu.findItem(W.id.menu_delete).setVisible(mCanDelete);
 		return super.onCreateOptionsMenu(menu);
 	}
 
