@@ -96,9 +96,9 @@ public abstract class AbstractEntityListing extends ListActivity implements
 	private final int mNoEntityDescription;
 	private final int mSearchDescription;
 
+	protected boolean mCanCreate;
 	protected boolean mCanDelete;
 	protected boolean mCanModify;
-	protected boolean mCanWrite;
 
 	protected SQLiteBuilder mSQLBuilder = null;
 	protected String mSortKey = Keys.KEY_MODIFIED;
@@ -169,7 +169,7 @@ public abstract class AbstractEntityListing extends ListActivity implements
 		
 		if (Intent.ACTION_PICK.equals(getIntent().getAction())) {
 			setContentView(W.layout.entity_list_pick);
-			if (mCanWrite) {
+			if (mCanCreate) {
 				View header = getLayoutInflater().inflate(
 						android.R.layout.simple_list_item_1, getListView(),
 						false);
@@ -296,7 +296,7 @@ public abstract class AbstractEntityListing extends ListActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (!Intent.ACTION_PICK.equals(getIntent().getAction()) && mCanWrite) {
+		if (!Intent.ACTION_PICK.equals(getIntent().getAction()) && mCanCreate) {
 			menu
 					.add(Menu.NONE, MENU_NEW_ID, Menu.NONE, mNewDescription)
 					.setIcon(android.R.drawable.ic_menu_add)
@@ -377,15 +377,11 @@ public abstract class AbstractEntityListing extends ListActivity implements
 
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(Menu.NONE, CMENU_VIEW_ID, Menu.NONE, W.string.menu_view);
-		if (mCanWrite) {
-			if (mCanModify) {
-				menu.add(Menu.NONE, CMENU_EDIT_ID, Menu.NONE,
-						W.string.menu_edit);
-			}
-			if (mCanDelete) {
-				menu.add(Menu.NONE, CMENU_DELETE_ID, Menu.NONE,
-						W.string.menu_delete);
-			}
+		if (mCanModify) {
+			menu.add(Menu.NONE, CMENU_EDIT_ID, Menu.NONE, W.string.menu_edit);
+		}
+		if (mCanDelete) {
+			menu.add(Menu.NONE, CMENU_DELETE_ID, Menu.NONE, W.string.menu_delete);
 		}
 
 		EntityCursor c = (EntityCursor) getListAdapter().getItem(

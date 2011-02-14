@@ -67,10 +67,17 @@ public class «name.toFirstUpper()-»View extends AbstractEntityView implements Re
 		super.onCreate(savedInstanceState);
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mCanDelete = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_delete), «canDelete»);
-		mCanModify = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_modify), «canModify»);
+		boolean canDelete = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_delete), «canDelete»);
+		boolean canModify = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_modify), «canModify»);
 		
-		mCanWrite = «name.toFirstUpper()-»Roles.canWrite(this);
+		«IF creators.size > 0-»
+		mCanDelete = canDelete && «name.toFirstUpper()-»Roles.canCreate(this);
+		mCanModify = canModify && «name.toFirstUpper()-»Roles.canWrite(this);
+		«ELSE-»
+		boolean canWrite = «name.toFirstUpper()-»Roles.canWrite(this);
+		mCanDelete = canDelete && canWrite;
+		mCanModify = canModify && canWrite;
+		«ENDIF-»
 		
 		mManager = new FieldManager(this, this, 100);
 		
@@ -144,7 +151,11 @@ public class «name.toFirstUpper()-»View extends AbstractEntityView implements Re
 		boolean result = super.onCreateOptionsMenu(menu);
 		boolean hasMoreMenu = false;
 		«FOREACH getMoreFields(groups.fields) AS f-»
+		«IF f.entity.creators.size > 0-»
+		hasMoreMenu |= «f.entity.name.toFirstUpper()»Roles.canCreate(this);
+		«ELSE-»
 		hasMoreMenu |= «f.entity.name.toFirstUpper()»Roles.canWrite(this);
+		«ENDIF-»
 		«ENDFOREACH-»
 		if (hasMoreMenu) {
 			getMenuInflater().inflate(R.menu.«name.toLowerCase()»_more_menu, menu.addSubMenu(R.string.menu_actions).setIcon(android.R.drawable.ic_menu_more));

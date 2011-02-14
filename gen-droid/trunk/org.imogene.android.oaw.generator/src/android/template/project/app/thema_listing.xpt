@@ -11,11 +11,11 @@ import android.net.Uri;
 import android.view.Menu;
 import org.imogene.android.app.AbstractThemaListing;
 «FOREACH entities AS entity-»
-«IF entity.topLevel-»
+«IF entity.topLevel || entity.directAccess.size > 0-»
 import org.imogene.android.«name.toLowerCase()-».entities.«entity.name.toFirstUpper()-»;
+«ENDIF-»
 «IF entity.directAccess.size > 0-»
 import org.imogene.android.«name.toLowerCase()-».roles.«entity.name.toFirstUpper()-»Roles;
-«ENDIF-»
 «ENDIF-»
 «ENDFOREACH-»
 import org.imogene.android.«name.toLowerCase()».R;
@@ -37,10 +37,10 @@ public class ThemaListing extends AbstractThemaListing {
 
 		«FOREACH entities AS entity-»
 		«IF entity.topLevel || entity.directAccess.size > 0-»
-		getContentResolver().registerContentObserver(«entity.name.toFirstUpper()-».CONTENT_URI, true, mObserver);
 			«IF entity.directAccess.size > 0-»
 			if («entity.name.toFirstUpper()»Roles.directAccess(this)) {
 			«ENDIF-»
+			getContentResolver().registerContentObserver(«entity.name.toFirstUpper()-».CONTENT_URI, true, mObserver);
 			«IF isInMiscellaneousThema(themas, entity)-»
 			themaMiscellaneous.add(new EntityChild(
 				«entity.name.toFirstUpper()-».CONTENT_URI,
