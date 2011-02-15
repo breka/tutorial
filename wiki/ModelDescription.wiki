@@ -547,8 +547,7 @@
 	
 	To define hierarchical lists, 2 conditions must be filled.
 	
-	One on the side of the CardEntity that will contain the hierarchical lists. The hierarchical lists are made of 2 lists. 
-	
+	One on the side of the CardEntity that will contain the hierarchical lists. The hierarchical lists are made of 2 lists. 	
 		* A 'parent' list which is the relationField that will serve as a filter. It must be of cardinality 1.
 		* A 'child' list which is the relationField whose values are going to be filtered. It can be of cardinality 1 or n.
 	

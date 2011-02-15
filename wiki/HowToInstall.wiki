@@ -16,7 +16,7 @@
 
 == 1. Install the Eclipse IDE ==
 
-	Install the *Eclipse IDE* (Galileo version). It can be downloaded from the [http://www.eclipse.org/downloads/packages/release/galileo/sr2 Eclipse web site]. 
+	Install the *Eclipse IDE*. It can be downloaded from the [http://www.eclipse.org/downloads/ Eclipse web site]. 
 	Select the version {{{Eclipse IDE for Java EE Developers}}}.
 
 == 2. Install the JDK and configure it for Eclipse ==
@@ -72,7 +72,7 @@
 	  * Click on the {{{Add}}} button at the top right of the window.
 	
 	You will add a new update site to Eclipse. This update site will enable to install and update the GWT plugins.
-	Enter {{{GWT}}} as {{{Name}}} and {{{http://dl.google.com/eclipse/plugin/3.5}}} as {{{Location}}}.
+	Enter {{{GWT}}} as {{{Name}}} and {{{http://dl.google.com/eclipse/plugin/3.6}}} as {{{Location}}}.
 					http://imogene.googlecode.com/svn/wiki/images/install/image11.png
 	
 	  * Click {{{OK}}}.The GWT update site is added to the update site list (label 'Work with').
