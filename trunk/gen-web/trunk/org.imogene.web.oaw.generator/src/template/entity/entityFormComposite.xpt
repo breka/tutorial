@@ -1045,7 +1045,12 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 	private String «name.toFirstLower()»Injected;
 	public void set«this.name.toFirstUpper()»(String id){
 		«name.toFirstLower()»Injected =id;
-		«name.toFirstLower()».select(«name.toFirstLower()»Injected);
+		if (!«name.toFirstLower()».isEmpty()) {
+			«name.toFirstLower()».select(«name.toFirstLower()»Injected);
+			«FOREACH getHierarchicalFilterChilds(this, this.parentGroup.parentCard.groups.fields) AS f -»
+			get«f.name.toFirstUpper()»FilteredBy«f.relationHierarchicalFilter.get(0).name.toFirstUpper()»(«f.relationHierarchicalFilter.get(0).name.toFirstLower()».getValue());
+			«ENDFOREACH -»	
+		}
 		//«name.toFirstLower()».setLocked(true);
 	}
 	«ENDIF -»

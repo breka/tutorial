@@ -237,5 +237,9 @@ public class ImogRelationBox<T extends ImogBean > extends ImogFieldAbstract<T> i
 			
 		notifyValueChange();		
 	}
+	
+	public boolean isEmpty() {
+		return values.isEmpty();
+	}
 				
 }
