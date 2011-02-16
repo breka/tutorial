@@ -2,7 +2,6 @@ package org.imogene.android.util.database;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
@@ -96,53 +95,29 @@ public class GpsTableUtils {
 		}
 	}
 	
-	private static final long[] getLocationsAround(SQLiteDatabase db, double north, double east, double south, double west) {
-		final String[] columns = new String[] {Keys.KEY_ROWID, Keys.KEY_LATITUDE, Keys.KEY_LONGITUDE};
-		final Cursor c = db.query(Tables.TABLE_GPSLOCATIONS, columns, null, null, null, null, null);
-		final int crow = c.getColumnIndexOrThrow(Keys.KEY_ROWID);
-		final int clat = c.getColumnIndexOrThrow(Keys.KEY_LATITUDE);
-		final int clon = c.getColumnIndexOrThrow(Keys.KEY_LONGITUDE);
-		double lat, lon;
-
-		final int count = c.getCount();
-		ArrayList<Long> list = new ArrayList<Long>();
-		for (int i = 0; i < count; i++) {
-			c.moveToPosition(i);
-			lat = c.getDouble(clat);
-			lon = c.getDouble(clon);
-			if (west < lon && lon < east && south < lat && lat < north) {
-				list.add(c.getLong(crow));
-			}
-		}
-		c.close();
-		
-		final int size = list.size();
-		long[] result = new long[size];
-		for (int i = 0; i < size; i++) {
-			result[i] = list.get(i);
-		}
-		return result;
-	}
-
 	public static final Intent build(Context context, Uri uri, SQLiteBuilder builder,
 			String gpsColumn, String gpsMethod,	double north, double east, double south, double west) {
-		SQLiteDatabase db = AbstractDatabase.getSuper(context).getReadableDatabase();
-		
-		Intent result = null;
-				
-		long[] ids = getLocationsAround(db, north, east, south, west);
 		SQLiteBuilder b = new SQLiteBuilder();
 		if (builder != null)
 			b.appendWhere(builder.create());
-		b.appendIn(gpsColumn, ids);
+		
+		SQLiteBuilder locations = new SQLiteBuilder(Tables.TABLE_GPSLOCATIONS, Keys.KEY_ROWID);
+		locations.appendSup(Keys.KEY_LONGITUDE, west);
+		locations.appendInf(Keys.KEY_LONGITUDE, east);
+		locations.appendSup(Keys.KEY_LATITUDE, south);
+		locations.appendInf(Keys.KEY_LATITUDE, north);
+		
+		b.appendIn(gpsColumn, locations.create());
 		
 		String sql = AbstractEntityListing.computeWhere(b).toSQL();
 
 		EntityCursor c = AbstractDatabase.getSuper(context).query(uri, sql, null);
 		final int count = c.getCount();
-		if (count < 1)
-			return result;
+		if (count < 1) {
+			return null;
+		}
 
+		Intent result = null;
 		try {
 			final Method method = c.getClass().getDeclaredMethod(gpsMethod, null);
 			final String[] titles = new String[count];
