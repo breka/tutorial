@@ -38,8 +38,10 @@ public final class Constants {
 
 		public static final String ACTION_SHOW_CLOUDS = "org.imogene.map.action.SHOW_CLOUDS";
 		
-		public static final String ACTION_GET_AREA = "org.imogene.map.action.GET_AREA";
-
+		public static final String ACTION_NEW_RECT = "org.imogene.map.action.NEW_RECT";
+		
+		public static final String ACTION_MANAGE_RECT = "org.imogene.map.action.MANAGE_RECT";
+		
 		public static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 		
 		public static final String ACTION_SECRET_CODE = "android.provider.Telephony.SECRET_CODE";
@@ -195,8 +197,6 @@ public final class Constants {
 		 */
 		public static final String EXTRA_LONGITUDE = "longitude";
 		
-		public static final String EXTRA_RADIUS = "radius";
-
 		public static final String EXTRA_ITEM_NUMBER = "itemNumber";
 		
 		public static final String EXTRA_ITEM_DESCRIPTIONS = "itemDescriptions";
@@ -210,6 +210,14 @@ public final class Constants {
 		public static final String EXTRA_ITEM_URIS = "itemUris";
 
 		public static final String EXTRA_LOCATION = "location";
+		
+		public static final String EXTRA_NORTH = "north";
+		
+		public static final String EXTRA_EAST = "east";
+		
+		public static final String EXTRA_SOUTH = "south";
+		
+		public static final String EXTRA_WEST = "west";
 	}
 
 	public static interface SortOrder {
