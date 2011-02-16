@@ -9,8 +9,6 @@ import android.content.Intent;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.util.database.GpsTableUtils;
-import org.imogene.android.util.FormatHelper;
-
 «ENDIF-»
 import android.app.SearchManager;
 import android.content.SharedPreferences;
@@ -103,7 +101,7 @@ public class «name.toFirstUpper()-»Listing extends AbstractEntityListing {
 		«LET findGis(this) AS geoField-»
 		«IF geoField != null-»
 		case MENU_SHOW_CLOUD_ID:
-			startActivityForResult(new Intent(Intents.ACTION_GET_AREA), ACTIVITY_GET_AREA);
+			startActivityForResult(new Intent(Intents.ACTION_NEW_RECT), ACTIVITY_GET_AREA);
 			return true;
 		«ENDIF-»
 		«ENDLET-»
@@ -119,14 +117,17 @@ public class «name.toFirstUpper()-»Listing extends AbstractEntityListing {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK && requestCode == ACTIVITY_GET_AREA) {
+			final double north = data.getDoubleExtra(Extras.EXTRA_NORTH, 0);
+			final double east = data.getDoubleExtra(Extras.EXTRA_EAST, 0);
+			final double south = data.getDoubleExtra(Extras.EXTRA_SOUTH, 0);
+			final double west = data.getDoubleExtra(Extras.EXTRA_WEST, 0);
 			Intent intent = GpsTableUtils.build(
 				this,
 				«name.toFirstUpper()».CONTENT_URI,
 				mSQLBuilder,
 				"«geoField.name.toLowerCase()»",
 				"get«geoField.name.toFirstUpper()»",
-				FormatHelper.getLocationFromIntent(data),
-				data.getIntExtra(Extras.EXTRA_RADIUS, 0));
+				north, east, south, west);
 			if (intent != null)
 				startActivity(intent);
 		} else {

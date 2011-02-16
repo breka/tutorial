@@ -96,15 +96,13 @@ public class GpsTableUtils {
 		}
 	}
 	
-	private static final long[] getLocationsAround(SQLiteDatabase db, double latitude, double longitude, float distance) {
+	private static final long[] getLocationsAround(SQLiteDatabase db, double north, double east, double south, double west) {
 		final String[] columns = new String[] {Keys.KEY_ROWID, Keys.KEY_LATITUDE, Keys.KEY_LONGITUDE};
 		final Cursor c = db.query(Tables.TABLE_GPSLOCATIONS, columns, null, null, null, null, null);
 		final int crow = c.getColumnIndexOrThrow(Keys.KEY_ROWID);
 		final int clat = c.getColumnIndexOrThrow(Keys.KEY_LATITUDE);
 		final int clon = c.getColumnIndexOrThrow(Keys.KEY_LONGITUDE);
-		final float[] results = new float[1];
-		double lat;
-		double lon;
+		double lat, lon;
 
 		final int count = c.getCount();
 		ArrayList<Long> list = new ArrayList<Long>();
@@ -112,8 +110,7 @@ public class GpsTableUtils {
 			c.moveToPosition(i);
 			lat = c.getDouble(clat);
 			lon = c.getDouble(clon);
-			Location.distanceBetween(lat, lon, latitude, longitude, results);
-			if (results[0] < distance) {
+			if (west < lon && lon < east && south < lat && lat < north) {
 				list.add(c.getLong(crow));
 			}
 		}
@@ -128,12 +125,12 @@ public class GpsTableUtils {
 	}
 
 	public static final Intent build(Context context, Uri uri, SQLiteBuilder builder,
-			String gpsColumn, String gpsMethod,	Location location, float distance) {
+			String gpsColumn, String gpsMethod,	double north, double east, double south, double west) {
 		SQLiteDatabase db = AbstractDatabase.getSuper(context).getReadableDatabase();
 		
 		Intent result = null;
 				
-		long[] ids = getLocationsAround(db, location.getLatitude(), location.getLongitude(), distance);
+		long[] ids = getLocationsAround(db, north, east, south, west);
 		SQLiteBuilder b = new SQLiteBuilder();
 		if (builder != null)
 			b.appendWhere(builder.create());
