@@ -130,6 +130,14 @@ public class SQLiteBuilder implements Parcelable {
 			return appendWhere(property + " not in (" + select.toSQL() + ")");
 		return this;
 	}
+	
+	public SQLiteBuilder appendInf(String property, double value) {
+		return appendWhere(property + "<" + value);
+	}
+	
+	public SQLiteBuilder appendSup(String property , double value) {
+		return appendWhere(property + ">" + value);
+	}
 
 	public SQLiteBuilder appendWhere(SQLiteRequest where) {
 		if (where instanceof SQLiteWhere)
