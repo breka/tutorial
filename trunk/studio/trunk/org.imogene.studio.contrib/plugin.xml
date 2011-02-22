@@ -222,6 +222,13 @@
                label="Add descriptions"
                menubarPath="imogene.model/actions">
          </action>
+         <action
+               class="org.imogene.studio.contrib.action.AddColorsAction"
+               icon="icons/colors.png"
+               id="org.imogene.studio.contrib.action.AddColorsAction"
+               label="Generate colors"
+               menubarPath="imogene.model/actions">
+         </action>
       </objectContribution>
       <objectContribution
             adaptable="false"
