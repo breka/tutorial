@@ -18,6 +18,10 @@ import org.imogene.model.core.Thema;
 /**
  */
 public class MedooAndroidGenHelper {
+	
+	public static final void log(Object o) {
+		System.out.println(o);
+	}
 
 	public static final int getDatabaseVersion() {
 		return (int) (System.currentTimeMillis() / 1000);

@@ -5,6 +5,9 @@ import core;
 // Car faut dire que c'est pas simple à appeler.
 // Passer donc par un expand au niveau de fieldutil pour les gerer.
 
+Void log(Object o) :
+  JAVA org.imogene.android.oaw.generator.MedooAndroidGenHelper.log(java.lang.Object);
+
 int getDatabaseVersion() :
   JAVA org.imogene.android.oaw.generator.MedooAndroidGenHelper.getDatabaseVersion();
   
