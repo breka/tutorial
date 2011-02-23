@@ -1,6 +1,6 @@
 «IMPORT core»
 «EXTENSION template::CommonFieldUtilExt» 
-«EXTENSION template::CommonEntityUtilExt» 
+«EXTENSION template::CommonEntityUtilExt»
 «DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»
 «FILE projectName.toLowerCase()+ "/client/entity/" +this.name.toFirstUpper() + "FormComposite.java"»
 	«LET (Project)this.eContainer AS project -»
@@ -47,6 +47,13 @@ import org.imogene.web.gwt.client.ui.form.RelationUpdateManager.RelationBroadcas
 «FOREACH groups.fields AS f-»
 «EXPAND importForRelation("org.imogene." + projectName.toLowerCase() + ".client.remote") FOR f-»
 «ENDFOREACH-»
+«IF isTranslatableFieldPresent(this.groups.fields)-»
+import java.util.Arrays;
+import java.util.Vector;
+import org.imogene.web.gwt.client.ui.field.ImogLocalizedTextBox;
+import org.imogene.web.gwt.client.ui.field.ImogLocalizedTextAreaBox;
+import org.imogene.web.gwt.common.entity.LocalizedText;
+«ENDIF -»
 
 /**
  * Form for a «this.name.toFirstUpper()» entity
@@ -60,6 +67,9 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	private int uploadMsgId = -1;
 	private Widget lastEventParent=null;
 	private boolean visibilityActivated=false;
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	private List<String> locales = Arrays.asList(«EXPAND getLocales FOR project-»);	
+	«ENDIF -»
 	
 	«IF DisplayQRCode -»
 	private GroupField imogQRCodeSection;
@@ -341,7 +351,11 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 			
 			entity.setLastModificationDate(new Date(System.currentTimeMillis()));
 			entity.setModifier((LocalSession.get().getCurrentUser().getLogin()));
-			entity.setModifiedFrom("web");		
+			entity.setModifiedFrom("web");	
+			
+			«IF isTranslatableFieldPresent(this.groups.fields)-»
+			List<LocalizedText> localizedTextsToSave = new Vector<LocalizedText>();
+			«ENDIF -»				
 
 			«FOREACH groups AS g»
 			/* «g.name.toFirstUpper()» group fields */
@@ -350,7 +364,12 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 			«ENDFOREACH -»	
 			«ENDFOREACH»		
 			
+			«IF isTranslatableFieldPresent(this.groups.fields)-»
+			entity.getLocalizedFieldMap().addI18nValues(localizedTextsToSave);
+			«ENDIF -»
+			
 			«name.toFirstUpper()»ServiceFacade.getInstance().saveOrUpdate(entity, isNew, new NoResultCallback());
+
 			MessageManager.get().newInfoMessage(BaseNLS.constants().form_saved(), 5);
 		}
 		else {
@@ -487,7 +506,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("An error occured connecting to the server.");
+			Window.alert("An error occured when saving the «name.toFirstUpper()» entity");
 		}
 
 		@Override
@@ -510,7 +529,8 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	
 	«FOREACH this.groups.fields AS f -»
 		«EXPAND callbackForRelation(name) FOR f -»
-	«ENDFOREACH -»		
+	«ENDFOREACH -»	
+	
 	
 }
 	«ENDLET -»		
@@ -633,7 +653,11 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 «ENDDEFINE»
 
 «DEFINE createFieldView(String entityName) FOR TextField -»
-	«name.toFirstLower()» = new ImogTextBox();
+	«IF this.translatable-»
+	«name.toFirstLower()» =  new ImogLocalizedTextBox(locales, NLS.constants().locale());	
+	«ELSE-»
+	«name.toFirstLower()» = new ImogTextBox();	
+	«ENDIF-»
 	«EXPAND allPropertiesPackage FOR this -»
 	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
 	«FOREACH this.validationRules AS r ITERATOR i -»
@@ -642,7 +666,11 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 «ENDDEFINE»
 
 «DEFINE createFieldView(String entityName) FOR TextAreaField -»
+	«IF this.translatable-»
+	«name.toFirstLower()» =  new ImogLocalizedTextAreaBox(locales, NLS.constants().locale());	
+	«ELSE-»
 	«name.toFirstLower()» = new ImogTextArea();
+	«ENDIF-»
 	«EXPAND allPropertiesPackage FOR this -»
 	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
 	«FOREACH this.validationRules AS r ITERATOR i-»
@@ -804,6 +832,13 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 «DEFINE affectValueToView FOR FieldEntity -»
 	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
 «ENDDEFINE»
+«DEFINE affectValueToView FOR TextField -»
+	«IF this.translatable -»
+	«name.toFirstLower()».setValue(entity.getLocalizedFieldMap().getFieldI18nValues(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»()));
+	«ELSE -»
+	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
+	«ENDIF -»
+«ENDDEFINE»
 «DEFINE affectValueToView FOR RelationFieldEntity -»
 «IF cardinality==1 -»
 	«IF getOppositeCardinality(this)==1 -»
@@ -822,6 +857,20 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«name.toFirstLower()».getValue());
 	«ENDIF-»	
 «ENDDEFINE»
+
+«DEFINE affectValueToEntity FOR TextField -»
+	«IF this.translatable -»
+	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«name.toFirstLower()».getValue());
+	localizedTextsToSave.addAll(«name.toFirstLower()».getLocalizedTextsToSave());
+	«ELSE -»
+	    «IF calculationFunctionName!=null && calculationFunctionName.length>0 -»
+	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«calculationFunctionName»());
+		«ELSE-»
+	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«name.toFirstLower()».getValue());
+		«ENDIF-»	
+	«ENDIF -»
+«ENDDEFINE»
+
 «DEFINE affectValueToEntity FOR RelationFieldEntity -»
 	«IF calculationFunctionName!=null && calculationFunctionName.length>0 -»
 	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«calculationFunctionName»());
@@ -891,7 +940,7 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 
 	@Override
 	public void onFailure(Throwable caught) {
-		Window.alert("An error occured connecting to the server.");
+		Window.alert("An error occured when populating the «name.toFirstLower()» listbox with «entity.name.toFirstUpper()» values");
 	}
 
 	@Override
@@ -914,7 +963,7 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 
 		@Override
 		public void onFailure(Throwable arg0) {
-			Window.alert("Une erreur est apparue lors de la connection au serveur");
+			Window.alert("An error occured when populating the «name.toFirstLower()» listbox with «entity.name.toFirstUpper()» values");
 		}
 
 		@Override
@@ -1107,8 +1156,12 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 	Test value for field denpendent visibility «ENDREM»
 «DEFINE expandTestForVisibility(String value) FOR FieldEntity-»«ENDDEFINE»
 «DEFINE expandTestForVisibility(String value) FOR TextField-»
-	«REM»"«value»".equals(«name.toFirstLower()».getValue())«ENDREM»
+	«IF this.translatable -»
+	(«name.toFirstLower()».getValue()!=null && «name.toFirstLower()».matches("«value»"))
+	«ELSE -»
 	(«name.toFirstLower()».getValue()!=null && «name.toFirstLower()».getValue().matches("«value»"))
+	«ENDIF -»
+
 «ENDDEFINE»
 «DEFINE expandTestForVisibility(String value) FOR IntegerField-»
 	(«name.toFirstLower()».getValue()!=null && NumericUtil.numberMatches("«value»",«name.toFirstLower()».getValue().intValue()))	
@@ -1198,6 +1251,12 @@ private «entity.name.toFirstUpper()»SelectionBox «name.toFirstLower()»SelectionB
 	//entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«name.toFirstLower()».getValue());
   «ENDIF-»
 «ENDDEFINE»
+
+
+
+«DEFINE getLocales FOR Project -»«FOREACH this.languages AS lang SEPARATOR ','»"«lang.isoCode.toLowerCase()»"«ENDFOREACH»«ENDDEFINE»
+
+
 
 
 «REM» -------------------------- RelationField Hierarchical Filtering behavior  -------------------- «ENDREM»

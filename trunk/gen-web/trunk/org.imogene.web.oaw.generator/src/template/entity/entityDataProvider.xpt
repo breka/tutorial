@@ -93,7 +93,7 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 		else{
 			«name.toFirstUpper()»ServiceFacade facade = «name.toFirstUpper()»ServiceFacade.getInstance();
 			if(facade==null){
-				Window.alert("facade is null ! ");
+				Window.alert("Facade is null !");
 			}else{
 				facade.list«name.toFirstUpper()»(startRow, maxRows, sortProperty, sortOrder, new PushResultCallback());
 			}
@@ -262,25 +262,32 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 «ENDFILE»
 «ENDDEFINE»
 
-«REM» 
-	set the data in the row--«ENDREM»
+«REM» Set the data in the row--«ENDREM»
 «DEFINE setDataRow FOR FieldEntity-»
-				if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
-					value = new HTML(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		value = new HTML(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+«DEFINE setDataRow FOR TextField-»
+	if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+	«IF this.translatable -»
+		value = new HTML(card.getLocalizedFieldMap().getFieldI18nValue(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), NLS.constants().locale()));	
+	«ELSE -»
+		value = new HTML(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());	
+	«ENDIF -»
 «ENDDEFINE»
 «DEFINE setDataRow FOR FloatField-»
-		«IF this.DecimalNumber>-1 -»
-		Integer «name.toFirstLower()»Decimals = new Integer("«this.DecimalNumber»");
-		String «name.toFirstLower()»DecimalFormat = "0.";
-		for (int k= 0; k<«name.toFirstLower()»Decimals; k++) {
-			«name.toFirstLower()»DecimalFormat = «name.toFirstLower()»DecimalFormat + "#";
-		}	
-		NumberFormat format«name.toFirstUpper()» = NumberFormat.getFormat(«name.toFirstLower()»DecimalFormat);
-		String formatted«name.toFirstUpper()»Value = format«name.toFirstUpper()».format(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
-		value = new HTML(formatted«name.toFirstUpper()»Value);
-		«ELSE -»
-		value = new HTML(String.valueOf(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
-		«ENDIF -»		
+	«IF this.DecimalNumber>-1 -»
+	Integer «name.toFirstLower()»Decimals = new Integer("«this.DecimalNumber»");
+	String «name.toFirstLower()»DecimalFormat = "0.";
+	for (int k= 0; k<«name.toFirstLower()»Decimals; k++) {
+		«name.toFirstLower()»DecimalFormat = «name.toFirstLower()»DecimalFormat + "#";
+	}	
+	NumberFormat format«name.toFirstUpper()» = NumberFormat.getFormat(«name.toFirstLower()»DecimalFormat);
+	String formatted«name.toFirstUpper()»Value = format«name.toFirstUpper()».format(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	value = new HTML(formatted«name.toFirstUpper()»Value);
+	«ELSE -»
+	value = new HTML(String.valueOf(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+	«ENDIF -»		
 «ENDDEFINE»
 «DEFINE setDataRow FOR IntegerField-»
 	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)

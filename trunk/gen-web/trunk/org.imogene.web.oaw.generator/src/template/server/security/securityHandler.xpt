@@ -7,6 +7,7 @@ package org.imogene.«projectName.toLowerCase()».server.servlet.security;
 
 import org.imogene.web.server.ImogSecurityPolicy;
 import org.imogene.web.server.dao.GenericDao;
+import org.imogene.web.server.dao.hibernate.LocalizedTextDao;
 
 import org.imogene.«projectName.toLowerCase()».server.ApplicationContext;
 
@@ -19,6 +20,8 @@ public class ImogSecurityHandler {
 
 	private GenericDao dao;
 	
+	private LocalizedTextDao i18nDao; 
+	
 	/* The unique instance of this object */
 	private static ImogSecurityHandler instance=null;
 		
@@ -30,11 +33,12 @@ public class ImogSecurityHandler {
 	
 	public ImogSecurityHandler() {
 		dao = (GenericDao) ApplicationContext.getInstance().getBean("genericDao");
+		i18nDao = (LocalizedTextDao) ApplicationContext.getInstance().getBean("localizedTextDao");
 	}	
 	
 	public ImogSecurityPolicy getPolicy(){
 		if(dao == null) return null;
-		return new Imog«projectName.toFirstUpper()»Policy(dao);
+		return new Imog«projectName.toFirstUpper()»Policy(dao,i18nDao);
 	}
 	
 

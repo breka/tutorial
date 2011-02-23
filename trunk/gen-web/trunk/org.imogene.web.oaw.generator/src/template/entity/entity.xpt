@@ -1,5 +1,6 @@
 «IMPORT core»
 «EXTENSION template::CommonFieldUtilExt» 
+«EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»
 «FILE projectName.toLowerCase()+"/client/entity/"+this.name.toFirstUpper() + ".java"»
@@ -35,8 +36,16 @@ public class «name.toFirstUpper()» implements ImogBean {
 	«ENDFOREACH -»	
 	«ENDFOREACH»	
 	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	/* For localized fields */
+	private LocalizedFieldMap localizedFieldMap;	
+	«ENDIF»
+	
 	
 	public «name.toFirstUpper()»(){
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+		localizedFieldMap = new LocalizedFieldMap();		
+	«ENDIF-»		
 	}
 	
 	/* Getters for Imog bean fields */
@@ -139,7 +148,17 @@ public class «name.toFirstUpper()» implements ImogBean {
 	
 	
 	«ENDFOREACH -»	
-	«ENDFOREACH»	
+	«ENDFOREACH»
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	public LocalizedFieldMap getLocalizedFieldMap() {
+		return localizedFieldMap;
+	}
+
+	public void setLocalizedFieldMap(LocalizedFieldMap localizedFieldMap) {
+		this.localizedFieldMap = localizedFieldMap;
+	}
+	«ENDIF»	
 	
 
 	public String getDisplayValue() {		

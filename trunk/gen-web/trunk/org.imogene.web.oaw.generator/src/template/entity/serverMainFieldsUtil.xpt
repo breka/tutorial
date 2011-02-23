@@ -170,6 +170,15 @@ public class ServerMainFieldsUtilImpl implements ServerMainFieldsUtil {
 		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";
 «ENDDEFINE»
 
+«DEFINE stringRepresentation FOR TextField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		«IF this.translatable -»
+		value = value + bean.getLocalizedFieldMap().getFieldI18nValue(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»(), rb.getString("locale")) + " ";
+		«ELSE -»
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";
+		«ENDIF -»
+«ENDDEFINE»
+
 «DEFINE stringRepresentation FOR RelationFieldEntity -»
 	«IF cardinality==1»
 	if(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
