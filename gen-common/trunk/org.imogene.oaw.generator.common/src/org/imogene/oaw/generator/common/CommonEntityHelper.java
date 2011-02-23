@@ -17,6 +17,7 @@ import org.imogene.model.core.Project;
 import org.imogene.model.core.RelationFieldEntity;
 import org.imogene.model.core.RelationType;
 import org.imogene.model.core.Role;
+import org.imogene.model.core.TextField;
 import org.imogene.model.core.Thema;
 
 
@@ -156,6 +157,25 @@ public class CommonEntityHelper
                 int card = rf.getCardinality();
                 int type = rf.getType().getValue();
                 if ( ((card > 1) || (card == -1)) && (type == RelationType.ASSOCIATION)) return true;
+            }
+        }
+        return false;
+       
+	}
+	
+	/**
+	 * 
+	 */
+	public static boolean isTranslatableFieldPresent(List<FieldEntity> fields)
+    {
+        for (Iterator<FieldEntity> it = fields.iterator(); it.hasNext(); )
+        {
+            FieldEntity f = (FieldEntity) it.next();
+            if (f instanceof TextField)
+            {
+            	TextField rf = (TextField) f;
+            	if (rf.isTranslatable())
+            		return true;
             }
         }
         return false;

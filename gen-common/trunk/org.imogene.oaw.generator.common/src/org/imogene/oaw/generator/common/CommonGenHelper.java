@@ -274,7 +274,7 @@ public class CommonGenHelper {
 				return description.getDisplay();
 			}
 		}
-		return new String();
+		return rule.getValidationRegularExpression();
 	}
 	
 	/**
