@@ -27,7 +27,11 @@ boolean isMultiRelationFieldPresent(List fields) :
   // An extension to get the bean property name according to upper first letters.
 boolean isMultiRelationFieldWithAssociationPresent(List fields) :
   JAVA org.imogene.oaw.generator.common.CommonEntityHelper.isMultiRelationFieldWithAssociationPresent(java.util.List);
-  
+
+  // An extension to get the presence of translatable text fields.
+boolean isTranslatableFieldPresent(List fields) :
+  JAVA org.imogene.oaw.generator.common.CommonEntityHelper.isTranslatableFieldPresent(java.util.List);
+ 
   // An extension to test the presence of binary fields. 
 boolean isBinaryFieldPresent(List fields) :
   JAVA org.imogene.oaw.generator.common.CommonEntityHelper.isBinaryFieldPresent(java.util.List);
