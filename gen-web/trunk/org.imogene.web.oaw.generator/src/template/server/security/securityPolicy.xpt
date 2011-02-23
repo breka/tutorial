@@ -14,9 +14,11 @@ import java.util.Vector;
 import org.imogene.web.gwt.common.entity.ImogActor;
 import org.imogene.web.gwt.common.entity.ImogBean;
 import org.imogene.web.gwt.common.entity.ImogRole;
+import org.imogene.web.gwt.common.entity.LocalizedText;
 
 import org.imogene.web.server.ImogSecurityPolicy;
 import org.imogene.web.server.dao.GenericDao;
+import org.imogene.web.server.dao.hibernate.LocalizedTextDao;
 
 «FOREACH entities AS e-»
 import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»;
@@ -34,10 +36,12 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 
 	/* generic DAO access */
 	private GenericDao dao;
+	private LocalizedTextDao i18nDao;
 	
 	/* Generic dao setter */
-	public Imog«projectName.toFirstUpper()»Policy(GenericDao dao){
+	public Imog«projectName.toFirstUpper()»Policy(GenericDao dao, LocalizedTextDao i18nDao){
 		this.dao = dao;
+		this.i18nDao = i18nDao;
 	}
 	
 
@@ -81,6 +85,33 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 
 	«ENDFOREACH-»
 	
+	«FOREACH entities AS e-»	
+		«IF isTranslatableFieldPresent(e.groups.fields)-»
+	/**
+	 * Adds the Localized texts to a «e.name.toFirstUpper()-» entity
+	 * @param value the «e.name.toFirstUpper()-» entity
+	 * @return «e.name.toFirstUpper()-» entity with the Localized texts added
+	 */
+	private «e.name.toFirstUpper()-» getLocalized«e.name.toFirstUpper()-»(«e.name.toFirstUpper()-» value) {
+		«e.name.toFirstUpper()-» entity = value;
+		if (entity!=null) {
+			«EXPAND addLocalizedTexts FOREACH e.groups.fields-»	
+		}		
+		return entity;		
+	}	
+		«ENDIF-»
+	«ENDFOREACH-»
+	
+	/**
+	 * Gets the Localized texts for a given field
+	 * @param fieldId the field id for which LocalizedTexts are searched
+	 * @return a list of LocalizedTexts
+	 */
+	private List<LocalizedText> getLocalizedTexts(String fieldId) {
+		return i18nDao.listLocalizedText(fieldId);	
+	}
+		
+	
 	/*
 	@SuppressWarnings("unchecked")
 	private void updateCollection(Set from, Set to) {
@@ -113,8 +144,7 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 «ENDFILE»
 «ENDDEFINE»
 
-«REM»
-	CardEntity dispatcher to secure «ENDREM»
+«REM» CardEntity dispatcher to secure «ENDREM»
 «DEFINE dispatchSecure FOR CardEntity-»
 	«IF Actor.isAssignableFrom(this.metaType)-»
 		if(bean instanceof «name.toFirstUpper()»Actor)
@@ -126,8 +156,7 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	«REM»«ENDIF»«ENDREM»
 «ENDDEFINE»	
 
-«REM»
-	CarEntity dispatcher to unsecure «ENDREM»
+«REM» CarEntity dispatcher to unsecure «ENDREM»
 «DEFINE dispatchUnsecure FOR CardEntity-»
 	«IF Actor.isAssignableFrom(this.metaType)-»
 	if(bean instanceof «name.toFirstUpper()»Actor)
@@ -139,27 +168,47 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	«REM»«ENDIF»«ENDREM»
 «ENDDEFINE»
 			
-«REM»
-	Setter to affect the values to the new bean «ENDREM»
-«DEFINE setField FOR FieldEntity-»
+«REM» Setter to affect the values to the new bean «ENDREM»
+«DEFINE setField(boolean toSecure) FOR FieldEntity-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 «ENDDEFINE»
 
-«DEFINE setField FOR RelationFieldEntity-»
-	«IF this.cardinality>1||this.cardinality==-1»
-	//updateCollection(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«DEFINE setField(boolean toSecure) FOR TextField-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	«IF this.translatable-»
+		«IF toSecure-»
+	transformedBean = getLocalized«this.parentGroup.parentCard.name.toFirstUpper()»(transformedBean);
+		«ELSE-»
+	transformedBean.getLocalizedFieldMap().addI18nValues(bean.getLocalizedFieldMap().getFieldI18nValues(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ENDIF-»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE setField(boolean toSecure) FOR RelationFieldEntity-»
+	«IF this.cardinality>1||this.cardinality==-1»
+		«IF isTranslatableFieldPresent(this.entity.groups.fields)-»
+		Set<«this.entity.name.toFirstUpper()-»> «EXPAND template::CommonFieldUtil::propertyName FOR this-» = bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»();
+		for («this.entity.name.toFirstUpper()-» card: «EXPAND template::CommonFieldUtil::propertyName FOR this-»)
+			card = getLocalized«this.entity.name.toFirstUpper()»(card);	
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«EXPAND template::CommonFieldUtil::propertyName FOR this-»);
+		«ELSE-»
+		//updateCollection(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+		«ENDIF-»	
 	«ELSE-»
 	if(transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()==null ||
 		bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»() == null ||
 		!transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId().equals(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId())){
+		«IF isTranslatableFieldPresent(this.entity.groups.fields)-»
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(getLocalized«this.entity.name.toFirstUpper()»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ELSE-»
 		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+		«ENDIF-»
 	}
 	«ENDIF-»
 «ENDDEFINE»
 
-«REM»
-  	Set empty field to securise a bean «ENDREM»
+«REM» Set empty field to securise a bean «ENDREM»
 «DEFINE setEmptyField FOR FieldEntity-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
 «ENDDEFINE»
@@ -172,21 +221,19 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	«ENDIF-»
 «ENDDEFINE»
 
-«REM»
-	hand  administrativ field «ENDREM»
-«DEFINE handleAdminField FOR CardEntity-»«ENDDEFINE»
-«DEFINE handleAdminField FOR Actor-»
+«REM» hand  administrativ field «ENDREM»
+«DEFINE handleAdminField(boolean toSecure) FOR CardEntity-»«ENDDEFINE»
+«DEFINE handleAdminField(boolean toSecure) FOR Actor-»
 		«FOREACH (List[FieldEntity])getAdministrationFields(this) AS f-»
-			«EXPAND setField FOR f-»
+			«EXPAND setField(toSecure) FOR f-»
 		«ENDFOREACH-»
 «ENDDEFINE»
 
-«REM»
-	handle filter field «ENDREM»
-«DEFINE handleFilterField FOR CardEntity-»«ENDDEFINE»
-«DEFINE handleFilterField FOR Actor-»
+«REM» handle filter field «ENDREM»
+«DEFINE handleFilterField(boolean toSecure) FOR CardEntity-»«ENDDEFINE»
+«DEFINE handleFilterField(boolean toSecure) FOR Actor-»
 	«FOREACH this.filters AS f-»
-		«EXPAND setField FOR f-»
+		«EXPAND setField(toSecure) FOR f-»
 	«ENDFOREACH-»
 «ENDDEFINE»
 
@@ -235,8 +282,8 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 			transformedBean.setNotificationMethod(bean.getNotificationMethod());
 			transformedBean.setBeNotified(bean.getBeNotified());			
 			updateCollection(bean.getRoles(), transformedBean.getRoles());
-			«EXPAND handleAdminField FOR this-»
-			«EXPAND handleFilterField FOR this-»
+			«EXPAND handleAdminField(true) FOR this-»
+			«EXPAND handleFilterField(true) FOR this-»
 		}*/
 		
 		return transformedBean;
@@ -258,19 +305,19 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		
 		«FOREACH this.groups AS g»
 			«IF g.readers.size == 0-»
-				«FOREACH g.fields AS f»
-					«EXPAND setField FOR f -»
-				«ENDFOREACH»			
+				«FOREACH g.fields AS f-»
+					«EXPAND setField(true) FOR f -»
+				«ENDFOREACH-»			
 			«ELSE-»
 				if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»«IF g.writers.size>0»||«ENDIF»«FOREACH g.writers AS w ITERATOR i» roleNames.contains("«w.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){
-					«FOREACH g.fields AS f»
-						«EXPAND setField FOR f -»
-					«ENDFOREACH»
+					«FOREACH g.fields AS f-»
+						«EXPAND setField(true) FOR f -»
+					«ENDFOREACH-»
 				}
 				else{
-				«FOREACH g.fields AS f»
+				«FOREACH g.fields AS f-»
 						«EXPAND setEmptyField FOR f -»
-				«ENDFOREACH»
+				«ENDFOREACH-»
 				}
 			«ENDIF-»
 		«ENDFOREACH»
@@ -279,7 +326,7 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 
 
 «REM» ---------------------------------------------------------- «ENDREM»
-«DEFINE toUnSecure FOR CardEntity»
+«DEFINE toUnSecure FOR CardEntity-»
 
 	private ImogBean toUnsecure«this.name.toFirstUpper()»(«this.name.toFirstUpper()» bean, Set<String> roleNames){	
 		«this.name.toFirstUpper()» transformedBean = («this.name.toFirstUpper()»)dao.loadEntity(«this.name.toFirstUpper()».class, bean.getId());
@@ -307,9 +354,9 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 			
 		}
 
-		«EXPAND toUnSecureCommon FOR this»
+		«EXPAND toUnSecureCommon FOR this-»
 		
-		«IF Actor.isAssignableFrom(this.metaType)»
+		«IF Actor.isAssignableFrom(this.metaType)-»
 		/*
 			if (roleNames.contains("administrator")) {
 				transformedBean.setLogin(bean.getLogin());
@@ -318,19 +365,19 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 				transformedBean.setNotificationMethod(bean.getNotificationMethod());
 				transformedBean.setBeNotified(bean.getBeNotified());
 				updateCollection(bean.getRoles(), transformedBean.getRoles());
-				«EXPAND handleAdminField FOR this»	
-				«EXPAND handleFilterField FOR this»			
+				«EXPAND handleAdminField(false) FOR this-»	
+				«EXPAND handleFilterField(false) FOR this-»			
 			}
 		*/
-		«ENDIF»
+		«ENDIF-»
 		return transformedBean;
 	}
-	«ENDIF»
+	«ENDIF-»
 
 «ENDDEFINE»
 
 «REM» Common code between CardEntity and Actor for toUnSecure expand «ENDREM»
-«DEFINE toUnSecureCommon FOR CardEntity»
+«DEFINE toUnSecureCommon FOR CardEntity-»
 
 		transformedBean.setCreator(bean.getCreator());
 		transformedBean.setCreationDate(bean.getCreationDate());
@@ -343,23 +390,32 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 			«IF g.writers.size == 0»
 				«IF g.readers.size>0»					
 					if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){					
-					«FOREACH g.fields AS f»
-						«EXPAND setField FOR f»
-					«ENDFOREACH»
+					«FOREACH g.fields AS f-»
+						«EXPAND setField(false) FOR f-»
+					«ENDFOREACH-»
 				}
 				«ELSE»
-					«FOREACH g.fields AS f»
-						«EXPAND setField FOR f -»
-					«ENDFOREACH»
+					«FOREACH g.fields AS f-»
+						«EXPAND setField(false) FOR f -»
+					«ENDFOREACH-»
 				«ENDIF»									
 			«ELSE»
 				if(«FOREACH g.writers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){
-					«FOREACH g.fields AS f»
-						«EXPAND setField FOR f»
-					«ENDFOREACH»
+					«FOREACH g.fields AS f-»
+						«EXPAND setField(false) FOR f-»
+					«ENDFOREACH-»
 				}				
 			«ENDIF»
 		«ENDFOREACH»
 		
+«ENDDEFINE»
+«REM» ---------------------------------------------------------- «ENDREM»
+
+«REM» Add LocalizedTexts to translatable entity «ENDREM»
+«DEFINE addLocalizedTexts FOR FieldEntity-»«ENDDEFINE»
+«DEFINE addLocalizedTexts FOR TextField-»
+	«IF this.translatable-»
+			entity.getLocalizedFieldMap().addI18nValues(getLocalizedTexts(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+	«ENDIF-»
 «ENDDEFINE»
 «REM» ---------------------------------------------------------- «ENDREM»

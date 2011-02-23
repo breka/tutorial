@@ -1,5 +1,5 @@
 «IMPORT core»
-«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR Project»
+«DEFINE generate(String packageName, String projectName) FOR Project»
 «FILE projectName.toLowerCase()+"/server/servlet/UtilServicesServlet.java"»
 package org.imogene.«projectName.toLowerCase()».server.servlet;
 

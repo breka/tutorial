@@ -1,4 +1,5 @@
 «IMPORT core» 
+«EXTENSION template::CommonEntityUtilExt» 
 «DEFINE generate(String projectName) FOR CardEntity-»
 «FILE this.name.toFirstLower() + "CardReportTemplate.jrxml"-»
 <?xml version="1.0" encoding="UTF-8"  ?>
@@ -35,6 +36,10 @@
 	<import value="org.imogene.web.server.util.BooleanUtil" />
 	<import value="org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»" />
 	<import value="org.imogene.«projectName.toLowerCase()».server.servlet.security.ServerAccessManager" />
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	<import value="org.imogene.«projectName.toLowerCase()».client.entity.LocalizedFieldMap" />
+	«ENDIF -»
+
 	
 	<parameter name="roles" isForPrompting="false" class="java.util.Set"/>	
 	
@@ -44,6 +49,9 @@
 		«ENDIF -»
 	«ENDFOREACH-» 
 	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	<field name="localizedFieldMap" class="org.imogene.«projectName.toLowerCase()».client.entity.LocalizedFieldMap"/>
+	«ENDIF -»
 	«FOREACH this.groups.fields AS f-»
 		«IF !f.hidden -»
 		«EXPAND defineField(projectName) FOR f-»
@@ -419,6 +427,14 @@
 «REM» Display field value «ENDREM»
 «DEFINE displayFieldValue FOR FieldEntity-»
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}]]></textFieldExpression>
+«ENDDEFINE»
+
+«DEFINE displayFieldValue FOR TextField-»
+	«IF this.translatable-»
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{localizedFieldMap}.getFieldI18nValue($F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»},$R{locale}.replaceAll( "\\n", "" ))]]></textFieldExpression>
+	«ELSE-»
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»}]]></textFieldExpression>
+	«ENDIF-»
 «ENDDEFINE»
 
 «DEFINE displayFieldValue FOR FloatField-»

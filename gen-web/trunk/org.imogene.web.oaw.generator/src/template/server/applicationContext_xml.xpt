@@ -47,6 +47,7 @@
 				<value>org/imogene/web/server/binary/file/BinaryFile.hbm.xml</value>
 				<value>org/imogene/web/server/dao/hibernate/RoleBeanImpl.hbm.xml</value>
 				<value>org/imogene/web/server/dao/hibernate/DefaultActor.hbm.xml</value>
+				<value>org/imogene/web/server/dao/hibernate/LocalizedText.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -99,6 +100,10 @@
 	<bean class="org.imogene.web.server.dao.hibernate.BinaryFileDaoHibernate" id="binaryDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+	<!-- localized text dao -->	
+	<bean class="org.imogene.web.server.dao.hibernate.LocalizedTextDaoHibernate" id="localizedTextDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>	
 	<!-- limited generic dao -->
 	<bean class="org.imogene.web.server.dao.hibernate.GenericDaoHibernate" id="genericDao">
 		<property name="sessionFactory" ref="sessionFactory"/>

@@ -38,6 +38,10 @@ import org.imogene.web.server.ServerConstants;
 import org.imogene.web.server.binary.Binary;
 import org.imogene.web.server.binary.BinaryDao;
 «ENDIF-»
+«IF isTranslatableFieldPresent(this.groups.fields)-»
+import org.imogene.web.gwt.common.entity.LocalizedText;
+import org.imogene.web.server.dao.hibernate.LocalizedTextDao;	
+«ENDIF»
 
 
 /**
@@ -51,7 +55,10 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 	private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;	
 	«IF isBinaryFieldPresent(this.groups.fields) -»	
 	private BinaryDao binaryDao;
-	«ENDIF-»		
+	«ENDIF-»	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	private LocalizedTextDao i18nDao;	
+	«ENDIF»	
 	«EXPAND declareDaoForForeignKeyDeletion(this) FOR this.eContainer-»	
 	
 	@Override
@@ -60,6 +67,10 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
 		setBeanManager((PersistentBeanManager)wac.getBean("beanManager"));
 		«name.toFirstLower()»Dao =(«name.toFirstUpper()»Dao)wac.getBean("«name.toFirstLower()»Dao");
+		«IF isTranslatableFieldPresent(this.groups.fields)-»
+		/* Set Dao for LocalizedTexts saving */
+		i18nDao = (LocalizedTextDao) wac.getBean("localizedTextDao");
+		«ENDIF»	
 		«IF isBinaryFieldPresent(this.groups.fields) -»		
 		binaryDao = (BinaryDao)wac.getBean("binaryDao");		
 		«ENDIF-»
@@ -177,8 +188,15 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 		ImogActor actor = (ImogActor)this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
 		
 		«name.toFirstUpper()» toSave = («name.toFirstUpper()») ImogSecurityHandler.getInstance().getPolicy().toHibernate(entity, actor);	
-		if (toSave != null)
+		if (toSave != null) {
 			«name.toFirstLower()»Dao.saveOrUpdate(toSave, isNew);	
+			«IF isTranslatableFieldPresent(this.groups.fields)-»
+			// save related LocalizedTexts
+			List<LocalizedText> texts = toSave.getLocalizedFieldMap().getI18nValues();
+			for (LocalizedText current:texts)
+				i18nDao.saveOrUpdate(current);
+			«ENDIF»				
+		}
 	}
 	
 	/**
@@ -191,8 +209,15 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 		ImogActor actor = (ImogActor)this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
 		
 		«name.toFirstUpper()» toSave = («name.toFirstUpper()») ImogSecurityHandler.getInstance().getPolicy().toHibernate(entity, actor);	
-		if (toSave != null)
+		if (toSave != null) {
 			«name.toFirstLower()»Dao.saveOrUpdateShadow(toSave, isNew);	
+			«IF isTranslatableFieldPresent(this.groups.fields)-»
+			// save related LocalizedTexts
+			List<LocalizedText> texts = toSave.getLocalizedFieldMap().getI18nValues();
+			for (LocalizedText current:texts)
+				i18nDao.saveOrUpdate(current);
+			«ENDIF»				
+		}
 	}
 	
 	/**
@@ -294,7 +319,13 @@ import org.imogene.«projectName.toLowerCase()».client.entity.«entity.name.toFirs
  * @return the list of the associated entities
  */
 public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(«parentEntityType» parent){
-	return «parentEntityType.toFirstLower()»Dao.list«name.toFirstUpper()»(parent);
+
+	ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
+		
+	List<«entity.name.toFirstUpper()»> beans = «parentEntityType.toFirstLower()»Dao.list«name.toFirstUpper()»(parent);
+	List<«entity.name.toFirstUpper()»> securedBeans = (List<«entity.name.toFirstUpper()»>) ImogSecurityHandler.getInstance().getPolicy().toSecure(beans, actor);
+
+	return securedBeans;
 }
   «ELSE -»
 /**
@@ -304,7 +335,13 @@ public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(«parentEntit
  * @return the list of the associated entities
  */
 public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(String parentId){
-	return «parentEntityType.toFirstLower()»Dao.list«name.toFirstUpper()»(parentId);
+
+	ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
+		
+	List<«entity.name.toFirstUpper()»> beans = «parentEntityType.toFirstLower()»Dao.list«name.toFirstUpper()»(parentId);
+	List<«entity.name.toFirstUpper()»> securedBeans = (List<«entity.name.toFirstUpper()»>) ImogSecurityHandler.getInstance().getPolicy().toSecure(beans, actor);
+
+	return securedBeans;
 }
   «ENDIF -»
 «ENDIF»
