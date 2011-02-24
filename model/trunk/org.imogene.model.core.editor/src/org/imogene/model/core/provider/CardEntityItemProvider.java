@@ -85,6 +85,7 @@ public class CardEntityItemProvider
 			addCreatorsPropertyDescriptor(object);
 			addClientPeriodFilterablePropertyDescriptor(object);
 			addDirectAccessPropertyDescriptor(object);
+			addGeoreferencedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -411,6 +412,28 @@ public class CardEntityItemProvider
 				 getString("_UI_CardEntity_directAccess_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_CardEntity_directAccess_feature", "_UI_CardEntity_type"),
 				 ImogenePackage.Literals.CARD_ENTITY__DIRECT_ACCESS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Georeferenced feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addGeoreferencedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_CardEntity_georeferenced_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_CardEntity_georeferenced_feature", "_UI_CardEntity_type"),
+				 ImogenePackage.Literals.CARD_ENTITY__GEOREFERENCED,
 				 true,
 				 false,
 				 true,

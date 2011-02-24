@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.imogene.model.core.CardEntity#getCreators <em>Creators</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#isClientPeriodFilterable <em>Client Period Filterable</em>}</li>
  *   <li>{@link org.imogene.model.core.CardEntity#getDirectAccess <em>Direct Access</em>}</li>
+ *   <li>{@link org.imogene.model.core.CardEntity#getGeoreferenced <em>Georeferenced</em>}</li>
  * </ul>
  * </p>
  *
@@ -391,5 +392,31 @@ public interface CardEntity extends EObject {
 	 * @generated
 	 */
 	EList<Role> getDirectAccess();
+
+	/**
+	 * Returns the value of the '<em><b>Georeferenced</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Georeferenced</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Georeferenced</em>' reference.
+	 * @see #setGeoreferenced(GeoField)
+	 * @see org.imogene.model.core.ImogenePackage#getCardEntity_Georeferenced()
+	 * @model
+	 * @generated
+	 */
+	GeoField getGeoreferenced();
+
+	/**
+	 * Sets the value of the '{@link org.imogene.model.core.CardEntity#getGeoreferenced <em>Georeferenced</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Georeferenced</em>' reference.
+	 * @see #getGeoreferenced()
+	 * @generated
+	 */
+	void setGeoreferenced(GeoField value);
 
 } // CardEntity

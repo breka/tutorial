@@ -618,6 +618,15 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getCardEntity_Georeferenced() {
+		return (EReference)cardEntityEClass.getEStructuralFeatures().get(17);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getDescription() {
 		return descriptionEClass;
 	}
@@ -1766,6 +1775,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		createEReference(cardEntityEClass, CARD_ENTITY__CREATORS);
 		createEAttribute(cardEntityEClass, CARD_ENTITY__CLIENT_PERIOD_FILTERABLE);
 		createEReference(cardEntityEClass, CARD_ENTITY__DIRECT_ACCESS);
+		createEReference(cardEntityEClass, CARD_ENTITY__GEOREFERENCED);
 
 		fieldGroupEClass = createEClass(FIELD_GROUP);
 		createEReference(fieldGroupEClass, FIELD_GROUP__DESCRIPTIONS);
@@ -2007,6 +2017,7 @@ public class ImogenePackageImpl extends EPackageImpl implements ImogenePackage {
 		initEReference(getCardEntity_Creators(), this.getRole(), null, "creators", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCardEntity_ClientPeriodFilterable(), ecorePackage.getEBoolean(), "clientPeriodFilterable", "false", 0, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCardEntity_DirectAccess(), this.getRole(), null, "directAccess", null, 0, -1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCardEntity_Georeferenced(), this.getGeoField(), null, "georeferenced", null, 0, 1, CardEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(fieldGroupEClass, FieldGroup.class, "FieldGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFieldGroup_Descriptions(), this.getDescription(), null, "descriptions", null, 0, -1, FieldGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

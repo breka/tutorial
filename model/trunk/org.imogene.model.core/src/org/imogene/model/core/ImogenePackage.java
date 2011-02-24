@@ -492,13 +492,22 @@ public interface ImogenePackage extends EPackage {
 	int CARD_ENTITY__DIRECT_ACCESS = 16;
 
 	/**
+	 * The feature id for the '<em><b>Georeferenced</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARD_ENTITY__GEOREFERENCED = 17;
+
+	/**
 	 * The number of structural features of the '<em>Card Entity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CARD_ENTITY_FEATURE_COUNT = 17;
+	int CARD_ENTITY_FEATURE_COUNT = 18;
 
 	/**
 	 * The meta object id for the '{@link org.imogene.model.core.impl.PhoneFieldImpl <em>Phone Field</em>}' class.
@@ -4093,6 +4102,15 @@ public interface ImogenePackage extends EPackage {
 	int ACTOR__DIRECT_ACCESS = CARD_ENTITY__DIRECT_ACCESS;
 
 	/**
+	 * The feature id for the '<em><b>Georeferenced</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTOR__GEOREFERENCED = CARD_ENTITY__GEOREFERENCED;
+
+	/**
 	 * The feature id for the '<em><b>Authorized Roles</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4835,6 +4853,17 @@ public interface ImogenePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getCardEntity_DirectAccess();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.imogene.model.core.CardEntity#getGeoreferenced <em>Georeferenced</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Georeferenced</em>'.
+	 * @see org.imogene.model.core.CardEntity#getGeoreferenced()
+	 * @see #getCardEntity()
+	 * @generated
+	 */
+	EReference getCardEntity_Georeferenced();
 
 	/**
 	 * Returns the meta object for class '{@link org.imogene.model.core.Description <em>Description</em>}'.
@@ -6301,6 +6330,14 @@ public interface ImogenePackage extends EPackage {
 		 * @generated
 		 */
 		EReference CARD_ENTITY__DIRECT_ACCESS = eINSTANCE.getCardEntity_DirectAccess();
+
+		/**
+		 * The meta object literal for the '<em><b>Georeferenced</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CARD_ENTITY__GEOREFERENCED = eINSTANCE.getCardEntity_Georeferenced();
 
 		/**
 		 * The meta object literal for the '{@link org.imogene.model.core.impl.DescriptionImpl <em>Description</em>}' class.
