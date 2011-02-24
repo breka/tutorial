@@ -151,7 +151,24 @@ public class DescriptionItemProvider
 	public Object getImage(Object object) {
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/Description"));
 	}
-
+	
+    /**
+     * Return a friendly display of a description. 
+     * @return the description followed by the locale. 
+     * @generated NOT
+     */
+    public String getText(Object object, String typeKey) {
+        String label = ((Description) object).getDisplay();
+        String code = ((Description) object).getLocale();
+        if (label == null) {
+            label = "";
+        }
+        if (code != null && code.length() > 0) {
+        	label = label + " ("+code+")";
+        }
+        return getString(typeKey) + ' ' + label;
+    }
+    
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
@@ -160,10 +177,7 @@ public class DescriptionItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Description)object).getDisplay();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Description_type") :
-			getString("_UI_Description_type") + " " + label;
+		return getText(object, "_UI_Description_type");
 	}
 
 	/**

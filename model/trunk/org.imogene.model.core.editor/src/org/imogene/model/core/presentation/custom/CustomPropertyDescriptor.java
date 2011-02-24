@@ -128,8 +128,9 @@ public class CustomPropertyDescriptor extends PropertyDescriptor {
 				|| feature.getName().equals("columnFields")
 				|| feature.getName().equals("filterFields")
 				|| feature.getName().equals("sortFields")
-				|| feature.getName().equals("adminFields") || feature.getName()
-				.equals("secondaryFields"))
+				|| feature.getName().equals("adminFields")
+				|| feature.getName().equals("secondaryFields")
+				|| feature.getName().equals("clientFilterFields"))
 				&& object instanceof CardEntity) {
 
 			final CardEntity card = (CardEntity) object;
