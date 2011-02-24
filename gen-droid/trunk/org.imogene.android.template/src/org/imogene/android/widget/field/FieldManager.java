@@ -96,15 +96,15 @@ public class FieldManager {
 		}
 	}
 	
-	public interface OnActivityResultListener {
+	public static interface OnActivityResultListener {
 		public boolean onActivityResult(int requestCode, int resultCode, Intent data);
 	}
 	
-	public interface OnActivityDestroyListener {
+	public static interface OnActivityDestroyListener {
 		public void onActivityDestroy();
 	}
 	
-	public interface RelationManager {
+	public static interface RelationManager {
 		
 		public String getCurrentId();
 		

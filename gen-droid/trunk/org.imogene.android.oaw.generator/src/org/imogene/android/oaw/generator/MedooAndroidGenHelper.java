@@ -131,8 +131,20 @@ public class MedooAndroidGenHelper {
 	
 	public static boolean hasFilter(Project project) {
 		for (CardEntity entity : project.getEntities())
-			if (entity.isClientPeriodFilterable() || entity.getClientFilterFields().size() > 0)
+			if (entity.getGeoreferenced() != null ||
+					entity.isClientPeriodFilterable() ||
+					entity.getClientFilterFields().size() > 0) {
 				return true;
+			}
+		return false;
+	}
+	
+	public static boolean hasLocationFilter(Project project) {
+		for (CardEntity entity : project.getEntities()) {
+			if (entity.getGeoreferenced() != null) {
+				return true;
+			}
+		}
 		return false;
 	}
 	

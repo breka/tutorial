@@ -211,13 +211,29 @@ public final class Constants {
 
 		public static final String EXTRA_LOCATION = "location";
 		
-		public static final String EXTRA_NORTH = "north";
+		public static final String EXTRA_NORTH = "northLatitude";
 		
-		public static final String EXTRA_EAST = "east";
+		public static final String EXTRA_SOUTH = "southLatitude";
 		
-		public static final String EXTRA_SOUTH = "south";
+		public static final String EXTRA_EAST = "eastLongitude";
 		
-		public static final String EXTRA_WEST = "west";
+		public static final String EXTRA_WEST = "westLongitude";
+		
+		public static final String EXTRA_BOXES_BUNDLE = "boxesBundle";
+		
+		public static final String EXTRA_BOXES_COUNT = "boxesCount";
+		
+		public static final String EXTRA_ENABLED_BOXES = "enabledBoxes";
+		
+		public static final String EXTRA_EDITABLE_BOXES = "editableBoxes";
+		
+		public static final String EXTRA_NORTH_LATITUDES = "northLatitudes";
+		
+		public static final String EXTRA_EAST_LONGITUDES = "eastLongitudes";
+		
+		public static final String EXTRA_SOUTH_LATITUDES = "southLatitudes";
+		
+		public static final String EXTRA_WEST_LONGITUDES = "westLongitudes";
 	}
 
 	public static interface SortOrder {

@@ -2,12 +2,12 @@ package org.imogene.android.app;
 
 import org.imogene.android.W;
 import org.imogene.android.app.setup.AccountSetupBasics;
+import org.imogene.android.preference.MyPreferenceActivity;
 import org.imogene.android.preference.PreferenceHelper;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 
-public class Preferences extends PreferenceActivity {
+public class Preferences extends MyPreferenceActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
