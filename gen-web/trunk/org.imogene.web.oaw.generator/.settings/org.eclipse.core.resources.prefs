@@ -1,4 +1,4 @@
-#Sat Jun 05 18:41:31 CEST 2010
+#Thu Feb 24 10:44:34 CET 2011
 eclipse.preferences.version=1
 encoding//src/template/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/template/accessManager.xpt=ISO-8859-1
@@ -15,6 +15,7 @@ encoding//src/template/entryPoint.xpt=ISO-8859-1
 encoding//src/template/i18n/NLS.xpt=ISO-8859-1
 encoding//src/template/i18n/projectTranslation.xpt=ISO-8859-1
 encoding//src/template/i18n/projectTranslation_properties.xpt=ISO-8859-1
+encoding//src/template/localizedText/localizedFieldMap.xpt=ISO-8859-1
 encoding//src/template/module_xml.xpt=ISO-8859-1
 encoding//src/template/remote/entityService.xpt=ISO-8859-1
 encoding//src/template/remote/entityServiceAsync.xpt=ISO-8859-1
