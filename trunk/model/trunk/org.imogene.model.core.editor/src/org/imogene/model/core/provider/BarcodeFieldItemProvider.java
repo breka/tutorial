@@ -19,7 +19,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.imogene.model.core.BarcodeField;
 import org.imogene.model.core.ImogenePackage;
 
 /**
@@ -104,14 +103,11 @@ public class BarcodeFieldItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((BarcodeField)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_BarcodeField_type") :
-			getString("_UI_BarcodeField_type") + " " + label;
+		return getText(object, "_UI_BarcodeField_type");
 	}
 
 	/**

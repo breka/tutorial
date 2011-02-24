@@ -128,14 +128,11 @@ public class GeoFieldItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((GeoField)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_GeoField_type") :
-			getString("_UI_GeoField_type") + " " + label;
+		return getText(object, "_UI_GeoField_type");
 	}
 
 	/**
