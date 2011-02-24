@@ -1,11 +1,11 @@
 package org.imogene.android.app;
 
 import org.imogene.android.W;
+import org.imogene.android.preference.MyPreferenceActivity;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 
-public class HighPreferences extends PreferenceActivity {
+public class HighPreferences extends MyPreferenceActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

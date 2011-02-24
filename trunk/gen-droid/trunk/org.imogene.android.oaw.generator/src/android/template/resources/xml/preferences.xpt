@@ -37,6 +37,13 @@
 				android:title="@string/webservice_url_title"
 				android:inputType="textUri"
 				android:defaultValue="«webService»" />
+			«IF hasLocationFilter()-»
+			<org.imogene.android.preference.filter.LocationFilterPreference
+				android:key="«name.toLowerCase()»_location_filter"
+				android:title="Ahahahah !!"
+				app:entity="«name.toLowerCase()»_project"
+				app:field="gereferenced_fields" />
+			«ENDIF-»
 			«FOREACH entities AS e-»
 			«IF e.clientPeriodFilterable || e.clientFilterFields.size > 0-»
 			<PreferenceScreen
