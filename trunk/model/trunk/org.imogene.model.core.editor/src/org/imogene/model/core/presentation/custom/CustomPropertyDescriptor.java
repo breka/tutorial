@@ -168,6 +168,32 @@ public class CustomPropertyDescriptor extends PropertyDescriptor {
 				}
 			};
 		}
+		
+		/*
+		 * case of GeoField fields for a CardEntity that are part of this
+		 * card
+		 */
+		if (feature.getName().equals("georeferenced") && object instanceof CardEntity) {
+			final CardEntity card = (CardEntity) object;
+
+			/* customize choices of values */
+			final Collection choices = itemPropertyDescriptor.getChoiceOfValues(object);
+			Collection noGood = new Vector();
+			for (Iterator it = choices.iterator(); it.hasNext();) {
+				FieldEntity current = (FieldEntity) it.next();
+				if (current != null &&
+						(current.getParentCard() == null	|| !current.getParentCard().equals(card))) {
+					noGood.add(current);
+				}
+			}
+			choices.removeAll(noGood);
+
+			result = new ExtendedComboBoxCellEditor(
+					composite,
+					new ArrayList<Object>(choices),
+					getEditLabelProvider(),
+					itemPropertyDescriptor.isSortChoices(object));
+		}
 
 		/*
 		 * case of Field Dependent Visibility

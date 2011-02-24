@@ -268,6 +268,20 @@ public class FieldEntityItemProvider
 	}
 
     /**
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getText(Object object) {
+		String label = ((FieldEntity)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_FieldEntity_type") :
+			getString("_UI_FieldEntity_type") + " " + label;
+	}
+
+				/**
      * Return the parent name to help understanding field source. 
      * @return the parent card name if field is in a cardentity, of fieldComment name
      * if field is in a fieldComment. 

@@ -28,6 +28,7 @@ import org.imogene.model.core.CardEntity;
 import org.imogene.model.core.Description;
 import org.imogene.model.core.FieldEntity;
 import org.imogene.model.core.FieldGroup;
+import org.imogene.model.core.GeoField;
 import org.imogene.model.core.ImogenePackage;
 import org.imogene.model.core.Role;
 
@@ -55,6 +56,7 @@ import org.imogene.model.core.Role;
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getCreators <em>Creators</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#isClientPeriodFilterable <em>Client Period Filterable</em>}</li>
  *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getDirectAccess <em>Direct Access</em>}</li>
+ *   <li>{@link org.imogene.model.core.impl.CardEntityImpl#getGeoreferenced <em>Georeferenced</em>}</li>
  * </ul>
  * </p>
  *
@@ -307,6 +309,16 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 	 * @ordered
 	 */
 	protected EList<Role> directAccess;
+
+	/**
+	 * The cached value of the '{@link #getGeoreferenced() <em>Georeferenced</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getGeoreferenced()
+	 * @generated
+	 * @ordered
+	 */
+	protected GeoField georeferenced;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -599,6 +611,44 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public GeoField getGeoreferenced() {
+		if (georeferenced != null && georeferenced.eIsProxy()) {
+			InternalEObject oldGeoreferenced = (InternalEObject)georeferenced;
+			georeferenced = (GeoField)eResolveProxy(oldGeoreferenced);
+			if (georeferenced != oldGeoreferenced) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ImogenePackage.CARD_ENTITY__GEOREFERENCED, oldGeoreferenced, georeferenced));
+			}
+		}
+		return georeferenced;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GeoField basicGetGeoreferenced() {
+		return georeferenced;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setGeoreferenced(GeoField newGeoreferenced) {
+		GeoField oldGeoreferenced = georeferenced;
+		georeferenced = newGeoreferenced;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ImogenePackage.CARD_ENTITY__GEOREFERENCED, oldGeoreferenced, georeferenced));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -667,6 +717,9 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				return isClientPeriodFilterable();
 			case ImogenePackage.CARD_ENTITY__DIRECT_ACCESS:
 				return getDirectAccess();
+			case ImogenePackage.CARD_ENTITY__GEOREFERENCED:
+				if (resolve) return getGeoreferenced();
+				return basicGetGeoreferenced();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -741,6 +794,9 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				getDirectAccess().clear();
 				getDirectAccess().addAll((Collection<? extends Role>)newValue);
 				return;
+			case ImogenePackage.CARD_ENTITY__GEOREFERENCED:
+				setGeoreferenced((GeoField)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -804,6 +860,9 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 			case ImogenePackage.CARD_ENTITY__DIRECT_ACCESS:
 				getDirectAccess().clear();
 				return;
+			case ImogenePackage.CARD_ENTITY__GEOREFERENCED:
+				setGeoreferenced((GeoField)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -850,6 +909,8 @@ public class CardEntityImpl extends EObjectImpl implements CardEntity {
 				return clientPeriodFilterable != CLIENT_PERIOD_FILTERABLE_EDEFAULT;
 			case ImogenePackage.CARD_ENTITY__DIRECT_ACCESS:
 				return directAccess != null && !directAccess.isEmpty();
+			case ImogenePackage.CARD_ENTITY__GEOREFERENCED:
+				return georeferenced != null;
 		}
 		return super.eIsSet(featureID);
 	}
