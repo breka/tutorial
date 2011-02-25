@@ -108,7 +108,7 @@ public class LoginDialog {
 	 */
 	private void createLeftCorner(Composite parent){
 		Label leftCorner = toolkit.createLabel(parent, "");
-		Image leftImage = ImogPlugin.getImageDescriptor("icons/epidefender-login.png").createImage();
+		Image leftImage = ImogPlugin.getImageDescriptor("icons/imogene_login.png").createImage();
 		leftCorner.setImage(leftImage);
 		
 		GridData cornerData = new GridData(GridData.FILL_BOTH);
