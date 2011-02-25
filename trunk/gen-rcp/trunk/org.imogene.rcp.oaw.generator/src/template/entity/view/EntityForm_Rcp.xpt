@@ -557,10 +557,10 @@ import org.imogene.«moduleName».view.«entity.name.toLowerCase()».«entity.name.to
 
 «REM»Generate the declaration of the widget for display and set fields «ENDREM»
 «DEFINE fieldEditorDeclaration FOR FieldEntity-»
-	private TextFieldComposite «name.toFirstLower()»Field;	
+	private StringFieldComposite «name.toFirstLower()»Field;	
 «ENDDEFINE»
 «DEFINE fieldEditorDeclaration FOR TextAreaField-»
-	private TextAreaFieldComposite «name.toFirstLower()»Field;	
+	private TextFieldComposite «name.toFirstLower()»Field;	
 «ENDDEFINE»
 «DEFINE fieldEditorDeclaration FOR IntegerField-»
 	private IntegerFieldComposite «name.toFirstLower()»Field;	
@@ -600,10 +600,10 @@ import org.imogene.«moduleName».view.«entity.name.toLowerCase()».«entity.name.to
 
 «REM»Generate the instanciation of the widget for display and set fields «ENDREM»
 «DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR FieldEntity-»
-		«name.toFirstLower()»Field = new TextFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+		«name.toFirstLower()»Field = new StringFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
 «ENDDEFINE»
 «DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR TextAreaField-»	
-		«name.toFirstLower()»Field = new TextAreaFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+		«name.toFirstLower()»Field = new TextFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
 «ENDDEFINE»
 «DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR IntegerField-»
 		«name.toFirstLower()»Field = new IntegerFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
