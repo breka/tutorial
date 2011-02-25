@@ -40,7 +40,7 @@
 			«IF hasLocationFilter()-»
 			<org.imogene.android.preference.filter.LocationFilterPreference
 				android:key="«name.toLowerCase()»_location_filter"
-				android:title="Ahahahah !!"
+				android:title="@string/location_filter_title"
 				app:entity="«name.toLowerCase()»_project"
 				app:field="gereferenced_fields" />
 			«ENDIF-»

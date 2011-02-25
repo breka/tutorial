@@ -8,54 +8,93 @@ import android.os.Bundle;
 
 public class BoundingBox {
 	
-	private int east;
-	private int north;
-	private int south;
-	private int west;
+	private int eastE6;
+	private int northE6;
+	private int southE6;
+	private int westE6;
 	private boolean enabled;
 	
 	public BoundingBox() {
-		
 	}
 	
 	public BoundingBox(int eastE6, int northE6, int southE6, int westE6, boolean enabled) {
 		this.enabled = enabled;
-		east = eastE6;
-		north = northE6;
-		south = southE6;
-		west = westE6;
+		this.eastE6 = eastE6;
+		this.northE6 = northE6;
+		this.southE6 = southE6;
+		this.westE6 = westE6;
+	}
+	
+	public BoundingBox(double east, double north, double south, double west, boolean enabled) {
+		this.enabled = enabled;
+		this.eastE6 = (int) (east * 1E6);
+		this.northE6 = (int) (north * 1E6);
+		this.southE6 = (int) (south * 1E6);
+		this.westE6 = (int) (west * 1E6);
 	}
 
-	public int getEast() {
-		return east;
+	public int getEastE6() {
+		return eastE6;
+	}
+	
+	public double getEast() {
+		return (double) (eastE6 / 1E6);
 	}
 
-	public void setEast(int east) {
-		this.east = east;
+	public void setEastE6(int eastE6) {
+		this.eastE6 = eastE6;
+	}
+	
+	public void setEast(double east) {
+		this.eastE6 = (int) (east * 1E6);
 	}
 
-	public int getNorth() {
-		return north;
+	public int getNorthE6() {
+		return northE6;
+	}
+	
+	public double getNorth() {
+		return (double) (northE6 / 1E6);
 	}
 
-	public void setNorth(int north) {
-		this.north = north;
+	public void setNorthE6(int northE6) {
+		this.northE6 = northE6;
+	}
+	
+	public void setNorth(double north) {
+		this.northE6 = (int) (north * 1E6);
 	}
 
-	public int getSouth() {
-		return south;
+	public int getSouthE6() {
+		return southE6;
+	}
+	
+	public double getSouth() {
+		return (double) (southE6 / 1E6);
 	}
 
-	public void setSouth(int south) {
-		this.south = south;
+	public void setSouthE6(int southE6) {
+		this.southE6 = southE6;
+	}
+	
+	public void setSouth(double south) {
+		this.southE6 = (int) (south * 1E6);
 	}
 
-	public int getWest() {
-		return west;
+	public int getWestE6() {
+		return westE6;
+	}
+	
+	public double getWest() {
+		return (double) (westE6 / 1E6);
 	}
 
-	public void setWest(int west) {
-		this.west = west;
+	public void setWestE6(int westE6) {
+		this.westE6 = westE6;
+	}
+	
+	public void setWest(double west) {
+		this.westE6 = (int) (west * 1E6);
 	}
 
 	public boolean isEnabled() {
@@ -80,18 +119,18 @@ public class BoundingBox {
 				}
 				builder.append(bb.isEnabled() ? 1 : 0);
 				builder.append(':');
-				builder.append(bb.getEast());
+				builder.append(bb.getEastE6());
 				builder.append(':');
-				builder.append(bb.getNorth());
+				builder.append(bb.getNorthE6());
 				builder.append(':');
-				builder.append(bb.getSouth());
+				builder.append(bb.getSouthE6());
 				builder.append(':');
-				builder.append(bb.getWest());
+				builder.append(bb.getWestE6());
 			}
 			return builder.toString();
 		}
 	}
-
+	
 	public static final ArrayList<BoundingBox> fromString(String value) {
 		if (value == null) {
 			return null;
@@ -128,10 +167,10 @@ public class BoundingBox {
 		for (int i = 0; i < size; i++) {
 			BoundingBox box = boxes.get(i);
 			enabled[i] = box.isEnabled();
-			east[i] = box.getEast();
-			north[i] = box.getNorth();
-			south[i] = box.getSouth();
-			west[i] = box.getWest();
+			east[i] = box.getEastE6();
+			north[i] = box.getNorthE6();
+			south[i] = box.getSouthE6();
+			west[i] = box.getWestE6();
 		}
 		Bundle result = new Bundle();
 		result.putInt(Extras.EXTRA_BOXES_COUNT, size);
