@@ -12,27 +12,28 @@ import android.net.Uri;
 
 public class ClientFilter extends EntityImpl {
 	
-	protected static final String MULTIENUM_OPERATOR_EQUAL = "equalMultiEnum";
-    protected static final String STRING_OPERATOR_CONTAINS = "contains";
-    protected static final String STRING_OPERATOR_STARTWITH = "startsWith";
-    protected static final String STRING_OPERATOR_EQUAL = "equalString";
-    protected static final String STRING_OPERATOR_DIFF = "diffString";
-    protected static final String STRING_OPERATOR_INF = "infString";
-    protected static final String STRING_OPERATOR_SUP = "supString";
-    protected static final String DATE_OPERATOR_BEFORE = "before";
-    protected static final String DATE_OPERATOR_AFTER = "after";
-    protected static final String DATE_OPERATOR_EQUAL = "equalDate";
-    protected static final String INT_OPERATOR_EQUAL = "equalInt";
-    protected static final String INT_OPERATOR_SUP = "supInt";
-    protected static final String INT_OPERATOR_INF = "infInt";
-    protected static final String FLOAT_OPERATOR_EQUAL = "equalFloat";
-    protected static final String FLOAT_OPERATOR_SUP = "supFloat";
-    protected static final String FLOAT_OPERATOR_INF = "infFloat";
-    protected static final String RELATIONFIELD_OPERATOR_EQUAL = "equalRelationField";
-    protected static final String RELATIONFIELD_OPERATOR_EQUAL_NULL = "equalNull";
-    protected static final String BOOLEAN_OPERATOR_EQUAL = "equalBoolean";
-    protected static final String OPERATOR_ISNULL = "isNull";
-    protected static final String OPERATOR_UNDEF = "undef";
+	public static final String MULTIENUM_OPERATOR_EQUAL = "equalMultiEnum";
+	public static final String STRING_OPERATOR_CONTAINS = "contains";
+	public static final String STRING_OPERATOR_STARTWITH = "startsWith";
+	public static final String STRING_OPERATOR_EQUAL = "equalString";
+	public static final String STRING_OPERATOR_DIFF = "diffString";
+	public static final String STRING_OPERATOR_INF = "infString";
+	public static final String STRING_OPERATOR_SUP = "supString";
+	public static final String DATE_OPERATOR_BEFORE = "before";
+	public static final String DATE_OPERATOR_AFTER = "after";
+	public static final String DATE_OPERATOR_EQUAL = "equalDate";
+	public static final String INT_OPERATOR_EQUAL = "equalInt";
+	public static final String INT_OPERATOR_SUP = "supInt";
+	public static final String INT_OPERATOR_INF = "infInt";
+	public static final String FLOAT_OPERATOR_EQUAL = "equalFloat";
+	public static final String FLOAT_OPERATOR_SUP = "supFloat";
+	public static final String FLOAT_OPERATOR_INF = "infFloat";
+	public static final String RELATIONFIELD_OPERATOR_EQUAL = "equalRelationField";
+	public static final String RELATIONFIELD_OPERATOR_EQUAL_NULL = "equalNull";
+	public static final String BOOLEAN_OPERATOR_EQUAL = "equalBoolean";
+	public static final String GEOFILTER_OPERATOR = "geoFilter";
+	public static final String OPERATOR_ISNULL = "isNull";
+	public static final String OPERATOR_UNDEF = "undef";
 
     /**
      * For user interface only, for db query, converted into a before and after

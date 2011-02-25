@@ -40,6 +40,7 @@ public class LocationFilter extends ClientFilter {
 	@Override
 	protected void preCommit() {
 		super.preCommit();
+		setOperator(GEOFILTER_OPERATOR);
 		setFieldValue(BoundingBox.toString(mBoxes));
 	}
 	

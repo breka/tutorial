@@ -354,6 +354,7 @@ public final class W {
 		public static final int informations = R.string.informations;
 		public static final int is_required = R.string.is_required;
 		public static final int list_availables_entities = R.string.list_availables_entities;
+		public static final int location_filter_title = R.string.location_filter_title;
 		public static final int lower_than_decimal = R.string.lower_than_decimal;
 		public static final int lower_than_float = R.string.lower_than_float;
 		public static final int menu_actions = R.string.menu_actions;
