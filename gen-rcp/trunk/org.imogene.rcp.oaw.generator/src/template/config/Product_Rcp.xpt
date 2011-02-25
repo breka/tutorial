@@ -11,7 +11,7 @@
       <programArgs>-nl fr_FR -debug -clean -console - consoleLog</programArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
-   <windowImages i16="resources/epidefender_16.png" i32="resources/epidefender_32.png" i48="resources/epidefender_48.png"/>
+   <windowImages i16="resources/imogene_16.png" i32="resources/imogene_32.png" i48="resources/imogene_48.png"/>
    <splash
       location="org.imogene.rcp.core"
       startupProgressRect="0,200,320,15" />
