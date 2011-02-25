@@ -197,7 +197,7 @@ public class View extends ViewPart {
 	 */
 	private void secureCopy(String unsecurePath){
 		File src = new File(unsecurePath);
-		File dest = new File(unsecurePath+".medooid");		
+		File dest = new File(unsecurePath+".imogid");		
 		encryptfile(src, dest);		
 	}
 	
