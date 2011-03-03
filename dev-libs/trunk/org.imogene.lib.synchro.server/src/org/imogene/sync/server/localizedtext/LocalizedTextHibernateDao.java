@@ -23,8 +23,14 @@ public class LocalizedTextHibernateDao extends HibernateDaoSupport
 			LocalizedTextDao {
 
 	private Logger logger = Logger.getLogger("org.imogene.translatable.dao");
+	
+	public List<LocalizedText> listLocalizedText(String fieldId) {
+		logger.debug("Loading LocalizedTexts for fieldId= " + fieldId);
+		Criteria crit = getSession().createCriteria(LocalizedText.class);
+		crit.add(Restrictions.eq("fieldId", fieldId));
+		return crit.list();
+	}
 
-	@SuppressWarnings("unused")
 	public List<Synchronizable> loadEntities() {
 		logger.debug("Loading all LocalizedTexts");
 		Criteria crit = getSession().createCriteria(LocalizedText.class);
@@ -37,7 +43,6 @@ public class LocalizedTextHibernateDao extends HibernateDaoSupport
 		return null;
 	}
 
-	@SuppressWarnings("unused")
 	public List<Synchronizable> loadEntities(ImogJunction criterions) {
 		logger.debug("Loading all LocalizedTexts");
 		Criteria crit = getSession().createCriteria(LocalizedText.class);
@@ -45,7 +50,6 @@ public class LocalizedTextHibernateDao extends HibernateDaoSupport
 		return crit.list();
 	}
 
-	@SuppressWarnings("unused")
 	public Synchronizable loadEntity(String entityId) {
 		logger.debug("Loading the LocalizedText with id '" + entityId + "'.");
 		Criteria crit = getSession().createCriteria(LocalizedText.class);
@@ -57,7 +61,6 @@ public class LocalizedTextHibernateDao extends HibernateDaoSupport
 		return null;
 	}
 
-	@SuppressWarnings("unused")
 	public List<Synchronizable> loadModified(Date date) {
 		logger.debug("Loading LocalizedTexts modified since '"
 				+ date.toString() + "'.");
@@ -66,7 +69,6 @@ public class LocalizedTextHibernateDao extends HibernateDaoSupport
 		return crit.list();
 	}
 
-	@SuppressWarnings("unused")
 	public List<Synchronizable> loadModified(Date date, ImogJunction criterions) {
 		logger.debug("Loading LocalizedTexts modified since '"
 				+ date.toString() + "'.");
@@ -76,7 +78,6 @@ public class LocalizedTextHibernateDao extends HibernateDaoSupport
 		return crit.list();
 	}
 
-	@SuppressWarnings("unused")
 	public Synchronizable loadModified(Date date, String entityId) {
 		logger.debug("Loading LocalizedText with id='" + entityId
 				+ "' if modified since '" + date.toString() + "'.");
@@ -91,7 +92,6 @@ public class LocalizedTextHibernateDao extends HibernateDaoSupport
 		return null;
 	}
 
-	@SuppressWarnings("unused")
 	public Synchronizable loadModified(Date date, ImogJunction criterions,
 			String entityId) {
 		logger.debug("Loading the LocalizedText with id '" + entityId
@@ -123,7 +123,6 @@ public class LocalizedTextHibernateDao extends HibernateDaoSupport
 		getSession().getTransaction().commit();
 	}
 
-	@SuppressWarnings("unused")
 	public int countAll() {
 		Criteria crit = getSession().createCriteria(LocalizedText.class);
 		crit.setProjection(Projections.rowCount());
