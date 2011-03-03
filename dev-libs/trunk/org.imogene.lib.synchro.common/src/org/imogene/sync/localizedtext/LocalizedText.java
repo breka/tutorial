@@ -23,6 +23,8 @@ public class LocalizedText implements Synchronizable {
 	private String fieldId;
 	private String locale;
 	private String value;
+	private Boolean originalValue;
+	private Boolean potentialyWrong;
 
 	public LocalizedText() {
 
@@ -57,6 +59,22 @@ public class LocalizedText implements Synchronizable {
 	public void setValue(String param) {
 		value = param;
 	}
+	
+	public Boolean getOriginalValue() {
+		return originalValue;
+	}
+
+	public void setOriginalValue(Boolean originalValue) {
+		this.originalValue = originalValue;
+	}
+
+	public Boolean getPotentialyWrong() {
+		return potentialyWrong;
+	}
+
+	public void setPotentialyWrong(Boolean potentialyWrong) {
+		this.potentialyWrong = potentialyWrong;
+	}	
 
 	/* Synchronizable getters and setters */
 
@@ -127,6 +145,8 @@ public class LocalizedText implements Synchronizable {
 		this.setFieldId(entity.getFieldId());
 		this.setLocale(entity.getLocale());
 		this.setValue(entity.getValue());
+		this.setOriginalValue(entity.getOriginalValue());
+		this.setPotentialyWrong(entity.getPotentialyWrong());
 	}
 
 	public String getDisplayValue() {
