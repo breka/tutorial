@@ -6,6 +6,8 @@
 		<property name="fieldId" column="LocalizedText_FieldId"/>
 		<property name="locale" column="LocalizedText_Locale"/>
 		<property name="value" column="LocalizedText_Value" type="text"/>
+		<property name="originalValue" column="LocalizedText_originalValue"/>
+		<property name="potentialyWrong" column="LocalizedText_potentialyWrong"/>
 		<property column="LocalizedText_Creator" name="createdBy"/>
 		<property column="LocalizedText_CreationDate" name="created" type="timestamp"/>
 		<property column="LocalizedText_Modifier" name="modifiedBy"/>
