@@ -143,7 +143,7 @@
 	<string name="filter_number_between">Between %1$s and %2$s</string>
 	
 	<string name="filter_string_contains">Contains %s</string>
-	<string name="filter_string_startwith">Strat with %s</string>
+	<string name="filter_string_startwith">Start with %s</string>
 	<string name="filter_string_equal">Equal %s</string>
 	
 	<string name="filter_relation_downloading">Downloading</string>
