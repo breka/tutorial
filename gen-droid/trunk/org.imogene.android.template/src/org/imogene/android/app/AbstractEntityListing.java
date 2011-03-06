@@ -7,8 +7,6 @@ import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.SortOrder;
 import org.imogene.android.Constants.Sync;
-import org.imogene.android.database.EntityCursorWrapper;
-import org.imogene.android.database.EntityCursorWrapper.OnNotification;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.preference.PreferenceHelper;
@@ -37,21 +35,15 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public abstract class AbstractEntityListing extends ListActivity implements
-		OnNotification, View.OnClickListener, DialogInterface.OnClickListener {
+		View.OnClickListener, DialogInterface.OnClickListener {
 	
-	public interface CursorWrapperFactory {
-		public EntityCursorWrapper newCursorWrapper(Context context,
-				OnNotification onNotification);
-	}
-
 	public interface ListAdapterFactory {
-		public ListAdapter newListAdapter(Context context, EntityCursor cursor, Drawable color, int choiceMode);
+		public EntityCursorAdapter newListAdapter(Context context, EntityCursor cursor, Drawable color, int choiceMode);
 	}
 	
 	public static final SQLiteBuilder computeWhere(SQLiteBuilder builder) {
@@ -87,7 +79,8 @@ public abstract class AbstractEntityListing extends ListActivity implements
 	// Activity request code
 	private static final int ACTIVITY_INSERT = 1;
 
-	protected EntityCursorWrapper mCursor;
+	private EntityCursor mCursor;
+	private EntityCursorAdapter mAdapter;
 
 	private final Uri mUri;
 	private final Drawable mColor;
@@ -106,7 +99,6 @@ public abstract class AbstractEntityListing extends ListActivity implements
 
 	private Uri mCurrentUri;
 	
-	private CursorWrapperFactory mCursorWrapperFactory;
 	private ListAdapterFactory mListAdapterFactory;
 
 	public AbstractEntityListing(final Uri uri, final Drawable color,
@@ -119,10 +111,6 @@ public abstract class AbstractEntityListing extends ListActivity implements
 		mSearchDescription = searchDescription;
 	}
 	
-	public void setCursorWrapperFactory(CursorWrapperFactory factory) {
-		mCursorWrapperFactory = factory;
-	}
-
 	public void setListAdapterFactory(ListAdapterFactory factory) {
 		mListAdapterFactory = factory;
 	}
@@ -154,15 +142,6 @@ public abstract class AbstractEntityListing extends ListActivity implements
 			mSortKey = savedInstanceState.getString(Extras.EXTRA_SORT_KEY);
 			mSortOrder = savedInstanceState.getInt(Extras.EXTRA_SORT_ORDER);
 		}
-
-		if (mCursorWrapperFactory != null) {
-			mCursor = mCursorWrapperFactory.newCursorWrapper(this, this);
-		} else {
-			mCursor = new EntityCursorWrapper(this, this);
-		}
-		mCursor.setInternalCursor(get());
-
-		startManagingCursor(mCursor);
 
 		boolean IsPickMultiple = false;
 		int choiceMode = ListView.CHOICE_MODE_NONE;
@@ -196,11 +175,16 @@ public abstract class AbstractEntityListing extends ListActivity implements
 			empty.setText(mNoEntityDescription);
 		}
 		
+		mCursor = query();
+		startManagingCursor(mCursor);
+		
 		if (mListAdapterFactory != null) {
-			setListAdapter(mListAdapterFactory.newListAdapter(this, mCursor, mColor, choiceMode));
+			mAdapter = mListAdapterFactory.newListAdapter(this, mCursor, mColor, choiceMode);
 		} else {
-			setListAdapter(new EntityCursorAdapter(this, mCursor, mColor, choiceMode));
+			mAdapter = new EntityCursorAdapter(this, mCursor, mColor, choiceMode);
 		}
+		setListAdapter(mAdapter);
+		
 		if (IsPickMultiple) {
 			getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 			if (getIntent().hasExtra(Extras.EXTRA_SELECTED)) {
@@ -262,15 +246,17 @@ public abstract class AbstractEntityListing extends ListActivity implements
 
 	protected abstract void init();
 
-	private EntityCursor get() {
+	private EntityCursor query() {
 		String where = computeWhere(mSQLBuilder).toSQL();
 		String order = mSortKey	+ (mSortOrder != SortOrder.DESCENDANT_ORDER	? " asc" : " desc");
 		return AbstractDatabase.getSuper(this).query(mUri, where, order);
 	}
-
-	public EntityCursor changeCursor(EntityCursor old) {
-		old.close();
-		return old = get();
+	
+	protected void requery() {
+		stopManagingCursor(mCursor);
+		mCursor = query();
+		startManagingCursor(mCursor);
+		mAdapter.changeCursor(mCursor);
 	}
 
 	@Override
@@ -361,7 +347,7 @@ public abstract class AbstractEntityListing extends ListActivity implements
 				mSortKey = Keys.KEY_MODIFIED;
 				mSortOrder = SortOrder.DESCENDANT_ORDER;
 			}
-			mCursor.requery();
+			requery();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

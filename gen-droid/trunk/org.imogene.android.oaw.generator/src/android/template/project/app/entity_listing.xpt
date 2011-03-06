@@ -160,6 +160,6 @@ case MENU_SORT_BY_«shortName.toUpperCase()-»_ID:
 		mSortKey = "«name.toLowerCase()-»";
 		mSortOrder = 0;
 	}
-	mCursor.requery();
+	requery();
 	return true;
 «ENDDEFINE»
