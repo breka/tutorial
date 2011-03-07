@@ -115,7 +115,7 @@ public class BoundingBox {
 				if (first) {
 					first = false;
 				} else {
-					builder.append('|');
+					builder.append(';');
 				}
 				builder.append(bb.isEnabled() ? 1 : 0);
 				builder.append(':');
@@ -135,7 +135,7 @@ public class BoundingBox {
 		if (value == null) {
 			return null;
 		}
-		String[] boxes = value.split("|");
+		String[] boxes = value.split(";");
 		if (boxes.length <= 0) {
 			return null;
 		}

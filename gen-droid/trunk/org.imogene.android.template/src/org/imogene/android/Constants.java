@@ -42,6 +42,8 @@ public final class Constants {
 		
 		public static final String ACTION_MANAGE_RECT = "org.imogene.map.action.MANAGE_RECT";
 		
+		public static final String ACTION_DOWNLOAD_TILES = "org.imogene.map.action.DOWNLOAD_TILES";
+		
 		public static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 		
 		public static final String ACTION_SECRET_CODE = "android.provider.Telephony.SECRET_CODE";

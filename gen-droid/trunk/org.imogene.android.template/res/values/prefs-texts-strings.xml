@@ -71,4 +71,5 @@
 	<string name="screen_filters_summary">Design filters for specific synchronization</string>
 	<string name="webservice_url_title">Web Services Address</string>
 	<string name="location_filter_title">Location filter</string>
+	<string name="tile_loader_filter_title">Donwload tiles</string>
 </resources>
