@@ -90,12 +90,25 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	/**
 	 * Adds the Localized texts to a «e.name.toFirstUpper()-» entity
 	 * @param value the «e.name.toFirstUpper()-» entity
+	 * @param roleNames set of role ids for the user 
 	 * @return «e.name.toFirstUpper()-» entity with the Localized texts added
 	 */
-	private «e.name.toFirstUpper()-» getLocalized«e.name.toFirstUpper()-»(«e.name.toFirstUpper()-» value) {
+	private «e.name.toFirstUpper()-» getLocalized«e.name.toFirstUpper()-»(«e.name.toFirstUpper()-» value, Set<String> roleNames) {
 		«e.name.toFirstUpper()-» entity = value;
 		if (entity!=null) {
-			«EXPAND addLocalizedTexts FOREACH e.groups.fields-»	
+			«FOREACH e.groups AS g-»
+				«IF isTranslatableFieldPresent(g.fields)-»			
+					«IF g.readers.size == 0-»
+						«FOREACH g.fields AS f-»
+							«EXPAND addLocalizedTexts FOREACH g.fields-»
+						«ENDFOREACH-»			
+					«ELSE-»
+						if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»«IF g.writers.size>0»||«ENDIF»«FOREACH g.writers AS w ITERATOR i» roleNames.contains("«w.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){
+							«EXPAND addLocalizedTexts FOREACH g.fields-»
+						}
+					«ENDIF-»				
+				«ENDIF-»
+			«ENDFOREACH-»
 		}		
 		return entity;		
 	}	
@@ -176,9 +189,7 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 «DEFINE setField(boolean toSecure) FOR TextField-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 	«IF this.translatable-»
-		«IF toSecure-»
-	transformedBean = getLocalized«this.parentGroup.parentCard.name.toFirstUpper()»(transformedBean);
-		«ELSE-»
+		«IF !toSecure-»
 	transformedBean.getLocalizedFieldMap().addI18nValues(bean.getLocalizedFieldMap().getFieldI18nValues(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
 		«ENDIF-»
 	«ENDIF-»
@@ -189,7 +200,7 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		«IF isTranslatableFieldPresent(this.entity.groups.fields)-»
 		Set<«this.entity.name.toFirstUpper()-»> «EXPAND template::CommonFieldUtil::propertyName FOR this-» = bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»();
 		for («this.entity.name.toFirstUpper()-» card: «EXPAND template::CommonFieldUtil::propertyName FOR this-»)
-			card = getLocalized«this.entity.name.toFirstUpper()»(card);	
+			card = getLocalized«this.entity.name.toFirstUpper()»(card,roleNames);	
 		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«EXPAND template::CommonFieldUtil::propertyName FOR this-»);
 		«ELSE-»
 		//updateCollection(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
@@ -200,7 +211,7 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»() == null ||
 		!transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId().equals(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId())){
 		«IF isTranslatableFieldPresent(this.entity.groups.fields)-»
-		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(getLocalized«this.entity.name.toFirstUpper()»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(getLocalized«this.entity.name.toFirstUpper()»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(),roleNames));
 		«ELSE-»
 		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 		«ENDIF-»
@@ -321,6 +332,10 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 				}
 			«ENDIF-»
 		«ENDFOREACH»
+		
+		«IF isTranslatableFieldPresent(this.groups.fields)-»
+		transformedBean = getLocalized«this.name.toFirstUpper()»(transformedBean, roleNames);
+		«ENDIF»
 «ENDDEFINE»
 «REM» ---------------------------------------------------------- «ENDREM»
 
