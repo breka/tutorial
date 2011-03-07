@@ -42,7 +42,12 @@
 				android:key="«name.toLowerCase()»_location_filter"
 				android:title="@string/location_filter_title"
 				app:entity="«name.toLowerCase()»_project"
-				app:field="gereferenced_fields" />
+				app:field="georeferenced_fields" />
+			<org.imogene.android.preference.filter.DownloadTilesPreference
+				android:key="«name.toLowerCase()»_location_filter"
+				android:title="@string/tile_loader_filter_title"
+				app:entity="«name.toLowerCase()»_project"
+				app:field="georeferenced_fields" />
 			«ENDIF-»
 			«FOREACH entities AS e-»
 			«IF e.clientPeriodFilterable || e.clientFilterFields.size > 0-»

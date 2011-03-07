@@ -461,6 +461,7 @@ public final class W {
 		public static final int synchro_resume_detail = R.string.synchro_resume_detail;
 		public static final int synchro_resume_title = R.string.synchro_resume_title;
 		public static final int synchronization = R.string.synchronization;
+		public static final int tile_loader_filter_title = R.string.tile_loader_filter_title;
 		public static final int uncomplete_dialog_msg = R.string.uncomplete_dialog_msg;
 		public static final int unsaved_dialog_msg = R.string.unsaved_dialog_msg;
 		public static final int webservice_url_key = R.string.webservice_url_key;
