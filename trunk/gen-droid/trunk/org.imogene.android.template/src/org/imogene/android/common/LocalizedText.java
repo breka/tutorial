@@ -16,7 +16,7 @@ public class LocalizedText extends EntityImpl {
 	public static final String TABLE_NAME = "localizedtext";
 	public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
 
-	public static final String TYPE = "TRSN";
+	public static final String TYPE = "LTXT";
 
 	private String mFieldId = null;
 	private String mLocale = null;

@@ -16,7 +16,7 @@ public class TranslationsHandler<T> implements FieldHandler<T> {
 	
 	public void parse(Context context, XmlPullParser parser, T entity) {
 		try {
-			while (parser.nextTag() != END_TAG || !Keys.KEY_TRANSLATIONS.equals(parser.getName())) {
+			while (parser.getEventType() != END_TAG || !Keys.KEY_TRANSLATIONS.equals(parser.getName())) {
 				if (parser.nextTag() == START_TAG) {
 					String name = parser.getName();
 					if (LocalizedText.PACKAGE.equals(name)) {

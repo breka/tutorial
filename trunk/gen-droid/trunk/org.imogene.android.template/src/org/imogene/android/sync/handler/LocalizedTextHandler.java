@@ -14,7 +14,7 @@ public class LocalizedTextHandler<T> implements FieldHandler<T> {
 	private final Method mMethod;
 	
 	public LocalizedTextHandler(Class<T> c, String methodName) throws SecurityException, NoSuchMethodException {
-		mMethod = c.getMethod(methodName, Integer.class);
+		mMethod = c.getMethod(methodName, LocalizedTextList.class);
 	}
 	
 	public void parse(Context context, XmlPullParser parser, T entity) {

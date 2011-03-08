@@ -425,7 +425,9 @@ if (bundle.containsKey("«name.toFirstLower()»")) {
 
 «DEFINE preCommit FOR TextField-»
 «IF translatable-»
-m«name.toFirstUpper()-».saveThemAll(context, local);
+if (m«name.toFirstUpper()» != null) {
+	m«name.toFirstUpper()».saveThemAll(context, local);
+}
 «ENDIF-»
 «ENDDEFINE»
 

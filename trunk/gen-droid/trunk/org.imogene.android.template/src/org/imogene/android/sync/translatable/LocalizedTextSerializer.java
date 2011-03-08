@@ -16,6 +16,35 @@ public class LocalizedTextSerializer {
 
 		serializer.startTag(null, LocalizedText.PACKAGE);
 		serializer.attribute(null, Keys.KEY_ID, localized.getId());
+		
+		String fieldId = localized.getFieldId();
+		if (fieldId != null) {
+			serializer.startTag(null, Keys.KEY_FIELD_ID);
+			serializer.text(fieldId);
+			serializer.endTag(null, Keys.KEY_FIELD_ID);
+		}
+		
+		String locale = localized.getLocale();
+		if (locale != null) {
+			serializer.startTag(null, Keys.KEY_LOCALE);
+			serializer.text(locale);
+			serializer.endTag(null, Keys.KEY_LOCALE);
+		}
+
+		String value = localized.getValue();
+		if (value != null) {
+			serializer.startTag(null, Keys.KEY_VALUE);
+			serializer.text(value);
+			serializer.endTag(null, Keys.KEY_VALUE);
+		}
+		
+		serializer.startTag(null, Keys.KEY_ORIGINAL_VALUE);
+		serializer.text(Boolean.toString(localized.getOriginalValue()));
+		serializer.endTag(null, Keys.KEY_ORIGINAL_VALUE);
+		
+		serializer.startTag(null, Keys.KEY_POTENTIALY_WRONG);
+		serializer.text(Boolean.toString(localized.getPotentialyWrong()));
+		serializer.endTag(null, Keys.KEY_POTENTIALY_WRONG);		
 
 		serializer.startTag(null, Keys.KEY_MODIFIED);
 		serializer.attribute(null, "class", "sql-timestamp");
@@ -38,35 +67,6 @@ public class LocalizedTextSerializer {
 		serializer.startTag(null, Keys.KEY_CREATEDBY);
 		serializer.text(localized.getCreatedBy());
 		serializer.endTag(null, Keys.KEY_CREATEDBY);
-
-		String fieldId = localized.getFieldId();
-		if (fieldId != null) {
-			serializer.startTag(null, Keys.KEY_FIELD_ID);
-			serializer.text(fieldId);
-			serializer.endTag(null, Keys.KEY_FIELD_ID);
-		}
-
-		String locale = localized.getLocale();
-		if (locale != null) {
-			serializer.startTag(null, Keys.KEY_LOCALE);
-			serializer.text(locale);
-			serializer.endTag(null, Keys.KEY_LOCALE);
-		}
-
-		String value = localized.getValue();
-		if (value != null) {
-			serializer.startTag(null, Keys.KEY_VALUE);
-			serializer.text(value);
-			serializer.endTag(null, Keys.KEY_VALUE);
-		}
-		
-		serializer.startTag(null, Keys.KEY_ORIGINAL_VALUE);
-		serializer.text(Boolean.toString(localized.getOriginalValue()));
-		serializer.endTag(null, Keys.KEY_ORIGINAL_VALUE);
-		
-		serializer.startTag(null, Keys.KEY_POTENTIALY_WRONG);
-		serializer.text(Boolean.toString(localized.getPotentialyWrong()));
-		serializer.endTag(null, Keys.KEY_POTENTIALY_WRONG);
 
 		serializer.endTag(null, LocalizedText.PACKAGE);
 
