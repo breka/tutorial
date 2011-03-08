@@ -6,6 +6,7 @@ package org.imogene.android.«projectName.toLowerCase()-».sync.serializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.xmlpull.v1.XmlSerializer;
 
@@ -13,9 +14,11 @@ import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 import org.imogene.android.Constants.Keys;
+import org.imogene.android.common.LocalizedText;
 import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.field.EnumConverter;
+import org.imogene.android.sync.translatable.LocalizedTextSerializer;
 import org.imogene.android.«projectName.toLowerCase()-».database.sqlite.«name.toFirstUpper()-»Cursor;
 import org.imogene.android.«projectName.toLowerCase()-».entities.«name.toFirstUpper()-»;
 «EXPAND organizeImport(projectName) FOREACH groups.fields-»
@@ -58,7 +61,13 @@ public class «name.toFirstUpper()-»Serializer {
 		serializer.text(cursor.getCreatedBy());
 		serializer.endTag(null, Keys.KEY_CREATEDBY);
 		
-		«EXPAND serialization FOREACH groups.fields »
+		«EXPAND serialization FOREACH groups.fields-»
+		
+		«IF hasLocalizedField(this)-»
+		serializer.startTag(null, Keys.KEY_TRANSLATIONS);
+		«EXPAND localizedSerialization FOREACH groups.fields-»
+		serializer.endTag(null, Keys.KEY_TRANSLATIONS);
+		«ENDIF-»
 		
 		serializer.endTag(null, «name.toFirstUpper()-».PACKAGE);
 		
@@ -199,4 +208,24 @@ if (!«shortName.toLowerCase()-».isEmpty()) {
 serializer.endTag(null, "collection");
 serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 «ENDIF-»
+«ENDDEFINE»
+
+
+
+
+
+«DEFINE localizedSerialization FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE localizedSerialization FOR TextField-»
+«IF translatable-»
+if («shortName.toLowerCase()» != null && !«shortName.toLowerCase()».isEmpty()) {
+	Iterator<LocalizedText> it = «shortName.toLowerCase()».getLocalizedTexts();
+	while (it.hasNext()) {
+		LocalizedTextSerializer.serialize(context, it.next(), serializer);
+	}
+}
+«ENDIF-»
+«ENDDEFINE»
+
 «ENDDEFINE»

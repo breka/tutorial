@@ -112,9 +112,12 @@ public final class Constants {
 		public static final String KEY_ISNEW = "isNew";
 		
 		/* Translatable text entity properties */
+		public static final String KEY_TRANSLATIONS = "translations";
 		public static final String KEY_FIELD_ID = "fieldId";
 		public static final String KEY_LOCALE = "locale";
 		public static final String KEY_VALUE = "value";
+		public static final String KEY_ORIGINAL_VALUE = "originalValue";
+		public static final String KEY_POTENTIALY_WRONG = "potentialyWrong";
 	}
 
 	public static interface Tables {

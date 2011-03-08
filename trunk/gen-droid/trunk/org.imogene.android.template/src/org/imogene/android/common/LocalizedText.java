@@ -1,5 +1,6 @@
 package org.imogene.android.common;
 
+import org.imogene.android.Constants.Keys;
 import org.imogene.android.database.sqlite.LocalizedTextCursor;
 import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.FormatHelper;
@@ -11,7 +12,7 @@ import android.os.Bundle;
 
 public class LocalizedText extends EntityImpl {
 
-	public static final String PACKAGE = "org.imogene.translatable.entity.LocalizedText";
+	public static final String PACKAGE = "LocalizedText";
 	public static final String TABLE_NAME = "localizedtext";
 	public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
 
@@ -20,6 +21,8 @@ public class LocalizedText extends EntityImpl {
 	private String mFieldId = null;
 	private String mLocale = null;
 	private String mValue = null;
+	private boolean mOriginalValue = false;
+	private boolean mPotentialyWrong = false;
 
 	public LocalizedText(Context context, Uri uri) {
 		LocalizedTextCursor cursor = (LocalizedTextCursor) AbstractDatabase.getSuper(context).query(uri, null, null);
@@ -36,6 +39,8 @@ public class LocalizedText extends EntityImpl {
 		mFieldId = cursor.getFieldId();
 		mLocale = cursor.getLocale();
 		mValue = cursor.getValue();
+		mOriginalValue = cursor.getOriginalValue();
+		mPotentialyWrong = cursor.getPotentialyWrong();
 	}
 
 	public LocalizedText(Bundle bundle) {
@@ -53,7 +58,13 @@ public class LocalizedText extends EntityImpl {
 	public final String getValue() {
 		return mValue;
 	}
-
+	public final boolean getOriginalValue() {
+		return mOriginalValue;
+	}
+	public final boolean getPotentialyWrong() {
+		return mPotentialyWrong;
+	}
+	
 	public final void setFieldId(String fieldId) {
 		mFieldId = fieldId;
 	}
@@ -62,6 +73,12 @@ public class LocalizedText extends EntityImpl {
 	}
 	public final void setValue(String value) {
 		mValue = value;
+	}
+	public final void setOriginalValue(boolean originalValue) {
+		mOriginalValue = originalValue;
+	}
+	public final void setPotentialyWrong(boolean potentialyWrong) {
+		mPotentialyWrong = potentialyWrong;
 	}
 
 	@Override
@@ -77,9 +94,11 @@ public class LocalizedText extends EntityImpl {
 	@Override
 	protected final void addValues(Context context, ContentValues values) {
 		super.addValues(context, values);
-		values.put("fieldId", mFieldId);
-		values.put("locale", mLocale);
-		values.put("value", mValue);
+		values.put(Keys.KEY_FIELD_ID, mFieldId);
+		values.put(Keys.KEY_LOCALE, mLocale);
+		values.put(Keys.KEY_VALUE, mValue);
+		values.put(Keys.KEY_ORIGINAL_VALUE, mOriginalValue ? 1 : 0);
+		values.put(Keys.KEY_POTENTIALY_WRONG, mPotentialyWrong ? 1 : 0);
 	}
 
 	@Override
@@ -90,6 +109,8 @@ public class LocalizedText extends EntityImpl {
 		mFieldId = null;
 		mLocale = null;
 		mValue = null;
+		mOriginalValue = false;
+		mPotentialyWrong = false;
 	}
 
 }

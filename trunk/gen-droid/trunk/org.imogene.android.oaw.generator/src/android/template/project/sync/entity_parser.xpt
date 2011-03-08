@@ -1,4 +1,5 @@
 «IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
 «DEFINE generate(String projectName, boolean multilogin) FOR CardEntity»
 «FILE "/" + projectName.toLowerCase() + "/sync/parser/" + name.toFirstUpper() + "Parser.java"»
 package org.imogene.android.«projectName.toLowerCase()-».sync.parser;
@@ -33,6 +34,7 @@ import org.imogene.android.sync.handler.PrimitiveLongHandler;
 import org.imogene.android.sync.handler.RolesHandler;
 import org.imogene.android.sync.handler.SingleEntHandler;
 import org.imogene.android.sync.handler.StringHandler;
+import org.imogene.android.sync.handler.TranslationsHandler;
 
 public class «name.toFirstUpper()-»Parser {
 
@@ -51,6 +53,9 @@ public class «name.toFirstUpper()-»Parser {
 			mHandlers.put(Keys.KEY_LOGIN, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setLogin"));
 			mHandlers.put(Keys.KEY_PASSWORD, new ByteArrayHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setPassword"));
 			mHandlers.put(Keys.KEY_ROLES, new RolesHandler<«name.toFirstUpper()-»>());
+			«ENDIF-»
+			«IF hasLocalizedField()-»
+			mHandlers.put(Keys.KEY_TRANSLATIONS, new TranslationsHandler<«name.toFirstUpper()-»>());
 			«ENDIF-»
 			«EXPAND handler(this) FOREACH groups.fields-»
 		} catch (Exception e) {
