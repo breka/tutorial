@@ -33,7 +33,7 @@ public class SingleEntHandler<T> implements FieldHandler<T> {
 		try {
 			if (parser.nextTag() == START_TAG) {
 				parser.require(START_TAG, null, mPackage);
-				String id = parser.getAttributeValue(null, "id");
+				String id = parser.getAttributeValue(null, Keys.KEY_ID);
 
 				ContentResolver res = context.getContentResolver();
 				Cursor c = res.query(mUri, new String[] { Keys.KEY_ROWID }, Keys.KEY_ID + "='" + id + "'", null, null);

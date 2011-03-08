@@ -4,10 +4,8 @@ import java.io.IOException;
 
 import org.imogene.android.common.Binary;
 import org.imogene.android.common.ClientFilter;
-import org.imogene.android.common.LocalizedText;
 import org.imogene.android.sync.binary.BinaryParser;
 import org.imogene.android.sync.filter.ClientFilterParser;
-import org.imogene.android.sync.translatable.LocalizedTextParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -20,8 +18,6 @@ public class DefaultParser {
 			BinaryParser.parse(context, parser);
 		else if (ClientFilter.PACKAGE.equals(name))
 			ClientFilterParser.parse(context, parser);
-		else if (LocalizedText.PACKAGE.equals(name))
-			LocalizedTextParser.parse(context, parser);
 	}
 
 }

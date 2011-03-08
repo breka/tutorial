@@ -27,21 +27,19 @@ public class BinaryHandler<T> implements FieldHandler<T> {
 	public void parse(Context context, XmlPullParser parser, T entity) {
 		try {
 			String id = parser.nextText();
-			if (id.startsWith("BIN")) {
-				ContentResolver res = context.getContentResolver();
-				Cursor c = res.query(Binary.CONTENT_URI, new String[] {Keys.KEY_ROWID}, Keys.KEY_ID + "='" + id + "'", null, null);
-				if (c.getCount() != 1) {
-					c.close();
-					ContentValues values = new ContentValues();
-					values.put(Keys.KEY_ID, id);
-					values.put(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
-					mMethod.invoke(entity, res.insert(Binary.CONTENT_URI, values));
-				} else {
-					c.moveToFirst();
-					long rowId = c.getLong(0);
-					c.close();
-					mMethod.invoke(entity, ContentUris.withAppendedId(Binary.CONTENT_URI, rowId));
-				}
+			ContentResolver res = context.getContentResolver();
+			Cursor c = res.query(Binary.CONTENT_URI, new String[] {Keys.KEY_ROWID}, Keys.KEY_ID + "='" + id + "'", null, null);
+			if (c.getCount() != 1) {
+				c.close();
+				ContentValues values = new ContentValues();
+				values.put(Keys.KEY_ID, id);
+				values.put(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+				mMethod.invoke(entity, res.insert(Binary.CONTENT_URI, values));
+			} else {
+				c.moveToFirst();
+				long rowId = c.getLong(0);
+				c.close();
+				mMethod.invoke(entity, ContentUris.withAppendedId(Binary.CONTENT_URI, rowId));
 			}
 		} catch (Exception e) {
 			Log.e(BinaryHandler.class.getName(), "error parsing binary", e);

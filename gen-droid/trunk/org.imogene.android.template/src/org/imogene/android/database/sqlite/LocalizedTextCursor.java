@@ -1,5 +1,7 @@
 package org.imogene.android.database.sqlite;
 
+import org.imogene.android.Constants.Keys;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursorDriver;
@@ -23,13 +25,19 @@ public class LocalizedTextCursor extends EntityCursorImpl {
 	}
 
 	public final String getFieldId() {
-		return getString(getColumnIndexOrThrow("fieldId"));
+		return getString(getColumnIndexOrThrow(Keys.KEY_FIELD_ID));
 	}
 	public final String getLocale() {
-		return getString(getColumnIndexOrThrow("locale"));
+		return getString(getColumnIndexOrThrow(Keys.KEY_LOCALE));
 	}
 	public final String getValue() {
-		return getString(getColumnIndexOrThrow("value"));
+		return getString(getColumnIndexOrThrow(Keys.KEY_VALUE));
+	}
+	public final boolean getOriginalValue() {
+		return getInt(getColumnIndexOrThrow(Keys.KEY_ORIGINAL_VALUE)) != 0;
+	}
+	public final boolean getPotentialyWrong() {
+		return getInt(getColumnIndexOrThrow(Keys.KEY_POTENTIALY_WRONG)) != 0;
 	}
 
 	@Override

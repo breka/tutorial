@@ -12,6 +12,7 @@ import org.imogene.model.core.GeoField;
 import org.imogene.model.core.Project;
 import org.imogene.model.core.RelationFieldEntity;
 import org.imogene.model.core.ReverseRelationFieldEntity;
+import org.imogene.model.core.TextField;
 import org.imogene.model.core.Thema;
 
 
@@ -25,6 +26,19 @@ public class MedooAndroidGenHelper {
 
 	public static final int getDatabaseVersion() {
 		return (int) (System.currentTimeMillis() / 1000);
+	}
+	
+	public static final boolean hasLocalizedField(CardEntity entity) {
+		for (FieldGroup group : entity.getGroups()) {
+			for (FieldEntity field : group.getFields()) {
+				if (field instanceof TextField) {
+					if (((TextField) field).isTranslatable()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	public static boolean hasDependancyField(FieldEntity field) {

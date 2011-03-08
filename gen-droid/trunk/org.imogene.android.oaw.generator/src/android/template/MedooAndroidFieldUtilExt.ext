@@ -11,6 +11,9 @@ Void log(Object o) :
 int getDatabaseVersion() :
   JAVA org.imogene.android.oaw.generator.MedooAndroidGenHelper.getDatabaseVersion();
   
+boolean hasLocalizedField(CardEntity entity) :
+  JAVA org.imogene.android.oaw.generator.MedooAndroidGenHelper.hasLocalizedField(org.imogene.model.core.CardEntity);
+  
 boolean hasDependancyField(FieldEntity field) :
   JAVA org.imogene.android.oaw.generator.MedooAndroidGenHelper.hasDependancyField(org.imogene.model.core.FieldEntity);
   

@@ -41,7 +41,7 @@ public class MultiEntHandler<T> implements FieldHandler<T> {
 				ContentResolver res = context.getContentResolver();
 				while (parser.nextTag() == START_TAG) {
 					parser.require(START_TAG, null, mPackage);
-					String id = parser.getAttributeValue(null, "id");
+					String id = parser.getAttributeValue(null, Keys.KEY_ID);
 					Cursor c = res.query(mUri, new String[] { Keys.KEY_ROWID }, Keys.KEY_ID + "='" + id + "'", null, null);
 					if (c.getCount() != 1) {
 						c.close();

@@ -462,6 +462,10 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ " text, "
 				+ Keys.KEY_VALUE
 				+ " text, "
+				+ Keys.KEY_ORIGINAL_VALUE
+				+ " integer, "
+				+ Keys.KEY_POTENTIALY_WRONG
+				+ " integer, "
 				+ Keys.KEY_ID
 				+ " text not null);";
 		protected interface Creator<T extends DatabaseHelper> {
