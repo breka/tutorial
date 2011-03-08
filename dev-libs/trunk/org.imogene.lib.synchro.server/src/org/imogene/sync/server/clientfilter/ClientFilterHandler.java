@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.imogene.common.dao.EntityDao;
+import org.imogene.common.dao.LocalizedTextDao;
 import org.imogene.common.dao.criteria.BasicCriteria;
 import org.imogene.common.dao.criteria.CriteriaConstants;
 import org.imogene.common.dao.criteria.ImogConjunction;
@@ -205,5 +206,11 @@ public class ClientFilterHandler implements EntityHandler {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public void setI18nDao(LocalizedTextDao arg0) {
+		// not relevant for ClientFilter
+	}
+	
+	
 
 }
