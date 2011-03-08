@@ -8,13 +8,12 @@ import org.imogene.common.data.Synchronizable;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
- * @author yann
+ * @author Medes-IMPS
  */
 public class GenericHibernateDao extends HibernateDaoSupport {
 
 	/**
 	 * Save or update a bean.
-	 * 
 	 * @param entity entity to save or update.
 	 */
 	public void saveOrUpdate(Synchronizable entity){
@@ -23,7 +22,6 @@ public class GenericHibernateDao extends HibernateDaoSupport {
 	
 	/**
 	 * Count the number of persisted bean of a specific type.
-	 * 
 	 * @param beanClass the class of the bean.
 	 * @return number of bean persisted.
 	 */
@@ -38,7 +36,6 @@ public class GenericHibernateDao extends HibernateDaoSupport {
 	
 	/**
 	 * Get bean with this id.
-	 * 
 	 * @param beanClass the bean class
 	 * @param id the bean id.
 	 * @return the persisted bean.
@@ -50,7 +47,6 @@ public class GenericHibernateDao extends HibernateDaoSupport {
 	
 	/**
 	 * List all beans.
-	 * 
 	 * @param beanClass the bean class.
 	 * @return list of beans.
 	 */

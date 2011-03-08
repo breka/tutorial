@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.imogene.common.dao.EntityDao;
+import org.imogene.common.dao.LocalizedTextDao;
 import org.imogene.common.data.Synchronizable;
 import org.imogene.common.data.SynchronizableUser;
 
@@ -109,7 +110,18 @@ public interface EntityHandler {
 	 */
 	public EntityDao getDao();
 	
+	/**
+	 * Setter for bean injection
+	 * @param dao the dao for the entity access
+	 */
 	public void setDao(EntityDao dao);
+	
+
+	/**
+	 * Setter for bean injection
+	 * @param i18nDao the dao for LocalizedText access
+	 */
+	public void setI18nDao(LocalizedTextDao i18nDao);
 	
 	/**
 	 * Deletes one entity

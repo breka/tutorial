@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.imogene.common.dao.EntityDao;
+import org.imogene.common.dao.LocalizedTextDao;
 import org.imogene.common.dao.criteria.ImogConjunction;
 import org.imogene.common.dao.criteria.ImogJunction;
 import org.imogene.common.data.Synchronizable;
@@ -228,6 +229,10 @@ public abstract class EntityHandlerImpl {
 	 */
 	public void deleteEntities() {
 		getDao().deleteEntities();		
+	}
+	
+	public void setI18nDao(LocalizedTextDao i18nDao) {
+		// To be overrriden when entity has one or more Translatable Fields
 	}
 	
 	

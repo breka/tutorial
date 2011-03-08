@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.imogene.common.dao.LocalizedTextDao;
 import org.imogene.common.dao.criteria.HibernateDaoUtil;
 import org.imogene.common.dao.criteria.ImogJunction;
 import org.imogene.common.data.Synchronizable;
