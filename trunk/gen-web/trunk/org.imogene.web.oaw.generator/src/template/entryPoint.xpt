@@ -118,7 +118,6 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 		bc.setActor(actor);
 		RootPanel.get("topBanner").add(bc);
 		content = new MainContentPanel();	
-		//content.setContent(new RoundedWrapperPanel("First screen", new Label("content"), "welcome"));
 		populateMenu(content);
 		RootPanel.get("contentContainer").add(content);	
 		RootPanel.get("bottomBanner").add(new BottomBannerPanel());
@@ -206,8 +205,8 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 			«FOREACH tms AS t ITERATOR iter»	
 		/* entities included in thema «t.name.toFirstUpper()-» */			
 				«FOREACH t.entities AS e -»
-					«IF e.topLevel -»
-		if(AccessManager.canCreateForm("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")) {			
+					«IF e.topLevel || !e.directAccess.isEmpty-»
+		if(AccessManager.canDirectAccessForm("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")) {			
 			MenuItem menuItem = new MenuItemImpl(NLS.constants().«e.name.toFirstLower()»_title(), "list/«e.name.toLowerCase()»", "«e.name.toLowerCase()»");
 			tema«t.name.toFirstUpper()-».addItem(menuItem);
 			«FOREACH tms AS t2-»
@@ -223,8 +222,8 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 			
 		/* entities without thema */	
 			«FOREACH getCardEntitiesWithoutThema(this) AS e-»
-					«IF e.topLevel -»
-		if(AccessManager.canCreateForm("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")) {	
+					«IF e.topLevel || !e.directAccess.isEmpty -»
+		if(AccessManager.canDirectAccessForm("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")) {	
 			MenuItem menuItem = new MenuItemImpl(NLS.constants().«e.name.toFirstLower()»_title(), "list/«e.name.toLowerCase()»", "«e.name.toLowerCase()»");
 			temaUnknown.addItem(menuItem);
 			«FOREACH tms AS t2-»
@@ -247,8 +246,8 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 		«REM» Presentation of the entities without any grouping (flat list) «ENDREM»
 			MenuListEntity menuListEntity = new MenuListEntity();
 			«FOREACH entities AS e -»
-				«IF e.topLevel -»
-			if(AccessManager.canCreateForm("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»"))			
+				«IF e.topLevel || !e.directAccess.isEmpty -»
+			if(AccessManager.canDirectAccessForm("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»"))			
 				menuListEntity.addItem(NLS.constants().«e.name.toFirstLower()»_title(), "list/«e.name.toLowerCase()»", "«e.name.toLowerCase()»");
 				«ENDIF-»
 			«ENDFOREACH -»
