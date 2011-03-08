@@ -38,6 +38,12 @@ public class AccessManager {
 			«FOREACH e.creators AS c-»
 				«e.name.toFirstLower()»Creator.add("«c.name»");
 			«ENDFOREACH-»
+		}
+		public static Set<String> «e.name.toFirstLower()»DirectAccess = new HashSet<String>();
+		static{
+			«FOREACH e.directAccess AS da-»
+				«e.name.toFirstLower()»DirectAccess.add("«da.name»");
+			«ENDFOREACH-»
 		}			
 	«ENDFOREACH -»	
 	
@@ -94,6 +100,29 @@ public class AccessManager {
 		«ENDFOREACH»
 		return false;
 	}	
+	
+	public static boolean canDirectAccessForm(String formName){
+		if(isAdmin())
+			return true;
+		«FOREACH entities AS e-»
+		if("«e.name.toLowerCase()»".equals(formName)){
+			if(«e.name.toFirstLower()»DirectAccess.size()==0)
+				«IF e.topLevel-»
+				return true;
+				«ELSE-»
+				return false;
+				«ENDIF-»
+			else {
+				for(ImogRole role : LocalSession.get().getCurrentUser().getRoles()){
+					if(«e.name.toFirstLower()»DirectAccess.contains(role.getId()))
+						return true;					
+				}				
+			}
+			return false;
+		}			
+		«ENDFOREACH»
+		return false;
+	}
 	
 	public static boolean canReadGroup(String groupName){
 		if(isAdmin() || isGroupReadNotSecured(groupName))
