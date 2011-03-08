@@ -48,7 +48,8 @@
 				<value>org/imogene/sync/server/history/SyncHistory.hbm.xml</value>	
 				<value>org/imogene/sync/server/session/SyncSession.hbm.xml</value>
 				<value>org/imogene/sync/server/binary/file/BinaryFile.hbm.xml</value>
-				<value>org/imogene/uao/clientfilter/ClientFilter.hbm.xml</value>					  
+				<value>org/imogene/uao/clientfilter/ClientFilter.hbm.xml</value>	
+				<value>org/imogene/sync/localizedtext/LocalizedText.hbm.xml</value>					  
 	            «FOREACH entities AS e -»
 	            <value>«packagePath.toLowerCase()»/entity/«e.name».hbm.xml</value>
 	            «ENDFOREACH-»
@@ -115,7 +116,12 @@
 	<!-- ClientFilter DAO -->
   	 <bean class="org.imogene.sync.server.clientfilter.ClientFilterHibernateDao" id="clientFilterDao">
 	  	<property name="sessionFactory" ref="sessionFactory"/>
-  	</bean>  	 
+  	</bean>  
+  	
+  	<!-- LocalizedText DAO -->
+  	 <bean class="org.imogene.sync.server.localizedtext.LocalizedTextHibernateDao" id="localizedTextDao">
+	  	<property name="sessionFactory" ref="sessionFactory"/>
+  	</bean>  		 
   
 	<!-- Entities DAO -->
 	«FOREACH entities AS e»

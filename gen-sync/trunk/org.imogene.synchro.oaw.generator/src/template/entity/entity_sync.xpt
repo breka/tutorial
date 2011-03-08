@@ -39,18 +39,26 @@ public class «this.name.toFirstUpper()» implements Synchronizable «IF this.geore
 	«FOREACH g.fields AS f -»
 	«EXPAND fieldDeclaration FOR f-»
 	«ENDFOREACH -»	
-	«ENDFOREACH»		
+	«ENDFOREACH»	
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	/* For localized fields */
+	private LocalizedFieldMap translations;	
+	«ENDIF»	
 				
 	
 	public «this.name»() {
 	
-   // Add the ENABLED keyword before 'START' to protect this area 
-    «PROTECT CSTART '/*' CEND '*/' ID 'init'+ this.shortName DISABLE »		
-	«FOREACH groups.fields AS field-» 
-		«EXPAND propertyInit FOR field-»
-	«ENDFOREACH-»
-	«ENDPROTECT»	
+		«IF isTranslatableFieldPresent(this.groups.fields)-»
+		translations = new LocalizedFieldMap();
+		«ENDIF-»	
 	
+	   // Add the ENABLED keyword before 'START' to protect this area 
+	    «PROTECT CSTART '/*' CEND '*/' ID 'init'+ this.shortName DISABLE »		
+		«FOREACH groups.fields AS field-» 
+			«EXPAND propertyInit FOR field-»
+		«ENDFOREACH-»
+		«ENDPROTECT»	
 	}
 	
 	/* Getters and Setters for Entity fields */
@@ -101,7 +109,17 @@ public class «this.name.toFirstUpper()» implements Synchronizable «IF this.geore
 	public Double getLongitude() {
 		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Longitude;
 	}
-	«ENDIF»	
+	«ENDIF»
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	public LocalizedFieldMap getLocalizedFieldMap() {
+		return translations;
+	}
+
+	public void setLocalizedFieldMap(LocalizedFieldMap localizedFieldMap) {
+		translations = localizedFieldMap;
+	}
+	«ENDIF»		
 	
 
 	/* Synchronizable getters and setters */

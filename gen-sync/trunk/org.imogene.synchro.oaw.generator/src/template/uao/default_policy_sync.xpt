@@ -1,4 +1,5 @@
 «IMPORT core»
+«EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String packageName, String packagePath) FOR Project»
 «FILE packagePath.toLowerCase() + "/uao/security/ImogDefaultPolicy.java"»
@@ -10,9 +11,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import org.imogene.common.dao.LocalizedTextDao;
 import org.imogene.common.data.Synchronizable;
 import org.imogene.common.data.SynchronizableUser;
 import org.imogene.sync.server.hibernate.GenericHibernateDao;
+import org.imogene.sync.localizedtext.LocalizedText;
 import org.imogene.uao.role.Role;
 import org.imogene.uao.security.ImogSecurityPolicy;
 «FOREACH entities AS e-»
@@ -33,6 +36,8 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 
 	/* generic DAO access */
 	private GenericHibernateDao dao;
+	/* LocalizedText DAO access */
+	private LocalizedTextDao i18nDao;
 
 
 	/* (non-Javadoc)
@@ -134,13 +139,13 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 			«IF g.readers.size == 0»
 		if (!isSecured) isSecured = true;
 				«FOREACH g.fields AS f-»
-					«EXPAND setField FOR f -»
+					«EXPAND setField(true) FOR f -»
 				«ENDFOREACH-»			
 			«ELSE»
 				if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»«IF g.writers.size>0»||«ENDIF»«FOREACH g.writers AS w ITERATOR i» roleNames.contains("«w.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»){
 					if (!isSecured) isSecured = true;
 					«FOREACH g.fields AS f-»
-						«EXPAND setField FOR f -»
+						«EXPAND setField(true) FOR f -»
 					«ENDFOREACH-»
 				}
 				else{
@@ -149,7 +154,11 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 				«ENDFOREACH-»
 				}
 			«ENDIF»
-		«ENDFOREACH»		
+		«ENDFOREACH»
+		
+		«IF isTranslatableFieldPresent(e.groups.fields)-»
+		transformedBean = getLocalized«e.name.toFirstUpper()»(transformedBean, roleNames);
+		«ENDIF-»				
 
 		if (isSecured)
 			return transformedBean;
@@ -189,20 +198,20 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 					if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»){		
 						if (!isSecured) isSecured = true;			
 					«FOREACH g.fields AS f-»
-						«EXPAND setField FOR f-»
+						«EXPAND setField(false) FOR f-»
 					«ENDFOREACH-»
 				}
 				«ELSE»
 						if (!isSecured) isSecured = true;
 					«FOREACH g.fields AS f-»
-						«EXPAND setField FOR f -»
+						«EXPAND setField(false) FOR f -»
 					«ENDFOREACH-»
 				«ENDIF»									
 			«ELSE»
 				if(«FOREACH g.writers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»){
 					if (!isSecured) isSecured = true;
 					«FOREACH g.fields AS f-»
-						«EXPAND setField FOR f-»
+						«EXPAND setField(false) FOR f-»
 					«ENDFOREACH-»
 				}				
 			«ENDIF»
@@ -214,6 +223,47 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 			return null;
 	}	
 	«ENDFOREACH»	
+	
+	
+	«FOREACH entities AS e-»	
+		«IF isTranslatableFieldPresent(e.groups.fields)-»
+	/**
+	 * Adds the Localized texts to a «e.name.toFirstUpper()-» entity
+	 * @param value the «e.name.toFirstUpper()-» entity
+	 * @param roleNames set of role ids for the user 
+	 * @return «e.name.toFirstUpper()-» entity with the Localized texts added
+	 */
+	private «e.name.toFirstUpper()-» getLocalized«e.name.toFirstUpper()-»(«e.name.toFirstUpper()-» value, Set<String> roleNames) {
+		«e.name.toFirstUpper()-» entity = value;
+		if (entity!=null) {
+			«FOREACH e.groups AS g-»
+				«IF isTranslatableFieldPresent(g.fields)-»			
+					«IF g.readers.size == 0-»
+						«FOREACH g.fields AS f-»
+							«EXPAND addLocalizedTexts FOREACH g.fields-»
+						«ENDFOREACH-»			
+					«ELSE-»
+						if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»«IF g.writers.size>0»||«ENDIF»«FOREACH g.writers AS w ITERATOR i» roleNames.contains("«w.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){
+							«EXPAND addLocalizedTexts FOREACH g.fields-»
+						}
+					«ENDIF-»				
+				«ENDIF-»
+			«ENDFOREACH-»
+		}		
+		return entity;		
+	}	
+		«ENDIF-»
+	«ENDFOREACH-»
+	
+	/**
+	 * Gets the Localized texts for a given field
+	 * @param fieldId the field id for which LocalizedTexts are searched
+	 * @return a list of LocalizedTexts
+	 */
+	private List<LocalizedText> getLocalizedTexts(String fieldId) {
+		return i18nDao.listLocalizedText(fieldId);	
+	}
+			
 	
 	/**
 	 * 
@@ -259,6 +309,10 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 	public void setDao(GenericHibernateDao dao) {
 		this.dao = dao;
 	}
+	
+	public void setI18nDao(LocalizedTextDao i18nDao) {
+		this.i18nDao = i18nDao;
+	}
 }
 
 «ENDFILE»
@@ -267,16 +321,25 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 
 
 «REM» Setter to affect the values to the new bean «ENDREM»
-«DEFINE setField FOR FieldEntity-»
+«DEFINE setField(boolean toSecure) FOR FieldEntity-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 «ENDDEFINE»
 
-«DEFINE setField FOR GeoField-»
+«DEFINE setField(boolean toSecure) FOR TextField-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	«IF this.translatable-»
+		«IF !toSecure-»
+	transformedBean.getLocalizedFieldMap().addI18nValues(bean.getLocalizedFieldMap().getFieldI18nValues(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ENDIF-»
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE setField(boolean toSecure) FOR GeoField-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude());
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
 «ENDDEFINE»
 
-«DEFINE setField FOR RelationFieldEntity-»
+«DEFINE setField(boolean toSecure) FOR RelationFieldEntity-»
 	«IF this.cardinality>1 || this.cardinality==-1 -»
 	updateCollection(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 	«ELSE»
@@ -312,6 +375,15 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 «DEFINE filterField FOR FilterField-»
 transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 «ENDDEFINE»
+
+«REM» Add LocalizedTexts to translatable entity «ENDREM»
+«DEFINE addLocalizedTexts FOR FieldEntity-»«ENDDEFINE»
+«DEFINE addLocalizedTexts FOR TextField-»
+	«IF this.translatable-»
+			entity.getLocalizedFieldMap().addI18nValues(getLocalizedTexts(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+	«ENDIF-»
+«ENDDEFINE»
+«REM» ---------------------------------------------------------- «ENDREM»
 
 
 

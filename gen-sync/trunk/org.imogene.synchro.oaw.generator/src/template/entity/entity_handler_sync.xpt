@@ -1,5 +1,6 @@
 «IMPORT core»
 «EXTENSION template::CommonFieldUtilExt»
+«EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String packageName, String packagePath, String projectName) FOR CardEntity»
 «FILE packagePath.toLowerCase() + "/handler/" + name + "Handler.java"»
@@ -36,7 +37,10 @@ import org.imogene.common.data.handler.EntityHandler;
 import «packageName.toLowerCase()».entity.«this.name»;
 «ENDIF -»
 «EXPAND importEntityForFilterField(packageName) FOR this»
-
+«IF isTranslatableFieldPresent(this.groups.fields)-»
+import org.imogene.sync.localizedtext.LocalizedText;
+import org.imogene.common.dao.LocalizedTextDao;
+«ENDIF»	
 
 
 /**
@@ -46,6 +50,9 @@ import «packageName.toLowerCase()».entity.«this.name»;
 public class «this.name»Handler extends EntityHandlerImpl implements «IF Actor.isAssignableFrom(this.metaType)-»UserHandler«ELSE -»EntityHandler«ENDIF -» {
 
 	private «this.name»Dao dao;
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	private LocalizedTextDao i18nDao;
+	«ENDIF»	
 	
 	«IF clientFilterFields.size>0 || clientPeriodFilterable -»
 	private ClientFilterDao clientFilterDao;
@@ -73,9 +80,31 @@ public class «this.name»Handler extends EntityHandlerImpl implements «IF Actor.i
 		«FOREACH this.groups.fields AS f-»
 			«EXPAND saveParent FOR f-»
 		«ENDFOREACH-»		
-			getDao().saveOrUpdate(toSave);		
+			getDao().saveOrUpdate(toSave);	
+			«IF isTranslatableFieldPresent(this.groups.fields)-»
+			// save related LocalizedTexts
+			List<LocalizedText> texts = toSave.getLocalizedFieldMap().getI18nValues();
+			for (LocalizedText current : texts)
+				i18nDao.saveOrUpdate(current);
+			«ENDIF»		
+		}	
+	}
+	
+
+	public void merge(Synchronizable entity, SynchronizableUser user) {	
+		«this.name» toSave = («this.name»)ImogSecurityHandler.getInstance().getPolicy().toHibernate(entity, user);
+		if (toSave!=null) {
+		«FOREACH this.groups.fields AS f-»
+			«EXPAND saveParent FOR f-»
+		«ENDFOREACH-»		
+			getDao().merge(toSave);	
+			«IF isTranslatableFieldPresent(this.groups.fields)-»
+			// save related LocalizedTexts
+			List<LocalizedText> texts = toSave.getLocalizedFieldMap().getI18nValues();
+			for (LocalizedText current : texts)
+				i18nDao.saveOrUpdate(current);
+			«ENDIF»		
 		}
-			
 	}	
 	
 	public void delete(Synchronizable entity, SynchronizableUser user) {
@@ -217,7 +246,17 @@ public class «this.name»Handler extends EntityHandlerImpl implements «IF Actor.i
 	public void setClientFilterDao(ClientFilterDao clientFilterDao) {
 		this.clientFilterDao = clientFilterDao;
 	}
-	«ENDIF -»		
+	«ENDIF -»	
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	public LocalizedTextDao getI18nDao() {
+		return i18nDao;
+	}
+
+	public void setI18nDao(LocalizedTextDao i18nDao) {
+		this.i18nDao = i18nDao;
+	}
+	«ENDIF-»		
 	
 }
 «ENDFILE»
