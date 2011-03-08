@@ -1,5 +1,6 @@
 «IMPORT core»
 «EXTENSION template::CommonFieldUtilExt» 
+«EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String packageName, String packagePath, String projectName) FOR CardEntity»
 «FILE packagePath.toLowerCase() + "/entity/" + name.toFirstUpper() + ".java"»
@@ -9,12 +10,19 @@ import java.util.Date;
 
 «EXPAND template::SyncFieldUtil::generateImportsForFields FOR this-»
 import org.imogene.common.data.Synchronizable;
+«IF this.georeferenced!=null -»
+import org.imogene.common.data.IsGeoreferenced;
+«ENDIF»
+«IF isTypePresent(this.groups.fields, "GeoField") -»
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.imogene.common.data.GeoField;
+«ENDIF»
 
 /**
  * «this.name» Bean Implementation
  * @author Medes-IMPS
  */
-public class «this.name.toFirstUpper()» implements Synchronizable {
+public class «this.name.toFirstUpper()» implements Synchronizable «IF this.georeferenced!=null», IsGeoreferenced«ENDIF»{
 
 	/* Synchronizable properties */
 	private String id;	
@@ -26,9 +34,12 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 	private String createdBy;
 	
 	/* Entity properties */
-	«FOREACH groups.fields AS field-» 
-	private «EXPAND template::SyncFieldUtil::fieldType FOR field-» «EXPAND template::CommonFieldUtil::propertyName FOR field-»;
-	«ENDFOREACH-»		
+	«FOREACH groups AS g-»
+	/* «g.name.toFirstUpper()» group fields */
+	«FOREACH g.fields AS f -»
+	«EXPAND fieldDeclaration FOR f-»
+	«ENDFOREACH -»	
+	«ENDFOREACH»		
 				
 	
 	public «this.name»() {
@@ -41,61 +52,56 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 	«ENDPROTECT»	
 	
 	}
-		
 	
-	/* Entity getters and setters */
-
-	«FOREACH groups.fields AS field-»
+	/* Getters and Setters for Entity fields */
 	
-	public «EXPAND template::SyncFieldUtil::fieldType FOR field-» «EXPAND template::CommonFieldUtil::getterName FOR field-»()
-	{
-		return «EXPAND template::CommonFieldUtil::propertyName FOR field-»;
-	}
-   
-	public void «EXPAND template::CommonFieldUtil::setterName FOR field-»(«EXPAND template::SyncFieldUtil::fieldType FOR field-» param)
-	{
-		«EXPAND template::CommonFieldUtil::propertyName FOR field-» = param;
-	}
-	
+	«FOREACH groups AS g-»
+	/* Getters and Setters for «g.name.toFirstUpper()» group fields */
+	«FOREACH g.fields AS f -»
+	«EXPAND template::SyncFieldUtil::getterDeclarationForField FOR f»
+	«EXPAND template::SyncFieldUtil::setterDeclarationForField FOR f»	
 	«REM»
 	When a property has a lowercase first char and an upper case second char,
 	some bean introspectors need getter/setter with type getXxxx
 	and some other need getter/setter with type getxxx
 	«ENDREM»
-	«IF isPropertyWithLowerUpperCaseFirstTwoChar(field.name)-»
+	«IF isPropertyWithLowerUpperCaseFirstTwoChar(f.name)-»
 	/* second set of getter/setter because of property has first char with lowercase and second char with uppercase 
 	   and bean introspectors do not use same naming conventions */
-	public «EXPAND template::SyncFieldUtil::fieldType FOR field-» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR field-»()
-	{
-		return «EXPAND template::CommonFieldUtil::propertyName FOR field-»;
-	}
-   
-	public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR field-»(«EXPAND template::SyncFieldUtil::fieldType FOR field-» param)
-	{
-		«EXPAND template::CommonFieldUtil::propertyName FOR field-» = param;
-	}
+	«EXPAND template::SyncFieldUtil::getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR f»
+	«EXPAND template::SyncFieldUtil::setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR f-»
 	/* ----------------------------------------------------------------------------------------------------------- */
-	«ENDIF-»
-	
-	«IF RelationFieldEntity.isAssignableFrom(field.metaType) && (((RelationFieldEntity)field).cardinality != 1)-»
+	«ENDIF-»	
+		
+	«IF RelationFieldEntity.isAssignableFrom(f.metaType) && (((RelationFieldEntity)f).cardinality != 1)-»
 	/**
-	 * @param param the «((RelationFieldEntity)field).entity.name-» to add to the «EXPAND template::CommonFieldUtil::propertyName FOR field-» collection
+	 * @param param the «((RelationFieldEntity)f).entity.name-» to add to the «EXPAND template::CommonFieldUtil::propertyName FOR f-» collection
 	 */
-	public void addTo«EXPAND template::CommonFieldUtil::propertyName FOR field-»(«((RelationFieldEntity)field).entity.name-» param)
+	public void addTo«EXPAND template::CommonFieldUtil::propertyName FOR f-»(«((RelationFieldEntity)f).entity.name-» param)
 	{
-		«EXPAND template::CommonFieldUtil::propertyName FOR field-».add(param);
+		«EXPAND template::CommonFieldUtil::propertyName FOR f-».add(param);
 	}	
 	
 	/**
-	 * @param param the «((RelationFieldEntity)field).entity.name-» to remove from the «EXPAND template::CommonFieldUtil::propertyName FOR field-» collection
+	 * @param param the «((RelationFieldEntity)f).entity.name-» to remove from the «EXPAND template::CommonFieldUtil::propertyName FOR f-» collection
 	 */
-	public void removeFrom«EXPAND template::CommonFieldUtil::propertyName FOR field-»(«((RelationFieldEntity)field).entity.name-» param)
+	public void removeFrom«EXPAND template::CommonFieldUtil::propertyName FOR f-»(«((RelationFieldEntity)f).entity.name-» param)
 	{
-		«EXPAND template::CommonFieldUtil::propertyName FOR field-».remove(param);
+		«EXPAND template::CommonFieldUtil::propertyName FOR f-».remove(param);
 	}	
 	«ENDIF-»
 	
 	«ENDFOREACH-»
+	«ENDFOREACH-»
+	
+	«IF this.georeferenced!=null -»
+	public Double getLatitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Latitude;
+	}
+	public Double getLongitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Longitude;
+	}
+	«ENDIF»	
 	
 
 	/* Synchronizable getters and setters */
@@ -166,7 +172,7 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 		this.setCreated(entity.getCreated());
 		this.setCreatedBy(entity.getCreatedBy());		
 		«FOREACH groups.fields AS field-» 
-		this.«EXPAND template::CommonFieldUtil::setterName FOR field-»(entity.«EXPAND template::CommonFieldUtil::getterName FOR field-»());
+		«EXPAND setEntity FOR field-»
 		«ENDFOREACH-»
 	}
 	
@@ -191,6 +197,8 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 		«EXPAND template::CommonFieldUtil::propertyName FOR this-»= "«defaultValue»";
 	«ENDIF-»
 «ENDDEFINE»
+
+«DEFINE propertyInit FOR GeoField-»«ENDDEFINE»
 
 «DEFINE propertyInit FOR BooleanField-»
 	«IF (defaultValue!=null) && (defaultValue.length >0) -»
@@ -240,6 +248,8 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 	if (this.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
 		displayValue.append(this.«EXPAND template::CommonFieldUtil::getterName FOR this-»()).append(" ");
 «ENDDEFINE»
+«DEFINE getDisplay FOR GeoField-»«ENDDEFINE»
+
 «DEFINE stringRepresentation FOR EnumField»
 	String «name.toFirstLower()» = this.«EXPAND template::CommonFieldUtil::getterName FOR this-»();
 	if ( «name.toFirstLower()»!=null)
@@ -287,3 +297,24 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 	«ENDIF -»
 «ENDDEFINE»
 «REM» ------------------------------------------------«ENDREM»
+
+«DEFINE setEntity FOR FieldEntity-»
+		this.«EXPAND template::CommonFieldUtil::setterName FOR this-»(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+«DEFINE setEntity FOR GeoField-»
+		this.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude());
+		this.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+«DEFINE fieldDeclaration FOR FieldEntity-»
+	private «EXPAND template::SyncFieldUtil::fieldType FOR this-» «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+«ENDDEFINE»
+«DEFINE fieldDeclaration FOR GeoField-»
+	@XStreamOmitField
+	private «EXPAND template::SyncFieldUtil::fieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude; 
+	@XStreamOmitField
+	private «EXPAND template::SyncFieldUtil::fieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
+	private GeoField «EXPAND template::CommonFieldUtil::propertyName FOR this» = new GeoField();
+«ENDDEFINE»

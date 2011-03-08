@@ -271,6 +271,11 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 «ENDDEFINE»
 
+«DEFINE setField FOR GeoField-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude());
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
+«ENDDEFINE»
+
 «DEFINE setField FOR RelationFieldEntity-»
 	«IF this.cardinality>1 || this.cardinality==-1 -»
 	updateCollection(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
@@ -287,6 +292,11 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 «REM» Set empty field to secure a bean «ENDREM»
 «DEFINE setEmptyField FOR FieldEntity-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
+«ENDDEFINE»
+
+«DEFINE setEmptyField FOR GeoField-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(null);
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(null);
 «ENDDEFINE»
 
 «DEFINE setEmptyField FOR RelationFieldEntity-»

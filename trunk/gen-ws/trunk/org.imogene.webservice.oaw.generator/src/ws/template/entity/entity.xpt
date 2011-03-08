@@ -19,6 +19,9 @@ import org.imogene.ws.serializer.xml.DateAdapter;
 «FOREACH groups.fields AS f -»
 	«EXPAND RelationEntityDeclaration(projectName) FOR f-»
 «ENDFOREACH -»	
+«IF this.georeferenced!=null -»
+import org.imogene.ws.entity.IsGeoreferenced;
+«ENDIF»
 
 
 /**
@@ -163,6 +166,15 @@ public class «name.toFirstUpper()» implements MedooBean {
 	«ENDFOREACH -»	
 	«ENDFOREACH»	
 	
+	«IF this.georeferenced!=null -»
+	public Double getLatitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Latitude;
+	}
+	public Double getLongitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Longitude;
+	}
+	«ENDIF»	
+	
 	public String getDisplayValue() {		
 		StringBuffer buffer = new StringBuffer();
 		«FOREACH this.mainFields AS m -»
@@ -178,6 +190,11 @@ public class «name.toFirstUpper()» implements MedooBean {
 	private «EXPAND ws::template::WsFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»; 
 «ENDDEFINE»
 
+«DEFINE fieldDeclaration FOR GeoField-»
+	private «EXPAND ws::template::WsFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude; 
+	private «EXPAND ws::template::WsFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
+«ENDDEFINE»
+
 «DEFINE RelationEntityDeclaration(String projectName) FOR FieldEntity-»«ENDDEFINE»
 «DEFINE RelationEntityDeclaration(String projectName) FOR RelationFieldEntity-»
 	«IF this.cardinality == 1 -»
@@ -188,5 +205,6 @@ import org.imogene.«projectName.toLowerCase()».entity.serializer.xml.«entity.nam
 «ENDDEFINE»
 
 «DEFINE setOrder FOR FieldEntity»"«EXPAND template::CommonFieldUtil::propertyName FOR this»"«ENDDEFINE»
+«DEFINE setOrder FOR GeoField»"«EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude","«EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude"«ENDDEFINE»
 
 

@@ -32,6 +32,15 @@
 		<property name="classType" value="org.imogene.sync.server.binary.file.BinaryFile"/>
 		<property name="converter" ref="binaryConverter"/>
 	</bean>	
+	
+	<!-- Initialize the GeoField Converter -->
+	<bean id="geoFieldConverter" class="org.imogene.sync.serializer.xml.GeoFieldConverter"/> 	
+	
+	<bean id="geoFieldClassConverter" class="org.imogene.sync.serializer.xml.ClassConverter">
+		<property name="alias" value="org.imogene.common.data.GeoField"/>
+		<property name="classType" value="org.imogene.common.data.GeoField"/>
+		<property name="converter" ref="geoFieldConverter"/>
+	</bean>		
 
 	«REM»
 	<!-- Initialize the User Converters -->

@@ -14,6 +14,7 @@
 «REM»
 	Field type for entity «ENDREM»
 «DEFINE entityFieldType FOR FieldEntity»String«ENDDEFINE»
+«DEFINE entityFieldType FOR GeoField»Double«ENDDEFINE»
 «DEFINE entityFieldType FOR DateField»Date«ENDDEFINE»
 «DEFINE entityFieldType FOR DateTimeField»Date«ENDDEFINE»
 «DEFINE entityFieldType FOR TimeField»Date«ENDDEFINE»
@@ -47,6 +48,7 @@
 «DEFINE formFieldType FOR AddressField»ImogAddressField«ENDDEFINE»
 «DEFINE formFieldType FOR IntegerField»ImogIntegerField«ENDDEFINE»
 «DEFINE formFieldType FOR FloatField»ImogFloatField«ENDDEFINE»
+«DEFINE formFieldType FOR GeoField»ImogGeoField«ENDDEFINE»
 «DEFINE formFieldType FOR FilterField -»
 	«IF cardinality ==1 -»	
 		ImogRelationBox<«entity.name.toFirstUpper()-»>	
@@ -78,10 +80,26 @@ public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::gett
 	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
 }
 «ENDDEFINE»
+«DEFINE getterDeclarationForField FOR GeoField-»
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Latitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude;
+}
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Longitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
+}
+«ENDDEFINE»
 
 «DEFINE setterDeclarationForField FOR FieldEntity-»
 public void «EXPAND template::CommonFieldUtil::setterName FOR this»(«EXPAND entityFieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+}
+«ENDDEFINE»
+«DEFINE setterDeclarationForField FOR GeoField-»
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+}
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
 }
 «ENDDEFINE»
 
@@ -90,12 +108,29 @@ public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::gett
 	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
 }
 «ENDDEFINE»
+«DEFINE getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude;
+}
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
+}
+«ENDDEFINE»
 
 «DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR FieldEntity-»
 public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(«EXPAND entityFieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
 }
 «ENDDEFINE»
+«DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+}
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+}
+«ENDDEFINE»
+
 
 
 

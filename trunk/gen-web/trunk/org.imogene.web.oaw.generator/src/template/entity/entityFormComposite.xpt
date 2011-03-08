@@ -839,6 +839,12 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
 	«ENDIF -»
 «ENDDEFINE»
+«DEFINE affectValueToView FOR GeoField -»
+	if (entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude()!=null && entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude()!=null)
+		«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude() + ";" + entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude());
+	else
+		«name.toFirstLower()».setValue("");
+«ENDDEFINE»
 «DEFINE affectValueToView FOR RelationFieldEntity -»
 «IF cardinality==1 -»
 	«IF getOppositeCardinality(this)==1 -»
@@ -869,6 +875,26 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«name.toFirstLower()».getValue());
 		«ENDIF-»	
 	«ENDIF -»
+«ENDDEFINE»
+
+«DEFINE affectValueToEntity FOR GeoField -»
+	String «name.toFirstLower()»Value = «name.toFirstLower()».getValue();
+	if («name.toFirstLower()»Value!=null) {
+		String[] «name.toFirstLower()»Values = «name.toFirstLower()»Value.split(";");
+		if («name.toFirstLower()»Values.length==2) {
+			entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(Double.valueOf(«name.toFirstLower()»Values[0]));
+			entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(Double.valueOf(«name.toFirstLower()»Values[1]));
+
+		}
+		else {
+			entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(null);
+			entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(null);
+		}
+	}
+	else {
+		entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(null);
+		entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(null);
+	}
 «ENDDEFINE»
 
 «DEFINE affectValueToEntity FOR RelationFieldEntity -»

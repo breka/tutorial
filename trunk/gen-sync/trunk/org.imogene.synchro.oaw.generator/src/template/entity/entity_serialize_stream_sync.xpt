@@ -155,6 +155,27 @@ import java.util.HashSet;
 				entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«this.name.toFirstLower()»Id);	
 «ENDDEFINE»
 
+«DEFINE deSerialize FOR GeoField-»
+			/* «this.name» */
+			String «this.name.toFirstLower()» = data.readUTF();			
+			if («name.toFirstLower()»!=null) {
+				String[] «name.toFirstLower()»Values = «name.toFirstLower()».split(";");
+				if («name.toFirstLower()»Values.length==2) {
+					entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(Double.valueOf(«name.toFirstLower()»Values[0]));
+					entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(Double.valueOf(«name.toFirstLower()»Values[1]));
+		
+				}
+				else {
+					entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(null);
+					entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(null);
+				}
+			}
+			else {
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(null);
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(null);
+			}			
+«ENDDEFINE»
+
 «DEFINE deSerialize FOR RelationFieldEntity-»
 	«IF (this.cardinality == 1)-»
 			/* «this.name» */
@@ -232,6 +253,14 @@ import java.util.HashSet;
 				data.writeFloat(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 			else
 				data.writeFloat(-1);	
+«ENDDEFINE»
+
+«DEFINE Serialize FOR GeoField-»
+			/* «this.name» */
+			if («this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude()!=null && «this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude()!=null)
+				data.writeUTF(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude() + ";" + «this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
+			else
+				data.writeUTF("");	
 «ENDDEFINE»
 
 «DEFINE Serialize FOR RelationFieldEntity-»

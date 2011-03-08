@@ -138,6 +138,10 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 	}
 	«ENDIF-»
 «ENDDEFINE»
+«DEFINE setField FOR GeoField-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude());
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
+«ENDDEFINE»
 
 «REM»  	Set empty field to securise a bean «ENDREM»
 «DEFINE setEmptyField FOR FieldEntity-»
@@ -150,6 +154,11 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 	«ELSE-»
 		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
 	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE setEmptyField FOR GeoField-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(null);
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(null);
 «ENDDEFINE»
 
 «REM»hand  administrativ field «ENDREM»

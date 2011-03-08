@@ -195,6 +195,11 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	«ENDIF-»
 «ENDDEFINE»
 
+«DEFINE setField(boolean toSecure) FOR GeoField-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude());
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
+«ENDDEFINE»
+
 «DEFINE setField(boolean toSecure) FOR RelationFieldEntity-»
 	«IF this.cardinality>1||this.cardinality==-1»
 		«IF isTranslatableFieldPresent(this.entity.groups.fields)-»
@@ -222,6 +227,11 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 «REM» Set empty field to securise a bean «ENDREM»
 «DEFINE setEmptyField FOR FieldEntity-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
+«ENDDEFINE»
+
+«DEFINE setEmptyField FOR GeoField-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(null);
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(null);
 «ENDDEFINE»
 
 «DEFINE setEmptyField FOR RelationFieldEntity-»

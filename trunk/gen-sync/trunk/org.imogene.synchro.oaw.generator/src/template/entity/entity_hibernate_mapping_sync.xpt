@@ -53,6 +53,15 @@
 «DEFINE fieldMapping(String packageName) FOR DatesField-»
 		<property name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" column="«parentGroup.parentCard.name»_«name»" type="timestamp"/>
 «ENDDEFINE»
+
+«DEFINE fieldMapping(String packageName) FOR GeoField-»
+	    <property name="«EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude" >
+	    	<column name="«parentGroup.parentCard.name»_«name»Latitude" sql-type="numeric(23,20)"/>
+		</property>  
+	    <property name="«EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude" >
+	    	<column name="«parentGroup.parentCard.name»_«name»Longitude" sql-type="numeric(23,20)"/>
+		</property>   		
+«ENDDEFINE»
 «REM»
 «DEFINE fieldMapping(String packageName) FOR BinaryField-»
 		<property name="«EXPAND template::SyncFieldUtil::propertyName FOR this»" column="«parentGroup.parentCard.name»_«name»" type="binary" length="518576"/>
