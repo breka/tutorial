@@ -113,7 +113,11 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 			«IF DateField.isAssignableFrom(sortFields.get(0).metaType) -»
 				updateRowData(startRow, maxRows, acceptor, "«EXPAND template::CommonFieldUtil::propertyName FOR sortFields.get(0)»", false);
 			«ELSE -»
+				«IF GeoField.isAssignableFrom(sortFields.get(0).metaType) -»
+				updateRowData(startRow, maxRows, acceptor, null, true);
+				«ELSE -»
 				updateRowData(startRow, maxRows, acceptor, "«EXPAND template::CommonFieldUtil::propertyName FOR sortFields.get(0)»", true);
+				«ENDIF -»
 			«ENDIF -»
 		«ENDIF -»
 	}
@@ -279,6 +283,11 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null){	
 		rows[i][«row»] = new HTML(DateUtil.getFormatedTime(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));		
 	}
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR GeoField-»
+	if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude() != null && card.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude() != null)
+		value = new HTML(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude() + ";" + card.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
 «ENDDEFINE»
 
 «DEFINE setDataRow(int row) FOR RelationFieldEntity-»	

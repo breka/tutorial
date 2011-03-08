@@ -145,6 +145,7 @@
 			«ENDIF -»				
 			«ENDFOREACH-»
 			«ENDREM»
+			<ref bean="geoFieldClassConverter"/>
 			<ref bean="binaryClassConverter"/>			  
 		  </set>
 		</property>		

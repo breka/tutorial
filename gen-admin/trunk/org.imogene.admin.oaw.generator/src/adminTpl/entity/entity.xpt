@@ -8,8 +8,16 @@ import java.util.Date;
 import java.util.Set;
 
 import org.imogene.web.gwt.common.entity.ImogBean;
+«IF this.georeferenced!=null -»
+import org.imogene.web.gwt.common.entity.IsGeoreferenced;
+«ENDIF»
 
-public class «name.toFirstUpper()» implements ImogBean {
+/**
+ * ImogBean implementation for the entity «name.toFirstUpper()»
+ * @author MEDES-IMPS
+ */
+public class «name.toFirstUpper()» implements ImogBean «IF this.georeferenced!=null», IsGeoreferenced«ENDIF»{
+
 	/* Imog bean fields */
 	private String id;
 	
@@ -129,7 +137,14 @@ public class «name.toFirstUpper()» implements ImogBean {
 	«ENDIF-»		
 	«ENDFOREACH -»
 
-	
+	«IF this.georeferenced!=null -»
+	public Double getLatitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Latitude;
+	}
+	public Double getLongitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Longitude;
+	}
+	«ENDIF»		
 	
 }
 «ENDFILE»
@@ -137,6 +152,10 @@ public class «name.toFirstUpper()» implements ImogBean {
 
 «DEFINE fieldDeclaration FOR FieldEntity»
 	private «EXPAND adminTpl::WebFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»; 
+«ENDDEFINE»
+«DEFINE fieldDeclaration FOR GeoField-»
+	private «EXPAND adminTpl::WebFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude; 
+	private «EXPAND adminTpl::WebFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
 «ENDDEFINE»
 
 

@@ -630,6 +630,12 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	«ENDFOREACH-» 
 «ENDDEFINE»
 
+«DEFINE createFieldView(String entityName) FOR GeoField -»
+	«name.toFirstLower()» = new ImogGeoField();
+	«EXPAND allPropertiesPackage FOR this -»
+	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
+«ENDDEFINE»
+
 «DEFINE createFieldView(String entityName) FOR PhotoField -»
 	«name.toFirstLower()» = new ImogPhotoField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
 	«EXPAND allPropertiesPackage FOR this -»
@@ -724,6 +730,12 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
 	«ENDIF -»
 «ENDIF -»
+«ENDDEFINE»
+«DEFINE affectValueToView FOR GeoField -»
+	if (entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude()!=null && entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude()!=null)
+		«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude() + ";" + entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude());
+	else
+		«name.toFirstLower()».setValue("");
 «ENDDEFINE»
 «REM» filter fields «ENDREM»
 «DEFINE affectValueToView FOR FilterField -»

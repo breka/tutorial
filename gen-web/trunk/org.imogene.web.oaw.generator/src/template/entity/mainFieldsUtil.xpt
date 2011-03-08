@@ -188,3 +188,8 @@ public class MainFieldsUtilImpl implements MainFieldsUtil {
 	value = value +  BooleanUtil.getFormatedBoolean(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()) + " ";
 «ENDDEFINE»
 
+«DEFINE stringRepresentation FOR GeoField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude()!=null && bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude()!=null)
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude() + ";" + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude() + " ";
+«ENDDEFINE»
+
