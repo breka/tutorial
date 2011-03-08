@@ -33,6 +33,15 @@
 		<property name="converter" ref="binaryConverter"/>
 	</bean>	
 	
+	<!-- Initialize the LocalizedFieldMap Converter -->
+	<bean class="«packageName.toLowerCase()».serializer.xml.LocalizedFieldMapConverter" id="localizedFieldMapConverter"/>	
+	
+	<bean id="localizedFieldMapClassConverter" class="org.imogene.sync.serializer.xml.ClassConverter">
+		<property name="alias" value="«packageName.toLowerCase()».entity.LocalizedFieldMap"/>
+		<property name="classType" value="«packageName.toLowerCase()».entity.LocalizedFieldMap"/>
+		<property name="converter" ref="localizedFieldMapConverter"/>
+	</bean>	
+	
 	<!-- Initialize the GeoField Converter -->
 	<bean id="geoFieldConverter" class="org.imogene.sync.serializer.xml.GeoFieldConverter"/> 	
 	

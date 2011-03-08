@@ -1,4 +1,5 @@
 «IMPORT core»
+«EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String packageName, String packagePath) FOR Project-»
 «FILE "application-context.xml"-»
@@ -64,6 +65,9 @@
 		<property name="dao" ref="«e.name.toFirstLower()»Dao"/>
 		«IF e.clientFilterFields.size>0 || e.clientPeriodFilterable -»
 		<property name="clientFilterDao" ref="clientFilterDao"/>
+		«ENDIF -»
+		«IF isTranslatableFieldPresent(e.groups.fields)-»
+		<property name="i18nDao" ref="localizedTextDao"/>
 		«ENDIF -»
 	</bean>	
 	«ENDFOREACH»	
@@ -146,7 +150,8 @@
 			«ENDFOREACH-»
 			«ENDREM»
 			<ref bean="geoFieldClassConverter"/>
-			<ref bean="binaryClassConverter"/>			  
+			<ref bean="binaryClassConverter"/>	
+			<ref bean="localizedFieldMapClassConverter"/>		  
 		  </set>
 		</property>		
 	</bean>	
@@ -189,6 +194,7 @@
 	<!-- Security handler --> 
 	<bean class="«packageName.toLowerCase()».uao.security.ImogDefaultPolicy" id="imogPolicy">
   		<property name="dao" ref="genericDao"/>
+  		<property name="i18nDao" ref="localizedTextDao"/>
   	</bean>  
 	
   	<bean class="org.imogene.uao.security.ImogSecurityHandler" factory-method="getInstance" id="imogSecurityHandler">
