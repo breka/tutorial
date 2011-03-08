@@ -58,8 +58,9 @@ public class «this.name.toFirstUpper()»ListComposite extends Composite implement
 		/* add allowed actions for list composite */
 		if (AccessManager.canEditForm("«name.toLowerCase()»")) {		
 			if (AccessManager.canDelete())
-				authorizedCommands.put(BaseNLS.constants().button_delete(), createDeleteCommand());					
-			authorizedCommands.put(BaseNLS.constants().button_create(), createCreateCommand());
+				authorizedCommands.put(BaseNLS.constants().button_delete(), createDeleteCommand());	
+			if (AccessManager.canCreateForm("«name.toLowerCase()»"))				
+				authorizedCommands.put(BaseNLS.constants().button_create(), createCreateCommand());
 		}
 		
 		/* manage column access */
