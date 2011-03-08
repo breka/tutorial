@@ -46,14 +46,13 @@ public class LocalizedTextParser {
 		localizedText.setUnread(true);
 		localizedText.setSynchronized(true);
 
+		localizedText.setId(parser.getAttributeValue(null, Keys.KEY_ID));
+		
 		while (parser.getEventType() != END_TAG
 				|| !LocalizedText.PACKAGE.equals(parser.getName())) {
 			if (parser.next() == START_TAG) {
 				String name = parser.getName();
-				if (LocalizedText.PACKAGE.equals(name)) {
-					String id = parser.getAttributeValue(null, Keys.KEY_ID);
-					localizedText.setId(id);
-				} else if (mHandlers.containsKey(name)) {
+				if (mHandlers.containsKey(name)) {
 					mHandlers.get(name).parse(context, parser, localizedText);
 				}
 			}
