@@ -353,6 +353,10 @@
 	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" class="java.util.Set"/>	
 	«ENDIF-»	
 «ENDDEFINE»
+«DEFINE defineField(String projectName) FOR GeoField-»
+	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude" class="java.lang.Double"/>
+	<field name="«EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude" class="java.lang.Double"/>
+«ENDDEFINE»
 «REM» ----------------------------- «ENDREM»
 
 
@@ -379,6 +383,50 @@
 					</textElement>					
 					«EXPAND displayFieldValue FOR this-»					
 				</textField>						
+«ENDDEFINE»
+«DEFINE displayField(int nb) FOR GeoField-»				
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="229"
+						y="0"
+						width="300"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="«this.name»LatitudeValuetextField"
+						positionType="Float"/>
+					<box>					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Sylfaen" size="10"/>
+					</textElement>					
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude}]]></textFieldExpression>					
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="229"
+						y="16"
+						width="300"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="«this.name»LongitudeValuetextField"
+						positionType="Float"/>
+					<box>					
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Sylfaen" size="10"/>
+					</textElement>					
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{«EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude}]]></textFieldExpression>					
+				</textField>							
 «ENDDEFINE»
 «DEFINE displayField(int nb) FOR RelationFieldEntity-»
 	«IF cardinality==1-»	
@@ -477,6 +525,9 @@
 «REM» set band height «ENDREM»
 «DEFINE setBandHeight FOR FieldEntity-»
 			<band height="14" isSplitAllowed="false" >	
+«ENDDEFINE»
+«DEFINE setBandHeight FOR GeoField-»
+			<band height="30" isSplitAllowed="false" >	
 «ENDDEFINE»
 «DEFINE setBandHeight FOR RelationFieldEntity-»
 	«IF (cardinality > 1 || cardinality == -1)-»	

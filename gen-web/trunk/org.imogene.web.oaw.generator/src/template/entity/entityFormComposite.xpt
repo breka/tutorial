@@ -770,7 +770,11 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	 «ENDIF-»
 «name.toFirstLower()»SelectionBox.setTitle(NLS.constants().«entity.name.toFirstLower()»_select_title());
   «ENDIF-»
-«name.toFirstLower()» = new ImogRelationList<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , «name.toFirstLower()»SelectionBox, MainFieldsUtilImpl.get());
+	if (AccessManager.canCreateForm("«entity.name.toLowerCase()»") && AccessManager.canEditForm("«entity.name.toLowerCase()»"))
+		«name.toFirstLower()» = new ImogRelationList<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , «name.toFirstLower()»SelectionBox, MainFieldsUtilImpl.get());
+	else
+		«name.toFirstLower()» = new ImogRelationList<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , «name.toFirstLower()»SelectionBox, MainFieldsUtilImpl.get(),false);	
+  
 		/* 'Add' button for field «name.toFirstUpper()» */
 		«name.toFirstLower()».setNewButtonHandler(new ListButtonClickHandler() {
 			@Override
