@@ -16,6 +16,11 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
  */
 public class PasswordConverter implements Converter{
 	
+	private EncryptionManager encryptionManager;
+	public void setEncryptionManager(EncryptionManager manager){
+		encryptionManager = manager;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.thoughtworks.xstream.converters.Converter#marshal(java.lang.Object, com.thoughtworks.xstream.io.HierarchicalStreamWriter, com.thoughtworks.xstream.converters.MarshallingContext)
@@ -23,7 +28,7 @@ public class PasswordConverter implements Converter{
 	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
 
 		String password =(String)value;		
-		byte[] EncodedResult = EncryptionManager.getInstance().encrypt(password.getBytes());	
+		byte[] EncodedResult = encryptionManager.encrypt(password.getBytes());	
 		char[] Base64Result = Base64Coder.encode(EncodedResult);
 		String result = new String(Base64Result);
 		writer.setValue(result);
