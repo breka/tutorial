@@ -42,4 +42,5 @@
 	<jar file="xstream-1.3.jar"/>
 	<jar file="org.imogene.sync.server.jar"/>
 	<jar file="org.imogene.sync.common.jar"/>
+	<jar file="org.imogene.encryption.jar"/>	
 </library>
