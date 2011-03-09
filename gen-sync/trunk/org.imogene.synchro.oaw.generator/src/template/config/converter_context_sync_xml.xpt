@@ -16,7 +16,9 @@
 	</bean>
 	
 	<!-- Initialize the Password Converter -->
-	<bean class="org.imogene.sync.serializer.xml.PasswordConverter" id="passwordConverter"/>
+	<bean class="org.imogene.sync.serializer.xml.PasswordConverter" id="passwordConverter">
+		<property name="encryptionManager" ref="encryptionManager"/>
+	</bean>	
 	
 	<!-- Initialize the Roles Converter -->
 	<bean class="org.imogene.sync.serializer.xml.RolesConverter" id="rolesConverter"/>

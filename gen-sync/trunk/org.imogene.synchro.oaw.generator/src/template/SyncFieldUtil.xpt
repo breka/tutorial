@@ -70,9 +70,11 @@ public void «EXPAND template::CommonFieldUtil::setterName FOR this-»(«EXPAND fie
 «DEFINE setterDeclarationForField FOR GeoField-»
 public void «EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(«EXPAND fieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLatitude(value);
 }
 public void «EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(«EXPAND fieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLongitude(value);
 }
 public void «EXPAND template::CommonFieldUtil::setterName FOR this»(GeoField value) {
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
@@ -104,9 +106,11 @@ public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpp
 «DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
 public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(«EXPAND fieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLatitude(value);
 }
 public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(«EXPAND fieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLongitude(value);
 }
 public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(GeoField value) {
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
