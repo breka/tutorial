@@ -291,7 +291,7 @@ public class ImogLocalizedTextBox extends ImogFieldAbstract<String> implements C
 		LocalizedText newText = new LocalizedText();
 		newText.setLocale(locale);
 		values.put(locale, newText);
-		textBox.setText(null);
+		textBox.setText("");
 	}
 	
 	

@@ -289,7 +289,7 @@ public class ImogLocalizedTextAreaBox extends ImogFieldAbstract<String> implemen
 		LocalizedText newText = new LocalizedText();
 		newText.setLocale(locale);
 		values.put(locale, newText);
-		textArea.setText(null);
+		textArea.setText("");
 	}
 	
 	
