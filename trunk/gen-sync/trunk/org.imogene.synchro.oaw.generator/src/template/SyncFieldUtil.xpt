@@ -78,6 +78,14 @@ public void «EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(«EX
 }
 public void «EXPAND template::CommonFieldUtil::setterName FOR this»(GeoField value) {
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+	if (value!=null){
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value.getLatitude();
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value.getLongitude();
+	}
+	else {
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = null;
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = null;			
+	}
 }
 «ENDDEFINE»
 
