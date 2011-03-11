@@ -36,7 +36,8 @@
 				«ENDFOREACH -»			
 				<value>org/imogene/ws/entity/RoleBeanImpl.hbm.xml</value>	
 				<value>org/imogene/ws/entity/DefaultActor.hbm.xml</value>
-				<value>org/imogene/ws/binary/BinaryFile.hbm.xml</value>				
+				<value>org/imogene/ws/binary/BinaryFile.hbm.xml</value>		
+				<value>org/imogene/ws/entity/LocalizedText.hbm.xml</value>			
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -78,6 +79,11 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>  -->
 	
+  	<!-- LocalizedText DAO -->
+  	<bean class="org.imogene.ws.dao.LocalizedTextDaoHibernate" id="localizedTextDao">
+  		<property name="sessionFactory" ref="sessionFactory"/>
+  	</bean>	
+	
   	<!-- Generic DAO -->
   	<bean class="org.imogene.ws.dao.GenericDaoHibernate" id="genericDao">
   		<property name="sessionFactory" ref="sessionFactory"/>
@@ -86,6 +92,7 @@
 	<!-- Security handler --> 
 	<bean class="org.imogene.«projectName.toLowerCase()».security.Medoo«projectName.toFirstUpper()»Policy" id="medooPolicy">
   		<property name="dao" ref="genericDao"/>
+   		<property name="i18nDao" ref="localizedTextDao"/>
   	</bean>  
 	
   	<bean class="org.imogene.ws.security.MedooSecurityHandler" factory-method="getInstance" id="medooSecurityHandler">

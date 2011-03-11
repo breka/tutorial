@@ -42,6 +42,8 @@ enumeration_unknown =
 /*                        GENERATED TEXTS                              */
 /* ------------------------------------------------------------------- */
 
+«EXPAND writeLanguageProperties(currentLanguage) FOR this-»
+
 «FOREACH entities AS e»
 /* «e.name» fields texts */	
 «FOREACH e.mainFields AS field-»
@@ -82,3 +84,14 @@ enumeration_unknown =
 	«ENDFOREACH-»
 «ENDDEFINE»
 «REM» ----------------------------------------- «ENDREM»
+
+
+«DEFINE writeLanguageProperties(core::Language curLanguage) FOR Project-»
+«IF curLanguage==null-»
+/* Languages texts */
+locale = en
+«ELSE-»
+/* Languages texts */
+locale = «curLanguage.isoCode»
+«ENDIF-»
+«ENDDEFINE»

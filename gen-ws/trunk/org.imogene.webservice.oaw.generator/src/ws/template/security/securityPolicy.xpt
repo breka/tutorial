@@ -12,6 +12,10 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.imogene.ws.dao.GenericDao;
+import org.imogene.ws.dao.LocalizedTextDao;
+import org.imogene.ws.entity.LocalizedField;
+import org.imogene.ws.entity.LocalizedText;
+import org.imogene.ws.entity.LocalizedTextList;
 import org.imogene.ws.entity.MedooActor;
 import org.imogene.ws.entity.MedooBean;
 import org.imogene.ws.entity.MedooRole;
@@ -33,6 +37,7 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 
 	/* generic DAO access */
 	private GenericDao dao;
+	private LocalizedTextDao i18nDao;
 	
 
 	public Medoo«projectName.toFirstUpper()»Policy(){
@@ -79,7 +84,42 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 
 	«ENDFOREACH-»
 	
-
+	
+	/**
+	 * Creates a LocalizedField for the given fieldId
+	 * @param fieldId a field id
+	 * @return a new LocalizedField
+	 */
+	private LocalizedField setLocalizedField(String fieldId) {
+		
+		LocalizedField result = null;
+		
+		if (fieldId!=null && !fieldId.equals("") ) {
+			LocalizedTextList translations = new LocalizedTextList();			
+			List<LocalizedText> texts = getLocalizedTexts(fieldId);					
+			translations.setLocalizedTexts(texts);
+			
+			result = new LocalizedField();
+			result.setFieldid(fieldId);
+			result.setTranslations(translations);		
+		}
+		return result;
+	}
+	
+	/**
+	 * Gets the Localized texts for a given field
+	 * @param fieldId the field id for which LocalizedTexts are searched
+	 * @return a list of LocalizedTexts
+	 */
+	private List<LocalizedText> getLocalizedTexts(String fieldId) {
+		return i18nDao.listLocalizedText(fieldId);
+	}	
+	
+	/**
+	 * Gets the roles as strings assigned to an actor
+	 * @param actor the actor whose roles are searched
+	 * @return a list of roles as strings
+	 */
 	private Set<String> getRoleNames(MedooActor actor){
 		Set<String> names = new HashSet<String>();
 		if(actor!=null){
@@ -97,11 +137,20 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 	public void setDao(GenericDao dao) {
 		this.dao = dao;
 	}	
+
+	/**
+	 * Setter for bean injection
+	 * @param i18nDao
+	 */	
+	public void setI18nDao(LocalizedTextDao i18nDao) {
+		this.i18nDao = i18nDao;
+	}	
+	
 }
 «ENDFILE»
 «ENDDEFINE»
 
-«REM»CardEntity dispatcher to secure «ENDREM»
+«REM» CardEntity dispatcher to secure «ENDREM»
 «DEFINE dispatchSecure FOR CardEntity-»
 	«IF Actor.isAssignableFrom(this.metaType)-»
 		if(bean instanceof «name.toFirstUpper()»Actor)
@@ -111,7 +160,7 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 			return toSecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
 «ENDDEFINE»	
 
-«REM»CarEntity dispatcher to unsecure «ENDREM»
+«REM» CarEntity dispatcher to unsecure «ENDREM»
 «DEFINE dispatchUnsecure FOR CardEntity-»
 	«IF Actor.isAssignableFrom(this.metaType)-»
 	if(bean instanceof «name.toFirstUpper()»Actor)
@@ -121,12 +170,33 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 			return toUnsecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
 «ENDDEFINE»
 			
-«REM»Setter to affect the values to the new bean «ENDREM»
-«DEFINE setField FOR FieldEntity-»
+«REM» Setter to affect the values to the new bean «ENDREM»
+«DEFINE setField(boolean toSecure) FOR FieldEntity-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 «ENDDEFINE»
 
-«DEFINE setField FOR RelationFieldEntity-»
+«DEFINE setField(boolean toSecure) FOR TextField-»
+	«IF this.translatable-»
+		«IF toSecure-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»LocalizedField(setLocalizedField(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ELSE-»		
+	LocalizedField «EXPAND template::CommonFieldUtil::propertyName FOR this-»Field = bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»LocalizedField();
+	if («EXPAND template::CommonFieldUtil::propertyName FOR this-»Field!=null && «EXPAND template::CommonFieldUtil::propertyName FOR this-»Field.getFieldid()!=null && !«EXPAND template::CommonFieldUtil::propertyName FOR this-»Field.getFieldid().equals("")) {
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«EXPAND template::CommonFieldUtil::propertyName FOR this-»Field.getFieldid());
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»LocalizedField(«EXPAND template::CommonFieldUtil::propertyName FOR this-»Field);
+	}
+	else {
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»LocalizedField(null);
+	}		
+		«ENDIF-»
+	«ELSE-»		
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());		
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE setField(boolean toSecure) FOR RelationFieldEntity-»
 	«IF this.cardinality>1||this.cardinality==-1»
 	//updateCollection(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
@@ -134,16 +204,21 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 	if(transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()==null ||
 		bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»() == null ||
 		!transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId().equals(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId())){
+		«IF this.parentGroup.parentCard.mainFields.contains(this) && isTranslatableFieldPresent(this.entity.groups.fields)-»
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»((«this.entity.name.toFirstUpper()»)toSecure«this.entity.name.toFirstUpper()»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(),roleNames));
+		«ELSE-»
 		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+		«ENDIF-»
 	}
 	«ENDIF-»
 «ENDDEFINE»
-«DEFINE setField FOR GeoField-»
+
+«DEFINE setField(boolean toSecure) FOR GeoField-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude());
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
 «ENDDEFINE»
 
-«REM»  	Set empty field to securise a bean «ENDREM»
+«REM» Set empty field to secure a bean «ENDREM»
 «DEFINE setEmptyField FOR FieldEntity-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
 «ENDDEFINE»
@@ -161,29 +236,28 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(null);
 «ENDDEFINE»
 
-«REM»hand  administrativ field «ENDREM»
-«DEFINE handleAdminField FOR CardEntity-»«ENDDEFINE»
-«DEFINE handleAdminField FOR Actor-»
+
+«REM» Handle administrative field «ENDREM»
+«DEFINE handleAdminField(boolean toSecure) FOR CardEntity-»«ENDDEFINE»
+«DEFINE handleAdminField(boolean toSecure) FOR Actor-»
 		«FOREACH (List[FieldEntity])getAdministrationFields(this) AS f-»
-			«EXPAND setField FOR f-»
+			«EXPAND setField(toSecure) FOR f-»
 		«ENDFOREACH-»
 «ENDDEFINE»
 
-«REM»handle filter field «ENDREM»
-«DEFINE handleFilterField FOR CardEntity-»«ENDDEFINE»
-«DEFINE handleFilterField FOR Actor-»
+«REM» Handle filter field «ENDREM»
+«DEFINE handleFilterField(boolean toSecure) FOR CardEntity-»«ENDDEFINE»
+«DEFINE handleFilterField(boolean toSecure) FOR Actor-»
 	«FOREACH this.filters AS f-»
-		«EXPAND setField FOR f-»
+		«EXPAND setField(toSecure) FOR f-»
 	«ENDFOREACH-»
 «ENDDEFINE»
 
 
 «REM» ---------------------------------------------------------- «ENDREM»
 «DEFINE toSecure FOR CardEntity»
-
 	/**
-	 * Secured an «this.name.toFirstUpper()» bean.
-	 * 
+	 * Secures an «this.name.toFirstUpper()» bean.
 	 * @param «this.name.toFirstLower()» The «this.name.toFirstUpper()» bean to secure
 	 * @param roleNames set of role ids for the user 
 	 * @return A secured «this.name.toFirstUpper()» bean
@@ -200,13 +274,11 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 	«REM» Generate additional Actor method if Actor «ENDREM»
 	«IF Actor.isAssignableFrom(this.metaType)-»	
 	/**
-	 * Secured an «this.name.toFirstUpper()» bean.
-	 * 
+	 * Secures an «this.name.toFirstUpper()» bean.
 	 * @param «this.name.toFirstLower()» The «this.name.toFirstUpper()» bean to secure
 	 * @param roleNames set of role ids for the user 
 	 * @return A secured «this.name.toFirstUpper()» bean
 	 */	 
-
 	private MedooBean toSecure«this.name.toFirstUpper()»Actor(«this.name.toFirstUpper()»Actor bean, Set<String> roleNames){
 
 		«this.name.toFirstUpper()»Actor transformedBean = new «this.name.toFirstUpper()»Actor();
@@ -221,8 +293,8 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 			transformedBean.setNotificationMethod(bean.getNotificationMethod());
 			transformedBean.setBeNotified(bean.getBeNotified());			
 			updateCollection(bean.getRoles(), transformedBean.getRoles());
-			«EXPAND handleAdminField FOR this-»
-			«EXPAND handleFilterField FOR this-»
+			«EXPAND handleAdminField(true) FOR this-»
+			«EXPAND handleFilterField(true) FOR this-»
 		}*/
 		
 		return transformedBean;
@@ -245,12 +317,12 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 		«FOREACH this.groups AS g»
 			«IF g.readers.size == 0-»
 				«FOREACH g.fields AS f-»
-					«EXPAND setField FOR f -»
+					«EXPAND setField(true) FOR f -»
 				«ENDFOREACH-»			
 			«ELSE-»
 				if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»«IF g.writers.size>0»||«ENDIF»«FOREACH g.writers AS w ITERATOR i» roleNames.contains("«w.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){
 					«FOREACH g.fields AS f-»
-						«EXPAND setField FOR f -»
+						«EXPAND setField(true) FOR f -»
 					«ENDFOREACH-»
 				}
 				else{
@@ -265,7 +337,7 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 
 
 «REM» ---------------------------------------------------------- «ENDREM»
-«DEFINE toUnSecure FOR CardEntity»
+«DEFINE toUnSecure FOR CardEntity-»
 
 	private MedooBean toUnsecure«this.name.toFirstUpper()»(«this.name.toFirstUpper()» bean, Set<String> roleNames){	
 		«this.name.toFirstUpper()» transformedBean = («this.name.toFirstUpper()»)dao.loadEntity(«this.name.toFirstUpper()».class, bean.getId());
@@ -276,7 +348,7 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 			transformedBean.setId(bean.getId());
 		}
 
-		«EXPAND toUnSecureCommon FOR this-»
+		«EXPAND toUnSecureCommon FOR this»
 		
 		return transformedBean;
 	}
@@ -295,7 +367,7 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 
 		«EXPAND toUnSecureCommon FOR this-»
 		
-		«IF Actor.isAssignableFrom(this.metaType)»
+		«IF Actor.isAssignableFrom(this.metaType)-»
 		/*
 			if (roleNames.contains("administrator")) {
 				transformedBean.setLogin(bean.getLogin());
@@ -304,14 +376,14 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 				transformedBean.setNotificationMethod(bean.getNotificationMethod());
 				transformedBean.setBeNotified(bean.getBeNotified());
 				updateCollection(bean.getRoles(), transformedBean.getRoles());
-				«EXPAND handleAdminField FOR this-»	
-				«EXPAND handleFilterField FOR this-»			
+				«EXPAND handleAdminField(false) FOR this-»	
+				«EXPAND handleFilterField(false) FOR this-»			
 			}
 		*/
-		«ENDIF»
+		«ENDIF-»
 		return transformedBean;
 	}
-	«ENDIF»
+	«ENDIF-»
 
 «ENDDEFINE»
 
@@ -325,27 +397,27 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 		transformedBean.setLastModificationDate(bean.getLastModificationDate());
 		transformedBean.setUploadDate(bean.getUploadDate());							
 		
-		«FOREACH this.groups AS g-»
-			«IF g.writers.size == 0-»
-				«IF g.readers.size>0-»					
+		«FOREACH this.groups AS g»
+			«IF g.writers.size == 0»
+				«IF g.readers.size>0»					
 					if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){					
 					«FOREACH g.fields AS f-»
-						«EXPAND setField FOR f-»
+						«EXPAND setField(false) FOR f-»
 					«ENDFOREACH-»
 				}
-				«ELSE-»
+				«ELSE»
 					«FOREACH g.fields AS f-»
-						«EXPAND setField FOR f -»
+						«EXPAND setField(false) FOR f -»
 					«ENDFOREACH-»
-				«ENDIF-»									
-			«ELSE-»
+				«ENDIF»									
+			«ELSE»
 				if(«FOREACH g.writers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){
 					«FOREACH g.fields AS f-»
-						«EXPAND setField FOR f-»
+						«EXPAND setField(false) FOR f-»
 					«ENDFOREACH-»
 				}				
-			«ENDIF-»
-		«ENDFOREACH-»
+			«ENDIF»
+		«ENDFOREACH»
 		
 «ENDDEFINE»
 «REM» ---------------------------------------------------------- «ENDREM»

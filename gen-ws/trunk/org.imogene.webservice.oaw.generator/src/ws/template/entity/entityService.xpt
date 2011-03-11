@@ -1,4 +1,5 @@
 «IMPORT core»
+«EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String packageName, String projectName) FOR CardEntity»
 «FILE packageName.toLowerCase() + "/service/" + this.name.toFirstUpper() + "Service.java"»
@@ -43,6 +44,12 @@ import org.imogene.«projectName.toLowerCase()».security.«projectName.toFirstUppe
 «FOREACH groups.fields AS e -»
 «EXPAND importsForRelation(projectName) FOR e-»
 «ENDFOREACH -»
+«IF isTranslatableFieldPresent(this.groups.fields)-»
+import org.imogene.ws.dao.LocalizedTextDao;
+import org.imogene.ws.entity.LocalizedField;
+import org.imogene.ws.entity.LocalizedText;
+import org.imogene.ws.entity.LocalizedTextList;
+«ENDIF»	
 
 /**
  * Controller that manages the Web Service requests
@@ -54,7 +61,10 @@ public class «name.toFirstUpper()»Service {
 	
 	private static Logger logger = Logger.getLogger("org.imogene.«projectName.toLowerCase()».service.«name.toFirstUpper()»Service");
 	
-	private «name.toFirstUpper()»Dao dao;		
+	private «name.toFirstUpper()»Dao dao;
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	private LocalizedTextDao i18nDao;
+	«ENDIF»			
 	private RestClient restClient;
 	
 
@@ -147,7 +157,11 @@ public class «name.toFirstUpper()»Service {
 				
 				«name.toFirstUpper()» toBeSaved = («name.toFirstUpper()»)MedooSecurityHandler.getInstance().getPolicy().toHibernate(bean, actor);
 				
-				dao.saveOrUpdate(toBeSaved, true);					
+				dao.saveOrUpdate(toBeSaved, true);
+				«FOREACH groups.fields AS f -»
+				«EXPAND saveLocalizedTexts FOR f-»
+				«ENDFOREACH -»	
+							
 			}
 		}
 		else
@@ -157,6 +171,33 @@ public class «name.toFirstUpper()»Service {
 	«FOREACH groups.fields AS f -»
 	«EXPAND getRelationFieldChilds((projectName)) FOR f-»
 	«ENDFOREACH -»	
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	/**
+	 * Saves the localized texts that are associated to a localized field
+	 * @param localizedField the localizedField
+	 * @param fieldId the fieldId
+	 */
+	private void saveLocalizedTexts(LocalizedField localizedField, String fieldId) {
+		
+		if(fieldId!=null && !fieldId.equals("")) {
+			if (localizedField!=null && localizedField.getTranslations()!=null) {
+				LocalizedTextList translations = localizedField.getTranslations();
+				// check consistency between fieldId and translations
+				boolean consistent = true;
+				for (LocalizedText text:translations.getLocalizedTexts()) {
+					if(!text.getFieldId().equals(fieldId))
+						consistent=false;
+				}	
+				// save translations
+				if(consistent) {
+					for (LocalizedText text:translations.getLocalizedTexts())
+						i18nDao.saveOrUpdate(text,true);
+				}
+			}
+		}
+	}
+	«ENDIF»	
 	
 	
 	/**
@@ -203,7 +244,20 @@ public class «name.toFirstUpper()»Service {
 			
 			List<«name.toFirstUpper()»Display> «name.toFirstLower()»DiplayList = new ArrayList<«name.toFirstUpper()»Display>();
 			List<«name.toFirstUpper()»> «name.toFirstLower()»s = dao.list«name.toFirstUpper()»(junction);
-			for(«name.toFirstUpper()» «name.toFirstLower()»:«name.toFirstLower()»s) {
+			
+			«IF isTranslatableFieldPresent(this.groups.fields) || hasTranslatableEntityInRelationFields(this.mainFields)-»
+				«IF !Actor.isAssignableFrom(this.metaType)-»
+				List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) MedooSecurityHandler
+						.getInstance().getPolicy().toSecure(«name.toFirstLower()»s, actor);
+				«ELSE-»
+				List<«name.toFirstUpper()»Actor> securedBeans = (List<«name.toFirstUpper()»Actor>) MedooSecurityHandler
+						.getInstance().getPolicy().toSecure(«name.toFirstLower()»s, actor);			
+				«ENDIF-»
+				for(«name.toFirstUpper()» «name.toFirstLower()»:securedBeans) {
+			«ELSE-»
+				for(«name.toFirstUpper()» «name.toFirstLower()»:«name.toFirstLower()»s) {
+			«ENDIF-»
+			
 				«name.toFirstUpper()»Display display = new  «name.toFirstUpper()»Display();
 				display.set«name.toFirstUpper()»(«name.toFirstLower()»);
 				«name.toFirstLower()»DiplayList.add(display);
@@ -235,6 +289,16 @@ public class «name.toFirstUpper()»Service {
 	public void setDao(«name.toFirstUpper()»Dao dao) {
 		this.dao = dao;
 	}
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	/**
+	 * Setter for bean injection
+	 * @param i18nDao
+	 */
+	public void setI18nDao(LocalizedTextDao i18nDao) {
+		this.i18nDao = i18nDao;
+	}
+	«ENDIF»	
 	
 	/**
 	 * Setter for bean injection
@@ -398,4 +462,13 @@ import org.imogene.«projectName.toLowerCase()».entity.«actorField.entityField.en
 	}
 «ENDDEFINE»
 
+«REM»---------------------------------------------------- «ENDREM»
+«REM»-------------------- LOCALIZED FIELDS ----------------- «ENDREM»
+«REM»---------------------------------------------------- «ENDREM»
 
+«DEFINE saveLocalizedTexts FOR FieldEntity-»«ENDDEFINE»
+«DEFINE saveLocalizedTexts FOR TextField-»
+«IF this.translatable -»
+saveLocalizedTexts(toBeSaved.«EXPAND template::CommonFieldUtil::getterName FOR this»LocalizedField(), toBeSaved.«EXPAND template::CommonFieldUtil::getterName FOR this»());
+«ENDIF -»
+«ENDDEFINE»

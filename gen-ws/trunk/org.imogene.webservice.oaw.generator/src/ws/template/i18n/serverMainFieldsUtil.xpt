@@ -8,14 +8,16 @@ package org.imogene.«projectName.toLowerCase()».entity.display.util;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.imogene.ws.entity.LocalizedField;
+import org.imogene.ws.entity.LocalizedText;
+import org.imogene.ws.entity.LocalizedTextList;
 import org.imogene.ws.entity.MedooBean;
 import org.imogene.ws.util.DateUtil;
 import org.imogene.ws.util.BooleanUtil;
 import org.imogene.ws.util.ServerMainFieldsUtil;
-
-«FOREACH entities AS e»
+«FOREACH entities AS e-»
 import org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»;
-«ENDFOREACH»
+«ENDFOREACH-»
 
 
 /**
@@ -81,6 +83,31 @@ public class ServerMainFieldsUtilImpl implements ServerMainFieldsUtil {
 		return value.trim();	
 	}
 	«ENDFOREACH»
+	
+	
+	/**
+	 * Gets the localized text for the given field and the given locale
+	 * If no text is found, returns the first found for any available locale
+	 * @param LocalizedField the LocalizedField
+	 * @param locale the locale as iso code
+	 * @return a localized text
+	 */
+	private String getFieldI18nValue(LocalizedField field, String locale) {
+
+		if (field!=null && field.getTranslations()!=null) {
+			LocalizedTextList translations = field.getTranslations();
+			for (LocalizedText text:translations.getLocalizedTexts()) {
+				if(text.getLocale().equals(locale))
+					return text.getValue();
+			}		
+			// if value for locale not available, return first available value
+			for (LocalizedText text:translations.getLocalizedTexts()) {
+				if(text.getValue()!=null && !text.getValue().equals(""))
+					return text.getValue();
+			}	
+		}
+		return null;
+	}
 	 
 	 
     /**
@@ -145,11 +172,19 @@ public class ServerMainFieldsUtilImpl implements ServerMainFieldsUtil {
 «ENDFILE»
 «ENDDEFINE»
 
-«REM»
-	Format date/time and enumeration field to current local «ENDREM»
+«REM» Format date/time and enumeration field to current local «ENDREM»
 «DEFINE stringRepresentation FOR FieldEntity -»
 	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
 		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR TextField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		«IF this.translatable-»
+		value = value + getFieldI18nValue( bean.«EXPAND template::CommonFieldUtil::getterName FOR this»LocalizedField(), rb.getString("locale")) + " ";
+		«ELSE-»
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";		
+		«ENDIF-»
 «ENDDEFINE»
 
 «DEFINE stringRepresentation FOR RelationFieldEntity -»
