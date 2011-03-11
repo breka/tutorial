@@ -3,6 +3,7 @@ package org.imogene.android.util.content;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.Constants.Packages;
+import org.imogene.android.util.BoundingBox;
 import org.imogene.android.util.dialog.DialogFactory;
 
 import android.content.ActivityNotFoundException;
@@ -40,6 +41,19 @@ public class IntentUtils {
 			Intent intent = new Intent(Intents.ACTION_SHOW_ON_MAP);
 			intent.putExtra(Extras.EXTRA_LATITUDE, lat);
 			intent.putExtra(Extras.EXTRA_LONGITUDE, lon);
+			return intent;
+		} else {
+			return null;
+		}
+	}
+	
+	public static final Intent createShowOnMapIntent(BoundingBox box) {
+		if (box != null) {
+			Intent intent = new Intent(Intents.ACTION_VIEW_RECT);
+			intent.putExtra(Extras.EXTRA_EAST, box.getEast());
+			intent.putExtra(Extras.EXTRA_NORTH, box.getNorth());
+			intent.putExtra(Extras.EXTRA_SOUTH, box.getSouth());
+			intent.putExtra(Extras.EXTRA_WEST, box.getWest());
 			return intent;
 		} else {
 			return null;
