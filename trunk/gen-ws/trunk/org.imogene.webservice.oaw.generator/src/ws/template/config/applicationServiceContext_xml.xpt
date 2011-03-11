@@ -52,7 +52,10 @@
 				<value>org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»List</value>
 				<value>org.imogene.«projectName.toLowerCase()».entity.display.«e.name.toFirstUpper()»Display</value>
 				<value>org.imogene.«projectName.toLowerCase()».entity.display.«e.name.toFirstUpper()»DisplayList</value>				
-				«ENDFOREACH -»				
+				«ENDFOREACH -»	
+				<value>org.imogene.ws.entity.LocalizedText</value>	
+				<value>org.imogene.ws.entity.LocalizedTextList</value>
+				<value>org.imogene.ws.entity.LocalizedField</value>							
 			</list>
 		</property>
 		<property name="adapters">

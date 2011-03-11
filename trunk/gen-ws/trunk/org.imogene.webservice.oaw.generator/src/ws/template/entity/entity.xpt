@@ -1,5 +1,6 @@
 «IMPORT core»
 «EXTENSION template::CommonFieldUtilExt» 
+«EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String packageName, String projectName) FOR CardEntity»
 «FILE packageName.toLowerCase()+ "/entity/" + this.name.toFirstUpper() + ".java"»
@@ -22,6 +23,10 @@ import org.imogene.ws.serializer.xml.DateAdapter;
 «IF this.georeferenced!=null -»
 import org.imogene.ws.entity.IsGeoreferenced;
 «ENDIF»
+«IF isTranslatableFieldPresent(this.groups.fields)-»
+import javax.xml.bind.annotation.XmlTransient;
+import org.imogene.ws.entity.LocalizedField;
+«ENDIF»	
 
 
 /**
@@ -190,6 +195,13 @@ public class «name.toFirstUpper()» implements MedooBean {
 	private «EXPAND ws::template::WsFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»; 
 «ENDDEFINE»
 
+«DEFINE fieldDeclaration FOR TextField-»
+	private «EXPAND ws::template::WsFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»;
+	«IF this.translatable -»
+	private LocalizedField «EXPAND template::CommonFieldUtil::propertyName FOR this»LocalizedField;
+	«ENDIF -»
+«ENDDEFINE»
+
 «DEFINE fieldDeclaration FOR GeoField-»
 	private «EXPAND ws::template::WsFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude; 
 	private «EXPAND ws::template::WsFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
@@ -205,6 +217,7 @@ import org.imogene.«projectName.toLowerCase()».entity.serializer.xml.«entity.nam
 «ENDDEFINE»
 
 «DEFINE setOrder FOR FieldEntity»"«EXPAND template::CommonFieldUtil::propertyName FOR this»"«ENDDEFINE»
+«DEFINE setOrder FOR TextField»«IF this.translatable»"«EXPAND template::CommonFieldUtil::propertyName FOR this»LocalizedField"«ELSE»"«EXPAND template::CommonFieldUtil::propertyName FOR this»"«ENDIF»«ENDDEFINE»
 «DEFINE setOrder FOR GeoField»"«EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude","«EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude"«ENDDEFINE»
 
 
