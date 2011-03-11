@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.imogene.android.Constants.Extras;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class BoundingBox {
+public class BoundingBox implements Parcelable {
 	
 	private int eastE6;
 	private int northE6;
@@ -15,6 +17,14 @@ public class BoundingBox {
 	private boolean enabled;
 	
 	public BoundingBox() {
+	}
+	
+	private BoundingBox(Parcel in) {
+		eastE6 = in.readInt();
+		northE6 = in.readInt();
+		southE6 = in.readInt();
+		westE6 = in.readInt();
+		enabled = in.readInt() != 0;
 	}
 	
 	public BoundingBox(int eastE6, int northE6, int southE6, int westE6, boolean enabled) {
@@ -103,6 +113,33 @@ public class BoundingBox {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	public static final Parcelable.Creator<BoundingBox> CREATOR = new Creator<BoundingBox>() {
+		
+		@Override
+		public BoundingBox[] newArray(int size) {
+			return new BoundingBox[size];
+		}
+		
+		@Override
+		public BoundingBox createFromParcel(Parcel source) {
+			return new BoundingBox(source);
+		}
+	};
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(eastE6);
+		dest.writeInt(northE6);
+		dest.writeInt(southE6);
+		dest.writeInt(westE6);
+		dest.writeInt(enabled ? 1 : 0);
 	}
 	
 	public static final String toString(ArrayList<BoundingBox> boxes) {

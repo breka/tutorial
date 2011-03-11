@@ -54,6 +54,13 @@ public class FormatHelper {
     		displayDecimals(location.getLongitude(), 2);
     }
     
+    public static final String displayBoundingBox(BoundingBox box) {
+    	return displayDecimals(box.getWest(), 2) + " ; " + 
+    	displayDecimals(box.getNorth(), 2) + " ; " +
+    	displayDecimals(box.getEast(), 2) + " ; " +
+    	displayDecimals(box.getSouth(), 2);
+    }
+    
     public static final String displayDecimals(double value, int decimals) {
 		if (decimals > 0) {
 			StringBuilder builder = new StringBuilder("#0.");
