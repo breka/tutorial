@@ -50,13 +50,17 @@ public LocalizedField «EXPAND template::CommonFieldUtil::getterName FOR this»Loc
 «ENDDEFINE»
 
 «DEFINE getterDeclarationForField FOR GeoField-»
-@XmlElement(name="«name.toLowerCase() -»latitude")
+@XmlTransient
 public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Latitude(){
 	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude;
 }
-@XmlElement(name="«name.toLowerCase() -»longitude")
+@XmlTransient
 public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Longitude(){
 	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
+}
+@XmlElement(name="«name.toLowerCase() -»")
+public GeoField «EXPAND template::CommonFieldUtil::getterName FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
 }
 «ENDDEFINE»
 «REM»------------------------------------------------------------------------------------------«ENDREM»
@@ -84,9 +88,18 @@ public void «EXPAND template::CommonFieldUtil::setterName FOR this»LocalizedFiel
 «DEFINE setterDeclarationForField FOR GeoField-»
 public void «EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(«EXPAND entityFieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLatitude(value);
 }
 public void «EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(«EXPAND entityFieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLongitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»(GeoField value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+		if (value!=null) {
+			«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value.getLatitude();
+			«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value.getLongitude();
+		}
 }
 «ENDDEFINE»
 «REM»------------------------------------------------------------------------------------------«ENDREM»
@@ -106,6 +119,9 @@ public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::gett
 public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(){
 	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
 }
+public GeoField «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
 «ENDDEFINE»
 «REM»------------------------------------------------------------------------------------------«ENDREM»
 
@@ -120,9 +136,18 @@ public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpp
 «DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
 public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(«EXPAND entityFieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLatitude(value);
 }
 public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(«EXPAND entityFieldType FOR this» value){
 	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLongitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(GeoField value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+		if (value!=null) {
+			«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value.getLatitude();
+			«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value.getLongitude();
+		}
 }
 «ENDDEFINE»
 «REM»------------------------------------------------------------------------------------------«ENDREM»

@@ -55,7 +55,8 @@
 				«ENDFOREACH -»	
 				<value>org.imogene.ws.entity.LocalizedText</value>	
 				<value>org.imogene.ws.entity.LocalizedTextList</value>
-				<value>org.imogene.ws.entity.LocalizedField</value>							
+				<value>org.imogene.ws.entity.LocalizedField</value>	
+				<value>org.imogene.ws.entity.GeoField</value>							
 			</list>
 		</property>
 		<property name="adapters">
