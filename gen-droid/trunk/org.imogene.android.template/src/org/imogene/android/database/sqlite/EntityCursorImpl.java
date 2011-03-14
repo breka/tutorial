@@ -1,6 +1,7 @@
 package org.imogene.android.database.sqlite;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Sync;
@@ -24,15 +25,22 @@ import android.net.Uri;
 
 public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCursor {
 	
+	private HashMap<Uri, String> mBuffer;
+
 	public EntityCursorImpl(SQLiteDatabase db, SQLiteCursorDriver driver,
 			String editTable, SQLiteQuery query) {
 		super(db, driver, editTable, query);
 	}
 	
-	public abstract String getMainDisplay(Context context);
+	@Override
+	public void close() {
+		super.close();
+		if (mBuffer != null) {
+			mBuffer.clear();
+			mBuffer = null;
+		}
+	}
 	
-	public abstract String getSecondaryDisplay(Context context);
-
 	public final long getRowId() {
 		return getLong(getColumnIndexOrThrow(Keys.KEY_ROWID));
 	}
@@ -200,6 +208,24 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 			return GpsTableUtils.getLocation(getDatabase(), rowId.longValue());
 		} else {
 			return null;
+		}
+	}
+	
+	protected final void buildRelationDisplay(Context context, StringBuilder builder, Uri uri) {
+		if (uri != null) {
+			if (mBuffer == null) {
+				mBuffer = new HashMap<Uri, String>();
+			}
+			if (mBuffer.containsKey(uri)) {
+				builder.append(mBuffer.get(uri)).append(" ");
+			} else {
+				EntityCursor c = AbstractDatabase.getSuper(context).query(uri, null, null);
+				c.moveToFirst();
+				String main = c.getMainDisplay(context);
+				c.close();
+				builder.append(main).append(" ");
+				mBuffer.put(uri, main);
+			}
 		}
 	}
 }

@@ -40,6 +40,7 @@ public final class W {
 		public static final int geoType = R.attr.geoType;
 		public static final int hasReverse = R.attr.hasReverse;
 		public static final int help = R.attr.help;
+		public static final int hidden = R.attr.hidden;
 		public static final int hierarchicalField = R.attr.hierarchicalField;
 		public static final int hierarchicalParent = R.attr.hierarchicalParent;
 		public static final int intMax = R.attr.intMax;
@@ -357,6 +358,7 @@ public final class W {
 		public static final int informations = R.string.informations;
 		public static final int is_required = R.string.is_required;
 		public static final int list_availables_entities = R.string.list_availables_entities;
+		public static final int location_filter_title = R.string.location_filter_title;
 		public static final int lower_than_decimal = R.string.lower_than_decimal;
 		public static final int lower_than_float = R.string.lower_than_float;
 		public static final int menu_actions = R.string.menu_actions;
@@ -463,6 +465,7 @@ public final class W {
 		public static final int synchro_resume_detail = R.string.synchro_resume_detail;
 		public static final int synchro_resume_title = R.string.synchro_resume_title;
 		public static final int synchronization = R.string.synchronization;
+		public static final int tile_loader_filter_title = R.string.tile_loader_filter_title;
 		public static final int uncomplete_dialog_msg = R.string.uncomplete_dialog_msg;
 		public static final int unsaved_dialog_msg = R.string.unsaved_dialog_msg;
 		public static final int webservice_url_key = R.string.webservice_url_key;
@@ -517,6 +520,7 @@ public final class W {
 		public static final int FieldEntity_dependent = R.styleable.FieldEntity_dependent;
 		public static final int FieldEntity_divider = R.styleable.FieldEntity_divider;
 		public static final int FieldEntity_help = R.styleable.FieldEntity_help;
+		public static final int FieldEntity_hidden = R.styleable.FieldEntity_hidden;
 		public static final int FieldEntity_readOnly = R.styleable.FieldEntity_readOnly;
 		public static final int FieldEntity_required = R.styleable.FieldEntity_required;
 		public static final int FieldEntity_title = R.styleable.FieldEntity_title;

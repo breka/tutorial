@@ -47,12 +47,10 @@
 	android:background="@android:drawable/list_selector_background"
 	android:minHeight="?android:attr/listPreferredItemHeight"
 	android:paddingRight="?android:attr/scrollbarSize"
-	«IF hidden-»
-    android:visibility="gone"
-    «ENDIF-»
 	app:dependent="«fieldDependentVisibility.size > 0»"
 	app:readOnly="«readOnly»"
 	app:required="«required»"
+	app:hidden="«hidden»"
 	app:title="@string/«shortName.toLowerCase()»"
 	app:divider="@+id/«shortName.toLowerCase()-»_divider"
 	«EXPAND specificAttributes FOR this-»
