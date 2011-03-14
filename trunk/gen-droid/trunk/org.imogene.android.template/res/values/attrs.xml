@@ -91,6 +91,8 @@
 		<attr name="required" format="boolean" />
 		<!-- Indicates whether this field is read only or not -->
 		<attr name="readOnly" format="boolean" />
+		<!-- Indicates whether this field is hidden or not -->
+		<attr name="hidden" format="boolean" />
 	</declare-styleable>
 	
 	<declare-styleable name="TextFieldEdit">

@@ -37,6 +37,7 @@ public final class W {
 		public static final int geoType = R.attr.geoType;
 		public static final int hasReverse = R.attr.hasReverse;
 		public static final int help = R.attr.help;
+		public static final int hidden = R.attr.hidden;
 		public static final int hierarchicalField = R.attr.hierarchicalField;
 		public static final int hierarchicalParent = R.attr.hierarchicalParent;
 		public static final int intMax = R.attr.intMax;
@@ -516,6 +517,7 @@ public final class W {
 		public static final int FieldEntity_dependent = R.styleable.FieldEntity_dependent;
 		public static final int FieldEntity_divider = R.styleable.FieldEntity_divider;
 		public static final int FieldEntity_help = R.styleable.FieldEntity_help;
+		public static final int FieldEntity_hidden = R.styleable.FieldEntity_hidden;
 		public static final int FieldEntity_readOnly = R.styleable.FieldEntity_readOnly;
 		public static final int FieldEntity_required = R.styleable.FieldEntity_required;
 		public static final int FieldEntity_title = R.styleable.FieldEntity_title;

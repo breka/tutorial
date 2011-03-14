@@ -45,6 +45,7 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	private boolean mDependent;
 	private boolean mReadOnly;
 	private boolean mRequired;
+	private boolean mHidden;
 	private boolean mUpdateDisplayOnChange = true;
 	private boolean mAutomaticVisibility = true;
 	
@@ -87,6 +88,7 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		setDependent(a.getBoolean(W.styleable.FieldEntity_dependent, false));
 		setReadOnly(a.getBoolean(W.styleable.FieldEntity_readOnly, false));
 		setRequired(a.getBoolean(W.styleable.FieldEntity_required, false));
+		setHidden(a.getBoolean(W.styleable.FieldEntity_hidden, false));
 		a.recycle();
 		setOrientation(HORIZONTAL);
 		setGravity(Gravity.CENTER_VERTICAL);
@@ -95,7 +97,7 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	@Override
 	public void setVisibility(int visibility) {
-		super.setVisibility(visibility);
+		super.setVisibility(mHidden ? View.GONE : visibility);
 		if (mDividerView != null) {
 			mDividerView.setVisibility(visibility);
 		}
@@ -137,6 +139,17 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	public void setReadOnly(boolean readOnly) {
 		mReadOnly = readOnly;
+	}
+	
+	public boolean isHidden() {
+		return mHidden;
+	}
+	
+	public void setHidden(boolean hidden) {
+		mHidden = hidden;
+		if (hidden) {
+			setVisibility(View.GONE);
+		}
 	}
 	
 	public boolean isReadOnly() {

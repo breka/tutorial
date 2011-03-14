@@ -322,13 +322,6 @@ if («shortName.toLowerCase()» != -1) {
 
 «DEFINE getDisplay FOR RelationFieldEntity-»
 «IF cardinality == 1-»
-Uri «shortName.toLowerCase()» = get«name.toFirstUpper()-»(); 
-if («shortName.toLowerCase()» != null) {
-	EntityCursor c = AbstractDatabase.getSuper(context).query(«shortName.toLowerCase()», null, null);
-	c.moveToFirst();	
-	str.append(c.getMainDisplay(context));
-	c.close();
-	str.append(" ");
-}
+buildRelationDisplay(context, str, get«name.toFirstUpper()-»());
 «ENDIF-»
 «ENDDEFINE»
