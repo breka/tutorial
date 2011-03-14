@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * ImogBean implementation of a LocalizedField
+ * Implementation of a LocalizedField bean
  * @author MEDES-IMPS
  */
 @XmlRootElement(name = "localizedfield")

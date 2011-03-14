@@ -13,9 +13,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.imogene.ws.entity.MedooBean;
+import org.imogene.ws.entity.GeoField;
 import org.imogene.ws.serializer.xml.DateAdapter;
 «FOREACH groups.fields AS f -»
 	«EXPAND RelationEntityDeclaration(projectName) FOR f-»
@@ -205,6 +207,7 @@ public class «name.toFirstUpper()» implements MedooBean {
 «DEFINE fieldDeclaration FOR GeoField-»
 	private «EXPAND ws::template::WsFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude; 
 	private «EXPAND ws::template::WsFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
+	private GeoField «EXPAND template::CommonFieldUtil::propertyName FOR this» = new GeoField(); 
 «ENDDEFINE»
 
 «DEFINE RelationEntityDeclaration(String projectName) FOR FieldEntity-»«ENDDEFINE»
@@ -218,6 +221,4 @@ import org.imogene.«projectName.toLowerCase()».entity.serializer.xml.«entity.nam
 
 «DEFINE setOrder FOR FieldEntity»"«EXPAND template::CommonFieldUtil::propertyName FOR this»"«ENDDEFINE»
 «DEFINE setOrder FOR TextField»«IF this.translatable»"«EXPAND template::CommonFieldUtil::propertyName FOR this»LocalizedField"«ELSE»"«EXPAND template::CommonFieldUtil::propertyName FOR this»"«ENDIF»«ENDDEFINE»
-«DEFINE setOrder FOR GeoField»"«EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude","«EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude"«ENDDEFINE»
-
 
