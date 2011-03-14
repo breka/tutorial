@@ -335,7 +335,7 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 «ENDDEFINE»
 
 «DEFINE setField(boolean toSecure) FOR GeoField-»
-	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»);
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 «ENDDEFINE»
 
 «DEFINE setField(boolean toSecure) FOR RelationFieldEntity-»
