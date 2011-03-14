@@ -31,6 +31,10 @@ boolean isMultiRelationFieldWithAssociationPresent(List fields) :
   // An extension to get the presence of translatable text fields.
 boolean isTranslatableFieldPresent(List fields) :
   JAVA org.imogene.oaw.generator.common.CommonEntityHelper.isTranslatableFieldPresent(java.util.List);
+
+  // An extension to get the presence of translatable text fields in relation field entities.
+boolean hasTranslatableEntityInRelationFields(List fields) :
+  JAVA org.imogene.oaw.generator.common.CommonEntityHelper.hasTranslatableEntityInRelationFields(java.util.List);
  
   // An extension to test the presence of binary fields. 
 boolean isBinaryFieldPresent(List fields) :
