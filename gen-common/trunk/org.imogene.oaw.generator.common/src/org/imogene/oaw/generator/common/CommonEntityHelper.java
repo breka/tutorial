@@ -165,22 +165,40 @@ public class CommonEntityHelper
 	
 	/**
 	 * 
+	 * @param fields
+	 * @return
 	 */
 	public static boolean isTranslatableFieldPresent(List<FieldEntity> fields)
     {
-        for (Iterator<FieldEntity> it = fields.iterator(); it.hasNext(); )
-        {
-            FieldEntity f = (FieldEntity) it.next();
-            if (f instanceof TextField)
-            {
+        for (FieldEntity f:fields) {
+            if (f instanceof TextField) {
             	TextField rf = (TextField) f;
             	if (rf.isTranslatable())
             		return true;
             }
         }
         return false;
-       
 	}
+	
+	/**
+	 * 
+	 * @param fields
+	 * @return
+	 */
+	public static boolean hasTranslatableEntityInRelationFields(List<FieldEntity> fields)
+    {
+        for (FieldEntity f:fields) {
+        	
+            if (f instanceof RelationFieldEntity) {
+            	RelationFieldEntity rf = (RelationFieldEntity) f;
+            	for(FieldGroup group: rf.getEntity().getGroups()) {
+            		if (isTranslatableFieldPresent(group.getFields()))
+            			return true;
+            	}
+            }
+        }
+        return false;
+	}	
 	
 
 	/**
