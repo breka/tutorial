@@ -368,15 +368,15 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ Keys.KEY_ID
 				+ " text not null, "
 				+ Keys.KEY_MODIFIED
-				+ " text, "
+				+ " integer, "
 				+ Keys.KEY_MODIFIEDBY
 				+ " text, "
 				+ Keys.KEY_MODIFIEDFROM
 				+ " text, "
 				+ Keys.KEY_UPLOADDATE
-				+ " text, "
+				+ " integer, "
 				+ Keys.KEY_CREATED
-				+ " text, "
+				+ " integer, "
 				+ Keys.KEY_CREATEDBY
 				+ " text, "
 				+ Keys.KEY_LENGTH
@@ -401,40 +401,40 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ Keys.KEY_ID
 				+ " text not null, "
 				+ Keys.KEY_DATE
-				+ " text not null, "
+				+ " integer not null, "
 				+ Keys.KEY_STATUS
-				+ " text, "
+				+ " integer, "
 				+ Keys.KEY_LEVEL
-				+ " text);";
+				+ " integer);";
 		private static final String DATABASE_CREATE_GPSLOCATION = "create table if not exists "
 				+ Tables.TABLE_GPSLOCATIONS
 				+ " ("
 				+ Keys.KEY_ROWID
 				+ " integer primary key autoincrement, "
 				+ Keys.KEY_ACCURACY
-				+ " text, "
+				+ " real, "
 				+ Keys.KEY_ALTITUDE
-				+ " text, "
+				+ " real, "
 				+ Keys.KEY_BEARING
-				+ " text, "
+				+ " real, "
 				+ Keys.KEY_LATITUDE
-				+ " text, "
+				+ " real, "
 				+ Keys.KEY_LONGITUDE
-				+ " text, "
+				+ " real, "
 				+ Keys.KEY_PROVIDER
 				+ " text, "
 				+ Keys.KEY_SPEED
-				+ " text, "
+				+ " real, "
 				+ Keys.KEY_TIME
-				+ " text, "
+				+ " integer, "
 				+ Keys.KEY_HASACCURACY
-				+ " text, "
+				+ " integer, "
 				+ Keys.KEY_HASALTITUDE
-				+ " text, "
+				+ " integer, "
 				+ Keys.KEY_HASBEARING
-				+ " text, "
+				+ " integer, "
 				+ Keys.KEY_HASSPEED
-				+ " text);";
+				+ " integer);";
 		private static final String DATABASE_CREATE_TRANSLATABLETEXT = "create table if not exists "
 				+ LocalizedText.TABLE_NAME
 				+ " ("
