@@ -1,4 +1,6 @@
 «IMPORT core»
+«EXTENSION template::CommonEntityUtilExt» 
+
 «DEFINE generate(String projectName) FOR Project-»
 «FILE projectName.toFirstUpper() + "Service-servlet.xml"-»
 <?xml version="1.0" encoding="UTF-8"?>
@@ -87,6 +89,9 @@
 	«FOREACH entities AS e -»
 	<bean id="«e.name.toFirstLower()»Controller" class="org.imogene.«projectName.toLowerCase()».service.«e.name.toFirstUpper()»Service">
 		<property name="dao" ref="«e.name.toFirstLower()»Dao" />
+		«IF isTranslatableFieldPresent(e.groups.fields)-»
+		<property name="i18nDao" ref="localizedTextDao" />		
+		«ENDIF-»
 		<property name="restClient" ref="restClient"/>
 	</bean>				
 	«ENDFOREACH -»		
