@@ -42,10 +42,10 @@ public class GpsTableUtils {
 		values.put(Keys.KEY_PROVIDER, location.getProvider());
 		values.put(Keys.KEY_SPEED, location.getSpeed());
 		values.put(Keys.KEY_TIME, location.getTime());
-		values.put(Keys.KEY_HASACCURACY, location.hasAccuracy());
-		values.put(Keys.KEY_HASALTITUDE, location.hasAltitude());
-		values.put(Keys.KEY_HASBEARING, location.hasBearing());
-		values.put(Keys.KEY_HASSPEED, location.hasSpeed());
+		values.put(Keys.KEY_HASACCURACY, location.hasAccuracy() ? 1 : 0);
+		values.put(Keys.KEY_HASALTITUDE, location.hasAltitude() ? 1 : 0);
+		values.put(Keys.KEY_HASBEARING, location.hasBearing() ? 1 : 0);
+		values.put(Keys.KEY_HASSPEED, location.hasSpeed() ? 1 : 0);
 
 		return db.insert(Tables.TABLE_GPSLOCATIONS, "", values);
 	}
@@ -65,10 +65,10 @@ public class GpsTableUtils {
 			String provider = c.getString(c.getColumnIndexOrThrow(Keys.KEY_PROVIDER));
 			float speed = c.getFloat(c.getColumnIndexOrThrow(Keys.KEY_SPEED));
 			long time = c.getLong(c.getColumnIndexOrThrow(Keys.KEY_TIME));
-			boolean hasAccuracy = Boolean.valueOf(c.getString(c.getColumnIndexOrThrow(Keys.KEY_HASACCURACY))).booleanValue();
-			boolean hasAltitude = Boolean.valueOf(c.getString(c.getColumnIndexOrThrow(Keys.KEY_HASALTITUDE))).booleanValue();
-			boolean hasBearing = Boolean.valueOf(c.getString(c.getColumnIndexOrThrow(Keys.KEY_HASBEARING))).booleanValue();
-			boolean hasSpeed = Boolean.valueOf(c.getString(c.getColumnIndexOrThrow(Keys.KEY_HASSPEED))).booleanValue();
+			boolean hasAccuracy = c.getInt(c.getColumnIndexOrThrow(Keys.KEY_HASACCURACY)) != 0;
+			boolean hasAltitude = c.getInt(c.getColumnIndexOrThrow(Keys.KEY_HASALTITUDE)) != 0;
+			boolean hasBearing = c.getInt(c.getColumnIndexOrThrow(Keys.KEY_HASBEARING)) != 0;
+			boolean hasSpeed = c.getInt(c.getColumnIndexOrThrow(Keys.KEY_HASSPEED)) != 0;
 			c.close();
 			
 			Location loc = new Location(provider);
