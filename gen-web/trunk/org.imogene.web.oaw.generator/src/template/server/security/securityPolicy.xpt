@@ -86,33 +86,21 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	«ENDFOREACH-»
 	
 	«FOREACH entities AS e-»	
-		«IF isTranslatableFieldPresent(e.groups.fields)-»
 	/**
-	 * Adds the Localized texts to a «e.name.toFirstUpper()-» entity
-	 * @param value the «e.name.toFirstUpper()-» entity
-	 * @param roleNames set of role ids for the user 
-	 * @return «e.name.toFirstUpper()-» entity with the Localized texts added
+	 * Returns an «e.name.toFirstUpper()-» bean whose only affected properties are its mainfields
+	 * @param bean the bean that has to be filtered by its mainfields
+	 * @return an «e.name.toFirstUpper()-» bean whose only affected properties are its mainfields
 	 */
-	private «e.name.toFirstUpper()-» getLocalized«e.name.toFirstUpper()-»(«e.name.toFirstUpper()-» value, Set<String> roleNames) {
-		«e.name.toFirstUpper()-» entity = value;
-		if (entity!=null) {
-			«FOREACH e.groups AS g-»
-				«IF isTranslatableFieldPresent(g.fields)-»			
-					«IF g.readers.size == 0-»
-						«FOREACH g.fields AS f-»
-							«EXPAND addLocalizedTexts FOREACH g.fields-»
-						«ENDFOREACH-»			
-					«ELSE-»
-						if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»«IF g.writers.size>0»||«ENDIF»«FOREACH g.writers AS w ITERATOR i» roleNames.contains("«w.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){
-							«EXPAND addLocalizedTexts FOREACH g.fields-»
-						}
-					«ENDIF-»				
-				«ENDIF-»
-			«ENDFOREACH-»
-		}		
-		return entity;		
-	}	
-		«ENDIF-»
+	private «e.name.toFirstUpper()-» get«e.name.toFirstUpper()-»WithMainFields(«e.name.toFirstUpper()-» bean) {
+		if (bean!=null) {
+			«e.name.toFirstUpper()-» transformedBean = new «e.name.toFirstUpper()-»();
+			transformedBean.setId(bean.getId());
+			«EXPAND setField(true) FOREACH e.mainFields-»		
+			return transformedBean;
+		}
+		else
+			return null;			
+	}		
 	«ENDFOREACH-»
 	
 	/**
@@ -121,28 +109,11 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	 * @return a list of LocalizedTexts
 	 */
 	private List<LocalizedText> getLocalizedTexts(String fieldId) {
-		return i18nDao.listLocalizedText(fieldId);	
+		if(fieldId!=null && !fieldId.equals(""))
+			return i18nDao.listLocalizedText(fieldId);
+		else
+			return null;
 	}
-		
-	
-	/*
-	@SuppressWarnings("unchecked")
-	private void updateCollection(Set from, Set to) {
-		to.clear();
-		for (Iterator it = from.iterator(); it.hasNext();) {
-			to.add(it.next());
-		}
-		//  Be carful, very strange Hibernate behaviour,
-		//  if accept to persits a collection cleared and populate,
-		//  but don't want to persist a collection cleared and let empty.
-		//  SO we create a new HashSet.
-		 
-		if (from.size() == 0) {
-			to = new HashSet();
-		}
-	}
-	*/
-	
 
 	private Set<String> getRoleNames(ImogActor actor){
 		Set<String> names = new HashSet<String>();
@@ -163,10 +134,8 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		if(bean instanceof «name.toFirstUpper()»Actor)
 				return toSecure«name.toFirstUpper()»Actor((«name.toFirstUpper()»Actor)bean, getRoleNames(actor));
 	«ENDIF-»
-	«REM»«ELSE»«ENDREM»
 	if(bean instanceof «name.toFirstUpper()»)
 			return toSecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
-	«REM»«ENDIF»«ENDREM»
 «ENDDEFINE»	
 
 «REM» CarEntity dispatcher to unsecure «ENDREM»
@@ -174,11 +143,9 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	«IF Actor.isAssignableFrom(this.metaType)-»
 	if(bean instanceof «name.toFirstUpper()»Actor)
 			return toUnsecure«name.toFirstUpper()»Actor((«name.toFirstUpper()»Actor)bean, getRoleNames(actor));	
-	«ENDIF-»		
-	«REM»«ELSE»	«ENDREM»		
+	«ENDIF-»			
 	if(bean instanceof «name.toFirstUpper()»)
 			return toUnsecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
-	«REM»«ENDIF»«ENDREM»
 «ENDDEFINE»
 			
 «REM» Setter to affect the values to the new bean «ENDREM»
@@ -189,7 +156,9 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 «DEFINE setField(boolean toSecure) FOR TextField-»
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 	«IF this.translatable-»
-		«IF !toSecure-»
+		«IF toSecure-»
+	transformedBean.getLocalizedFieldMap().addI18nValues(getLocalizedTexts(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ELSE-»
 	transformedBean.getLocalizedFieldMap().addI18nValues(bean.getLocalizedFieldMap().getFieldI18nValues(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
 		«ENDIF-»
 	«ENDIF-»
@@ -201,26 +170,27 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 «ENDDEFINE»
 
 «DEFINE setField(boolean toSecure) FOR RelationFieldEntity-»
-	«IF this.cardinality>1||this.cardinality==-1»
-		«IF isTranslatableFieldPresent(this.entity.groups.fields)-»
-		Set<«this.entity.name.toFirstUpper()-»> «EXPAND template::CommonFieldUtil::propertyName FOR this-» = bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»();
-		for («this.entity.name.toFirstUpper()-» card: «EXPAND template::CommonFieldUtil::propertyName FOR this-»)
-			card = getLocalized«this.entity.name.toFirstUpper()»(card,roleNames);	
-		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«EXPAND template::CommonFieldUtil::propertyName FOR this-»);
+	«IF this.cardinality>1||this.cardinality==-1-»
+		«IF toSecure-»
+	Set<«this.entity.name.toFirstUpper()-»> «EXPAND template::CommonFieldUtil::propertyName FOR this-» = new HashSet<«this.entity.name.toFirstUpper()-»>();
+	for («this.entity.name.toFirstUpper()-» current : bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»())  {
+		«this.entity.name.toFirstUpper()-» card = get«this.entity.name.toFirstUpper()-»WithMainFields(current);
+		«EXPAND template::CommonFieldUtil::propertyName FOR this-».add(card);
+	}
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«EXPAND template::CommonFieldUtil::propertyName FOR this-»);
 		«ELSE-»
-		//updateCollection(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
-		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 		«ENDIF-»	
 	«ELSE-»
+		«IF toSecure-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(get«this.entity.name.toFirstUpper()»WithMainFields(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ELSE-»
 	if(transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()==null ||
 		bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»() == null ||
 		!transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId().equals(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId())){
-		«IF isTranslatableFieldPresent(this.entity.groups.fields)-»
-		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(getLocalized«this.entity.name.toFirstUpper()»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(),roleNames));
-		«ELSE-»
 		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
-		«ENDIF-»
 	}
+		«ENDIF-»	
 	«ENDIF-»
 «ENDDEFINE»
 
@@ -242,7 +212,7 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	«ENDIF-»
 «ENDDEFINE»
 
-«REM» hand  administrativ field «ENDREM»
+«REM» Handle administrative field «ENDREM»
 «DEFINE handleAdminField(boolean toSecure) FOR CardEntity-»«ENDDEFINE»
 «DEFINE handleAdminField(boolean toSecure) FOR Actor-»
 		«FOREACH (List[FieldEntity])getAdministrationFields(this) AS f-»
@@ -250,7 +220,7 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		«ENDFOREACH-»
 «ENDDEFINE»
 
-«REM» handle filter field «ENDREM»
+«REM» Handle filter field «ENDREM»
 «DEFINE handleFilterField(boolean toSecure) FOR CardEntity-»«ENDDEFINE»
 «DEFINE handleFilterField(boolean toSecure) FOR Actor-»
 	«FOREACH this.filters AS f-»
@@ -294,19 +264,19 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		«this.name.toFirstUpper()»Actor transformedBean = new «this.name.toFirstUpper()»Actor();
 
 		«EXPAND toSecureCommon FOR this-»
-		
+		«REM»
 		/*
 		if(roleNames.contains("administrator")){
 			transformedBean.setLogin(bean.getLogin());
 			transformedBean.setPassword(bean.getPassword());
 			transformedBean.setNotificationLocale(bean.getNotificationLocale());
 			transformedBean.setNotificationMethod(bean.getNotificationMethod());
-			transformedBean.setBeNotified(bean.getBeNotified());			
-			updateCollection(bean.getRoles(), transformedBean.getRoles());
+			transformedBean.setBeNotified(bean.getBeNotified());
+			transformedBean.setRoles(bean.getRoles());
 			«EXPAND handleAdminField(true) FOR this-»
 			«EXPAND handleFilterField(true) FOR this-»
 		}*/
-		
+		«ENDREM»
 		return transformedBean;
 	}	
 	«ENDIF-»	
@@ -343,9 +313,6 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 			«ENDIF-»
 		«ENDFOREACH»
 		
-		«IF isTranslatableFieldPresent(this.groups.fields)-»
-		transformedBean = getLocalized«this.name.toFirstUpper()»(transformedBean, roleNames);
-		«ENDIF»
 «ENDDEFINE»
 «REM» ---------------------------------------------------------- «ENDREM»
 
@@ -357,7 +324,6 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		«this.name.toFirstUpper()» transformedBean = («this.name.toFirstUpper()»)dao.loadEntity(«this.name.toFirstUpper()».class, bean.getId());
 
 		if(transformedBean == null){
-		
 			transformedBean = new «this.name.toFirstUpper()»();			
 			transformedBean.setId(bean.getId());
 		}
@@ -373,14 +339,12 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		«this.name.toFirstUpper()»Actor transformedBean = («this.name.toFirstUpper()»Actor)dao.loadEntity(«this.name.toFirstUpper()»Actor.class, bean.getId());
 		
 		if(transformedBean == null){
-
 			transformedBean = new «this.name.toFirstUpper()»Actor();				
 			transformedBean.setId(bean.getId());
-			
 		}
 
 		«EXPAND toUnSecureCommon FOR this-»
-		
+		«REM»
 		«IF Actor.isAssignableFrom(this.metaType)-»
 		/*
 			if (roleNames.contains("administrator")) {
@@ -389,12 +353,13 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 				transformedBean.setNotificationLocale(bean.getNotificationLocale());
 				transformedBean.setNotificationMethod(bean.getNotificationMethod());
 				transformedBean.setBeNotified(bean.getBeNotified());
-				updateCollection(bean.getRoles(), transformedBean.getRoles());
+				transformedBean.setRoles(bean.getRoles());
 				«EXPAND handleAdminField(false) FOR this-»	
 				«EXPAND handleFilterField(false) FOR this-»			
 			}
 		*/
 		«ENDIF-»
+		«ENDREM»
 		return transformedBean;
 	}
 	«ENDIF-»
