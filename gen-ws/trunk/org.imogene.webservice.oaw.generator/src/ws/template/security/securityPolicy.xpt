@@ -204,7 +204,7 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 	if(transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()==null ||
 		bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»() == null ||
 		!transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId().equals(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId())){
-		«IF this.parentGroup.parentCard.mainFields.contains(this) && isTranslatableFieldPresent(this.entity.groups.fields)-»
+		«IF this.parentGroup.parentCard.mainFields.contains(this) && isTranslatableFieldPresent(this.entity.mainFields)-»
 		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»((«this.entity.name.toFirstUpper()»)toSecure«this.entity.name.toFirstUpper()»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»(),roleNames));
 		«ELSE-»
 		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
@@ -289,7 +289,7 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 		«this.name.toFirstUpper()»Actor transformedBean = new «this.name.toFirstUpper()»Actor();
 
 		«EXPAND toSecureCommon FOR this-»
-		
+		«REM»
 		/*
 		if(roleNames.contains("administrator")){
 			transformedBean.setLogin(bean.getLogin());
@@ -301,7 +301,7 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 			«EXPAND handleAdminField(true) FOR this-»
 			«EXPAND handleFilterField(true) FOR this-»
 		}*/
-		
+		«ENDREM»
 		return transformedBean;
 	}	
 	«ENDIF-»	
@@ -348,7 +348,6 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 		«this.name.toFirstUpper()» transformedBean = («this.name.toFirstUpper()»)dao.loadEntity(«this.name.toFirstUpper()».class, bean.getId());
 
 		if(transformedBean == null){
-		
 			transformedBean = new «this.name.toFirstUpper()»();			
 			transformedBean.setId(bean.getId());
 		}
@@ -364,14 +363,12 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 		«this.name.toFirstUpper()»Actor transformedBean = («this.name.toFirstUpper()»Actor)dao.loadEntity(«this.name.toFirstUpper()»Actor.class, bean.getId());
 		
 		if(transformedBean == null){
-
 			transformedBean = new «this.name.toFirstUpper()»Actor();				
 			transformedBean.setId(bean.getId());
-			
 		}
 
 		«EXPAND toUnSecureCommon FOR this-»
-		
+		«REM»
 		«IF Actor.isAssignableFrom(this.metaType)-»
 		/*
 			if (roleNames.contains("administrator")) {
@@ -386,6 +383,7 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 			}
 		*/
 		«ENDIF-»
+		«ENDREM»
 		return transformedBean;
 	}
 	«ENDIF-»
