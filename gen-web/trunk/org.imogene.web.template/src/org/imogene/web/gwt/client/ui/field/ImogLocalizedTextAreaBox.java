@@ -14,8 +14,6 @@ import org.imogene.web.gwt.common.id.ImogKeyGenerator;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -35,6 +33,7 @@ public class ImogLocalizedTextAreaBox extends ImogFieldAbstract<String> implemen
 	private Map<String,LocalizedText> values = new HashMap<String,LocalizedText>();
 	private boolean edited = false;
 	private String currentLocale;
+	private boolean isNew = true;
 	
 	/* widgets */
 	private HorizontalPanel layout;
@@ -116,7 +115,8 @@ public class ImogLocalizedTextAreaBox extends ImogFieldAbstract<String> implemen
 	 */
 	public void setValue(List<LocalizedText> texts) {
 
-		if (texts!=null) {
+		if (texts!=null && texts.size()>0) {
+			isNew= false;
 			
 			for (LocalizedText current : texts){
 				
@@ -186,8 +186,8 @@ public class ImogLocalizedTextAreaBox extends ImogFieldAbstract<String> implemen
 		else {
 			// check values for previously entered texts
 			for (LocalizedText text : values.values()){	
-				if (text.getValue()!=null && !text.getValue().equals("") )
-					return true;
+				if (!text.getLocale().equals(currentLocale) && text.getValue()!=null && !text.getValue().equals("") )
+					return true;	
 			}
 			return false;
 		}
@@ -200,13 +200,13 @@ public class ImogLocalizedTextAreaBox extends ImogFieldAbstract<String> implemen
 	public List<LocalizedText> getLocalizedTextsToSave() {
 		
 		List<LocalizedText> localizedTextsToSave = new Vector<LocalizedText>();
+		storeTextInMap();	
 		
-		if (hasText()) {			
-			setFieldId();
-			storeTextInMap();			
+		if ((isNew && hasText()) || !isNew) {
+			setFieldId();	
 			for (LocalizedText current:values.values())							
-				localizedTextsToSave.add(updateLocalizedText(current));
-		}	
+				localizedTextsToSave.add(updateLocalizedText(current));			
+		}
 		return localizedTextsToSave;
 	}
 	
