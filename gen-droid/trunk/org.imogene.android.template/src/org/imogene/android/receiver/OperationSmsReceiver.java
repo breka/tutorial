@@ -15,7 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.telephony.gsm.SmsMessage;
+import android.telephony.SmsMessage;
 
 public class OperationSmsReceiver extends BroadcastReceiver {
 	
