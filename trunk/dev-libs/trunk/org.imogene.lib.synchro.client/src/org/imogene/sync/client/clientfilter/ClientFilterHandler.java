@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.imogene.common.dao.EntityDao;
+import org.imogene.common.dao.LocalizedTextDao;
 import org.imogene.common.dao.criteria.BasicCriteria;
 import org.imogene.common.dao.criteria.CriteriaConstants;
 import org.imogene.common.dao.criteria.ImogConjunction;
@@ -157,6 +158,10 @@ public class ClientFilterHandler implements EntityHandler {
 
 	public EntityDao getDao() {
 		return dao;
+	}
+	
+	public void setI18nDao(LocalizedTextDao arg0) {
+		// not relevant for ClientFilter
 	}
 
 

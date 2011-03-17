@@ -21,6 +21,7 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.hibernate.cfg.Configuration;
 import org.imogene.common.dao.EntityDao;
+import org.imogene.common.dao.LocalizedTextDao;
 import org.imogene.common.data.SynchronizableUtil;
 import org.imogene.common.data.handler.DataHandlerManager;
 import org.imogene.common.data.handler.EntityHandler;
@@ -40,6 +41,7 @@ import org.imogene.sync.client.dao.sqlite.SessionManager;
 import org.imogene.sync.client.dao.sqlite.SyncParameterDaoHibernate;
 import org.imogene.sync.client.dao.sqlite.SynchronizableEntityDaoHibernate;
 import org.imogene.sync.client.http.OptimizedSyncClientHttp;
+import org.imogene.sync.client.localizedtext.LocalizedTextHibernateDao;
 import org.imogene.sync.client.serializer.xml.FilterFieldConverter;
 import org.imogene.sync.client.serializer.xml.PasswordConverter;
 import org.imogene.sync.client.serializer.xml.RolesConverter;
@@ -94,6 +96,7 @@ public class ImogPlugin extends AbstractUIPlugin {
 	private Set<SynchronizableEntity> toSync = new HashSet<SynchronizableEntity>();	
 	private SyncParameters syncParameters;	
 	private SyncParametersDao parametersDao;	
+	private LocalizedTextDao localizedTextDao;
 	private Identity currentUserIdentity;
 	private File syncWork;		
 	private int period;
@@ -347,7 +350,7 @@ public class ImogPlugin extends AbstractUIPlugin {
 			ClassConverter classConverter = new ClassConverter();
 			classConverter.setAlias(alias);
 			classConverter.setClassType(entityClassName);
-			classConverter.setConverter(entityConverter);						
+			classConverter.setConverter(entityConverter);	
 			specificConverters.add(classConverter);	
 		}catch(Exception ex){
 			logger.error(ex.getMessage(), ex);
@@ -368,6 +371,13 @@ public class ImogPlugin extends AbstractUIPlugin {
 			/* instance of the handler */
 			EntityHandler handler = (EntityHandler)conf.createExecutableExtension("handler");
 			handler.setDao(dao);
+			/* translatable field management */
+			boolean hasTranslatableFields = Boolean.parseBoolean(conf.getAttribute("hasTranslatableField"));
+			if (hasTranslatableFields) {
+				if (localizedTextDao==null)
+					localizedTextDao = new LocalizedTextHibernateDao();
+				handler.setI18nDao(localizedTextDao);
+			}		
 			handlers.put(entityClassName, handler);
 			if(actorClassName!=null)
 				handlers.put(actorClassName, handler);
@@ -381,7 +391,7 @@ public class ImogPlugin extends AbstractUIPlugin {
 	 */
 	private void initDatabase(){
 		dbConfig = new Configuration();
-		dbConfig.setProperty("hibernate.show_sql", "false");
+		dbConfig.setProperty("hibernate.show_sql", "true");
 		dbConfig.setProperty("hibernate.format_sql", "true");
 		dbConfig.setProperty("hibernate.dialect", "org.imogene.sync.client.dao.sqlite.SQLiteDialect");
 		dbConfig.setProperty("hibernate.connection.driver_class", "org.sqlite.JDBC");		
@@ -405,6 +415,9 @@ public class ImogPlugin extends AbstractUIPlugin {
 		/* client filter mapping */
 		InputStream clientFilterMapping = getClass().getClassLoader().getResourceAsStream("org/imogene/uao/clientfilter/ClientFilter.hbm.xml");		
 		dbConfig.addInputStream(clientFilterMapping);		
+		/* localized text mapping */
+		InputStream localizedTextMapping = getClass().getClassLoader().getResourceAsStream("org/imogene/sync/client/localizedtext/LocalizedText.hbm.xml");		
+		dbConfig.addInputStream(localizedTextMapping);	
 	}
 	
 	/**

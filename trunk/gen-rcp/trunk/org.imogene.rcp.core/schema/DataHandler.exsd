@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.imogene.rcp.core">
+<schema targetNamespace="org.imogene.rcp.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.imogene.rcp.core" id="org.imogene.rcp.core.DataHandler" name="DataHandler"/>
@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="DataHandler"/>
@@ -83,6 +88,13 @@
                </appInfo>
             </annotation>
          </attribute>
+         <attribute name="hasTranslatableField" type="boolean">
+            <annotation>
+               <documentation>
+                  True if the entity has one or more translatable field
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -122,13 +134,5 @@
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="copyright"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
 </schema>
