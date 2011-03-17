@@ -1,5 +1,6 @@
 «IMPORT core»
 «EXTENSION template::CommonFieldUtilExt» 
+«EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String moduleName) FOR CardEntity»
 «FILE moduleName.toLowerCase() + "/entity/" + name.toFirstUpper() + ".java"»
@@ -28,10 +29,19 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 	/* Entity properties */
 	«FOREACH groups.fields AS field-» 
 	private «EXPAND template::ImogRcpFieldUtil::fieldType FOR field-» «EXPAND template::CommonFieldUtil::propertyName FOR field-»;
-	«ENDFOREACH-»		
+	«ENDFOREACH-»	
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	/* For localized fields */
+	private LocalizedFieldMap translations;
+	«ENDIF-»		
 				
 	
 	public «this.name.toFirstUpper()»() {
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+		translations = new LocalizedFieldMap();
+	«ENDIF»	
 	
    // Add the ENABLED keyword before 'START' to protect this area 
     «PROTECT CSTART '/*' CEND '*/' ID 'init'+ this.shortName DISABLE »		
@@ -98,6 +108,16 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 	
 	«ENDFOREACH-»
 	
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	public LocalizedFieldMap getLocalizedFieldMap() {
+		return translations;
+	}
+
+	public void setLocalizedFieldMap(LocalizedFieldMap localizedFieldMap) {
+		this.translations = localizedFieldMap;
+	}
+	«ENDIF»		
 
 	/* Synchronizable getters and setters */
 	
