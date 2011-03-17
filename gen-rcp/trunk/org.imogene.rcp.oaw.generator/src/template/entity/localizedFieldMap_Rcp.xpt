@@ -1,0 +1,171 @@
+«IMPORT core»
+«DEFINE generate(String moduleName) FOR Project»
+«FILE moduleName.toLowerCase() + "/entity/LocalizedFieldMap.java"»
+
+package org.imogene.«moduleName.toLowerCase()».entity;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import org.imogene.sync.localizedtext.LocalizedText;
+
+
+public class LocalizedFieldMap {
+
+	«IF this.languages.size == 0 -»
+	private Map<String,LocalizedText> textValues;
+	«ELSE-»
+		«FOREACH languages AS language -»	
+	private Map<String,LocalizedText> «language.isoCode.toLowerCase()»Values;
+		«ENDFOREACH-»	
+	«ENDIF-»
+
+		
+	
+	public LocalizedFieldMap() {
+	
+	«IF this.languages.size == 0 -»
+		textValues = new HashMap<String,LocalizedText>();
+	«ELSE-»
+		«FOREACH languages AS language -»	
+		«language.isoCode.toLowerCase()»Values = new HashMap<String,LocalizedText>();
+		«ENDFOREACH-»	
+	«ENDIF-»	
+	}
+	
+	
+	«IF this.languages.size == 0 -»
+	public Map<String, LocalizedText> getTextValues() {
+		return textValues;
+	}
+
+	public void setTextValues(Map<String, LocalizedText> values) {
+		this.textValues = values;
+	}
+	«ELSE-»
+		«FOREACH languages AS language -»	
+	public Map<String, LocalizedText> get«language.isoCode.toLowerCase().toFirstUpper()»Values() {
+		return «language.isoCode.toLowerCase()»Values;
+	}
+
+	public void set«language.isoCode.toLowerCase().toFirstUpper()»Values(Map<String, LocalizedText> values) {
+		this.«language.isoCode.toLowerCase()»Values = values;
+	}		
+		«ENDFOREACH-»	
+	«ENDIF-»		
+	
+
+
+	/**
+	 * Gets the localized text for the given field and the given locale
+	 * If no text is found, returns the first found for any available locale
+	 * @param fieldId the field id
+	 * @param locale the locale as iso code
+	 * @return a localized text
+	 */
+	public String getFieldI18nValue(String fieldId, String locale) {
+		
+		String result = null;
+		
+	«IF this.languages.size == 0 -»
+		LocalizedText textValue = textValues.get(fieldId);
+		if (textValue!=null)
+			result = textValue.getValue();	
+	«ELSE-»
+		«FOREACH languages AS language ITERATOR iter -»	
+		«IF iter.counter0 == 0 -»
+		if (locale.equals("«language.isoCode.toLowerCase()»")) {			
+		«ELSE-»
+		else if (locale.equals("«language.isoCode.toLowerCase()»")) {			
+		«ENDIF-»
+			LocalizedText «language.isoCode.toLowerCase()»Value = «language.isoCode.toLowerCase()»Values.get(fieldId);
+			if («language.isoCode.toLowerCase()»Value!=null)
+				result = «language.isoCode.toLowerCase()»Value.getValue();
+			«FOREACH languages AS lang2 -»
+			«IF lang2.isoCode!=language.isoCode -»
+			if (result==null || result.equals("")) {
+				LocalizedText «lang2.isoCode.toLowerCase()»Value = «lang2.isoCode.toLowerCase()»Values.get(fieldId);
+				if («lang2.isoCode.toLowerCase()»Value!=null)
+					result = «lang2.isoCode.toLowerCase()»Value.getValue();			
+			}		
+			«ENDIF-»
+			«ENDFOREACH-»
+		}				
+		«ENDFOREACH-»	
+	«ENDIF-»					
+		return result;			
+	}
+	
+	/**
+	 * Gets the LocalizedTexts contained in the map
+	 * @return a list of LocalizedTexts
+	 */
+	public List<LocalizedText> getI18nValues() {
+		
+		List<LocalizedText> result = new Vector<LocalizedText>();	
+		«IF this.languages.size == 0 -»
+		result.addAll(textValues.values());
+		«ELSE-»
+			«FOREACH languages AS language -»	
+		result.addAll(«language.isoCode.toLowerCase()»Values.values());
+			«ENDFOREACH-»	
+		«ENDIF-»	
+		return result;
+	}
+	
+	
+	/**
+	 * Gets the LocalizedTexts for the given field
+	 * @param fieldId the field id
+	 * @return a list of LocalizedTexts
+	 */
+	public List<LocalizedText> getFieldI18nValues(String fieldId) {
+		
+		List<LocalizedText> result = new Vector<LocalizedText>();
+		
+	«IF this.languages.size == 0 -»
+		LocalizedText textValue = textValues.get(fieldId);
+		if (textValue!=null)
+			result.add(textValue);
+	«ELSE-»
+		«FOREACH languages AS language -»	
+		LocalizedText «language.isoCode.toLowerCase()»Value = «language.isoCode.toLowerCase()»Values.get(fieldId);
+		if («language.isoCode.toLowerCase()»Value!=null)
+			result.add(«language.isoCode.toLowerCase()»Value);
+		«ENDFOREACH-»	
+	«ENDIF-»				
+
+		return result;			
+	}	
+	
+	/**
+	 * Adds LocalizedText items to the field map
+	 * @param values a list of LocalizedTexts to be added to the map
+	 */
+	public void addI18nValues(List<LocalizedText> values) {
+				
+		if (values !=null) {
+			for (LocalizedText current : values){
+			
+			«IF this.languages.size == 0 -»
+				textValues.put(current.getFieldId(), current);
+			«ELSE-»
+				«FOREACH languages AS language ITERATOR iter-»	
+					«IF iter.counter0 == 0 -»
+				if (current.getLocale().equals("«language.isoCode.toLowerCase()»"))
+					«language.isoCode.toLowerCase()»Values.put(current.getFieldId(), current);				
+					«ELSE-»
+				else if (current.getLocale().equals("«language.isoCode.toLowerCase()»"))
+					«language.isoCode.toLowerCase()»Values.put(current.getFieldId(), current);									
+					«ENDIF-»
+				«ENDFOREACH-»	
+			«ENDIF-»				
+			}
+		}
+	}
+
+}
+«ENDFILE»
+«ENDDEFINE»
