@@ -53,12 +53,14 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 
 
 	private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;	
-	«IF isBinaryFieldPresent(this.groups.fields) -»	
+	«IF isBinaryFieldPresent(this.groups.fields) -»
+	/* BinaryDao for Binary Deletion */
 	private BinaryDao binaryDao;
 	«ENDIF-»	
 	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	/* LocalizedTextDao for LocalizedText support */
 	private LocalizedTextDao i18nDao;	
-	«ENDIF»	
+	«ENDIF-»	
 	«EXPAND declareDaoForForeignKeyDeletion(this) FOR this.eContainer-»	
 	
 	@Override
@@ -68,9 +70,9 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 		setBeanManager((PersistentBeanManager)wac.getBean("beanManager"));
 		«name.toFirstLower()»Dao =(«name.toFirstUpper()»Dao)wac.getBean("«name.toFirstLower()»Dao");
 		«IF isTranslatableFieldPresent(this.groups.fields)-»
-		/* Set Dao for LocalizedTexts saving */
+		/* Set Dao for LocalizedTexts support */
 		i18nDao = (LocalizedTextDao) wac.getBean("localizedTextDao");
-		«ENDIF»	
+		«ENDIF-»	
 		«IF isBinaryFieldPresent(this.groups.fields) -»		
 		binaryDao = (BinaryDao)wac.getBean("binaryDao");		
 		«ENDIF-»
@@ -195,7 +197,7 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 			List<LocalizedText> texts = toSave.getLocalizedFieldMap().getI18nValues();
 			for (LocalizedText current:texts)
 				i18nDao.saveOrUpdate(current);
-			«ENDIF»				
+			«ENDIF-»				
 		}
 	}
 	
@@ -216,8 +218,21 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 			List<LocalizedText> texts = toSave.getLocalizedFieldMap().getI18nValues();
 			for (LocalizedText current:texts)
 				i18nDao.saveOrUpdate(current);
-			«ENDIF»				
+			«ENDIF-»				
 		}
+	}
+	
+	/**
+	 * Deletes a group of entities identified by their IDs
+	 * @param ids Entities to delete IDs
+	 * @return The list of deleted entities IDs
+	 */
+	public List<String> delete(List<String> ids) {
+		List<«name.toFirstUpper()»> entities = «name.toFirstLower()»Dao.list«name.toFirstUpper()»(ids);
+		for («name.toFirstUpper()» entity: entities) {
+			delete(entity);
+		}
+		return ids;
 	}
 	
 	/**
@@ -232,23 +247,33 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 			«ENDFOREACH-»
 		«ENDIF-»
 	   
-	   «EXPAND deleteForeignKeyReference(this) FOR this.eContainer-»	
+	   «EXPAND deleteForeignKeyReference(this) FOR this.eContainer-»
+
+		«IF isTranslatableFieldPresent(this.groups.fields)-»
+			//Delete entity fields LocalizedTexts
+	   		«EXPAND deleteLocalizedTexts FOREACH this.groups.fields-»	
+		«ENDIF-»		   
 	
 		«name.toFirstLower()»Dao.delete(entity);
 	}	
 	
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
 	/**
-	 * Deletes a group of entities identified by their IDs
-	 * @param ids Entities to delete IDs
-	 * @return The list of deleted entities IDs
+	 * Deletes the LocalizedTexts that correspond to a given field
+	 * @param fieldId the field id for which LocalizedTexts have to be deleted
 	 */
-	public List<String> delete(List<String> ids) {
-		List<«name.toFirstUpper()»> entities = «name.toFirstLower()»Dao.list«name.toFirstUpper()»(ids);
-		for («name.toFirstUpper()» entity: entities) {
-			delete(entity);
+	private void deleteLocalizedTexts(String fieldId) {
+		
+		if (fieldId != null && !fieldId.equals("")) {
+			List<LocalizedText> texts = i18nDao.listLocalizedText(fieldId);
+			if(texts!=null) {
+				for(LocalizedText text:texts)
+					i18nDao.delete(text);
+			}
 		}
-		return ids;
-	}	
+	}
+	«ENDIF-»		
 	
 	/* relation dependences */
 	«FOREACH groups.fields AS f -»
@@ -535,6 +560,7 @@ import org.imogene.«projectName.toLowerCase()».server.dao.«this.parentGroup.pare
 «ENDDEFINE»
 «REM» ------------------------------------------------«ENDREM»
 
+
 «REM» ------------------------------------------------«ENDREM»
 «DEFINE deleteAttachedBinaries FOR FieldEntity-»«ENDDEFINE»
 «DEFINE deleteAttachedBinaries FOR BinaryField-»
@@ -545,5 +571,12 @@ import org.imogene.«projectName.toLowerCase()».server.dao.«this.parentGroup.pare
 			if («this.name.toFirstLower()»!=null)
 				binaryDao.deleteBinary(«this.name.toFirstLower()»);
 		}
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE deleteLocalizedTexts FOR FieldEntity-»«ENDDEFINE»
+«DEFINE deleteLocalizedTexts FOR TextField-»
+		deleteLocalizedTexts(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 «ENDDEFINE»
 «REM» ------------------------------------------------«ENDREM»
