@@ -7,7 +7,7 @@ import java.util.Vector;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.imogene.common.dao.EntityDao;
+import org.imogene.common.dao.LocalizedTextDao;
 import org.imogene.common.dao.criteria.BasicCriteria;
 import org.imogene.common.dao.criteria.CriteriaConstants;
 import org.imogene.common.dao.criteria.ImogConjunction;
@@ -23,9 +23,31 @@ import org.imogene.sync.localizedtext.LocalizedText;
  * LocalizedText Dao Implementation
  * @author Medes-IMPS
  */
-public class LocalizedTextDao implements EntityDao {
+public class LocalizedTextHibernateDao implements LocalizedTextDao {
 
 	private static List<EntityListener> listeners = new Vector<EntityListener>();
+
+	
+	
+	@Override
+	public List<LocalizedText> listLocalizedText(String fieldId) {
+		
+		List<LocalizedText> result = new Vector<LocalizedText>();
+		
+		ImogJunction junction = new ImogConjunction();	
+		BasicCriteria criteria = new BasicCriteria();
+		criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
+		criteria.setField("fieldId");
+		criteria.setValue(fieldId);
+		junction.add(criteria);
+		
+		List<Synchronizable> syncs = HibernateGenericDao.loadEntities(LocalizedText.class, junction);
+		for (Synchronizable sync:syncs) {
+			LocalizedText text = (LocalizedText) sync;
+			result.add(text);
+		}
+		return result;
+	}
 
 	/*
 	 * (non-Javadoc)

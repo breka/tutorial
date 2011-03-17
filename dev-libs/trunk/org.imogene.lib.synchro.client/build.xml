@@ -15,6 +15,7 @@
 		
 		<property name="jarDir" location="dist" />
 		<property name="binDir" location="bin"/>
+		<property name="srcDir" location="src"/>
 		<property name="jarName" value="${jarDir}/org.imogene.sync.client.jar"/>
 		<property name="version" value="Imogene 1.0" />
 	</target>
@@ -44,7 +45,8 @@
 			 </manifest>
 			
 			<jar destfile="${jarName}" manifest="imogSynchro.mf">
-				<fileset dir="${binDir}" includes="org/imogene/**/*.*" excludes="org/imogene/testsynchro/**/*.*"/>								
+				<fileset dir="${binDir}" includes="org/imogene/**/*.*"/>
+				<fileset dir="${srcDir}" includes="org/imogene/**/*.*"/>
 			</jar>					
 			<delete file="imogSynchro.mf"/>
 		</target>
