@@ -36,18 +36,14 @@
 		
 		=== Android application ===
 		
-		The Android application can be downloaded and installed from the terminal using the following links [http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid.apk ImogeneDemoAndroid]
-					http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid_apk.png
-			
+		The Android application can be downloaded and installed from the terminal.
 		In addition to the generated demonstration application, an additional mapping module can be installed on the terminal to be able to display the collected data on a map on the terminal.
-		This module is called [http://code.google.com/p/imogene-map/ imogene-map]
-		It can be downloaded and installed from the terminal using the following links:
 		
-			* [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk org.imogene.map.provider.osm.apk]
-					http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk.png
-			
-			* [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk org.imogene.map.apk]
-					http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk.png	
+		These applications are available at from the following links:
+		
+|| *Demo Application* || *Map module* || *Map provider* ||
+|| [http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid.apk ImogeneDemoAndroid] || [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk org.imogene.map.apk] || [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk org.imogene.map.provider.osm.apk] ||
+|| http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid_apk.png || http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk.png || http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk.png ||					
 			
 		=== Login/Password ===	
 		
