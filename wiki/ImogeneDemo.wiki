@@ -1,11 +1,44 @@
-#summary One-sentence summary of this page.
+#summary An Information System to show the functionalities of an Information System that is generated with Imogene
+#labels Modeling,Generation,Demo
+
+<wiki:toc max_depth="2" />
 
 = Introduction =
 
-Add your content here.
+	The Information System that is presented is a demonstration Information System that has been generated thanks to the _*imogene*_ development studio.
+	This given Information System deals with the collection of epidemiological data. But it could have been any other kind of activity type since _*imogene*_ modeling capabilities are generic.
+	The presented data model does not correspond to a real use case. The forms and fields have been defined to illustrate the different features that can be modeled thanks to _*imogene*_.
+	 
 
+= Demonstration IS system =
 
-= Details =
+	== Architecture ==
+	
+	http://imogene.googlecode.com/svn/wiki/demo/demo_archi.PNG
+	
+	The demonstration IS illustrates the collection of data through Android mobile terminals and the bidirectionnal data synchronization between the mobile terminals and a central database.
+	It includes:
+	* *A Web application* to collect, view and analyse the data from anywhere as far as an internet connection is available.
+	* *An Android Mobile application* to collect and consult data in mobility situations. It works both in connected and disconnected mode. 
+	* *A Synchronization server* to synchronize the data between the mobile application and the Information System central database.
+
+	== Model ==
+	
+	The data model that has been defined to generate the demonstration IS can be downloaded [http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoModel.zip here]
+	The publiched applications directly result from the _*imogene*_ application generation process. No additional programming work has been done. This was done on purpose to show the set of features that are available as a basis within _*imogene*_.
+	Of course some customization can be done on the applications. _*imogene*_ makes it easy to display a any kind of logo instead of the _*imogene*_ logos. Colors and icons can be configured in the data model. The generation process provides the source code of the applications that can be customized. 
+
+	== Access ==
+	
+	=== Web application ===
+	
+	The Web application is accessible at the URL: [http://demo.i-mogene.org http://demo.i-mogene.org]
+	
+	=== Android application ===
+	
+	
+
+= Illustrated features =
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
