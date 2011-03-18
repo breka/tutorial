@@ -40,11 +40,15 @@ public class EncryptionServlet extends HttpServlet {
 	/* dao part */
 	private GenericDao genericDao;
 	
+	/* encryptionManager for encrypting id file */
+	private EncryptionManager encryptionManager;
+	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());		
 		genericDao = (GenericDao)wac.getBean("genericDao");	
+		encryptionManager = (EncryptionManager) wac.getBean("encryptionManager");
 	}
 	
 	@Override
@@ -76,9 +80,9 @@ public class EncryptionServlet extends HttpServlet {
 					imogId.append("\n");
 					imogId.append("\n");
 					imogId.append("/*------- end of the id file -------*/");
-					resp.setHeader("Content-Disposition", "attachment; filename=\""+actor.getId()+".imogId" + "\"");
+					resp.setHeader("Content-Disposition", "attachment; filename=\""+ actor.getId()+ ".imogid" + "\"");
 					resp.setContentType("application/octet-stream");
-					OutputStream out = EncryptionManager.getInstance().getEncryptedOutputStream(resp.getOutputStream());
+					OutputStream out = encryptionManager.getEncryptedOutputStream(resp.getOutputStream());
 					out.write(imogId.toString().getBytes());					
 				}
 			}
