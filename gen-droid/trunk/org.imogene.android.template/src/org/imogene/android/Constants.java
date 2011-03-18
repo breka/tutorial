@@ -5,29 +5,29 @@ import org.imogene.android.app.AbstractEntityListing;
 
 public final class Constants {
 	
-	public static final String AUTHORITY = "org.imogene.android.stipp.entity";
+	public static final String AUTHORITY = "org.imogene.android.%realProjectName%.entity";
 	
 	public static interface Paths {
-		public static final String PATH_BACKUP = "/sdcard/.stipp/backup";
-		public static final String PATH_BINARIES = "/sdcard/.stipp/binaries";
-		public static final String PATH_SYNCHRO = "/sdcard/.stipp/synchro";
-		public static final String PATH_TEMPORARY = "/sdcard/.stipp/temporary";
+		public static final String PATH_BACKUP = "/sdcard/.%realProjectName%/backup";
+		public static final String PATH_BINARIES = "/sdcard/.%realProjectName%/binaries";
+		public static final String PATH_SYNCHRO = "/sdcard/.%realProjectName%/synchro";
+		public static final String PATH_TEMPORARY = "/sdcard/.%realProjectName%/temporary";
 	}
 	
 	public static interface Intents {
 
-		public static final String ACTION_LIST_ENTITIES = "org.imogene.android.stipp.action.LIST_ENTITIES";
+		public static final String ACTION_LIST_ENTITIES = "org.imogene.android.%realProjectName%.action.LIST_ENTITIES";
 
-		public static final String ACTION_SEARCH_ENTITY = "org.imogene.android.stipp.action.SEARCH_ENTITY";
+		public static final String ACTION_SEARCH_ENTITY = "org.imogene.android.%realProjectName%.action.SEARCH_ENTITY";
 
-		public static final String ACTION_CHECK_SYNC = "org.imogene.android.stipp.action.CHECK_SYNC";
-		public static final String ACTION_RESCHEDULE = "org.imogene.android.stipp.action.RESCHEDULE";
-		public static final String ACTION_CANCEL = "org.imogene.android.stipp.action.CANCEL";
+		public static final String ACTION_CHECK_SYNC = "org.imogene.android.%realProjectName%.action.CHECK_SYNC";
+		public static final String ACTION_RESCHEDULE = "org.imogene.android.%realProjectName%.action.RESCHEDULE";
+		public static final String ACTION_CANCEL = "org.imogene.android.%realProjectName%.action.CANCEL";
 		
-		public static final String ACTION_SEND_FILTERS = "org.imogene.android.stipp.action.SEND_FILTERS";
+		public static final String ACTION_SEND_FILTERS = "org.imogene.android.%realProjectName%.action.SEND_FILTERS";
 
-		public static final String ACTION_RM_SYNC_HISTORY = "org.imogene.android.stipp.action.RM_SYNC_HISTORY";
-		public static final String ACTION_RM_DATABASE = "org.imogene.android.stipp.action.RM_DATABASE";
+		public static final String ACTION_RM_SYNC_HISTORY = "org.imogene.android.%realProjectName%.action.RM_SYNC_HISTORY";
+		public static final String ACTION_RM_DATABASE = "org.imogene.android.%realProjectName%.action.RM_DATABASE";
 		
 		/* Outside intents */
 		public static final String ACTION_SHOW_RADAR = "com.google.android.radar.SHOW_RADAR";
@@ -259,7 +259,7 @@ public final class Constants {
 		public static final String CATEGORY_CLASSIC = "org.imogene.android.category.CLASSIC";
 		public static final String CATEGORY_WIZARD = "org.imogene.android.category.WIZARD";
 		
-		public static final String CATERGORY_IMAGE_CAPTURE = "org.imogene.android.stipp.category.IMAGE_CATPURE";
+		public static final String CATERGORY_IMAGE_CAPTURE = "org.imogene.android.%realProjectName%.category.IMAGE_CATPURE";
 		
 		/* Outside categories */
 		public static final String CATEGORY_GPS = "org.imogene.map.category.GPS";
