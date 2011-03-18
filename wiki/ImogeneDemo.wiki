@@ -24,62 +24,61 @@
 
 	== Model ==
 	
-	The data model that has been defined to generate the demonstration IS can be downloaded [http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoModel.zip here]
-	The publiched applications directly result from the _*imogene*_ application generation process. No additional programming work has been done. This was done on purpose to show the set of features that are available as a basis within _*imogene*_.
-	Of course some customization can be done on the applications. _*imogene*_ makes it easy to display a any kind of logo instead of the _*imogene*_ logos. Colors and icons can be configured in the data model. The generation process provides the source code of the applications that can be customized. 
+	The data model that has been defined to generate the demonstration IS can be downloaded [http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoModel.zip here].
+	The published applications directly result from the _*imogene*_ application generation process. No additional programming work has been done. This shows the set of features that are available as a basis within _*imogene*_.
+	Of course some customization can be done on the applications. _*imogene*_ makes it easy to display a specific logo instead of the _*imogene*_ one. Colors and icons can be configured in the data model too. Finally, the generation process provides the source code of the applications and from there they can be customized. 
 
 	== Access ==
 	
-	=== Web application ===
-	
-	The Web application is accessible at the URL: [http://demo.i-mogene.org http://demo.i-mogene.org]
-	
-	=== Android application ===
-	
-	The Android application can be downloaded and installed from the terminal using the following links:
-		* [http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid.apk ImogeneDemoAndroid]
-		* http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid_apk.png
+		=== Web application ===
 		
-	In addition to the generated demonstration application, an additional mapping module can be installed on the terminal to be able to display the collected data on a map on the terminal.
-	This module is called [http://code.google.com/p/imogene-map/ imogene-map]
-	It can be downloaded and installed from the terminal using the following links:
-	
-		* [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk org.imogene.map.provider.osm.apk]
-		* http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk.png
+		The Web application is accessible at the URL: [http://demo.i-mogene.org http://demo.i-mogene.org]
 		
-		* [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk org.imogene.map.apk]
-		* http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk.png	
+		=== Android application ===
 		
-	=== Login/Password ===	
+		The Android application can be downloaded and installed from the terminal using the following links [http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid.apk ImogeneDemoAndroid]
+					http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid_apk.png
+			
+		In addition to the generated demonstration application, an additional mapping module can be installed on the terminal to be able to display the collected data on a map on the terminal.
+		This module is called [http://code.google.com/p/imogene-map/ imogene-map]
+		It can be downloaded and installed from the terminal using the following links:
+		
+			* [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk org.imogene.map.provider.osm.apk]
+					http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk.png
+			
+			* [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk org.imogene.map.apk]
+					http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk.png	
+			
+		=== Login/Password ===	
+		
+		3 different users with different user privileges have been defined in the system.
+		
+		==== System Administrator ====
+		
+		* login: sysadmin
+		* password: sysadmin
+		
+		This type of user would be the system administrator.
+		He would use only the web application for data management.
+		He has access to all the data in read and write mode. He can build the lookup tables that the other users will use while collecting data.
 	
-	3 different users with different user privileges have been defined in the system.
-	
-	==== System Administrator ====
-	
-	* login: sysadmin
-	* password: sysadmin
-	
-	This type of user would be the system administrator.
-	He would use only the web application for data management.
-	He has access to all the data in read and write mode. He can build the lookup tables that the other users will use while collecting data.
-
-	==== Investigator ====
-	
-	* login: investigator
-	* password: investigator
-	
-	This type of user would be the staff that goes on the field to collect data in mobility situation.
-	He would use the Android application when he is on the field of operation. He could use also the web application to check or complete data.
-	He has access to all the data in read and write mode except for the lookup tables.
-	
-	==== Public User ====
-	
-	* login: readonly
-	* password: readonly
-	
-	This type of user would be the people who need to access the data to be able to perform analysis but who should not modify it.
-	He would use mainly the web application for data access. He could also use the Android application to access the data in mobility situation.
-	He has access to the data only in read mode and some confidential data are hidden to him.	
+		==== Investigator ====
+		
+		* login: investigator
+		* password: investigator
+		
+		This type of user would be the staff that goes on the field to collect data in mobility situation.
+		He would use the Android application when he is on the field of operation. He could use also the web application to check or complete data.
+		He has access to all the data in read and write mode except for the lookup tables.
+		
+		==== Public User ====
+		
+		* login: readonly
+		* password: readonly
+		
+		This type of user would be the people who need to access the data to be able to perform analysis but who should not modify it.
+		He would use mainly the web application for data access. He could also use the Android application to access the data in mobility situation.
+		He has access to the data only in read mode and some confidential data are hidden to him.	
 	
 
 = Illustrated features =
