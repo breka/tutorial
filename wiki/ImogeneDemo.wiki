@@ -155,13 +155,18 @@
 		All the user interface texts are available in the languages that have been defined during the modeling process.
 		In the modeling, the text fields can be set as translatable. This will enable the user to enter text in several languages. This is illustrated by the 'Name' field of the 'Country' form. The country names can be entered in the languages that have been defined during the modeling process.
 		
-		==== Photo/Video/Sound acquisition ====
+		==== Photo/Video/Sound acquisition ====	
 		
+		* 'Photo' field of the 'Patient' form. Using the Android application, this type of field calls the terminal camera so that the user can take a picture that will be automatically attached to the form.		
+		* 'Video' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal camera so that the user can make a video that will be automatically attached to the form.
+		* 'Audio comment' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal sound recorder so that the user can record a sound that will be automatically attached to the form.
 		
 		==== Geographical coordinates acquisition ====
+
+		* 'Geographic coordinates' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.	
 		
+		==== Bidirectional data synchronization ====
 		
-		==== Bidirectional data synchronization ====	
 			
 		
 = Android application User guide =							
