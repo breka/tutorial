@@ -42,7 +42,7 @@
 		These applications are available at the following links:	
 || *Demo Application* || *Map module* || *Map provider* ||
 || [http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid.apk ImogeneDemoAndroid] || [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk org.imogene.map.apk] || [http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk org.imogene.map.provider.osm.apk] ||
-|| http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid_apk.png || http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk.png || http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk.png ||
+|| http://imogene.googlecode.com/svn/wiki/demo/ImogeneDemoAndroid.apk.png || http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.apk.png || http://imogene.googlecode.com/svn/wiki/demo/org.imogene.map.provider.osm.apk.png ||
 
 		=== Login/Password ===	
 		
