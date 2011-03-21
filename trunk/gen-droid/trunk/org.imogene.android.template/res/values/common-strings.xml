@@ -14,12 +14,21 @@
  	<string name="created">"Creation date"</string>
  	<string name="created_by">"Created by"</string>
  	<string name="entity_id">"Entity id"</string>
+ 	
+ 	<string name="noEntityHelpText">
+		"You don\'t have any form.\n
+		\nTo add a form, press <font fgcolor="#ffffffff"><b>Menu</b></font> and select:\n
+ 		\n<li><font fgcolor="#ffffffff"><b>"New"</b></font>" to create a new form from scratch"</li>"
+ 	</string>
+ 	<string name="insert_entity">New entity</string>
 
+	<string name="menu_new">"New"</string>
 	<string name="menu_delete">"Delete"</string>
 	<string name="menu_edit">"Edit"</string>
 	<string name="menu_view">"View"</string>
 	<string name="menu_save">"Save"</string>
 	<string name="menu_discard">"Discard"</string>
+	<string name="menu_search">"Search"</string>
 	<string name="menu_mark_as_read">"Mark as read"</string>
 	<string name="menu_mark_as_unread">"Mark as unread"</string>
 	<string name="menu_resume_sync">"Resume Sync."</string>
@@ -94,7 +103,7 @@
 	<string name="account_setup_basics_password_hint">"Password"</string>
 	<string name="account_setup_basics_server_hint">"Server URL"</string>
 	<string name="account_setup_basics_title">"Set up account"</string>
-	<string name="account_shortpw_instructions">"Set up a short password"</string>
+	<string name="account_setup_shortpw_instructions">"Set up a short password"</string>
 	<string name="account_setup_shortpw_title">"Set up short password"</string>
 	<string name="account_setup_shortpw_hint">"Short password"</string>
 	<string name="account_setup_shortpw_confirm_hint">"Confirm short password"</string>
