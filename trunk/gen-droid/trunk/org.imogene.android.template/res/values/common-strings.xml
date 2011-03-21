@@ -30,6 +30,7 @@
 	<string name="menu_iamlost">"I am lost"</string>
 	<string name="menu_change_user">"Change user"</string>
 	<string name="menu_map">"Map"</string>
+	<string name="menu_sync">"Sync."</string>
 	
 	<string name="bin_binary">"One binary"</string>
 	<string name="bin_video">"One video"</string>

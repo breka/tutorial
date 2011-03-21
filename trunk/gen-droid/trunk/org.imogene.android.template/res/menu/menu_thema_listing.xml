@@ -2,6 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:id="@+id/menu_resume_sync" android:title="@string/menu_resume_sync"
 		android:icon="@android:drawable/ic_menu_recent_history" />
+	<item android:id="@+id/menu_sync" android:title="@string/menu_sync"
+		android:icon="@drawable/ic_menu_sync" />
 	<item android:id="@+id/menu_preferences" android:title="@string/preferences"
 		android:icon="@android:drawable/ic_menu_preferences" />
 	<item android:id="@+id/menu_search" android:title="@android:string/search_go"
