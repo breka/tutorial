@@ -85,10 +85,6 @@ public abstract class AbstractEntityListing extends ListActivity implements
 	private final Uri mUri;
 	private final Drawable mColor;
 
-	private final int mNewDescription;
-	private final int mNoEntityDescription;
-	private final int mSearchDescription;
-
 	protected boolean mCanCreate;
 	protected boolean mCanDelete;
 	protected boolean mCanModify;
@@ -101,14 +97,9 @@ public abstract class AbstractEntityListing extends ListActivity implements
 	
 	private ListAdapterFactory mListAdapterFactory;
 
-	public AbstractEntityListing(final Uri uri, final Drawable color,
-			final int newDescription, final int noEntityDescription,
-			final int searchDescription) {
+	public AbstractEntityListing(final Uri uri, final Drawable color) {
 		mUri = uri;
 		mColor = color;
-		mNewDescription = newDescription;
-		mNoEntityDescription = noEntityDescription;
-		mSearchDescription = searchDescription;
 	}
 	
 	public void setListAdapterFactory(ListAdapterFactory factory) {
@@ -120,7 +111,6 @@ public abstract class AbstractEntityListing extends ListActivity implements
 		super.onCreate(savedInstanceState);
 
 		if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-			setTitle(mSearchDescription);
 			initWhereForSearch();
 		}
 
@@ -152,9 +142,8 @@ public abstract class AbstractEntityListing extends ListActivity implements
 				View header = getLayoutInflater().inflate(
 						android.R.layout.simple_list_item_1, getListView(),
 						false);
-				TextView text = (TextView) header
-						.findViewById(android.R.id.text1);
-				text.setText(mNewDescription);
+				TextView text = (TextView) header.findViewById(android.R.id.text1);
+				text.setText(W.string.insert_entity);
 				getListView().addHeaderView(header);
 			}
 
@@ -172,7 +161,7 @@ public abstract class AbstractEntityListing extends ListActivity implements
 			setContentView(W.layout.entity_list_content);
 
 			TextView empty = (TextView) findViewById(W.id.emptyText);
-			empty.setText(mNoEntityDescription);
+			empty.setText(W.string.noEntityHelpText);
 		}
 		
 		mCursor = query();
@@ -284,7 +273,7 @@ public abstract class AbstractEntityListing extends ListActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (!Intent.ACTION_PICK.equals(getIntent().getAction()) && mCanCreate) {
 			menu
-					.add(Menu.NONE, MENU_NEW_ID, Menu.NONE, mNewDescription)
+					.add(Menu.NONE, MENU_NEW_ID, Menu.NONE, W.string.menu_new)
 					.setIcon(android.R.drawable.ic_menu_add)
 					.setIntent(
 							new Intent(Intent.ACTION_INSERT, mUri)
