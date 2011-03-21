@@ -4,6 +4,7 @@ import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.service.AbstractSyncService;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.widget.ThemaExpandableListAdapter.EntityChild;
 
@@ -108,6 +109,9 @@ public abstract class AbstractThemaListing extends ExpandableListActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case W.id.menu_sync :
+			AbstractSyncService.startService(this);
+			return true;
 		case W.id.menu_search :
 			startActivityForResult(new Intent(Intents.ACTION_SCAN), ACTIVITY_BARCODE_ID);
 			return true;
