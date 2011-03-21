@@ -84,7 +84,7 @@
 		«FOREACH entities AS entity»
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»Listing"
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_listof"
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_pl"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
@@ -103,7 +103,7 @@
 		
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»View" 
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_view"
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_sg"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
@@ -114,7 +114,7 @@
 		
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»Edit"
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_insert"
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_new"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-»
 			«REM»android:theme="@android:style/Theme.Light"«ENDREM» >
 			<intent-filter>
@@ -127,7 +127,7 @@
 		
 		<activity 
 			android:name=".app.«entity.name.toFirstUpper()-»Wizard"
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_insert"
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_new"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-»
 			«REM»android:theme="@style/Theme.Light.Hack"comment«ENDREM» >
 			<intent-filter>
@@ -140,7 +140,7 @@
 		
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»Edit" 
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_edit"
+			android:label="@string/«entity.shortName.toLowerCase()-»_des_sg"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-»
 			«REM»android:theme="@android:style/Theme.Light"«ENDREM»>
 			<intent-filter>

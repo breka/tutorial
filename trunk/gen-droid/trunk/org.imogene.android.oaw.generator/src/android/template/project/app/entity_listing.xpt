@@ -40,11 +40,7 @@ public class «name.toFirstUpper()-»Listing extends AbstractEntityListing {
 	public «name.toFirstUpper()-»Listing() {
 		super(
 			«name.toFirstUpper()-».CONTENT_URI,
-			«name.toFirstUpper()-».COLOR,
-			R.string.«shortName.toLowerCase()-»_des_new,
-			R.string.«shortName.toLowerCase()-»_noEntitiesHelpText,
-			R.string.«shortName.toLowerCase()-»_des_search
-			);
+			«name.toFirstUpper()-».COLOR);
 	}
 	
 	@Override
