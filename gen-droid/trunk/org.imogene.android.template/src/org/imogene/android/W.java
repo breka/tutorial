@@ -289,8 +289,8 @@ public final class W {
 		public static final int account_setup_shortpw_confirm_hint = R.string.account_setup_shortpw_confirm_hint;
 		public static final int account_setup_shortpw_error = R.string.account_setup_shortpw_error;
 		public static final int account_setup_shortpw_hint = R.string.account_setup_shortpw_hint;
+		public static final int account_setup_shortpw_instructions = R.string.account_setup_shortpw_instructions;
 		public static final int account_setup_shortpw_title = R.string.account_setup_shortpw_title;
-		public static final int account_shortpw_instructions = R.string.account_shortpw_instructions;
 		public static final int account_start = R.string.account_start;
 		public static final int account_welcome = R.string.account_welcome;
 		public static final int account_welcome_message = R.string.account_welcome_message;
@@ -355,6 +355,7 @@ public final class W {
 		public static final int iamlost_title = R.string.iamlost_title;
 		public static final int infimum = R.string.infimum;
 		public static final int informations = R.string.informations;
+		public static final int insert_entity = R.string.insert_entity;
 		public static final int is_required = R.string.is_required;
 		public static final int list_availables_entities = R.string.list_availables_entities;
 		public static final int location_filter_title = R.string.location_filter_title;
@@ -370,8 +371,10 @@ public final class W {
 		public static final int menu_mark_all_as_read = R.string.menu_mark_all_as_read;
 		public static final int menu_mark_as_read = R.string.menu_mark_as_read;
 		public static final int menu_mark_as_unread = R.string.menu_mark_as_unread;
+		public static final int menu_new = R.string.menu_new;
 		public static final int menu_resume_sync = R.string.menu_resume_sync;
 		public static final int menu_save = R.string.menu_save;
+		public static final int menu_search = R.string.menu_search;
 		public static final int menu_sort_by = R.string.menu_sort_by;
 		public static final int menu_sort_by_modified = R.string.menu_sort_by_modified;
 		public static final int menu_sync = R.string.menu_sync;
@@ -381,6 +384,7 @@ public final class W {
 		public static final int modified_from = R.string.modified_from;
 		public static final int multilogin = R.string.multilogin;
 		public static final int no = R.string.no;
+		public static final int noEntityHelpText = R.string.noEntityHelpText;
 		public static final int ntp_offset_key = R.string.ntp_offset_key;
 		public static final int ntp_offset_title = R.string.ntp_offset_title;
 		public static final int ntp_server_key = R.string.ntp_server_key;
