@@ -83,17 +83,17 @@
 		The demonstration IS illustrates most of the field types that can be defined in the data model.
 		Each field type has its specific default validation rules and present a specific adapted widget in the application user interfaces.
 		
-		* '*Text*' field: Enables to enter textual data (Example: 'Name' field of the 'Patient' form).
-		* '*Integer*' field: Enables to enter integer numeric values (Example: 'Age' field of the 'Patient' form). If the entered value is not an integer, an error message is displayed. (A non illustrated Float field enables to manage float values)
-		* '*Date*' field: Enables to enter dates (Example: 'Report Date' field of the 'Case Declaration' form). If the entered value is not a date, an error message is displayed. (A non illustrated Time field enables to manage time values)
-		* '*List*' field with *one choice* only: Enables to select one value among a fixed list of values  (Example: 'Gender' field of the 'Patient' form).
-		* '*List*' field with *multiple choices*: Enables to select one or several values among a fixed list of values  (Example: 'Symptoms' field of the 'Case Declaration' form).
-		* '*Yes/No*' field: Enables to select a value between 'yes' or 'no' (Example: 'Treatment given' field of the 'Case Declaration' form).
-		* '*Photo*' field: Enables to attach a photo to a form (Example: 'Photo' field of the 'Patient' form). Using the Android application, this type of field calls the terminal camera so that the user can take a picture that will be automatically attached to the form.
-		* '*Video*' field: Enables to attach a video to a form (Example: 'Video' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal camera so that the user can make a video that will be automatically attached to the form.
-		* '*Sound*' field: Enables to attach an audio file to a form (Example: 'Audio comment' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal sound recorder so that the user can record a sound that will be automatically attached to the form.
-		* '*Geographic coordinates*' field: Enables to affect geographical coordinates to a form (Example: 'Geographic coordinates' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.
-		* '*Relation*' field: Enables to affect one or more entry of one form to another form (see the Sub form part).
+			* '*Text*' field: Enables to enter textual data (Example: 'Name' field of the 'Patient' form).
+			* '*Integer*' field: Enables to enter integer numeric values (Example: 'Age' field of the 'Patient' form). If the entered value is not an integer, an error message is displayed. (A non illustrated Float field enables to manage float values)
+			* '*Date*' field: Enables to enter dates (Example: 'Report Date' field of the 'Case Declaration' form). If the entered value is not a date, an error message is displayed. (A non illustrated Time field enables to manage time values)
+			* '*List*' field with *one choice* only: Enables to select one value among a fixed list of values  (Example: 'Gender' field of the 'Patient' form).
+			* '*List*' field with *multiple choices*: Enables to select one or several values among a fixed list of values  (Example: 'Symptoms' field of the 'Case Declaration' form).
+			* '*Yes/No*' field: Enables to select a value between 'yes' or 'no' (Example: 'Treatment given' field of the 'Case Declaration' form).
+			* '*Photo*' field: Enables to attach a photo to a form (Example: 'Photo' field of the 'Patient' form). Using the Android application, this type of field calls the terminal camera so that the user can take a picture that will be automatically attached to the form.
+			* '*Video*' field: Enables to attach a video to a form (Example: 'Video' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal camera so that the user can make a video that will be automatically attached to the form.
+			* '*Sound*' field: Enables to attach an audio file to a form (Example: 'Audio comment' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal sound recorder so that the user can record a sound that will be automatically attached to the form.
+			* '*Geographic coordinates*' field: Enables to affect geographical coordinates to a form (Example: 'Geographic coordinates' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.
+			* '*Relation*' field: Enables to affect one or more entry of one form to another form (see the Sub form part).
 		
 		Are also illustrated an 'Address' field, a 'Phone' field and an 'Email' field.
 		
@@ -176,8 +176,8 @@
 		=== Data filtering ===
 
 		Imogene enables to define 2 types of data filtering:
-		* One is defined by the system administrator. He will define what entry groups a given user will have access to or not (for instance, he could define that a given user has only access to the case declarations that are part of Province A and B).
-		* One is defined by the user himself from the mobile terminal. Among the entries he is allowed to access, he can choose to download on the terminal only a subset of these entries (He has acess to teh case declarations of Province A and B, but he will define that he will only download on his mobile terminal the case declarations of Province A).
+			* One is defined by the system administrator. He will define what entry groups a given user will have access to or not (for instance, he could define that a given user has only access to the case declarations that are part of Province A and B).
+			* One is defined by the user himself from the mobile terminal. Among the entries he is allowed to access, he can choose to download on the terminal only a subset of these entries (He has acess to teh case declarations of Province A and B, but he will define that he will only download on his mobile terminal the case declarations of Province A).
 		
 		
 = Android application User guide =		
