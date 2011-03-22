@@ -174,12 +174,10 @@
 = Not demonstrated features =
 		
 		=== Data filtering ===
-		
-		The Imogene data filtering capabilities are not demonstrated in the Demonstration IS.
-		
-		Imogene enables to define 2 types of data filtering.
-		One is defined by the system administrator. He will define what entry groups a given user will have access to or not (for instance, he could define that a given user has only access to the case declarations that are part of Province A and B).
-		One is defined by the user himself from the mobile terminal. Among the entries he is allowed to access, he can choose to download on the terminal only a subset of these entries (He has acess to teh case declarations of Province A and B, but he will define that he will only download on his mobile terminal the case declarations of Province A).
+
+		Imogene enables to define 2 types of data filtering:
+		* One is defined by the system administrator. He will define what entry groups a given user will have access to or not (for instance, he could define that a given user has only access to the case declarations that are part of Province A and B).
+		* One is defined by the user himself from the mobile terminal. Among the entries he is allowed to access, he can choose to download on the terminal only a subset of these entries (He has acess to teh case declarations of Province A and B, but he will define that he will only download on his mobile terminal the case declarations of Province A).
 		
 		
 = Android application User guide =		
