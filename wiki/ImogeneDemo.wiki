@@ -177,7 +177,6 @@
 		
 		
 = Android application User guide =		
-
 		A document explaining how to use the Android application and how to synchronize data between the mobile terminal and the central server can be downloaded [http://code.google.com/p/imogene/downloads/detail?name=ImogeneAndroidApplicationUserGuide.pdf&can=2&q=#makechanges here]. 
 							
 
