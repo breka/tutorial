@@ -1,5 +1,5 @@
 #summary A demo to show the functionalities of an Information System that is generated with Imogene
-#labels Modeling,Generation,Demo
+#labels Modeling,Generation,Demo,Web,Android,Synchronization
 
 <wiki:toc max_depth="3" />
 
@@ -83,17 +83,17 @@
 		The demonstration IS illustrates most of the field types that can be defined in the data model.
 		Each field type has its specific default validation rules and present a specific adapted widget in the application user interfaces.
 		
-		* 'Text' field: Enables to enter textual data (Example: 'Name' field of the 'Patient' form).
-		* 'Integer' field: Enables to enter integer numeric values (Example: 'Age' field of the 'Patient' form). If the entered value is not an integer, an error message is displayed. (A non illustrated Float field enables to manage float values)
-		* 'Date' field: Enables to enter dates (Example: 'Report Date' field of the 'Case Declaration' form). If the entered value is not a date, an error message is displayed. (A non illustrated Time field enables to manage time values)
-		* 'List' field with one choice only: Enables to select one value among a fixed list of values  (Example: 'Gender' field of the 'Patient' form).
-		* 'List' field with multiple choices: Enables to select one or several values among a fixed list of values  (Example: 'Symptoms' field of the 'Case Declaration' form).
-		* 'Yes/No' field: Enables to select a value between 'yes' or 'no' (Example: 'Treatment given' field of the 'Case Declaration' form).
-		* 'Photo' field: Enables to attach a photo to a form (Example: 'Photo' field of the 'Patient' form). Using the Android application, this type of field calls the terminal camera so that the user can take a picture that will be automatically attached to the form.
-		* 'Video' field: Enables to attach a video to a form (Example: 'Video' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal camera so that the user can make a video that will be automatically attached to the form.
-		* 'Sound' field: Enables to attach an audio file to a form (Example: 'Audio comment' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal sound recorder so that the user can record a sound that will be automatically attached to the form.
-		* 'Geographic coordinates' field: Enables to affect geographical coordinates to a form (Example: 'Geographic coordinates' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.
-		* 'Relation' field: Enables to affect one or more entry of one form to another form (see the Sub form part).
+		* '*Text*' field: Enables to enter textual data (Example: 'Name' field of the 'Patient' form).
+		* '*Integer*' field: Enables to enter integer numeric values (Example: 'Age' field of the 'Patient' form). If the entered value is not an integer, an error message is displayed. (A non illustrated Float field enables to manage float values)
+		* '*Date*' field: Enables to enter dates (Example: 'Report Date' field of the 'Case Declaration' form). If the entered value is not a date, an error message is displayed. (A non illustrated Time field enables to manage time values)
+		* '*List*' field with *one choice* only: Enables to select one value among a fixed list of values  (Example: 'Gender' field of the 'Patient' form).
+		* '*List*' field with *multiple choices*: Enables to select one or several values among a fixed list of values  (Example: 'Symptoms' field of the 'Case Declaration' form).
+		* '*Yes/No*' field: Enables to select a value between 'yes' or 'no' (Example: 'Treatment given' field of the 'Case Declaration' form).
+		* '*Photo*' field: Enables to attach a photo to a form (Example: 'Photo' field of the 'Patient' form). Using the Android application, this type of field calls the terminal camera so that the user can take a picture that will be automatically attached to the form.
+		* '*Video*' field: Enables to attach a video to a form (Example: 'Video' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal camera so that the user can make a video that will be automatically attached to the form.
+		* '*Sound*' field: Enables to attach an audio file to a form (Example: 'Audio comment' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal sound recorder so that the user can record a sound that will be automatically attached to the form.
+		* '*Geographic coordinates*' field: Enables to affect geographical coordinates to a form (Example: 'Geographic coordinates' field of the 'Case Declaration' form). Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.
+		* '*Relation*' field: Enables to affect one or more entry of one form to another form (see the Sub form part).
 		
 		Are also illustrated an 'Address' field, a 'Phone' field and an 'Email' field.
 		
@@ -173,6 +173,6 @@
 		
 = Android application User guide =		
 
-		A document explaining how to use the Android application can be downloaded [http://code.google.com/p/imogene/downloads/detail?name=ImogeneAndroidApplicationUserGuide.pdf&can=2&q=#makechanges here]. 
+		A document explaining how to use the Android application and how to synchronize data between the mobile terminal and the central server can be downloaded [http://code.google.com/p/imogene/downloads/detail?name=ImogeneAndroidApplicationUserGuide.pdf&can=2&q=#makechanges here]. 
 							
 
