@@ -78,7 +78,7 @@
 
 = Demonstrated features =
 
-		==== Field types ====
+		=== Field types ===
 		
 		The demonstration IS illustrates most of the field types that can be defined in the data model.
 		Each field type has its specific default validation rules and present a specific adapted widget in the application user interfaces.
@@ -97,7 +97,7 @@
 		
 		Are also illustrated an 'Address' field, a 'Phone' field and an 'Email' field.
 		
-		==== Sub forms ====
+		=== Sub forms ===
 		
 		Called 'Relation' fields in the modeling, they enable to affect one or more entry of one form to another form. This feature enables to define sophisticated and meaningful data models.
 		The modeling process enables to define if the user can affect one entry of a sub form, or if he can affect several entries.		
@@ -112,7 +112,7 @@
 		In the demo application, this is illustrated by the 'Country', 'Region' and 'Province' forms.
 		This enables to avoid multiple entries of data that can be a source of error. Having a 'Province' form, for instance, enables that several forms references the same Province entry instead of typing several times the Province name.
 			
-		==== Standard and custom field validation ====
+		=== Standard and custom field validation ===
 		
 		Field validation can be managed at different levels during the modeling process.
 		
@@ -123,23 +123,23 @@
 		
 		Finally, very customized validation rules can be defined for 'Text' fields. This is illustrated by the 'Unique ID' field of the 'Patient' form whose value must be made of 2 letters and 2 digits. 
 		
-		==== Default values ====
+		=== Default values ===
 		
 		Default values can be defined for some field types. This is illustrated by the 'Report date' field of the 'Case Declaration' form whose whose default value is the current date. 
 				
-		==== Conditional field access ====
+		=== Conditional field access ===
 		
 		The access to a field can be conditioned by the value of another field. This feature makes the forms easier to read and facilitates the navigation inside the form since it enables to hide the fields that are not relevant for a given entry.
 		
 		This feature is illustrated by the 'Multimedia data' field of the 'Case Declaration' form. If its value is set to 'No', no additional field is displayed. If set to 'Yes', 3 additional fields become visible in the form.
 		It is also illustrated by the 'Symptoms' field of the 'Case Declaration' form. If the 'Other' value is selected, an additional text field is displayed so that the user can precise the name of the other symptom.
 			
-		==== Hierarchical lists ====
+		=== Hierarchical lists ===
 		
 		Using 'Relation' fields as dynamic lists, it is possible to define that the entries available for selection of one list will depend on the selected value of another list.
 		This feature is illustrated by the 'Country', 'Region' and 'Province' fields of the 'Case Declaration' form. The entries available for selection of the 'Region' list depend on the value that is selected in the 'Country' list. And the entries available for selection of the 'Province' list depend on the value that is selected in the 'Region' list.
 		
-		==== User privilege management ====
+		=== User privilege management ===
 		
 		Each user that will connect an application has its own login/password and its own affected privileges. These privileges define what forms he can create and access and what form fields he can read and write.
 		
@@ -148,31 +148,32 @@
 		* The 'Investigator' user type has access to all the data in read and write mode except for the lookup tables (Country, Region, Province). He can affect the entries of these look up tables to other forms but he can not create or update the entries.		
 		* The 'Public User' user type has access to the data only in read mode and some confidential data are hidden to him. This confidential data is all the data that concern the Patient. Thus, he has no access to the patient entries and within the 'Case Declaration' form, the 'Patient' field is not displayed.		
 		
-		==== Internationalization ====
+		=== Internationalization ===
 		
 		The applications are internationalized. By default, the application displays the texts of the locale that is defined for the Web browser or the Android terminal. For the Web application, the locale can be changed in the login page. For the Android application, it can be changed in the terminal preferences.
 		
 		All the user interface texts are available in the languages that have been defined during the modeling process.
 		In the modeling, the text fields can be set as translatable. This will enable the user to enter text in several languages. This is illustrated by the 'Name' field of the 'Country' form. The country names can be entered in the languages that have been defined during the modeling process.
 		
-		==== Photo/Video/Sound acquisition ====	
+		=== Photo/Video/Sound acquisition ===	
 		
 		* 'Photo' field of the 'Patient' form. Using the Android application, this type of field calls the terminal camera so that the user can take a picture that will be automatically attached to the form.		
 		* 'Video' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal camera so that the user can make a video that will be automatically attached to the form.
 		* 'Audio comment' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal sound recorder so that the user can record a sound that will be automatically attached to the form.
 		
-		==== Geographical coordinates acquisition ====
+		=== Geographical coordinates acquisition ===
 
 		* 'Geographic coordinates' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.
 		It also enables to display the georeferences entries on a map.
 		
-		==== Bidirectional data synchronization ====
+		=== Bidirectional data synchronization ===
 		
 		Using the demonstration Android application, the user can download entries from the central server to the mobile terminal. He can also create or update and entry on the terminal and upload it to the central server
 		
-		==== Data filtering ====
+		=== Data filtering ===
 		
-		The Imogene data filtering capabilities are not presented in the Demonstration IS.
+		The Imogene data filtering capabilities are not demonstrated in the Demonstration IS.
+		
 		Imogene enables to define 2 types of data filtering.
 		One is defined by the system administrator. He will define what entry groups a given user will have access to or not (for instance, he could define that a given user has only access to the case declarations that are part of Province A and B).
 		One is defined by the user himself from the mobile terminal. Among the entries he is allowed to access, he can choose to download on the terminal only a subset of these entries (He has acess to teh case declarations of Province A and B, but he will define that he will only download on his mobile terminal the case declarations of Province A).
