@@ -36,11 +36,9 @@ public class IntentUtils {
 	
 	public static final Intent createShowOnMapIntent(Location location) {
 		if (location != null) {
-			float lat = Double.valueOf(location.getLatitude()).floatValue();
-			float lon = Double.valueOf(location.getLongitude()).floatValue();
 			Intent intent = new Intent(Intents.ACTION_SHOW_ON_MAP);
-			intent.putExtra(Extras.EXTRA_LATITUDE, lat);
-			intent.putExtra(Extras.EXTRA_LONGITUDE, lon);
+			intent.putExtra(Extras.EXTRA_LATITUDE, location.getLatitude());
+			intent.putExtra(Extras.EXTRA_LONGITUDE, location.getLongitude());
 			return intent;
 		} else {
 			return null;
@@ -62,11 +60,9 @@ public class IntentUtils {
 	
 	public static final Intent createShowRadarIntent(Location location) {
 		if (location != null) {
-			float lat = Double.valueOf(location.getLatitude()).floatValue();
-			float lon = Double.valueOf(location.getLongitude()).floatValue();
 			Intent intent = new Intent(Intents.ACTION_SHOW_RADAR);
-			intent.putExtra(Extras.EXTRA_LATITUDE, lat);
-			intent.putExtra(Extras.EXTRA_LONGITUDE, lon);
+			intent.putExtra(Extras.EXTRA_LATITUDE, location.getLatitude());
+			intent.putExtra(Extras.EXTRA_LONGITUDE, location.getLongitude());
 			return intent;
 		} else {
 			return null;
@@ -75,8 +71,8 @@ public class IntentUtils {
 	
 	public static final Intent createNavigateToIntent(Location location) {
 		if (location != null) {
-			float lat = Double.valueOf(location.getLatitude()).floatValue();
-			float lon = Double.valueOf(location.getLongitude()).floatValue();
+			double lat = location.getLatitude();
+			double lon = location.getLongitude();
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + lat + "," + lon));
 			return intent;
 		} else {
