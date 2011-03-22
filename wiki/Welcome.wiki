@@ -1,3 +1,8 @@
+#summary Welcome to imogene
+#labels Modeling,Generation,MDA,Android
+
+<wiki:toc max_depth="2" />
+
 = Welcome to imogene =
 
 	_*imogene*_ is an Open Source *Rapid Application Development Studio* for Data Collection Information Systems.
@@ -40,6 +45,7 @@
         * Find out HowToInstall the studio
         * Find out HowToUse the studio 
         * Check the ImogeneFaq
+        * Try the ImogeneDemo application
 
 = Contact =        
         
