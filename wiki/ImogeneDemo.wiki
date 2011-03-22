@@ -48,28 +48,25 @@
 		
 		3 different users with different user privileges have been defined in the system.
 		
-		==== System Administrator ====
-		
-		* login: sysadmin
-		* password: sysadmin
+		==== System Administrator ====		
+			* login: sysadmin
+			* password: sysadmin
 		
 		This type of user would be the system administrator.
 		He would use only the web application for data management.
 		He has access to all the data in read and write mode. He can build the lookup tables that the other users will use while collecting data.
 	
 		==== Investigator ====
-		
-		* login: investigator
-		* password: investigator
+			* login: investigator
+			* password: investigator
 		
 		This type of user would be the staff that goes on the field to collect data in mobility situation.
 		He would use the Android application when he is on the field of operation. He could use also the web application to check or complete data.
 		He has access to all the data in read and write mode except for the lookup tables.
 		
 		==== Public User ====
-		
-		* login: readonly
-		* password: readonly
+			* login: readonly
+			* password: readonly
 		
 		This type of user would be the persons who need to access the data to be able to perform analysis but who should not modify it.
 		He would use mainly the web application for data access. He could also use the Android application to access the data in mobility situation.
