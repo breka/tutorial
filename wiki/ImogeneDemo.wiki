@@ -76,7 +76,7 @@
 		He has access to the data only in read mode and some confidential data are hidden to him.	
 	
 
-= Illustrated features =
+= Demonstrated features =
 
 		==== Field types ====
 		
@@ -163,11 +163,16 @@
 		
 		==== Geographical coordinates acquisition ====
 
-		* 'Geographic coordinates' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.	
+		* 'Geographic coordinates' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.
+		It also enables to display the georeferences entries on a map.
 		
 		==== Bidirectional data synchronization ====
 		
-			
+		Using the demonstration Android application, the user can download entries from the central server to the mobile terminal. He can also create or update and entry on the terminal and upload it to the central server
 		
-= Android application User guide =							
+		
+= Android application User guide =		
+
+		A document explaining how to use the Android application can be downloaded [http://code.google.com/p/imogene/downloads/detail?name=ImogeneAndroidApplicationUserGuide.pdf&can=2&q=#makechanges here]. 
+							
 
