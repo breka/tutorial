@@ -82,7 +82,6 @@
 		
 		The demonstration IS illustrates most of the field types that can be defined in the data model.
 		Each field type has its specific default validation rules and present a specific adapted widget in the application user interfaces.
-		
 			* '*Text*' field: Enables to enter textual data (Example: 'Name' field of the 'Patient' form).
 			* '*Integer*' field: Enables to enter integer numeric values (Example: 'Age' field of the 'Patient' form). If the entered value is not an integer, an error message is displayed. (A non illustrated Float field enables to manage float values)
 			* '*Date*' field: Enables to enter dates (Example: 'Report Date' field of the 'Case Declaration' form). If the entered value is not a date, an error message is displayed. (A non illustrated Time field enables to manage time values)
@@ -143,11 +142,11 @@
 		
 		Each user that will connect an application has its own login/password and its own affected privileges. These privileges define what forms he can create and access and what form fields he can read and write.
 		
-		This is illustrated by the 3 users types that can connect the demo applications.	
-		* The 'System administrator' user type has access to all the data in read and write mode. He can build the lookup tables (Country, Region, Province) that the other users will use while collecting data.
-		* The 'Investigator' user type has access to all the data in read and write mode except for the lookup tables (Country, Region, Province). He can affect the entries of these look up tables to other forms but he can not create or update the entries.		
-		* The 'Public User' user type has access to the data only in read mode and some confidential data are hidden to him. This confidential data is all the data that concern the Patient. Thus, he has no access to the patient entries and within the 'Case Declaration' form, the 'Patient' field is not displayed.		
-		
+		This is illustrated by the 3 users types that can connect the demo applications:	
+			* The 'System administrator' user type has access to all the data in read and write mode. He can build the lookup tables (Country, Region, Province) that the other users will use while collecting data.
+			* The 'Investigator' user type has access to all the data in read and write mode except for the lookup tables (Country, Region, Province). He can affect the entries of these look up tables to other forms but he can not create or update the entries.		
+			* The 'Public User' user type has access to the data only in read mode and some confidential data are hidden to him. This confidential data is all the data that concern the Patient. Thus, he has no access to the patient entries and within the 'Case Declaration' form, the 'Patient' field is not displayed.		
+			
 		=== Internationalization ===
 		
 		The applications are internationalized. By default, the application displays the texts of the locale that is defined for the Web browser or the Android terminal. For the Web application, the locale can be changed in the login page. For the Android application, it can be changed in the terminal preferences.
@@ -157,14 +156,14 @@
 		
 		=== Photo/Video/Sound acquisition ===	
 		
-		* 'Photo' field of the 'Patient' form. Using the Android application, this type of field calls the terminal camera so that the user can take a picture that will be automatically attached to the form.		
-		* 'Video' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal camera so that the user can make a video that will be automatically attached to the form.
-		* 'Audio comment' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal sound recorder so that the user can record a sound that will be automatically attached to the form.
+			* 'Photo' field of the 'Patient' form. Using the Android application, this type of field calls the terminal camera so that the user can take a picture that will be automatically attached to the form.		
+			* 'Video' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal camera so that the user can make a video that will be automatically attached to the form.
+			* 'Audio comment' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal sound recorder so that the user can record a sound that will be automatically attached to the form.
 		
 		=== Geographical coordinates acquisition ===
 
-		* 'Geographic coordinates' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.
-		It also enables to display the georeferences entries on a map.
+			* 'Geographic coordinates' field of the 'Case Declaration' form. Using the Android application, this type of field calls the terminal GPS receiver that will automatically capture and affect the terminal GPS position to the field.
+			It also enables to display the georeferences entries on a map.
 		
 		=== Bidirectional data synchronization ===
 		
