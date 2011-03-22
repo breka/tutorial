@@ -30,7 +30,7 @@ public final class Constants {
 		public static final String ACTION_RM_DATABASE = "org.imogene.android.%realProjectName%.action.RM_DATABASE";
 		
 		/* Outside intents */
-		public static final String ACTION_SHOW_RADAR = "com.google.android.radar.SHOW_RADAR";
+		public static final String ACTION_SHOW_RADAR = "org.imogene.radar.SHOW_RADAR";
 		
 		public static final String ACTION_CAPTURE_GPS = "org.imogene.map.action.CAPTURE_GPS";
 
