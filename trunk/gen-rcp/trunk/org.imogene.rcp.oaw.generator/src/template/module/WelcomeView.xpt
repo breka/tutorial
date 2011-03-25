@@ -138,7 +138,8 @@ public class WelcomeView extends ViewPart {
 		for (String tema:temaContent.keySet()) {
 			List<EntityInfo> securedEntities = new ArrayList<EntityInfo>();
 			for (EntityInfo entity:temaContent.get(tema)) {			
-				if (AccessManager.canReadForm(entity.getName().toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles()))
+				if (AccessManager.canDirectAccessForm(entity.getName().toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles())
+					&& AccessManager.canReadForm(entity.getName().toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles()))
 					securedEntities.add(entity);
 			}
 			if (securedEntities.size()>0)
@@ -257,7 +258,8 @@ public class WelcomeView extends ViewPart {
 			}
 		});
 		
-		if (AccessManager.canEditForm(name.toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles())) {
+		if (AccessManager.canCreateForm(name.toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles()) 
+			&&   AccessManager.canEditForm(name.toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles())) {
 
 			/* link to create a new entity */
 			Hyperlink createLink = toolkit.createHyperlink(sectionClient,

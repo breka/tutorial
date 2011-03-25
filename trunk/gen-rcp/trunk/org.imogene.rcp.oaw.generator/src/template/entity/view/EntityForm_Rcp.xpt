@@ -1120,57 +1120,60 @@ if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
 «DEFINE setAddButtonForRelationField FOR FieldEntity-»«ENDDEFINE»
 «DEFINE setAddButtonForRelationField FOR RelationFieldEntity-»«ENDDEFINE»
 «DEFINE setAddButtonForRelationField FOR MainRelationFieldEntity-»
-		// add create button for related entity
-		«name.toFirstLower()»Field.getValueControl().addCreateRelationEntityButton(new MouseAdapter(){
-			public void mouseUp(MouseEvent e) {
-				
-				«IF this.oppositeRelationField!=null && this.oppositeRelationField.cardinality == 1-»
-				if (!isNew) {
-				«ENDIF-»
-					if (embedded != null) {
-						try {			
-							ImogPlugin plugin = ImogPlugin.getDefault();
-							
-							IWorkbenchPage page = plugin.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-							IViewPart lview = page.showView(«this.entity.name.toFirstUpper()»RcpForm.ID, UUID.randomUUID().toString(), IWorkbenchPage.VIEW_ACTIVATE);
-							«this.entity.name» relatedEntity = new «this.entity.name»();
-										
-							«REM» oppositeRelationField initialization «ENDREM»				
-							«IF this.oppositeRelationField!=null-»
-								«IF this.oppositeRelationField.cardinality == 1-»
-							// Instanciate opposite relationfield in related Entity Bean
-							relatedEntity.«EXPAND template::CommonFieldUtil::setterName FOR this.oppositeRelationField-»(embedded);
+		if (AccessManager.canCreateForm("«this.entity.name.toLowerCase()»", ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles()) 
+			&&   AccessManager.canEditForm("«this.entity.name.toLowerCase()»", ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles())) {	
+			// add create button for related entity
+			«name.toFirstLower()»Field.getValueControl().addCreateRelationEntityButton(new MouseAdapter(){
+				public void mouseUp(MouseEvent e) {
+					
+					«IF this.oppositeRelationField!=null && this.oppositeRelationField.cardinality == 1-»
+					if (!isNew) {
+					«ENDIF-»
+						if (embedded != null) {
+							try {			
+								ImogPlugin plugin = ImogPlugin.getDefault();
+								
+								IWorkbenchPage page = plugin.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+								IViewPart lview = page.showView(«this.entity.name.toFirstUpper()»RcpForm.ID, UUID.randomUUID().toString(), IWorkbenchPage.VIEW_ACTIVATE);
+								«this.entity.name» relatedEntity = new «this.entity.name»();
+											
+								«REM» oppositeRelationField initialization «ENDREM»				
+								«IF this.oppositeRelationField!=null-»
+									«IF this.oppositeRelationField.cardinality == 1-»
+								// Instanciate opposite relationfield in related Entity Bean
+								relatedEntity.«EXPAND template::CommonFieldUtil::setterName FOR this.oppositeRelationField-»(embedded);
+									«ENDIF-»
+								«ENDIF-»	
+														
+								«REM» commonFields initialization «ENDREM»	
+								«IF !this.commonFields.isEmpty && (modulo(this.commonFields.size+2,2)==0)-»
+								// Instanciate common fields in related Entity Bean
+								«FOREACH this.commonFields AS cf ITERATOR iter-»
+									«IF (modulo(iter.counter0+2,2)==0) && iter.counter0<=(commonFields.size-2)-»
+										«EXPAND instanciateInRelationEntity(commonFields.get(iter.counter0),commonFields.get(iter.counter0+1)) FOR this-»
+									«ENDIF-»
+								«ENDFOREACH-»
+	
 								«ENDIF-»
-							«ENDIF-»	
-													
-							«REM» commonFields initialization «ENDREM»	
-							«IF !this.commonFields.isEmpty && (modulo(this.commonFields.size+2,2)==0)-»
-							// Instanciate common fields in related Entity Bean
-							«FOREACH this.commonFields AS cf ITERATOR iter-»
-								«IF (modulo(iter.counter0+2,2)==0) && iter.counter0<=(commonFields.size-2)-»
-									«EXPAND instanciateInRelationEntity(commonFields.get(iter.counter0),commonFields.get(iter.counter0+1)) FOR this-»
-								«ENDIF-»
-							«ENDFOREACH-»
-
-							«ENDIF-»
-							
-							«this.entity.name.toFirstUpper()»RcpForm relatedForm = («this.entity.name.toFirstUpper()»RcpForm) lview;
-							relatedForm.initializeForm(relatedEntity);
-							relatedForm.addListener(new «this.name.toFirstUpper()»Listener());					
-							
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}																
-					}	
-				«IF this.oppositeRelationField!=null && this.oppositeRelationField.cardinality == 1-»					
+								
+								«this.entity.name.toFirstUpper()»RcpForm relatedForm = («this.entity.name.toFirstUpper()»RcpForm) lview;
+								relatedForm.initializeForm(relatedEntity);
+								relatedForm.addListener(new «this.name.toFirstUpper()»Listener());					
+								
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}																
+						}	
+					«IF this.oppositeRelationField!=null && this.oppositeRelationField.cardinality == 1-»					
+					}
+					else {
+						MessageDialog.openInformation(
+								Display.getCurrent().getActiveShell(), Messages.getString("form_warning_popup_title"), Messages.getString("form_save_popup_text"));
+					}
+					«ENDIF-»
 				}
-				else {
-					MessageDialog.openInformation(
-							Display.getCurrent().getActiveShell(), Messages.getString("form_warning_popup_title"), Messages.getString("form_save_popup_text"));
-				}
-				«ENDIF-»
-			}
-		});
+			});
+		}
 «ENDDEFINE»
 «REM» --------------------------------------------------------------------------- «ENDREM»
 
