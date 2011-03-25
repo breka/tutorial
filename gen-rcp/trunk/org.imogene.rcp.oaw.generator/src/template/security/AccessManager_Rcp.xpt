@@ -15,8 +15,23 @@ import java.util.Set;
 public class AccessManager {
 	
 	«FOREACH entities AS e-»
+		/* '«e.name»' entity */	
+		public static Set<String> «e.name.toFirstLower()»Creator = new HashSet<String>();
+		static{
+			«FOREACH e.creators AS c-»
+				«e.name.toFirstLower()»Creator.add("«c.name»");
+			«ENDFOREACH-»
+		}
+		
+		public static Set<String> «e.name.toFirstLower()»DirectAccess = new HashSet<String>();
+		static{
+			«FOREACH e.directAccess AS da-»
+				«e.name.toFirstLower()»DirectAccess.add("«da.name»");
+			«ENDFOREACH-»
+		}	
+		
 		«FOREACH e.groups AS g-»
-		/* «e.name» «g.name» */
+		/* '«e.name»' entity: '«g.name»' field group */
 		public static Set<String> «e.name.toFirstLower()»«g.name.toFirstUpper()»Reader = new HashSet<String>();
 		static{
 			«FOREACH g.readers AS r-»
@@ -66,6 +81,49 @@ public class AccessManager {
 		«ENDFOREACH»
 		return false;
 	}
+	
+	public static boolean canCreateForm(String formName, Set<String> roles){
+		if(isAdmin(roles))
+			return true;
+		«FOREACH entities AS e-»
+		if("«e.name.toLowerCase()»".equals(formName)){
+			if(«e.name.toFirstLower()»Creator.size()==0)
+				return true;
+			else {
+				for(String role : roles){
+					if(«e.name.toFirstLower()»Creator.contains(role))
+						return true;					
+				}				
+			}
+			return false;
+		}			
+		«ENDFOREACH»
+		return false;
+	}	
+	
+	public static boolean canDirectAccessForm(String formName, Set<String> roles){
+		if(isAdmin(roles))
+			return true;
+		«FOREACH entities AS e-»
+		if("«e.name.toLowerCase()»".equals(formName)){
+			if(«e.name.toFirstLower()»DirectAccess.size()==0)
+				«IF e.topLevel-»
+				return true;
+				«ELSE-»
+				return false;
+				«ENDIF-»
+			else {
+				for(String role : roles){
+					if(«e.name.toFirstLower()»DirectAccess.contains(role))
+						return true;					
+				}				
+			}
+			return false;
+		}			
+		«ENDFOREACH»
+		return false;
+	}
+	
 	
 	public static boolean canReadGroup(String groupName, Set<String> roles){
 		if(isAdmin(roles) || isGroupReadNotSecured(groupName))
