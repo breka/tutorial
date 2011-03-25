@@ -391,7 +391,7 @@ public class ImogPlugin extends AbstractUIPlugin {
 	 */
 	private void initDatabase(){
 		dbConfig = new Configuration();
-		dbConfig.setProperty("hibernate.show_sql", "true");
+		dbConfig.setProperty("hibernate.show_sql", "false");
 		dbConfig.setProperty("hibernate.format_sql", "true");
 		dbConfig.setProperty("hibernate.dialect", "org.imogene.sync.client.dao.sqlite.SQLiteDialect");
 		dbConfig.setProperty("hibernate.connection.driver_class", "org.sqlite.JDBC");		
