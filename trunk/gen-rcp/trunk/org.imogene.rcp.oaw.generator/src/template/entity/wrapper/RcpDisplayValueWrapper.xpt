@@ -70,7 +70,7 @@ public class DisplayValueWrapper {
 		String value = new String();
 
 		«IF !(e.mainFields==null) && !e.mainFields.isEmpty-»
-		«FOREACH e.mainFields.addAll(e.secondaryFields) AS f-»
+		«FOREACH e.mainFields AS f-»
 			«EXPAND stringRepresentation FOR f-»
 		«ENDFOREACH-»				
 		«ELSE-»
@@ -88,7 +88,7 @@ public class DisplayValueWrapper {
 		String value = new String();
 		 
 		«IF !(e.mainFields==null) && !e.mainFields.isEmpty-»
-		«FOREACH e.mainFields.addAll(e.secondaryFields) AS f-»
+		«FOREACH e.mainFields AS f-»
 			«EXPAND stringRepresentation FOR f-»
 		«ENDFOREACH-»				
 		«ELSE-»
