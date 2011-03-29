@@ -154,7 +154,7 @@ public class MultiRelationCombo extends Composite {
 				}
 			}
 		});
-		getParent().layout(true,true);
+		getParent().getParent().layout(true,true);
 	}
 	
 	
