@@ -703,14 +703,14 @@ if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
 	«IF cardinality == 1-»
 	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»((«entity.name.toFirstUpper()»)«name.toFirstLower()»Field.getValueControl().getSelected());
 	«ELSE-»
-		«IF getOppositeCardinality(this)==1-»
-		«ELSE-»
+		«REM»«IF getOppositeCardinality(this)==1-»
+		«ELSE-»«ENDREM»
 	Set<«entity.name»> «this.name.toFirstLower()» = new HashSet<«entity.name»>();
 	for(Synchronizable entity:«name.toFirstLower()»Field.getValueControl().getSelected()) {
 		«this.name.toFirstLower()».add((«entity.name»)entity);
 	}	
 	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«this.name.toFirstLower()»);	
-		«ENDIF-»
+		«REM»«ENDIF-»«ENDREM»
 	«ENDIF-»	
 «ENDDEFINE»
 «DEFINE saveField FOR EnumField-»
@@ -1127,7 +1127,7 @@ if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
 				public void mouseUp(MouseEvent e) {
 					
 					«IF this.oppositeRelationField!=null && this.oppositeRelationField.cardinality == 1-»
-					if (!isNew) {
+					//if (!isNew) {
 					«ENDIF-»
 						if (embedded != null) {
 							try {			
@@ -1165,11 +1165,11 @@ if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
 							}																
 						}	
 					«IF this.oppositeRelationField!=null && this.oppositeRelationField.cardinality == 1-»					
-					}
-					else {
-						MessageDialog.openInformation(
-								Display.getCurrent().getActiveShell(), Messages.getString("form_warning_popup_title"), Messages.getString("form_save_popup_text"));
-					}
+					//}
+					//else {
+					//	MessageDialog.openInformation(
+					//			Display.getCurrent().getActiveShell(), Messages.getString("form_warning_popup_title"), Messages.getString("form_save_popup_text"));
+					//}
 					«ENDIF-»
 				}
 			});
