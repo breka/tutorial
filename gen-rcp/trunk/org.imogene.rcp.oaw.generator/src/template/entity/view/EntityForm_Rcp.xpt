@@ -1208,7 +1208,7 @@ if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
 «DEFINE instanciateInRelationEntity FOR FieldEntity-»«ENDDEFINE»
 «DEFINE instanciateInRelationEntity FOR ReverseRelationFieldEntity-»«ENDDEFINE»
 «DEFINE instanciateInRelationEntity(RelationFieldEntity rf1, RelationFieldEntity rf2) FOR MainRelationFieldEntity-»
-		if (embedded.«EXPAND template::CommonFieldUtil::getterName FOR rf1-»()!=null)
-			relatedEntity.«EXPAND template::CommonFieldUtil::setterName FOR rf2-»(embedded.«EXPAND template::CommonFieldUtil::getterName FOR rf1-»());
+		if («rf1.name.toFirstLower()»Field.getValueControl().getSelected()!=null)
+			relatedEntity.«EXPAND template::CommonFieldUtil::setterName FOR rf2-»((«rf1.entity.name.toFirstUpper()») «rf1.name.toFirstLower()»Field.getValueControl().getSelected());			
 «ENDDEFINE»
 «REM» --------------------------------------------------------------------------- «ENDREM»
