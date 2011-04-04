@@ -10,7 +10,7 @@
 	To start generating your applications without needing to access the source code, install _*imogene*_ through its update site.
 	
 	The update site gives a screenshot of the studio development status at a given time. 
-	This installation mode is quicker, simpler and needs less configuration.
+	This installation mode needs less configuration.
 	
 	A document explaining how to install _*imogene*_ through its update site can be downloaded [http://code.google.com/p/imogene/downloads/detail?name=ImogeneInstallationViaUpdateSite.pdf&can=2&q=#makechanges here].
 
