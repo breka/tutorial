@@ -6,8 +6,8 @@
 		* [UserExperience Use cases]
 		* [HowToInstall How to install]		
 		* [HowToUse How to use]
-		* [ModelDescription Modeling]
-			* [RelationFieldRules Rules to model relation fields]		
+			* [ModelDescription Modeling]
+				* [RelationFieldRules Rules to model relation fields]		
 		* [ImogeneFaq FAQ]
 		* [ImogeneDemo Demo]
 
