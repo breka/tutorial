@@ -7,14 +7,19 @@
 
 == Without source code ==
 
-	To start generating your applications without needing to access the source code, install _*imogene*_ through its update side.
-	A document explaining how to install _*imogene*_ through its update side can be downloaded [http://code.google.com/p/imogene/downloads/detail?name=ImogeneInstallationViaUpdateSite.pdf&can=2&q=#makechanges here].
+	To start generating your applications without needing to access the source code, install _*imogene*_ through its update site.
+	
+	The update site gives a screenshot of the studio development status at a given time. 
+	This installation mode is quicker, simpler and needs less configuration.
+	
+	A document explaining how to install _*imogene*_ through its update site can be downloaded [http://code.google.com/p/imogene/downloads/detail?name=ImogeneInstallationViaUpdateSite.pdf&can=2&q=#makechanges here].
 
 == With source code ==
 
-	To get the _*imogene*_ source code and generate applications from there, install _*imogene*_ from the source.
+	To get the _*imogene*_ source code, install _*imogene*_ from the source.
+	
 	A document explaining how to install _*imogene*_ from the source can be downloaded [http://code.google.com/p/imogene/downloads/detail?name=ImogeneInstallationFromSources.pdf&can=2&q=#makechanges here].
 	
 = Start using Imogene =
 
-	After the installation is done, find out HowToUse the studio
+	After the installation is done, find out HowToUse the studio.
