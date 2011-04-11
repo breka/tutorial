@@ -803,20 +803,14 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 				«FOREACH commonFields AS c ITERATOR iter-»				
 				«IF (modulo(iter.counter0+2,2)==0) && iter.counter0<=(commonFields.size-2)-»
 					«IF commonFields.get(iter.counter0+1).cardinality==1 && getOppositeCardinality(commonFields.get(iter.counter0+1))==1-»«REM» in related entity, common field is a 1:1 relation «ENDREM»				
-				if(entity!=null && entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»()!=null)
-					form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»());
-				else if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
+				if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
 					form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue());										
 					«ELSE-»
 						«IF commonFields.get(iter.counter0+1).cardinality>1 || commonFields.get(iter.counter0+1).cardinality==-1»
-						if(entity!=null && entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»()!=null)
-							form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»());
-						else if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
+						if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
 							form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue());
 						«ELSE -»
-						if(entity!=null && entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»()!=null)
-							form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»().getId());
-						else if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
+						if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
 							form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue().getId());
 						«ENDIF-»											
 					«ENDIF-»
@@ -1090,20 +1084,14 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 					«FOREACH commonFields AS c ITERATOR iter-»				
 						«IF (modulo(iter.counter0+2,2)==0) && iter.counter0<=(commonFields.size-2)-»
 							«IF commonFields.get(iter.counter0+1).cardinality==1 && getOppositeCardinality(commonFields.get(iter.counter0+1))==1-»«REM» in related entity, common field is a 1:1 relation «ENDREM»						
-						if(entity!=null && entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»()!=null)
-							composite.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»());
-						else if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
+						if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
 							composite.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue());																			
 							«ELSE-»
 								«IF commonFields.get(iter.counter0+1).cardinality>1 || commonFields.get(iter.counter0+1).cardinality==-1»
-								if(entity!=null && entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»()!=null)
-									composite.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»());
-								else if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
+								if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
 									composite.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue());
 								«ELSE -»							
-								if(entity!=null && entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»()!=null)
-									composite.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(entity.«EXPAND template::CommonFieldUtil::getterName FOR commonFields.get(iter.counter0)»().getId());
-								else if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
+								if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
 									composite.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue().getId());
 								«ENDIF-»													
 							«ENDIF-»
