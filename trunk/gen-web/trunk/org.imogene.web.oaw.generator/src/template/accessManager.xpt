@@ -18,8 +18,23 @@ import org.imogene.web.gwt.common.entity.ImogRole;
 public class AccessManager {
 	
 	«FOREACH entities AS e-»
+		/* '«e.name»' entity */
+		public static Set<String> «e.name.toFirstLower()»Creator = new HashSet<String>();
+		static{
+			«FOREACH e.creators AS c-»
+				«e.name.toFirstLower()»Creator.add("«c.name»");
+			«ENDFOREACH-»
+		}
+		
+		public static Set<String> «e.name.toFirstLower()»DirectAccess = new HashSet<String>();
+		static{
+			«FOREACH e.directAccess AS da-»
+				«e.name.toFirstLower()»DirectAccess.add("«da.name»");
+			«ENDFOREACH-»
+		}
+			
 		«FOREACH e.groups AS g-»
-		/* «e.name» «g.name» */
+		/* '«e.name»' entity: '«g.name»' field group */
 		public static Set<String> «e.name.toFirstLower()»«g.name.toFirstUpper()»Reader = new HashSet<String>();
 		static{
 			«FOREACH g.readers AS r-»
@@ -32,19 +47,7 @@ public class AccessManager {
 				«e.name.toFirstLower()»«g.name.toFirstUpper()»Writer.add("«w.name»");
 			«ENDFOREACH-»
 		}	
-		«ENDFOREACH»
-		public static Set<String> «e.name.toFirstLower()»Creator = new HashSet<String>();
-		static{
-			«FOREACH e.creators AS c-»
-				«e.name.toFirstLower()»Creator.add("«c.name»");
-			«ENDFOREACH-»
-		}
-		public static Set<String> «e.name.toFirstLower()»DirectAccess = new HashSet<String>();
-		static{
-			«FOREACH e.directAccess AS da-»
-				«e.name.toFirstLower()»DirectAccess.add("«da.name»");
-			«ENDFOREACH-»
-		}			
+		«ENDFOREACH»			
 	«ENDFOREACH -»	
 	
 
