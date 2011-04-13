@@ -16,11 +16,11 @@
 	
 	More information about the project can be found [http://iap.esa.int/vecmap here] and [http://imogene.googlecode.com/svn/wiki/resources/VECMAP_v4.pdf here].
 		
-== STIPP: Cross border Information System for Risk prevention in the Pyren�es Mountains ==
+== STIPP: Cross border Information System for Risk prevention in the Pyrénées Mountains ==
 	
 	* Timeframe:	2010-2012
-	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi Pyrénées region
-	* Partners:	MEDES, Instituto Technol�gico de Arag�n (ITA), Ayuntamiento de Jaca, R�seau T�l�m�decine R�gional (RTR) de Midi-Pyr�n�es, Services d�urgence aragonais (SALUD 061), �cole Nationale d'Ing�nieurs de TARBES (ENIT), Escuela Universitaria Polit�cnica La Almunia (EUPLA), M�t�o France, Agencia Estatal de Meteorolog�a (AEMet)	
+	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi-Pyrénées region
+	* Partners:	MEDES, Instituto Technológico de Aragón (ITA), Ayuntamiento de Jaca, Réseau Télémédecine Régional (RTR) de Midi-Pyrénées, SALUD 061, Ecole Nationale d'Ingénieurs de TARBES (ENIT), Escuela Universitaria Politécnica La Almunia (EUPLA), Météo France, Agencia Estatal de Meteorología (AEMet)	
 
 	The project aims to contribute to improve risk prevention in the Pyrenees Mountains thanks to the creation of an Information Centre for these risks. 
 	The proposed solutions allows in particular the data collection from the field in real time thanks to mobile applications. 
@@ -31,7 +31,7 @@
 == DIABSAT: Prevention and management of the complications of diabetes ==
 	
 	* Timeframe:	2010-2011
-	* Funding:	Midi-Pyr�n�es region, CNES
+	* Funding:	Midi-Pyrénées region, CNES
 	* Partners:	University Hospital of Toulouse, MEDES, Auvea, Fleuret SA, DIAMIP, ONSIL, IRIT	
 
 	DIABSAT aims to develop and to evaluate new services for health education of diabetic patients and telemedicine supporting tools for the prevention and management of the complications of diabetes. The project has 2 activities where Imogene was used. 
