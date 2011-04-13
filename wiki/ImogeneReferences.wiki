@@ -18,6 +18,7 @@
 	
 	More information about the project can be found [http://iap.esa.int/vecmap here] and [http://imogene.googlecode.com/svn/wiki/resources/VECMAP_v4.pdf here].
 		
+		
 == STIPP: Cross border Information System for Risk prevention in the Pyrénées Mountains ==
 	
 	* Timeframe:	2010-2012
@@ -31,6 +32,7 @@
 	Imogene is used to generate the solution to collect risk prevention related information during mountain activities through mobile terminals.
 	
 	More information about the project can be found [http://www.stipp-project.eu/dnn/Project/tabid/68 here].
+
 
 == DIABSAT: Prevention and management of the complications of diabetes ==
 	
@@ -46,6 +48,7 @@
 
 	More information about the project can be found [http://www.cnes.fr/web/CNES-fr/8362-diabsat-le-projet.php here].
 
+
 == SAFE-Georgia: Satellites for Epidemiology in Georgia ==
 	
 	* Timeframe:	2008-2009
@@ -58,6 +61,7 @@
 	In this project, Imogene was used to generate a Web application that was customized to meet the specific needs of Tuberculosis cases management.
 
 	More information about the project can be found [http://iap.esa.int/news/IAP-SAFE-Project-in-Georgia here].
+	
 	
 == SAFE: Satellites for Epidemiology ==
 	
