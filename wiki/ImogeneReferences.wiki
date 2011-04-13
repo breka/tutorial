@@ -16,11 +16,11 @@
 	
 	More information about the project can be found [http://iap.esa.int/vecmap here] and [http://imogene.googlecode.com/svn/wiki/resources/VECMAP_v4.pdf here].
 		
-== STIPP: Cross border Information System for Risk prevention in the Pyrenées Mountains ==
+== STIPP: Cross border Information System for Risk prevention in the Pyrenï¿½es Mountains ==
 	
 	* Timeframe:	2010-2012
-	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi Pyr&eacute;n&eacute;es region
-	* Partners:	MEDES, Instituto Technológico de Aragón (ITA), Ayuntamiento de Jaca, Réseau Télémédecine Régional (RTR) de Midi-Pyrénées, Services d’urgence aragonais (SALUD 061), École Nationale d'Ingénieurs de TARBES (ENIT), Escuela Universitaria Politécnica La Almunia (EUPLA), Météo France, Agencia Estatal de Meteorología (AEMet)	
+	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi PyrÃ©nÃ©es region
+	* Partners:	MEDES, Instituto Technolï¿½gico de Aragï¿½n (ITA), Ayuntamiento de Jaca, Rï¿½seau Tï¿½lï¿½mï¿½decine Rï¿½gional (RTR) de Midi-Pyrï¿½nï¿½es, Services dï¿½urgence aragonais (SALUD 061), ï¿½cole Nationale d'Ingï¿½nieurs de TARBES (ENIT), Escuela Universitaria Politï¿½cnica La Almunia (EUPLA), Mï¿½tï¿½o France, Agencia Estatal de Meteorologï¿½a (AEMet)	
 
 	The project aims to contribute to improve risk prevention in the Pyrenees Mountains thanks to the creation of an Information Centre for these risks. 
 	The proposed solutions allows in particular the data collection from the field in real time thanks to mobile applications. 
@@ -31,7 +31,7 @@
 == DIABSAT: Prevention and management of the complications of diabetes ==
 	
 	* Timeframe:	2010-2011
-	* Funding:	Midi-Pyrénées region, CNES
+	* Funding:	Midi-Pyrï¿½nï¿½es region, CNES
 	* Partners:	University Hospital of Toulouse, MEDES, Auvea, Fleuret SA, DIAMIP, ONSIL, IRIT	
 
 	DIABSAT aims to develop and to evaluate new services for health education of diabetic patients and telemedicine supporting tools for the prevention and management of the complications of diabetes. The project has 2 activities where Imogene was used. 
