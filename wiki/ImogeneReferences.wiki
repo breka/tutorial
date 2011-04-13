@@ -12,7 +12,7 @@
 	
 	The presence and spread of diseases transmissible by vectors (such as mosquitoes, ticks etc.) depends on diverse and interacting factors such as present distribution, climate, weather and wind patterns, proximity to water bodies, land use and vegetation. 
 	VECMAP aims at developing tools and associated services for automated mosquito mapping and forecasting, integrating earth observation with modelling, mapping and in-situ measurement techniques. 
-	In that project, Imogene is used to generate the solution to collect mosquito related in situ data using mobile terminals. 
+	In Vecmap, Imogene is used to generate the solution to collect mosquito related in situ data using mobile terminals. 
 	
 	More information about the project can be found [http://iap.esa.int/vecmap here] and [http://imogene.googlecode.com/svn/wiki/resources/VECMAP_v4.pdf here].
 		
@@ -22,8 +22,8 @@
 	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi-Pyrénées region
 	* Partners:	MEDES, Instituto Technológico de Aragón (ITA), Ayuntamiento de Jaca, Réseau Télémédecine Régional (RTR) de Midi-Pyrénées, SALUD 061, Ecole Nationale d'Ingénieurs de TARBES (ENIT), Escuela Universitaria Politécnica La Almunia (EUPLA), Météo France, Agencia Estatal de Meteorología (AEMet)	
 
-	The project aims to contribute to improve risk prevention in the Pyrenees Mountains thanks to the creation of an Information Centre for these risks. 
-	The proposed solutions allows in particular the data collection from the field in real time thanks to mobile applications. 
+	The project aims to contribute to improve risk prevention in the Pyrénées mountains thanks to the creation of an Information Centre for these risks. 
+	The proposed solution allows in particular the data collection from the field in real time thanks to mobile applications. 
 	Imogene is used to generate the solution to collect risk prevention related information during mountain activities through mobile terminals.
 	
 	More information about the project can be found [http://www.stipp-project.eu/dnn/Project/tabid/68 here].
@@ -34,8 +34,8 @@
 	* Funding:	Midi-Pyrénées region, CNES
 	* Partners:	University Hospital of Toulouse, MEDES, Auvea, Fleuret SA, DIAMIP, ONSIL, IRIT	
 
-	DIABSAT aims to develop and to evaluate new services for health education of diabetic patients and telemedicine supporting tools for the prevention and management of the complications of diabetes. The project has 2 activities where Imogene was used. 
-	One activity is dedicated to the detection of the complications of diabetes through a mobile van equipped with specific medical equipment and telemedicine applications to get access to expertise of remote specialists. In this activity, Imogene was used to generate the telemedicine Information System (Desktop and Web applications that were customised to meet the specific need of diabetis cases management).
+	DIABSAT aims to develop and to evaluate new services for health education of diabetic patients and telemedicine supporting tools for the prevention and management of the complications of diabetes. The project has 2 activities where Imogene is used. 
+	One activity is dedicated to the detection of the complications of diabetes through a mobile van equipped with specific medical equipment and telemedicine applications to get access to expertise of remote specialists. In this activity, Imogene was used to generate the telemedicine Information System (Desktop and Web applications that were customised to meet the specific needs of diabetes cases management).
 	Another one aims to support the management of the complications of diabetes by supporting visiting nurses through a specific application on mobile phones, giving them access to the expertise of remote specialists. In this one, Imogene was used to generate the mobile application for visiting nurses and the Web application enabling remote specialists to provide expertise on the cases.
 
 	More information about the project can be found [http://www.cnes.fr/web/CNES-fr/8362-diabsat-le-projet.php here].
