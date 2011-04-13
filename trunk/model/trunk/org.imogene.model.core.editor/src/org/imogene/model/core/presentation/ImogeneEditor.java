@@ -36,6 +36,7 @@ import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.NotifierImpl;
 import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
@@ -49,6 +50,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.command.RemoveCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -88,13 +91,22 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -105,6 +117,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.forms.IFormColors;
+import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -114,7 +131,18 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.imogene.model.core.CardEntity;
+import org.imogene.model.core.Description;
+import org.imogene.model.core.FieldEntity;
+import org.imogene.model.core.FieldGroup;
+import org.imogene.model.core.ImogeneFactory;
+import org.imogene.model.core.ImogenePackage;
+import org.imogene.model.core.Language;
+import org.imogene.model.core.Project;
+import org.imogene.model.core.descriptions.DescriptionViewer;
+import org.imogene.model.core.descriptions.ProjectWidget;
 import org.imogene.model.core.editor.ImogeneModelEditPlugin;
+import org.imogene.model.core.impl.ImogeneFactoryImpl;
 import org.imogene.model.core.presentation.custom.CustomAdapterFactoryContentProvider;
 import org.imogene.model.core.presentation.custom.SelectionAdapterFactoryContentProvider;
 import org.imogene.model.core.provider.ImogeneItemProviderAdapterFactory;
@@ -1039,6 +1067,33 @@ public class ImogeneEditor
 				int pageIndex = addPage(viewerPane.getControl());
 				//setPageText(pageIndex, getString("_UI_SelectionPage_label"));
 				setPageText(pageIndex, "AllItems");
+			}
+			
+			{
+				ViewerPane viewerPane =
+					new ViewerPane(getSite().getPage(), ImogeneEditor.this) {
+						@Override
+						public Viewer createViewer(Composite composite) {
+							ProjectWidget vv = new ProjectWidget(composite, SWT.MULTI);
+							return new DescriptionViewer(vv);
+						}
+						@Override
+						public void requestActivation() {
+							super.requestActivation();
+							setCurrentViewerPane(this);
+						}
+					};
+				viewerPane.createControl(getContainer());
+
+				DescriptionViewer viewer = (DescriptionViewer)viewerPane.getViewer();
+				viewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+
+				viewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				viewer.setEditingDomain(editingDomain);
+				viewerPane.setTitle(viewer.getInput());
+
+				int pageIndex = addPage(viewerPane.getControl());
+				setPageText(pageIndex, "Descriptions");
 			}
 
 			getSite().getShell().getDisplay().asyncExec
