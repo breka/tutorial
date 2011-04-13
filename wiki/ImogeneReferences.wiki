@@ -19,7 +19,7 @@
 	More information about the project can be found [http://iap.esa.int/vecmap here] and [http://imogene.googlecode.com/svn/wiki/resources/VECMAP_v4.pdf here].
 		
 		
-== STIPP: Cross border Information System for Risk prevention in the Pyrénées Mountains ==
+== STIPP: Cross border Information System for risk prevention in the Pyrénées mountains ==
 	
 	* Timeframe:	2010-2012
 	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi-Pyrénées region
@@ -72,7 +72,7 @@
 				http://imogene.googlecode.com/svn/wiki/images/references/safe.jpg	
 
 	This project enabled to specify the needs in terms of Information System for health early warning and the frame of the possible added value of satellite communications for epidemiology. The solutions were demonstrated in a post-disaster scenario demonstration in Crete.
-	In this project, Imogene was used to generate the Information System for epidemiological data collection. At this period of time, Android was not available yet and Imogene was generating a mobile application based on eRCP for mobile data collection.
+	In this project, Imogene was used to generate the Information System for epidemiological data collection. At this period of time, Android was not available yet and Imogene was generating a mobile application based on [http://www.eclipse.org/ercp/ eRCP] for mobile data collection.
 	
 	More information about the project can be found [http://ercim-news.ercim.eu/epidemic-intelligence-satellite-enabled-applications-for-health-early-warning-systems here].
 	
