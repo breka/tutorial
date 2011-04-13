@@ -41,6 +41,7 @@
 = Starting Points =
 
         * Discover the ImogeneConcept
+        * Check the ImogeneReferences
         * Read some UserExperience
         * Find out HowToInstall the studio
         * Find out HowToUse the studio 

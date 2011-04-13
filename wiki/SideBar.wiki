@@ -3,6 +3,7 @@
 
 	* [Welcome Welcome page]
 		* [ImogeneConcept Imogene concept]
+		* [ImogeneReferences References]		
 		* [UserExperience Use cases]
 		* [HowToInstall How to install]		
 		* [HowToUse How to use]
