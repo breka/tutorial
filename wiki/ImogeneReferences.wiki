@@ -19,7 +19,7 @@
 == STIPP: Cross border Information System for Risk prevention in the Pyrenées Mountains ==
 	
 	* Timeframe:	2010-2012
-	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi Pyr&#233;n&#233;es region
+	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi Pyr\u00E9n\u00E9es region
 	* Partners:	MEDES, Instituto Technológico de Aragón (ITA), Ayuntamiento de Jaca, Réseau Télémédecine Régional (RTR) de Midi-Pyrénées, Services d’urgence aragonais (SALUD 061), École Nationale d'Ingénieurs de TARBES (ENIT), Escuela Universitaria Politécnica La Almunia (EUPLA), Météo France, Agencia Estatal de Meteorología (AEMet)	
 
 	The project aims to contribute to improve risk prevention in the Pyrenees Mountains thanks to the creation of an Information Centre for these risks. 
