@@ -4,7 +4,7 @@
 <wiki:toc max_depth="2" />
 
 
-= VECMAP: Mosquito habitat mapping service =
+== VECMAP: Mosquito habitat mapping service ==
 	
 	* Timeframe:	2010-2014
 	* Funding:	ESA
@@ -16,10 +16,10 @@
 	
 	More information about the project can be found [http://iap.esa.int/vecmap here] and [http://imogene.googlecode.com/svn/wiki/resources/VECMAP_v4.pdf here].
 		
-= STIPP: Cross border Information System for Risk prevention in the Pyrenées Mountains =
+== STIPP: Cross border Information System for Risk prevention in the Pyrenées Mountains ==
 	
 	* Timeframe:	2010-2012
-	* Funding:	FEDER (European Commission regional funds)), co-funding by FNADT and Midi Pyr&eacuten&eacutees region
+	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi Pyr&eacute;n&eacute;es region
 	* Partners:	MEDES, Instituto Technológico de Aragón (ITA), Ayuntamiento de Jaca, Réseau Télémédecine Régional (RTR) de Midi-Pyrénées, Services d’urgence aragonais (SALUD 061), École Nationale d'Ingénieurs de TARBES (ENIT), Escuela Universitaria Politécnica La Almunia (EUPLA), Météo France, Agencia Estatal de Meteorología (AEMet)	
 
 	The project aims to contribute to improve risk prevention in the Pyrenees Mountains thanks to the creation of an Information Centre for these risks. 
@@ -28,7 +28,7 @@
 	
 	More information about the project can be found [http://www.stipp-project.eu/dnn/Project/tabid/68 here].
 
-= DIABSAT: Prevention and management of the complications of diabetes =
+== DIABSAT: Prevention and management of the complications of diabetes ==
 	
 	* Timeframe:	2010-2011
 	* Funding:	Midi-Pyrénées region, CNES
@@ -40,7 +40,7 @@
 
 	More information about the project can be found [http://www.cnes.fr/web/CNES-fr/8362-diabsat-le-projet.php here].
 
-= SAFE-Georgia: Satellites For Epidemiology in Georgia =
+== SAFE-Georgia: Satellites For Epidemiology in Georgia ==
 	
 	* Timeframe:	2008-2009
 	* Funding:	ESA with co-funding from Georgian ministry of health, Global Funds and the National Centre for Tuberculosis in Georgia
@@ -51,7 +51,7 @@
 
 	More information about the project can be found [http://iap.esa.int/news/IAP-SAFE-Project-in-Georgia here].
 	
-= SAFE: Satellites for Epidemiology =
+== SAFE: Satellites for Epidemiology ==
 	
 	* Timeframe:	2006-2008
 	* Funding:	ESA with co-funding of partners
