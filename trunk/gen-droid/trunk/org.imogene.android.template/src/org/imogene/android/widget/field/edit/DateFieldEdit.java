@@ -7,16 +7,31 @@ import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.field.FieldPattern;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.DatePicker;
 
 public class DateFieldEdit extends DatesFieldEdit implements OnDateSetListener {
-
+	
 	public DateFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.DatesFieldEdit, 0, 0);
+		if (a.hasValue(W.styleable.DatesFieldEdit_dateMin)) {
+			String date = a.getString(W.styleable.DatesFieldEdit_dateMin);
+			setMin(FormatHelper.readDate(date));
+		} else {
+			setMin(null);
+		}
+		if (a.hasValue(W.styleable.DatesFieldEdit_dateMax)) {
+			String date = a.getString(W.styleable.DatesFieldEdit_dateMax);
+			setMax(FormatHelper.readDate(date));
+		} else {
+			setMax(null);
+		}
+		a.recycle();
 	}
 	
 	@Override

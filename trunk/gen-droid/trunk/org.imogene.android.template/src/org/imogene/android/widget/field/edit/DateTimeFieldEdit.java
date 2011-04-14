@@ -11,12 +11,27 @@ import org.imogene.android.widget.DateTimePicker;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
 public class DateTimeFieldEdit extends DatesFieldEdit implements OnDateTimeSetListener {
 
 	public DateTimeFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.DatesFieldEdit, 0, 0);
+		if (a.hasValue(W.styleable.DatesFieldEdit_dateMin)) {
+			String date = a.getString(W.styleable.DatesFieldEdit_dateMin);
+			setMin(FormatHelper.readDateTime(date));
+		} else {
+			setMin(null);
+		}
+		if (a.hasValue(W.styleable.DatesFieldEdit_dateMax)) {
+			String date = a.getString(W.styleable.DatesFieldEdit_dateMax);
+			setMax(FormatHelper.readDateTime(date));
+		} else {
+			setMax(null);
+		}
+		a.recycle();
 	}
 	
 	@Override

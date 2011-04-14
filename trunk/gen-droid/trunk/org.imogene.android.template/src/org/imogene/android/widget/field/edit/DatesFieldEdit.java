@@ -5,7 +5,6 @@ import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldEntity.DialogFactory;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -18,18 +17,6 @@ public abstract class DatesFieldEdit extends FieldEntity<Long> implements Dialog
 
 	public DatesFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.default_field_entity);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.DatesFieldEdit, 0, 0);
-		if (a.hasValue(W.styleable.DatesFieldEdit_dateMin)) {
-			setMin((long) a.getInt(W.styleable.DatesFieldEdit_dateMin, 0));
-		} else {
-			setMin(null);
-		}
-		if (a.hasValue(W.styleable.DatesFieldEdit_dateMax)) {
-			setMax((long) a.getInt(W.styleable.DatesFieldEdit_dateMax, 0));
-		} else {
-			setMax(null);
-		}
-		a.recycle();
 		setDialogFactory(this);
 	}
 	
