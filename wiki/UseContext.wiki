@@ -5,8 +5,8 @@
 
 <table cellspacing="0">
 	<tr>
-		<td> </td>
-		<td>Pre-deployment</td>
+		<td></td>
+		<td><b>Pre-deployment</b></td>
 		<td colspan="2">Operational Use</td>
 	</tr>
 	<tr>
