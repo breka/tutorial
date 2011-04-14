@@ -7,7 +7,7 @@
 	<tr>
 		<td></td>
 		<td align="center"><b>Pre-deployment</b></td>
-		<td colspan="2" align="center"><b>Operational Use<</b>/td>
+		<td colspan="2" align="center"><b>Operational Use</b></td>
 	</tr>
 	<tr>
 		<td><b>Actors</b></td>
