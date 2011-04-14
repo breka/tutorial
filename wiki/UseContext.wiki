@@ -1,0 +1,317 @@
+
+
+#summary Roadmap of the imogene solution
+#labels Modeling,Generation,DataCollection
+
+<wiki:toc max_depth="2" />
+
+    <table cellspacing="0" id="Tableau1table" style="margin-top:0;margin-bottom:0;margin-left:-7.5212603px;margin-right:auto;width:619.8803px;border-collapse:separate;border-spacing:0;table-layout:fixed">
+      <col style="width:100px" />
+      <col style="width:300px" />
+      <col style="width:300px" />
+      <col style="width:300px" />
+      <tr style="height:37.795277px">
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:middle;width:69.29922px">
+          <p style="margin:0;font-size:1px"> </p>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#95b3d7;vertical-align:middle;width:200.0331px">
+          <p class="Standard" style="text-align:center;font-weight:bold;font-size:10.666667px" >Pre-deployment</p>
+        </td>
+        <td colspan="2" style="border:1.0px solid #000000;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#95b3d7;vertical-align:middle">
+          <p class="Standard" style="text-align:center;font-weight:bold;font-size:10.666667px" >Operational Use</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#95b3d7;vertical-align:middle;width:69.29922px">
+          <p class="Standard" style="text-align:left;font-weight:bold;font-size:10.666667px" >Actors</p>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#d9d9d9;vertical-align:middle;width:200.0331px">
+          <p class="Standard" style="margin-left:0;margin-right:0;text-indent:1.0px;text-align:center;font-weight:bold;font-size:10.666667px" >System administrator/Users</p>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#d9d9d9;vertical-align:middle;width:151.16379px">
+          <p class="Standard" style="margin-left:0;margin-right:0;text-indent:1.0px;text-align:center;font-weight:bold;font-size:10.666667px" >Field users</p>
+        </td>
+        <td style="border:1.0px solid #000000;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#d9d9d9;vertical-align:middle;width:136.63309px">
+          <p class="Standard" style="margin-left:0;margin-right:0;text-indent:1.0px;text-align:center" >
+            <span style="font-weight:bold;font-size:10.666667px" >Managers / Decision Makers</span>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#95b3d7;vertical-align:middle;width:69.29922px">
+          <p class="Standard" style="text-align:left;font-weight:bold;font-size:10.666667px" >Software</p>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:200.0331px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >Imogene platform for Information System development</span>
+                <span style="font-size:10.666667px" > (Desktop application)</span>
+              </p>
+            </li>
+          </ul>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:151.16379px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >Generated application for Android terminals</span>
+              </p>
+            </li>
+          </ul>
+        </td>
+        <td style="border:1.0px solid #000000;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:136.63309px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Generated Web application</p>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#95b3d7;vertical-align:middle;width:69.29922px">
+          <p class="Standard" style="text-align:left;font-weight:bold;font-size:10.666667px" >Hardware</p>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:200.0331px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >A PC or a laptop for the Information System modelling and generation. </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >A server connected to the Internet for the application deployment</span>
+              </p>
+            </li>
+          </ul>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:151.16379px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >An </span>
+                <span style="font-size:10.666667px" >Android terminal</span>
+              </p>
+            </li>
+          </ul>
+          <p class="Standard" style="font-size:10.666667px" > </p>
+        </td>
+        <td style="border:1.0px solid #000000;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:136.63309px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >A PC or a laptop connected to the Internet for the web application</p>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#95b3d7;vertical-align:middle;width:69.29922px">
+          <p class="Standard" style="text-align:left;font-weight:bold;font-size:10.666667px" >Communication</p>
+          <p class="Standard" style="text-align:left;font-weight:bold;font-size:10.666667px" >means</p>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:200.0331px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Offline for the modelling and generation</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >Online for the application deployment</span>
+              </p>
+            </li>
+          </ul>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:151.16379px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Offline for the data collection</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >Online for the data synchronization</span>
+              </p>
+            </li>
+          </ul>
+        </td>
+        <td style="border:1.0px solid #000000;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:136.63309px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >Onl</span>
+                <span style="font-size:10.666667px" >ine for the data visualisation and edition via the web application</span>
+              </p>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#95b3d7;vertical-align:middle;width:69.29922px">
+          <p class="Standard" style="text-align:left;font-weight:bold;font-size:10.666667px" >Scenario</p>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:200.0331px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-weight:bold;font-size:10.666667px" >Specifications</span>
+                <span style="font-size:10.666667px" >: specifications of the forms for data collection and of the user privileges to be managed.</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-weight:bold;font-size:10.666667px" >Information System modelling</span>
+                <span style="font-size:10.666667px" >: Using Imogene platform for Information System development, graphical modelling of the Information System (data collection forms, data access privileges, data validation, etc.</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-weight:bold;font-size:10.666667px" >Application generation</span>
+                <span style="font-size:10.666667px" >: From the defined model, automatic generation of the Information System applications.</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-weight:bold;font-size:10.666667px" >Application deployment</span>
+                <span style="font-size:10.666667px" >: The generated applications are deployed. The web application, data synchronisation application, user administration application and web services on a Web Server. The Android application is published on an update site.  The field users download the Android application from their Android terminal for installation.</span>
+              </p>
+            </li>
+          </ul>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:151.16379px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-weight:bold;font-size:10.666667px" >Data collection</span>
+                <span style="font-weight:bold;font-size:10.666667px" >:</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >The Field user has access to the application on his </span>
+                <span style="font-size:10.666667px" >Android terminal in mobility situation.</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >He can collect the requested data through ergonomic forms. </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >The application works in connected or disconnected mode.</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Data access privileges are managed so that the user can only access the data that he is allowed to access.</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-weight:bold;font-size:10.666667px" >Data transmission and reception</span>
+                <span style="font-weight:bold;font-size:10.666667px" >:</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Data are automatically sent to the server at a specific frequency or on the action of the user when the terminal is connected to a communication network.</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Synchronization processes are bi-directional so that the user can transmit data but also receive and update data coming from other remote users.</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >The user can filter the data so that he only gets the data that he needs from the server. </span>
+              </p>
+            </li>
+          </ul>
+          <p class="Standard" style="margin-left:0;margin-right:0;text-indent:1.0px;font-size:10.666667px" > </p>
+        </td>
+        <td style="border:1.0px solid #000000;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:136.63309px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-weight:bold;font-size:10.666667px" >Data collection</span>
+                <span style="font-weight:bold;font-size:10.666667px" > and visualization:</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >The actor has access to the application </span>
+                <span style="font-size:10.666667px" >from any place connected to the Internet at any time on a PC or laptop. </span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >He can enter of visualize data through ergonomic forms. </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Data access privileges are managed so that the user can only access the data that he is allowed to access.</p>
+            </li>
+          </ul>
+          <p class="Standard" style="font-size:10.666667px" > </p>
+        </td>
+      </tr>
+      <tr>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;background-color:#d99594;vertical-align:middle;width:69.29922px">
+          <p class="Standard" style="text-align:left" >
+            <span style="font-weight:bold;font-size:10.666667px" >Innovation brought by </span>
+            <span style="font-weight:bold;font-size:10.666667px" >using Imogene </span>
+          </p>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:200.0331px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >Graphical modelling of the </span>
+                <span style="font-size:10.666667px" >Information System (sophisticated forms, sophisticated data access management)</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >Automatic generation of the information System applications (web, mobile, synchronization, administration, web services)</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Easy deployment of the applications</p>
+            </li>
+          </ul>
+        </td>
+        <td style="border-top:1.0px solid #000000;border-bottom:1.0px solid #000000;border-left:1.0px solid #000000;border-right:none;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:151.16379px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >Electronic data collection</span>
+                <span style="font-size:10.666667px" > in mobility situation</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0" >
+                <span style="font-size:10.666667px" >Data collection through sophisticated forms (sub forms, conditional field access, hierarchical lists, advanced data validation)</span>
+              </p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Photo, Video, Sound, GPS coordinates, Barcode acquisition</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Remote installation and update of the application</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Bi-directional data synchronization</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Advanced user privileges management</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Internationalized user interface</p>
+            </li>
+          </ul>
+          <p class="Standard" style="margin-left:0;margin-right:0;text-indent:1.0px;text-align:center;font-size:10.666667px" > </p>
+        </td>
+        <td style="border:1.0px solid #000000;padding-top:0;padding-bottom:0;padding-left:7.218898px;padding-right:7.218898px;vertical-align:top;width:136.63309px">
+          <ul class="listlevel1WW8Num3">
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Data visualization and edition through sophisticated forms (sub forms, conditional field access, hierarchical lists, advanced data validation)</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Advanced user privileges management</p>
+            </li>
+            <li>
+              <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" >Internationalized user interface</p>
+            </li>
+          </ul>
+          <p class="Paragraphedeliste" style="margin-left:0;margin-right:0;text-indent:0;font-size:10.666667px" > </p>
+          <p class="Standard" style="margin-left:0;margin-right:0;text-indent:1.0px;font-size:10.666667px" > </p>
+        </td>
+      </tr>
+    </table>

@@ -4,7 +4,9 @@
 <wiki:toc max_depth="2" />
 
 
-== VECMAP: Mosquito habitat mapping service ==
+
+
+= VECMAP: Mosquito habitat mapping service =
 	
 	* Timeframe:	2010-2014
 	* Funding:	ESA
@@ -19,7 +21,7 @@
 	More information about the project can be found [http://iap.esa.int/vecmap here] and [http://imogene.googlecode.com/svn/wiki/resources/VECMAP_v4.pdf here].
 		
 		
-== STIPP: Cross border Information System for risk prevention in the Pyrénées mountains ==
+= STIPP: Cross border Information System for risk prevention in the Pyrénées mountains =
 	
 	* Timeframe:	2010-2012
 	* Funding:	FEDER (European Commission regional funds), co-funding by FNADT and Midi-Pyrénées region
@@ -34,7 +36,7 @@
 	More information about the project can be found [http://www.stipp-project.eu/dnn/Project/tabid/68 here].
 
 
-== DIABSAT: Prevention and management of the complications of diabetes ==
+= DIABSAT: Prevention and management of the complications of diabetes =
 	
 	* Timeframe:	2010-2011
 	* Funding:	Midi-Pyrénées region, CNES
@@ -49,7 +51,7 @@
 	More information about the project can be found [http://www.cnes.fr/web/CNES-fr/8362-diabsat-le-projet.php here].
 
 
-== SAFE-Georgia: Satellites for Epidemiology in Georgia ==
+= SAFE-Georgia: Satellites for Epidemiology in Georgia =
 	
 	* Timeframe:	2008-2009
 	* Funding:	ESA with co-funding from Georgian ministry of health, Global Funds and the National Centre for Tuberculosis in Georgia
@@ -63,7 +65,7 @@
 	More information about the project can be found [http://iap.esa.int/news/IAP-SAFE-Project-in-Georgia here].
 	
 	
-== SAFE: Satellites for Epidemiology ==
+= SAFE: Satellites for Epidemiology =
 	
 	* Timeframe:	2006-2008
 	* Funding:	ESA with co-funding of partners
