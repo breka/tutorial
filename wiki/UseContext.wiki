@@ -98,15 +98,17 @@
 		</ul>
 		</td>
 		<td>
+		<b>Data collection</b>:
 		<ul>
-			<li><b>Data collection</b>:</li>
 			<li>The Field user has access to the application on his Android
 			terminal in mobility situation.</li>
 			<li>He can collect the requested data through ergonomic forms.</li>
 			<li>The application works in connected or disconnected mode.</li>
 			<li>Data access privileges are managed so that the user can only
 			access the data that he is allowed to access.</li>
-			<li><b>Data transmission and reception</b>:</li>
+		</ul>
+		<b>Data transmission and reception</b>:
+		<ul>
 			<li>Data are automatically sent to the server at a specific
 			frequency or on the action of the user when the terminal is connected
 			to a communication network.</li>
