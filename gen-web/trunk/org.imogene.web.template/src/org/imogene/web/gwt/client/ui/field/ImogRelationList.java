@@ -184,6 +184,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 				viewButton.setVisible(true);
 			}
 		}	
+		notifyValueChange();
 	}
 
 	@Override
@@ -207,6 +208,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 					list.removeItem(i);
 				}
 			}
+			notifyValueChange();
 			if(values.size()==0)
 				isEmpty = true;
 		}	
@@ -235,6 +237,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 		values.clear();
 		list.clear();
 		isEmpty = true;
+		notifyValueChange();
 	}
 			
 	/**
@@ -249,6 +252,22 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 			isEmpty = false;
 			viewButton.setVisible(true);
 		}
+		notifyValueChange();
+	}
+	
+	/**
+	 * Removes a value to this item
+	 * @param entity the value to be removed
+	 */
+	public void removeValue(T entity) {
+		String id = entity.getId();
+
+		for(int i=0; i<list.getItemCount(); i++){
+			String key = list.getValue(i);
+			if (key.equals(id))
+				list.removeItem(i);
+		}
+		values.remove(id);
 	}
 	
 	/**
