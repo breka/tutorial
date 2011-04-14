@@ -162,8 +162,12 @@ public class ActorFilterItemProvider
 	public String getText(Object object) {
 		ActorFilter actorFilter = (ActorFilter)object;
 		StringBuffer text = new StringBuffer(getString("_UI_ActorFilter_type")+":");
-		text.append(actorFilter.getActorField().getParentActor().getName());
-		text.append("("+actorFilter.getEntityField().getName()+")");
+		if (actorFilter.getActorField() != null) {
+			text.append(actorFilter.getActorField().getParentActor().getName());
+		}
+		if (actorFilter.getEntityField() != null) {
+			text.append("("+actorFilter.getEntityField().getName()+")");
+		}
 		if(actorFilter.isSufficient())
 			text.append(" (suf)");
 		return text.toString();
