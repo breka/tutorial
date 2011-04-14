@@ -3,7 +3,10 @@ package org.imogene.android.util;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.imogene.android.Constants;
 import org.imogene.android.Constants.Extras;
@@ -24,6 +27,10 @@ public class FormatHelper {
 	private static DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.FULL);
 	private static DateFormat DATI_FORMAT = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL);
 	private static DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.FULL);
+	
+	private static final SimpleDateFormat CONSTRAINT_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat CONSTRAINT_DATI_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	private static final SimpleDateFormat CONSTRAINT_TIME_FORMAT = new SimpleDateFormat("HH:mm");
 	
 	public static final void updateFormats() {
 		DATE_FORMAT = DateFormat.getDateInstance(DateFormat.FULL);
@@ -125,6 +132,33 @@ public class FormatHelper {
 		try {
 			return new Double(str);
 		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public static final Long readDate(String str) {
+		try {
+			Date date = CONSTRAINT_DATE_FORMAT.parse(str);
+			return date.getTime();
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+	
+	public static final Long readDateTime(String str) {
+		try {
+			Date date = CONSTRAINT_DATI_FORMAT.parse(str);
+			return date.getTime();
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+	
+	public static final Long readTime(String str) {
+		try {
+			Date date = CONSTRAINT_TIME_FORMAT.parse(str);
+			return date.getTime();
+		} catch (ParseException e) {
 			return null;
 		}
 	}

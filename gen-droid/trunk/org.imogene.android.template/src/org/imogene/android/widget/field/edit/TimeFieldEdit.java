@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.TimePicker;
 
@@ -17,6 +18,20 @@ public class TimeFieldEdit extends DatesFieldEdit implements OnTimeSetListener {
 
 	public TimeFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.DatesFieldEdit, 0, 0);
+		if (a.hasValue(W.styleable.DatesFieldEdit_dateMin)) {
+			String date = a.getString(W.styleable.DatesFieldEdit_dateMin);
+			setMin(FormatHelper.readTime(date));
+		} else {
+			setMin(null);
+		}
+		if (a.hasValue(W.styleable.DatesFieldEdit_dateMax)) {
+			String date = a.getString(W.styleable.DatesFieldEdit_dateMax);
+			setMax(FormatHelper.readTime(date));
+		} else {
+			setMax(null);
+		}
+		a.recycle();
 	}
 	
 	@Override

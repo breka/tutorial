@@ -160,9 +160,9 @@
 	
 	<declare-styleable name="DatesFieldEdit">
 		<!-- The minimum value this field can take -->
-		<attr name="dateMin" format="integer" />
+		<attr name="dateMin" format="string" />
 		<!-- The maximum value this field can take -->
-		<attr name="dateMax" format="integer" />
+		<attr name="dateMax" format="string" />
 	</declare-styleable>
 	
 	<declare-styleable name="RelationManyFieldView">
