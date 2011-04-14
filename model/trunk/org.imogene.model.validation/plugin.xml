@@ -43,7 +43,7 @@
          %category.description
       </category>
       <constraintProvider cache="true">
-         <package namespaceUri="http://www.i-moegene.org/imogene/1.0"/>
+         <package namespaceUri="http://www.i-mogene.org/imogene/1.0"/>
          
          <constraints categories="medoo-emf-validation/adapter">
             <constraint
@@ -443,6 +443,21 @@
                </message>
                <target
                      class="CardEntity">
+               </target>
+            </constraint>
+            <constraint
+                  class="org.imogene.model.validation.constraints.TextFieldValidation"
+                  id="org.imogene.model.validation.adapter.constraints.TextFieldValidation"
+                  lang="Java"
+                  mode="Batch"
+                  name="TextField validation"
+                  severity="ERROR"
+                  statusCode="201">
+               <message>
+                  {0}
+               </message>
+               <target
+                     class="TextField">
                </target>
             </constraint>
          </constraints>
