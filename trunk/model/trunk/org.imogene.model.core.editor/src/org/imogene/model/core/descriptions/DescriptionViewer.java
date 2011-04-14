@@ -26,7 +26,7 @@ public class DescriptionViewer extends StructuredViewer {
 	
 	@Override
 	protected void inputChanged(Object input, Object oldInput) {
-		if (input != null) {
+		if (input instanceof Project) {
 			viewer.setProject((Project) input);
 		}
 	}
