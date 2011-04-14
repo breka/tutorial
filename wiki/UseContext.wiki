@@ -3,7 +3,7 @@
 
 <wiki:toc max_depth="2" />
 
-The following table and graph present an example of context of use of the _*imogene*_ solution.
+
 	
 = Resources and actions implied when using imogene =
 
