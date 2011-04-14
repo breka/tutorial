@@ -18,7 +18,9 @@ import org.imogene.model.core.Role;
  */
 public class ObjectNameConstraint extends AbstractMedanyModelConstraint {
 
-	private static String reg_ex = "^[a-zA-Z]+[a-zA-Z0-9_]*$";
+	private static final String reg_ex = "^[a-zA-Z]+[a-zA-Z0-9_]*$";
+	
+	private static final String card_entity_reg_ex = "^[A-Z][a-z0-9]+[a-zA-Z0-9_]*$";
 
 	private static String EMPTY_ENTITY_NAME = "The name of the entity \"%ENTITY_NAME%\" should not be empty";
 
@@ -28,14 +30,14 @@ public class ObjectNameConstraint extends AbstractMedanyModelConstraint {
 		+ reg_ex;
 
 	private static String BAD_ENTITY_NAME = "The name of the entity \"%ENTITY_NAME%\" should contain only "
-			+ reg_ex;
+			+ card_entity_reg_ex;
 
 	private static String BAD_FIELD_NAME = "The name of the field \"%FIELD_NAME%\" should contain only "
 			+ reg_ex;
 	
 	private static String BAD_PROJECT_NAME = "The name of the project is not valid and should only contain "
 		+ reg_ex;
-
+	
 	/**
 	 * Initializes me.
 	 */
@@ -65,7 +67,7 @@ public class ObjectNameConstraint extends AbstractMedanyModelConstraint {
 				if (entityName != null)
 					if (entityName.isEmpty())
 						return ctx.createFailureStatus(new Object[] { formatMessage(EMPTY_ENTITY_NAME, (CardEntity) ctx.getTarget()) });
-					else if (!entityName.matches(reg_ex))
+					else if (!entityName.matches(card_entity_reg_ex))
 						return ctx.createFailureStatus(new Object[] { formatMessage(BAD_ENTITY_NAME, (CardEntity) ctx.getTarget()) });
 			} else if (ctx.getTarget() instanceof FieldEntity) {
 				String fieldName = ((FieldEntity) ctx.getTarget()).getName();
