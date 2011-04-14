@@ -48,7 +48,7 @@
          <constraints categories="medoo-emf-validation/adapter">
             <constraint
                   class="org.imogene.model.validation.constraints.RelationConstraint"
-                  id="org.imogene.validation.adapter.relationValidation"
+                  id="org.imogene.model.validation.constraints.RelationConstraint"
                   lang="Java"
                   mode="Batch"
                   name="Relation validation"
@@ -63,7 +63,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.ObjectNameConstraint"
-                  id="org.imogene.validation.adapter.objectNameValidation"
+                  id="org.imogene.model.validation.constraints.ObjectNameConstraint"
                   lang="Java"
                   mode="Batch"
                   name="Object Name"
@@ -93,7 +93,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.CommonFieldsConstraint"
-                  id="org.imogene.validation.adapter.CommonField"
+                  id="org.imogene.model.validation.constraints.CommonFieldsConstraint"
                   lang="Java"
                   mode="Batch"
                   name="CommonFields validation"
@@ -108,7 +108,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateNameEntityFieldConstraint"
-                  id="org.imogene.validation.adapter.DuplicateNameEntityField"
+                  id="org.imogene.model.validation.constraints.DuplicateNameEntityFieldConstraint"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate entity and field name validation"
@@ -123,7 +123,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateShortNameEntityField"
-                  id="org.imogene.validation.adapter.DuplicateShortNameEntityField"
+                  id="org.imogene.model.validation.constraints.DuplicateShortNameEntityField"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate short name between entity and field validation"
@@ -138,7 +138,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateEntityName"
-                  id="org.imogene.validation.adapter.DuplicateEntityName"
+                  id="org.imogene.model.validation.constraints.DuplicateEntityName"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate entity name validation"
@@ -153,7 +153,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateEntityShortName"
-                  id="org.imogene.validation.adapter.DuplicateEntityShortName"
+                  id="org.imogene.model.validation.constraints.DuplicateEntityShortName"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate entity shortname validation"
@@ -168,7 +168,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateFieldName"
-                  id="org.imogene.validation.adapter.DuplicateFieldName"
+                  id="org.imogene.model.validation.constraints.DuplicateFieldName"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate field name validation"
@@ -183,7 +183,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateFieldShortName"
-                  id="org.imogene.validation.adapter.DuplicateFieldShortName"
+                  id="org.imogene.model.validation.constraints.DuplicateFieldShortName"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate field shortname validation"
@@ -198,7 +198,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateGroupName"
-                  id="org.imogene.validation.adapter.DuplicateGroupName"
+                  id="org.imogene.model.validation.constraints.DuplicateGroupName"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate group name validation"
@@ -213,7 +213,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateGroupShortName"
-                  id="org.imogene.validation.adapter.DuplicateGroupShortName"
+                  id="org.imogene.model.validation.constraints.DuplicateGroupShortName"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate group shortname validation"
@@ -228,7 +228,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateNameEnumValue"
-                  id="org.imogene.validation.adapter.DuplicateNameEnumValue"
+                  id="org.imogene.model.validation.constraints.DuplicateNameEnumValue"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate name in EnumValue validation"
@@ -243,7 +243,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateRoleName"
-                  id="org.imogene.validation.adapter.DuplicateRoleName"
+                  id="org.imogene.model.validation.constraints.DuplicateRoleName"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate Role name validation"
@@ -258,7 +258,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.BadCompositionConstraint"
-                  id="org.imogene.model.validation.adapter.BadCompositionConstraint"
+                  id="org.imogene.model.validation.constraints.BadCompositionConstraint"
                   lang="Java"
                   mode="Batch"
                   name="Compositioin validation"
@@ -273,7 +273,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.CheckReservedCardEntityName"
-                  id="org.imogene.model.validation.adapter.ReservedEntityName"
+                  id="org.imogene.model.validation.constraints.CheckReservedCardEntityName"
                   lang="Java"
                   mode="Batch"
                   name="Reserved entity name validation"
@@ -288,7 +288,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.CheckReservedFieldEntityName"
-                  id="org.imogene.model.validation.adapter.ReservedFieldEntityName"
+                  id="org.imogene.model.validation.constraints.CheckReservedFieldEntityName"
                   lang="Java"
                   mode="Batch"
                   name="Reserved field entity name validation"
@@ -303,7 +303,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DefaultValueFormatConstraint"
-                  id="org.imogene.model.validation.adapter.DefaultValueValueFormat"
+                  id="org.imogene.model.validation.constraints.DefaultValueFormatConstraint"
                   lang="Java"
                   mode="Batch"
                   name="Field defaultvalue value format"
@@ -318,7 +318,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.MinValueFormatConstraint"
-                  id="org.imogene.model.validation.adapter.MinValueFormat"
+                  id="org.imogene.model.validation.constraints.MinValueFormatConstraint"
                   lang="Java"
                   mode="Batch"
                   name="Field min value format"
@@ -333,7 +333,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.MaxValueFormatConstraint"
-                  id="org.imogene.model.validation.adapter.MiaxValueFormat"
+                  id="org.imogene.model.validation.constraints.MaxValueFormatConstraint"
                   lang="Java"
                   mode="Batch"
                   name="Field max value format"
@@ -348,7 +348,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DependencyFieldValueFormatConstraint"
-                  id="org.imogene.model.validation.adapter.DependencyFieldValueValueFormat"
+                  id="org.imogene.model.validation.constraints.DependencyFieldValueFormatConstraint"
                   lang="Java"
                   mode="Batch"
                   name="DependencyFieldValue value format"
@@ -363,7 +363,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.DuplicateValueEnumValue"
-                  id="org.imogene.model.validation.adapter.DuplicateValueEnumValue"
+                  id="org.imogene.model.validation.constraints.DuplicateValueEnumValue"
                   lang="Java"
                   mode="Batch"
                   name="Duplicate value in EnumValue validation"
@@ -378,7 +378,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.CheckIsoCode"
-                  id="org.imogene.model.validation.adapter.CheckIsoCode"
+                  id="org.imogene.model.validation.constraints.CheckIsoCode"
                   lang="Java"
                   mode="Batch"
                   name="Iso code validation"
@@ -402,7 +402,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.ValidationRuleConstraint"
-                  id="org.imogene.model.validation.adapter.ValidationRuleConstraint"
+                  id="org.imogene.model.validation.constraints.ValidationRuleConstraint"
                   lang="Java"
                   mode="Batch"
                   name="Validation Rule validation"
@@ -417,7 +417,7 @@
             </constraint>
             <constraint
                   class="org.imogene.model.validation.constraints.CheckActorFields"
-                  id="org.imogene.model.validation.adapter.constraints.CheckActorFields"
+                  id="org.imogene.model.validation.constraints.CheckActorFields"
                   lang="Java"
                   mode="Batch"
                   name="Admin fields validation for actors"
@@ -431,23 +431,8 @@
                </target>
             </constraint>
             <constraint
-                  class="org.imogene.model.validation.constraints.CheckEntityMainFields"
-                  id="org.imogene.model.validation.adapter.constraints.CheckEntityMainFields"
-                  lang="Java"
-                  mode="Batch"
-                  name="Main/column fields validation"
-                  severity="ERROR"
-                  statusCode="201">
-               <message>
-                  {0}
-               </message>
-               <target
-                     class="CardEntity">
-               </target>
-            </constraint>
-            <constraint
                   class="org.imogene.model.validation.constraints.TextFieldValidation"
-                  id="org.imogene.model.validation.adapter.constraints.TextFieldValidation"
+                  id="org.imogene.model.validation.constraints.TextFieldValidation"
                   lang="Java"
                   mode="Batch"
                   name="TextField validation"
@@ -458,6 +443,21 @@
                </message>
                <target
                      class="TextField">
+               </target>
+            </constraint>
+            <constraint
+                  class="org.imogene.model.validation.constraints.ColumnFieldsValidation"
+                  id="org.imogene.model.validation.constraints.ColumnFieldsValidation"
+                  lang="Java"
+                  mode="Batch"
+                  name="Column fields validation"
+                  severity="ERROR"
+                  statusCode="201">
+               <message>
+                  {0}
+               </message>
+               <target
+                     class="CardEntity">
                </target>
             </constraint>
          </constraints>

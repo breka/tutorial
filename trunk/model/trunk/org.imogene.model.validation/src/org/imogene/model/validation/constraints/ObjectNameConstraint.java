@@ -65,7 +65,6 @@ public class ObjectNameConstraint extends AbstractMedanyModelConstraint {
 			} else if (ctx.getTarget() instanceof CardEntity) {
 				String entityName = ((CardEntity) ctx.getTarget()).getName();
 				if (entityName != null)
-					System.out.println("test card entity name: "+entityName);
 					if (entityName.isEmpty())
 						return ctx.createFailureStatus(new Object[] { formatMessage(EMPTY_ENTITY_NAME, (CardEntity) ctx.getTarget()) });
 					else if (!entityName.matches(card_entity_reg_ex))
