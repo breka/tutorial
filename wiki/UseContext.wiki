@@ -6,17 +6,17 @@
 <table cellspacing="0">
 	<tr>
 		<td></td>
-		<td><b>Pre-deployment</b></td>
-		<td colspan="2">Operational Use</td>
+		<td align="center"><b>Pre-deployment</b></td>
+		<td colspan="2" align="center"><b>Operational Use<</b>/td>
 	</tr>
 	<tr>
-		<td>Actors</td>
-		<td>System administrator/Users</td>
-		<td>Field users</td>
-		<td>Managers / Decision Makers</td>
+		<td><b>Actors</b></td>
+		<td align="center"><b>System administrator/Users</b></td>
+		<td align="center"><b>Field users</b></td>
+		<td align="center"><b>Managers / Decision Makers</b></td>
 	</tr>
 	<tr>
-		<td>Software</td>
+		<td><b>Software</b></td>
 		<td>
 		<ul>
 			<li>Imogene platform for Information System development (Desktop
@@ -35,7 +35,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td>Hardware</td>
+		<td><b>Hardware</b></td>
 		<td>
 		<ul>
 			<li>A PC or a laptop for the Information System modelling and
@@ -57,7 +57,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td>Communication means</td>
+		<td><b>Communication means</b></td>
 		<td>
 		<ul>
 			<li>Offline for the modelling and generation</li>
@@ -78,7 +78,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td>Scenario</td>
+		<td><b>Scenario</b></td>
 		<td>
 		<ul>
 			<li>Specifications : specifications of the forms for data
@@ -129,7 +129,7 @@
 		 </td>
 	</tr>
 	<tr>
-		<td>Innovation brought by using Imogene</td>
+		<td><b>Innovation brought by using Imogene</b></td>
 		<td>
 		<ul>
 			<li>Graphical modelling of the Information System (sophisticated
