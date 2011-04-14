@@ -46,6 +46,7 @@
         * Find out HowToInstall the studio
         * Find out HowToUse the studio 
         * Check the ImogeneFaq
+        * Discover the ImogeneRoadmap
         * Try the ImogeneDemo application
 
 = Contact =        
