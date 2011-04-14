@@ -3,7 +3,7 @@
 
 <wiki:toc max_depth="2" />
 
-<table cellspacing="0">
+<table cellspacing="0" border="2px">
 	<tr>
 		<td></td>
 		<td align="center"><b>Pre-deployment</b></td>
