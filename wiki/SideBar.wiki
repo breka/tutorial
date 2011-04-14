@@ -5,6 +5,7 @@
 		* [ImogeneConcept Imogene concept]
 		* [ImogeneReferences References]
 		* [UserExperience Use cases]
+		* [UseContext Use context]
 		* [HowToInstall How to install]
 		* [HowToUse How to use]
 			* [ModelDescription Modeling]

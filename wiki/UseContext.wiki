@@ -146,12 +146,13 @@
 		<td>
 		<ul>
 			<li>Electronic data collection in mobility situation</li>
+			<li>Electronic data collection in connected or disconnected mode</li>
+			<li>Bi-directional data synchronization</li>
 			<li>Data collection through sophisticated forms (sub forms,
 			conditional field access, hierarchical lists, advanced data
 			validation)</li>
 			<li>Photo, Video, Sound, GPS coordinates, Barcode acquisition</li>
 			<li>Remote installation and update of the application</li>
-			<li>Bi-directional data synchronization</li>
 			<li>Advanced user privileges management</li>
 			<li>Internationalized user interface</li>
 		</ul>
