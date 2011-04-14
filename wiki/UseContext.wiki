@@ -48,7 +48,7 @@
 		<ul>
 			<li>An Android terminal</li>
 		</ul>
-		 </td>
+		</td>
 		<td>
 		<ul>
 			<li>A PC or a laptop connected to the Internet for the web
@@ -81,15 +81,15 @@
 		<td><b>Scenario</b></td>
 		<td>
 		<ul>
-			<li>Specifications : specifications of the forms for data
+			<li><b>Specifications</b>: specifications of the forms for data
 			collection and of the user privileges to be managed.</li>
-			<li>Information System modelling : Using Imogene platform for
+			<li><b>Information System modelling</b>: Using Imogene platform for
 			Information System development, graphical modelling of the
 			Information System (data collection forms, data access privileges,
 			data validation, etc.</li>
-			<li>Application generation : From the defined model, automatic
+			<li><b>Application generation</b>: From the defined model, automatic
 			generation of the Information System applications.</li>
-			<li>Application deployment : The generated applications are
+			<li><b>Application deployment</b>: The generated applications are
 			deployed. The web application, data synchronisation application, user
 			administration application and web services on a Web Server. The
 			Android application is published on an update site. The field users
@@ -99,14 +99,14 @@
 		</td>
 		<td>
 		<ul>
-			<li>Data collection :</li>
+			<li><b>Data collection</b>:</li>
 			<li>The Field user has access to the application on his Android
 			terminal in mobility situation.</li>
 			<li>He can collect the requested data through ergonomic forms.</li>
 			<li>The application works in connected or disconnected mode.</li>
 			<li>Data access privileges are managed so that the user can only
 			access the data that he is allowed to access.</li>
-			<li>Data transmission and reception :</li>
+			<li><b>Data transmission and reception</b>:</li>
 			<li>Data are automatically sent to the server at a specific
 			frequency or on the action of the user when the terminal is connected
 			to a communication network.</li>
@@ -116,17 +116,17 @@
 			<li>The user can filter the data so that he only gets the data
 			that he needs from the server.</li>
 		</ul>
-		 </td>
+		</td>
 		<td>
 		<ul>
-			<li>Data collection and visualization:</li>
+			<li><b>Data collection and visualization</b>:</li>
 			<li>The actor has access to the application from any place
 			connected to the Internet at any time on a PC or laptop.</li>
 			<li>He can enter of visualize data through ergonomic forms.</li>
 			<li>Data access privileges are managed so that the user can only
 			access the data that he is allowed to access.</li>
 		</ul>
-		 </td>
+		</td>
 	</tr>
 	<tr>
 		<td><b>Innovation brought by using Imogene</b></td>
@@ -151,7 +151,7 @@
 			<li>Advanced user privileges management</li>
 			<li>Internationalized user interface</li>
 		</ul>
-		 </td>
+		</td>
 		<td>
 		<ul>
 			<li>Data visualization and edition through sophisticated forms
@@ -160,6 +160,6 @@
 			<li>Advanced user privileges management</li>
 			<li>Internationalized user interface</li>
 		</ul>
-		   </td>
+		</td>
 	</tr>
 </table>
