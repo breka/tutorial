@@ -172,4 +172,4 @@
 = Summary graph of the Modeling/Generation/Deployment phases = 
 
 
-			http://imogene.googlecode.com/svn/wiki/images/workflow.png
+			http://imogene.googlecode.com/svn/wiki/images/workflow.PNG
