@@ -3,7 +3,9 @@
 
 <wiki:toc max_depth="2" />
 
-The following table p
+	The following table and graph present an example of context of use of the _*imogene*_ solution.
+	
+= Resources and actions implied when using imogene =
 
 <table cellspacing="0" border="2px">
 	<tr>
@@ -165,3 +167,9 @@ The following table p
 		</td>
 	</tr>
 </table>
+
+
+= Summary graph of the Modeling/Generation/Deployment phases = 
+
+
+			http://imogene.googlecode.com/svn/wiki/images/workflow.png
