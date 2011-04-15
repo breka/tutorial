@@ -31,6 +31,9 @@ public abstract class AbstractEntityEdit extends ScrollingTabActivity implements
 	private static final int DIALOG_ERROR_ID = 2;
 	private static final int DIALOG_IAMLOST_ID = 3;
 	
+	private final ArrayList<HashMap<String, String>> mErrors = new ArrayList<HashMap<String,String>>();
+	private SimpleAdapter mAdapter;
+	
 	protected abstract void save(boolean temporary);
 	
 	protected abstract ArrayList<HashMap<String, String>> getErrors();
@@ -118,12 +121,11 @@ public abstract class AbstractEntityEdit extends ScrollingTabActivity implements
 				.setCancelable(false)
 				.create();
 			case DIALOG_ERROR_ID :
-				final ArrayList<HashMap<String, String>> errors = getErrors();
 				return new AlertDialog.Builder(this)
 				.setTitle(android.R.string.dialog_alert_title)
 				.setIcon(android.R.drawable.ic_dialog_alert)
-				.setAdapter(
-					new SimpleAdapter(this, errors, W.layout.dialog_list_item,
+				.setAdapter(mAdapter =
+					new SimpleAdapter(this, mErrors, W.layout.dialog_list_item,
 						new String[] { ER_DES, ER_MSG }, new int[] {
 							W.id.dialog_item_title,
 							W.id.dialog_item_message }), this)
@@ -134,6 +136,20 @@ public abstract class AbstractEntityEdit extends ScrollingTabActivity implements
 				return DialogFactory.createIamLostDialog(this);
 			default :
 				return super.onCreateDialog(id);
+		}
+	}
+	
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		super.onPrepareDialog(id, dialog);
+		switch(id) {
+		case DIALOG_ERROR_ID:
+			if (mAdapter != null) {
+				mErrors.clear();
+				mErrors.addAll(getErrors());
+				mAdapter.notifyDataSetChanged();
+			}
+			break;
 		}
 	}
 	
