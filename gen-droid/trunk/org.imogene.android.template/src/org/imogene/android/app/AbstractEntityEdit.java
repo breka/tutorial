@@ -154,7 +154,6 @@ public abstract class AbstractEntityEdit extends ScrollingTabActivity implements
 			}
 			break;
 		}
-		removeDialog(DIALOG_ERROR_ID);
 	}
 
 }
