@@ -48,7 +48,7 @@ public class FieldGroupDescriptionWidget extends Composite implements MyItem {
 		setLayout(new GridLayout());
 		
 		descriptions = new Group(this, SWT.NONE);
-		descriptions.setText("Default descriptions");
+		descriptions.setText("Field group descriptions");
 		descriptions.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		descriptions.setLayout(new GridLayout(2, false));
 		
