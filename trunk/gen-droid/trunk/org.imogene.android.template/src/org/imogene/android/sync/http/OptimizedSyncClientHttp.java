@@ -3,6 +3,7 @@ package org.imogene.android.sync.http;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 import org.apache.http.Header;
@@ -31,22 +32,23 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient{
 		this.url = url + "sync.html";
 	}
 	
-	public String authentication(String login, String passwd, String terminalId) throws SynchronizationException {
+	public String authentication(String login, String password, String terminalId) throws SynchronizationException {
 		HttpClient client = new SSLHttpClient();
 
 		if (url == null) {
 			return null;
 		}
-		/* request construction */
-		StringBuilder builder = new StringBuilder(url)
-		.append("?"+CMD_PARAM+"="+CMD_AUTH)
-		.append("&"+LOGIN_PARAM+"="+login)
-		.append("&"+PASSWD_PARAM+"="+passwd)
-		.append("&"+TERMINALID_PARAM+"="+terminalId);
-		
-		HttpGet get = new HttpGet(builder.toString());
-		
+
 		try {
+			/* request construction */
+			StringBuilder builder = new StringBuilder(url)
+			.append("?"+CMD_PARAM+"="+CMD_AUTH)
+			.append("&"+LOGIN_PARAM+"="+URLEncoder.encode(login, "UTF-8"))
+			.append("&"+PASSWD_PARAM+"="+URLEncoder.encode(password, "UTF-8"))
+			.append("&"+TERMINALID_PARAM+"="+terminalId);
+			
+			HttpGet get = new HttpGet(builder.toString());
+			
 			/* request execution */
 			HttpResponse response = client.execute(get);
 			Header header = response.getFirstHeader(HEADER_NAME);
@@ -105,23 +107,24 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient{
 		return false;
 	}
 
-	public String initSession(String login, String passwd, String terminalId, String type) throws SynchronizationException {
+	public String initSession(String login, String password, String terminalId, String type) throws SynchronizationException {
 		HttpClient client = new SSLHttpClient();
 
 		if (url == null) {
 			return null;
 		}
-		/* request construction */
-		StringBuilder builder = new StringBuilder(url)
-		.append("?"+CMD_PARAM+"="+CMD_INIT)
-		.append("&"+LOGIN_PARAM+"="+login)
-		.append("&"+PASSWD_PARAM+"="+passwd)
-		.append("&"+TERMINALID_PARAM+"="+terminalId)
-		.append("&"+TYPE_PARAM+"="+type);
-		
-		HttpGet get = new HttpGet(builder.toString());
-		
+
 		try {
+			/* request construction */
+			StringBuilder builder = new StringBuilder(url)
+			.append("?"+CMD_PARAM+"="+CMD_INIT)
+			.append("&"+LOGIN_PARAM+"="+URLEncoder.encode(login, "UTF-8"))
+			.append("&"+PASSWD_PARAM+"="+URLEncoder.encode(password, "UTF-8"))
+			.append("&"+TERMINALID_PARAM+"="+terminalId)
+			.append("&"+TYPE_PARAM+"="+type);
+			
+			HttpGet get = new HttpGet(builder.toString());
+			
 			/* request execution */
 			HttpResponse response = client.execute(get);
 			Header header = response.getFirstHeader(HEADER_NAME);
@@ -201,24 +204,24 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient{
 		}
 	}
 
-	public String resumeReceive(String login, String passwd, String terminalId,
+	public String resumeReceive(String login, String password, String terminalId,
 			String type, UUID sessionId, long bytesReceived) throws SynchronizationException {
 
 		HttpClient client = new SSLHttpClient();
 
-		/* request construction */
-		StringBuilder builder = new StringBuilder(url)
-		.append("?"+CMD_PARAM+"="+CMD_RESUME_RECEIVE_INIT)
-		.append("&"+LOGIN_PARAM+"="+login)
-		.append("&"+PASSWD_PARAM+"="+passwd)
-		.append("&"+TERMINALID_PARAM+"="+terminalId)
-		.append("&"+TYPE_PARAM+"="+type)
-		.append("&"+SESSION_PARAM+"="+sessionId)
-		.append("&"+LENGTH_PARAM+"="+String.valueOf(bytesReceived));
-		
-		HttpGet get = new HttpGet(builder.toString());
-		
 		try {
+			/* request construction */
+			StringBuilder builder = new StringBuilder(url)
+			.append("?"+CMD_PARAM+"="+CMD_RESUME_RECEIVE_INIT)
+			.append("&"+LOGIN_PARAM+"="+URLEncoder.encode(login, "UTF-8"))
+			.append("&"+PASSWD_PARAM+"="+URLEncoder.encode(password, "UTF-8"))
+			.append("&"+TERMINALID_PARAM+"="+terminalId)
+			.append("&"+TYPE_PARAM+"="+type)
+			.append("&"+SESSION_PARAM+"="+sessionId)
+			.append("&"+LENGTH_PARAM+"="+String.valueOf(bytesReceived));
+			
+			HttpGet get = new HttpGet(builder.toString());
+			
 			/* request execution */
 			HttpResponse response = client.execute(get);
 			Header header = response.getFirstHeader(HEADER_NAME);
@@ -276,22 +279,22 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient{
 		}
 	}
 
-	public String resumeSend(String login, String passwd, String terminalId,
+	public String resumeSend(String login, String password, String terminalId,
 			String type, UUID sessionId) throws SynchronizationException {
 		HttpClient client = new SSLHttpClient();
 
-		/* request construction */
-		StringBuilder builder = new StringBuilder(url)
-		.append("?"+CMD_PARAM+"="+CMD_RESUME_SEND_INIT)
-		.append("&"+LOGIN_PARAM+"="+login)
-		.append("&"+PASSWD_PARAM+"="+passwd)
-		.append("&"+TERMINALID_PARAM+"="+terminalId)
-		.append("&"+TYPE_PARAM+"="+type)
-		.append("&"+SESSION_PARAM+"="+sessionId);
-
-		HttpGet method = new HttpGet(builder.toString());
-
 		try {
+			/* request construction */
+			StringBuilder builder = new StringBuilder(url)
+			.append("?"+CMD_PARAM+"="+CMD_RESUME_SEND_INIT)
+			.append("&"+LOGIN_PARAM+"="+URLEncoder.encode(login, "UTF-8"))
+			.append("&"+PASSWD_PARAM+"="+URLEncoder.encode(password, "UTF-8"))
+			.append("&"+TERMINALID_PARAM+"="+terminalId)
+			.append("&"+TYPE_PARAM+"="+type)
+			.append("&"+SESSION_PARAM+"="+sessionId);
+			
+			HttpGet method = new HttpGet(builder.toString());
+			
 			/* request execution */
 			HttpResponse response = client.execute(method);
 			Header header = response.getFirstHeader(HEADER_NAME);
@@ -362,15 +365,16 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient{
 	public boolean searchEntity(String login, String password, String searcheId, OutputStream os) throws SynchronizationException {
 		HttpClient client = new SSLHttpClient();
 
-		/* request construction */
-		StringBuilder builder = new StringBuilder(url).append(
-				"?" + CMD_PARAM + "=" + CMD_SEARCH).append(
-				"&" + LOGIN_PARAM + "=" + login).append(
-				"&" + PASSWD_PARAM + "=" + password).append(
-				"&" + SEARCH_PARAM + "=" + searcheId);
-
-		HttpGet method = new HttpGet(builder.toString());
 		try {
+			/* request construction */
+			StringBuilder builder = new StringBuilder(url)
+			.append("?"+CMD_PARAM+"="+CMD_SEARCH)
+			.append("&"+LOGIN_PARAM+"="+URLEncoder.encode(login, "UTF-8"))
+			.append("&"+PASSWD_PARAM+"="+URLEncoder.encode(password, "UTF-8"))
+			.append("&"+SEARCH_PARAM+"="+searcheId);
+			
+			HttpGet method = new HttpGet(builder.toString());
+
 			/* request execution */
 			HttpResponse response = client.execute(method);
 			Header header = response.getFirstHeader(HEADER_NAME);
