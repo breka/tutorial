@@ -35,7 +35,7 @@ public class «name.toFirstUpper()» implements ImogBean «IF this.georeferenced!=n
 	
 	/* entity fields */
 	«FOREACH groups.fields AS f -»
-	«EXPAND fieldDeclaration FOR f»
+	«EXPAND fieldDeclaration FOR f-»
 	«ENDFOREACH -»
 	
 	public «name.toFirstUpper()»(){
@@ -150,7 +150,7 @@ public class «name.toFirstUpper()» implements ImogBean «IF this.georeferenced!=n
 «ENDFILE»
 «ENDDEFINE»
 
-«DEFINE fieldDeclaration FOR FieldEntity»
+«DEFINE fieldDeclaration FOR FieldEntity-»
 	private «EXPAND adminTpl::WebFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»; 
 «ENDDEFINE»
 «DEFINE fieldDeclaration FOR GeoField-»

@@ -107,6 +107,16 @@
   	<url-pattern>/utilServices.serv</url-pattern>
   </servlet-mapping>
   
+  <!-- synchronizables service servlet -->
+  <servlet>
+    <servlet-name>synchronizableServlet</servlet-name>    
+    <servlet-class>org.imogene.«modelName.toLowerCase()».server.servlet.SynchronizableServiceServlet</servlet-class>      
+  </servlet>
+  <servlet-mapping>  
+    <servlet-name>synchronizableServlet</servlet-name>
+    <url-pattern>/synchronizable.serv</url-pattern>
+  </servlet-mapping>
+  
   «FOREACH entities AS e -»
   <!-- Servlet that expose a RCP service to handle '«e.name»'-->
   <servlet>

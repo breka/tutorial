@@ -14,6 +14,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
+import org.imogene.web.gwt.client.sync.SynchronizableEntity;
 import org.imogene.web.gwt.common.entity.ImogActor;
 import org.imogene.web.gwt.common.entity.ImogRole;
 
@@ -46,6 +47,12 @@ public class «name.toFirstUpper()»Actor extends «name.toFirstUpper()» implements
      * See the NotificationMethod enumerated values 
      */
     private HashMap<String, String> notificationData;
+    
+    /**
+     * List of entities that the actor coud synchronize
+     * from a disconnected client.
+     */
+    private Set<SynchronizableEntity> synchronizables;
 
     /** Store the assigned roles as set in the external user management application */
     private Set<ImogRole> assignedRoles = new HashSet<ImogRole>();
@@ -274,6 +281,14 @@ public class «name.toFirstUpper()»Actor extends «name.toFirstUpper()» implements
 	@Override
 	public void setNotificationLacole(String iso) {
 				
+	}
+	
+	public void setSynchronizables(Set<SynchronizableEntity> syncs){
+		synchronizables = syncs;
+	}
+
+	public Set<SynchronizableEntity> getSynchronizables(){
+		return synchronizables;
 	}
     
     «EXPAND filterField FOREACH this.filters»

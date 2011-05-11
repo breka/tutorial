@@ -86,6 +86,7 @@ public class 南ame.toFirstUpper()聞aoImpl extends HibernateDaoSupport implements
 			dc.addOrder(Property.forName(property).desc());
 		else
 			dc.addOrder(Property.forName(property).asc());
+		dc.addOrder(Property.forName("id").asc());
 		return getHibernateTemplate().findByCriteria(dc, first, max);
 	}
 
@@ -115,7 +116,7 @@ public class 南ame.toFirstUpper()聞aoImpl extends HibernateDaoSupport implements
 			dc.addOrder(Property.forName(property).desc());
 		else
 			dc.addOrder(Property.forName(property).asc());
-		
+		dc.addOrder(Property.forName("id").asc());
 		dc.add(HibernateDaoUtil.addImogJunction(criterions));			  	
 	  	return getHibernateTemplate().findByCriteria(dc, first, max);	  		  
 	  }	  
@@ -194,6 +195,7 @@ public class 南ame.toFirstUpper()聞aoImpl extends HibernateDaoSupport implements
 				crit.addOrder(Order.asc(sortProperty));
 			else
 				crit.addOrder(Order.desc(sortProperty));
+			crit.addOrder(Order.asc("id"));
 		  	return crit.list();
 	  }
 	  
@@ -222,6 +224,7 @@ public class 南ame.toFirstUpper()聞aoImpl extends HibernateDaoSupport implements
 				crit.addOrder(Order.asc(sortProperty));
 			else
 				crit.addOrder(Order.desc(sortProperty));
+			crit.addOrder(Order.asc("id"));
 	  		return crit.list();
 	  }	 
 	  

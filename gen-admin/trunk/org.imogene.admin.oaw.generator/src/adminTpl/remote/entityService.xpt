@@ -15,7 +15,8 @@ import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper(
 «ENDFOREACH -»
 
 /**
- *
+ * «name.toFirstUpper()» Services
+ * @author MEDES-IMPS
  */
 public interface «name.toFirstUpper()»Service extends RemoteService {
 
@@ -23,61 +24,61 @@ public interface «name.toFirstUpper()»Service extends RemoteService {
 	
 	/**
 	 * Load the entity with the specified id
-	 *@param entityId the entity id
-	 *@return the entity or null
+	 * @param entityId the entity id
+	 * @return the entity or null
 	 */
 	public «name.toFirstUpper()» get«name.toFirstUpper()»(String entityId);	
 
 	/**
-	 * List entities of type «name.toFirstUpper()»
-	 *@param i first index to retrieve
-	 *@param j nb of items to retrieve
-	 *@param sortProperty the property used to sort the collection
-	 *@param sortOrder true for an ascendant sort
-	 *@return list of «name.toFirstLower()»
+	 * Lists entities of type «name.toFirstUpper()»
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @param sortProperty the property used to sort the collection
+	 * @param sortOrder true for an ascendant sort
+	 * @return list of «name.toFirstLower()»
 	 */
 	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int i, int j, String sortProperty, boolean sortOrder);
 	
 	/**
-	 * List entities of type «name.toFirstUpper()»
-	 *@param i first index to retrieve
-	 *@param j nb of items to retrieve
-	 *@prama criterion request criteria
-	 *@param sortProperty the property used to sort the collection
-	 *@param sortOrder true for an ascendant sort
-	 *@return list of «name.toFirstLower()»
+	 * Lists the entities of type «name.toFirstUpper()»
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @prama criterion request criteria
+	 * @param sortProperty the property used to sort the collection
+	 * @param sortOrder true for an ascendant sort
+	 * @return list of «name.toFirstLower()»
 	 */
 	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int i, int j, ImogJunction criterion, String property, boolean sortOrder);
 	
 	/**
-	 * List all the entities of type «name.toFirstUpper()»
+	 * Lists all the entities of type «name.toFirstUpper()»
 	 */
 	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»();
 	
 	/**
-	 *Count number of «name.toFirstLower()» in the database
-	 *@return the count
+	 * Counts number of «name.toFirstLower()» in the database
+	 * @return the count
 	 */
 	public int count«name.toFirstUpper()»();
 	
 	/**
-	 *Count number of «name.toFirstLower()» in the database, 
-	 *that matches the criteria
-	 *@return the count
+	 * Counts number of «name.toFirstLower()» in the database, 
+	 * that matches the criteria
+	 * @return the count
 	 */
 	public int count«name.toFirstUpper()»(ImogJunction criterion);
 	
 	/**
-	 *Save or update the entity
-	 *@param entity the entity to save or update
-	 *@param isNew true if it is a new entity added for the first time.
+	 * Saves or updates the entity
+	 * @param entity the entity to save or update
+	 * @param isNew true if it is a new entity added for the first time.
 	 */
 	public void saveOrUpdate(«name.toFirstUpper()» entity, boolean isNew);
 	
 	/**
-	 *Save or update the entity without modifing the upload date
-	 *@param entity the entity to save or update
-	 *@param isNew true if it is a new entity added for the first time.
+	 * Saves or updates the entity without modifing the upload date
+	 * @param entity the entity to save or update
+	 * @param isNew true if it is a new entity added for the first time.
 	 */
 	public void saveOrUpdateShadow(«name.toFirstUpper()» entity, boolean isNew);
 	
@@ -106,10 +107,10 @@ import org.imogene.«projectName.toLowerCase()».client.entity.«entity.name.toFirs
 «DEFINE methodsForRelation(String parentEntityType) FOR RelationFieldEntity»
 «IF cardinality==-1 || cardinality>1 -»
 /**
- * List associated «entity.name.toFirstUpper()», 
+ * Lists the associated «entity.name.toFirstUpper()», 
  * on the field «name.toFirstLower()»
- *@param parent the parent entity
- *@return the list of the associated entities
+ * @param parent the parent entity
+ * @return the list of the associated entities
  */
 public List<«entity.name.toFirstUpper()»> list«entity.name.toFirstUpper()»(«parentEntityType» parent);
 «ENDIF -»
