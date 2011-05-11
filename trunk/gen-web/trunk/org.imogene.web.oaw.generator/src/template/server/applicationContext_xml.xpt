@@ -48,6 +48,7 @@
 				<value>org/imogene/web/server/dao/hibernate/RoleBeanImpl.hbm.xml</value>
 				<value>org/imogene/web/server/dao/hibernate/DefaultActor.hbm.xml</value>
 				<value>org/imogene/web/server/dao/hibernate/LocalizedText.hbm.xml</value>
+				<value>org/imogene/web/gwt/client/sync/SynchronizableEntity.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

@@ -356,10 +356,10 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 			/* behavior if form should not be closed after save action */
 			//set«name.toFirstUpper()»(entity);
 			//setEditable(false);
-			//if(isNew){
-			//	RelationUpdateManager.get().relationUdpate(entity);
-			//	isNew = false;
-			//}
+			if(isNew){
+				RelationUpdateManager.get().relationUdpate(entity);
+				isNew = false;
+			}
 			/* behavior if form should be closed after save action */
 			closeForm();			
 		}
@@ -423,7 +423,10 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 			entity.setSynchronizables(syncFields.getValue());
 			«FOREACH filters AS f-»
 			«IF f.cardinality == 1 -»
-			entity.«EXPAND template::CommonFieldUtil::setterName FOR f»(MiscTools.getHashSet(«f.name.toFirstLower()»FilterField.getValue()));
+			if(«f.name.toFirstLower()»FilterField.getValue()==null)
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR f»(null);
+			else
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR f»(MiscTools.getHashSet(«f.name.toFirstLower()»FilterField.getValue()));		
 			«ELSE -»
 			entity.«EXPAND template::CommonFieldUtil::setterName FOR f»(«f.name.toFirstLower()»FilterField.getValue());
 			«ENDIF -»
