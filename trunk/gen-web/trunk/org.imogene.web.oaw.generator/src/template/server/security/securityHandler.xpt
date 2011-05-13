@@ -9,7 +9,6 @@ import org.imogene.web.server.ImogSecurityPolicy;
 import org.imogene.web.server.dao.GenericDao;
 import org.imogene.web.server.dao.hibernate.LocalizedTextDao;
 
-import org.imogene.«projectName.toLowerCase()».server.ApplicationContext;
 
 /**
  * This class handles the application data security 
@@ -32,14 +31,28 @@ public class ImogSecurityHandler {
 	}
 	
 	public ImogSecurityHandler() {
-		dao = (GenericDao) ApplicationContext.getInstance().getBean("genericDao");
-		i18nDao = (LocalizedTextDao) ApplicationContext.getInstance().getBean("localizedTextDao");
 	}	
 	
 	public ImogSecurityPolicy getPolicy(){
 		if(dao == null) return null;
 		return new Imog«projectName.toFirstUpper()»Policy(dao,i18nDao);
 	}
+	
+	/**
+	 * Setter for bean injection
+	 * @param dao
+	 */
+	public void setDao(GenericDao dao) {
+		this.dao = dao;
+	}
+	
+	/**
+	 * Setter for bean injection
+	 * @param i18nDao
+	 */
+	public void setI18nDao(LocalizedTextDao i18nDao) {
+		this.i18nDao = i18nDao;
+	}	
 	
 
 }

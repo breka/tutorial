@@ -14,7 +14,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import net.sf.gilead.core.PersistentBeanManager;
 import net.sf.gilead.gwt.PersistentRemoteService;
-import org.imogene.«projectName.toLowerCase()».server.ApplicationContext;
 import org.imogene.web.gwt.client.sync.SynchronizableEntity;
 import org.imogene.web.gwt.client.sync.SynchronizableService;
 import org.imogene.web.server.dao.GenericDao;

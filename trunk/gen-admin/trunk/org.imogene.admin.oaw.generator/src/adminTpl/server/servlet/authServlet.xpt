@@ -19,7 +19,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import net.sf.gilead.core.PersistentBeanManager;
 import net.sf.gilead.gwt.PersistentRemoteService;
-import org.imogene.«projectName.toLowerCase()».server.ApplicationContext;
 import org.imogene.web.gwt.common.criteria.ImogJunction;
 import org.imogene.web.gwt.remote.AuthenticationService;
 import org.imogene.web.gwt.common.entity.ImogActor;
@@ -191,7 +190,7 @@ private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;
 	Set actor dao «ENDREM»
 «DEFINE actorDao FOR CardEntity -»«ENDDEFINE»
 «DEFINE actorDao FOR Actor -»
-«name.toFirstLower()»Dao = («name.toFirstUpper()»Dao) ApplicationContext.getInstance().getBean("«name.toFirstLower()»Dao");
+«name.toFirstLower()»Dao = («name.toFirstUpper()»Dao) wac.getBean("«name.toFirstLower()»Dao");
 «ENDDEFINE»
 
 «REM»
