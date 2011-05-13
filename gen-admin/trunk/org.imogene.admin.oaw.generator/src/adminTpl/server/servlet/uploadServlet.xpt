@@ -15,7 +15,6 @@ import org.imogene.web.server.binary.BinaryDao;
 import org.imogene.web.server.binary.file.BinaryFile;
 import org.imogene.web.server.util.VideoConverter;
 import org.imogene.web.server.util.PhotoConverter;
-import org.imogene.«projectName.toLowerCase()».server.ApplicationContext;
 import gwtupload.server.UploadAction;
 import gwtupload.server.exceptions.UploadActionException;
 

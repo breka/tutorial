@@ -9,7 +9,7 @@
   <!-- root application context / and loader -->
   <context-param>
 	<param-name>contextConfigLocation</param-name>		
-	<param-value>classpath:/org/imogene/«modelName.toLowerCase()»/server/applicationContext.xml classpath:/org/imogene/«modelName.toLowerCase()»/server/aopContext.xml</param-value>
+	<param-value>/WEB-INF/applicationContext.xml /WEB-INF/aopContext.xml</param-value>
   </context-param>	
   <listener>
 	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

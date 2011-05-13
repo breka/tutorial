@@ -1,6 +1,6 @@
 «IMPORT core»
 «DEFINE generate(String projectName) FOR Project-»
-«FILE projectName.toLowerCase()+"/server/applicationContext.xml"-»
+«FILE "applicationContext.xml"-»
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
 <beans>
@@ -8,8 +8,14 @@
 	<!-- Application properties -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
-		    <value>classpath:org/imogene/«projectName.toLowerCase()»/server/application.properties</value>
+		    <value>/WEB-INF/application.properties</value>
 		</property>
+	</bean>	
+	
+	<!-- Security Handler -->
+	<bean id="securityHandler" class="org.imogene.«projectName.toLowerCase()».server.servlet.security.ImogSecurityHandler" factory-method="getInstance">
+		<property name="dao" ref="genericDao" />
+		<property name="i18nDao" ref="localizedTextDao" />
 	</bean>	
 	
 	<!-- exported spring properties -->	

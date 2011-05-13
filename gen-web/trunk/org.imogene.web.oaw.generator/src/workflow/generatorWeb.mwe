@@ -231,21 +231,12 @@
 	<!-- Server configuration -->
 	<!--                      -->
 	
-	<!-- spring application context JAVA acessor -->
-	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
-		<fileEncoding value="iso-8859-1"/>
-		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
-		<expand value='template::server::applicationContext::generate("${packageName}","${modelName}") FOR project' />
-		<genPath value="${home-gen}/src/${packagePath}" />
-		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
-	</component>
-	
 	<!-- spring application context -->
 	<component class="org.eclipse.xpand2.Generator">
 		<fileEncoding value="iso-8859-1"/>
 		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
 		<expand value='template::server::applicationContext_xml::generate("${modelName}") FOR project' />
-		<genPath value="${home-gen}/src/${packagePath}" />
+		<genPath value="${home-gen}/war/WEB-INF/" />
 		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
 	</component>
 	
@@ -254,7 +245,7 @@
 		<fileEncoding value="iso-8859-1"/>
 		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
 		<expand value='template::server::aopContext_xml::generate("${modelName}") FOR project' />
-		<genPath value="${home-gen}/src/${packagePath}" />
+		<genPath value="${home-gen}/war/WEB-INF/" />
 		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
 	</component>
 	
@@ -263,7 +254,7 @@
 		<fileEncoding value="iso-8859-1"/>
 		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
 		<expand value='template::server::application_properties::generate("${modelName}","${JDBCDRIVER}","${JDBCPATH}","${JDBCLOGIN}","${JDBCPASSWORD}", "${HIBERNATEDIALECT}","${SMSSERVER}","${BINARIESPATH}","${videoConverter}") FOR project' />
-		<genPath value="${home-gen}/src/${packagePath}" />
+		<genPath value="${home-gen}/war/WEB-INF/" />
 	</component>
 	
 	<!--		  -->

@@ -1,6 +1,6 @@
 «IMPORT core»
 «DEFINE generate(String projectName, String jdbcDriver, String jdbcPath, String jdbcLogin, String jdbcPassword, String hibernateDialect, String notifierUrl) FOR Project»
-«FILE projectName.toLowerCase()+"/server/application.properties"»
+«FILE "application.properties"»
 # JDBC properties
 jdbc.driverClassName=«jdbcDriver»
 jdbc.url=«jdbcPath»
