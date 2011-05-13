@@ -794,9 +794,18 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 
 				«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
 				/* injection of selection list values for related entity */
+					«IF relationHierarchicalFilter.get(0).cardinality==1 -»
+				«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» parent = «relationHierarchicalFilter.get(0).name.toFirstLower()».getValue();
+				if(parent!=null) {
+					Set<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> parents = new HashSet<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»>();
+					parents.add(parent);
+					form.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(parents);
+				}				
+					«ELSE -»
 				Set<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> «relationHierarchicalFilter.get(0).name.toFirstLower()»List = «relationHierarchicalFilter.get(0).name.toFirstLower()».getValue();
 				if («relationHierarchicalFilter.get(0).name.toFirstLower()»List!=null)
-					form.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(«relationHierarchicalFilter.get(0).name.toFirstLower()»List);							
+					form.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(«relationHierarchicalFilter.get(0).name.toFirstLower()»List);					
+					«ENDIF -»							
 				«ENDIF -»
 			
 				/* common fields */
@@ -833,9 +842,18 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 					
 					«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
 					/* injection of selection list values for related entity */
+						«IF relationHierarchicalFilter.get(0).cardinality==1 -»
+					«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» parent = «relationHierarchicalFilter.get(0).name.toFirstLower()».getValue();
+					if(parent!=null) {
+						Set<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> parents = new HashSet<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»>();
+						parents.add(parent);
+						form.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(parents);
+					}				
+						«ELSE -»
 					Set<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> «relationHierarchicalFilter.get(0).name.toFirstLower()»List = «relationHierarchicalFilter.get(0).name.toFirstLower()».getValue();
 					if («relationHierarchicalFilter.get(0).name.toFirstLower()»List!=null)
-						form.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(«relationHierarchicalFilter.get(0).name.toFirstLower()»List);							
+						form.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(«relationHierarchicalFilter.get(0).name.toFirstLower()»List);					
+						«ENDIF -»												
 					«ENDIF -»					
 				}
 			}
@@ -1072,12 +1090,18 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 					
 					«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
 					/* injection of selection list values for related entity */
+						«IF relationHierarchicalFilter.get(0).cardinality==1 -»
 					«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» parent = «relationHierarchicalFilter.get(0).name.toFirstLower()».getValue();
 					if(parent!=null) {
 						Set<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> parents = new HashSet<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»>();
 						parents.add(parent);
 						composite.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(parents);
-					}					
+					}				
+						«ELSE -»
+					Set<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> «relationHierarchicalFilter.get(0).name.toFirstLower()»List = «relationHierarchicalFilter.get(0).name.toFirstLower()».getValue();
+					if («relationHierarchicalFilter.get(0).name.toFirstLower()»List!=null)
+						composite.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(«relationHierarchicalFilter.get(0).name.toFirstLower()»List);					
+						«ENDIF -»										
 					«ENDIF -»
 				
 					/* common fields */
@@ -1117,12 +1141,18 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 						
 					«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
 					/* injection of selection list values for related entity */
+						«IF relationHierarchicalFilter.get(0).cardinality==1 -»
 					«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» parent = «relationHierarchicalFilter.get(0).name.toFirstLower()».getValue();
 					if(parent!=null) {
 						Set<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> parents = new HashSet<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»>();
 						parents.add(parent);
 						composite.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(parents);
-					}					
+					}				
+						«ELSE -»
+					Set<«relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> «relationHierarchicalFilter.get(0).name.toFirstLower()»List = «relationHierarchicalFilter.get(0).name.toFirstLower()».getValue();
+					if («relationHierarchicalFilter.get(0).name.toFirstLower()»List!=null)
+						composite.set«relationHierarchicalFilter.get(1).name.toFirstUpper()»SelectionList(«relationHierarchicalFilter.get(0).name.toFirstLower()»List);					
+						«ENDIF -»											
 					«ENDIF -»						
 					}
 				}
