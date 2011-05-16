@@ -1,4 +1,4 @@
-#Thu Feb 24 10:44:34 CET 2011
+#Mon May 16 13:49:32 CEST 2011
 eclipse.preferences.version=1
 encoding//src/template/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/template/accessManager.xpt=ISO-8859-1
@@ -36,6 +36,7 @@ encoding//src/template/server/servlet/authServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/cardReportServiceServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/downloadServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/entityServlet.xpt=ISO-8859-1
+encoding//src/template/server/servlet/syncServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/uploadServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/utilServices.xpt=ISO-8859-1
 encoding//src/template/tokenHandler.xpt=ISO-8859-1
