@@ -38,6 +38,10 @@
                allowsPlatformContributions="true"
                id="org.imogene.studio.contrib.popupmenu">
             <insertionPoint
+                  name="group.new"
+                  separator="true">
+            </insertionPoint>
+            <insertionPoint
                   name="group.open"
                   separator="false">
             </insertionPoint>
