@@ -1,5 +1,8 @@
 package org.imogene.studio.contrib.ui.navigator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.resources.IProject;
 import org.imogene.studio.contrib.ImogeneStudioPlugin;
 
@@ -9,9 +12,11 @@ import org.imogene.studio.contrib.ImogeneStudioPlugin;
  * projects for a Medoo model.
  * @author Medes-IMPS
  */
-public class GeneratedShadow extends AbstractShadow {
+public class GeneratedShadow extends AbstractShadow {	
 
 	public static final String TYPE="generated"; //$NON-NLS-1$
+	
+	private Map<String, Object> objectCache = new HashMap<String, Object>();
 	
 	public GeneratedShadow(IProject parent){
 		super(parent, TYPE);
@@ -23,14 +28,62 @@ public class GeneratedShadow extends AbstractShadow {
 	@Override
 	public Object[] getChildren() {
 		IShadow[] pp = new IShadow[8];
-		pp[0] = new InitializerShadow(parent);
-		pp[1] = new WebShadow(parent);
-		pp[2] = new SynchroShadow(parent);
-		pp[3] = new RcpShadow(parent);
-		pp[4] = new AndroidShadow(parent);
-		pp[5] = new AdminShadow(parent);
-		pp[6] = new NotifierShadow(parent);
-		pp[7] = new WebServiceShadow(parent);
+		
+		IShadow init = (IShadow)objectCache.get(InitializerShadow.TYPE);
+		if(init==null){
+			init = new InitializerShadow(parent);
+			objectCache.put(InitializerShadow.TYPE, init);
+		}
+		pp[0] = init;
+		
+		IShadow web = (IShadow)objectCache.get(WebShadow.TYPE);
+		if(web==null){
+			web = new WebShadow(parent);
+			objectCache.put(WebShadow.TYPE, web);
+		}
+		pp[1] = web;
+		
+		IShadow sync = (IShadow)objectCache.get(SynchroShadow.TYPE);
+		if(sync==null){
+			sync = new SynchroShadow(parent);
+			objectCache.put(SynchroShadow.TYPE, sync);
+		}
+		pp[2] = sync;
+		
+		IShadow rcp = (IShadow)objectCache.get(RcpShadow.TYPE);
+		if(rcp==null){
+			rcp = new RcpShadow(parent);
+			objectCache.put(RcpShadow.TYPE, rcp);
+		}
+		pp[3] = rcp;
+		
+		IShadow droid = (IShadow)objectCache.get(AndroidShadow.TYPE);
+		if(droid==null){
+			droid = new AndroidShadow(parent);
+			objectCache.put(AndroidShadow.TYPE, droid);
+		}
+		pp[4] = droid;
+		
+		IShadow admin = (IShadow)objectCache.get(AdminShadow.TYPE);
+		if(admin==null){
+			admin = new AdminShadow(parent);
+			objectCache.put(AdminShadow.TYPE, admin);
+		}
+		pp[5] = admin;
+		
+		IShadow notif = (IShadow)objectCache.get(NotifierShadow.TYPE);
+		if(notif==null){
+			notif = new NotifierShadow(parent);
+			objectCache.put(NotifierShadow.TYPE, notif);
+		}
+		pp[6] = notif;
+		
+		IShadow serv = (IShadow)objectCache.get(WebServiceShadow.TYPE);
+		if(serv==null){
+			serv = new WebServiceShadow(parent);
+			objectCache.put(WebServiceShadow.TYPE, serv);
+		}
+		pp[7] = serv;
 		return pp;
 	}
 

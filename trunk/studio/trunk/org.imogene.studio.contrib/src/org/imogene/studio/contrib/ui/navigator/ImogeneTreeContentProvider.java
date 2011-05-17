@@ -2,7 +2,9 @@ package org.imogene.studio.contrib.ui.navigator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.core.resources.IContainer;
@@ -17,6 +19,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Display;
 import org.imogene.studio.contrib.ImogeneModelNature;
@@ -28,6 +31,8 @@ import org.imogene.studio.contrib.ImogeneModelNature;
  */
 public class ImogeneTreeContentProvider extends ArrayContentProvider implements
 		ITreeContentProvider, IResourceChangeListener {
+	
+	private Map<String, Object> _wrapperCache = new HashMap<String, Object>();
 	
 	private Viewer _viewer;
 
@@ -100,10 +105,23 @@ public class ImogeneTreeContentProvider extends ArrayContentProvider implements
 						return files.toArray();
 					}
 					/* other IProject, here, could only by a Medoo model project */
-					else {
+					else {						
 						IShadow[] res = new IShadow[2];
-						res[0] = new GeneratedShadow(p);
-						res[1] = new ModelShadow(p);
+						
+						IShadow genShadow=(IShadow)_wrapperCache.get(p.getName()+"-genShadow");
+						if(genShadow==null){
+							genShadow = new GeneratedShadow(p);
+							_wrapperCache.put(p.getName()+"-genShadow",genShadow);
+						}
+						
+						IShadow modelShadow=(IShadow)_wrapperCache.get(p.getName()+"-modelShadow");
+						if(modelShadow==null){
+							modelShadow = new ModelShadow(p);
+							_wrapperCache.put(p.getName()+"-modelShadow", modelShadow);
+						}
+						
+						res[0] = genShadow;
+						res[1] = modelShadow;
 						return res;
 					}				
 				}
@@ -196,12 +214,18 @@ public class ImogeneTreeContentProvider extends ArrayContentProvider implements
 	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
 	 */
 	@Override
-	public void resourceChanged(IResourceChangeEvent event) {
+	public void resourceChanged(final IResourceChangeEvent event) {
+		
 		Display.getDefault().asyncExec(new Runnable() {
 			
 			@Override
 			public void run() {
-				_viewer.refresh();
+				 TreeViewer viewer = (TreeViewer) _viewer;
+			     //TreePath[] treePaths = viewer.getExpandedTreePaths();	
+			     Object[] objs = viewer.getExpandedElements();
+			     viewer.refresh();
+			     //viewer.setExpandedTreePaths(treePaths);
+			     viewer.setExpandedElements(objs);
 			}
 		});
 	}
@@ -217,6 +241,5 @@ public class ImogeneTreeContentProvider extends ArrayContentProvider implements
 		}
 		return objects;
 	}
-
 	
 }
