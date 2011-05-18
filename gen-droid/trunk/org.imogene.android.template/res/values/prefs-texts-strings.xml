@@ -72,4 +72,9 @@
 	<string name="webservice_url_title">Web Services Address</string>
 	<string name="location_filter_title">Location filter</string>
 	<string name="tile_loader_filter_title">Donwload tiles</string>
+	
+	<string name="security_parameters">Security parameters</string>
+	<string name="http_authentication_title">HTTP basic authentication</string>
+	<string name="http_authentication_summaryon">Authentication enabled</string>
+	<string name="http_authentication_summaryoff">Authentication disabled</string>
 </resources>

@@ -482,7 +482,13 @@ public final class W {
 		public static final int wizard_finish = R.string.wizard_finish;
 		public static final int wizard_next = R.string.wizard_next;
 		public static final int wizard_previous = R.string.wizard_previous;
-		public static final int wizard_view = R.string.wizard_view;}
+		public static final int wizard_view = R.string.wizard_view;
+		public static final int security_parameters = R.string.security_parameters;
+		public static final int http_authentication_key = R.string.http_authentication_key;
+		public static final int http_authentication_title = R.string.http_authentication_title;
+		public static final int http_authentication_summaryon = R.string.http_authentication_summaryon;
+		public static final int http_authentication_summaryoff = R.string.http_authentication_summaryoff;			
+		}
 
 	public static final class style {
 

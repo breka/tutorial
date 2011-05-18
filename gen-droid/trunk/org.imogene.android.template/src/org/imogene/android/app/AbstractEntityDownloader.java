@@ -140,7 +140,11 @@ public abstract class AbstractEntityDownloader extends Activity {
 			mLogin = PreferenceHelper.getSyncLogin(context);
 			mPassword = PreferenceHelper.getSyncPassword(context);			
 			
-			mSyncClient = new OptimizedSyncClientHttp(PreferenceHelper.getServerUrl(context));
+			if(PreferenceHelper.isHttpAuthenticated(context)){
+				mSyncClient = new OptimizedSyncClientHttp(PreferenceHelper.getServerUrl(context), mLogin, mPassword);
+			}else{
+				mSyncClient = new OptimizedSyncClientHttp(PreferenceHelper.getServerUrl(context));
+			}
 			
 			mSearched = searched;
 		}
