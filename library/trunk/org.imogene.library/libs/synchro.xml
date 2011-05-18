@@ -35,6 +35,13 @@
 	<jar file="org.springframework.context-3.0.4.RELEASE.jar"/>
 	<jar file="org.springframework.web.servlet-3.0.4.RELEASE.jar"/>
 	
+	<!-- SPRING security -->
+	<jar file="spring-security-acl-3.0.3.RELEASE.jar"/>
+	<jar file="spring-security-config-3.0.3.RELEASE.jar"/>
+	<jar file="spring-security-core-3.0.3.RELEASE.jar"/>
+	<jar file="spring-security-taglibs-3.0.3.RELEASE.jar"/>
+	<jar file="spring-security-web-3.0.3.RELEASE.jar"/>
+	
 	<!-- specific --> 
 	<jar file="asm-1.5.3.jar"/>
 	<jar file="cos.jar"/>
