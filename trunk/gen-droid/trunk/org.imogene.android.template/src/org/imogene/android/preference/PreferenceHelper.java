@@ -151,5 +151,11 @@ public class PreferenceHelper {
 		return PreferenceManager.getDefaultSharedPreferences(context)
 		.getString(context.getString(W.string.admin_roles_key), null);
 	}
+	
+	public static final boolean isHttpAuthenticated(Context context) {
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean(context.getString(W.string.http_authentication_key),
+						true);
+	}
 
 }

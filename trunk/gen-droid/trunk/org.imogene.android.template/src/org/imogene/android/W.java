@@ -15,7 +15,8 @@ public final class W {
 		public static final int numeric_filter_values = R.array.numeric_filter_values;
 		public static final int period_filter_values = R.array.period_filter_values;
 		public static final int select_yes_no = R.array.select_yes_no;
-		public static final int string_filter_values = R.array.string_filter_values;}
+		public static final int string_filter_values = R.array.string_filter_values;
+		}
 
 	public static final class attr {
 
@@ -53,15 +54,18 @@ public final class W {
 		public static final int tableName = R.attr.tableName;
 		public static final int title = R.attr.title;
 		public static final int type = R.attr.type;
-		public static final int unit = R.attr.unit;}
+		public static final int unit = R.attr.unit;
+		}
 
 	public static final class color {
 
-		public static final int gray = R.color.gray;}
+		public static final int gray = R.color.gray;
+		}
 
 	public static final class dimen {
 
-		public static final int button_minWidth = R.dimen.button_minWidth;}
+		public static final int button_minWidth = R.dimen.button_minWidth;
+		}
 
 	public static final class drawable {
 
@@ -121,7 +125,8 @@ public final class W {
 		public static final int timepicker_up_normal = R.drawable.timepicker_up_normal;
 		public static final int timepicker_up_pressed = R.drawable.timepicker_up_pressed;
 		public static final int timepicker_up_selected = R.drawable.timepicker_up_selected;
-		public static final int validation = R.drawable.validation;}
+		public static final int validation = R.drawable.validation;
+		}
 
 	public static final class id {
 
@@ -219,7 +224,8 @@ public final class W {
 		public static final int value = R.id.value;
 		public static final int view = R.id.view;
 		public static final int wizard = R.id.wizard;
-		public static final int year = R.id.year;}
+		public static final int year = R.id.year;
+		}
 
 	public static final class layout {
 
@@ -266,7 +272,8 @@ public final class W {
 
 		public static final int menu_entity_edit = R.menu.menu_entity_edit;
 		public static final int menu_entity_view = R.menu.menu_entity_view;
-		public static final int menu_thema_listing = R.menu.menu_thema_listing;}
+		public static final int menu_thema_listing = R.menu.menu_thema_listing;
+		}
 
 	public static final class raw {
 
@@ -352,6 +359,11 @@ public final class W {
 		public static final int greater_than_decimal = R.string.greater_than_decimal;
 		public static final int greater_than_float = R.string.greater_than_float;
 		public static final int high_preferences = R.string.high_preferences;
+		public static final int http_authentication_key = R.string.http_authentication_key;
+		public static final int http_authentication_summaryoff = R.string.http_authentication_summaryoff;
+		public static final int http_authentication_summaryon = R.string.http_authentication_summaryon;
+		public static final int http_authentication_title = R.string.http_authentication_title;
+		public static final int security_parameters = R.string.security_parameters;
 		public static final int iamlost_title = R.string.iamlost_title;
 		public static final int infimum = R.string.infimum;
 		public static final int informations = R.string.informations;
@@ -479,7 +491,8 @@ public final class W {
 		public static final int wizard_finish = R.string.wizard_finish;
 		public static final int wizard_next = R.string.wizard_next;
 		public static final int wizard_previous = R.string.wizard_previous;
-		public static final int wizard_view = R.string.wizard_view;}
+		public static final int wizard_view = R.string.wizard_view;
+		}
 
 	public static final class style {
 
@@ -563,4 +576,7 @@ public final class W {
 		public static final int RelationManyFieldView_displayPl = R.styleable.RelationManyFieldView_displayPl;
 		public static final int RelationManyFieldView_displaySg = R.styleable.RelationManyFieldView_displaySg;
 		public static final int[] TextFieldEdit = R.styleable.TextFieldEdit;
-		public static final int TextFieldEdit_stringType = R.styleable.TextFieldEdit_stringType;}}
+		public static final int TextFieldEdit_stringType = R.styleable.TextFieldEdit_stringType;
+		}
+
+}

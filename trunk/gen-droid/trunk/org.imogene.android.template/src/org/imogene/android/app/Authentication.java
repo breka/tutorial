@@ -146,7 +146,12 @@ public class Authentication extends Activity implements OnClickListener {
 		
 		public void run() {
 			reportAuthRunning();
-			OptimizedSyncClient sync = new OptimizedSyncClientHttp(mServer);
+			OptimizedSyncClient sync;
+			if(PreferenceHelper.isHttpAuthenticated(Authentication.this)){
+				sync = new OptimizedSyncClientHttp(mServer, mLogin, mPassword);
+			}else{
+				sync = new OptimizedSyncClientHttp(mServer);
+			}
 			try {
 				String auth = sync.authentication(mLogin, mPassword, mHardware);
 				if (auth != null) {

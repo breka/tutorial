@@ -220,7 +220,11 @@ public abstract class AbstractSyncService extends Service {
 					.getSynchronizationBidirectional(context);
 			debug = PreferenceHelper.isDebugActive(context);
 
-			syncClient = new OptimizedSyncClientHttp(serverUrl);
+			if(PreferenceHelper.isHttpAuthenticated(context)){
+				syncClient = new OptimizedSyncClientHttp(serverUrl, login, password);
+			}else{
+				syncClient = new OptimizedSyncClientHttp(serverUrl);
+			}
 		}
 
 		public void run() {
