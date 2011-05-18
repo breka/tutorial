@@ -16,8 +16,7 @@ import org.imogene.studio.contrib.ui.generation.GenerationWizardPage;
 
 
 public class SpecificWizardPage extends WizardPage implements GenerationWizardPage, SelectionListener {
-	
-	private static final String GECKO = "gecko";	
+		
 	private static final String GECKO_18 = "gecko1_8";
 	private static final String IE6 = "ie6";
 	private static final String IE8 = "ie8";
@@ -36,9 +35,7 @@ public class SpecificWizardPage extends WizardPage implements GenerationWizardPa
 	
 	private Button ie8Button;
 	
-	private Button operaButton;
-	
-	private Button geckoButton;
+	private Button operaButton;	
 	
 	private Button gecko18Button;
 	
@@ -56,7 +53,7 @@ public class SpecificWizardPage extends WizardPage implements GenerationWizardPa
 		navigatorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL|GridData.GRAB_HORIZONTAL));
 		
 		gecko18Button = new Button(navigatorGroup, SWT.CHECK);
-		gecko18Button.setText("Firefox (Mozilla, Chrome, ...)");	
+		gecko18Button.setText("Firefox (Mozilla, ...)");	
 		gecko18Button.setSelection(true);
 		gecko18Button.addSelectionListener(this);
 		
@@ -71,14 +68,9 @@ public class SpecificWizardPage extends WizardPage implements GenerationWizardPa
 		ie8Button.addSelectionListener(this);
 		
 		safariButton = new Button(navigatorGroup, SWT.CHECK);
-		safariButton.setText("Safari");
+		safariButton.setText("Safari, Chrome");
 		safariButton.setSelection(true);
-		safariButton.addSelectionListener(this);				
-		
-		geckoButton = new Button(navigatorGroup, SWT.CHECK);
-		geckoButton.setText("Mozilla 1.8");	
-		geckoButton.setSelection(true);
-		geckoButton.addSelectionListener(this);
+		safariButton.addSelectionListener(this);		
 		
 		operaButton = new Button(navigatorGroup, SWT.CHECK);
 		operaButton.setText("Opera");
@@ -98,9 +90,7 @@ public class SpecificWizardPage extends WizardPage implements GenerationWizardPa
 	}
 	
 	private String getProperty(){
-		StringBuffer buffer = new StringBuffer();
-		if(geckoButton.getSelection())
-			buffer.append(GECKO).append(SEPARATOR);
+		StringBuffer buffer = new StringBuffer();	
 		if(gecko18Button.getSelection())
 			buffer.append(GECKO_18).append(SEPARATOR);
 		if(operaButton.getSelection())
@@ -116,8 +106,7 @@ public class SpecificWizardPage extends WizardPage implements GenerationWizardPa
 	}
 	
 	private boolean validate(){
-		boolean valid =  geckoButton.getSelection()
-				||gecko18Button.getSelection()
+		boolean valid =  gecko18Button.getSelection()
 				||operaButton.getSelection()
 				||safariButton.getSelection()
 				||ie6Button.getSelection()
