@@ -76,7 +76,7 @@ public class UserAccessControlImpl implements UserAccessControl{
 	 * 
 	 * @return the default user if it exist, null otherwise
 	 */
-	private DefaultUser validateForDefaultUser(String login) {
+	public DefaultUser validateForDefaultUser(String login) {
 		List<SynchronizableUser> actors = defaultUserHandler.getUserFromLogin(login);		
 		return (DefaultUser) validateActor(actors, login);
 	}
@@ -175,7 +175,7 @@ import «packageName.toLowerCase()».handler.«this.name»Handler;
 	 * Validate login for «this.name»User
 	 * @return the «this.name»User if it exist, null otherwise
 	 */
-	private «this.name»User validateFor«this.name»(String login) {		
+	public «this.name»User validateFor«this.name»(String login) {		
 		List<SynchronizableUser> actors = «this.name.toFirstLower()»Handler.getUserFromLogin(login);		
 		return («this.name»User) validateActor(actors, login);
 	}

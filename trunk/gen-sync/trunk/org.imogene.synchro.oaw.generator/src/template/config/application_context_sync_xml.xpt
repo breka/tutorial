@@ -236,13 +236,18 @@
       			<ref bean="photoToThumb"/>
     		</set>
   		</property>
-  	</bean>		
-
+  	</bean>	
+  	
+  	<!--  Spring-security user access control -->	
+	<bean class="«packageName.toLowerCase()».uao.security.MedooSecurityDetailService" id="medooSecurityDetailService">		
+		<property name="userAccessControl" ref="userAccessControl"/>
+  	</bean>	
 
 </beans>
 «ENDFILE»
 «ENDDEFINE»
 «REM» ------------------------------------------------«ENDREM»
+
 
 
 
