@@ -21,11 +21,7 @@ author Medes-IMPS
   «ENDFOREACH-»  
   <set-property name="locale" value="«FOREACH languages AS l SEPARATOR ","»«l.isoCode»«ENDFOREACH»"/>
   
-    <!-- for tests
-  <extend-property name="locale" values="en"/>
-  <set-property name="locale" value="en"/>
-  <set-property name="user.agent" value="gecko1_8" />
-  -->
+
   <set-property name="user.agent" value="«navigators»" />
   
   <!-- Module style sheet -->

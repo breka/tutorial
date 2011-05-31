@@ -27,5 +27,14 @@
          </run>
       </builder>
    </extension>
-
+	<extension
+         id="org.imogene.web.contrib.builder.CompatibilityBuilder"
+         name="Compatibility"
+         point="org.eclipse.core.resources.builders">
+      <builder>
+         <run
+               class="org.imogene.web.contrib.builder.CompatibilityBuilder">
+         </run>
+      </builder>
+   </extension>
 </plugin>

@@ -29,8 +29,7 @@
   «ENDIF -»
 «ENDDEFINE»
 
-«REM» 
-	Field widget declarations «ENDREM»
+«REM» Field widget declarations «ENDREM»
 «DEFINE formFieldType FOR FieldEntity»ImogTextBox«ENDDEFINE»
 «DEFINE formFieldType FOR TextField»ImogTextBox«ENDDEFINE»
 «DEFINE formFieldType FOR BinaryField»ImogBinaryField«ENDDEFINE»
@@ -73,8 +72,7 @@
 «DEFINE getterNameForField FOR FieldEntity»get«EXPAND propertyAccessorName FOR this-»«ENDDEFINE»
 «DEFINE setterNameForField FOR FieldEntity»set«EXPAND propertyAccessorName FOR this-»«ENDDEFINE»«ENDREM»
 
-«REM»
-	Entity field getters and setters declaration «ENDREM»
+«REM» Entity field getters and setters declaration «ENDREM»
 «DEFINE getterDeclarationForField FOR FieldEntity-»
 public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»(){
 	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;

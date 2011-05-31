@@ -5,38 +5,35 @@
 «FILE projectName.toLowerCase()+"/client/Admin"+projectName.toFirstUpper() + "EntryPoint.java"»
 package org.imogene.«projectName.toLowerCase()».client;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
+import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
 
 import org.imogene.web.gwt.client.LocalSession;
 import org.imogene.web.gwt.client.ui.menu.MenuList;
 import org.imogene.web.gwt.client.ui.menu.MenuListEntity;
 import org.imogene.web.gwt.client.ui.panel.BottomBannerPanel;
-import org.imogene.web.gwt.client.ui.panel.LoginPanel;
 import org.imogene.web.gwt.client.ui.panel.MainContentPanel;
-import org.imogene.web.gwt.client.ui.panel.RoundedWrapperPanel;
-import org.imogene.web.gwt.client.ui.panel.TopBannerPanel;
-import org.imogene.web.gwt.client.ui.panel.LoginPanel.AuthenticationListener;
 import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.web.gwt.common.entity.SessionInfo;
 import org.imogene.web.gwt.remote.AuthenticationServiceAsyncFacade;
-import org.imogene.web.gwt.remote.callback.EmptyCallback;
 
-import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
+
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Admin«projectName.toFirstUpper()»EntryPoint implements EntryPoint, ValueChangeHandler<String>, AuthenticationListener {
+public class Admin«projectName.toFirstUpper()»EntryPoint implements EntryPoint, ValueChangeHandler<String> {
 	
 	private MainContentPanel content;
-	private LoginPanel loginC;
 	private TopBannerPanel bc;
 	private HandlerRegistration registration;
 	
@@ -45,7 +42,6 @@ public class Admin«projectName.toFirstUpper()»EntryPoint implements EntryPoint, 
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
 	 */
-	@SuppressWarnings("unused")
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
@@ -53,30 +49,32 @@ public class Admin«projectName.toFirstUpper()»EntryPoint implements EntryPoint, 
 	/**
 	 * This is the entry point method.
 	 */
-	public void onModuleLoad() {		
-		displayLogin();
+	public void onModuleLoad() {	
+		
+		AuthenticationServiceAsyncFacade.getInstance().current(new AsyncCallback<SessionInfo>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {				
+				Window.alert(SERVER_ERROR);
+			}
+
+			@Override
+			public void onSuccess(SessionInfo info) {
+				if(info.getActor()!=null){
+					LocalSession.get().setCurrentUser(info.getActor());
+					displayApplication(LocalSession.get().getCurrentUser());
+				}
+			}	
+		});
 	}
 	
-	public void displayLogin(){
-		loginC = new LoginPanel(GWT.getModuleBaseURL()+ "/images/logo_admin.png");
-		«FOREACH languages AS l-»
-			loginC.addLanguage("«l.name.toFirstUpper()»", "«l.isoCode»");
-		«ENDFOREACH»
-		loginC.setAuthenticationListener(this);		
-		RootPanel.get("topBanner").clear();
-		RootPanel.get("contentContainer").clear();
-		RootPanel.get("topBanner").add(loginC);
-		RootPanel.get("bottomBanner").clear();
-	}
-	
-	public void displayApplication(ImogActor actor){
+	private void displayApplication(ImogActor actor){
 		registration = History.addValueChangeHandler(this);
 		RootPanel.get("topBanner").clear();
 		bc = new TopBannerPanel(GWT.getModuleBaseURL()+ "/images/logo_admin.png");
 		bc.setActor(actor);
 		RootPanel.get("topBanner").add(bc);
 		content = new MainContentPanel();	
-		//content.setContent(new RoundedWrapperPanel("First screen", new Label("content"), "welcome"));
 		populateMenu(content);
 		RootPanel.get("contentContainer").add(content);	
 		RootPanel.get("bottomBanner").add(new BottomBannerPanel());
@@ -93,21 +91,7 @@ public class Admin«projectName.toFirstUpper()»EntryPoint implements EntryPoint, 
 		«ENDLET-»
 		}		
 		else if(token.equals("logout")){
-			
-			/* clean local data */
-			LocalSession.get().setCurrentUser(null);
-			displayLogin();
-			bc = null;
-			content = null;
-			registration.removeHandler();
-			
-			History.newItem("");
-			
-			/* disconnect from the server */
-			AuthenticationServiceAsyncFacade.getInstance().disconnect(
-					new EmptyCallback<Void>());
-
-			//History.addValueChangeHandler(this);
+			logout();
 			return;
 		}
 		else if(token.equals("back")){			
@@ -123,16 +107,10 @@ public class Admin«projectName.toFirstUpper()»EntryPoint implements EntryPoint, 
 		}	
 	}
 
-	@Override
-	public void authenticated(ImogActor actor) {
-	    LocalSession.get().setCurrentUser(actor);
-		displayApplication(actor);	
-		if (loginC != null) {
-			loginC.removeAuthenticationListener();
-			loginC = null;
-		}
-	}
-	
+	/**
+	 * Populates the menu list on the left side of the main content panel
+	 * @param mc the main content panel of the application
+	 */		
 	public void populateMenu(MainContentPanel mc){
 		MenuList menu = mc.getMenuList();
 		MenuListEntity menuListEntity = new MenuListEntity();
@@ -149,13 +127,52 @@ public class Admin«projectName.toFirstUpper()»EntryPoint implements EntryPoint, 
 	}
 	
 	
+	/**
+	 * Logouts the user from the application
+	 * @param hasBeenDeconnected true if user has been disconnected
+	 */	
+	private void logout() {	
+
+		/* clean local data */
+		LocalSession.get().setCurrentUser(null);
+		
+		/* disconnect from the server */
+		AuthenticationServiceAsyncFacade.getInstance().disconnect(
+				new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable arg0) {
+						clearModule();
+					}
+
+					@Override
+					public void onSuccess(Void arg0) {						
+						clearModule();
+					}					
+				});
+	}
+	
+	/**
+	 * Clears the module from its panels
+	 */
+	private void clearModule(){
+		RootPanel.get("topBanner").clear();		
+		RootPanel.get("contentContainer").clear();
+		RootPanel.get("bottomBanner").clear();
+		bc = null;
+		content = null;
+		registration.removeHandler();
+		String href = GWT.getHostPageBaseURL() + "logout";
+		Window.Location.assign(href);
+	}	
+	
+	
 		
 }
 «ENDFILE-»
 «ENDDEFINE»
 
-«REM»
-	specific part AOP hook for menu item«ENDREM»
+«REM» specific part AOP hook for menu item «ENDREM»
 «DEFINE specificMenuItem FOR Project»«ENDDEFINE»
 
 

@@ -32,4 +32,14 @@
     	<appender-ref ref="file" /> 
   	</root>
   	
+ 	<logger name="org.imogene.web.server.security">
+    	<level value="ERROR"/>    	
+    	<appender-ref ref="file"/>
+ 	</logger>
+ 	
+ 	<logger name="org.springframework.security.web">
+    	<level value="ERROR"/>    	
+    	<appender-ref ref="file"/>
+ 	</logger>  	
+  	
 </log4j:configuration>

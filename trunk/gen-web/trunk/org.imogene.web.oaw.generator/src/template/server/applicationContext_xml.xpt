@@ -12,13 +12,21 @@
 		</property>
 	</bean>	
 	
-	<!-- Security Handler -->
+	<!-- Spring-security users details provider -->
+	<bean class="org.imogene.«projectName.toLowerCase()».server.security.ImogSecurityDetailService" id="imogSecurityDetailService">
+		<property name="genericDao" ref="genericDao"/>
+		«FOREACH entities AS e -»
+  		  «EXPAND actorDao FOR e -»
+		«ENDFOREACH -»
+  	</bean>  
+	
+	<!-- Bean Security Handler -->
 	<bean id="securityHandler" class="org.imogene.«projectName.toLowerCase()».server.servlet.security.ImogSecurityHandler" factory-method="getInstance">
 		<property name="dao" ref="genericDao" />
 		<property name="i18nDao" ref="localizedTextDao" />
-	</bean>	
+	</bean>
 	
-	<!-- exported spring properties -->	
+	<!-- Exported spring properties -->	
 	<bean name="exportedProperties" class="org.imogene.web.server.ExportedPropertiesHolder">
 		<property name="properties">
 			<map>
@@ -27,7 +35,7 @@
 		</property>
 	</bean>
 	
-	<!-- video converter -->
+	<!-- Video converter -->
 	<bean name="videoConverter" class="org.imogene.web.server.util.VideoConverter">
 		<property name="commandLine" value="${converter.video}"/>
 	</bean>
@@ -85,7 +93,7 @@
 	</bean>
 	
 	<!-- 
-		transaction manager for the Hibernate session factory
+		Transaction manager for the Hibernate session factory
 	-->
 	<bean
 		id="transactionManager"
@@ -103,21 +111,24 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	«ENDFOREACH -»
-	<!-- binary dao -->	
+	
+	<!-- Binary dao -->	
 	<bean class="org.imogene.web.server.dao.hibernate.BinaryFileDaoHibernate" id="binaryDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<!-- localized text dao -->	
+	
+	<!-- Localized text dao -->	
 	<bean class="org.imogene.web.server.dao.hibernate.LocalizedTextDaoHibernate" id="localizedTextDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>	
-	<!-- limited generic dao -->
+	
+	<!-- Limited generic dao -->
 	<bean class="org.imogene.web.server.dao.hibernate.GenericDaoHibernate" id="genericDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
 	<!--
-		Configuration that permits to adapt the pojos 
+		Configuration that enables to adapt the pojos 
 		to be detached to the GWT client side. 
 	 -->	
 	<bean id="persistenceUtil" class="net.sf.gilead.core.hibernate.HibernateUtil">
@@ -135,4 +146,11 @@
 	
 </beans>
 «ENDFILE»
+«ENDDEFINE»
+
+
+«REM» Set actor dao «ENDREM»
+«DEFINE actorDao FOR CardEntity -»«ENDDEFINE»
+«DEFINE actorDao FOR Actor -»
+		<property name="«name.toFirstLower()»Dao" ref="«name.toFirstLower()»DaoBase"/>
 «ENDDEFINE»

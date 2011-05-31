@@ -1,4 +1,4 @@
-#Wed Jun 09 16:17:31 CEST 2010
+#Fri May 13 16:12:15 CEST 2011
 eclipse.preferences.version=1
 encoding//src/adminTpl/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/adminTpl/dot_project.xpt=ISO-8859-1
@@ -19,7 +19,6 @@ encoding//src/adminTpl/remote/entityService.xpt=ISO-8859-1
 encoding//src/adminTpl/remote/entityServiceAsync.xpt=ISO-8859-1
 encoding//src/adminTpl/remote/entityServiceFacade.xpt=ISO-8859-1
 encoding//src/adminTpl/server/aopContext_xml.xpt=ISO-8859-1
-encoding//src/adminTpl/server/applicationContext.xpt=ISO-8859-1
 encoding//src/adminTpl/server/applicationContext_xml.xpt=ISO-8859-1
 encoding//src/adminTpl/server/application_properties.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/entityDao.xpt=ISO-8859-1

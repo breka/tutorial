@@ -6,44 +6,38 @@ package org.imogene.«projectName.toLowerCase()».client;
 
 import java.util.Date;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
-
+import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
 import org.imogene.web.gwt.client.LocalSession;
 import org.imogene.web.gwt.client.i18n.BaseNLS;
 import org.imogene.web.gwt.client.ui.menu.MenuItem;
 import org.imogene.web.gwt.client.ui.menu.MenuItemImpl;
 import org.imogene.web.gwt.client.ui.menu.MenuList;
-import org.imogene.web.gwt.client.ui.menu.MenuListEntity;
 import org.imogene.web.gwt.client.ui.menu.MenuListTema;
 import org.imogene.web.gwt.client.ui.panel.BottomBannerPanel;
-import org.imogene.web.gwt.client.ui.panel.LoginPanel;
 import org.imogene.web.gwt.client.ui.panel.MainContentPanel;
-import org.imogene.web.gwt.client.ui.panel.RoundedWrapperPanel;
-import org.imogene.web.gwt.client.ui.panel.TopBannerPanel;
-import org.imogene.web.gwt.client.ui.panel.LoginPanel.AuthenticationListener;
 import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.web.gwt.common.entity.SessionInfo;
 import org.imogene.web.gwt.remote.AuthenticationServiceAsyncFacade;
-import org.imogene.web.gwt.remote.callback.EmptyCallback;
 
-import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
+
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  * @author Medes-IMPS
  */
-public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, ValueChangeHandler<String>, AuthenticationListener {
+public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, ValueChangeHandler<String> {
 	
 	/* session cookie with a validation period of 2 days */
 	private static String COOKIE_NAME = "imogene-«projectName.toLowerCase()»";
@@ -51,7 +45,6 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 	
 	/* site main composites */
 	private MainContentPanel content;	
-	private LoginPanel loginC;	
 	private TopBannerPanel bc;
 	
 	private HandlerRegistration registration;
@@ -73,45 +66,38 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 	 */
 	public void onModuleLoad() {	
 		
-		/* check if a cookie is present, and try to validate the session if it is */
+		AuthenticationServiceAsyncFacade.getInstance().current(new AsyncCallback<SessionInfo>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {				
+				Window.alert(SERVER_ERROR);
+			}
+
+			@Override
+			public void onSuccess(SessionInfo info) {
+				if(info.getActor()!=null){
+					LocalSession.get().setCurrentUser(info.getActor());
+					displayApplication(LocalSession.get().getCurrentUser());
+					initializeCookie(info.getSessionId());
+				}
+			}	
+		});
+	}
+	
+	/**
+	 * Initialize the cookie
+	 */
+	private void initializeCookie(String sessionId){
 		String cookieValue = Cookies.getCookie(COOKIE_NAME);
-		if (cookieValue != null) {
-			AuthenticationServiceAsyncFacade.getInstance().validateSession(
-					cookieValue, new AsyncCallback<ImogActor>() {
-
-						public void onFailure(Throwable arg0) {
-							Window.alert(SERVER_ERROR);
-						}
-
-						public void onSuccess(ImogActor result) {
-							if (result != null)
-								authenticated(result);
-							else {
-								displayLogin(false);
-							}
-						}
-
-					});
+		if(cookieValue==null || !sessionId.equals(cookieValue)){			
+			Cookies.setCookie(COOKIE_NAME, sessionId, new Date(
+					System.currentTimeMillis()
+							+ COOKIE_DURATION));
 		}
-		/* if the cookie is not present, we display the login page */
-		else {
-			displayLogin(false);
-		}	
+		launchSessionTimer();
 	}
 	
-	public void displayLogin(boolean hasBeenDeconnected) {
-		loginC = new LoginPanel(GWT.getModuleBaseURL() + "/images/logo_web.png", hasBeenDeconnected);
-		«FOREACH languages AS l-»
-			loginC.addLanguage("«l.name.toFirstUpper()»", "«l.isoCode»");
-		«ENDFOREACH»
-		loginC.setAuthenticationListener(this);
-		RootPanel.get("topBanner").clear();
-		RootPanel.get("contentContainer").clear();
-		RootPanel.get("topBanner").add(loginC);
-		RootPanel.get("bottomBanner").clear();
-	}
-	
-	public void displayApplication(ImogActor actor){
+	private void displayApplication(ImogActor actor){
 		registration = History.addValueChangeHandler(this);
 		RootPanel.get("topBanner").clear();
 		bc = new TopBannerPanel(GWT.getModuleBaseURL()+ "/images/logo_web.png");
@@ -134,10 +120,9 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 			History.newItem("list/«e.name.toLowerCase()»");
 			«ENDIF -»
 			«ENDFOREACH -»			
-		}		
-		else if(token.equals("logout")){
-			logout(false);
-			//registration.removeHandler();	
+		}
+		else if (token.equals("logout")) {
+			logout();
 			return;
 		}
 		else if(token.equals("back")){			
@@ -150,34 +135,6 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 			Widget tokenView = TokenHandler.getViewForToken(token);
 			if (tokenView != null)
 				content.setContent(tokenView);
-		}	
-	}
-
-	@Override
-	public void authenticated(ImogActor actor) {
-		if (actor != null) {
-
-			LocalSession.get().setCurrentUser(actor);
-
-			/* get session id */
-			AuthenticationServiceAsyncFacade.getInstance().getSessionId(
-					new AsyncCallback<String>() {
-
-						public void onFailure(Throwable arg0) {}
-
-						public void onSuccess(String result) {
-							/* create the cookie */
-							Cookies.setCookie(COOKIE_NAME, result, new Date(
-									System.currentTimeMillis()
-											+ COOKIE_DURATION));
-							launchSessionTimer();
-							displayApplication(LocalSession.get().getCurrentUser());
-							if(loginC!=null) {
-								loginC.removeAuthenticationListener();
-								loginC = null;
-							}
-						}
-					});
 		}	
 	}
 
@@ -264,7 +221,7 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 	 * Logouts the user from the application
 	 * @param hasBeenDeconnected true if user has been disconnected
 	 */	
-	private void logout(boolean hasBeenDeconnected) {
+	private void logout() {
 		
 		/* stop timer */
 		if (sessionTimer != null) {
@@ -275,15 +232,35 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 
 		/* clean local data */
 		LocalSession.get().setCurrentUser(null);
-		displayLogin(hasBeenDeconnected);
+		
+		/* disconnect from the server */
+		AuthenticationServiceAsyncFacade.getInstance().disconnect(
+				new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable arg0) {
+						clearModule();
+					}
+
+					@Override
+					public void onSuccess(Void arg0) {						
+						clearModule();
+					}					
+				});
+	}
+	
+	/**
+	 * Clears the module from its panels
+	 */
+	private void clearModule(){
+		RootPanel.get("topBanner").clear();		
+		RootPanel.get("contentContainer").clear();
+		RootPanel.get("bottomBanner").clear();
 		bc = null;
 		content = null;
 		registration.removeHandler();
-		
-		History.newItem("", false);
-		
-		/* disconnect from the server */
-		AuthenticationServiceAsyncFacade.getInstance().disconnect(new EmptyCallback<Void>());
+		String href = GWT.getHostPageBaseURL() + "logout";
+		Window.Location.assign(href);
 	}	
 	
 
@@ -306,12 +283,12 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 									new AsyncCallback() {
 
 										public void onFailure(Throwable arg0) {
-											logout(true);
+											logout();
 										}
 
 										public void onSuccess(Object result) {
 											if (result == null) {
-												logout(true);
+												logout();
 											}
 										}
 									});
@@ -326,6 +303,5 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 «ENDFILE-»
 «ENDDEFINE»
 
-«REM»
-	specific part AOP hook for menu item«ENDREM»
+«REM» specific part AOP hook for menu item «ENDREM»
 «DEFINE specificMenuItem FOR Project»«ENDDEFINE»

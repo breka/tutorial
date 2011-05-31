@@ -39,7 +39,7 @@ public class WebGenerationAction implements IObjectActionDelegate {
 		try {
 			GenerationWizard wizard = new GenerationWizard();
 			wizard.addPropertiesPage(new SpecificWizardPage());
-			wizard.setWindowTitle("Generation of a web project");
+			wizard.setWindowTitle("Generation of a Web project");
 			wizard.setSelectedProject(mSelectedProject);
 			wizard.setArchive(FileLocator
 					.openStream(Activator.getDefault().getBundle(), new Path(

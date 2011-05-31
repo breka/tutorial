@@ -29,7 +29,8 @@
 	
 	<!--                  -->
 	<!-- Web content file -->
-	<!--                  -->	
+	<!--                  -->
+		
 	<!-- HTML index file -->
 	<component class="org.eclipse.xpand2.Generator">
 		<fileEncoding value="iso-8859-1"/>
@@ -54,6 +55,30 @@
 		<genPath value="${home-gen}/war/WEB-INF/" />	
 		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />	
 	</component>
+	
+	<!-- JSP login file -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='template::webcontent::jsp::login_jsp::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war/jsp" />		
+	</component>
+	
+	<!-- JSP wrong login file -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='template::webcontent::jsp::wrong_login_jsp::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war/jsp" />		
+	</component>
+	
+	<!-- JSP login expired file -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='template::webcontent::jsp::login_expired_jsp::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war/jsp" />		
+	</component>
 		
 	<!--                               -->
 	<!-- GWT relevant file generations -->
@@ -68,7 +93,7 @@
 		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
 	</component>
 	
-	<!-- GWT entry point  -->
+	<!-- GWT entry point -->
 	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
 		<fileEncoding value="iso-8859-1"/>
 		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
@@ -77,7 +102,16 @@
 		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
 	</component>
 	
-	<!--Access manager  -->
+	<!-- GWT Top Banner Panel -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='template::topBannerPanel::generate("${packageName}","${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- Access manager -->
 	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
 		<fileEncoding value="iso-8859-1"/>
 		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
@@ -347,6 +381,15 @@
 		<fileEncoding value="iso-8859-1"/>
 		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
 		<expand value='template::server::security::serverAccessManager::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- ImogSecurityDetail Service -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='template::server::security::ImogSecurityDetailService::generate("${packageName}","${modelName}") FOR project' />
 		<genPath value="${home-gen}/src/${packagePath}" />
 		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
 	</component>	

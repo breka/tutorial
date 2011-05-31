@@ -28,7 +28,7 @@ public interface ImogMessages extends Messages{
 	String form_metadata_id(String id);
 	String form_metadata_creation(String creationDate, String creator);
 	String form_metadata_modification(String modificationDate, String modifier);
-	String form_metadata_current_user(String currentUser, String lastConnexion);
+	String form_metadata_current_user(String currentUser);
 	
 	String error_num_range(String minValue, String maxValue);
 	String error_num_min(String minValue);

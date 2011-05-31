@@ -244,6 +244,8 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		«this.name.toFirstUpper()» transformedBean = new «this.name.toFirstUpper()»();
 		
 		«EXPAND toSecureCommon FOR this-»
+		
+		dao.evictEntity(bean);
 
 		return transformedBean;
 	}
@@ -277,6 +279,9 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 			«EXPAND handleFilterField(true) FOR this-»
 		}*/
 		«ENDREM»
+		
+		dao.evictEntity(bean);
+		
 		return transformedBean;
 	}	
 	«ENDIF-»	
@@ -330,6 +335,8 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 
 		«EXPAND toUnSecureCommon FOR this»
 		
+		dao.evictEntity(transformedBean);
+		
 		return transformedBean;
 	}
 	
@@ -360,6 +367,9 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		*/
 		«ENDIF-»
 		«ENDREM»
+		
+		dao.evictEntity(transformedBean);
+		
 		return transformedBean;
 	}
 	«ENDIF-»

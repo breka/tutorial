@@ -91,7 +91,7 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 		else{
 			«name.toFirstUpper()»ServiceFacade facade = «name.toFirstUpper()»ServiceFacade.getInstance();
 			if(facade==null){
-				Window.alert("facade is null ! ");
+				Window.alert("Facade is null !");
 			}else{
 				facade.list«name.toFirstUpper()»(startRow, maxRows, sortProperty, sortOrder, new PushResultCallback());
 			}
@@ -240,8 +240,7 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 «ENDFILE»
 «ENDDEFINE»
 
-«REM» 
-	set the data in the row--«ENDREM»
+«REM» Set the data in the row--«ENDREM»
 «DEFINE setDataRow(int row) FOR FieldEntity-»
 	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
 		rows[i][«row»] = new HTML(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());

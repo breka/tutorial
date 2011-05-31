@@ -1,12 +1,14 @@
 package org.imogene.web.gwt.remote;
 
 import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.web.gwt.common.entity.SessionInfo;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
 
 /**
- * Remote service that permits to authenticate an application user
+ * Remote service that enables to authenticate an application user
+ * @author Medes-IMPS
  */
 public interface AuthenticationService extends RemoteService {
 
@@ -31,9 +33,15 @@ public interface AuthenticationService extends RemoteService {
 	public ImogActor validateSession(String sessionId);
 	
 	/**
-	 * Get the server session id.
+	 * Gets the server session id.
 	 * @return the server session id.
 	 */
 	public String getSessionId();
+	
+	
+	/**
+	 * Gets the current user information from session
+	 */
+	public SessionInfo currentUser();
 
 }
