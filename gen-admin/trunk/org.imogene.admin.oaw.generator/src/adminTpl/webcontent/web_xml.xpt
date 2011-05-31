@@ -8,11 +8,32 @@
   <!-- root application context and loader -->
   <context-param>
 	<param-name>contextConfigLocation</param-name>		
-	<param-value>/WEB-INF/applicationContext.xml /WEB-INF/aopContext.xml</param-value>
+	<param-value>/WEB-INF/applicationContext.xml /WEB-INF/aopContext.xml /WEB-INF/securityContext.xml</param-value>
   </context-param>	
   <listener>
 	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  
+  <!-- welcome files -->
+  <welcome-file-list>
+    <welcome-file>«projectName.toFirstUpper()»Index.jsp</welcome-file>    
+  </welcome-file-list>
+  
+  <!-- support the scoping of beans at the request, session, 
+  		and global session levels (web-scoped beans) -->
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+  
+  <!-- spring-security filter -->
+  <filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
   
   <!-- authentication servlet -->
   <servlet>
@@ -23,11 +44,6 @@
     <servlet-name>authenticationServlet</servlet-name>
     <url-pattern>/auth.serv</url-pattern>
   </servlet-mapping>
-  
-  <!-- welcome files -->
-  <welcome-file-list>
-    <welcome-file>«projectName.toFirstUpper()»Index.html</welcome-file>    
-  </welcome-file-list>
  
   <!-- filter for hibernate session management  -->
   <filter>
@@ -91,7 +107,7 @@
     <param-value>100000000</param-value>
   </context-param>  
   
-  <!-- binary file upload servlet -->
+  <!-- Binary upload servlet -->
   <servlet>
     <servlet-name>uploadServlet</servlet-name>    
     <servlet-class>org.imogene.«modelName.toLowerCase()».server.servlet.BinaryUploadServlet</servlet-class>
@@ -102,7 +118,7 @@
     <url-pattern>*.gupld</url-pattern>
   </servlet-mapping>
   
-  <!-- role and actor service servlet -->
+  <!-- Role and actor service servlet -->
   <servlet>
     <servlet-name>roleAndActorServlet</servlet-name>    
     <servlet-class>org.imogene.«modelName.toLowerCase()».server.servlet.RoleActorServlet</servlet-class>      
@@ -112,7 +128,7 @@
     <url-pattern>/roleactor.serv</url-pattern>
   </servlet-mapping>
   
-  <!-- notification servlet -->
+  <!-- Notification servlet -->
   <servlet>
     <servlet-name>notifServlet</servlet-name>    
     <servlet-class>org.imogene.«modelName.toLowerCase()».server.servlet.«modelName.toFirstUpper()»NotificationServlet</servlet-class>

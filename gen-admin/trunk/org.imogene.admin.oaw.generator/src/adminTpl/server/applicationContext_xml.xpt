@@ -12,17 +12,11 @@
 		</property>
 	</bean>
 	
-	<!-- data source, that manage 
-		 a jdbc database connection 
-	<bean
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		id="dataSource">
-		<property name="driverClassName"
-			value="${jdbc.driverClassName}" />
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
-	</bean> -->	
+	<!-- Spring-security users details provider -->
+	<bean class="org.imogene.«projectName.toLowerCase()».server.security.ImogSecurityDetailService" id="imogSecurityDetailService">
+		<property name="genericDao" ref="genericDao"/>
+  	</bean>  
+	
 	
 	<!--  C3PO data source -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
@@ -77,7 +71,7 @@
 	</bean>
 	
 	<!-- 
-		transaction manager for the Hibernate session factory
+		Transaction manager for the Hibernate session factory
 	-->
 	<bean
 		id="transactionManager"
@@ -95,25 +89,28 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	«ENDFOREACH -»
-	<!-- role actor dao -->
+	<!-- Role actor dao -->
 	<bean class="org.imogene.«projectName.toLowerCase()».server.dao.hibernate.RoleActorDaoImpl" id="roleActorDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<!-- notification dao -->
+	
+	<!-- Notification dao -->
 	<bean class="org.imogene.notif.web.gwt.server.dao.hibernate.NotificationDaoImpl" id="notificationDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<!-- binary dao -->	
+	
+	<!-- Binary dao -->	
 	<bean class="org.imogene.web.server.dao.hibernate.BinaryFileDaoHibernate" id="binaryDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<!-- limited generic dao -->
+	
+	<!-- Limited generic dao -->
 	<bean class="org.imogene.web.server.dao.hibernate.GenericDaoHibernate" id="genericDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
 	<!--
-		Configuration that permits to adapt the pojos 
+		Configuration that enables to adapt the pojos 
 		to be detached to the GWT client side. 
 	 -->	
 	<bean id="persistenceUtil" class="net.sf.gilead.core.hibernate.HibernateUtil">

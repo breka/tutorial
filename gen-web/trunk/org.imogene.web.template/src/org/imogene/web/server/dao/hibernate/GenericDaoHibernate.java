@@ -23,6 +23,10 @@ public class GenericDaoHibernate extends HibernateDaoSupport implements GenericD
 		return getHibernateTemplate().loadAll(entityClass);
 	}
 	
+	@Override	
+	public void evictEntity(Object entity) {		
+		getHibernateTemplate().evict(entity);
+	}
 	
 
 }

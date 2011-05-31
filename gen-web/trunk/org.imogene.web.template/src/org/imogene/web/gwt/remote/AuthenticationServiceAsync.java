@@ -1,12 +1,14 @@
 package org.imogene.web.gwt.remote;
 
 import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.web.gwt.common.entity.SessionInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 /**
  * Asynchronous declaration for <code>AuthentificationService</code>
+ * @author Medes-IMPS
  */
 public interface AuthenticationServiceAsync {
 	
@@ -30,4 +32,9 @@ public interface AuthenticationServiceAsync {
 	 * see <code>AuthenticationService</code> 
 	 */	
 	public void getSessionId(AsyncCallback<String> callback);
+	
+	/*
+	 * see <code>AuthenticationService</code> 
+	 */	
+	public void currentUser(AsyncCallback<SessionInfo> callback);
 }

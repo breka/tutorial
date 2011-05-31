@@ -1,7 +1,7 @@
 package org.imogene.web.gwt.remote;
 
-import org.imogene.web.gwt.client.Constants;
 import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.web.gwt.common.entity.SessionInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 
 /**
- * Facade classes which permits to call remote procedures
+ * Facade classes that enables to call the remote procedures
  * defined by <code>AuthenticationService</code>
  * @author Medes-IMPS
  */
@@ -68,5 +68,12 @@ public class AuthenticationServiceAsyncFacade {
 	 */	
 	public void getSessionId(AsyncCallback<String> callback){
 		proxy.getSessionId(callback);
+	}
+	
+	/**
+	 * @see <code>AuthenticationServiceAsync</code>
+	 */	
+	public void current(AsyncCallback<SessionInfo> callback){
+		proxy.currentUser(callback);
 	}
 }

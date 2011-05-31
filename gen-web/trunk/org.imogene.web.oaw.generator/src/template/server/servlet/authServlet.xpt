@@ -22,6 +22,7 @@ import org.imogene.web.gwt.common.criteria.ImogJunction;
 import org.imogene.web.gwt.remote.AuthenticationService;
 import org.imogene.web.gwt.common.entity.ImogActor;
 import org.imogene.web.gwt.common.entity.DefaultActor;
+import org.imogene.web.gwt.common.entity.SessionInfo;
 import org.imogene.web.server.ServerConstants;
 import org.imogene.web.server.dao.GenericDao;
 «FOREACH entities AS e -»
@@ -55,23 +56,20 @@ public class «projectName.toFirstUpper()»AuthServlet extends PersistentRemoteSer
 	}	
 	
 	/**
-	 * Disconnect the current user
+	 * Disconnects the current user
 	 */
 	 public void disconnect(){
 	 	getThreadLocalRequest().getSession().invalidate();
 	 }
 	
 	/**
-	 * Authenticate the user
+	 * Authenticates the user
 	 * @param login the user login
 	 * @param password the user password
 	 * @return the default user
 	 */
 	public ImogActor validateLogin(String login, String password){
-		/*DefaultActor testActor = new DefaultActor();
-		testActor.setLogin("defaultUser");
-		testActor.setCreationDate(new Date());
-		return testActor;*/
+
 		ImogActor current = null;	
 		«FOREACH entities AS e»
 			«EXPAND loginValidation FOR e-»
@@ -90,7 +88,7 @@ public class «projectName.toFirstUpper()»AuthServlet extends PersistentRemoteSer
 	
 	
 	/**
-	 * Validate authentication for default user.
+	 * Validates the authentication for the default user.
 	 * @return the default user if it exist, null otherwise
 	 */
 	 @SuppressWarnings("unchecked")
@@ -111,9 +109,9 @@ public class «projectName.toFirstUpper()»AuthServlet extends PersistentRemoteSer
 	
 	
 	/**
-	 * Test if the password matches the given one
+	 * Tests if the password matches the entered one
 	 * @param actor the imogene actor
-	 * @param passwd the given password
+	 * @param passwd the password entered by the user
 	 * @return true if the password matches
 	 */
 	private boolean validatePasswd(ImogActor actor, String passwd){
@@ -121,7 +119,6 @@ public class «projectName.toFirstUpper()»AuthServlet extends PersistentRemoteSer
 			return true;
 		return false;
 	}
-	
 	
 	/**
 	 * Validates an existing session
@@ -145,13 +142,12 @@ public class «projectName.toFirstUpper()»AuthServlet extends PersistentRemoteSer
 	 * @return the server session id.
 	 */	
 	public String getSessionId(){
-		//System.out.println(getThreadLocalRequest().getSession().getId());
 		return getThreadLocalRequest().getSession().getId();
 	}	
 	
 	
 	/**
-	 * Set the current session parameters.
+	 * Sets the current session parameters.
 	 * @param actor the current actor
 	 */
 	private void setSessionParameter(ImogActor actor){
@@ -169,12 +165,21 @@ public class «projectName.toFirstUpper()»AuthServlet extends PersistentRemoteSer
 		session.setAttribute(ServerConstants.SESSION_USER_ID,actor.getId());
 	}
 	
+	/**
+	 * Gets the current user information from session
+	 */
+	public SessionInfo currentUser() {
+		HttpServletRequest request = getThreadLocalRequest();
+		HttpSession session = request.getSession();		
+		ImogActor user = (ImogActor)session.getAttribute(ServerConstants.SESSION_USER);
+		return new SessionInfo(session.getId(),user);
+	}
+	
 }
 «ENDFILE»
 «ENDDEFINE»
 
-«REM»
-	imports for actor «ENDREM»
+«REM» Imports for actor «ENDREM»
 «DEFINE importForActor(String projectName) FOR CardEntity -»«ENDDEFINE»
 «DEFINE importForActor(String projectName) FOR Actor -»
 import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;

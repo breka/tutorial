@@ -2,6 +2,11 @@ package org.imogene.web.server.util;
 
 import java.util.ResourceBundle;
 
+
+/**
+ * Class that helps to get a String display of Boolean objects.
+ * @author Medes-IMPS 
+ */
 public class BooleanUtil {
 
 	private static ResourceBundle rb = ResourceBundle.getBundle("org.imogene.web.gwt.client.i18n.ImogConstants");
