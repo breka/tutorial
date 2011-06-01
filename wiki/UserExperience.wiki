@@ -16,8 +16,6 @@
 	At a global level, the main advantage of using _*imogene*_ in humanitarian context is that it is possible promote a "trunk" data model and allows as many branches as necessary (i.e one per operation). This way, it is possible to enforce useful standard for further data consolidation and allow local customization at the same time. 
 	
 	Thus specific field needs and HQ consistency constraint can be be reconciled...
-	
-	Please check the development server to see the [http://dedibox2.cartong.org/tomcat/docs/android.html Demos] or read the description below and download the related templates
 
 
 == 1. Quick registration & Assistance tracking ==
