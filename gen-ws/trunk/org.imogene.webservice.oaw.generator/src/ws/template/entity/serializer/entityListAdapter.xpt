@@ -56,13 +56,15 @@ public class «name.toFirstUpper()»ListAdapter extends XmlAdapter<EntityIdCollect
 		
 		if (idCollection!=null) {
 			Set<«name.toFirstUpper()»> result = new HashSet<«name.toFirstUpper()»>();
-			for(String id:idCollection.getIdList()) {				
-				«name.toFirstUpper()» bean = dao.get«name.toFirstUpper()»(id);
-				if(bean==null){
-					bean = («name.toFirstUpper()»)BeanUtil.createNewEntity(id, «name.toFirstUpper()».class);
-					dao.saveOrUpdate(bean,false);
+			if(idCollection.getIdList()!=null) {
+				for(String id:idCollection.getIdList()) {				
+					«name.toFirstUpper()» bean = dao.get«name.toFirstUpper()»(id);
+					if(bean==null){
+						bean = («name.toFirstUpper()»)BeanUtil.createNewEntity(id, «name.toFirstUpper()».class);
+						dao.saveOrUpdate(bean,false);
+					}			
+					result.add(bean);
 				}			
-				result.add(bean);
 			}
 			return result;			
 		}
