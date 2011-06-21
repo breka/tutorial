@@ -42,7 +42,7 @@
 
         * Discover the _*imogene*_ capabilities in the following video
 
-        <wiki:video url="http://www.youtube.com/watch?v=MhAi-ev7pJA"/>
+        <wiki:video url="http://www.youtube.com/watch?v=MhAi-ev7pJA"  width="480" height="390"/>
         
 
 = Starting Points =
