@@ -3,5 +3,5 @@
 
 	This video shows the capabilities of the imogene information system development platform
 	
-	<wiki:video url="http://www.youtube.com/watch?v=MhAi-ev7pJA" width="640" height="510"/>
+	<wiki:video url="http://www.youtube.com/watch?v=MhAi-ev7pJA" width="960" height="750"/>
 	
