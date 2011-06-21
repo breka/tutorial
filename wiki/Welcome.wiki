@@ -38,6 +38,13 @@
         * The IS applications are based on technologies and follow development standards that enable a remote update of the deployed applications.
 
 
+= Presentation video =
+
+        * Discover the _*imogene*_ capabilities in the following video
+
+        <wiki:video url="http://www.youtube.com/watch?v=MhAi-ev7pJA"/>
+        
+
 = Starting Points =
 
         * Discover the ImogeneConcept
