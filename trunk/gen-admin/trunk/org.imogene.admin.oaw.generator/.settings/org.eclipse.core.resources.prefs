@@ -1,4 +1,4 @@
-#Fri May 13 16:12:15 CEST 2011
+#Mon Jun 06 15:52:28 CEST 2011
 eclipse.preferences.version=1
 encoding//src/adminTpl/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/adminTpl/dot_project.xpt=ISO-8859-1
@@ -26,6 +26,7 @@ encoding//src/adminTpl/server/dao/entityDaoHibernate.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/hibernateMapping.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/roleActorDao.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/roleActorDaoHibernate.xpt=ISO-8859-1
+encoding//src/adminTpl/server/security/ImogSecurityDetailService.xpt=ISO-8859-1
 encoding//src/adminTpl/server/servlet/authServlet.xpt=ISO-8859-1
 encoding//src/adminTpl/server/servlet/downloadServlet.xpt=ISO-8859-1
 encoding//src/adminTpl/server/servlet/encryptionServlet.xpt=ISO-8859-1
@@ -35,6 +36,10 @@ encoding//src/adminTpl/server/servlet/roleActorServlet.xpt=ISO-8859-1
 encoding//src/adminTpl/server/servlet/syncServlet.xpt=ISO-8859-1
 encoding//src/adminTpl/server/servlet/uploadServlet.xpt=ISO-8859-1
 encoding//src/adminTpl/tokenHandler.xpt=ISO-8859-1
+encoding//src/adminTpl/topBannerPanel.xpt=ISO-8859-1
+encoding//src/adminTpl/webcontent/jsp/login_expired_jsp.xpt=ISO-8859-1
+encoding//src/adminTpl/webcontent/jsp/login_jsp.xpt=ISO-8859-1
+encoding//src/adminTpl/webcontent/jsp/wrong_login_jsp.xpt=ISO-8859-1
 encoding//src/adminTpl/webcontent/projectIndex_html.xpt=ISO-8859-1
 encoding//src/adminTpl/webcontent/project_css.xpt=ISO-8859-1
 encoding//src/adminTpl/webcontent/web_xml.xpt=ISO-8859-1
