@@ -1,4 +1,4 @@
-#Mon May 16 13:49:32 CEST 2011
+#Fri Jun 24 20:01:31 CEST 2011
 eclipse.preferences.version=1
 encoding//src/template/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/template/accessManager.xpt=ISO-8859-1
@@ -29,6 +29,7 @@ encoding//src/template/server/application_properties.xpt=ISO-8859-1
 encoding//src/template/server/dao/entityDao.xpt=ISO-8859-1
 encoding//src/template/server/dao/entityDaoHibernate.xpt=ISO-8859-1
 encoding//src/template/server/dao/hibernateMapping.xpt=ISO-8859-1
+encoding//src/template/server/security/ImogSecurityDetailService.xpt=ISO-8859-1
 encoding//src/template/server/security/securityHandler.xpt=ISO-8859-1
 encoding//src/template/server/security/securityPolicy.xpt=ISO-8859-1
 encoding//src/template/server/security/serverAccessManager.xpt=ISO-8859-1
@@ -40,6 +41,10 @@ encoding//src/template/server/servlet/syncServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/uploadServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/utilServices.xpt=ISO-8859-1
 encoding//src/template/tokenHandler.xpt=ISO-8859-1
+encoding//src/template/topBannerPanel.xpt=ISO-8859-1
+encoding//src/template/webcontent/jsp/login_expired_jsp.xpt=ISO-8859-1
+encoding//src/template/webcontent/jsp/login_jsp.xpt=ISO-8859-1
+encoding//src/template/webcontent/jsp/wrong_login_jsp.xpt=ISO-8859-1
 encoding//src/template/webcontent/projectIndex_html.xpt=ISO-8859-1
 encoding//src/template/webcontent/project_css.xpt=ISO-8859-1
 encoding//src/template/webcontent/spring_servlet_xml.xpt=ISO-8859-1

@@ -14,5 +14,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.imogene.tools.libraryhelper.IMOGENE_DEV_LIB"/>
+	<classpathentry kind="lib" path="/home/julien/apps/eclipse/configuration/org.eclipse.osgi/bundles/808/1/.cp/libs/jars/spring-security-core-3.0.3.RELEASE.jar" rootpath="/"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
