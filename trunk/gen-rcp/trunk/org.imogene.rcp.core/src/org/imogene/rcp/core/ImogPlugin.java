@@ -492,7 +492,9 @@ public class ImogPlugin extends AbstractUIPlugin {
 		s.setSerializerManager(serializerManager);
 		s.setHistoryDao(new HistoryDaoHibernate());
 		//s.setSyncClient(new OptimizedSyncClientHttp(syncParameters.getUrl()));
-		s.setSyncClient(new OptimizedSyncClientHttp(getPreferenceStore().getString("SYNC_URL")));
+		//s.setSyncClient(new OptimizedSyncClientHttp(getPreferenceStore().getString("SYNC_URL")));
+		SyncParameters parameters = parametersDao.load();
+		s.setSyncClient(new OptimizedSyncClientHttp(getPreferenceStore().getString("SYNC_URL"), parameters.getLogin(), parameters.getPassword()));
 		s.setSyncParametersDao(parametersDao);			
 	}
 	
