@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -16,6 +17,7 @@ import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.log4j.Logger;
 import org.imogene.sync.client.OptimizedSyncClient;
 import org.imogene.sync.client.SynchronizationException;
+import org.imogene.sync.client.base64.Base64;
 
 
 public class OptimizedSyncClientHttp implements OptimizedSyncClient {
@@ -26,6 +28,11 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 	
 	private static final int maxAttempts=100;
 	
+	private boolean httpAuthentication = false;
+	
+	private String httpLogin;
+	
+	private String httpPassword;
 	
 	public OptimizedSyncClientHttp(String definedUrl){
 		url = definedUrl;
@@ -35,6 +42,22 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 			;
 		else
 			url = url + "/sync.html";
+	}
+	
+	/**
+	 * By using this constructor, you specify that you want to use the HTTP authentication
+	 * based on the specified login and password.
+	 * This authentication will be set in all requests.
+	 * 
+	 * @param url the synchronization server 
+	 * @param httpLogin the user login
+	 * @param httpPassword the user password
+	 */
+	public OptimizedSyncClientHttp(String url, String httpLogin, String httpPassword){
+		this.url = url + "sync.html";
+		this.httpAuthentication = true;
+		this.httpLogin = httpLogin;
+		this.httpPassword = httpPassword;
 	}
 
 	/*
@@ -50,7 +73,7 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 			NameValuePair debugParam = new NameValuePair("debug", "true");
 			NameValuePair[] params = new NameValuePair[] { cmdParam,
 					sessionParam, debugParam };
-			GetMethod method = new GetMethod(url);
+			GetMethod method = httpGetMethod(url);
 			method.setQueryString(params);
 
 			/* request execution */
@@ -78,7 +101,7 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 			NameValuePair terminalParam = new NameValuePair(TERMINALID_PARAM, terminalId);
 			NameValuePair typeParam = new NameValuePair(TYPE_PARAM, type);
 			NameValuePair[] params = new NameValuePair[] { cmdParam, loginParam, passwordParam, terminalParam, typeParam };
-			GetMethod method = new GetMethod(url);
+			GetMethod method = httpGetMethod(url);
 			method.setQueryString(params);
 
 			HttpClient client = new HttpClient();
@@ -113,7 +136,7 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 			NameValuePair lengthParam = new NameValuePair(LENGTH_PARAM, String.valueOf(bytesReceived));
 			NameValuePair[] params = new NameValuePair[] { cmdParam, loginParam, passwordParam, terminalParam, typeParam, sessionParam,
 					lengthParam };
-			GetMethod method = new GetMethod(url);
+			GetMethod method = httpGetMethod(url);
 			method.setQueryString(params);
 
 			HttpClient client = new HttpClient();
@@ -140,7 +163,7 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 			NameValuePair cmdParam = new NameValuePair(CMD_PARAM, CMD_RESUME_RECEIVE);
 			NameValuePair lengthParam = new NameValuePair(LENGTH_PARAM, String.valueOf(bytesReceived));
 			NameValuePair[] params = new NameValuePair[] { sessionParam, cmdParam, lengthParam };
-			GetMethod method = new GetMethod(url);
+			GetMethod method = httpGetMethod(url);
 			method.setQueryString(params);
 			HttpClient client = new HttpClient();
 
@@ -175,7 +198,7 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 			NameValuePair typeParam = new NameValuePair(TYPE_PARAM, type);
 			NameValuePair sessionParam = new NameValuePair(SESSION_PARAM, sessionId);
 			NameValuePair[] params = new NameValuePair[] { cmdParam, loginParam, passwordParam, terminalParam, typeParam, sessionParam };
-			GetMethod method = new GetMethod(url);
+			GetMethod method = httpGetMethod(url);
 			method.setQueryString(params);
 
 			HttpClient client = new HttpClient();
@@ -210,7 +233,7 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 		NameValuePair sessionParam = new NameValuePair(SESSION_PARAM, sessionId);
 		NameValuePair cmdParam = new NameValuePair(CMD_PARAM, CMD_SERVERMODIF);
 		NameValuePair[] params = new NameValuePair[] { sessionParam, cmdParam };
-		GetMethod method = new GetMethod(url);
+		GetMethod method = httpGetMethod(url);
 		method.setQueryString(params);
 		HttpClient client = new HttpClient();
 		
@@ -320,7 +343,7 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 	private int sendData(String sessionId, String cmd, InputStream data) throws SynchronizationException {
 		try {
 			/* request construction */
-			PostMethod method = new PostMethod(url);
+			PostMethod method = httpPostMethod(url);
 			StringPart sessionParam = new StringPart(SESSION_PARAM, sessionId);
 			StringPart cmdParam = new StringPart(CMD_PARAM, cmd);
 			SyncPartSource dataSource = new SyncPartSource(data, sessionId + ".cmodif", data.available());
@@ -345,6 +368,29 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 		} catch (Exception ex) {
 			throw new SynchronizationException("Command 'send' -> ", ex, SynchronizationException.ERROR_SEND);
 		}
+	}
+	
+	/** */
+	private PostMethod httpPostMethod(String url){
+		PostMethod post = new PostMethod(url);
+		if(httpAuthentication)
+			setBasicAuthentication(post);
+		return post;
+	}
+	
+	/** */
+	private GetMethod httpGetMethod(String url){
+		GetMethod get = new GetMethod(url);
+		if(httpAuthentication)
+			setBasicAuthentication(get);
+		return get;
+	}
+	
+	/** */
+	private void setBasicAuthentication(HttpMethodBase method){
+		String strAuth =  httpLogin+":"+httpPassword;
+		String encoding = new String(Base64.encodeBase64(strAuth.getBytes()));
+		method.setRequestHeader("Authorization", "Basic " + encoding);
 	}
 	
 }
