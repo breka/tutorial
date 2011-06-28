@@ -53,8 +53,14 @@ public class OptimizedSyncClientHttp implements OptimizedSyncClient {
 	 * @param httpLogin the user login
 	 * @param httpPassword the user password
 	 */
-	public OptimizedSyncClientHttp(String url, String httpLogin, String httpPassword){
-		this.url = url + "sync.html";
+	public OptimizedSyncClientHttp(String definedUrl, String httpLogin, String httpPassword){
+		url = definedUrl;
+		if(url.endsWith("/"))
+			url = url + "sync.html";
+		else if (url.endsWith("html"))
+			;
+		else
+			url = url + "/sync.html";
 		this.httpAuthentication = true;
 		this.httpLogin = httpLogin;
 		this.httpPassword = httpPassword;
