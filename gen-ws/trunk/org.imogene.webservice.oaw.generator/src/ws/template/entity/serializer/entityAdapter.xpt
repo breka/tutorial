@@ -8,6 +8,9 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.imogene.«projectName.toLowerCase()».dao.«name.toFirstUpper()»Dao;
 import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»;
+«IF Actor.isAssignableFrom(this.metaType)-»
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor;
+«ENDIF-»
 import org.imogene.ws.serializer.xml.BeanUtil;
 
 
@@ -40,7 +43,7 @@ public class «name.toFirstUpper()»Adapter extends XmlAdapter<String, «name.toFir
 		if (beanId != null && !beanId.equals("")) {
 			«name.toFirstUpper()» bean = dao.get«name.toFirstUpper()»(beanId);
 			if (bean == null) {
-				bean = («name.toFirstUpper()») BeanUtil.createNewEntity(beanId, «name.toFirstUpper()».class);
+				bean = («name.toFirstUpper()») BeanUtil.createNewEntity(beanId, «IF Actor.isAssignableFrom(this.metaType)»«name.toFirstUpper()»Actor.class«ELSE»«name.toFirstUpper()».class«ENDIF»);
 				dao.saveOrUpdate(bean, false);
 			}
 			return bean;
