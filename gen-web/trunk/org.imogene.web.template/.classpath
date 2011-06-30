@@ -9,9 +9,7 @@
 	<classpathentry kind="lib" path="gwt-deps/org.imogene.gwt.widgets.jar"/>
 	<classpathentry kind="lib" path="gwt-deps/gwt-datepicker-r30.jar"/>
 	<classpathentry kind="lib" path="gwt-deps/gwt-voices-1.6.0.jar"/>
-	<classpathentry kind="lib" path="/home/julien/apps/eclipse/configuration/org.eclipse.osgi/bundles/808/1/.cp/libs/jars/spring-security-core-3.0.3.RELEASE.jar"/>
 	<classpathentry kind="con" path="org.imogene.tools.libraryhelper.IMOGENE_DEV_LIB"/>
-	<classpathentry kind="lib" path="/home/julien/apps/eclipse/configuration/org.eclipse.osgi/bundles/808/1/.cp/libs/jars/spring-security-web-3.0.3.RELEASE.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (3)"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
