@@ -10,6 +10,7 @@ import org.imogene.web.server.binary.Binary;
 
 
 public class BinaryFile implements Binary {
+	
 	private Logger logger = Logger.getLogger(BinaryFile.class.getName());
 	
     private String _id;
