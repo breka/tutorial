@@ -63,7 +63,7 @@ public abstract class AbstractClasspathContainer implements IClasspathContainer 
 
 	@Override
 	public int getKind() {		
-		return 0;
+		return IClasspathContainer.K_APPLICATION;
 	}
 
 	@Override
