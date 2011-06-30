@@ -12,12 +12,12 @@
 	<class lazy="false" table="«name»" name="org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»">
 		<id name="id" column="«name»_ID"/>			
 		«EXPAND fieldMapping("org.imogene."+projectName.toLowerCase()+".client.entity") FOREACH this.groups.fields-»
+		<property column="«name»_CreationDate" name="creationDate" type="timestamp"/>		
 		<property column="«name»_Creator" name="creator"/>
-		<property column="«name»_CreationDate" name="creationDate" type="timestamp"/>
+		<property column="«name»_LastModificationDate" name="lastModificationDate" type="timestamp"/>
 		<property column="«name»_Modifier" name="modifier"/>
 		<property column="«name»_ModifiedFrom" name="modifiedFrom"/>
-		<property column="«name»_LastModificationDate" name="lastModificationDate" type="timestamp"/>
-		<property column="«name»_UploadDate" name="uploadDate" type="timestamp"/>		
+		<property column="«name»_UploadDate" name="uploadDate" type="timestamp"/>
 		
 		«REM» Inheritance specific to Actor entities «ENDREM»
 		«IF Actor.isAssignableFrom(this.metaType)-»
@@ -92,7 +92,7 @@
 					 column="«EXPAND template::CommonFieldUtil::propertyName FOR this»_ID"  
 					 not-null="false" 
 					 «IF (this.type.toString() == (core::RelationType::Composition).toString())-»
-					 cascade="delete" «ENDIF»
+					 cascade="delete" «ENDIF-»
 					 lazy="false"/>
 		«ELSE-»
 		«REM»
@@ -101,7 +101,7 @@
 					 column="«EXPAND template::CommonFieldUtil::propertyName FOR this»«parentGroup.parentCard.name.toFirstUpper()»_ID"  
 					 not-null="false" 
 					 «IF (this.type.toString() == (core::RelationType::Composition).toString())-»
-					 cascade="delete" «ENDIF»
+					 cascade="delete" «ENDIF-»
 					 lazy="false"/>
 		«ENDIF-»		
 	«ELSE-»	
@@ -110,7 +110,7 @@
 		Relation N <-> 1 «ENDREM»	
 		<set name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" 
 			 «IF (this.type.toString() == (core::RelationType::Composition).toString())-»
-			 cascade="delete-orphan" «ENDIF»
+			 cascade="delete-orphan" «ENDIF-»
 			 lazy="true">
 			    <key column="«EXPAND template::CommonFieldUtil::propertyName FOR this-»«parentGroup.parentCard.name.toFirstUpper()»_ID"/>
 			    <one-to-many class="«packageName-».«entity.name.toFirstUpper()»"/>
@@ -123,7 +123,6 @@
 			    <many-to-many column="«entity.name.toFirstUpper()»_ID" class="«packageName».«entity.name.toFirstUpper()»"/>
 		</set>		
 		«ENDIF-»
-		
 	«ENDIF-»
 «ENDDEFINE»
 
@@ -158,7 +157,6 @@
 					 «IF (this.type.toString() == (core::RelationType::Composition).toString())-»
 					 cascade="delete" «ENDIF»
 					 lazy="false"/>
-					 
 		«ENDIF-»		
 	«ELSE-»	
 		«IF (getOppositeCardinality(this) == 1)-»
@@ -171,7 +169,6 @@
 			    <key column="«EXPAND template::CommonFieldUtil::propertyName FOR this.oppositeRelationField-»«oppositeRelationField.parentGroup.parentCard.name.toFirstUpper()»_ID"/>
 			    <one-to-many class="«packageName-».«entity.name.toFirstUpper()»"/>
 		</set>
-		
 		«ELSE-»
 		«REM»
 		Relation N <-> N «ENDREM»
@@ -179,7 +176,6 @@
 		    	<key column="«parentGroup.parentCard.name.toFirstUpper()»_ID"/>			    		    	
 			    <many-to-many column="«entity.name.toFirstUpper()»_ID" class="«packageName-».«entity.name.toFirstUpper()»"/>
 		</set>
-		
 		«ENDIF-»		
 	«ENDIF-»
 «ENDDEFINE»

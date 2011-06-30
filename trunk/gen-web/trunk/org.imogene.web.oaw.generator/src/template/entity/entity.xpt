@@ -24,11 +24,11 @@ public class «name.toFirstUpper()» implements ImogBean «IF this.georeferenced!=n
 	/* Imog bean fields */
 	private String id;	
 	private Date creationDate;
-	private Date lastModificationDate;	
-	private Date uploadDate;
-	private String creator;
+	private String creator;	
+	private Date lastModificationDate;
 	private String modifier;
 	private String modifiedFrom;
+	private Date uploadDate;
 	
 	/* Entity fields */
 	
@@ -53,6 +53,10 @@ public class «name.toFirstUpper()» implements ImogBean «IF this.georeferenced!=n
 	
 	/* Getters for Imog bean fields */
 	
+	public String getId() {		
+		return id;
+	}
+		
 	public Date getCreationDate() {		
 		return creationDate;
 	}	
@@ -61,20 +65,16 @@ public class «name.toFirstUpper()» implements ImogBean «IF this.georeferenced!=n
 		return creator;
 	}
 
-	public String getId() {		
-		return id;
-	}
-
 	public Date getLastModificationDate() {		
 		return lastModificationDate;
 	}
+	
+	public String getModifier() {		
+		return modifier;
+	}	
 
 	public String getModifiedFrom() {		
 		return modifiedFrom;
-	}
-
-	public String getModifier() {		
-		return modifier;
 	}
 
 	public Date getUploadDate() {		
@@ -82,6 +82,10 @@ public class «name.toFirstUpper()» implements ImogBean «IF this.georeferenced!=n
 	}
 	
 	/* Setters for Imog bean fields */
+	
+	public void setId(String pId) {		
+		id = pId;
+	}
 
 	public void setCreationDate(Date date) {		
 		creationDate = date;
@@ -91,25 +95,22 @@ public class «name.toFirstUpper()» implements ImogBean «IF this.georeferenced!=n
 		creator =pCreator;		
 	}
 
-	public void setId(String pId) {		
-		id = pId;
-	}
-
 	public void setLastModificationDate(Date date) {
 		lastModificationDate = date;		
+	}
+	
+	public void setModifier(String pModifier) {
+		modifier = pModifier;		
 	}
 
 	public void setModifiedFrom(String terminal) {
 		modifiedFrom = terminal;		
 	}
 
-	public void setModifier(String pModifier) {
-		modifier = pModifier;		
-	}
-
 	public void setUploadDate(Date date) {		
 		uploadDate = date;
 	}
+	
 	
 	/* Getters and Setters for Entity fields */
 	
