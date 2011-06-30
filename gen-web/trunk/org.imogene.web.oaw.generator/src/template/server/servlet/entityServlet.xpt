@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -168,7 +167,11 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 	 * @return the count
 	 */
 	public int count«name.toFirstUpper()»(){
-		return «name.toFirstLower()»Dao.count«name.toFirstUpper()»();
+	
+		ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);		
+		ImogJunction junction = createFilterJuntion(actor);	
+		
+		return «name.toFirstLower()»Dao.count«name.toFirstUpper()»(junction);
 	}
 	
 	/**
@@ -177,7 +180,12 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 	 * @return the count
 	 */
 	public int count«name.toFirstUpper()»(ImogJunction criterion){
-		return «name.toFirstLower()»Dao.count«name.toFirstUpper()»(criterion);
+	
+		ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);		
+		ImogJunction junction = createFilterJuntion(actor);	
+		junction.add(criterion);
+		
+		return «name.toFirstLower()»Dao.count«name.toFirstUpper()»(junction);
 	}
 	
 	/**
@@ -372,27 +380,25 @@ public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(String paren
 «ENDIF»
 «ENDDEFINE»
 
-«REM»
-	AOP specification part hook «ENDREM»
+«REM» AOP specification part hook «ENDREM»
 «DEFINE specificPart FOR CardEntity»«ENDDEFINE»
 
 «REM»---------------------------------------------------- «ENDREM»
 «REM»-------------------- FILTER FIELDS ----------------- «ENDREM»
 «REM»---------------------------------------------------- «ENDREM»
-«REM»
-imports for filter fields «ENDREM»
+
+«REM» Imports for filter fields «ENDREM»
 «DEFINE importsForFilterFields(String projectName) FOR CardEntity -»
 	import org.imogene.web.gwt.common.criteria.BasicCriteria;
 	import org.imogene.web.gwt.common.criteria.CriteriaConstants;	
 	import org.imogene.web.gwt.common.criteria.ImogDisjunction;
-	«FOREACH this.actorFilterFields AS actorField»
+	«FOREACH this.actorFilterFields AS actorField-»
 	import org.imogene.«projectName.toLowerCase()».client.entity.«actorField.actorField.parentActor.name.toFirstUpper()»Actor;
 	import org.imogene.«projectName.toLowerCase()».client.entity.«actorField.entityField.entity.name.toFirstUpper()»;
-	«ENDFOREACH»
+	«ENDFOREACH-»
 «ENDDEFINE»
 
-«REM»
-Filter field handling «ENDREM»
+«REM» Filter field handling «ENDREM»
 «DEFINE handleFilterField(String entityName) FOR ActorFilter -»
 	/* add filter field for actor «actorField.parentActor.name.toFirstUpper()» */
 	if(actor instanceof «actorField.parentActor.name.toFirstUpper()»Actor){	
@@ -517,10 +523,9 @@ import org.imogene.«projectName.toLowerCase()».server.dao.«this.parentGroup.pare
 
 «DEFINE deleteForeignKeyCard1 FOR FieldEntity-»
 
-		//Delete foreign key reference for field «this.name» of entity «this.parentGroup.parentCard.name»
+		// Delete foreign key reference for field «this.name» of entity «this.parentGroup.parentCard.name»
  
         ImogJunction searchCriterionsFor«this.parentGroup.parentCard.name»«this.name» = new ImogConjunction();
-	
 		BasicCriteria criteria«this.parentGroup.parentCard.name»«this.name» = new BasicCriteria();
 		criteria«this.parentGroup.parentCard.name»«this.name».setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
 		criteria«this.parentGroup.parentCard.name»«this.name».setValue(entity.getId());
@@ -528,7 +533,6 @@ import org.imogene.«projectName.toLowerCase()».server.dao.«this.parentGroup.pare
 		searchCriterionsFor«this.parentGroup.parentCard.name»«this.name».add(criteria«this.parentGroup.parentCard.name»«this.name»);    
 
 		List<«this.parentGroup.parentCard.name.toFirstUpper()»> resultFor«this.parentGroup.parentCard.name»«this.name» = «this.parentGroup.parentCard.name.toFirstLower()»«this.name.toFirstUpper()»Dao.list«this.parentGroup.parentCard.name.toFirstUpper()»("«EXPAND template::CommonFieldUtil::getFirstSortField FOR this.parentGroup.parentCard-»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this.parentGroup.parentCard-»,searchCriterionsFor«this.parentGroup.parentCard.name»«this.name»);
-				
 		if (resultFor«this.parentGroup.parentCard.name»«this.name»!=null)
 		{
 			for («this.parentGroup.parentCard.name.toFirstUpper()» foreignEntity: resultFor«this.parentGroup.parentCard.name»«this.name»)
@@ -543,11 +547,10 @@ import org.imogene.«projectName.toLowerCase()».server.dao.«this.parentGroup.pare
 
 «DEFINE deleteForeignKeyCardN FOR FieldEntity-»
 
-		//Delete foreign key reference for field «this.name» of entity «this.parentGroup.parentCard.name»
+		// Delete foreign key reference for field «this.name» of entity «this.parentGroup.parentCard.name»
  
 		List<«this.parentGroup.parentCard.name.toFirstUpper()»> resultFor«this.parentGroup.parentCard.name»«this.name» = «this.parentGroup.parentCard.name.toFirstLower()»«this.name.toFirstUpper()»Dao
 		.listAffectedCardNProperty("«EXPAND template::CommonFieldUtil::propertyName FOR this-»", entity.getId());
-			
 		if (resultFor«this.parentGroup.parentCard.name»«this.name»!=null)
 		{
 			for («this.parentGroup.parentCard.name.toFirstUpper()» foreignEntity: resultFor«this.parentGroup.parentCard.name»«this.name»)

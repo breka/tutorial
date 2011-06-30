@@ -38,6 +38,7 @@ import org.imogene.web.gwt.common.criteria.CriteriaConstants;
 import org.imogene.web.gwt.common.criteria.ImogConjunction;
 import org.imogene.web.gwt.common.criteria.ImogDisjunction;
 import org.imogene.web.gwt.common.criteria.ImogJunction;
+import org.imogene.web.gwt.common.entity.CommonConstants;
 import org.imogene.web.gwt.common.id.ImogKeyGenerator;
 
 import org.imogene.«projectName.toLowerCase()».client.AccessManager;
@@ -160,7 +161,6 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		«IF format==null || !format.withTabulations -»
 		«IF DisplayQRCode -»addSection(imogQRCodeSection);«ENDIF -»
 		«ENDIF -»
-					
 		«FOREACH groups AS g -»
 		if (AccessManager.canReadGroup("«g.parentCard.name.toLowerCase()».«g.name.toLowerCase()»")) {
 			«IF format!=null && format.withTabulations -»
@@ -354,7 +354,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 			
 			entity.setLastModificationDate(new Date(System.currentTimeMillis()));
 			entity.setModifier((LocalSession.get().getCurrentUser().getLogin()));
-			entity.setModifiedFrom("web");	
+			entity.setModifiedFrom(CommonConstants.IS_WEB);	
 			
 			«IF isTranslatableFieldPresent(this.groups.fields)-»
 			List<LocalizedText> localizedTextsToSave = new Vector<LocalizedText>();
