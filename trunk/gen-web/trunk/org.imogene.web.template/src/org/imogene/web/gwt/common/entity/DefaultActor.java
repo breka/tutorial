@@ -7,23 +7,17 @@ import java.util.HashSet;
 
 public class DefaultActor implements ImogActor {
 	
-	private String login;
-	
 	private String id;
-	
-	private Date lastLoginDate;
-	
-	private String password;
-	
-	private Date creationDate;
-	
-	private String creator;
-	
+	private Date creationDate;	
+	private String creator;	
 	private Date modificationDate;
-	
 	private String modifiedFrom;
 	
+	private String login;
+	private String password;	
+	private Date lastLoginDate;
 	private Set<ImogRole> roles = new HashSet<ImogRole>();
+	
 	
 
 	@Override
@@ -87,13 +81,26 @@ public class DefaultActor implements ImogActor {
 
 	@Override
 	public String getModifier() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Date getUploadDate() {
-		
+		return null;
+	}
+	
+	@Override
+	public Integer getDefaultNotificationMethod() {
+		return null;
+	}
+
+	@Override
+	public String getNotificationLocale() {
+		return null;
+	}
+
+	@Override
+	public Boolean getBeNotified() {
 		return null;
 	}
 
@@ -121,53 +128,6 @@ public class DefaultActor implements ImogActor {
 	public void setModifiedFrom(String terminal) {
 		modifiedFrom = terminal;		
 	}
-
-	@Override
-	public void setModifier(String modifier) {
-		//TODO do nothing	
-	}
-
-	@Override
-	public void setUploadDate(Date date) {
-		// TODO Auto-generated method stub		
-	}
-
-	@Override
-	public Integer getDefaultNotificationMethod() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getNotificationLocale() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean getBeNotified() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setDefaultnotificationMethod(Integer method) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setBeNotified(Boolean notify) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setNotificationLacole(String iso) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	
 	public void setRoles(Set<ImogRole> pRoles){
 		roles = pRoles;
@@ -176,6 +136,30 @@ public class DefaultActor implements ImogActor {
 	public Set<ImogRole> getRoles(){
 		return roles;
 	}
+
+	@Override
+	public void setModifier(String modifier) {
+	}
+
+	@Override
+	public void setUploadDate(Date date) {	
+	}
+
+	@Override
+	public void setDefaultnotificationMethod(Integer method) {
+	}
+
+	@Override
+	public void setBeNotified(Boolean notify) {
+	}
+
+	@Override
+	public void setNotificationLacole(String iso) {
+	}
+
+
+	
+	
 	
 	
 	

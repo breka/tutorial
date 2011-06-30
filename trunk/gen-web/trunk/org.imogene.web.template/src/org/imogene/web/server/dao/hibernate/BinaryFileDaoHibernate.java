@@ -3,6 +3,7 @@ package org.imogene.web.server.dao.hibernate;
 import java.io.File;
 import java.util.Date;
 
+import org.imogene.web.gwt.common.entity.CommonConstants;
 import org.imogene.web.server.binary.Binary;
 import org.imogene.web.server.binary.BinaryDao;
 import org.imogene.web.server.binary.file.BinaryFile;
@@ -22,7 +23,7 @@ public class BinaryFileDaoHibernate extends HibernateDaoSupport implements Binar
      * See BinaryDao interface
      */
     public void saveOrUpdateBinary(Binary bean) {   
-    	bean.setModifiedFrom("web");
+    	bean.setModifiedFrom(CommonConstants.IS_WEB);
     	bean.setUploadDate(new Date(System.currentTimeMillis()));
         getHibernateTemplate().saveOrUpdate(bean);
     }
