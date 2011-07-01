@@ -1,6 +1,7 @@
 «IMPORT core»
 «EXTENSION template::CommonFieldUtilExt»
 «EXTENSION template::ImogRcpFieldUtilExt»
+«EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String moduleName) FOR Project-»
 «FILE "plugin.xml"-»
@@ -151,6 +152,9 @@
 			«ENDIF -»          
             dao="org.imogene.«moduleName.toLowerCase()».dao.hibernate.«e.name.toFirstUpper()»Dao"
             entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»"
+			«IF isTranslatableFieldPresent(e.groups.fields)-»
+			hasTranslatableField="true"
+			«ENDIF -»            
             handler="org.imogene.«moduleName.toLowerCase()».handler.«e.name.toFirstUpper()»Handler">
       </DataHandler>
    </extension>
@@ -192,19 +196,14 @@
     	«ENDIF -»
 	«ENDFOREACH»	
 
-«REM»
-<!-- ClassConverters ? -->
- «FOREACH entities AS e»
-   <extension
-         point="org.imogene.rcp.core.PropertyConverter">
-      <PropertyConverter
-            entityClassName="org.imogene.«moduleName.toFirstLower()».entity.MedicalRequest"
-            propertyName="medicalRequestPatient"
-            type="association">
-      </PropertyConverter>
-   </extension>
-«ENDFOREACH»
-«ENDREM»
+<!-- ClassConverters -->
+   <extension point="org.imogene.rcp.core.ClassConverter">
+      <ClassConverter
+            alias="org.imogene.imogenedemo.entity.LocalizedFieldMap"
+            converterClass="org.imogene.imogenedemo.serializer.xml.LocalizedFieldMapConverter"
+            entityClassName="org.imogene.imogenedemo.entity.LocalizedFieldMap">
+      </ClassConverter>
+   </extension>   
 
    <extension
          point="org.imogene.rcp.core.Modules">
