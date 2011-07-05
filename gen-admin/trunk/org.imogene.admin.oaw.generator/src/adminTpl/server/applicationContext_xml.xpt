@@ -15,6 +15,9 @@
 	<!-- Spring-security users details provider -->
 	<bean class="org.imogene.«projectName.toLowerCase()».server.security.ImogSecurityDetailService" id="imogSecurityDetailService">
 		<property name="genericDao" ref="genericDao"/>
+		«FOREACH entities AS e -»
+  		  «EXPAND actorDao FOR e -»
+		«ENDFOREACH -»
   	</bean>  
 	
 	
@@ -134,4 +137,10 @@
 	
 </beans>
 «ENDFILE»
+«ENDDEFINE»
+
+«REM» Set actor dao «ENDREM»
+«DEFINE actorDao FOR CardEntity -»«ENDDEFINE»
+«DEFINE actorDao FOR Actor -»
+		<property name="«name.toFirstLower()»Dao" ref="«name.toFirstLower()»DaoBase"/>
 «ENDDEFINE»
