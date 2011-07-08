@@ -6,6 +6,7 @@
 package org.imogene.«moduleName.toLowerCase()».view.«this.name.toLowerCase()»;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -355,6 +356,13 @@ public class «name.toFirstUpper()»RcpList extends EntityListPart {
 «REM»Generate the method that set the column value for a main field «ENDREM»
 «DEFINE columnValue(String entityName) FOR FieldEntity-»
 	((«entityName»ForList)element).«EXPAND template::CommonFieldUtil::getterName FOR this-»()
+«ENDDEFINE»
+«DEFINE columnValue(String entityName) FOR TextField-»
+	«IF translatable»
+		((«entityName»ForList)element).getLocalizedFieldMap().getFieldI18nValue(((«entityName»ForList)element).«EXPAND template::CommonFieldUtil::getterName FOR this-»(), Locale.getDefault().getLanguage())
+	«ELSE»
+		((«entityName»ForList)element).«EXPAND template::CommonFieldUtil::getterName FOR this-»()
+	«ENDIF»
 «ENDDEFINE»
 «DEFINE columnValue(String entityName) FOR NumericField-»
 	String.valueOf(((«entityName»ForList)element).«EXPAND template::CommonFieldUtil::getterName FOR this-»())

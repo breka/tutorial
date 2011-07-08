@@ -1,0 +1,105 @@
+«IMPORT core»
+«EXTENSION template::CommonEntityUtilExt»
+
+«DEFINE generate(String moduleName) FOR Project»
+«FILE moduleName.toLowerCase() + "/localized/LocalizedHandler.java"»
+package org.imogene.«moduleName.toLowerCase()».localized;
+
+import java.util.List;
+
+import org.imogene.common.data.Synchronizable;
+import org.imogene.common.dao.LocalizedTextDao;
+import org.imogene.sync.localizedtext.LocalizedText;
+import org.imogene.sync.client.localizedtext.LocalizedTextHibernateDao;
+
+«FOREACH entities AS e»
+import org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»;
+import org.imogene.«moduleName.toLowerCase()».entity.list.«e.name.toFirstUpper()»ForList;
+«ENDFOREACH»
+
+public class LocalizedHandler {
+
+	private static LocalizedHandler handler;
+	
+	private final LocalizedTextDao i18nDao;
+	
+	public static LocalizedHandler getInstance() {
+		if (handler == null)
+			handler = new LocalizedHandler();
+		return handler;
+	}
+	
+	private LocalizedHandler() {
+		i18nDao = new LocalizedTextHibernateDao();
+	}
+	
+	public void loadLocalized(Synchronizable bean) {
+		loadLocalized(bean, true);
+	}
+	
+	public void loadLocalized(List<Synchronizable> beans) {
+		loadLocalized(beans, true);
+	}
+
+	private void loadLocalized(Synchronizable bean, boolean first) {
+		«FOREACH entities AS e SEPARATOR 'else'»
+			if (bean instanceof «e.name.toFirstUpper()») {
+				loadLocalizedFor«e.name.toFirstUpper()»((«e.name.toFirstUpper()») bean);
+			} else if (bean instanceof «e.name.toFirstUpper()»ForList) {
+				loadLocalizedFor«e.name.toFirstUpper()»ForList((«e.name.toFirstUpper()»ForList) bean, first);
+			}
+		«ENDFOREACH»
+	}
+	
+	private void loadLocalized(List<Synchronizable> beans, boolean first) {
+		for (Synchronizable bean : beans) {
+			loadLocalized(bean, first);
+		}
+	}
+	
+	«FOREACH entities AS e»
+	private void loadLocalizedFor«e.name.toFirstUpper()»(«e.name.toFirstUpper()» bean) {
+		«EXPAND loadLocalized FOREACH e.groups.fields»
+	}
+	
+	private void loadLocalizedFor«e.name.toFirstUpper()»ForList(«e.name.toFirstUpper()»ForList bean, boolean first) {
+		if (first) {
+			«IF e.columnFields.isEmpty»
+			«EXPAND loadLocalized FOREACH e.mainFields.addAll(e.secondaryFields)»
+			«ELSE»
+			«EXPAND loadLocalized FOREACH e.columnFields»
+			«ENDIF»
+		} else {
+			«EXPAND loadLocalized FOREACH e.mainFields»
+		}
+	}
+	«ENDFOREACH»
+	
+	/**
+	 * Gets the Localized texts for a given field
+	 * @param fieldId the field id for which LocalizedTexts are searched
+	 * @return a list of LocalizedTexts
+	 */
+	private List<LocalizedText> getLocalizedTexts(String fieldId) {
+		return i18nDao.listLocalizedText(fieldId);
+	}
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE loadLocalized FOR FieldEntity»«ENDDEFINE»
+
+«DEFINE loadLocalized FOR TextField»
+«IF translatable-»
+bean.getLocalizedFieldMap().addI18nValues(getLocalizedTexts(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE loadLocalized FOR RelationFieldEntity»
+«IF isTranslatableFieldPresent(entity.mainFields)»
+if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() != null) {
+	loadLocalized(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»());
+}
+«ENDIF»
+«ENDDEFINE»

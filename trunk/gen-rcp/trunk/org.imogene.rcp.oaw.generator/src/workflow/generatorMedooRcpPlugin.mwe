@@ -127,8 +127,16 @@
 		<expand value='template::module::WelcomeView::generate("${modelName}") FOR project' />
 		<genPath value="${home-gen}/src/org/imogene/" />	
 		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />	
-	</component>		
+	</component>
 	
+	<!-- Localized Handler -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='template::localized::LocalizedHandler_Rcp::generate("${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/org/imogene/" />	
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />	
+	</component>
 	
 	<!-- Entity  -->
 	<component class="org.eclipse.xpand2.Generator">

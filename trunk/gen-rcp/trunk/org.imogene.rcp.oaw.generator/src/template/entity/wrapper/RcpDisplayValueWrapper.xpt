@@ -6,6 +6,8 @@
 
 package org.imogene.«moduleName.toLowerCase()».wrapper;
 
+import java.util.Locale;
+
 «FOREACH entities AS e-»
 import org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»;
 «IF e.topLevel == true -» 
@@ -195,6 +197,16 @@ public class DisplayValueWrapper {
 «DEFINE stringRepresentation FOR FieldEntity»
 	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
 		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR TextField»
+	«IF translatable»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + bean.getLocalizedFieldMap().getFieldI18nValue(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»(), Locale.getDefault().getLanguage()) + " ";
+	«ELSE»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";
+	«ENDIF»
 «ENDDEFINE»
 
 «DEFINE stringRepresentation FOR RelationFieldEntity»
