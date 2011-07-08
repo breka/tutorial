@@ -5,6 +5,8 @@
 
 package org.imogene.«moduleName.toLowerCase()».wrapper;
 
+import java.util.Locale;
+
 «FOREACH entities AS e-»
 «IF e.topLevel == true -»
 import org.imogene.«moduleName.toLowerCase()».entity.list.«e.name.toFirstUpper()»ForList;

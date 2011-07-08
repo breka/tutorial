@@ -14,6 +14,8 @@ import org.imogene.sync.localizedtext.LocalizedText;
 
 public class LocalizedFieldMap {
 
+	public static final String[] LANGUAGES = new String[] {«FOREACH languages AS l SEPARATOR ','»"«l.isoCode»"«ENDFOREACH»};
+
 	«IF this.languages.size == 0 -»
 	private Map<String,LocalizedText> textValues;
 	«ELSE-»

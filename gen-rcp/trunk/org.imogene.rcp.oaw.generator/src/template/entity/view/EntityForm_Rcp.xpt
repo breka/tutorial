@@ -49,11 +49,14 @@ import org.imogene.rcp.core.widget.*;
 import org.imogene.rcp.core.widget.field.*;
 import org.imogene.rcp.core.wrapper.CoreMessages;
 import org.imogene.sync.client.EntityListener;
+import org.imogene.sync.client.dao.sqlite.HibernateGenericDao;
+import org.imogene.sync.localizedtext.LocalizedText;
 import org.imogene.«moduleName.toLowerCase()».Plugin;
 import org.imogene.«moduleName.toLowerCase()».entity.«this.name.toFirstUpper()»;
 «IF Actor.isAssignableFrom(this.metaType)-»
 import org.imogene.«moduleName.toLowerCase()».entity.«this.name.toFirstUpper()»User;
 «ENDIF -»
+import org.imogene.«moduleName.toLowerCase()».entity.LocalizedFieldMap;
 import org.imogene.«moduleName.toLowerCase()».handler.«this.name.toFirstUpper()»Handler;
 import org.imogene.«moduleName.toLowerCase()».security.AccessManager;
 import org.imogene.«moduleName.toLowerCase()».wrapper.Messages;
@@ -469,6 +472,11 @@ public class «name.toFirstUpper()»RcpForm extends IEntityForm {
 	 * Cancel the current edition.
 	 */
 	public void cancel(){
+		«IF isTranslatableFieldPresent(groups.fields)»
+		for (LocalizedText text : embedded.getLocalizedFieldMap().getI18nValues()) {
+			HibernateGenericDao.refresh(text);
+		}
+		«ENDIF»
 		isValidated();
 		setInput(embedded);
 	}
@@ -559,8 +567,19 @@ import org.imogene.«moduleName».view.«entity.name.toLowerCase()».«entity.name.to
 «DEFINE fieldEditorDeclaration FOR FieldEntity-»
 	private StringFieldComposite «name.toFirstLower()»Field;	
 «ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR TextField-»
+	«IF translatable»
+	private LocalizedTextFieldComposite «name.toFirstLower()»Field;
+	«ELSE»
+	private StringFieldComposite «name.toFirstLower()»Field;	
+	«ENDIF»
+«ENDDEFINE»
 «DEFINE fieldEditorDeclaration FOR TextAreaField-»
+	«IF translatable»
+	private LocalizedTextAreaFieldComposite «name.toFirstLower()»Field;
+	«ELSE»
 	private TextFieldComposite «name.toFirstLower()»Field;	
+	«ENDIF»
 «ENDDEFINE»
 «DEFINE fieldEditorDeclaration FOR IntegerField-»
 	private IntegerFieldComposite «name.toFirstLower()»Field;	
@@ -602,8 +621,19 @@ import org.imogene.«moduleName».view.«entity.name.toLowerCase()».«entity.name.to
 «DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR FieldEntity-»
 		«name.toFirstLower()»Field = new StringFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
 «ENDDEFINE»
-«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR TextAreaField-»	
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR TextField-»
+	«IF translatable»
+		«name.toFirstLower()»Field = new LocalizedTextFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent», LocalizedFieldMap.LANGUAGES);
+	«ELSE»
+		«name.toFirstLower()»Field = new StringFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+	«ENDIF»
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR TextAreaField-»
+	«IF translatable»
+		«name.toFirstLower()»Field = new LocalizedTextAreaFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent», LocalizedFieldMap.LANGUAGES);
+	«ELSE»
 		«name.toFirstLower()»Field = new TextFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+	«ENDIF»	
 «ENDDEFINE»
 «DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR IntegerField-»
 		«name.toFirstLower()»Field = new IntegerFieldComposite(«EXPAND getParentComposite(is2Columns, isModulo2, isFieldDependent) FOR this», toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
@@ -649,6 +679,14 @@ import org.imogene.«moduleName».view.«entity.name.toLowerCase()».«entity.name.to
 if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
 	«name.toFirstLower()»Field.getValueControl().setText(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
 «ENDDEFINE»
+«DEFINE formPopulate FOR TextField-»
+if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«IF translatable»
+	«name.toFirstLower()»Field.getValueControl().setValue(entity.getLocalizedFieldMap().getFieldI18nValues(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+	«ELSE»
+	«name.toFirstLower()»Field.getValueControl().setText(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	«ENDIF»
+«ENDDEFINE»
 «DEFINE formPopulate FOR DatesField-»
 if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
 	«name.toFirstLower()»Field.getValueControl().setDate(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
@@ -682,6 +720,14 @@ if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
 «REM»Generate the save method for each field «ENDREM»
 «DEFINE saveField FOR FieldEntity -»
 	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«name.toFirstLower()»Field.getValueControl().getText());
+«ENDDEFINE»
+«DEFINE saveField FOR TextField -»
+	«IF translatable»
+	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«name.toFirstLower()»Field.getValueControl().getValue());
+	embedded.getLocalizedFieldMap().addI18nValues(«name.toFirstLower()»Field.getValueControl().getUpdatedLocalizedTexts());
+	«ELSE»
+	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«name.toFirstLower()»Field.getValueControl().getText());
+	«ENDIF»
 «ENDDEFINE»
 «DEFINE saveField FOR IntegerField -»
 if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
@@ -720,7 +766,6 @@ if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
 «DEFINE saveField FOR BooleanField-»
 	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«name.toFirstLower()»Field.getValueControl().getResult());
 «ENDDEFINE»
-
 
 «REM» ----------------------------------------------------------------------------------- «ENDREM»
 «REM» --------------------------------    FIELD VALIDATION      ------------------------- «ENDREM»

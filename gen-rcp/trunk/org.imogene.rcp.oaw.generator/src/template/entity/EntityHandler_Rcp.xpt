@@ -28,10 +28,12 @@ import org.imogene.«moduleName.toLowerCase()».entity.«this.name.toFirstUpper()»;
 «FOREACH this.groups.fields AS f-»
 	«EXPAND importParent(moduleName.toLowerCase()) FOR f-»
 «ENDFOREACH-»
+import org.imogene.«moduleName.toLowerCase()».localized.LocalizedHandler;
 import org.imogene.common.dao.LocalizedTextDao;
 «IF isTranslatableFieldPresent(this.groups.fields)-»
 import org.imogene.sync.localizedtext.LocalizedText;
-«ENDIF-»	
+import org.imogene.«moduleName.toLowerCase()».entity.list.«this.name.toFirstUpper()»ForList;
+«ENDIF-»
 
 
 /**
@@ -75,7 +77,9 @@ public class «this.name.toFirstUpper()»Handler implements EntityHandler {
 	}
 	
 	public List<Synchronizable> loadEntities(SynchronizableUser user) {		
-		return dao.loadEntities();
+		List<Synchronizable> entities = dao.loadEntities();
+		LocalizedHandler.getInstance().loadLocalized(entities);
+		return entities;
 	}
 
 «IF this.topLevel == true -»
@@ -90,33 +94,27 @@ public class «this.name.toFirstUpper()»Handler implements EntityHandler {
 	 */
 «ENDIF -»
 	public List<Synchronizable> loadEntities(int startRow, int maxRows,	String sortProperty, boolean sortOrder, SynchronizableUser user) {
-		return dao.loadEntities(startRow, maxRows, sortProperty, sortOrder);
+		List<Synchronizable> entities = dao.loadEntities(startRow, maxRows, sortProperty, sortOrder);
+		LocalizedHandler.getInstance().loadLocalized(entities);
+		return entities;
 	}
 
-	public Synchronizable loadEntity(String entityId, SynchronizableUser user) {		
-		return dao.loadEntity(entityId);
+	public Synchronizable loadEntity(String entityId, SynchronizableUser user) {
+		Synchronizable entity = dao.loadEntity(entityId);
+		LocalizedHandler.getInstance().loadLocalized(entity);
+		return entity;
 	}
 
 	public List<Synchronizable> loadModified(Date date, SynchronizableUser user) {		
-		«IF isTranslatableFieldPresent(this.groups.fields)-»
 		List<Synchronizable> entities = dao.loadModified(date, (ImogJunction) null);
-		for (Synchronizable entity: entities) {
-			entity = getLocalized«this.name.toFirstUpper()»(entity);
-		}
+		LocalizedHandler.getInstance().loadLocalized(entities);
 		return entities;
-		«ELSE-»
-		return dao.loadModified(date, (ImogJunction)null);
-		«ENDIF-»	
 	}		
 	
 	public Synchronizable loadModified(String entityId, Date date, SynchronizableUser user) {
-		«IF isTranslatableFieldPresent(this.groups.fields)-»
 		Synchronizable entity = dao.loadModified(date, entityId);
-		entity = getLocalized«this.name.toFirstUpper()»(entity);
+		LocalizedHandler.getInstance().loadLocalized(entity);
 		return entity;
-		«ELSE»
-		return dao.loadModified(date, entityId);
-		«ENDIF»	
 	}		
 	
 	public void merge(Synchronizable entity, SynchronizableUser user) {		
@@ -210,32 +208,6 @@ public class «this.name.toFirstUpper()»Handler implements EntityHandler {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-		«IF isTranslatableFieldPresent(this.groups.fields)-»
-	/**
-	 * Adds the Localized texts to a «this.name.toFirstUpper()» entity
-	 * @param value the «this.name.toFirstUpper()» entity
-	 * @return «this.name.toFirstUpper()» entity with the Localized texts added
-	 */
-	private «this.name.toFirstUpper()» getLocalized«this.name.toFirstUpper()»(Synchronizable value) {
-		«this.name.toFirstUpper()» entity = («this.name.toFirstUpper()»)value;
-		if (entity != null) {
-		«FOREACH this.groups.fields AS f-»
-			«EXPAND addLocalizedTexts FOR f-»
-		«ENDFOREACH-»			
-		}
-		return entity;
-	}
-	
-	/**
-	 * Gets the Localized texts for a given field
-	 * @param fieldId the field id for which LocalizedTexts are searched
-	 * @return a list of LocalizedTexts
-	 */
-	private List<LocalizedText> getLocalizedTexts(String fieldId) {
-		return i18nDao.listLocalizedText(fieldId);
-	}
-		«ENDIF»		
 	
 }
 «ENDFILE»
