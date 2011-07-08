@@ -19,10 +19,10 @@ public class SimpleRelationFieldComposite extends FormFieldComposite {
 		super(parent);
 		this.className = className;
 		this.formID = formID;
-		createComposite(toolkit, fieldLabelText, isRequired);		
+		createComposite(toolkit, fieldLabelText, isRequired);
 	}
 
-	protected  void createFieldValue(FormToolkit toolkit) {
+	protected void createFieldValue(FormToolkit toolkit) {
 		fieldValue = new RelationCombo(this, true, className, formID);	
 	}
 	

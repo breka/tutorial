@@ -93,7 +93,7 @@ public class RelationCombo extends Composite {
 		GridLayout layout = new GridLayout(4, false);
 		layout.marginWidth = 0;
 		layout.horizontalSpacing = 0;
-		setLayout(layout);	
+		setLayout(layout);
 		
 		entityList = new Combo(this, SWT.SINGLE | SWT.READ_ONLY);
 		entityList.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_CENTER));
@@ -172,7 +172,7 @@ public class RelationCombo extends Composite {
 	public void fill(){
 		int lastIndex = entityList.getSelectionIndex();
 		List<Synchronizable> entities = handler.loadEntities(null);
-		entityList.removeAll();	
+		entityList.removeAll();
 		int index=0;
 		for(Synchronizable entity:entities){
 			entityList.add(entity.getDisplayValue());
