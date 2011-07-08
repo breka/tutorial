@@ -12,10 +12,12 @@ import org.imogene.common.dao.LocalizedTextDao;
 import org.imogene.sync.localizedtext.LocalizedText;
 import org.imogene.sync.client.localizedtext.LocalizedTextHibernateDao;
 
-«FOREACH entities AS e»
+«FOREACH entities AS e-»
 import org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»;
+«IF e.topLevel-»
 import org.imogene.«moduleName.toLowerCase()».entity.list.«e.name.toFirstUpper()»ForList;
-«ENDFOREACH»
+«ENDIF-»
+«ENDFOREACH-»
 
 public class LocalizedHandler {
 
@@ -45,9 +47,12 @@ public class LocalizedHandler {
 		«FOREACH entities AS e SEPARATOR 'else'»
 			if (bean instanceof «e.name.toFirstUpper()») {
 				loadLocalizedFor«e.name.toFirstUpper()»((«e.name.toFirstUpper()») bean);
-			} else if (bean instanceof «e.name.toFirstUpper()»ForList) {
+			}
+			«IF e.topLevel-»
+			else if (bean instanceof «e.name.toFirstUpper()»ForList) {
 				loadLocalizedFor«e.name.toFirstUpper()»ForList((«e.name.toFirstUpper()»ForList) bean, first);
 			}
+			«ENDIF-»
 		«ENDFOREACH»
 	}
 	
@@ -62,6 +67,7 @@ public class LocalizedHandler {
 		«EXPAND loadLocalized FOREACH e.groups.fields»
 	}
 	
+	«IF e.topLevel-»
 	private void loadLocalizedFor«e.name.toFirstUpper()»ForList(«e.name.toFirstUpper()»ForList bean, boolean first) {
 		if (first) {
 			«IF e.columnFields.isEmpty»
@@ -73,6 +79,7 @@ public class LocalizedHandler {
 			«EXPAND loadLocalized FOREACH e.mainFields»
 		}
 	}
+	«ENDIF-»
 	«ENDFOREACH»
 	
 	/**
