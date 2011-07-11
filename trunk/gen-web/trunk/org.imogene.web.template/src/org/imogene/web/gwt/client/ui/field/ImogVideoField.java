@@ -141,6 +141,13 @@ public class ImogVideoField extends ImogFieldAbstract<String> implements ClickHa
 		}
 		thisValue = value;
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public void setEnabled(boolean editable) {

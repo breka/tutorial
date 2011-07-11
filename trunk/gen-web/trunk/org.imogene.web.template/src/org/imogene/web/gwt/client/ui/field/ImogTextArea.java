@@ -115,6 +115,13 @@ public class ImogTextArea extends ImogFieldAbstract<String> {
 		thisValue = (String) value;
 		textArea.setText(thisValue);
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean isEdited() {

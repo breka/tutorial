@@ -113,6 +113,13 @@ public class ImogListBox extends ImogFieldAbstract<String> {
 		if(index > -1)
 			listBox.setSelectedIndex(index);
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean isEdited() {

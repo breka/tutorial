@@ -21,9 +21,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 /**
- * Fields that permits to select severals actor.
+ * Fields that enables to select severals actor.
  * @author Medes-IMPS
- *
  */
 public class ImogActorsField extends ImogFieldAbstract<String> implements ClickHandler {
 	
@@ -141,6 +140,13 @@ public class ImogActorsField extends ImogFieldAbstract<String> implements ClickH
 		String[] ids = value.split(SEPARATOR);
 		waiting.setVisible(true);
 		RoleActorServiceFacade.getInstance().listActor(new PopulateWithActors(ids));
+	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
 	}
 
 	@Override

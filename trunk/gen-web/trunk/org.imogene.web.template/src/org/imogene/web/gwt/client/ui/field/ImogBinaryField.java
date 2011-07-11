@@ -124,6 +124,13 @@ public class ImogBinaryField extends ImogFieldAbstract<String> implements ImogUp
 		}	
 		thisValue = value;		
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public void setEnabled(boolean editable) {

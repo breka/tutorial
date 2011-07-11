@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.imogene.web.gwt.client.i18n.BaseNLS;
+import org.imogene.web.gwt.client.ui.field.paginatedList.ImogRelationPaginatedSelectionBox;
 import org.imogene.web.gwt.common.entity.ImogBean;
 
 import com.google.gwt.core.client.GWT;
@@ -18,11 +19,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 /**
- * This class permits to display and edit a relation N<->N
+ * This class enables to display and edit a relation with cardinality N
  * @author Medes-IMPS
  * @param <T> the ImogBean class that this field is handling 
  */
-public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<T>> implements ClickHandler {
+public class ImogPaginatedRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<T>> implements ClickHandler {
 
 	
 	/* status */
@@ -36,7 +37,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 	/* widgets */
 	private HorizontalPanel panel;
 	private ListBox list;
-	private ImogRelationSelectionBox<T> selectionBox;
+	private ImogRelationPaginatedSelectionBox<T> selectionBox;
 	
 	/* buttons */
 	private VerticalPanel buttons;
@@ -52,11 +53,11 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 
 	
 	/**
-	 * Create the Relation list
+	 * Creates the Relation list
 	 * @param pSelectionBox the associated selection box (used to select and attach entities to parent)
 	 * @param pFieldsUtil the main fields creator.
 	 */
-	public ImogRelationList(ImogRelationSelectionBox<T> pSelectionBox, MainFieldsUtil pFieldsUtil){	
+	public ImogPaginatedRelationList(ImogRelationPaginatedSelectionBox<T> pSelectionBox, MainFieldsUtil pFieldsUtil){	
 		selectionBox = pSelectionBox;
 		selectionBox.setParentField(this);
 		fieldsUtil = pFieldsUtil;
@@ -64,25 +65,26 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 		properties();
 		setBehavior();
 	}
+	
 	/**
-	 * Create the Relation list
+	 * Creates the Relation list
 	 * @param pLabel The field label
 	 * @param pSelectionBox the associated selection box (used to select and attach entities to parent)
 	 * @param pFieldsUtil the main fields creator.
 	 */
-	public ImogRelationList(String pLabel, ImogRelationSelectionBox<T> pSelectionBox, MainFieldsUtil pFieldsUtil){
+	public ImogPaginatedRelationList(String pLabel, ImogRelationPaginatedSelectionBox<T> pSelectionBox, MainFieldsUtil pFieldsUtil){
 		this(pSelectionBox, pFieldsUtil);
 		label = pLabel;	
 	}
 	
 	/**
-	 * Create the Relation list
+	 * Creates the Relation list
 	 * @param pLabel The field label
 	 * @param pSelectionBox the associated selection box (used to select and attach entities to parent)
 	 * @param pFieldsUtil the main fields creator.
 	 * @param canCreateEntity true if button 'add' to be visible
 	 */
-	public ImogRelationList(String pLabel, ImogRelationSelectionBox<T> pSelectionBox, MainFieldsUtil pFieldsUtil, boolean canCreateEntity){
+	public ImogPaginatedRelationList(String pLabel, ImogRelationPaginatedSelectionBox<T> pSelectionBox, MainFieldsUtil pFieldsUtil, boolean canCreateEntity){
 		this(pSelectionBox, pFieldsUtil);
 		label = pLabel;	
 		this.canCreateEntity = canCreateEntity;
@@ -118,7 +120,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 	}
 	
 	/**
-	 * Set the field widgets properties
+	 * Sets the field widgets properties
 	 */
 	private void properties(){
 		list.setVisibleItemCount(5);
@@ -131,7 +133,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 	}
 	
 	/**
-	 * Set the field behavior properties
+	 * Sets the field behavior properties
 	 */
 	private void setBehavior(){
 		addButton.addClickHandler(this);
@@ -188,22 +190,11 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 	}
 	
 	@Override
-	public void setValue(Set<T> pValue, boolean notifyChange) {
-		values = new HashMap<String, T>();
-		list.clear();
-		for(T b : pValue){
-			values.put(b.getId(), b);				
-			list.addItem(fieldsUtil.getDisplayValue(b), b.getId());
-			if (isEmpty) {
-				isEmpty = false;
-				viewButton.setVisible(true);
-			}
-		}	
+	public void setValue(Set<T>value, boolean notifyChange) {
+		setValue(value);
 		if (notifyChange)
 			notifyValueChange();
 	}
-	
-	
 
 	@Override
 	public boolean validate() {	
@@ -259,7 +250,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 	}
 			
 	/**
-	 * Add a value to this item
+	 * Adds a value to this item
 	 * @param label the item display text
 	 * @param entity the item to addButton
 	 */
@@ -289,7 +280,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 	}
 	
 	/**
-	 * Return true if the specified entity is attached to this field
+	 * Returns true if the specified entity is attached to this field
 	 * @param toTest the entity to test
 	 * @return true is the entity is already present.
 	 */
@@ -302,7 +293,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 	}	
 	
 	/**
-	 * Register a click handler on the 'new' button.
+	 * Registers a click handler on the 'new' button.
 	 * @param handler the click handler
 	 * @return the handler registration
 	 */
@@ -311,7 +302,7 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 	}
 	
 	/**
-	 * Register a click handler on the 'view' button.
+	 * Registers a click handler on the 'view' button.
 	 * @param handler the click handler
 	 * @return the handler registration
 	 */
@@ -328,11 +319,11 @@ public class ImogRelationList<T extends ImogBean> extends ImogFieldAbstract<Set<
 	public interface ListButtonClickHandler {
 		
 		/**
-		 * Call when the button is called
+		 * Called when the button is clicked
 		 * @param source the parent class
 		 * @param entityId the first selected entity id
 		 */
-		public void onClick(ImogRelationList<?> source, String entityId);
+		public void onClick(ImogPaginatedRelationList<?> source, String entityId);
 	}
 
 }

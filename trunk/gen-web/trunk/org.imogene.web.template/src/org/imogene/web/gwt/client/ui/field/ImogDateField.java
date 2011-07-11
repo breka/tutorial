@@ -129,6 +129,13 @@ public class ImogDateField extends ImogFieldAbstract<Date> {
 			dateDisplay.setText(DateUtil.getFormatedDate(value));
 		}
 	}
+	
+	@Override
+	public void setValue(Date value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean isEdited() {

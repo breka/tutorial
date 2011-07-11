@@ -106,6 +106,13 @@ public class ImogTimeField extends ImogFieldAbstract<Date> {
 			}
 		}
 	}
+	
+	@Override
+	public void setValue(Date value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public void setEnabled(boolean editable) {

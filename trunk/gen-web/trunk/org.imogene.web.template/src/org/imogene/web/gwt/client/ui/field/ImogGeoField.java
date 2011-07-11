@@ -108,6 +108,13 @@ public class ImogGeoField extends ImogFieldAbstract<String> implements ClickHand
 	public void setValue(String value) {
 		textArea.setValue(value);
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public void setEnabled(boolean editable) {		

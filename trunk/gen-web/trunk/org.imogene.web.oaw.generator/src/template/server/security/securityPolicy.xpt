@@ -175,6 +175,10 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 	Set<«this.entity.name.toFirstUpper()-»> «EXPAND template::CommonFieldUtil::propertyName FOR this-» = new HashSet<«this.entity.name.toFirstUpper()-»>();
 	for («this.entity.name.toFirstUpper()-» current : bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»())  {
 		«this.entity.name.toFirstUpper()-» card = get«this.entity.name.toFirstUpper()-»WithMainFields(current);
+		«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
+			if(current.«EXPAND template::CommonFieldUtil::getterName FOR this.relationHierarchicalFilter.get(1)»()!=null)	
+				card.«EXPAND template::CommonFieldUtil::setterName FOR this.relationHierarchicalFilter.get(1)»(get«this.relationHierarchicalFilter.get(1).entity.name.toFirstUpper()-»WithMainFields(current.«EXPAND template::CommonFieldUtil::getterName FOR this.relationHierarchicalFilter.get(1)»()));				
+		«ENDIF-»
 		«EXPAND template::CommonFieldUtil::propertyName FOR this-».add(card);
 	}
 	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«EXPAND template::CommonFieldUtil::propertyName FOR this-»);

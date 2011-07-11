@@ -96,6 +96,7 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 	 * Lists all the entities of type «name.toFirstUpper()»	 
 	 * @return list of «name.toFirstLower()»
 	 */
+	@SuppressWarnings("unchecked")
 	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(){
 	
 		ImogActor actor = (ImogActor)this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
@@ -113,6 +114,7 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 	 * @param sortOrder true for an ascendant sort
 	 * @return list of «name.toFirstLower()»
 	 */
+	@SuppressWarnings("unchecked")
 	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int i, int j, String sortProperty, boolean sortOrder){
 	
 		ImogActor actor = (ImogActor)this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
@@ -161,6 +163,48 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 
 		return securedBeans;
 	}
+
+	/**
+	 * Lists the non affected entities of type «name.toFirstUpper()»	
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @param criterion request criteria
+	 * @param sortProperty the property used to sort the collection
+	 * @param asc true for an ascendant sort
+	 * @param property the property which is not affected
+	 * @return list of «name.toFirstLower()»
+	 */	
+	@SuppressWarnings("unchecked")
+	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»(int i, int j, ImogJunction criterion, String sortProperty, boolean asc, String property) {
+		ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
+		ImogJunction junction = createFilterJuntion(actor);
+		junction.add(criterion);
+
+		List<«name.toFirstUpper()»> beans = «name.toFirstLower()»Dao.listNonAffected«name.toFirstUpper()»(i, j , sortProperty, asc, property, junction);
+		List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) ImogSecurityHandler.getInstance().getPolicy().toSecure(beans, actor);
+
+		return securedBeans;
+	}
+
+	/**
+	 * Lists the non affected entities of type «name.toFirstUpper()»	
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @param sortProperty the property used to sort the collection
+	 * @param asc true for an ascendant sort
+	 * @param property the property which is not affected
+	 * @return list of «name.toFirstLower()»
+	 */
+	@SuppressWarnings("unchecked")
+	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»(int i, int j, String sortProperty, boolean asc, String property) {
+		ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
+		ImogJunction junction = createFilterJuntion(actor);
+
+		List<«name.toFirstUpper()»> beans = «name.toFirstLower()»Dao.listNonAffected«name.toFirstUpper()»(i, j , sortProperty, asc, property, junction);
+		List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) ImogSecurityHandler.getInstance().getPolicy().toSecure(beans, actor);
+
+		return securedBeans;
+	}	
 	
 	/**
 	 * Counts the number of «name.toFirstLower()» in the database
@@ -187,6 +231,34 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 		
 		return «name.toFirstLower()»Dao.count«name.toFirstUpper()»(junction);
 	}
+
+	/**
+	 * Counts the number of non affected «name.toFirstLower()» entities in the database
+	 * @param property the property which is not affected
+	 * @param criterion request criteria
+	 * @return the count
+	 */	
+	public int countNonAffected«name.toFirstUpper()»(String property, ImogJunction criterion) {
+
+		ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
+		ImogJunction junction = createFilterJuntion(actor);
+		junction.add(criterion);
+
+		return «name.toFirstLower()»Dao.countNonAffected«name.toFirstUpper()»(property, junction);
+	}
+
+	/**
+	 * Counts the number of non affected «name.toFirstLower()» entities in the database
+	 * @param property the property which is not affected
+	 * @return the count
+	 */	
+	public int countNonAffected«name.toFirstUpper()»(String property) {
+
+		ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
+		ImogJunction junction = createFilterJuntion(actor);
+
+		return «name.toFirstLower()»Dao.countNonAffected«name.toFirstUpper()»(property, junction);
+	}	
 	
 	/**
 	 * Saves or updates the entity

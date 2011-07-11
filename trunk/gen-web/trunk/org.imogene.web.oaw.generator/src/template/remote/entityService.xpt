@@ -22,7 +22,7 @@ public interface «name.toFirstUpper()»Service extends RemoteService {
 
 	
 	/**
-	 * Load the entity with the specified id
+	 * Loads the entity with the specified id
 	 * @param entityId the entity id
 	 * @return the entity or null
 	 */
@@ -48,7 +48,7 @@ public interface «name.toFirstUpper()»Service extends RemoteService {
 	 * Lists the entities of type «name.toFirstUpper()»
 	 * @param i first index to retrieve
 	 * @param j nb of items to retrieve
-	 * @prama criterion request criteria
+	 * @param criterion request criteria
 	 * @param sortProperty the property used to sort the collection
 	 * @param sortOrder true for an ascendant sort
 	 * @return list of «name.toFirstLower()»
@@ -57,23 +57,63 @@ public interface «name.toFirstUpper()»Service extends RemoteService {
 	
 	/**
 	 * Lists the non affected entities of type «name.toFirstUpper()»	
-	 * @param sortProperty the property used to sort the collection	
+	 * @param property the property which is not affected
 	 * @return list of «name.toFirstLower()»
 	 */
 	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»(String property);
 	
 	/**
-	 * Counts the number of «name.toFirstLower()» in the database
+	 * Lists the non affected entities of type «name.toFirstUpper()»	
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @param criterion request criteria
+	 * @param sortProperty the property used to sort the collection
+	 * @param asc true for an ascendant sort
+	 * @param property the property which is not affected
+	 * @return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»(int i, int j, ImogJunction criterion, String sortProperty, boolean asc, String property);
+	
+	/**
+	 * Lists the non affected entities of type «name.toFirstUpper()»	
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @param sortProperty the property used to sort the collection
+	 * @param asc true for an ascendant sort
+	 * @param property the property which is not affected
+	 * @return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»(int i, int j, String sortProperty, boolean asc, String property);
+
+	
+	/**
+	 * Counts the number of «name.toFirstLower()» entities in the database
 	 * @return the count
 	 */
 	public int count«name.toFirstUpper()»();
 	
 	/**
-	 * Counts the number of «name.toFirstLower()» in the database, 
+	 * Counts the number of «name.toFirstLower()» entities in the database, 
 	 * that matches the criteria
 	 * @return the count
 	 */
 	public int count«name.toFirstUpper()»(ImogJunction criterion);
+	
+	/**
+	 * Counts the number of non affected «name.toFirstLower()» entities in the database
+	 * @param property the property which is not affected
+	 * @param criterion request criteria
+	 * @return the count
+	 */
+	public int countNonAffected«name.toFirstUpper()»(String property, ImogJunction criterion);
+	
+	/**
+	 * Counts the number of non affected «name.toFirstLower()» entities in the database
+	 * @param property the property which is not affected
+	 * @return the count
+	 */
+	public int countNonAffected«name.toFirstUpper()»(String property);	
+	
 	
 	/**
 	 * Saves or updates the entity

@@ -112,6 +112,13 @@ public class ImogTextBox extends ImogFieldAbstract<String> {
 		thisValue = (String) value;
 		textBox.setText(thisValue);	
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean isEdited() {		

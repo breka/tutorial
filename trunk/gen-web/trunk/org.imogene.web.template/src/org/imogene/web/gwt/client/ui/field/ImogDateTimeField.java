@@ -100,6 +100,13 @@ public class ImogDateTimeField extends ImogFieldAbstract<Date> {
 			dateTimeDisplay.setText(DateUtil.getFormatedDateTime(value));
 		}		
 	}
+	
+	@Override
+	public void setValue(Date value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public void setEnabled(boolean editable) {

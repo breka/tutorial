@@ -112,6 +112,13 @@ public class ImogRoleField extends ImogFieldAbstract<Set<ImogRole>> implements C
 			list.addItem(b.getName(), b.getId());
 		}	
 	}
+	
+	@Override
+	public void setValue(Set<ImogRole>value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean validate() {		

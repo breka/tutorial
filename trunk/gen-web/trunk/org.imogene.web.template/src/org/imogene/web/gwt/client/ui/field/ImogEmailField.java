@@ -109,6 +109,13 @@ public class ImogEmailField extends ImogFieldAbstract<String> implements ValueCh
 			emailEdit.setText(thisValue);
 		}
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public void setEnabled(boolean editable) {

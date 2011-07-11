@@ -115,6 +115,13 @@ public class ImogPhotoField extends ImogFieldAbstract<String> implements ImogUpl
 		}
 		thisValue = value;
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean validate() {

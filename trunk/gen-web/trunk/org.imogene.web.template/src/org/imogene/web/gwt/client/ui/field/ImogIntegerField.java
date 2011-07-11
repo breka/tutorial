@@ -129,6 +129,13 @@ public class ImogIntegerField extends ImogFieldAbstract<Integer> {
 		thisValue = (Integer) value;
 		textBox.setText(NumericUtil.parseToString(thisValue));
 	}
+	
+	@Override
+	public void setValue(Integer value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean validate() {
