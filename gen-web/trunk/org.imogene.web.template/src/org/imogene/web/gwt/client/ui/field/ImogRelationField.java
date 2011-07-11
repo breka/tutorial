@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 
 /**
- * Field that permtie to handle a 
+ * Field that enables to handle a 
  * relation one-to-one or one-to*
  * @author Medes-IMPS
  *
@@ -161,6 +161,13 @@ public class ImogRelationField<T extends ImogBean > extends ImogFieldAbstract<T>
 			viewImage.setVisible(true);
 		else
 			viewImage.setVisible(false);
+	}
+	
+	@Override
+	public void setValue(T value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
 	}
 	
 	public void setValue(T value, String label){

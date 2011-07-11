@@ -436,8 +436,8 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 	«ENDIF-»	
 «ENDDEFINE»
 «REM» --------------------------------------------------------------------------- «ENDREM»
-«REM»
-	Create the search full text function «ENDREM»
+
+«REM» Create the search full text function «ENDREM»
 «DEFINE createListCriteria FOR FieldEntity-»«ENDDEFINE»
 «DEFINE createListCriteria FOR TextField-»
 	// Search field «this.name»

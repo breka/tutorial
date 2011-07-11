@@ -35,7 +35,7 @@ public class ImogSecurityDetailService implements UserDetailsService {
 	
 	private GenericDao genericDao;
 	«FOREACH entities AS e -»
-		«EXPAND declarForDao FOR e -»
+		«EXPAND declareForDao FOR e -»
 	«ENDFOREACH -»	
 	
 	@Override
@@ -127,8 +127,8 @@ import org.imogene.«projectName.toLowerCase()».server.dao.«name.toFirstUpper()»D
 «ENDDEFINE»
 
 «REM» Declare actor dao «ENDREM»
-«DEFINE declarForDao FOR CardEntity -»«ENDDEFINE»
-«DEFINE declarForDao FOR Actor -»
+«DEFINE declareForDao FOR CardEntity -»«ENDDEFINE»
+«DEFINE declareForDao FOR Actor -»
 private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;
 «ENDDEFINE»
 
@@ -146,7 +146,7 @@ private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;
 «REM» Login validation for actor «ENDREM»
 «DEFINE loginValidation FOR CardEntity -»«ENDDEFINE»
 «DEFINE loginValidation FOR Actor -»
-		/* Manager */
+		/* «name.toFirstUpper()» */
 		current = validateFor«name.toFirstUpper()»(login);	
 		if (current != null)
 			return setSessionUser(current);	

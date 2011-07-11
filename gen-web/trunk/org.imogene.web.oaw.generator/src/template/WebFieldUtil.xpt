@@ -42,10 +42,10 @@
 		«IF getOppositeCardinality(this)==1 -»
 		ImogRelationField<«entity.name.toFirstUpper()-»>
 		«ELSE -»
-		ImogRelationBox<«entity.name.toFirstUpper()-»>
+		ImogPaginatedRelationBox<«entity.name.toFirstUpper()-»>
 		«ENDIF -»
 	«ELSE -»
-		ImogRelationList<«entity.name.toFirstUpper()-»>
+		ImogPaginatedRelationList<«entity.name.toFirstUpper()-»>
 	«ENDIF -»
 «ENDDEFINE»
 

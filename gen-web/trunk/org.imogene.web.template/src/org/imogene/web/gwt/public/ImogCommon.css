@@ -14,10 +14,12 @@ body {
 	font-size: 12px;
 }
 
-table td,select {
+table td,select,tbody,tr {
 	font-family: Verdana, arial;
 	color: #444444;
 	font-size: 12px;
+	border-collapse: collapse;
+	border-spacing: 0px; 
 }
 
 img {
@@ -566,14 +568,14 @@ h1 {
 /* -------------------------------- */
 .imogene-RelationSelectionBox {
 	background: white;
-	width: 200px;
+	width: 217px;
 	font-size: 11px;
 }
 
 .imogene-RelationSelectionBox-Listbox {
 	border: 1px solid #777777;
 	margin: 2px;
-	width: 196px;
+	width: 198px;
 	font-size: 12px;
 }
 
@@ -582,7 +584,7 @@ h1 {
 	padding-bottom: 3px;
 	color: white;
 	font-weight: bold;
-	width: 200px;
+	width: 217px;
 }
 
 .imogene-RelationSelectionBox-ButtonsPanel {
@@ -1069,6 +1071,164 @@ input[type="text"].DynaTable-status-textbox {
 	margin: 8px 4px 8px 4px;
 }
 /* -----------------------------------------------  */
+
+
+
+/* -----------------------------------------------  */
+/*        Imogene ListBox Composite                  */
+/* -----------------------------------------------  */
+.ImogListBox {
+	background-color: #fff;
+	border: 1px solid #777777;
+	color: #444444;
+	width: 212px;
+	font-size: 12px;
+}
+
+.ImogListBox-TexBox {
+	border-right: 1px solid #777777;
+	border-top: 0px;
+	border-bottom: 0px;
+	border-left: 0px;
+	color: #444444;
+	width: 212px;
+	padding: 2px;
+	font-size: 12px;
+	background-color: #FFFFFF;
+	margin: 0px;
+}
+
+.ImogListBox-PopupPanel {
+	/*border-right: 0px solid #777777;*/
+	/*border: 0px;*/
+	padding: 0px;
+	background-color: #FFFFFF;
+	width: 211px;
+	border: 1px solid #777777;
+}
+
+.ImogListBox-PopupPanel-content {
+	background-color: #fff;
+	color: #444444;
+	font-size: 12px;
+}
+
+.ImogListBox-Listbox {
+	border-bottom: 1px solid #777777;
+	border-top: 0px;
+	border-right: 0px;
+	border-left: 0px;
+	color: #444444;
+	width: 211px;
+	font-size: 12px;
+	margin: 0px;
+	background-color: #dddddd;
+}
+
+.SelectionDialog {
+	border: 3px solid #777777;
+	background-color: #fff;
+}
+
+.SelectionDialog .Caption {
+	vertical-align: middle;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #444444;
+	padding: 5px;
+	/*margin			: 1px;*/
+	cursor: default;
+	border-bottom: 3px solid #777777;
+}
+
+.SelectionDialog-content {
+	vertical-align: middle;
+	text-align: center;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	/*padding-bottom	: 20px;*/
+}
+
+.SelectionDialog-ListBox {
+	border: 1px solid #777777;
+	color: #444444;
+	background-color: #fff;
+	width: 212px;
+}
+
+.SelectionDialog-ButtonLayout {
+}
+
+/* Navigation Bar */
+.ImogListBox-navbar { 
+	/*width: 100%;*/
+	background-color: #fff;
+	padding-left: 1px;
+	padding-bottom: 1px;
+	padding-top: 1px;
+	/*margin-bottom		: 20px;*/
+}
+
+/* Buttons */
+.Button-Select {
+	color: #fff;
+	font-size: 11px;
+	background-color: #777777;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	cursor: pointer;
+	font-weight: bold;
+	border: 1px solid #777777;
+}
+
+.ImogListBox-Button-Search {
+	color: #fff;
+	background-color: #777777;			
+	font-size: 11px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	cursor: pointer;
+	border: 1px solid #777777;
+}
+
+.ImogListBox-Button-Search .html-face{
+	font-size: 11px;
+}
+
+.CancelButton-Select {
+}
+
+.AssignButton-Select {
+	margin-left: 2px;
+}
+
+input.Filter-TextBox {
+	border: 1px solid #777777;
+	color: #444444;
+	padding-left: 4px;
+	font-size: 11px;
+	margin: 0px;
+}
+
+input[type="text"].Filter-TextBox {
+	border: 1px solid #777777;
+	color: #444444;
+	padding-left: 4px;
+	font-size: 11px;
+	margin: 0px;
+}
+
+
+/* --------------------------------------------- */
+
+
 
 .gwt-FileUpload .input {
 	size: 20;

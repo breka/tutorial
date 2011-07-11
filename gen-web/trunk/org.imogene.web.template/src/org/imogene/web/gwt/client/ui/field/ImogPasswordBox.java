@@ -96,6 +96,13 @@ public class ImogPasswordBox extends ImogFieldAbstract<String> {
 	public void setValue(String value) {
 		textBox.setText((String)value);
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean isEdited() {

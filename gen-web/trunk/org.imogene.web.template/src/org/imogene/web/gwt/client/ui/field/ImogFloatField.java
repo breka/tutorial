@@ -130,6 +130,13 @@ public class ImogFloatField extends ImogFieldAbstract<Float> {
 		thisValue = (Float) value;
 		textBox.setText(NumericUtil.parseToString(thisValue));
 	}
+	
+	@Override
+	public void setValue(Float value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean validate() {

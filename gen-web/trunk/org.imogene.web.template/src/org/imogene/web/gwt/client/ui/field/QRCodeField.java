@@ -44,6 +44,13 @@ public class QRCodeField extends ImogFieldAbstract<String>{
 	public void setValue(String value) {		
 		barcode.setUrl(GWT.getHostPageBaseURL()+"getbinary?barcodeId="+value);
 	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public boolean validate() {

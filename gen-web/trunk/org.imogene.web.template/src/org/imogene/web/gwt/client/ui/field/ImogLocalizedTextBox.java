@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import org.imogene.web.gwt.client.LocalSession;
 import org.imogene.web.gwt.client.i18n.BaseNLS;
-import org.imogene.web.gwt.common.entity.CommonConstants;
 import org.imogene.web.gwt.common.entity.LocalizedText;
 import org.imogene.web.gwt.common.id.ImogKeyGenerator;
 
@@ -110,6 +109,13 @@ public class ImogLocalizedTextBox extends ImogFieldAbstract<String> implements C
 	@Override
 	public void setValue(String value) {
 		this.fieldId = value;
+	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
 	}
 	
 	/**
@@ -232,7 +238,7 @@ public class ImogLocalizedTextBox extends ImogFieldAbstract<String> implements C
 		
 		text.setLastModificationDate(new Date(System.currentTimeMillis()));
 		text.setModifier((LocalSession.get().getCurrentUser().getLogin()));
-		text.setModifiedFrom(CommonConstants.IS_WEB);
+		text.setModifiedFrom("web");
 		
 		return value;
 	}

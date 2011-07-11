@@ -184,8 +184,14 @@ public class ImogEnumField extends ImogFieldAbstract<String> implements ValueCha
 					return;
 				}
 			}
-		}
-			
+		}	
+	}
+	
+	@Override
+	public void setValue(String value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
 	}
 
 	@Override

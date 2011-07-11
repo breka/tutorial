@@ -117,6 +117,13 @@ public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements Valu
 		}		
 		thisValue = value;
 	}
+	
+	@Override
+	public void setValue(Boolean value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
 
 	@Override
 	public void setEnabled(boolean editable) {		

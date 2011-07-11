@@ -60,6 +60,7 @@ public interface ImogConstants extends Constants {
 	String button_add();
 	String button_remove();
 	String button_view ();
+	String button_search ();
 	
 	/* login panel */
 	String login_login();

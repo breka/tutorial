@@ -110,11 +110,17 @@ public class ImogSynchronizableField extends ImogFieldAbstract<Set<Synchronizabl
 		list.clear();
 		for(SynchronizableEntity b : pValue){
 			values.put(b.getId(), b);				
-			//list.addItem(shortNames.getLabelName(b.getId()), b.getId());
 			list.addItem(getEntityLabel(b), b.getId());
 		}	
 	}
 
+	@Override
+	public void setValue(Set<SynchronizableEntity> value, boolean notifyChange) {
+		setValue(value);
+		if (notifyChange)
+			notifyValueChange();
+	}
+	
 	@Override
 	public boolean validate() {		
 		return true;
@@ -154,7 +160,6 @@ public class ImogSynchronizableField extends ImogFieldAbstract<Set<Synchronizabl
 	 */
 	private class SynchronizableSelectionBox extends PopupPanel implements ClickHandler {
 				
-		//private Image wait = new Image(GWT.getModuleBaseURL() + "images/wait_actor.gif");	
 		private Map<String, SynchronizableEntity> alls = new HashMap<String, SynchronizableEntity>();
 		
 		private VerticalPanel panel;	
@@ -163,12 +168,10 @@ public class ImogSynchronizableField extends ImogFieldAbstract<Set<Synchronizabl
 		private Button ok;	
 		private Button cancel;	
 		private HTML title;
-		//private ShortNameHelper nameHelper;
 		
 		
 		public SynchronizableSelectionBox(ShortNameHelper sNameHelper){
 			super(true);
-			//nameHelper = sNameHelper;
 			layout();	
 			properties();
 			setBehavior();
@@ -251,7 +254,6 @@ public class ImogSynchronizableField extends ImogFieldAbstract<Set<Synchronizabl
 					for(SynchronizableEntity se : result){					
 						if(!isPresent(se)){
 							alls.put(se.getId(), se);							
-							//listSyncs.addItem(nameHelper.getLabelName(se.getId()), se.getId());
 							listSyncs.addItem(getEntityLabel(se), se.getId());
 						}
 					}

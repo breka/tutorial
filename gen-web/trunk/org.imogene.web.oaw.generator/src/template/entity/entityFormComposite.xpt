@@ -1,6 +1,7 @@
 «IMPORT core»
 «EXTENSION template::CommonFieldUtilExt» 
 «EXTENSION template::CommonEntityUtilExt»
+ 
 «DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»
 «FILE projectName.toLowerCase()+ "/client/entity/" +this.name.toFirstUpper() + "FormComposite.java"»
 	«LET (Project)this.eContainer AS project -»
@@ -28,6 +29,7 @@ import org.imogene.web.gwt.client.LocalSession;
 import org.imogene.web.gwt.client.i18n.BaseNLS;
 import org.imogene.web.gwt.client.ui.MessageManager;
 import org.imogene.web.gwt.client.ui.field.*;
+import org.imogene.web.gwt.client.ui.field.paginatedList.*;
 import org.imogene.web.gwt.client.ui.form.AbstractFormComposite;
 import org.imogene.web.gwt.client.ui.form.GroupField;
 import org.imogene.web.gwt.client.util.NumericUtil;
@@ -65,8 +67,8 @@ import org.imogene.web.gwt.common.entity.LocalizedText;
 public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposite implements  FieldValueChangeHandler, RelationBroadcastReceiver {
 
 	/* status */
-	private «name.toFirstUpper()» entity;	
-	private String newEntityId;		
+	private «name.toFirstUpper()» entity;
+	private String newEntityId;
 	private int uploadMsgId = -1;
 	private Widget lastEventParent=null;
 	private boolean visibilityActivated=false;
@@ -84,8 +86,10 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	private GroupField «g.name.toFirstLower()»Section;
 	«FOREACH g.fields AS f -»
 	private «EXPAND template::WebFieldUtil::formFieldType FOR f» «f.name.toFirstLower()»;
+	«REM» NEW REMOVE setListInjectedBoolean IF OK
 	«EXPAND setListInjectedBoolean FOR f-»
-	«EXPAND fieldAssociatedObject FOR f-»	
+	«ENDREM»
+	«EXPAND fieldAssociatedObject FOR f-»
 	«ENDFOREACH -»	
 	«ENDFOREACH»	
 		
@@ -105,9 +109,11 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		properties();		
 		setEditable(true);
 				
+		«REM» NEW REMOVE callToPopulate IF OK 
 		«FOREACH groups.fields AS f -»
 		«EXPAND callToPopulate(name.toFirstUpper(), false) FOR f -»
 		«ENDFOREACH -»
+		«ENDREM»
 		
 		setRelationButtonBehavior();
 		computeVisibility(null, true);
@@ -181,7 +187,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		setIconPath(GWT.getModuleBaseURL() + "images/small/«icon»");
 		«ELSE -»
 		setIconPath(GWT.getModuleBaseURL() + "images/entity_default_24.png");
-		«ENDIF -»	
+		«ENDIF -»
 		
 		«FOREACH groups AS g -»	
 		properties«g.name.toFirstUpper()»Section();
@@ -217,10 +223,10 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	private void layout«g.name.toFirstUpper()»Section(){
 		
 		«IF format!=null && format.withTabulations -»
-		«g.name.toFirstLower()»Section = new GroupField();	
+		«g.name.toFirstLower()»Section = new GroupField();
 		«ELSE -»
 		«g.name.toFirstLower()»Section = new GroupField(NLS.constants().«name.toFirstLower()»_group_«g.name.toFirstLower()»());	
-		«ENDIF -»			
+		«ENDIF -»
 		«IF (g.icon!=null && g.icon!="") -»
 		«g.name.toFirstLower()»Section.setImage(new Image(GWT.getModuleBaseURL() + "/images/«g.icon»"));
 		«ELSE -»
@@ -233,7 +239,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		«IF f.readOnly -»
 		«f.name.toFirstLower()».setEnabled(false);
 		«ENDIF -»
-		«EXPAND addFieldToSection(g.name.toFirstLower()) FOR f»		
+		«EXPAND addFieldToSection(g.name.toFirstLower()) FOR f»
 		«ENDFOREACH -»						
 	}	
 	«ENDFOREACH -»
@@ -286,6 +292,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	 */
 	private void set«name.toFirstUpper()»(«name.toFirstUpper()» entity){
 	
+		this.entity = entity;
 		setTitle(NLS.constants().«name.toFirstLower()»_title() + " : " + MainFieldsUtilImpl.get().getDisplayValue(entity));	
 		«IF format!=null && format.withTabulations -»
 		«IF DisplayQRCode -»
@@ -413,7 +420,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		 	
 		«FOREACH groups.fields AS f-»
 			«EXPAND onFieldValueChangeHierarchicalFilterCall FOR f -»
-		«ENDFOREACH»			 		
+		«ENDFOREACH»
 	}
 	
 	«FOREACH groups.fields AS f-»
@@ -432,8 +439,8 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		/* «g.name.toFirstUpper()» group fields */
 		«FOREACH g.fields AS f -»
 		«EXPAND callValidate FOR f -»
-		«ENDFOREACH -»	
-		«ENDFOREACH»			
+		«ENDFOREACH -»
+		«ENDFOREACH»
 		
 		return valid;
 	}
@@ -488,16 +495,19 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 
 		@Override
 		public void onSuccess(«name.toFirstUpper()» result) {
-			entity = result;
-			set«name.toFirstUpper()»(entity);
+			//entity = result;
+			set«name.toFirstUpper()»(result);
 			setPrintButton();
+			«REM» NEW REMOVE callToPopulate IF OK
 			«FOREACH groups.fields AS f -»
 			«EXPAND callToPopulate(name.toFirstUpper(), false) FOR f -»
 			«ENDFOREACH -»
+			«ENDREM»
+
 			«FOREACH groups.fields AS f -»
 			«EXPAND populateEntityHierarchicalFilterCall FOR f -»
 			«ENDFOREACH -»
-			
+
 		}
 	}	
 	
@@ -534,7 +544,10 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		«EXPAND callbackForRelation(name) FOR f -»
 	«ENDFOREACH -»	
 	
-	
+	/* ********** Data Provider classes for list boxes ********** */
+	«FOREACH this.groups.fields AS f -»
+		«EXPAND CreateDataProvider FOR f -»
+	«ENDFOREACH -»		
 }
 	«ENDLET -»		
 	«ENDLET -»	
@@ -554,8 +567,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 
 «REM» --------------- FIELD PROPERTIES ----------------- «ENDREM»
 
-«REM»
-	«ENDREM»
+«REM»	«ENDREM»
 «DEFINE allPropertiesPackage FOR FieldEntity -»
 	«EXPAND addValueChangeHandler FOR this -»
 	«EXPAND isVisibleDependent FOR this -»
@@ -564,30 +576,26 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	«EXPAND defaultValue FOR this -»
 «ENDDEFINE»
 
-«REM»
-	Add value change handler to field «ENDREM»
+«REM» Add value change handler to field «ENDREM»
 «DEFINE addValueChangeHandler FOR FieldEntity -»
 «name.toFirstLower()».addFieldValueChangeHandler(this);
 «ENDDEFINE»
 
-«REM»
-	Set if the field visibility is dependent «ENDREM»
+«REM» Set if the field visibility is dependent «ENDREM»
 «DEFINE isVisibleDependent FOR FieldEntity -»
 «IF fieldDependentVisibility!=null && !fieldDependentVisibility.isEmpty && !hidden-»
 «name.toFirstLower()».setVisibleDependent(true);
 «ENDIF-»
 «ENDDEFINE»
 
-«REM»
-	Set if the field is mandatory «ENDREM»
+«REM» Set if the field is mandatory «ENDREM»
 «DEFINE isMandatory FOR FieldEntity -»
 «IF required -»
 «name.toFirstLower()».setMandatory(true);
 «ENDIF -»
 «ENDDEFINE»
 
-«REM»
-	Set if the field is visible or hidden «ENDREM»
+«REM» Set if the field is visible or hidden «ENDREM»
 «DEFINE isVisible FOR FieldEntity -»
 «IF hidden -»
 «name.toFirstLower()».setVisible(false);
@@ -595,8 +603,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 «ENDDEFINE»
 	
 «REM» ------------------- DEFAULT VALUES --------------- «ENDREM»
-«REM»
-	Set the default value «ENDREM»
+«REM» Set the default value «ENDREM»
 «DEFINE defaultValue FOR FieldEntity-»«ENDDEFINE»
 «DEFINE defaultValue FOR EnumField-»
 	«IF defaultValue!=null»
@@ -757,37 +764,57 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		«name.toFirstLower()» = new ImogRelationField<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»(), false);
 	«ELSE -»
 	if (AccessManager.canCreateForm("«entity.name.toLowerCase()»") && AccessManager.canEditForm("«entity.name.toLowerCase()»"))
-		«name.toFirstLower()» = new ImogRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() );
+		«name.toFirstLower()» = new ImogPaginatedRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() );
 	else
-		«name.toFirstLower()» = new ImogRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , false);	
+		«name.toFirstLower()» = new ImogPaginatedRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , false);	
+		«IF this.relationHierarchicalFilter==null || this.relationHierarchicalFilter.size!=2 -»
+	«name.toFirstLower()».setDataProvider(new «entity.name.toFirstUpper()»SelectionListBoxDataProvider(), MainFieldsUtilImpl.get());
+		«ELSE-»
+	«name.toFirstLower()».setDataProvider(new «entity.name.toFirstUpper()»SelectionListBoxDataProvider(true), MainFieldsUtilImpl.get());
+		«ENDIF-»	
 	«ENDIF -»	
 «ELSE -»
   «IF getOppositeCardinality(this)==1 && oppositeRelationField!=null-»
-«name.toFirstLower()»SelectionBox = new «entity.name.toFirstUpper()»SelectionBox("«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»", "«this.entity.name.toLowerCase()»");
+  «REM»
+«name.toFirstLower()»SelectionBox = new «entity.name.toFirstUpper()»SelectionBox("«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»", "«this.entity.name.toLowerCase()»");«ENDREM»
+«REM» TO BE TESTED «ENDREM»
+	«IF this.relationHierarchicalFilter==null || this.relationHierarchicalFilter.size!=2 -»
+«name.toFirstLower()»SelectionBox = new ImogRelationPaginatedSelectionBox<«entity.name.toFirstUpper()»>("«entity.name.toLowerCase()»", new «entity.name.toFirstUpper()»SelectionListBoxDataProvider("«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»"), MainFieldsUtilImpl.get());
+	«ELSE-»
+«name.toFirstLower()»SelectionBox = new ImogRelationPaginatedSelectionBox<«entity.name.toFirstUpper()»>("«entity.name.toLowerCase()»", new «entity.name.toFirstUpper()»SelectionListBoxDataProvider("«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»", true), MainFieldsUtilImpl.get());	
+	«ENDIF-»
 «name.toFirstLower()»SelectionBox.setTitle(NLS.constants().«entity.name.toFirstLower()»_select_title());
   «ELSE-»
+  «REM» TO BE TESTED
   	«IF this.relationHierarchicalFilter==null || this.relationHierarchicalFilter.size!=2 -»
 «name.toFirstLower()»SelectionBox = new «entity.name.toFirstUpper()»SelectionBox("«this.entity.name.toLowerCase()»");
 	 «ELSE-»
 «name.toFirstLower()»SelectionBox = new «entity.name.toFirstUpper()»SelectionBox(true, "«this.entity.name.toLowerCase()»");	 
-	 «ENDIF-»
+	 «ENDIF-»«ENDREM»
+	«IF this.relationHierarchicalFilter==null || this.relationHierarchicalFilter.size!=2 -»
+«name.toFirstLower()»SelectionBox = new ImogRelationPaginatedSelectionBox<«entity.name.toFirstUpper()»>("«entity.name.toLowerCase()»", new «entity.name.toFirstUpper()»SelectionListBoxDataProvider(), MainFieldsUtilImpl.get());
+	«ELSE-»
+«name.toFirstLower()»SelectionBox = new ImogRelationPaginatedSelectionBox<«entity.name.toFirstUpper()»>("«entity.name.toLowerCase()»", new «entity.name.toFirstUpper()»SelectionListBoxDataProvider(true), MainFieldsUtilImpl.get());	
+	«ENDIF-»
 «name.toFirstLower()»SelectionBox.setTitle(NLS.constants().«entity.name.toFirstLower()»_select_title());
   «ENDIF-»
 	if (AccessManager.canCreateForm("«entity.name.toLowerCase()»") && AccessManager.canEditForm("«entity.name.toLowerCase()»"))
-		«name.toFirstLower()» = new ImogRelationList<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , «name.toFirstLower()»SelectionBox, MainFieldsUtilImpl.get());
+		«name.toFirstLower()» = new ImogPaginatedRelationList<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , «name.toFirstLower()»SelectionBox, MainFieldsUtilImpl.get());
 	else
-		«name.toFirstLower()» = new ImogRelationList<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , «name.toFirstLower()»SelectionBox, MainFieldsUtilImpl.get(),false);	
+		«name.toFirstLower()» = new ImogPaginatedRelationList<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , «name.toFirstLower()»SelectionBox, MainFieldsUtilImpl.get(),false);	
   
 		/* 'Add' button for field «name.toFirstUpper()» */
 		«name.toFirstLower()».setNewButtonHandler(new ListButtonClickHandler() {
 			@Override
-			public void onClick(ImogRelationList<?> source, String entityId) {
+			public void onClick(ImogPaginatedRelationList<?> source, String entityId) {
 				«entity.name.toFirstUpper()»FormComposite form = new «entity.name.toFirstUpper()»FormComposite();
 				form.setCloseable(true);
 				form.setFormContainer(container);
 				«IF getOppositeCardinality(this)==1 && oppositeRelationField!=null-»
 				if(entity!=null)
-					form.set«oppositeRelationField.name.toFirstUpper()»(entity.getId());
+					«REM» TO BE TESTED
+					form.set«oppositeRelationField.name.toFirstUpper()»(entity.getId());«ENDREM»
+					form.set«oppositeRelationField.name.toFirstUpper()»(entity);
 				else
 					form.set«oppositeRelationField.name.toFirstUpper()»(null);				
 				«ENDIF-»
@@ -811,9 +838,14 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 				/* common fields */
 				«FOREACH commonFields AS c ITERATOR iter-»				
 				«IF (modulo(iter.counter0+2,2)==0) && iter.counter0<=(commonFields.size-2)-»
-					«IF commonFields.get(iter.counter0+1).cardinality==1 && getOppositeCardinality(commonFields.get(iter.counter0+1))==1-»«REM» in related entity, common field is a 1:1 relation «ENDREM»				
+				
+				«REM» NEW TO BE TESTED «ENDREM»
 				if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
-					form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue());										
+					form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue());				
+					«REM» 
+					«IF commonFields.get(iter.counter0+1).cardinality==1 && getOppositeCardinality(commonFields.get(iter.counter0+1))==1-» in related entity, common field is a 1:1 relation 					
+				if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
+					form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue());															
 					«ELSE-»
 						«IF commonFields.get(iter.counter0+1).cardinality>1 || commonFields.get(iter.counter0+1).cardinality==-1»
 						if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
@@ -823,6 +855,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 							form.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue().getId());
 						«ENDIF-»											
 					«ENDIF-»
+					«ENDREM»				
 				«ENDIF-»
 				«ENDFOREACH-»		
 				
@@ -833,7 +866,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		/* 'View' button for field «name.toFirstUpper()» */
 		«name.toFirstLower()».setViewButtonHandler(new ListButtonClickHandler() {
 			@Override
-			public void onClick(ImogRelationList<?> source, String entityId) {
+			public void onClick(ImogPaginatedRelationList<?> source, String entityId) {
 				if (!entityId.equals("")) {
 					«entity.name.toFirstUpper()»FormComposite form = new «entity.name.toFirstUpper()»FormComposite(entityId);
 					form.setCloseable(true);
@@ -886,6 +919,8 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	«ELSE -»
 	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
 	«ENDIF -»
+«ELSE -»
+	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
 «ENDIF -»
 «ENDDEFINE»
 
@@ -958,8 +993,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 			return true;
 «ENDDEFINE»
 
-«REM»
-	Add section representing a multi relation field «ENDREM»
+«REM» Add section representing a multi relation field «ENDREM»
 «DEFINE addMultiFieldsSection FOR FieldEntity»«ENDDEFINE»
 «DEFINE addMultiFieldsSection FOR RelationFieldEntity -»
 «IF cardinality>1 || cardinality == -1 -»
@@ -967,30 +1001,28 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 «ENDIF -»
 «ENDDEFINE»
 
-«REM»
-	Add fields to a section«ENDREM»
+«REM» Add fields to a section«ENDREM»
 «DEFINE addFieldToSection(String sectionName) FOR FieldEntity-»
 «sectionName»Section.addField(«name.toFirstLower()»);
 «ENDDEFINE»
 
 
-«REM»
-	add imports implied by the relation fields «ENDREM»
+«REM» Add imports implied by the relation fields «ENDREM»
 «DEFINE importForRelation(String packageName) FOR FieldEntity -»«ENDDEFINE»
 «DEFINE importForRelation(String packageName) FOR RelationFieldEntity -»
 «IF cardinality==1 -»
 import «packageName».«entity.name.toFirstUpper()»ServiceFacade;
 «ELSE -»
-import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandler;
+import org.imogene.web.gwt.client.ui.field.ImogPaginatedRelationList.ListButtonClickHandler;
 «ENDIF-»
 «ENDDEFINE»
 
 
-«REM»
-	calls back for multi relation fields «ENDREM»
+«REM» Calls back for multi relation fields «ENDREM»
 «DEFINE callbackForRelation(String parentName) FOR FieldEntity -»«ENDDEFINE»
 «DEFINE callbackForRelation(String parentName) FOR RelationFieldEntity -»
 «IF cardinality == -1 || cardinality>1»
+«REM» NEW TO BE TESTED
 /**
  * CallBack to populate the cardinality N relation list
  * for the field «name.toFirstUpper()»  
@@ -1012,8 +1044,10 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 		}			
 	}		
 }
+«ENDREM»
 «ELSE»
 	«IF getOppositeCardinality(this)!=1 -»
+	«REM» NEW TO BE TESTED
 	/**
 	 * CallBack to populate the relation list box 
 	 * for «entity.name.toFirstUpper()» selection for the field «name.toFirstLower()»
@@ -1039,13 +1073,13 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 			update«name.toFirstUpper()»Widget();		
 		}		
 	}
+	«ENDREM»
 	«ENDIF-»
 «ENDIF»
 
 «ENDDEFINE»
 
-«REM»
-	remote call to pouplate multi. relation fields«ENDREM»
+«REM» Remote call to populate multi. relation fields «ENDREM»
 «DEFINE callToPopulate(String entityName, Boolean onlySimple) FOR FieldEntity -»«ENDDEFINE»
 «DEFINE callToPopulate(String entityName, Boolean onlySimple) FOR RelationFieldEntity -»
 «IF (cardinality==-1 || cardinality>1) && onlySimple==false -»
@@ -1067,7 +1101,7 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 «ENDIF -»
 «ENDDEFINE»
 
-«REM» embedded relation button behavior «ENDREM»
+«REM» Embedded relation button behavior «ENDREM»
 «DEFINE relationButtonBehavior FOR FieldEntity -»«ENDDEFINE»
 «DEFINE relationButtonBehavior FOR RelationFieldEntity -»
 «IF cardinality == 1 -»
@@ -1105,9 +1139,14 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 					«ENDIF -»
 				
 					/* common fields */
-					«FOREACH commonFields AS c ITERATOR iter-»				
+					«FOREACH commonFields AS c ITERATOR iter-»	
+					
+					«REM» NEW TO BE TESTED	«ENDREM»		
 						«IF (modulo(iter.counter0+2,2)==0) && iter.counter0<=(commonFields.size-2)-»
-							«IF commonFields.get(iter.counter0+1).cardinality==1 && getOppositeCardinality(commonFields.get(iter.counter0+1))==1-»«REM» in related entity, common field is a 1:1 relation «ENDREM»						
+					if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
+						composite.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue());																					
+							«REM»
+							«IF commonFields.get(iter.counter0+1).cardinality==1 && getOppositeCardinality(commonFields.get(iter.counter0+1))==1-» in related entity, common field is a 1:1 relation 						
 						if(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue() != null)
 							composite.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue());																			
 							«ELSE-»
@@ -1119,6 +1158,7 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 									composite.set«commonFields.get(iter.counter0+1).name.toFirstUpper()»(«EXPAND template::CommonFieldUtil::propertyName FOR commonFields.get(iter.counter0)».getValue().getId());
 								«ENDIF-»													
 							«ENDIF-»
+							«ENDREM»
 						«ENDIF-»
 					«ENDFOREACH-»
 				}
@@ -1170,13 +1210,20 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 «IF cardinality == 1 »
 	/** Injection for field «name.toFirstUpper()» */
 	«IF getOppositeCardinality(this)==1 -»
+	«REM» NEW TO TEST
 	private «entity.name.toFirstUpper()» «name.toFirstLower()»Injected;
 	public void set«name.toFirstUpper()»(«entity.name.toFirstUpper()» entity){
 		«name.toFirstLower()»Injected =entity;
 		«name.toFirstLower()».setValue(«name.toFirstLower()»Injected, MainFieldsUtilImpl.get().getDisplayValue(entity));
 		«name.toFirstLower()».setLocked(true);
 	}
+	«ENDREM»
+	public void set«name.toFirstUpper()»(«entity.name.toFirstUpper()» entity){
+		«name.toFirstLower()».setValue(entity, MainFieldsUtilImpl.get().getDisplayValue(entity));
+		«name.toFirstLower()».setLocked(true);
+	}
 	«ELSE -»
+	«REM» NEW TO TEST
 	private String «name.toFirstLower()»Injected;
 	public void set«this.name.toFirstUpper()»(String id){
 		«name.toFirstLower()»Injected =id;
@@ -1188,11 +1235,31 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 		}
 		//«name.toFirstLower()».setLocked(true);
 	}
+	«ENDREM»
+	«REM» NEW TO TEST «ENDREM»
+	public void set«this.name.toFirstUpper()»(«this.entity.name.toFirstUpper()» value) {
+		«IF getHierarchicalFilterChilds(this, this.parentGroup.parentCard.groups.fields).isEmpty -»
+		«name.toFirstLower()».setValue(value);
+		«ELSE -»
+		// The value of «name.toFirstLower()» affects other fields
+		«name.toFirstLower()».setValue(value,true);
+		«ENDIF -»		
+		«FOREACH getHierarchicalFilterChilds(this, this.parentGroup.parentCard.groups.fields) AS f -»
+		// Field «f.name.toFirstUpper()» depends on the value of field «f.relationHierarchicalFilter.get(0).name.toFirstLower()»
+			«REM»«IF (f.cardinality==-1 || f.cardinality>1) && f.relationHierarchicalFilter.get(0).cardinality==1-»«ENDREM»
+			get«f.name.toFirstUpper()»FilteredBy«f.relationHierarchicalFilter.get(0).name.toFirstUpper()»(value);
+			«REM»«ELSE»
+			clear«f.name.toFirstUpper()»Widget();
+			«ENDIF -»		«ENDREM»
+		«ENDFOREACH -»
+	}
 	
 	/** Injection for the selection list box of field «name.toFirstUpper()» */
 	public void set«name.toFirstUpper()»SelectionList(Set<«entity.name.toFirstUpper()»> entities) {
 		if(entities!=null) {
+			«REM» NEW TO TEST 
 			«name.toFirstLower()»ListInjected = true;
+			«ENDREM»
 			«name.toFirstLower()».clear();
 			for («entity.name.toFirstUpper()»  current : entities) {
 				«name.toFirstLower()».addItem(MainFieldsUtilImpl.get().getDisplayValue(current), current.getId(), current);
@@ -1203,10 +1270,14 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 	
 	/** Widget update for field «name.toFirstUpper()» */
 	«IF getOppositeCardinality(this)!=1 -»
+	
+	«REM» NEW TO TEST 
 	private void update«name.toFirstUpper()»Widget() {
 		if (entity != null)
 			«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
 	}	
+	«ENDREM»
+	
 		«IF this.relationHierarchicalFilter != null && this.relationHierarchicalFilter.size==2  -»
 	private void clear«name.toFirstUpper()»Widget() {
 		«name.toFirstLower()».clear();	
@@ -1217,16 +1288,22 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 		«ENDIF -»
 	«ENDIF -»
 «ELSE -»
+«REM» NEW TO TEST 
 	private Set<«entity.name.toFirstUpper()»> «name.toFirstLower()»Injected;
 	public void set«name.toFirstUpper()»(Set<«entity.name.toFirstUpper()»> entities){
 		«name.toFirstLower()»Injected=entities;
 		«name.toFirstLower()».setValue(«name.toFirstLower()»Injected);
 	}
+	«ENDREM»
+	«REM» NEW TO TEST «ENDREM»
+	/** Injection for field «name.toFirstUpper()» */
+	public void set«name.toFirstUpper()»(Set<«entity.name.toFirstUpper()»> entities){
+		«name.toFirstLower()».setValue(entities);
+	}
 «ENDIF -»
 «ENDDEFINE»
 
-«REM»
-	Behavior for fields dependent visibility «ENDREM»
+«REM» Behavior for fields dependent visibility «ENDREM»
 «DEFINE fieldDependantVisibility FOR FieldEntity -»
 	«IF fieldDependentVisibility!=null && !fieldDependentVisibility.isEmpty && !hidden-»	
 	if(allValidation ||
@@ -1249,8 +1326,7 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 	«ENDIF»
 «ENDDEFINE»
 
-«REM»
-	Test value for field denpendent visibility «ENDREM»
+«REM» Test value for field denpendent visibility «ENDREM»
 «DEFINE expandTestForVisibility(String value) FOR FieldEntity-»«ENDDEFINE»
 «DEFINE expandTestForVisibility(String value) FOR TextField-»
 	«IF this.translatable -»
@@ -1287,8 +1363,7 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 	(«name.toFirstLower()».getValue()!=null && «name.toFirstLower()».getValue().matches("«value»"))
 «ENDDEFINE»
 
-«REM»
-	Add the behavior when receiving a relation broadcast message «ENDREM»
+«REM» Add the behavior when receiving a relation broadcast message «ENDREM»
 «DEFINE setRelationBroadcastBehavior FOR FieldEntity»«ENDDEFINE» 
 «DEFINE setRelationBroadcastBehavior FOR RelationFieldEntity»
 	«IF cardinality == 1 -»
@@ -1299,11 +1374,18 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 			lastEventParent=null;
 		«ELSE -»	
 		if(myObject instanceof «entity.name.toFirstUpper()»){
+			«REM» NEW TO BE TESTED
 			«entity.name.toFirstUpper()» «name.toFirstLower()»Tmp = ((«entity.name.toFirstUpper()»)myObject);
 			«name.toFirstLower()».addItem(MainFieldsUtilImpl.get().getDisplayValue(«name.toFirstLower()»Tmp), 
 								«name.toFirstLower()»Tmp.getId(), «name.toFirstLower()»Tmp);
 			if(«name.toFirstLower()».equals(lastEventParent))
 				«name.toFirstLower()».select(«name.toFirstLower()»Tmp.getId());
+			«ENDREM»
+			«REM» NEW TO BE TESTED «ENDREM»
+			if(«name.toFirstLower()».equals(lastEventParent)){
+				«entity.name.toFirstUpper()» «name.toFirstLower()»Tmp = ((«entity.name.toFirstUpper()»)myObject);
+				«name.toFirstLower()».setValue(«name.toFirstLower()»Tmp);
+			}			
 		«ENDIF-»
 		}			
 	«ELSE -»
@@ -1319,12 +1401,15 @@ import org.imogene.web.gwt.client.ui.field.ImogRelationList.ListButtonClickHandl
 «DEFINE fieldAssociatedObject FOR FieldEntity-»«ENDDEFINE»
 «DEFINE fieldAssociatedObject FOR RelationFieldEntity-»
 «IF cardinality==-1 || cardinality>1-»
+«REM» NEW TO BE TESTED
 private «entity.name.toFirstUpper()»SelectionBox «name.toFirstLower()»SelectionBox;
+«ENDREM»
+«REM» NEW TO BE TESTED«ENDREM»
+private ImogRelationPaginatedSelectionBox<«entity.name.toFirstUpper()»> «name.toFirstLower()»SelectionBox;
 «ENDIF-»
 «ENDDEFINE»
 
-«REM»
-	Set the enable state of a field regarding its type «ENDREM»
+«REM» Set the enable state of a field regarding its type «ENDREM»
 «DEFINE setEditable FOR FieldEntity-»
 «name.toFirstLower()».setEnabled(is«parentGroup.name.toFirstUpper()»Editable);
 «ENDDEFINE»
@@ -1367,19 +1452,22 @@ private «entity.name.toFirstUpper()»SelectionBox «name.toFirstLower()»SelectionB
 		if (source.equals(«this.relationHierarchicalFilter.get(0).name.toFirstLower()»)) {
 			«IF (cardinality==-1 || cardinality>1) && this.relationHierarchicalFilter.get(0).cardinality==1-»
 			«name.toFirstLower()».emptyList();
+			«ELSEIF cardinality == 1-»
+			clear«name.toFirstUpper()»Widget();
 			«ENDIF -»
 			get«name.toFirstUpper()»FilteredBy«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»(«this.relationHierarchicalFilter.get(0).name.toFirstLower()».getValue());		
 		}		
 	«ENDIF -»
 	«ENDIF -»
-«ENDDEFINE» 
+«ENDDEFINE»
+
 
 «REM»«ENDREM»
 «DEFINE populateEntityHierarchicalFilterCall FOR FieldEntity-»«ENDDEFINE» 
 «DEFINE populateEntityHierarchicalFilterCall FOR RelationFieldEntity-»
 	«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
 	«IF !(cardinality == 1 && getOppositeCardinality(this)==1) && !(cardinality != 1 && getOppositeCardinality(this)==1 && oppositeRelationField!=null) -»	
-		get«name.toFirstUpper()»FilteredBy«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»(entity.«EXPAND template::CommonFieldUtil::getterName FOR this.relationHierarchicalFilter.get(0)»());		
+		get«name.toFirstUpper()»FilteredBy«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»(result.«EXPAND template::CommonFieldUtil::getterName FOR this.relationHierarchicalFilter.get(0)»());		
 	«ENDIF -»
 	«ENDIF -»
 «ENDDEFINE» 
@@ -1398,8 +1486,7 @@ private «entity.name.toFirstUpper()»SelectionBox «name.toFirstLower()»SelectionB
 			 * the RelationField «this.relationHierarchicalFilter.get(0).name» 
 			 */
 			private void get«name.toFirstUpper()»FilteredBy«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»(«this.relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()») {
-				
-				clear«name.toFirstUpper()»Widget();		
+					
 				if (p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»!=null) {
 					ImogJunction criterion = new ImogConjunction();
 		
@@ -1409,8 +1496,10 @@ private «entity.name.toFirstUpper()»SelectionBox «name.toFirstLower()»SelectionB
 					criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.relationHierarchicalFilter.get(1)».id");
 					criterion.add(criteria);
 					
-					«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(0, -1, criterion, null, true, new Populate«name.toFirstUpper()»With«entity.name.toFirstUpper()»());
+					«name.toFirstLower()».setFilterParameters(criterion);
 				}
+				else
+					«name.toFirstLower()».setFilterParameters(null);
 			}			
 				«ENDIF-»
 			«ELSE-» «REM» filtered field has card = n «ENDREM»
@@ -1530,16 +1619,445 @@ private «entity.name.toFirstUpper()»SelectionBox «name.toFirstLower()»SelectionB
 			«ENDIF-»						
 		«ENDIF -»
 	«ENDIF-»
-«ENDDEFINE» 
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+
+
+«REM» --------------------------------------------------------------------------- «ENDREM»
+«REM»           DataProvider to fill the listbox values                           «ENDREM»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+«DEFINE CreateDataProvider FOR FieldEntity-»«ENDDEFINE»
+«DEFINE CreateDataProvider FOR RelationFieldEntity»
+«IF cardinality==1 -»
+	/**
+	 * DataProvider to fill the listbox values of the field «name.toFirstLower()»
+	 * @author Medes-IMPS
+	 */
+	private class «name.toFirstUpper()»ListBoxDataProvider extends AbstractImogListBoxDataProvider {
+
+		/**
+		 *
+		 */
+		public void getData(int startRow, int maxRows) {
+		
+			«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
+				«IF this.relationHierarchicalFilter.get(0).cardinality == 1 -» «REM» filtered by field with card = 1 «ENDREM»
+					«IF cardinality == 1-» «REM» filtered field has card = 1 «ENDREM»
+						«IF getOppositeCardinality(this)!=1 -»
+			/* get data from service filtered by the value of field «this.relationHierarchicalFilter.get(0).name.toFirstLower()» */	
+			if («this.relationHierarchicalFilter.get(0).name.toFirstLower()».getValue() != null) {
+				ImogJunction hierarchicalCriterion = new ImogConjunction();
+
+				BasicCriteria criteria = new BasicCriteria();
+				criteria.setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
+				criteria.setValue(«this.relationHierarchicalFilter.get(0).name.toFirstLower()».getValue().getId());
+				criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.relationHierarchicalFilter.get(1)».id");
+				hierarchicalCriterion.add(criteria);
+				
+				/* get data from service */
+				if (searchCriterions != null){
+					searchCriterions.add(hierarchicalCriterion);
+					if (filterParameters != null)
+						searchCriterions.add(filterParameters);
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(startRow, maxRows, searchCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this.entity»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this.entity», new Push«name.toFirstUpper()»Callback());
+				}
+				else {
+					if (filterParameters != null)
+						hierarchicalCriterion.add(filterParameters);				
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(startRow, maxRows, hierarchicalCriterion, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this.entity»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this.entity», new Push«name.toFirstUpper()»Callback());
+				
+				}	
+			}
+			else
+				acceptor.acceptEmpty();					
+						«ENDIF-»
+					«ELSE-» «REM» filtered field has card = n «ENDREM»
+						«IF !(getOppositeCardinality(this)==1 && oppositeRelationField!=null) -»
+						
+						
+						«ENDIF-»
+					«ENDIF-»		
+				
+				«ELSE -» «REM» filtered by field with card = n «ENDREM»
+				
+					«IF cardinality == 1-» «REM» filtered field has card = 1 «ENDREM»
+						«IF getOppositeCardinality(this)!=1 -»	
+				
+						«ENDIF-»
+					«ELSE-» «REM» filtered field has card = n «ENDREM»
+						«IF !(getOppositeCardinality(this)==1 && oppositeRelationField!=null) -»				
+						«ENDIF-»
+					«ENDIF-»						
+				«ENDIF-»
+				
+			«ELSE-»
+			/* get data from service */
+			if (searchCriterions != null) {
+				if (filterParameters != null)
+						searchCriterions.add(filterParameters);
+				«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(startRow, maxRows, searchCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this.entity»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this.entity», new Push«name.toFirstUpper()»Callback());
+			}
+			else {
+				if (filterParameters != null)
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(startRow, maxRows, filterParameters, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this.entity»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this.entity», new Push«name.toFirstUpper()»Callback());
+				else	
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this.entity»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this.entity», new Push«name.toFirstUpper()»Callback());			
+			}
+			«ENDIF-»				
+		}
+
+		/**
+		 *
+		 */
+		public void countDataRows() {
+		
+			«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
+				«IF this.relationHierarchicalFilter.get(0).cardinality == 1 -» «REM» filtered by field with card = 1 «ENDREM»
+					«IF cardinality == 1-» «REM» filtered field has card = 1 «ENDREM»
+						«IF getOppositeCardinality(this)!=1 -»
+			/* count data from service filtered by the value of field «this.relationHierarchicalFilter.get(0).name.toFirstLower()» */			
+			if («this.relationHierarchicalFilter.get(0).name.toFirstLower()».getValue() != null) {
+				ImogJunction hierarchicalCriterion = new ImogConjunction();
+
+				BasicCriteria criteria = new BasicCriteria();
+				criteria.setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
+				criteria.setValue(«this.relationHierarchicalFilter.get(0).name.toFirstLower()».getValue().getId());
+				criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.relationHierarchicalFilter.get(1)».id");
+				hierarchicalCriterion.add(criteria);
+				
+				/* get data from service */
+				if (searchCriterions != null){
+					searchCriterions.add(hierarchicalCriterion);
+					if (filterParameters != null)
+						searchCriterions.add(filterParameters);
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().count«entity.name.toFirstUpper()»(searchCriterions, new CountCallback());
+				}
+				else {
+					if (filterParameters != null)
+						searchCriterions.add(hierarchicalCriterion);
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().count«entity.name.toFirstUpper()»(hierarchicalCriterion, new CountCallback());
+				}
+			}								
+						«ENDIF-»
+					«ELSE-» «REM» filtered field has card = n «ENDREM»
+						«IF !(getOppositeCardinality(this)==1 && oppositeRelationField!=null) -»
+						
+						
+						«ENDIF-»
+					«ENDIF-»		
+				
+				«ELSE -» «REM» filtered by field with card = n «ENDREM»
+				
+					«IF cardinality == 1-» «REM» filtered field has card = 1 «ENDREM»
+						«IF getOppositeCardinality(this)!=1 -»	
+				
+						«ENDIF-»
+					«ELSE-» «REM» filtered field has card = n «ENDREM»
+						«IF !(getOppositeCardinality(this)==1 && oppositeRelationField!=null) -»				
+						«ENDIF-»
+					«ENDIF-»						
+				«ENDIF-»			
+			«ELSE-»
+			/* get data from service */		
+			if (searchCriterions != null) {
+				if (filterParameters != null)
+						searchCriterions.add(filterParameters);
+				«entity.name.toFirstUpper()»ServiceFacade.getInstance().count«entity.name.toFirstUpper()»(searchCriterions, new CountCallback());
+			}
+			else {
+				if (filterParameters != null)
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().count«entity.name.toFirstUpper()»(filterParameters, new CountCallback());
+				else
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().count«entity.name.toFirstUpper()»(new CountCallback());
+			}			
+			«ENDIF-»				
+		
+		}
+
+		/**
+		 *
+		 */
+		public void fullTextSearch(String text) {
+			if (text == null || (text != null && text.equals(""))) {
+				this.searchCriterions = null;
+			} else {
+				ImogJunction main = new ImogConjunction();
+				ImogJunction junction = new ImogDisjunction();
+				
+				«IF !this.entity.mainFields.isEmpty -»
+				«FOREACH this.entity.mainFields AS field-»
+				«EXPAND createListCriteria FOR field»
+				«ENDFOREACH-»
+				«ENDIF -»				
+				
+				main.add(junction);
+				this.searchCriterions = main;
+			}
+		}
+		
+		
+		/**
+		 * Callback of the remote call that fills the table
+		 */
+		private class Push«name.toFirstUpper()»Callback implements AsyncCallback<List<«entity.name.toFirstUpper()»>> {
+
+			public void onFailure(Throwable caught) {
+				acceptor.failed(caught);
+			}
+
+			public void onSuccess(List<«entity.name.toFirstUpper()»> result) {
+				
+				«entity.name.toFirstUpper()»[] beanArray = new «entity.name.toFirstUpper()»[result.size()];
+				for (int i = 0; i < beanArray.length; i++) {
+					beanArray[i] = result.get(i);
+				}
+				lastBean = beanArray;
+				
+				/* get total nb of rows from service */
+				countDataRows();
+			}
+		}
+	}
+«ENDIF-»
+«ENDDEFINE»
+
+«REM» Create the search full text function «ENDREM»
+«DEFINE createListCriteria FOR FieldEntity-»«ENDDEFINE»
+«DEFINE createListCriteria FOR TextField-»
+	// Search field «this.name.toFirstLower()»
+	BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+	«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.STRING_OPERATOR_CONTAINS);
+	«this.name.toFirstLower()»Crit.setValue(text);
+	junction.add(«this.name.toFirstLower()»Crit);
+«ENDDEFINE»
+«DEFINE createListCriteria FOR IntegerField-»
+	// Search field «this.name.toFirstLower()»
+	try{
+		Integer.valueOf(text);
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.INT_OPERATOR_EQUAL);
+		«this.name.toFirstLower()»Crit.setValue(text);
+		junction.add(«this.name.toFirstLower()»Crit);
+	}catch(Exception ex){/*criteria not added*/}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR FloatField-»
+	// Search field «this.name.toFirstLower()»
+	try{
+		Float.valueOf(text);
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.FLOAT_OPERATOR_EQUAL);
+		«this.name.toFirstLower()»Crit.setValue(text);
+		junction.add(«this.name.toFirstLower()»Crit);
+	}catch(Exception ex){/*criteria not added*/}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR DateField-»
+	// Search field «this.name.toFirstLower()»
+	try{
+		DateUtil.parseDate(text);
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.DATE_OPERATOR_EQUAL);
+		«this.name.toFirstLower()»Crit.setValue(text);
+		junction.add(«this.name.toFirstLower()»Crit);
+	}catch(Exception ex){/*criteria not added*/}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR BooleanField-»
+	// Search field «this.name.toFirstLower()»
+	if (text.toLowerCase().equals("true") || text.toLowerCase().equals("false")) {
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.BOOLEAN_OPERATOR_EQUAL);
+		«this.name.toFirstLower()»Crit.setValue(text.toLowerCase());
+		junction.add(«this.name.toFirstLower()»Crit);	
+	}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR EnumField-»
+	// Search field «this.name.toFirstLower()»
+	«FOREACH enumValues AS enumValue ITERATOR iter-»	
+	if (text.toLowerCase().equals(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option().toLowerCase())) {
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«IF this.multipleSelection==true-»
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.STRING_OPERATOR_CONTAINS);
+		«ELSE -»
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
+		«ENDIF -»		
+		«this.name.toFirstLower()»Crit.setValue("«enumValue.value»");
+		junction.add(«this.name.toFirstLower()»Crit);		
+	}
+	«ENDFOREACH -»	
+«ENDDEFINE»
+
+
+«REM»«ENDREM»
+«DEFINE setRelationFieldHierarchicalFilterBehaviorForList FOR FieldEntity»«ENDDEFINE» 
+«DEFINE setRelationFieldHierarchicalFilterBehaviorForList FOR RelationFieldEntity»
+	«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
+		«IF this.relationHierarchicalFilter.get(0).cardinality == 1 -» «REM» filtered by field with card = 1 «ENDREM»
+			«IF cardinality == 1-» «REM» filtered field has card = 1 «ENDREM»
+				«IF getOppositeCardinality(this)!=1 -»
+				«REM» NEW TO BE TESTED
+			/**
+			 * Filters the content of the RelationField «name» by the value of 
+			 * the RelationField «this.relationHierarchicalFilter.get(0).name»
+			 * @param «this.relationHierarchicalFilter.get(0).name.toFirstLower()» the value of 
+			 * the RelationField «this.relationHierarchicalFilter.get(0).name» 
+			 */
+			private void get«name.toFirstUpper()»FilteredBy«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»(«this.relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()») {
+				
+				clear«name.toFirstUpper()»Widget();		
+				if (p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»!=null) {
+					ImogJunction criterion = new ImogConjunction();
+		
+					BasicCriteria criteria = new BasicCriteria();
+					criteria.setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
+					criteria.setValue(p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()».getId());
+					criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.relationHierarchicalFilter.get(1)».id");
+					criterion.add(criteria);
+					
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(0, -1, criterion, null, true, new Populate«name.toFirstUpper()»With«entity.name.toFirstUpper()»());
+				}
+			}			
+			«ENDREM»
+				«ENDIF-»
+			«ELSE-» «REM» filtered field has card = n «ENDREM»
+				«IF !(getOppositeCardinality(this)==1 && oppositeRelationField!=null) -»
+			/**
+			 * Filters the content of the RelationField «name» by the value of 
+			 * the RelationField «this.relationHierarchicalFilter.get(0).name»
+			 * @param «this.relationHierarchicalFilter.get(0).name.toFirstLower()» the value of 
+			 * the RelationField «this.relationHierarchicalFilter.get(0).name» 
+			 */
+			private void get«name.toFirstUpper()»FilteredBy«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»(«this.relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()») {
+				
+				if (p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»!=null) {
+					
+					ImogJunction criterion = new ImogConjunction();
+		
+					BasicCriteria criteria = new BasicCriteria();
+					criteria.setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
+					criteria.setValue(p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()».getId());
+					criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.relationHierarchicalFilter.get(1)».id");
+					criterion.add(criteria);
+					
+					«name.toFirstLower()»SelectionBox.setFilterParameters(criterion);		
+				} 
+				else
+					«name.toFirstLower()»SelectionBox.setFilterParameters(null);
+			}		
+				«ENDIF-»
+			«ENDIF-»		
+		
+		«ELSE -» «REM» filtered by field with card = n «ENDREM»
+		
+			«IF cardinality == 1-» «REM» filtered field has card = 1 «ENDREM»
+				«IF getOppositeCardinality(this)!=1 -»				
+			/**
+			 * Filters the content of the RelationField «name» by the values of 
+			 * the RelationField «this.relationHierarchicalFilter.get(0).name»
+			 * @param «this.relationHierarchicalFilter.get(0).name.toFirstLower()» the values of 
+			 * the RelationField «this.relationHierarchicalFilter.get(0).name» 
+			 */
+			private void get«name.toFirstUpper()»FilteredBy«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»(Set<«this.relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()») {
+							
+				// check existing values in field according to criterias
+				«this.entity.name.toFirstUpper()» existing = «name.toFirstLower()».getValue();	
+
+				boolean isPartOf= false;
+				if(existing!=null && existing.«EXPAND template::CommonFieldUtil::getterName FOR this.relationHierarchicalFilter.get(1)»()!=null) {
+					for(«this.relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» filter:p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()») {
+						if (existing.«EXPAND template::CommonFieldUtil::getterName FOR this.relationHierarchicalFilter.get(1)»().getId().equals(filter.getId())) {
+							isPartOf = true;
+							break;
+						}
+					}
+				}
+				if(!isPartOf)
+					clear«name.toFirstUpper()»Widget();
+			
+				// filter values in selection box
+				if (p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()» != null) {
+					ImogJunction criterion = new ImogDisjunction();
+					
+					for(«this.relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» filter:p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()») {
+		
+						BasicCriteria criteria = new BasicCriteria();
+						criteria.setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
+						criteria.setValue(filter.getId());
+						criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.relationHierarchicalFilter.get(1)».id");
+						criterion.add(criteria);
+					}			
+					«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(0, -1, criterion, null, true, new Populate«name.toFirstUpper()»With«entity.name.toFirstUpper()»());
+				}				
+			}							
+				«ENDIF-»
+			«ELSE-» «REM» filtered field has card = n «ENDREM»
+				«IF !(getOppositeCardinality(this)==1 && oppositeRelationField!=null) -»
+			/**
+			 * Filters the content of the RelationField «name» by the values of 
+			 * the RelationField «this.relationHierarchicalFilter.get(0).name»
+			 * @param «this.relationHierarchicalFilter.get(0).name.toFirstLower()» the values of 
+			 * the RelationField «this.relationHierarchicalFilter.get(0).name» 
+			 */
+			private void get«name.toFirstUpper()»FilteredBy«this.relationHierarchicalFilter.get(0).name.toFirstUpper()»(Set<«this.relationHierarchicalFilter.get(0).entity.name.toFirstUpper()»> p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()») {
+							
+				// check existing values in field according to criterias
+				Set<«this.entity.name.toFirstUpper()»> existings = «name.toFirstLower()».getValue();	
+				for («this.entity.name.toFirstUpper()» existing:existings) {
+					boolean isPartOf= false;
+					if(existing.«EXPAND template::CommonFieldUtil::getterName FOR this.relationHierarchicalFilter.get(1)»()!=null) {
+						for(«this.relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» filter:p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()») {
+							if (existing.«EXPAND template::CommonFieldUtil::getterName FOR this.relationHierarchicalFilter.get(1)»().getId().equals(filter.getId())) {
+								isPartOf = true;
+								break;
+							}
+						}
+					}
+					if(!isPartOf)
+						«name.toFirstLower()».removeValue(existing);
+				}
+				
+				// filter values in selection box
+				«name.toFirstLower()»SelectionBox.setFilterParameters(null);
+				if (p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()» != null) {
+					ImogJunction criterion = new ImogDisjunction();
+					
+					for(«this.relationHierarchicalFilter.get(0).entity.name.toFirstUpper()» filter:p«this.relationHierarchicalFilter.get(0).name.toFirstUpper()») {
+		
+						BasicCriteria criteria = new BasicCriteria();
+						criteria.setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
+						criteria.setValue(filter.getId());
+						criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.relationHierarchicalFilter.get(1)».id");
+						criterion.add(criteria);
+					}			
+					«name.toFirstLower()»SelectionBox.setFilterParameters(criterion);
+				}				
+			}		
+				«ENDIF-»
+			«ENDIF-»						
+		«ENDIF -»
+	«ENDIF-»
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+
 
   
-«REM» -------------------------- AOP anchor -------------------- «ENDREM»
+«REM» ---------------------------------------------- «ENDREM»
 «DEFINE setListInjectedBoolean FOR FieldEntity-»«ENDDEFINE»  
 «DEFINE setListInjectedBoolean FOR RelationFieldEntity-»
 	«IF this.cardinality==1 -»
 	private boolean «name.toFirstLower()»ListInjected =false;
 	«ENDIF -»
-«ENDDEFINE»  
+«ENDDEFINE»
+«REM» ---------------------------------------------- «ENDREM»
+
 
 «REM» -------------------------- AOP anchor -------------------- «ENDREM»
 

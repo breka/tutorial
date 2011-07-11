@@ -10,6 +10,8 @@ public interface ImogField<E> {
 	
 	public void setValue(E value);
 	
+	public void setValue(E value, boolean notifyChange);
+	
 	public E getValue();
 	
 	public void setEnabled(boolean editable);

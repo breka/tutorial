@@ -1,20 +1,18 @@
 package org.imogene.web.gwt.client.ui.field;
 
-import java.util.List;
-import java.util.Vector;
-
 import org.imogene.web.gwt.client.i18n.BaseNLS;
+import org.imogene.web.gwt.client.ui.field.paginatedList.AbstractImogListBoxDataProvider;
+import org.imogene.web.gwt.client.ui.field.paginatedList.ImogPaginatedListBox;
+import org.imogene.web.gwt.client.ui.field.paginatedList.ListValueChangeHandler;
+import org.imogene.web.gwt.common.criteria.ImogJunction;
 import org.imogene.web.gwt.common.entity.ImogBean;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ListBox;
 
 
 
@@ -22,37 +20,45 @@ import com.google.gwt.user.client.ui.ListBox;
  * Composite to manage the display of relation fields with cardinality 1
  * @author Medes-IMPS
  */
-public class ImogRelationBox<T extends ImogBean > extends ImogFieldAbstract<T> implements ChangeHandler {
+public class ImogPaginatedRelationBox<T extends ImogBean> extends ImogFieldAbstract<T> implements ListValueChangeHandler {
 
 	/* status */
-	private List<T> values = new Vector<T>();
 	private String thisLabel;	
 	private boolean edited = false;
 	private boolean canCreateEntity = true;
+	private boolean isPaginated = true;
 	
 	/* widgets */
 	private HorizontalPanel layout;	
 	private Image errorImage;	
 	private Image addImage;	
 	private Image viewImage;	
-	private ListBox listBox;
+	
+	private ImogPaginatedListBox<T> paginatedList;
 	
 	
 	
-	public ImogRelationBox(){
+	public ImogPaginatedRelationBox(){
 		layout();
 		properties();		
 	}
 	
-	public ImogRelationBox(String label){
+	public ImogPaginatedRelationBox(String label){
 		this();
 		thisLabel = label;
 	}
 	
-	public ImogRelationBox(String label, boolean canCreateEntity) {
+	public ImogPaginatedRelationBox(String label, boolean canCreateEntity) {
 		this();
 		thisLabel = label;
 		this.canCreateEntity = canCreateEntity;
+	}
+	
+	public ImogPaginatedRelationBox(String label, boolean canCreateEntity, boolean isPaginated) {
+		this();
+		thisLabel = label;
+		this.canCreateEntity = canCreateEntity;
+		this.isPaginated = isPaginated;
 	}
 	
 	private void layout(){
@@ -61,12 +67,12 @@ public class ImogRelationBox<T extends ImogBean > extends ImogFieldAbstract<T> i
 		errorImage = new Image(GWT.getModuleBaseURL());
 		layout.add(errorImage);
 		
-		listBox = new ListBox();
-		listBox.addChangeHandler(this);
-		// Empty item automatically added to the listbox
-		listBox.addItem(BaseNLS.constants().enumeration_unknown(), "");
-		listBox.setSelectedIndex(0);
-		layout.add(listBox);
+		if(isPaginated)
+			paginatedList = new ImogPaginatedListBox<T>();
+		else
+			paginatedList = new ImogPaginatedListBox<T>(false);		
+		paginatedList.addListValueChangeHandler(this);		
+		layout.add(paginatedList);	
 		
 		viewImage = new Image(GWT.getModuleBaseURL() + "/images/relation_view.png");
 		viewImage.setTitle(BaseNLS.constants().button_view());
@@ -81,10 +87,8 @@ public class ImogRelationBox<T extends ImogBean > extends ImogFieldAbstract<T> i
 	
 	private void properties(){
 		layout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		
-		listBox.setStylePrimaryName("imogene-FormText");
-		layout.setCellVerticalAlignment(listBox, HasVerticalAlignment.ALIGN_MIDDLE);
-		layout.setCellHorizontalAlignment(listBox, HasHorizontalAlignment.ALIGN_LEFT);
+		layout.setCellVerticalAlignment(paginatedList, HasVerticalAlignment.ALIGN_MIDDLE);
+		layout.setCellHorizontalAlignment(paginatedList, HasHorizontalAlignment.ALIGN_LEFT);		
 		
 		viewImage.setStyleName("imogene-FormImageLink");
 		viewImage.setVisible(false);
@@ -98,24 +102,36 @@ public class ImogRelationBox<T extends ImogBean > extends ImogFieldAbstract<T> i
 		errorImage.setVisible(false);		
 	}
 	
-	public ListBox getEmbedded(){
-		return listBox;
+	/**
+	 * 
+	 * @return
+	 */
+	public ImogPaginatedListBox<T> getEmbedded(){
+		return paginatedList;
 	}
 	
+	/**
+	 * 
+	 * @param inError
+	 */
 	public void setInError(boolean inError){
 		if(inError)
-			listBox.addStyleDependentName("error");
+			paginatedList.addStyleDependentName("error");
 		else
-			listBox.removeStyleDependentName("error");
+			paginatedList.removeStyleDependentName("error");
 	}
 	
+	/**
+	 * 
+	 */
 	public void setEnabled(boolean enabled){
-		listBox.setEnabled(enabled && !isLocked());
+
+		paginatedList.setEnabled(enabled && !isLocked());
 		if(!enabled || isLocked()){
-			listBox.addStyleDependentName("disabled");
+			paginatedList.addStyleDependentName("disabled");
 			addImage.setVisible(false);
 		}else{
-			listBox.removeStyleDependentName("disabled");
+			paginatedList.removeStyleDependentName("disabled");
 			if (canCreateEntity)
 				addImage.setVisible(true);
 			else
@@ -124,17 +140,14 @@ public class ImogRelationBox<T extends ImogBean > extends ImogFieldAbstract<T> i
 		edited = enabled;
 	}
 	
+	/**
+	 * Adds an item explicitly to the choice list of the listbox
+	 * @param display
+	 * @param id
+	 * @param value
+	 */
 	public void addItem(String display, String id, T value){
-		values.add(value);
-		listBox.addItem(display, id);
-	}
-	
-	public int getIndexForValue(String value){
-		for(int i = 0; i<listBox.getItemCount(); i++){
-			if(listBox.getValue(i).equals(value))
-				return i;
-		}
-		return -1;
+		paginatedList.addItem(display, id, value);
 	}
 	
 	public void setAddClickHandler(ClickHandler handler){
@@ -145,25 +158,18 @@ public class ImogRelationBox<T extends ImogBean > extends ImogFieldAbstract<T> i
 		viewImage.addClickHandler(handler);
 	}
 	
-	public T getValue(int i){
-		if(i<0)
-			return null;
-		return values.get(i);
-	}
-	
 	@Override
-	public T getValue() {		
-		// (-1) because there is an empty value in the listbox
-		return (T)getValue(listBox.getSelectedIndex()-1);
+	public T getValue() {	
+		return paginatedList.getValue();
 	}
 	
 	public String getDisplayValue() {
-		return listBox.getItemText(listBox.getSelectedIndex());
+		return (String)paginatedList.getText();
 	}
 
 	@Override
 	public boolean validate() {
-		if(isMandatory() && listBox.getSelectedIndex()==0){
+		if(isMandatory() && paginatedList.getText().equals("")){
 			displayError(BaseNLS.constants().field_mandatory());
 			return false;
 		}
@@ -184,28 +190,23 @@ public class ImogRelationBox<T extends ImogBean > extends ImogFieldAbstract<T> i
 	}
 
 	@Override
-	public void setValue(T value) {	
+	public void setValue(T value) {
+		paginatedList.setValue(value);
 		if(value!=null){
-			int index = getIndexForValue(value.getId());
-			if(index>-1){
-				listBox.setSelectedIndex(index);
-				viewImage.setVisible(true);
-				
-			}else{
-				listBox.setSelectedIndex(0);
-				viewImage.setVisible(false);
-			}
+			viewImage.setVisible(true);
 		}else{
-			listBox.setSelectedIndex(0);
 			viewImage.setVisible(false);
 		}
 	}
 	
 	@Override
 	public void setValue(T value, boolean notifyChange) {
-		setValue(value);
-		if (notifyChange)
-			notifyValueChange();
+		paginatedList.setValue(value, notifyChange);
+		if(value!=null){
+			viewImage.setVisible(true);
+		}else{
+			viewImage.setVisible(false);
+		}
 	}
 
 	@Override
@@ -214,39 +215,42 @@ public class ImogRelationBox<T extends ImogBean > extends ImogFieldAbstract<T> i
 	}
 	
 	/**
-	 * Selects the item matching the selected imogene bean id 
-	 * @param id the imogene bean id
+	 * 
 	 */
-	public void select(String id){
-		for(int i=0; i<listBox.getItemCount(); i++){
-			String valueId= listBox.getValue(i);
-			if(valueId.equals(id)){
-				listBox.setSelectedIndex(i);
-				viewImage.setVisible(true);
-				return;
-			}
-		}
-	}
-	
-
 	public void clear() {
-		for(int i=listBox.getItemCount()-1; i>=1; i--){
-			listBox.removeItem(i);
-		}
-		values.clear();
+		paginatedList.clear();
 	}
 	
-	public void onChange(ChangeEvent arg0) {
-		if (listBox.getSelectedIndex()>0)
+	/**
+	 * Method launched when the listbox selected value changes
+	 */
+	public void onListValueChange() {
+		
+		if(!paginatedList.getText().equals(""))
 			viewImage.setVisible(true);
 		else
 			viewImage.setVisible(false);
 			
-		notifyValueChange();		
+		notifyValueChange();
 	}
 	
-	public boolean isEmpty() {
-		return values.isEmpty();
+
+	/**
+	 * 
+	 * @param dataProvider Data provider to feed the paginated list with bean instances
+	 * @param mainFieldsUtil Utility class to get the bean instances display values
+	 */
+	public void setDataProvider(AbstractImogListBoxDataProvider dataProvider, MainFieldsUtil mainFieldsUtil) {
+		paginatedList.setDataProvider(dataProvider, mainFieldsUtil);
 	}
-				
+		
+	
+	/**
+	 * Sets filtering criterions for which values have to be filtered
+	 * @param criterions ImogJunction including the  criterions 
+	 * for which the values have to be filtered
+	 */
+	public void setFilterParameters(ImogJunction criterions) {
+			paginatedList.setFilterParameters(criterions);
+	}
 }
