@@ -33,8 +33,15 @@
         <property name="driverClass" value="${jdbc.driverClassName}" />
         <property name="jdbcUrl"     value="${jdbc.url}" />
         <property name="user"        value="${jdbc.username}" />
-        <property name="password"    value="${jdbc.password}" />        
-    </bean>	
+        <property name="password"    value="${jdbc.password}" />  
+	     <!-- C3PO configuration -->
+        <property name="acquireIncrement" value="1" />
+        <property name="minPoolSize" value="4" />
+        <property name="maxPoolSize" value="20" />
+        <property name="maxStatements" value="0" />
+        <property name="idleConnectionTestPeriod" value="30"/>
+    </bean>     
+    
 	
 	<!-- hibernate session factory -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
@@ -62,14 +69,7 @@
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
 				<prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>	
-				<!-- C3PO configuration -->
-				<prop key="hibernate.connection.release_mode">auto</prop>
-                <prop key="hibernate.c3p0.acquire_increment">1</prop>
-                <prop key="hibernate.c3p0.minPoolSize">3</prop>
-                <prop key="hibernate.c3p0.maxPoolSize">20</prop>
-                <prop key="hibernate.c3p0.timeout">50</prop>
-                <prop key="hibernate.c3p0.max_statement">0</prop>
-                <prop key="hibernate.c3p0.idle_test_period">30</prop>			
+				<prop key="hibernate.connection.release_mode">after_transaction</prop>		
 			</props>
 		</property>	
 	</bean>
