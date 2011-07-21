@@ -1,4 +1,4 @@
-#Fri Jun 24 20:01:31 CEST 2011
+#Thu Jul 21 10:30:20 CEST 2011
 eclipse.preferences.version=1
 encoding//src/template/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/template/accessManager.xpt=ISO-8859-1
@@ -8,6 +8,7 @@ encoding//src/template/entity/entityDataProvider.xpt=ISO-8859-1
 encoding//src/template/entity/entityFormComposite.xpt=ISO-8859-1
 encoding//src/template/entity/entityListComposite.xpt=ISO-8859-1
 encoding//src/template/entity/entitySelectionBox.xpt=ISO-8859-1
+encoding//src/template/entity/entitySelectionListBoxDataProvider.xpt=ISO-8859-1
 encoding//src/template/entity/mainFieldsUtil.xpt=ISO-8859-1
 encoding//src/template/entity/serverMainFieldsUtil.xpt=ISO-8859-1
 encoding//src/template/entity/shortNames.xpt=ISO-8859-1
@@ -23,7 +24,6 @@ encoding//src/template/remote/entityServiceFacade.xpt=ISO-8859-1
 encoding//src/template/reportTemplate/cardReportTemplateWeb_jrxml.xpt=ISO-8859-1
 encoding//src/template/reportTemplate/cardSubReportTemplateWeb_jrxml.xpt=ISO-8859-1
 encoding//src/template/server/aopContext_xml.xpt=ISO-8859-1
-encoding//src/template/server/applicationContext.xpt=ISO-8859-1
 encoding//src/template/server/applicationContext_xml.xpt=ISO-8859-1
 encoding//src/template/server/application_properties.xpt=ISO-8859-1
 encoding//src/template/server/dao/entityDao.xpt=ISO-8859-1
