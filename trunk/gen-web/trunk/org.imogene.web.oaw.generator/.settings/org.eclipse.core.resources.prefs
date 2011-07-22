@@ -1,4 +1,4 @@
-#Thu Jul 21 10:30:20 CEST 2011
+#Fri Jul 22 15:09:54 CEST 2011
 eclipse.preferences.version=1
 encoding//src/template/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/template/accessManager.xpt=ISO-8859-1
@@ -33,6 +33,7 @@ encoding//src/template/server/security/ImogSecurityDetailService.xpt=ISO-8859-1
 encoding//src/template/server/security/securityHandler.xpt=ISO-8859-1
 encoding//src/template/server/security/securityPolicy.xpt=ISO-8859-1
 encoding//src/template/server/security/serverAccessManager.xpt=ISO-8859-1
+encoding//src/template/server/securityContext_xml.xpt=ISO-8859-1
 encoding//src/template/server/servlet/authServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/cardReportServiceServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/downloadServlet.xpt=ISO-8859-1
