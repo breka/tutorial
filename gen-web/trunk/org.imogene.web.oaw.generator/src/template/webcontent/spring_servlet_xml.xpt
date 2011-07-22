@@ -18,6 +18,9 @@
 			<props>
 				<!-- for jasperreports reporting -->
 				<prop key="/getCardReportFile.sprg">cardReportController</prop>
+				«FOREACH entities AS e-»
+				<prop key="/get«e.name.toFirstUpper()»ExcelExport.sprg">«e.name.toFirstUpper()»ExportExcel</prop>
+				«ENDFOREACH-»
 			</props>
 		</property>
 	</bean>
@@ -30,6 +33,17 @@
 		id="cardReportController">
 		<property name="genericDao" ref="genericDao" />
 	</bean>
+
+
+	<!--  Controllers for excel export generation -->
+	«FOREACH entities AS e-»
+	<bean class="org.imogene.«modelName.toLowerCase()».server.servlet.export.«e.name.toFirstUpper()»ExportExcelServiceServlet" id="«e.name.toFirstUpper()»ExportExcel">
+			<property name="dao" ref="«e.name.toFirstLower()»Dao" />
+	</bean>	
+	«ENDFOREACH»	
+	
+
+
 
 
 </beans>

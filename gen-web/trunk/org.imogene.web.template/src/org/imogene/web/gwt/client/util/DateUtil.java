@@ -246,4 +246,12 @@ public class DateUtil {
 
 		return false;
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static DateTimeFormat getDateFormater() {
+		return dateFormater;
+	}
 }

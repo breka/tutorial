@@ -75,6 +75,7 @@ report_application_title= Application «this.name.toFirstUpper() -»
 «e.name.toFirstLower()»_table_text = «getDisplayFromDescription(currentLanguage.isoCode,e)»(s)
 «e.name.toFirstLower()»_search_title = R\u00E9sultats de recherche pour «getDisplayFromDescription(currentLanguage.isoCode,e)»
 «e.name.toFirstLower()»_search_dialog_title = Rechercher des «getDisplayFromDescription(currentLanguage.isoCode,e)»s
+«e.name.toFirstLower()»_excel_title = Exporter des «getDisplayFromDescription(currentLanguage.isoCode,e)»s vers excel
 «ELSE -»
 /* «e.name» texts */
 «e.name.toFirstLower()»_description= This is the description of a «getDisplayFromDescription(currentLanguage.isoCode,e)». It describes a «getDisplayFromDescription(currentLanguage.isoCode,e)» into details
@@ -88,6 +89,7 @@ report_application_title= Application «this.name.toFirstUpper() -»
 «e.name.toFirstLower()»_table_text = «getDisplayFromDescription(currentLanguage.isoCode,e)»(s)
 «e.name.toFirstLower()»_search_title = «getDisplayFromDescription(currentLanguage.isoCode,e)» search results
 «e.name.toFirstLower()»_search_dialog_title = Search for «getDisplayFromDescription(currentLanguage.isoCode,e)»s
+«e.name.toFirstLower()»_excel_title = Export «getDisplayFromDescription(currentLanguage.isoCode,e)» entries to excel
 «ENDIF -»
 
 /* «e.name» field group texts */		
@@ -113,7 +115,11 @@ report_application_title= Application «this.name.toFirstUpper() -»
 		«ENDIF -»	
 	«ENDIF-»	
 		
-«ENDFOREACH-»	
+«ENDFOREACH-»
+
+field_creationDate = Creation Date
+field_lastModificationDate = Last Modification Date
+field_id = ID
 	
 
 «ENDDEFINE»
@@ -122,7 +128,7 @@ report_application_title= Application «this.name.toFirstUpper() -»
 
 «REM» ----- get texts for entity fields ----- «ENDREM»
 «DEFINE getFieldTexts(String isoCode) FOR FieldEntity-»          
-«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()» = «getDisplayFromDescription(isoCode,this)»                     
+«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()» = «getDisplayFromDescription(isoCode,this)»
 «ENDDEFINE»
 
 «DEFINE getFieldTexts(String isoCode) FOR TextField-»
@@ -133,7 +139,7 @@ report_application_title= Application «this.name.toFirstUpper() -»
 «ENDDEFINE»
 
 «DEFINE getFieldTexts(String isoCode) FOR DatesField-»          
-«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()» = «getDisplayFromDescription(isoCode,this)» 
+«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()» = «getDisplayFromDescription(isoCode,this)»
 	«IF this.min!=null && this.min.length>0 -»
 «parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»_min = «this.min»
 	«ENDIF-»
@@ -143,7 +149,7 @@ report_application_title= Application «this.name.toFirstUpper() -»
 «ENDDEFINE»
 
 «DEFINE getFieldTexts(String isoCode) FOR EnumField-»
-«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()» = «getDisplayFromDescription(isoCode,this)» 
+«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()» = «getDisplayFromDescription(isoCode,this)»
 	«FOREACH enumValues AS enumValue-»		          
 «parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option = «getDisplayFromDescription(isoCode,enumValue)»
 	«ENDFOREACH-»

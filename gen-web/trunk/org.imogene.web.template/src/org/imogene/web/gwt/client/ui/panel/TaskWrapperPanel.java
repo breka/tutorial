@@ -91,11 +91,11 @@ public class TaskWrapperPanel extends RoundedWrapperPanel implements ValueChange
 		}		
 	}
 	
-	public void addForm(AbstractFormComposite form){		
+	public void addForm(DisclosureContainerComposite form){		
 		forms.add(form);
 		for(int i=0; i< taskList.getWidgetCount(); i++){
 			if(taskList.getWidget(i) instanceof DisclosureContainerComposite){
-				((AbstractFormComposite)taskList.getWidget(i)).forceClose();
+				((DisclosureContainerComposite)taskList.getWidget(i)).forceClose();
 			}
 		}
 		taskList.add(form);
@@ -112,11 +112,11 @@ public class TaskWrapperPanel extends RoundedWrapperPanel implements ValueChange
 		return taskList.getWidgetCount() -1;
 	}
 
-	public void removeForm(AbstractFormComposite form) {
+	public void removeForm(DisclosureContainerComposite form) {
 		taskList.remove(form);
 		int last = taskList.getWidgetCount() -1;
 		if(last>-1)
-			((AbstractFormComposite)taskList.getWidget(last)).forceOpen();
+			((DisclosureContainerComposite)taskList.getWidget(last)).forceOpen();
 	}
 	
 }

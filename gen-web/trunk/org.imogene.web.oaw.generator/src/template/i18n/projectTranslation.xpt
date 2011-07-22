@@ -45,7 +45,8 @@ public interface «projectName.toFirstUpper()»Translations extends Constants {
 	String «e.name.toFirstLower()»_select_title();
 	String «e.name.toFirstLower()»_table_text();
 	String «e.name.toFirstLower()»_search_title();
-	String «e.name.toFirstLower()»_search_dialog_title();	
+	String «e.name.toFirstLower()»_search_dialog_title();
+	String «e.name.toFirstLower()»_excel_title();	
 	
 	/* «e.name» field group texts */		
 		«FOREACH e.groups AS group -»	
@@ -70,7 +71,7 @@ public interface «projectName.toFirstUpper()»Translations extends Constants {
 		«ENDIF -»	
 		«ENDIF-»	
 				
-	«ENDFOREACH»	
+	«ENDFOREACH»
 	
 }
 «ENDFILE»

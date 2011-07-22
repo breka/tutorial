@@ -11,7 +11,7 @@ public class TokenHelper {
 			if((params[0].equals("view") || params[0].equals("edit")) && params.length==3){
 				return new EntityToken(params[0], params[1], params[2]);
 				
-			}else if((params[0].equals("new") || params[0].equals("list")) && params.length==2){				
+			}else if((params[0].equals("new") || params[0].equals("list") || params[0].equals("xls")) && params.length==2){				
 				return new EntityToken(params[0], params[1],"");
 				
 			}else if(params[0].equals("specific") && params.length==4){								

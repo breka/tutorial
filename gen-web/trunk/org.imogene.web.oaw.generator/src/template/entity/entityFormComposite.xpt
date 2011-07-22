@@ -2,8 +2,8 @@
 «EXTENSION template::CommonFieldUtilExt» 
 «EXTENSION template::CommonEntityUtilExt»
  
-«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»
-«FILE projectName.toLowerCase()+ "/client/entity/" +this.name.toFirstUpper() + "FormComposite.java"»
+«DEFINE generate(String packageName, String projectName) FOR CardEntity»
+«FILE projectName.toLowerCase()+ "/client/entity/" + this.name.toFirstUpper() + "FormComposite.java"»
 	«LET (Project)this.eContainer AS project -»
 	«LET getCardEntityUIFormat(this, project) AS format -»
 package org.imogene.«projectName.toLowerCase()».client.entity;
@@ -492,7 +492,6 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 			«FOREACH groups.fields AS f -»
 			«EXPAND populateEntityHierarchicalFilterCall FOR f -»
 			«ENDFOREACH -»
-
 		}
 	}	
 	
@@ -721,11 +720,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 «ENDDEFINE»
 
 «DEFINE createFieldView(String entityName) FOR EnumField -»
-	«REM»«IF enumValues.size > 3 -»«ENDREM»
 	«name.toFirstLower()» = new ImogEnumField(«multipleSelection», true, NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
-	«REM»«ELSE -»
-	«name.toFirstLower()» = new ImogEnumField(«multipleSelection», NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
-	«ENDIF -»	«ENDREM»
 	«FOREACH enumValues AS ev-»
 	«name.toFirstLower()».addItem(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«ev.name.toFirstLower()»_option(), "«ev.value»");
 	«ENDFOREACH-»		

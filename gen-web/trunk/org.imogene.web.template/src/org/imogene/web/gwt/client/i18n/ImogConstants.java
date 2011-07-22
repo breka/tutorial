@@ -59,8 +59,10 @@ public interface ImogConstants extends Constants {
 	String button_assign();
 	String button_add();
 	String button_remove();
-	String button_view ();
-	String button_search ();
+	String button_view();
+	String button_search();
+	String button_export();
+	String button_download();
 	
 	/* login panel */
 	String login_login();
@@ -86,4 +88,27 @@ public interface ImogConstants extends Constants {
 	String confirmation_delete_several1();
 	String confirmation_delete_several2();
 	String confirmation_save();
+	
+	/* search operators */
+	String search_operator_string_equal();
+	String search_operator_startwith();
+	String search_operator_contains();
+	String search_operator_date_equal();
+	String search_operator_date_between();
+	String search_date_label_and();
+	String search_operator_before();
+	String search_operator_after();
+	String search_operator_numeric_equal();
+	String search_operator_inferior();
+	String search_operator_superior();
+	String search_operator_isnull();
+	String search_not_searched();
+	String search_operator_contains_all();
+	String search_operator_contains_one();
+	
+	/* search panel */
+	String search_group();
+	String field_creationDate();
+	String field_lastModificationDate();
+	String field_id();
 }

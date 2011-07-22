@@ -47,7 +47,8 @@ public class ImogDateField extends ImogFieldAbstract<Date> {
 	 */
 	private void layout(){
 		layout = new HorizontalPanel();		
-		dateBox = new DatePicker();
+		dateBox = new DatePicker(90);
+		dateBox.setDateFormatter(DateUtil.getDateFormater());
 		dateDisplay = new TextBox();
 		layout.add(dateDisplay);
 		initWidget(layout);
@@ -127,6 +128,10 @@ public class ImogDateField extends ImogFieldAbstract<Date> {
 		if(value!=null){
 			dateBox.setSelectedDate(value);
 			dateDisplay.setText(DateUtil.getFormatedDate(value));
+		}
+		else {
+			dateBox.setSelectedDate(null);
+			dateDisplay.setText("");
 		}
 	}
 	
