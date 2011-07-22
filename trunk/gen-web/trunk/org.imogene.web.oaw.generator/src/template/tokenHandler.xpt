@@ -18,6 +18,7 @@ import org.imogene.web.gwt.client.ui.panel.TaskWrapperPanel;
 import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
 «FOREACH entities AS e-»
 import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»ListComposite;
+import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»ExcelExportComposite;
 import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»FormComposite;
 «ENDFOREACH -»
 «EXPAND specificImports FOR this -»
@@ -32,6 +33,7 @@ public class TokenHandler {
 	public static String TK_LIST = "list";
 	public static String TK_VIEW = "view";
 	public static String TK_NEW = "new";
+	public static String TK_XLS = "xls";
 	
 
 	/**
@@ -69,7 +71,7 @@ public class TokenHandler {
 			}		
 			/* view for «e.name.toFirstUpper()» */	
 			if(entityToken.getType().equals("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")){
-				if(entityToken.getAction().equals("view")){
+				if(entityToken.getAction().equals(TK_VIEW)){
 					//Hyperlink back = new Hyperlink("<< Back", "back");
 					TaskWrapperPanel task = new TaskWrapperPanel(NLS.constants().«e.name.toFirstLower()»_name(), "«e.name.toFirstLower()»", null);
 					«e.name.toFirstUpper()»FormComposite form = new «e.name.toFirstUpper()»FormComposite(entityToken.getId());				
@@ -78,6 +80,16 @@ public class TokenHandler {
 					return task;
 				}
 			}
+			/* excel export for «e.name.toFirstUpper()» */
+			if (entityToken.getType().equals("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")) {
+				if (entityToken.getAction().equals(TK_XLS)) {
+					TaskWrapperPanel task = new TaskWrapperPanel(NLS.constants().«e.name.toFirstLower()»_excel_title(), "«e.name.toFirstLower()»", null);
+					«e.name.toFirstUpper()»ExcelExportComposite form = new «e.name.toFirstUpper()»ExcelExportComposite();
+					task.addForm(form);
+					form.setFormContainer(task);
+					return task;
+				}
+			}	
 			«ENDFOREACH -»	
 		}				
 		return null;

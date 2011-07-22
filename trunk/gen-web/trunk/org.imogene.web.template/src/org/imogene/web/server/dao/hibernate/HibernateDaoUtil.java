@@ -55,68 +55,57 @@ public class HibernateDaoUtil {
 		String operator = criteria.getOperation();
 		String value = criteria.getValue();
 		try {
-			if (operator
-					.equals(CriteriaConstants.STRING_OPERATOR_CONTAINS)) {
-				junction.add(Restrictions.ilike(property,
-						"%" + value + "%")); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.STRING_OPERATOR_EQUAL)) {
-				junction.add(Restrictions.eq(property,
-						value)); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.STRING_OPERATOR_STARTWITH)) {
-				junction.add(Restrictions.ilike(property,
-						value + "%")); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.DATE_OPERATOR_BEFORE)) {
-				junction.add(Restrictions.le(property, DateUtil
-						.parseDate(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$										
-			} else if (operator
-					.equals(CriteriaConstants.DATE_OPERATOR_AFTER)) {
-				junction.add(Restrictions.ge(property, DateUtil
-						.parseDate(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$										
-			} else if (operator
-					.equals(CriteriaConstants.DATE_OPERATOR_EQUAL)) {
-				junction.add(Restrictions.eq(property, DateUtil
-						.parseDate(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$							
-			} else if (operator
-					.equals(CriteriaConstants.INT_OPERATOR_EQUAL)) {
-				junction.add(Restrictions.eq(property, Integer
-						.valueOf(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.INT_OPERATOR_SUP)) {
-				junction.add(Restrictions.ge(property, Integer
-						.valueOf(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.INT_OPERATOR_INF)) {
-				junction.add(Restrictions.le(property, Integer
-						.valueOf(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.FLOAT_OPERATOR_EQUAL)) {
-				junction.add(Restrictions.eq(property, Float
-						.valueOf(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.FLOAT_OPERATOR_SUP)) {
-				junction.add(Restrictions.ge(property, Float
-						.valueOf(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.FLOAT_OPERATOR_INF)) {
-				junction.add(Restrictions.le(property, Float
-						.valueOf(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL)) {
-				junction.add(Restrictions.eq(property,
-						value)); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL_NULL)) {
-				junction.add(Restrictions.isNull(property)); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			} else if (operator
-					.equals(CriteriaConstants.BOOLEAN_OPERATOR_EQUAL)) {
-				junction.add(Restrictions.eq(property, Boolean
-						.valueOf(value))); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
-			}
-			else if (operator.equals(CriteriaConstants.OPERATOR_ISNULL)) {
-				junction.add(Restrictions.isNull(property)); //$NON-BaseNLS-1$ //$NON-BaseNLS-2$				
+			if (operator.equals(CriteriaConstants.STRING_OPERATOR_CONTAINS)) {
+				junction.add(Restrictions.ilike(property, "%" + value + "%"));  				
+			} else if (operator.equals(CriteriaConstants.STRING_OPERATOR_EQUAL)) {
+				junction.add(Restrictions.eq(property, value));  				
+			} else if (operator.equals(CriteriaConstants.STRING_OPERATOR_STARTWITH)) {
+				junction.add(Restrictions.ilike(property, value + "%"));  				
+			} else if (operator.equals(CriteriaConstants.DATE_OPERATOR_BEFORE)) {
+				junction.add(Restrictions.le(property, DateUtil.parseDate(value)));  										
+			} else if (operator.equals(CriteriaConstants.DATE_OPERATOR_AFTER)) {
+				junction.add(Restrictions.ge(property, DateUtil.parseDate(value)));  										
+			} else if (operator.equals(CriteriaConstants.DATE_OPERATOR_EQUAL)) {
+				junction.add(Restrictions.eq(property, DateUtil.parseDate(value)));  							
+			} else if (operator.equals(CriteriaConstants.INT_OPERATOR_EQUAL)) {
+				junction.add(Restrictions.eq(property, Integer.valueOf(value)));  				
+			} else if (operator.equals(CriteriaConstants.INT_OPERATOR_SUP)) {
+				junction.add(Restrictions.ge(property, Integer.valueOf(value)));  				
+			} else if (operator.equals(CriteriaConstants.INT_OPERATOR_INF)) {
+				junction.add(Restrictions.le(property, Integer.valueOf(value)));  				
+			} else if (operator.equals(CriteriaConstants.FLOAT_OPERATOR_EQUAL)) {
+				junction.add(Restrictions.eq(property, Float.valueOf(value)));  				
+			} else if (operator.equals(CriteriaConstants.FLOAT_OPERATOR_SUP)) {
+				junction.add(Restrictions.ge(property, Float.valueOf(value)));  				
+			} else if (operator.equals(CriteriaConstants.FLOAT_OPERATOR_INF)) {
+				junction.add(Restrictions.le(property, Float.valueOf(value)));  				
+			} else if (operator.equals(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL)) {
+				junction.add(Restrictions.eq(property, value));  				
+			} else if (operator.equals(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL_NULL)) {
+				junction.add(Restrictions.isNull(property));  				
+			} else if (operator.equals(CriteriaConstants.BOOLEAN_OPERATOR_EQUAL)) {
+				junction.add(Restrictions.eq(property, Boolean.valueOf(value)));  				
+			} else if (operator.equals(CriteriaConstants.OPERATOR_ISNULL)) {
+				junction.add(Restrictions.isNull(property));
+			} else if (operator.equals(CriteriaConstants.OPERATOR_ISNULL_OR_EMPTY)) {
+				Junction orJunction = Restrictions.disjunction();
+				orJunction.add(Restrictions.isNull(property));
+				orJunction.add(Restrictions.eq(property, ""));
+				junction.add(orJunction);
+			} else if (operator.equals(CriteriaConstants.ENUM_MULT_OPERATOR_CONTAINS_ALL)) {
+				junction.add(Restrictions.eq(property, value));
+			} else if (operator.equals(CriteriaConstants.ENUM_MULT_OPERATOR_CONTAINS_ONE_OF)) {				
+				String[] values = value.split(";");
+				if(values.length>0) {
+					Junction disJunction = Restrictions.disjunction();
+					for(String cur:values) {
+						disJunction.add(Restrictions.ilike(property, cur + ";%"));
+						disJunction.add(Restrictions.ilike(property, "%;" + cur + ";%"));
+						disJunction.add(Restrictions.ilike(property, "%;" + cur));
+						disJunction.add(Restrictions.eq(property, cur));
+					}
+					junction.add(disJunction);
+				}
 			}
 		} catch (ParseException ex) {
 			ex.printStackTrace();

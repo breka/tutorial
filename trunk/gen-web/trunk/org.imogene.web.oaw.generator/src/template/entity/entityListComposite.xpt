@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -56,6 +57,7 @@ public class «this.name.toFirstUpper()»ListComposite extends Composite implement
 	public «name.toFirstUpper()»ListComposite(DynaTableDataProvider provider) {
 	
 		/* add allowed actions for list composite */
+		authorizedCommands.put(BaseNLS.constants().button_export(), createExportExcelCommand());
 		if (AccessManager.canEditForm("«name.toLowerCase()»")) {		
 			if (AccessManager.canDelete())
 				authorizedCommands.put(BaseNLS.constants().button_delete(), createDeleteCommand());	
@@ -155,7 +157,22 @@ public class «this.name.toFirstUpper()»ListComposite extends Composite implement
 			}
 		};		
 		return command;
-	}	
+	}
+	
+	/**
+	 * Creates the ExportExcel action command for the entity
+	 * @return the ExportExcel command
+	 */
+	private Command createExportExcelCommand() {
+
+		/* action that enables to export a list of beans in an Excel file*/
+		Command command = new Command() {
+			public void execute() {
+				History.newItem("xls/«name.toLowerCase()»");
+			}
+		};
+		return command;
+	}		
 	
 
 	@Override

@@ -1,0 +1,491 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+
+«DEFINE generate(String projectName) FOR CardEntity-»
+	«FILE projectName.toLowerCase()+"/server/servlet/export/" + name.toFirstUpper() +"ExportExcelServiceServlet.java"-»
+«EXPAND getFile(projectName) FOR this-»
+	«ENDFILE»
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+
+«REM» --------------------------------------------------------------------------- «ENDREM»
+«REM» ---------------------- GET FILE CONTENT ----------------------------------- «ENDREM»
+«REM» ---------------------------------------------------------------------------- «ENDREM»
+
+«DEFINE getFile(String projectName) FOR CardEntity-»
+package org.imogene.«projectName.toLowerCase()».server.servlet.export;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import jxl.Workbook;
+import jxl.write.DateFormats;
+import jxl.write.DateTime;
+import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.NumberFormats;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
+import org.imogene.«projectName.toLowerCase()».server.dao.«name.toFirstUpper()»Dao;
+import org.imogene.«projectName.toLowerCase()».server.servlet.security.ImogSecurityHandler;
+import org.imogene.«projectName.toLowerCase()».server.util.ServerMainFieldsUtilImpl;
+import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.web.gwt.common.entity.ImogRole;
+import org.imogene.web.server.ServerConstants;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+«EXPAND importEntityForFilterField(projectName) FOR this»
+
+
+
+
+public class «name.toFirstUpper()»ExportExcelServiceServlet implements Controller{
+
+	private «name.toFirstUpper()»Dao dao;
+	private static ResourceBundle rb;
+	private ImogConjunction searchCriterions;		
+
+	
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+		/* get current actor */
+		ImogActor actor = (ImogActor) request.getSession().getAttribute(ServerConstants.SESSION_USER);
+		Set<String> roleNames = getRoleNames(actor);	
+	
+	
+		/* get locale for the report */
+		String loc = (String) request.getParameter("loc");
+		if (loc != null && !loc.equals(""))
+			rb = ResourceBundle.getBundle("org.imogene.«projectName.toLowerCase()».client.i18n.«projectName.toFirstUpper()»Translations_" + loc);
+		else
+			rb = ResourceBundle.getBundle("org.imogene.«projectName.toLowerCase()».client.i18n.«projectName.toFirstUpper()»Translations");
+		
+		/* data type formats for worksheet */		
+		WritableCellFormat integerFormat = new WritableCellFormat (NumberFormats.INTEGER);
+		WritableCellFormat floatFormat = new WritableCellFormat (NumberFormats.FLOAT);
+		WritableCellFormat dateFormat = new WritableCellFormat(DateFormats.FORMAT1);
+		WritableCellFormat timeFormat = new WritableCellFormat(DateFormats.FORMAT8);	
+		
+		/* font format for worksheet */
+		WritableFont boldFont = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD);
+		WritableCellFormat boldFontFormat = new WritableCellFormat (boldFont);
+		
+		/* field group access control */	
+		«FOREACH this.groups AS g-»
+			«IF g.readers.size == 0-»
+				boolean candRead«g.name.toFirstUpper()»Group = true;			
+			«ELSE-»
+				boolean candRead«g.name.toFirstUpper()»Group = «FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»«IF g.writers.size>0»||«ENDIF»«FOREACH g.writers AS w ITERATOR i» roleNames.contains("«w.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator");
+			«ENDIF-»
+		«ENDFOREACH-»
+		
+		/* get search criterion */
+		getSearchCriterion(request);
+		searchCriterions.add(createFilterJuntion(actor));
+		
+		/* get «name.toFirstLower()» beans to export */
+		List<«name.toFirstUpper()»> beans = dao.list«name.toFirstUpper()»(searchCriterions);		
+		@SuppressWarnings("unchecked")
+		List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) ImogSecurityHandler.getInstance().getPolicy().toSecure(beans, actor);		
+		
+		/* construct Excel file */
+		File excelFile = File.createTempFile("imog_xls_", null);
+		WritableWorkbook workbook = Workbook.createWorkbook(excelFile);
+		WritableSheet sheet = workbook.createSheet("«name.toFirstUpper()»", 0);		
+		
+				
+		/* ***** Add title line ***** */
+		int colNb = 0;		
+		«FOREACH this.groups AS g»
+			if(candRead«g.name.toFirstUpper()»Group){
+				«FOREACH g.fields AS f-»
+					// «f.name.toFirstLower()» field
+					«EXPAND getRowTitle FOR f-»
+				«ENDFOREACH-»
+			}
+		«ENDFOREACH»
+		
+		// creationDate field
+		sheet.addCell(new Label(colNb, 0, rb.getString("field_creationDate"), boldFontFormat));
+		colNb = colNb + 1;
+		// lastModificationDate field
+		sheet.addCell(new Label(colNb, 0, rb.getString("field_lastModificationDate"), boldFontFormat));
+		colNb = colNb + 1;
+		// id field
+		sheet.addCell(new Label(colNb, 0, rb.getString("field_id"), boldFontFormat));
+		colNb = colNb + 1;
+		
+		
+		/* ***** Add row data ***** */
+		int lineNb = 1;
+		for(«name.toFirstUpper()» current:securedBeans) {
+			colNb = 0;
+		«FOREACH this.groups AS g»
+			if(candRead«g.name.toFirstUpper()»Group){
+				«FOREACH g.fields AS f-»
+					// «f.name.toFirstLower()» field
+					«EXPAND getRowData FOR f-»
+				«ENDFOREACH-»
+			}
+		«ENDFOREACH»
+		
+			// creationDate field
+			if (current.getCreationDate() != null)
+				sheet.addCell(new DateTime(colNb, lineNb, current.getCreationDate(), dateFormat));
+			colNb = colNb + 1;
+			// lastModificationDate field
+			if (current.getLastModificationDate() != null)
+				sheet.addCell(new DateTime(colNb, lineNb, current.getLastModificationDate(), dateFormat));
+			colNb = colNb + 1;
+			// id field
+			if (current.getId() != null)
+				sheet.addCell(new Label(colNb, lineNb, current.getId()));
+			colNb = colNb + 1;
+		
+			lineNb = lineNb + 1;		
+		}
+         
+         workbook.write();
+         workbook.close();		 
+		
+ 		/* set response header parameter */
+ 		response.setHeader("Cache-Control", "no-cache");
+ 		response.setHeader("Pragma", "no-cache");
+ 		response.setDateHeader("Expires", 0);
+ 		/* set response content type, and bytes content */
+ 		InputStream is = new FileInputStream(excelFile);
+ 		response.setBufferSize(is.available());
+ 		response.setHeader("Content-Disposition", "attachment; filename=\"«name.toFirstUpper()».xls\"");
+ 		response.setContentType("application/vnd.ms-excel");
+ 		response.setContentLength(is.available());
+ 		FileCopyUtils.copy(is, response.getOutputStream());	
+ 		return null;
+ 		
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	private void getSearchCriterion(HttpServletRequest request) {
+		searchCriterions = new ImogConjunction();
+		
+		«IF !columnFields.isEmpty -»
+			«FOREACH columnFields AS f -»
+				«EXPAND addCriteriaForField FOR f-»
+			«ENDFOREACH -»	
+		«ELSE -»
+			«FOREACH mainFields AS f -»
+				«EXPAND addCriteriaForField FOR f-»
+			«ENDFOREACH -»		
+		«ENDIF -»
+		
+		
+		/* add search criteria for creationDate */
+		String creationDateOp = (String) request.getParameter("creationDateOp");
+		if (creationDateOp != null && !creationDateOp.equals("")) {
+			if (creationDateOp.equals(CriteriaConstants.OPERATOR_ISNULL))
+				addBasicCriteria(creationDateOp, null, "creationDate");
+			else {
+				String creationDateFrom = (String) request.getParameter("creationDateFrom");
+				String creationDateTo = (String) request.getParameter("creationDateTo");	
+				if (creationDateFrom != null && !creationDateFrom.equals(""))
+					addBasicCriteria(CriteriaConstants.DATE_OPERATOR_AFTER, creationDateFrom, "creationDate");
+				if (creationDateTo != null && !creationDateTo.equals(""))
+					addBasicCriteria(CriteriaConstants.DATE_OPERATOR_BEFORE, creationDateTo, "creationDate");
+			}
+		}		
+		
+		/* add search criteria for lastModificationDate */
+		String lastModificationDateOp = (String) request.getParameter("lastModificationDateOp");
+		if (lastModificationDateOp != null && !lastModificationDateOp.equals("")) {
+			if (lastModificationDateOp.equals(CriteriaConstants.OPERATOR_ISNULL))
+				addBasicCriteria(lastModificationDateOp, null, "lastModificationDate");
+			else {
+				String lastModificationDateFrom = (String) request.getParameter("lastModificationDateFrom");
+				String lastModificationDateTo = (String) request.getParameter("lastModificationDateTo");	
+				if (lastModificationDateFrom != null && !lastModificationDateFrom.equals(""))
+					addBasicCriteria(CriteriaConstants.DATE_OPERATOR_AFTER, lastModificationDateFrom, "lastModificationDate");
+				if (lastModificationDateTo != null && !lastModificationDateTo.equals(""))
+					addBasicCriteria(CriteriaConstants.DATE_OPERATOR_BEFORE, lastModificationDateTo, "lastModificationDate");
+			}
+		}
+	}	
+	
+	/**
+	 * Construct a basic criteria and add it to the search conjunction.
+	 * @param operation the string representation of the operator
+	 * @param value the value to compare with
+	 * @param field the field name or path.
+	 */
+	private void addBasicCriteria(String operation, String value, String field) {
+		BasicCriteria criteria = new BasicCriteria();
+		criteria.setOperation(operation);
+		criteria.setField(field);
+		criteria.setValue(value);
+		searchCriterions.add(criteria);
+	}	
+		 
+	/**
+	 * Creates a junction based on the filter field declarations, for the current actor.
+	 * @param actor the current actor
+	 */
+	 private ImogJunction createFilterJuntion(ImogActor actor){
+	 	ImogConjunction filterConjunction = new ImogConjunction();
+	 	«EXPAND handleFilterField(this.name) FOREACH this.actorFilterFields -»
+	 	return filterConjunction;
+	 }
+	 
+	/**
+	 * Gets the roles of a given actor as a set of strings
+	 * @param actor actor for whom roles are looked for
+	 * @return set form roles as string
+	 */
+	private Set<String> getRoleNames(ImogActor actor) {
+		Set<String> names = new HashSet<String>();
+		if (actor != null) {
+			for (ImogRole role : actor.getRoles()) {
+				names.add(role.getId());
+			}
+		}
+		return names;
+	}
+	
+	/**
+	 * Setter for bean injection
+	 * @param dao «name.toFirstUpper()»Dao
+	 */
+	public void setDao(«name.toFirstUpper()»Dao dao) {
+		this.dao = dao;
+	}	
+	 
+}
+«ENDDEFINE»
+
+
+«REM» -- SET TITLE ROW -- «ENDREM»
+«DEFINE getRowTitle FOR FieldEntity-»
+	sheet.addCell(new Label(colNb, 0, rb.getString("«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»"), boldFontFormat));
+	colNb = colNb + 1;
+«ENDDEFINE»
+«DEFINE getRowTitle FOR GeoField-»
+	sheet.addCell(new Label(colNb, 0, rb.getString("«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»") + "_long", boldFontFormat));
+	colNb = colNb + 1;
+	sheet.addCell(new Label(colNb, 0, rb.getString("«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»") + "_lat", boldFontFormat));
+	colNb = colNb + 1;
+«ENDDEFINE»
+«DEFINE getRowTitle FOR BinaryField-»«ENDDEFINE»
+
+
+
+«REM» -- SET DATA ROWS -- «ENDREM»
+«DEFINE getRowData FOR FieldEntity-» 
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		sheet.addCell(new Label(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+	colNb = colNb + 1;		 
+«ENDDEFINE»
+
+«DEFINE getRowData FOR TextField-» 
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+	«IF this.translatable -»
+		sheet.addCell(new Label(colNb, lineNb, current.getLocalizedFieldMap().getFieldI18nValue(current.«EXPAND template::CommonFieldUtil::getterName FOR this»(),loc)));
+	«ELSE -»
+		sheet.addCell(new Label(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+	«ENDIF -»
+	colNb = colNb + 1;	 
+«ENDDEFINE»
+
+«DEFINE getRowData FOR FloatField-»
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		sheet.addCell(new Number(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), floatFormat));
+	colNb = colNb + 1;	
+«ENDDEFINE»
+
+«DEFINE getRowData FOR IntegerField-»
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		sheet.addCell(new Number(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), integerFormat));
+	colNb = colNb + 1;	
+«ENDDEFINE»
+
+«DEFINE getRowData FOR GeoField-»
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude() != null)
+		sheet.addCell(new Number(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude(), floatFormat));
+	colNb = colNb + 1;
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude() != null)
+		sheet.addCell(new Number(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude(), floatFormat));
+	colNb = colNb + 1;	
+«ENDDEFINE»
+
+«DEFINE getRowData FOR DateField-»
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		sheet.addCell(new DateTime(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), dateFormat));
+	colNb = colNb + 1;	
+«ENDDEFINE»
+
+«DEFINE getRowData FOR DateTimeField-»
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		sheet.addCell(new DateTime(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), dateFormat));
+	colNb = colNb + 1;	
+«ENDDEFINE»
+
+«DEFINE getRowData FOR TimeField-»
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		sheet.addCell(new DateTime(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), timeFormat));
+	colNb = colNb + 1;			 
+«ENDDEFINE»
+
+«DEFINE getRowData FOR RelationFieldEntity-»	
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«IF (cardinality >1) || (cardinality == -1)-»
+		sheet.addCell(new Number(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»().size(), integerFormat));
+	«ELSE-»
+		sheet.addCell(new Label(colNb, lineNb, ServerMainFieldsUtilImpl.get().getDisplayValue(current.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), rb)));		
+	«ENDIF-»
+	colNb = colNb + 1;	
+«ENDDEFINE»
+
+«DEFINE getRowData FOR BinaryField-»«ENDDEFINE»
+
+«DEFINE getRowData FOR BooleanField-»
+	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+		 sheet.addCell(new jxl.write.Boolean(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+	colNb = colNb + 1;		
+«ENDDEFINE»
+
+«DEFINE getRowData FOR EnumField-»
+	if(current.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null && !current.«EXPAND template::CommonFieldUtil::getterName FOR this-»().equals(""))
+	{	
+		String «name.toFirstLower()» = current.«EXPAND template::CommonFieldUtil::getterName FOR this-»();
+		sheet.addCell(new Label(colNb, lineNb, ServerMainFieldsUtilImpl.get().getEnumDisplayValue(«parentGroup.parentCard.name.toFirstUpper()».class, "«name.toFirstLower()»", «name.toFirstLower()», rb)));		
+	}
+	colNb = colNb + 1;	
+«ENDDEFINE»
+
+«REM» -- SET DATA ROWS -- «ENDREM»
+«DEFINE addCriteriaForField FOR FieldEntity-»«ENDDEFINE»
+«DEFINE addCriteriaForField FOR TextField-»
+	«IF !translatable-»
+		/* add search criteria for «name.toFirstLower()» */
+		String «name.toFirstLower()»Op = (String) request.getParameter("«name.toFirstLower()»Op");
+		if («name.toFirstLower()»Op != null && !«name.toFirstLower()»Op.equals("")) {
+			if («name.toFirstLower()»Op.equals(CriteriaConstants.OPERATOR_ISNULL_OR_EMPTY))
+				addBasicCriteria(«name.toFirstLower()»Op, null, "«name.toFirstLower()»");
+			else
+				addBasicCriteria(«name.toFirstLower()»Op, request.getParameter("«name.toFirstLower()»"), "«name.toFirstLower()»");
+		}
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE addCriteriaForField FOR EnumField-»
+		/* add search criteria for «name.toFirstLower()» */
+		String «name.toFirstLower()»Op = (String) request.getParameter("«name.toFirstLower()»Op");
+		if («name.toFirstLower()»Op != null && !«name.toFirstLower()»Op.equals("")) {
+			if («name.toFirstLower()»Op.equals(CriteriaConstants.OPERATOR_ISNULL_OR_EMPTY))
+				addBasicCriteria(«name.toFirstLower()»Op, null, "«name.toFirstLower()»");
+			else
+				addBasicCriteria(«name.toFirstLower()»Op, request.getParameter("«name.toFirstLower()»"), "«name.toFirstLower()»");
+		}
+«ENDDEFINE»
+«DEFINE addCriteriaForField FOR DateField-»
+		/* add search criteria for «name.toFirstLower()» */
+		String «name.toFirstLower()»Op = (String) request.getParameter("«name.toFirstLower()»Op");
+		if («name.toFirstLower()»Op != null && !«name.toFirstLower()»Op.equals("")) {
+			if («name.toFirstLower()»Op.equals(CriteriaConstants.OPERATOR_ISNULL))
+				addBasicCriteria(«name.toFirstLower()»Op, null, "«name.toFirstLower()»");
+			else {
+				String «name.toFirstLower()»From = (String) request.getParameter("«name.toFirstLower()»From");
+				String «name.toFirstLower()»To = (String) request.getParameter("«name.toFirstLower()»To");	
+				if («name.toFirstLower()»From != null && !«name.toFirstLower()»From.equals(""))
+					addBasicCriteria(CriteriaConstants.DATE_OPERATOR_AFTER, «name.toFirstLower()»From, "«name.toFirstLower()»");
+				if («name.toFirstLower()»To != null && !«name.toFirstLower()»To.equals(""))
+					addBasicCriteria(CriteriaConstants.DATE_OPERATOR_BEFORE, «name.toFirstLower()»To, "«name.toFirstLower()»");
+			}
+		}
+«ENDDEFINE»
+«DEFINE addCriteriaForField FOR BooleanField-»
+		/* add search criteria for «name.toFirstLower()» */
+		String «name.toFirstLower()»Op = (String) request.getParameter("«name.toFirstLower()»Op");
+		if («name.toFirstLower()»Op != null && !«name.toFirstLower()»Op.equals("")) {
+			if («name.toFirstLower()»Op.equals(CriteriaConstants.OPERATOR_ISNULL))
+				addBasicCriteria(«name.toFirstLower()»Op, null, "«name.toFirstLower()»");
+			else
+				addBasicCriteria(«name.toFirstLower()»Op, request.getParameter("«name.toFirstLower()»"), "«name.toFirstLower()»");
+		}
+«ENDDEFINE»
+«DEFINE addCriteriaForField FOR IntegerField-»
+		/* add search criteria for «name.toFirstLower()» */
+		String «name.toFirstLower()»Op = (String) request.getParameter("«name.toFirstLower()»Op");
+		if («name.toFirstLower()»Op != null && !«name.toFirstLower()»Op.equals("")) {
+			if («name.toFirstLower()»Op.equals(CriteriaConstants.OPERATOR_ISNULL))
+				addBasicCriteria(«name.toFirstLower()»Op, null, "«name.toFirstLower()»");
+			else
+				addBasicCriteria(«name.toFirstLower()»Op, request.getParameter("«name.toFirstLower()»"), "«name.toFirstLower()»");
+		}
+«ENDDEFINE»
+«DEFINE addCriteriaForField FOR FloatField-»
+		/* add search criteria for «name.toFirstLower()» */
+		String «name.toFirstLower()»Op = (String) request.getParameter("«name.toFirstLower()»Op");
+		if («name.toFirstLower()»Op != null && !«name.toFirstLower()»Op.equals("")) {
+			if («name.toFirstLower()»Op.equals(CriteriaConstants.OPERATOR_ISNULL))
+				addBasicCriteria(«name.toFirstLower()»Op, null, "«name.toFirstLower()»");
+			else
+				addBasicCriteria(«name.toFirstLower()»Op, request.getParameter("«name.toFirstLower()»"), "«name.toFirstLower()»");
+		}
+«ENDDEFINE»
+«DEFINE addCriteriaForField FOR RelationFieldEntity -»
+	«IF cardinality == 1 && getOppositeCardinality(this)!=1 -»
+		/* add search criteria for «name.toFirstLower()» */
+		String «name.toFirstLower()»Op = (String) request.getParameter("«name.toFirstLower()»Op");
+		if («name.toFirstLower()»Op != null && !«name.toFirstLower()»Op.equals("")) {
+			if («name.toFirstLower()»Op.equals(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL_NULL))
+				addBasicCriteria(«name.toFirstLower()»Op, null, "«name.toFirstLower()»");
+			else
+				addBasicCriteria(«name.toFirstLower()»Op, request.getParameter("«name.toFirstLower()»"), "«name.toFirstLower()».id");
+		}
+	«ENDIF -»
+«ENDDEFINE»
+
+
+
+«REM» Import for filter field «ENDREM»
+«DEFINE importEntityForFilterField(String projectName) FOR CardEntity»
+import org.imogene.web.gwt.common.criteria.BasicCriteria;
+import org.imogene.web.gwt.common.criteria.CriteriaConstants;
+import org.imogene.web.gwt.common.criteria.ImogConjunction;
+import org.imogene.web.gwt.common.criteria.ImogDisjunction;
+import org.imogene.web.gwt.common.criteria.ImogJunction;
+	«FOREACH this.actorFilterFields AS actorField-»
+	import org.imogene.«projectName.toLowerCase()».client.entity.«actorField.actorField.parentActor.name.toFirstUpper()»Actor;
+	import org.imogene.«projectName.toLowerCase()».client.entity.«actorField.entityField.entity.name.toFirstUpper()»;
+	«ENDFOREACH-»
+«ENDDEFINE»
+
+«REM» Filter field handling «ENDREM»
+«DEFINE handleFilterField(String entityName) FOR ActorFilter -»
+	/* add filter field for actor «actorField.parentActor.name.toFirstUpper()» */
+	if(actor instanceof «actorField.parentActor.name.toFirstUpper()»Actor){	
+		ImogJunction «actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()» = new ImogDisjunction();
+		for(Object «entityField.entity.name.toFirstLower()»:((«actorField.parentActor.name.toFirstUpper()»Actor)actor).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
+			BasicCriteria criteria = new BasicCriteria();
+			criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
+			criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");
+			criteria.setValue(((«entityField.entity.name.toFirstUpper()»)«this.entityField.entity.name.toFirstLower()»).getId());
+			«actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()».add(criteria);
+		}
+		filterConjunction.add(«actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()»);
+	}	
+«ENDDEFINE»
