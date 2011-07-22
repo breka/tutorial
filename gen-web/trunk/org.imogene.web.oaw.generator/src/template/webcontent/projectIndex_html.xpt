@@ -15,7 +15,7 @@
 	
 	<link rel="icon" href="imog«projectName.toLowerCase()»/images/logo_16x16.png" type="image/png">  
 	<link type="text/css" rel="stylesheet" href="«projectName.toFirstUpper()».css">
-	<link type="text/css" rel="stylesheet" href="imogbase/gwt/standard/standard.css">	
+	<link type="text/css" rel="stylesheet" href="imog«projectName.toLowerCase()»/gwt/standard/standard.css">	
 
     <title>«name.toFirstUpper()»</title>
     

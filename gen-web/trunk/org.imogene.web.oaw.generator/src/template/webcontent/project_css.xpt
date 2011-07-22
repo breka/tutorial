@@ -107,28 +107,28 @@ a, a:visited, a:hover {
   «IF e.color.length==6 -»
   background: url(imog«projectName.toLowerCase()»/images/corner-«e.color».png) no-repeat 0px 0px; 
   «ELSE -»
-   background: url(imogbase/images/logo_corner.png) no-repeat 0px 0px; 
+   background: url(imog«projectName.toLowerCase()»/images/logo_corner.png) no-repeat 0px 0px; 
   «ENDIF -»
 }
 .imogene-DecoratorPanel-«e.name.toLowerCase()» .topRight {
   «IF e.color.length==6 -»
   background: url(imog«projectName.toLowerCase()»/images/corner-«e.color».png) no-repeat -5px 0px; 
   «ELSE -»
-  background: url(imogbase/images/logo_corner.png) no-repeat -5px 0px;
+  background: url(imog«projectName.toLowerCase()»/images/logo_corner.png) no-repeat -5px 0px;
   «ENDIF -»
 }
 .imogene-DecoratorPanel-«e.name.toLowerCase()» .bottomLeft {
   «IF e.color.length==6 -»
   background: url(imog«projectName.toLowerCase()»/images/corner-«e.color».png) no-repeat 0px -5px; 
   «ELSE -»
-  background: url(imogbase/images/logo_corner.png) no-repeat 0px -5px;
+  background: url(imog«projectName.toLowerCase()»/images/logo_corner.png) no-repeat 0px -5px;
   «ENDIF -»
 }
 .imogene-DecoratorPanel-«e.name.toLowerCase()» .bottomRight {
   «IF e.color.length==6 -»
   background: url(imog«projectName.toLowerCase()»/images/corner-«e.color».png) no-repeat -5px -5px; 
   «ELSE -»
-  background: url(imogbase/images/logo_corner.png) no-repeat -5px -5px;
+  background: url(imog«projectName.toLowerCase()»/images/logo_corner.png) no-repeat -5px -5px;
   «ENDIF-»
 }
 /* -- IE support -- */

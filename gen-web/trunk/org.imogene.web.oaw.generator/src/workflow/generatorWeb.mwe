@@ -283,6 +283,15 @@
 		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
 	</component>
 	
+	<!-- spring security context -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='template::server::securityContext_xml::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war/WEB-INF/" />
+		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
+	</component>
+	
 	<!-- application properties -->
 	<component class="org.eclipse.xpand2.Generator">
 		<fileEncoding value="iso-8859-1"/>
