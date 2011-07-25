@@ -86,7 +86,15 @@ public class «projectName»InitialSqlInsert {
 					log.log(Level.INFO, NbIns + " row inserted for role 'delete'");
 				}catch(SQLException ex3){
 					log.log(Level.SEVERE, "SQL exception while processing the default role 'delete'.", ex3);
-				}				
+				}	
+				
+				try{
+					// Default role 'export' for user administration
+					NbIns = s.executeUpdate("insert into Role (Role_ID, Role_Name) values('export','export')");
+					log.log(Level.INFO, NbIns + " row inserted for role 'export'");
+				}catch(SQLException ex3){
+					log.log(Level.SEVERE, "SQL exception while processing the default role 'export'.", ex3);
+				}			
 
 				«REM»
 				try{
@@ -112,7 +120,15 @@ public class «projectName»InitialSqlInsert {
 					log.log(Level.INFO, NbIns + " row inserted into roles for role 'delete' affected to 'admin'");
 				}catch(SQLException ex5){
 					log.log(Level.SEVERE, "SQL exception while affecting the role 'delete' to DefaultUser 'admin'.", ex5);
-				}									
+				}
+				
+				try{
+					// Affectation of role 'export' to DefaultUser 'admin'
+					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('export','admin')");
+					log.log(Level.INFO, NbIns + " row inserted into roles for role 'export' affected to 'admin'");
+				}catch(SQLException ex5){
+					log.log(Level.SEVERE, "SQL exception while affecting the role 'export' to DefaultUser 'admin'.", ex5);
+				}										
 				
 				«FOREACH roles AS r -»
 				try{
