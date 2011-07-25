@@ -75,7 +75,7 @@ public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements Valu
 
 	@Override
 	public boolean validate() {		
-		if(isMandatory() && !nspBox.getValue() && !noBox.getValue() && !yesBox.getValue()){
+		if(isMandatory() && !noBox.getValue() && !yesBox.getValue()){
 			displayError(BaseNLS.constants().field_mandatory());
 			return false;
 		}

@@ -85,7 +85,7 @@ public class ImogSearchEnumField extends ImogSearchFieldAbstract<String> {
 			listChoices = new ListBox();
 			listChoices.addItem(BaseNLS.constants().enumeration_unknown(), "");
 			listChoices.setSelectedIndex(0);
-			listChoices.setStylePrimaryName("imogene-FormText");
+			listChoices.setStylePrimaryName("imogene-FormListBox");
 			addValueWidget(listChoices);
 			layout.setCellVerticalAlignment(listChoices, HasVerticalAlignment.ALIGN_MIDDLE);
 			layout.setCellHorizontalAlignment(listChoices, HasHorizontalAlignment.ALIGN_LEFT);

@@ -85,7 +85,7 @@ public class ImogEnumField extends ImogFieldAbstract<String> implements ValueCha
 			listChoices.addItem(BaseNLS.constants().enumeration_unknown(), "");
 			listChoices.setSelectedIndex(0);
 			listChoices.addChangeHandler(this);
-			listChoices.setStylePrimaryName("imogene-FormText");
+			listChoices.setStylePrimaryName("imogene-FormListBox");
 			initWidget(listChoices);
 		}
 	}
