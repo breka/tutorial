@@ -284,9 +284,9 @@ public class «name.toFirstUpper()»ExportExcelServiceServlet implements Controlle
 	colNb = colNb + 1;
 «ENDDEFINE»
 «DEFINE getRowTitle FOR GeoField-»
-	sheet.addCell(new Label(colNb, 0, rb.getString("«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»") + "_long", boldFontFormat));
+	sheet.addCell(new Label(colNb, 0, rb.getString("«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»") + " Longitude", boldFontFormat));
 	colNb = colNb + 1;
-	sheet.addCell(new Label(colNb, 0, rb.getString("«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»") + "_lat", boldFontFormat));
+	sheet.addCell(new Label(colNb, 0, rb.getString("«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»") + " Latitude", boldFontFormat));
 	colNb = colNb + 1;
 «ENDDEFINE»
 «DEFINE getRowTitle FOR BinaryField-»«ENDDEFINE»
