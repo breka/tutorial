@@ -233,9 +233,21 @@ public class AccessManager {
 	 * 
 	 * @return
 	 */
+	public static boolean isAdmin(){
+		for(ImogRole role : LocalSession.get().getCurrentUser().getRoles()){				
+			if("administrator".equals(role.getId()))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public static boolean canDelete() {
 		for (ImogRole role : LocalSession.get().getCurrentUser().getRoles()) {
-			if (isAdmin() || "delete".equals(role.getId()))
+			if ("delete".equals(role.getId()))
 				return true;
 		}
 		return false;
@@ -251,7 +263,7 @@ public class AccessManager {
 				return true;
 		}
 		return false;
-	}
+	}	
 		
 }
 «ENDFILE»
