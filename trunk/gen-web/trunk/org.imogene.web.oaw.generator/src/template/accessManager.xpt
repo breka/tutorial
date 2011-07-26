@@ -247,7 +247,7 @@ public class AccessManager {
 	 */
 	public static boolean canDelete() {
 		for (ImogRole role : LocalSession.get().getCurrentUser().getRoles()) {
-			if ("delete".equals(role.getId()))
+			if (isAdmin() || "delete".equals(role.getId()))
 				return true;
 		}
 		return false;
