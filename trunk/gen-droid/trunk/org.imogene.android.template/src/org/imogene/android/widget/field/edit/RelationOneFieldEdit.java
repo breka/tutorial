@@ -31,7 +31,7 @@ public class RelationOneFieldEdit extends RelationFieldEdit<Uri> implements OnAc
 		final Uri uri = getValue();
 		final String result;
 		if (uri != null) {
-			EntityCursor cursor = AbstractDatabase.getSuper(getContext()).query(uri, null, null);
+			EntityCursor cursor = (EntityCursor) AbstractDatabase.getSuper(getContext()).query(uri, null, null);
 			cursor.moveToFirst();
 			result = cursor.getMainDisplay(getContext());
 			cursor.close();

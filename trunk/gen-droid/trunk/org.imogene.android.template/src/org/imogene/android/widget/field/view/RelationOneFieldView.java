@@ -36,7 +36,7 @@ public class RelationOneFieldView extends FieldEntityView<Uri> {
 		final Uri uri = getValue();
 		if (uri != null) {
 			final String result;
-			EntityCursor cursor = AbstractDatabase.getSuper(getContext()).query(uri, null, null);
+			EntityCursor cursor = (EntityCursor) AbstractDatabase.getSuper(getContext()).query(uri, null, null);
 			cursor.moveToFirst();
 			result = cursor.getMainDisplay(getContext());
 			cursor.close();
