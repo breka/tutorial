@@ -157,5 +157,16 @@ public class PreferenceHelper {
 				.getBoolean(context.getString(W.string.http_authentication_key),
 						true);
 	}
+	
+	public static final String getSmsLogin(Context context) {
+		return getDecryptedString(context, context.getString(W.string.sms_login_key));
+	}
+	
+	public static final String getSmsServerPhone(Context context) {
+		return getDecryptedString(context, context.getString(W.string.sms_server_phone_key));
+	}
 
+	public static final String getSmsServerCode(Context context) {
+		return getDecryptedString(context, context.getString(W.string.sms_server_code_key));
+	}
 }

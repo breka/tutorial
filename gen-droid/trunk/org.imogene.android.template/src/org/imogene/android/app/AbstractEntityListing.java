@@ -191,12 +191,11 @@ public abstract class AbstractEntityListing extends ListActivity implements
 
 		registerForContextMenu(getListView());
 	}
-
+	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (!Intent.ACTION_VIEW.equals(getIntent().getAction()))
-			IamLost.getInstance().remove();
+		IamLost.getInstance().remove();
 	}
 
 	@Override
@@ -238,7 +237,7 @@ public abstract class AbstractEntityListing extends ListActivity implements
 	private EntityCursor query() {
 		String where = computeWhere(mSQLBuilder).toSQL();
 		String order = mSortKey	+ (mSortOrder != SortOrder.DESCENDANT_ORDER	? " asc" : " desc");
-		return AbstractDatabase.getSuper(this).query(mUri, where, order);
+		return (EntityCursor) AbstractDatabase.getSuper(this).query(mUri, where, order);
 	}
 	
 	protected void requery() {

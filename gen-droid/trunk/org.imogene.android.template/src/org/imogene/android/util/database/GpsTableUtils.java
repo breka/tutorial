@@ -111,7 +111,7 @@ public class GpsTableUtils {
 		
 		String sql = AbstractEntityListing.computeWhere(b).toSQL();
 
-		EntityCursor c = AbstractDatabase.getSuper(context).query(uri, sql, null);
+		EntityCursor c = (EntityCursor) AbstractDatabase.getSuper(context).query(uri, sql, null);
 		final int count = c.getCount();
 		if (count < 1) {
 			return null;

@@ -45,6 +45,12 @@
 			android:exported="true"
 			android:windowSoftInputMode="adjustPan"/>
 			
+		<activity 
+			android:name="org.imogene.android.app.setup.AccountSetupSmsBasics"
+			android:label="@string/account_setup_basics_title"
+			android:exported="true"
+			android:windowSoftInputMode="adjustPan"/>
+			
 		<activity
 			android:name="org.imogene.android.app.setup.AccountSetupShortPassword"
 			android:label="@string/account_setup_shortpw_title"
@@ -184,7 +190,14 @@
 		</activity>
 		
 		<activity
-			android:name="org.imogene.android.app.Authentication"
+			android:name="org.imogene.android.app.AuthenticationHttpActivity"
+			android:label="authentication"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation|keyboardHidden">
+		</activity>
+		
+		<activity
+			android:name="org.imogene.android.app.AuthenticationSmsActivity"
 			android:label="authentication"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			android:configChanges="orientation|keyboardHidden">
@@ -236,6 +249,47 @@
 				<action android:name="org.imogene.android.«name.toLowerCase()».action.CANCEL" />
 			</intent-filter>
 		</service>
+		
+		<receiver
+			android:name="org.imogene.android.telephony.SmsSyncReceiver">
+			<intent-filter>
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_SYNC" />
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_RESCHEDULE" />
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_CANCEL" />
+			</intent-filter>
+		</receiver>
+		
+		<service
+			android:name="org.imogene.android.telephony.SmsSyncService">
+			<intent-filter>
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_SYNC" />
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_RESCHEDULE" />
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_CANCEL" />
+			</intent-filter>
+		</service>
+		
+		<receiver
+			android:name="org.imogene.android.telephony.SmsSentReceiver">
+			<intent-filter>
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_SENT" />
+				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.item/smscomm"/>
+			</intent-filter>
+		</receiver>
+
+		<receiver
+			android:name="org.imogene.android.telephony.SmsDeliveredReceiver">
+			<intent-filter>
+				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_DELIVERED" />
+				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.item/smscomm"/>
+			</intent-filter>
+		</receiver>
+		
+		<receiver
+			android:name="org.imogene.android.telephony.SmsResponseReceiver">
+			<intent-filter>
+				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
+			</intent-filter>
+		</receiver>
 
 		<provider 
 			android:authorities="org.imogene.android.«name.toLowerCase()».entity" 
@@ -244,6 +298,7 @@
 	
 	<uses-permission android:name="android.permission.CALL_PHONE" />
 	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.SEND_SMS" />
 	<uses-permission android:name="android.permission.WRITE_SMS" />
 	<uses-permission android:name="android.permission.CALL_PRIVILEGED" />
 	<uses-permission android:name="android.permission.INTERNET" />

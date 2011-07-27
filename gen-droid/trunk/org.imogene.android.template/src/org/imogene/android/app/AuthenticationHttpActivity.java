@@ -20,7 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-public class Authentication extends Activity implements OnClickListener {
+public class AuthenticationHttpActivity extends Activity implements OnClickListener {
 	
 	private static final String EXTRA_SERVER = "Authentication_server";
 	private static final String EXTRA_LOGIN = "Authentication_login";
@@ -32,7 +32,7 @@ public class Authentication extends Activity implements OnClickListener {
 	
 		
 	public static final Intent getAuthenticationIntent(Context context, String server, String login, String password, String hardware) {
-		Intent intent = new Intent(context, Authentication.class);
+		Intent intent = new Intent(context, AuthenticationHttpActivity.class);
 		intent.putExtra(EXTRA_SERVER, server);
 		intent.putExtra(EXTRA_LOGIN, login);
 		intent.putExtra(EXTRA_PASSWORD, password);
@@ -147,7 +147,7 @@ public class Authentication extends Activity implements OnClickListener {
 		public void run() {
 			reportAuthRunning();
 			OptimizedSyncClient sync;
-			if(PreferenceHelper.isHttpAuthenticated(Authentication.this)){
+			if(PreferenceHelper.isHttpAuthenticated(AuthenticationHttpActivity.this)){
 				sync = new OptimizedSyncClientHttp(mServer, mLogin, mPassword);
 			}else{
 				sync = new OptimizedSyncClientHttp(mServer);

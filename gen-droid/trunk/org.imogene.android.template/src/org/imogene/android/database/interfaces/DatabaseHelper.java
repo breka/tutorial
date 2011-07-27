@@ -1,10 +1,11 @@
 package org.imogene.android.database.interfaces;
 
+import android.database.Cursor;
 import android.net.Uri;
 
 public interface DatabaseHelper {
 	
-	public EntityCursor query(Uri uri, String where, String order);
+	public Cursor query(Uri uri, String where, String order);
 	
 	public long queryRowId(Uri uri, String id);
 	

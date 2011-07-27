@@ -128,6 +128,8 @@ public final class W {
 		public static final int account_login = R.id.account_login;
 		public static final int account_password = R.id.account_password;
 		public static final int account_server = R.id.account_server;
+		public static final int account_server_code = R.id.account_server_code;
+		public static final int account_server_phone = R.id.account_server_phone;
 		public static final int account_shortpw = R.id.account_shortpw;
 		public static final int account_shotpw_confirm = R.id.account_shotpw_confirm;
 		public static final int acquire = R.id.acquire;
@@ -228,6 +230,7 @@ public final class W {
 		public static final int account_creation_introduction = R.layout.account_creation_introduction;
 		public static final int account_setup_basics = R.layout.account_setup_basics;
 		public static final int account_setup_short_password = R.layout.account_setup_short_password;
+		public static final int account_setup_sms_basics = R.layout.account_setup_sms_basics;
 		public static final int alert_dialog_text_entry = R.layout.alert_dialog_text_entry;
 		public static final int buttons_field_edit = R.layout.buttons_field_edit;
 		public static final int date_time_picker = R.layout.date_time_picker;
@@ -291,6 +294,9 @@ public final class W {
 		public static final int account_setup_shortpw_hint = R.string.account_setup_shortpw_hint;
 		public static final int account_setup_shortpw_instructions = R.string.account_setup_shortpw_instructions;
 		public static final int account_setup_shortpw_title = R.string.account_setup_shortpw_title;
+		public static final int account_setup_sms_basics_code_hint = R.string.account_setup_sms_basics_code_hint;
+		public static final int account_setup_sms_basics_login_hint = R.string.account_setup_sms_basics_login_hint;
+		public static final int account_setup_sms_basics_server_hint = R.string.account_setup_sms_basics_server_hint;
 		public static final int account_start = R.string.account_start;
 		public static final int account_welcome = R.string.account_welcome;
 		public static final int account_welcome_message = R.string.account_welcome_message;
@@ -430,6 +436,9 @@ public final class W {
 		public static final int security_parameters = R.string.security_parameters;
 		public static final int select = R.string.select;
 		public static final int select_dialog = R.string.select_dialog;
+		public static final int sms_login_key = R.string.sms_login_key;
+		public static final int sms_server_code_key = R.string.sms_server_code_key;
+		public static final int sms_server_phone_key = R.string.sms_server_phone_key;
 		public static final int supremum = R.string.supremum;
 		public static final int sync_bidirectional_key = R.string.sync_bidirectional_key;
 		public static final int sync_bidirectional_summaryoff = R.string.sync_bidirectional_summaryoff;

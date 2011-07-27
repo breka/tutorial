@@ -219,7 +219,7 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 			if (mBuffer.containsKey(uri)) {
 				builder.append(mBuffer.get(uri)).append(" ");
 			} else {
-				EntityCursor c = AbstractDatabase.getSuper(context).query(uri, null, null);
+				EntityCursor c = (EntityCursor) AbstractDatabase.getSuper(context).query(uri, null, null);
 				c.moveToFirst();
 				String main = c.getMainDisplay(context);
 				c.close();

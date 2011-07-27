@@ -27,6 +27,9 @@ public class RightsWizard extends WizardPage implements GenerationWizardPage {
 	
 	private Button multiloginButton;
 	
+//	private Text smsServerText;
+//	private Button smsButton;
+	
 	private Text sntpAddressText;
 	
 	private Text codeText;
@@ -46,6 +49,8 @@ public class RightsWizard extends WizardPage implements GenerationWizardPage {
 		result.put("Android_canModify", Boolean.toString(modifyRightButton.getSelection()));
 		result.put("Android_canDeleteDatabase", Boolean.toString(deleteDatabaseButton.getSelection()));
 		result.put("Android_multilogin", Boolean.toString(multiloginButton.getSelection()));
+//		result.put("Android_smsEnabled", Boolean.toString(smsButton.getSelection()));
+//		result.put("Android_smsServer", smsServerText.getText());
 		result.put("Android_sntpServer", sntpAddressText.getText());
 		result.put("Android_codeHidden", codeText.getText());
 		return result;
@@ -59,6 +64,7 @@ public class RightsWizard extends WizardPage implements GenerationWizardPage {
 		createUserRightsGroup(mainComposite);
 		createUserDatabaseRightGroup(mainComposite);
 		createMultiloginGroup(mainComposite);
+//		createSmsGroup(mainComposite);
 		createSntpGroup(mainComposite);
 		createHiddenPreferencesCode(mainComposite);
 		
@@ -103,6 +109,28 @@ public class RightsWizard extends WizardPage implements GenerationWizardPage {
 		multiloginButton.setText("Allow multilogin on the device");
 		multiloginButton.setSelection(false);
 	}
+	
+//	private void createSmsGroup(Composite parent) {
+//		Group group = new Group(parent, SWT.NONE);
+//		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+//		group.setLayout(new GridLayout());
+//		group.setText("SMS synchronization");
+//		
+//		smsButton = new Button(group, SWT.CHECK);
+//		smsButton.setText("Use the SMS layer to synchronize data");
+//		smsButton.setSelection(false);
+//		
+//		Composite subGroup = new Composite(group, SWT.NONE);
+//		subGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+//		subGroup.setLayout(new GridLayout(2, false));
+//		
+//		Label smsLabel = new Label(subGroup, SWT.NONE);
+//		smsLabel.setText("The SMS server phone number: ");
+//		
+//		smsServerText = new Text(subGroup, SWT.BORDER);
+//		smsServerText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+//		smsServerText.setMessage("ex: +33123456789");
+//	}
 	
 	private void createSntpGroup(Composite parent) {
 		Group group = new Group(parent, SWT.NONE);
