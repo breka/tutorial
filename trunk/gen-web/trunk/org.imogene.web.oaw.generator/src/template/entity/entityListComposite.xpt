@@ -71,7 +71,7 @@ public class «this.name.toFirstUpper()»ListComposite extends Composite implement
 		
 		«FOREACH columnFields AS c -»
 		if (AccessManager.canReadGroup("«name.toLowerCase()».«c.parentGroup.name.toLowerCase()»")) {
-			String[] columnItem = {NLS.constants().«name.toFirstLower()»_field_«c.name.toFirstLower()»(),"«EXPAND template::CommonFieldUtil::propertyName FOR c»"};
+			String[] columnItem = {NLS.constants().«name.toFirstLower()»_field_s_«c.name.toFirstLower()»(),"«EXPAND template::CommonFieldUtil::propertyName FOR c»"};
 			columnList.add(columnItem);
 		}
 		«ENDFOREACH -»					
