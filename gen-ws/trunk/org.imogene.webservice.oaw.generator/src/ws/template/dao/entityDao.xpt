@@ -81,6 +81,14 @@ public interface «name.toFirstUpper()»Dao {
 	 * @return list of «name.toFirstLower()»
 	 */
 	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int first, int max, String property, boolean sortOrder, MedooJunction criterion);
+
+	/**
+	 * List ???
+	 * @param property the property used for the relation
+	 * @param id the entity id
+	 * @return a list of «name.toFirstUpper()»
+	 */
+	public List<«name.toFirstUpper()»> listAffectedCardNProperty(String property, String id);
 	
 	/**
 	 * Count number of «name.toFirstLower()» in the database

@@ -114,9 +114,18 @@ public class «name.toFirstUpper()»DaoImpl extends HibernateDaoSupport implements
 		
 		dc.add(HibernateDaoUtil.addMedooJunction(criterions));			  	
 	  	return getHibernateTemplate().findByCriteria(dc, first, max);	  		  
-	  }	  
-	
+	  }	 
 	  
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<«name.toFirstUpper()»> listAffectedCardNProperty(String property, String id) {
+		Criteria crit = getSession()
+				.createCriteria(«name.toFirstUpper()».class)
+				.createAlias(property, "other", CriteriaSpecification.INNER_JOIN)
+				.add(Restrictions.eq("other.id",id) );
+		return crit.list();
+	} 
+	
 	 @Override
 	  public int count«name.toFirstUpper()»(MedooJunction criterions){	  	
 	  	Criteria crit = getSession().createCriteria(«name.toFirstUpper()».class);
