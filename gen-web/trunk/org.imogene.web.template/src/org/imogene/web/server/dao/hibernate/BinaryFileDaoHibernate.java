@@ -46,6 +46,9 @@ public class BinaryFileDaoHibernate extends HibernateDaoSupport implements Binar
     	File attachedFile = new File(BinaryFileManager.getInstance().buildFilePath(binary.getId(), binary.getFileName()));
     	attachedFile.delete();
     	
+    	File attachedThumbFile = new File(BinaryFileManager.getInstance().buildFilePath("thumb_" + binary.getId(), binary.getFileName()));
+    	attachedThumbFile.delete();
+    	
     	// Delete binary bean
         getHibernateTemplate().delete(bean);    
     }

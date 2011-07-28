@@ -35,6 +35,11 @@
 		</property>
 	</bean>
 	
+	<!-- BinaryFile manager -->
+	<bean id="binaryFileManager" class="org.imogene.web.server.binary.file.BinaryFileManager" factory-method="getInstance">
+		<property name="binary_file_dir" value="${binary.path}"/>
+	</bean>
+	
 	<!-- Video converter -->
 	<bean name="videoConverter" class="org.imogene.web.server.util.VideoConverter">
 		<property name="commandLine" value="${converter.video}"/>

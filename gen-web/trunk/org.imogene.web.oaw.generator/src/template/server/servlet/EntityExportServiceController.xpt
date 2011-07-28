@@ -48,7 +48,7 @@ import org.imogene.web.server.ServerConstants;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-
+«EXPAND importEntityForRelationFieldCardN(projectName) FOREACH groups.fields-»
 «EXPAND importEntityForFilterField(projectName) FOR this»
 
 
@@ -109,7 +109,7 @@ public class «name.toFirstUpper()»ExportExcelServiceServlet implements Controlle
 		WritableSheet sheet = workbook.createSheet("«name.toFirstUpper()»", 0);		
 		
 				
-		/* ***** Add title line ***** */
+		/** ***** Add title line ***** **/
 		int colNb = 0;		
 		«FOREACH this.groups AS g»
 			if(candRead«g.name.toFirstUpper()»Group){
@@ -131,7 +131,7 @@ public class «name.toFirstUpper()»ExportExcelServiceServlet implements Controlle
 		colNb = colNb + 1;
 		
 		
-		/* ***** Add row data ***** */
+		/** ***** Add row data ***** **/
 		int lineNb = 1;
 		for(«name.toFirstUpper()» current:securedBeans) {
 			colNb = 0;
@@ -352,7 +352,18 @@ public class «name.toFirstUpper()»ExportExcelServiceServlet implements Controlle
 «DEFINE getRowData FOR RelationFieldEntity-»	
 	if (current.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
 	«IF (cardinality >1) || (cardinality == -1)-»
-		sheet.addCell(new Number(colNb, lineNb, current.«EXPAND template::CommonFieldUtil::getterName FOR this-»().size(), integerFormat));
+		{
+			int i = 0;
+			String result = new String("");
+			for(«this.entity.name.toFirstUpper()» cur:current.«EXPAND template::CommonFieldUtil::getterName FOR this-»()) {
+				if (i==0)
+					result = result + ServerMainFieldsUtilImpl.get().getDisplayValue(cur, rb);
+				else
+					result = result + "," + ServerMainFieldsUtilImpl.get().getDisplayValue(cur, rb);
+				i=i+1;
+			}
+			sheet.addCell(new Label(colNb, lineNb, result));
+		}		
 	«ELSE-»
 		sheet.addCell(new Label(colNb, lineNb, ServerMainFieldsUtilImpl.get().getDisplayValue(current.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), rb)));		
 	«ENDIF-»
@@ -488,4 +499,12 @@ import org.imogene.web.gwt.common.criteria.ImogJunction;
 		}
 		filterConjunction.add(«actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()»);
 	}	
+«ENDDEFINE»
+
+
+«DEFINE importEntityForRelationFieldCardN(String projectName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE importEntityForRelationFieldCardN(String projectName) FOR RelationFieldEntity-»	
+	«IF (cardinality >1) || (cardinality == -1)-»
+import org.imogene.«projectName.toLowerCase()».client.entity.«this.entity.name.toFirstUpper()»;		
+	«ENDIF-»
 «ENDDEFINE»

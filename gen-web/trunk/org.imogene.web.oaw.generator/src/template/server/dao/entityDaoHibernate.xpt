@@ -272,7 +272,7 @@ public class «name.toFirstUpper()»DaoImpl extends HibernateDaoSupport implements
 	   }
 	  
 	  
-	/* relation dependences */
+	/* relation dependencies */
 	«FOREACH groups.fields AS f -»
 		«EXPAND methodsForRelation(name.toFirstUpper()) FOR f -»
 	«ENDFOREACH -»

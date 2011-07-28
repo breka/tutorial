@@ -652,6 +652,8 @@ import org.imogene.«projectName.toLowerCase()».server.dao.«this.parentGroup.pare
 «REM» ------------------------------------------------«ENDREM»
 «DEFINE deleteLocalizedTexts FOR FieldEntity-»«ENDDEFINE»
 «DEFINE deleteLocalizedTexts FOR TextField-»
+	«IF this.translatable-»
 		deleteLocalizedTexts(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	«ENDIF-»		
 «ENDDEFINE»
 «REM» ------------------------------------------------«ENDREM»
