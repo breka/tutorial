@@ -66,6 +66,11 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+	<!-- BinaryFile manager -->
+	<bean id="binaryFileManager" class="org.imogene.ws.binary.BinaryFileManager" factory-method="getInstance">
+		<property name="binary_file_dir" value="${binary.path}"/>
+	</bean>
+	
 	<!-- Application DAOs -->
 	«FOREACH entities AS e -»
 	<bean 
@@ -74,10 +79,10 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	«ENDFOREACH -»
-	<!-- binary dao	
-	<bean class="org.imogene.web.server.dao.hibernate.BinaryFileDaoHibernate" id="binaryDao">
+	<!-- binary dao	-->
+	<bean class="org.imogene.ws.dao.BinaryFileDaoHibernate" id="binaryDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
-	</bean>  -->
+	</bean> 
 	
   	<!-- LocalizedText DAO -->
   	<bean class="org.imogene.ws.dao.LocalizedTextDaoHibernate" id="localizedTextDao">

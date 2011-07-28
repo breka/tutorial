@@ -1,4 +1,5 @@
 «IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
 «EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String packageName, String projectName) FOR CardEntity»
@@ -44,12 +45,17 @@ import org.imogene.«projectName.toLowerCase()».security.«projectName.toFirstUppe
 «FOREACH groups.fields AS e -»
 «EXPAND importsForRelation(projectName) FOR e-»
 «ENDFOREACH -»
+«EXPAND importForeignKeyCard(this,projectName) FOR this.eContainer-»
 «IF isTranslatableFieldPresent(this.groups.fields)-»
 import org.imogene.ws.dao.LocalizedTextDao;
 import org.imogene.ws.entity.LocalizedField;
 import org.imogene.ws.entity.LocalizedText;
 import org.imogene.ws.entity.LocalizedTextList;
-«ENDIF»	
+«ENDIF»
+«IF isBinaryFieldPresent(this.groups.fields) -»
+import org.imogene.ws.binary.Binary;
+import org.imogene.ws.dao.BinaryDao;
+«ENDIF-»
 
 /**
  * Controller that manages the Web Service requests
@@ -64,7 +70,12 @@ public class «name.toFirstUpper()»Service {
 	private «name.toFirstUpper()»Dao dao;
 	«IF isTranslatableFieldPresent(this.groups.fields)-»
 	private LocalizedTextDao i18nDao;
-	«ENDIF»			
+	«ENDIF-»
+	«IF isBinaryFieldPresent(this.groups.fields) -»
+	/* BinaryDao for Binary Deletion */
+	private BinaryDao binaryDao;
+	«ENDIF-»
+	«EXPAND declareDaoForForeignKeyDeletion(this) FOR this.eContainer-»	
 	private RestClient restClient;
 	
 
@@ -139,6 +150,11 @@ public class «name.toFirstUpper()»Service {
 		if(«projectName.toFirstUpper()»AccessManager.canEditForm("«name.toLowerCase()»", actor.getRoles())) {
 			
 			if (bean!=null) {
+			«REM»
+			«FOREACH groups.fields AS f-»
+					«EXPAND setNomadCollection FOR f -»
+			«ENDFOREACH-»
+			«ENDREM»
 			
 				if (bean.getId()==null || bean.getId().equals(""))
 					bean.setId(MedooKeyGenerator.generateKeyId("«shortName»"));					
@@ -170,7 +186,42 @@ public class «name.toFirstUpper()»Service {
 	
 	«FOREACH groups.fields AS f -»
 	«EXPAND getRelationFieldChilds((projectName)) FOR f-»
-	«ENDFOREACH -»	
+	«ENDFOREACH -»
+	
+	
+	/**
+	 * Deletes the entity of type «name.toFirstUpper()» with the specified id
+	 * @param id the entity id
+	 */
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.DELETE, value = "/«name.toLowerCase()»/{id}")
+	public void delete«name.toFirstUpper()»(@PathVariable String id) {
+
+		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(SessionUtil.CURRENT_USER);
+
+		if («projectName.toFirstUpper()»AccessManager.canDelete(actor.getRoles())) {
+			
+			«name.toFirstUpper()» entity = dao.get«name.toFirstUpper()»(id);
+			if(entity!=null) {
+			
+			   	«IF isBinaryFieldPresent(this.groups.fields) -»
+		   			«FOREACH this.groups.fields AS f-»
+						«EXPAND deleteAttachedBinaries FOR f-»
+					«ENDFOREACH-»
+				«ENDIF-»
+			   
+			   «EXPAND deleteForeignKeyReference(this) FOR this.eContainer-»
+		
+				«IF isTranslatableFieldPresent(this.groups.fields)-»
+					//Delete entity fields LocalizedTexts
+			   		«EXPAND deleteLocalizedTexts FOREACH this.groups.fields-»	
+				«ENDIF-»				
+				
+				dao.delete(entity);
+			}
+		}
+	}	
+		
 	
 	«IF isTranslatableFieldPresent(this.groups.fields)-»
 	/**
@@ -197,7 +248,22 @@ public class «name.toFirstUpper()»Service {
 			}
 		}
 	}
-	«ENDIF»	
+	
+	/**
+	 * Deletes the LocalizedTexts that correspond to a given field
+	 * @param fieldId the field id for which LocalizedTexts have to be deleted
+	 */
+	private void deleteLocalizedTexts(String fieldId) {
+		
+		if (fieldId != null && !fieldId.equals("")) {
+			List<LocalizedText> texts = i18nDao.listLocalizedText(fieldId);
+			if(texts!=null) {
+				for(LocalizedText text:texts)
+					i18nDao.delete(text);
+			}
+		}
+	}	
+	«ENDIF»
 	
 	
 	/**
@@ -298,7 +364,19 @@ public class «name.toFirstUpper()»Service {
 	public void setI18nDao(LocalizedTextDao i18nDao) {
 		this.i18nDao = i18nDao;
 	}
-	«ENDIF»	
+	«ENDIF-»
+	
+	«IF isBinaryFieldPresent(this.groups.fields) -»
+	/**
+	 * Setter for bean injection
+	 * @param dao
+	 */
+	public void setBinaryDao(BinaryDao dao) {
+		this.binaryDao = dao;
+	}		
+	«ENDIF-»
+	
+	«EXPAND setDaoForForeignKeyDeletion(this) FOR this.eContainer-»
 	
 	/**
 	 * Setter for bean injection
@@ -463,7 +541,7 @@ import org.imogene.«projectName.toLowerCase()».entity.«actorField.entityField.en
 «ENDDEFINE»
 
 «REM»---------------------------------------------------- «ENDREM»
-«REM»-------------------- LOCALIZED FIELDS ----------------- «ENDREM»
+«REM»-------------------- LOCALIZED FIELDS -------------- «ENDREM»
 «REM»---------------------------------------------------- «ENDREM»
 
 «DEFINE saveLocalizedTexts FOR FieldEntity-»«ENDDEFINE»
@@ -472,3 +550,194 @@ import org.imogene.«projectName.toLowerCase()».entity.«actorField.entityField.en
 saveLocalizedTexts(toBeSaved.«EXPAND template::CommonFieldUtil::getterName FOR this»LocalizedField(), toBeSaved.«EXPAND template::CommonFieldUtil::getterName FOR this»());
 «ENDIF -»
 «ENDDEFINE»
+
+«REM»---------------------------------------------------- «ENDREM»
+«REM»----------------- DELETE FOREIGN KEYS -------------- «ENDREM»
+«REM»---------------------------------------------------- «ENDREM»
+
+«REM» ------------------------------------------ 
+      Imports classes for foreign key deletion
+------------------------------------------------«ENDREM»
+«DEFINE importForeignKeyCard(CardEntity cardEntity, String projectName) FOR emf::EObject-»
+«ENDDEFINE»
+«DEFINE importForeignKeyCard(CardEntity cardEntity, String projectName) FOR Project-»
+		«FOREACH entities AS e-»				
+			 «FOREACH e.groups.fields AS field-»		 
+			 	«EXPAND importForeignKeyCardReference(cardEntity,projectName) FOR field-»
+			«ENDFOREACH-» 	   	   
+	    «ENDFOREACH-»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE importForeignKeyCardReference(CardEntity cardEntity, String projectName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE importForeignKeyCardReference(CardEntity cardEntity, String projectName) FOR RelationFieldEntity-»
+«IF cardEntity.name==this.entity.name -»	
+	«IF (this.cardinality == 1 && !(ReverseRelationFieldEntity.isAssignableFrom(this.metaType) && (getOppositeCardinality(this) == 1)))
+	|| (this.cardinality != 1 && (getOppositeCardinality(this) != 1))-»	
+import org.imogene.«projectName.toLowerCase()».entity.«this.parentGroup.parentCard.name.toFirstUpper()»;
+import org.imogene.«projectName.toLowerCase()».dao.«this.parentGroup.parentCard.name.toFirstUpper()»Dao;
+     «ENDIF -»
+«ENDIF -»
+«ENDDEFINE»
+«REM» ------------------------------------------ «ENDREM»
+
+«REM» ------------------------------------------ 
+      Declare DAO for foreign key deletion
+------------------------------------------------«ENDREM»
+«DEFINE declareDaoForForeignKeyDeletion(CardEntity cardEntity) FOR emf::EObject-»«ENDDEFINE»
+«DEFINE declareDaoForForeignKeyDeletion(CardEntity cardEntity) FOR Project-»
+		«FOREACH entities AS e-»		
+			 «FOREACH e.groups.fields AS field-»
+			 	«EXPAND declareDaoForForeignKey(cardEntity) FOR field-»
+			«ENDFOREACH-» 	   	   
+	    «ENDFOREACH-»	    
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE declareDaoForForeignKey(CardEntity cardEntity) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE declareDaoForForeignKey(CardEntity cardEntity) FOR RelationFieldEntity-»
+«IF cardEntity.name==this.entity.name -»	
+	«IF (this.cardinality == 1 && !(ReverseRelationFieldEntity.isAssignableFrom(this.metaType) && (getOppositeCardinality(this) == 1)))
+	|| (this.cardinality != 1 && (getOppositeCardinality(this) != 1))-»	
+	/* «this.parentGroup.parentCard.name.toFirstUpper()»Dao for Foreign Key Deletion */	
+	private «this.parentGroup.parentCard.name.toFirstUpper()»Dao «this.parentGroup.parentCard.name.toFirstLower()»«this.name.toFirstUpper()»Dao;	
+     «ENDIF -»
+«ENDIF -»
+«ENDDEFINE»
+«REM» ------------------------------------------ «ENDREM»
+
+«REM» ------------------------------------------ 
+      Set DAO for foreign key deletion
+------------------------------------------------«ENDREM»
+«DEFINE setDaoForForeignKeyDeletion(CardEntity cardEntity) FOR emf::EObject-»«ENDDEFINE»
+«DEFINE setDaoForForeignKeyDeletion(CardEntity cardEntity) FOR Project-»
+		«FOREACH entities AS e-»		
+			 «FOREACH e.groups.fields AS field-»
+			 	«EXPAND setDaoForForeignKey(cardEntity) FOR field-»
+			«ENDFOREACH-» 	   	   
+	    «ENDFOREACH-»	    
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE setDaoForForeignKey(CardEntity cardEntity) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE setDaoForForeignKey(CardEntity cardEntity) FOR RelationFieldEntity-»
+«IF cardEntity.name==this.entity.name -»	
+	«IF (this.cardinality == 1 && !(ReverseRelationFieldEntity.isAssignableFrom(this.metaType) && (getOppositeCardinality(this) == 1)))
+	|| (this.cardinality != 1 && (getOppositeCardinality(this) != 1))-»	
+	/**
+	 * Setter for bean injection
+	 * @param dao
+	 */
+	public void set«this.parentGroup.parentCard.name.toFirstUpper()»«this.name.toFirstUpper()»Dao(«this.parentGroup.parentCard.name.toFirstUpper()»Dao dao) {
+		this.«this.parentGroup.parentCard.name.toFirstLower()»«this.name.toFirstUpper()»Dao = dao;
+	}     
+     «ENDIF -»
+«ENDIF -»
+«ENDDEFINE»
+«REM» ------------------------------------------ «ENDREM»
+
+
+
+«REM» ------------------------------------------ 
+      Delete foreign key references
+------------------------------------------------«ENDREM»
+«DEFINE deleteForeignKeyReference(CardEntity cardEntity) FOR emf::EObject-»«ENDDEFINE»
+«DEFINE deleteForeignKeyReference(CardEntity cardEntity) FOR Project-»
+		«FOREACH entities AS e-»		
+			 «FOREACH e.groups.fields AS field-»
+			 	«EXPAND deleteRelationFieldCard1Reference(cardEntity) FOR field-»
+			«ENDFOREACH-» 	   	   
+	    «ENDFOREACH-»    
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+«DEFINE deleteRelationFieldCard1Reference(CardEntity cardEntity) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE deleteRelationFieldCard1Reference(CardEntity cardEntity) FOR RelationFieldEntity-»
+«IF cardEntity.name==this.entity.name -»	
+	«IF this.cardinality == 1 && !(ReverseRelationFieldEntity.isAssignableFrom(this.metaType) && (getOppositeCardinality(this) == 1))-»
+	«REM»OK for cardinality==1 with the exception of the reverseRelationField of a 1:1 relation«ENDREM»
+		«EXPAND deleteForeignKeyCard1 FOR this-»
+	«ELSE -»	
+		«IF this.cardinality != 1 && (getOppositeCardinality(this) != 1)-»
+			«EXPAND deleteForeignKeyCardN FOR this-»		
+		«ENDIF -»	
+    «ENDIF -»
+«ENDIF -»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+«DEFINE deleteForeignKeyCard1 FOR FieldEntity-»
+		// Delete foreign key reference for field «this.name» of entity «this.parentGroup.parentCard.name»
+        MedooJunction searchCriterionsFor«this.parentGroup.parentCard.name»«this.name» = new MedooConjunction();
+		BasicCriteria criteria«this.parentGroup.parentCard.name»«this.name» = new BasicCriteria();
+		criteria«this.parentGroup.parentCard.name»«this.name».setOperation(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL);
+		criteria«this.parentGroup.parentCard.name»«this.name».setValue(entity.getId());
+		criteria«this.parentGroup.parentCard.name»«this.name».setField("«EXPAND template::CommonFieldUtil::propertyName FOR this-».id");
+		searchCriterionsFor«this.parentGroup.parentCard.name»«this.name».add(criteria«this.parentGroup.parentCard.name»«this.name»);    
+
+		List<«this.parentGroup.parentCard.name.toFirstUpper()»> resultFor«this.parentGroup.parentCard.name»«this.name» = «this.parentGroup.parentCard.name.toFirstLower()»«this.name.toFirstUpper()»Dao.list«this.parentGroup.parentCard.name.toFirstUpper()»("«EXPAND template::CommonFieldUtil::getFirstSortField FOR this.parentGroup.parentCard-»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this.parentGroup.parentCard-»,searchCriterionsFor«this.parentGroup.parentCard.name»«this.name»);
+		if (resultFor«this.parentGroup.parentCard.name»«this.name»!=null)
+		{
+			for («this.parentGroup.parentCard.name.toFirstUpper()» foreignEntity: resultFor«this.parentGroup.parentCard.name»«this.name»)
+			{
+	           	foreignEntity.setLastModificationDate(new Date());
+	           	foreignEntity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
+	           	«this.parentGroup.parentCard.name.toFirstLower()»«this.name.toFirstUpper()»Dao.saveOrUpdate(foreignEntity, false);      
+        	}	
+		}		
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+«DEFINE deleteForeignKeyCardN FOR FieldEntity-»
+		// Delete foreign key reference for field «this.name» of entity «this.parentGroup.parentCard.name»
+		List<«this.parentGroup.parentCard.name.toFirstUpper()»> resultFor«this.parentGroup.parentCard.name»«this.name» = «this.parentGroup.parentCard.name.toFirstLower()»«this.name.toFirstUpper()»Dao
+		.listAffectedCardNProperty("«EXPAND template::CommonFieldUtil::propertyName FOR this-»", entity.getId());
+		if (resultFor«this.parentGroup.parentCard.name»«this.name»!=null)
+		{
+			for («this.parentGroup.parentCard.name.toFirstUpper()» foreignEntity: resultFor«this.parentGroup.parentCard.name»«this.name»)
+			{
+	           	foreignEntity.setLastModificationDate(new Date());
+	           	foreignEntity.removeFrom«EXPAND template::CommonFieldUtil::propertyName FOR this-»(entity);
+	           	«this.parentGroup.parentCard.name.toFirstLower()»«this.name.toFirstUpper()»Dao.saveOrUpdate(foreignEntity, false);      
+        	}	
+		}
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE deleteAttachedBinaries FOR FieldEntity-»«ENDDEFINE»
+«DEFINE deleteAttachedBinaries FOR BinaryField-»
+		// Delete attached binary for field «this.name»
+		String «this.name»Id = entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»();
+		if («this.name»Id!=null && !«this.name»Id.equals("")) {
+			Binary «this.name.toFirstLower()» = binaryDao.getBinary(«this.name»Id);
+			if («this.name.toFirstLower()»!=null)
+				binaryDao.deleteBinary(«this.name.toFirstLower()»);
+		}
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE deleteLocalizedTexts FOR FieldEntity-»«ENDDEFINE»
+«DEFINE deleteLocalizedTexts FOR TextField-»
+	«IF this.translatable-»
+		deleteLocalizedTexts(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	«ENDIF-»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+
+
+«REM»
+«DEFINE setNomadCollection FOR FieldEntity-»«ENDDEFINE»
+«DEFINE setNomadCollection FOR RelationFieldEntity-»
+«IF this.cardinality!=1 -»
+				/* specific behavior for Nomad, when collection is null - > do not do anything */
+				if(bean.getId()!=null && !bean.getId().equals("") && bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()==null) {
+					«this.parentGroup.parentCard.name.toFirstUpper()» existing = dao.get«this.parentGroup.parentCard.name.toFirstUpper()»(bean.getId());
+					if(existing!=null)
+						bean.«EXPAND template::CommonFieldUtil::setterName FOR this»(existing.«EXPAND template::CommonFieldUtil::getterName FOR this»());
+				}			
+				/* when collection is not null but empty -> remove reference to entities */
+«ENDIF -»
+«ENDDEFINE»
+«ENDREM»

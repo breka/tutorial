@@ -182,6 +182,18 @@ public class «projectName.toFirstUpper()»AccessManager {
 		}
 		return false;
 	}
+	
+		/**
+	 * 
+	 * @return
+	 */
+	public static boolean canDelete(Set<MedooRole> roles) {
+		for (MedooRole role : roles) {
+			if (isAdmin(roles) || "delete".equals(role.getId()))
+				return true;
+		}
+		return false;
+	}
 }
 «ENDFILE»
 «ENDDEFINE»
