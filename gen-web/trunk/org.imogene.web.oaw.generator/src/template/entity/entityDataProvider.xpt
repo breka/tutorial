@@ -148,7 +148,7 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 			
 			List<Widget> valueList = new Vector<Widget>();
 			
-			«FOREACH columnFields AS c»
+			«FOREACH columnFields.union(mainFields) AS c-»
 			/* «c.name.toFirstLower()» column */	
 			if(columnList.contains("«c.name.toLowerCase()»")) {
 				Widget value = null;
@@ -178,7 +178,7 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 	private void setColumnList() {
 
 		columnList = new Vector<String>();		
-		«FOREACH columnFields AS c -»
+		«FOREACH columnFields.union(mainFields) AS c-»
 		if (AccessManager.canReadGroup("«name.toLowerCase()».«c.parentGroup.name.toLowerCase()»"))
 			columnList.add("«c.name.toLowerCase()»");
 		«ENDFOREACH -»			
@@ -195,15 +195,9 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 		} else {
 			ImogJunction main = new ImogConjunction();
 			ImogJunction junction = new ImogDisjunction();
-			«IF columnFields.isEmpty -»
-			«FOREACH this.groups.fields AS field-»
-			«EXPAND createListCriteria FOR field»
-			«ENDFOREACH-»				
-			«ELSE -»
-			«FOREACH this.columnFields AS field-»
-			«EXPAND createListCriteria FOR field»
-			«ENDFOREACH-»
-			«ENDIF -»			
+			«FOREACH columnFields.union(mainFields) AS c-»
+				«EXPAND createListCriteria FOR c»
+			«ENDFOREACH -»			
 			main.add(junction);
 			this.searchCriterions = main;
 		}
