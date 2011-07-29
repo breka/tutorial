@@ -57,19 +57,10 @@ public interface «projectName.toFirstUpper()»Translations extends Constants {
 		«FOREACH e.groups.fields AS field-»
 		«EXPAND getFieldTexts FOR field-»
 		«ENDFOREACH-»
-			
-		«IF e.topLevel == true -»
-	/* «e.name» column field short texts */
-		«IF e.columnFields.isEmpty -»
-		«FOREACH e.groups.fields AS f-»
-	String «e.name.toFirstLower()»_field_s_«f.name.toFirstLower()»();
-		«ENDFOREACH -»
-		«ELSE -»
-		«FOREACH e.columnFields AS f-»
-	String «e.name.toFirstLower()»_field_s_«f.name.toFirstLower()»();
-		«ENDFOREACH -»
-		«ENDIF -»	
-		«ENDIF-»	
+		
+		«FOREACH e.columnFields.union(e.mainFields) AS f-»
+		String «e.name.toFirstLower()»_field_s_«f.name.toFirstLower()»();
+		«ENDFOREACH -»		
 				
 	«ENDFOREACH»
 	
