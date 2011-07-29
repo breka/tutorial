@@ -30,7 +30,7 @@ public interface MedooActor extends MedooBean {
  public String getNotificationLocale();
  
  /** Set the local ISO code used by this actor */
- public void setNotificationLacole(String iso);
+ public void setNotificationLocale(String iso);
  
  /** get the default method used to notify this actor */
  public Integer getDefaultNotificationMethod();

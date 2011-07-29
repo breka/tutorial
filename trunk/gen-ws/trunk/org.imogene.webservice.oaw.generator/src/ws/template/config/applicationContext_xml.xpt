@@ -20,9 +20,15 @@
 	<!--  C3PO data source -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="${jdbc.driverClassName}" />
-        <property name="jdbcUrl"     value="${jdbc.url}" />
-        <property name="user"        value="${jdbc.username}" />
-        <property name="password"    value="${jdbc.password}" />        
+        <property name="jdbcUrl" value="${jdbc.url}" />
+        <property name="user" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+	     <!-- C3PO configuration -->
+        <property name="acquireIncrement" value="1" />
+        <property name="minPoolSize" value="3" />
+        <property name="maxPoolSize" value="20" />
+        <property name="maxStatements" value="0" />
+        <property name="idleConnectionTestPeriod" value="30"/>       
     </bean>
 	
 	<!-- Session factory -->
@@ -37,7 +43,8 @@
 				<value>org/imogene/ws/entity/RoleBeanImpl.hbm.xml</value>	
 				<value>org/imogene/ws/entity/DefaultActor.hbm.xml</value>
 				<value>org/imogene/ws/binary/BinaryFile.hbm.xml</value>		
-				<value>org/imogene/ws/entity/LocalizedText.hbm.xml</value>			
+				<value>org/imogene/ws/entity/LocalizedText.hbm.xml</value>
+				<value>org/imogene/ws/entity/SynchronizableEntity.hbm.xml</value>				
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -47,14 +54,7 @@
 				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.generate_statistics">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<!-- C3PO configuration -->
-				<prop key="hibernate.connection.release_mode">auto</prop>
-                <prop key="hibernate.c3p0.acquire_increment">1</prop>
-                <prop key="hibernate.c3p0.minPoolSize">3</prop>
-                <prop key="hibernate.c3p0.maxPoolSize">20</prop>
-                <prop key="hibernate.c3p0.timeout">50</prop>
-                <prop key="hibernate.c3p0.max_statement">0</prop>
-                <prop key="hibernate.c3p0.idle_test_period">30</prop>				
+				<prop key="hibernate.connection.release_mode">after_transaction</prop>			
 			</props>
 		</property>
 	</bean>

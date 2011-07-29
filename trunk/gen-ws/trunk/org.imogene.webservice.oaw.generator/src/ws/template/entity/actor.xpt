@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.imogene.ws.entity.MedooActor;
 import org.imogene.ws.entity.MedooRole;
+import org.imogene.ws.entity.SynchronizableEntity;
 
 
 /**
@@ -47,6 +48,12 @@ public class «name.toFirstUpper()»Actor extends «name.toFirstUpper()» implements
      * See the NotificationMethod enumerated values 
      */
     private HashMap<String, String> notificationData;
+    
+	/**
+	 * List of entities that the actor coud synchronize
+	 * from a disconnected client.
+	 */
+	private Set<SynchronizableEntity> synchronizables;
 
     /** Store the assigned roles as set in the external user management application */
     private Set<MedooRole> assignedRoles = new HashSet<MedooRole>();
@@ -170,7 +177,7 @@ public class «name.toFirstUpper()»Actor extends «name.toFirstUpper()» implements
     
     /** 
      * Set the notification locale ISO code
-     *@param pLocale the locale ISO code
+     *@param locale the locale ISO code
      */
     public void setNotificationLocale(String locale) {
        notifLocale = locale;
@@ -271,11 +278,14 @@ public class «name.toFirstUpper()»Actor extends «name.toFirstUpper()» implements
 	public void setDefaultnotificationMethod(Integer method) {
 			
 	}
-
-	@Override
-	public void setNotificationLacole(String iso) {
-				
+	
+	public void setSynchronizables(Set<SynchronizableEntity> syncs) {
+		synchronizables = syncs;
 	}
+
+	public Set<SynchronizableEntity> getSynchronizables() {
+		return synchronizables;
+	}	
     
     «EXPAND filterField FOREACH this.filters»
     
