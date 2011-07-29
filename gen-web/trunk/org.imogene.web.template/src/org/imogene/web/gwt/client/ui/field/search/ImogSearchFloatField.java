@@ -76,6 +76,10 @@ public class ImogSearchFloatField extends ImogSearchFieldAbstract<Float> {
 		return NumericUtil.parseToFloat(textBox.getText());
 	}
 	
+	public String getDisplayValue() {
+		return NumericUtil.parseToString(getValue());
+	}
+	
 	/**
 	 * Set the unit label
 	 * @param strUnit the unit label
