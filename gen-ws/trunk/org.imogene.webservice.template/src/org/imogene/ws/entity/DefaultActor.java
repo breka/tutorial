@@ -153,7 +153,7 @@ public class DefaultActor implements MedooActor {
 	}
 
 
-	public void setNotificationLacole(String iso) {
+	public void setNotificationLocale(String iso) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -25,14 +25,20 @@
 	        <key column="«name»_ID"/>
 		    <property name="login" column="«name»Actor_Login"/>
 		    <property name="password" column="«name»Actor_Password"/>
+		    
 			<set lazy="false" name="roles" table="«name»Roles" >
 				<key column="«name»_ID"/>
 				<many-to-many class="org.imogene.ws.entity.RoleBeanImpl" column="Role_ID"/>
-			</set>		    
+			</set>
+			
+			<set lazy="false" name="synchronizables" table="«name»_Synchronizables">
+				<key column="«name»_ID"/>
+				<many-to-many class="org.imogene.ws.entity.SynchronizableEntity" column="Synchronizable_Id"/>
+			</set>
+			
 		    <property name="notificationLocale" column="«name»Actor_NotifLocale"/>
 		    <property name="notificationMethod" column="«name»Actor_NotifMethod"/> 
 		    <property name="beNotified" column="«name»Actor_CanBeNotified" type="boolean"/>			
-			<!--<many-to-one name="delegate" column="Delegate_ID"  not-null="false" lazy="false"/>-->	
 			<property name="lastLoginDate" column="«name»Actor_LastLoginDate" type="timestamp"/>
 			«EXPAND filterField(projectName) FOREACH ((Actor)this).filters»		    						      	    
 	    </joined-subclass>  		
