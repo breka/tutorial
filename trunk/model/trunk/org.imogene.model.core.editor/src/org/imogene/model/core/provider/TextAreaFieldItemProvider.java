@@ -83,7 +83,7 @@ public class TextAreaFieldItemProvider
      */
     public String getText(Object object)
     {
-        return getText(object, "_UI_TextField_type");  
+        return getText(object, "_UI_TextAreaField_type");  
     }
 
 	/**
