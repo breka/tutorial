@@ -90,7 +90,6 @@ public class IntegerFieldEdit extends FieldEntity<Integer> implements TextWatche
 			v.setEnabled(true);
 			v.setInputType(
 				InputType.TYPE_CLASS_NUMBER |
-				InputType.TYPE_NUMBER_FLAG_DECIMAL | 
 				InputType.TYPE_NUMBER_FLAG_SIGNED);
 		}
 	}
