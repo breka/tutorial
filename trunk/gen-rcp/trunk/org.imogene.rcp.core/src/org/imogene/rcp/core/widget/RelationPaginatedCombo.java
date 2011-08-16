@@ -171,6 +171,18 @@ public class RelationPaginatedCombo extends Composite {
 	}
 	
 	/**
+	 * Nothing selected
+	 */
+	public void nothingSelected() {
+		selectedId = null;
+		selectedEntityText.setText("");
+		if (formID!=null) {
+			hideLabelButton(openEntityLabel, true);
+			//this.layout(true, true);
+		}
+	}
+	
+	/**
 	 * Select the item that match the specified entity
 	 * @param entity the entity selected
 	 */
