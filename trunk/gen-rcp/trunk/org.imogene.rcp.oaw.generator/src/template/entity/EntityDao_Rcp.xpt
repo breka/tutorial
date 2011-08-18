@@ -26,6 +26,7 @@ import org.imogene.sync.SyncConstants;
 import org.imogene.«moduleName.toLowerCase()».entity.«this.name.toFirstUpper()»;
 «IF this.topLevel == true -»
 import org.imogene.«moduleName.toLowerCase()».entity.list.«this.name.toFirstUpper()»ForList;
+import org.imogene.«moduleName.toLowerCase()».util.EntityForListUpdater;
 «ENDIF -»
 
 
@@ -198,6 +199,9 @@ public class «this.name.toFirstUpper()»Dao implements EntityDao {
 	 */
 	public void merge(Synchronizable object){
 		HibernateGenericDao.merge(object);
+		«IF topLevel-»
+			EntityForListUpdater.entityMergedSavedOrUpdated(object);
+		«ENDIF-»
 	}
 	
 	/*
@@ -221,10 +225,13 @@ public class «this.name.toFirstUpper()»Dao implements EntityDao {
 	 * @see org.imogene.data.EntityHandler#saveOrUpdate(java.lang.Object)
 	 */
 	public void saveOrUpdate(Synchronizable object){
-		HibernateGenericDao.saveOrUpdate(object);		
+		HibernateGenericDao.saveOrUpdate(object);
 		«FOREACH groups.fields AS field-» 
 			«EXPAND refreshRelationField FOR field-»
 		«ENDFOREACH-»
+		«IF topLevel-»
+			EntityForListUpdater.entityMergedSavedOrUpdated(object);
+		«ENDIF-»
 	}			
 	
 	/**
