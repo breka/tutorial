@@ -1,10 +1,11 @@
-#Fri Jul 22 15:09:54 CEST 2011
+#Thu Aug 18 09:47:41 CEST 2011
 eclipse.preferences.version=1
 encoding//src/template/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/template/accessManager.xpt=ISO-8859-1
 encoding//src/template/entity/actor.xpt=ISO-8859-1
 encoding//src/template/entity/entity.xpt=ISO-8859-1
 encoding//src/template/entity/entityDataProvider.xpt=ISO-8859-1
+encoding//src/template/entity/entityExcelExportComposite.xpt=ISO-8859-1
 encoding//src/template/entity/entityFormComposite.xpt=ISO-8859-1
 encoding//src/template/entity/entityListComposite.xpt=ISO-8859-1
 encoding//src/template/entity/entitySelectionBox.xpt=ISO-8859-1
@@ -34,6 +35,7 @@ encoding//src/template/server/security/securityHandler.xpt=ISO-8859-1
 encoding//src/template/server/security/securityPolicy.xpt=ISO-8859-1
 encoding//src/template/server/security/serverAccessManager.xpt=ISO-8859-1
 encoding//src/template/server/securityContext_xml.xpt=ISO-8859-1
+encoding//src/template/server/servlet/EntityExportServiceController.xpt=ISO-8859-1
 encoding//src/template/server/servlet/authServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/cardReportServiceServlet.xpt=ISO-8859-1
 encoding//src/template/server/servlet/downloadServlet.xpt=ISO-8859-1
