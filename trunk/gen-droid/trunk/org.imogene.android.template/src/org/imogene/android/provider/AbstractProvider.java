@@ -505,21 +505,13 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ " ("
 				+ Keys.KEY_ROWID
 				+ " integer primary key autoincrement, "
-				+ Keys.KEY_ENTITY_ID
-				+ " text, "
-				+ Keys.KEY_DESTINATION
-				+ " text, "
-				+ Keys.KEY_MESSAGE
+				+ Keys.KEY_ENTITY_URI
 				+ " text, "
 				+ Keys.KEY_SENT_DATE
 				+ " integer, "
-				+ Keys.KEY_DELIVERED_DATE
-				+ " integer, "
-				+ Keys.KEY_RESPONSE_DATE
-				+ " integer, "
 				+ Keys.KEY_RESPONSE
 				+ " text, "
-				+ Keys.KEY_ACK
+				+ Keys.KEY_SMS_STATUS
 				+ " integer);";
 		protected interface Creator<T extends DatabaseHelper> {
 			public T getDatabase(Context context);

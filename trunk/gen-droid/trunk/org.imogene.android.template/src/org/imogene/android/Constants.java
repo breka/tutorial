@@ -64,10 +64,6 @@ public final class Constants {
 		public static final String ACTION_SMS_RESCHEDULE = "org.imogene.android.%realProjectName%.receiver.SMS_RESCHEDULE";
 		
 		public static final String ACTION_SMS_CANCEL = "org.imogene.android.%realProjectName%.receiver.SMS_CANCEL";
-		
-		public static final String ACTION_SMS_SENT = "org.imogene.android.%realProjectName%.receiver.SMS_SENT";
-		
-		public static final String ACTION_SMS_DELIVERED = "org.imogene.android.%realProjectName%.receiver.SMS_DELIVERED";
 	}
 	
 	public static interface Databases {
@@ -141,15 +137,10 @@ public final class Constants {
 		public static final String KEY_POTENTIALY_WRONG = "potentialyWrong";
 		
 		/* SMS table fields */
-		public static final String KEY_ENTITY_ID = "entityId";
-		public static final String KEY_DESTINATION = "destination";
-		public static final String KEY_MESSAGE = "message";
+		public static final String KEY_ENTITY_URI = "entityUri";
 		public static final String KEY_SENT_DATE = "sentDate";
-		public static final String KEY_DELIVERED_DATE = "deleveredDate";
-		public static final String KEY_RESPONSE_DATE = "responseDate";
 		public static final String KEY_RESPONSE = "response";
-		public static final String KEY_ACK = "ack";
-
+		public static final String KEY_SMS_STATUS = "smsStatus";
 	}
 
 	public static interface Tables {

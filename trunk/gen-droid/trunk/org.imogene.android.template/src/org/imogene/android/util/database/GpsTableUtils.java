@@ -119,7 +119,7 @@ public class GpsTableUtils {
 
 		Intent result = null;
 		try {
-			final Method method = c.getClass().getDeclaredMethod(gpsMethod, null);
+			final Method method = c.getClass().getDeclaredMethod(gpsMethod, (Class[]) null);
 			final String[] titles = new String[count];
 			final String[] descriptions = new String[count];
 			final double[] latitudes = new double[count];
@@ -129,7 +129,7 @@ public class GpsTableUtils {
 				c.moveToPosition(i);
 				titles[i] = c.getMainDisplay(context);
 				descriptions[i] = c.getSecondaryDisplay(context);
-				Location l = (Location) method.invoke(c, null);
+				Location l = (Location) method.invoke(c, (Object[]) null);
 				latitudes[i] = l.getLatitude();
 				longitudes[i] = l.getLongitude();
 				uris[i] = ContentUris.withAppendedId(uri, c.getRowId()).toString();
