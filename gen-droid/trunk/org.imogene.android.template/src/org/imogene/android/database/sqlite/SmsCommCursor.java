@@ -9,56 +9,44 @@ import android.database.sqlite.SQLiteCursorDriver;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteQuery;
+import android.net.Uri;
 
 public class SmsCommCursor extends SQLiteCursor {
 
-	public SmsCommCursor(SQLiteDatabase db, SQLiteCursorDriver driver, String editTable, SQLiteQuery query) {
+	public SmsCommCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
+			String editTable, SQLiteQuery query) {
 		super(db, driver, editTable, query);
 	}
-	
+
 	public static class Factory implements CursorFactory {
 		@Override
-		public Cursor newCursor(SQLiteDatabase db, SQLiteCursorDriver masterQuery, String editTable, SQLiteQuery query) {
+		public Cursor newCursor(SQLiteDatabase db,
+				SQLiteCursorDriver masterQuery, String editTable,
+				SQLiteQuery query) {
 			return new SmsCommCursor(db, masterQuery, editTable, query);
 		}
 	}
-	
+
 	public long getRowId() {
 		return getLong(getColumnIndexOrThrow(Keys.KEY_ROWID));
 	}
-	
-	public String getEntityId() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_ENTITY_ID));
+
+	public Uri getEntityUri() {
+		return Uri.parse(getString(getColumnIndexOrThrow(Keys.KEY_ENTITY_URI)));
 	}
-	
-	public String getDestination() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_DESTINATION));
-	}
-	
-	public String getMessage() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_MESSAGE));
-	}
-	
+
 	public Long getSentDate() {
-		return getAsLong(getColumnIndexOrThrow(Keys.KEY_SENT_DATE)); 
+		return getAsLong(getColumnIndexOrThrow(Keys.KEY_SENT_DATE));
 	}
-	
-	public Long getDeliveredDate() {
-		return getAsLong(getColumnIndexOrThrow(Keys.KEY_DELIVERED_DATE));
-	}
-	
-	public Long getResponseDate() {
-		return getAsLong(getColumnIndexOrThrow(Keys.KEY_RESPONSE_DATE));
-	}
-	
+
 	public String getResponse() {
 		return getString(getColumnIndexOrThrow(Keys.KEY_RESPONSE));
 	}
-	
-	public boolean isAck() {
-		return getInt(getColumnIndexOrThrow(Keys.KEY_ACK)) != 0;
+
+	public int getStatus() {
+		return getInt(getColumnIndexOrThrow(Keys.KEY_SMS_STATUS));
 	}
-	
+
 	protected final Long getAsLong(int columnIndex) {
 		return FormatHelper.toLong(getString(columnIndex));
 	}

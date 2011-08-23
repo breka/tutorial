@@ -13,18 +13,19 @@ import android.net.Uri;
 
 public class SmsComm {
 	
+	public static final int STATUS_TO_SEND = 0;
+	public static final int STATUS_INTERNAL_ERROR = 1;
+	public static final int STATUS_EXTERNAL_ERROR = 2;
+	public static final int STATUS_SENT = 3;
+	
 	public static final String TABLE_NAME = "smscomm";
 	public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
 	
 	private long rowId = -1;
-	private String destination;
-	private String message;
-	private String entityId;
+	private Uri entityUri;
 	private Long sentDate;
-	private Long deliveredDate;
-	private Long responseDate;
 	private String response;
-	private boolean isAck;
+	private int status;
 	
 	public SmsComm() {
 		
@@ -43,14 +44,10 @@ public class SmsComm {
 	
 	private void init(SmsCommCursor cursor) {
 		rowId = cursor.getRowId();
-		entityId = cursor.getEntityId();
-		destination = cursor.getDestination();
-		message = cursor.getMessage();
+		entityUri = cursor.getEntityUri();
 		sentDate = cursor.getSentDate();
-		deliveredDate = cursor.getDeliveredDate();
-		responseDate = cursor.getResponseDate();
 		response = cursor.getResponse();
-		isAck = cursor.isAck();
+		status = cursor.getStatus();
 	}
 	
 	public long getRowId() {
@@ -61,28 +58,12 @@ public class SmsComm {
 		this.rowId = rowId;
 	}
 	
-	public String getEntityId() {
-		return entityId;
+	public Uri getEntityUri() {
+		return entityUri;
 	}
 	
-	public void setEntityId(String entityId) {
-		this.entityId = entityId;
-	}
-	
-	public String getDestination() {
-		return destination;
-	}
-	
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
-	
-	public String getMessage() {
-		return message;
-	}
-	
-	public void setMessage(String message) {
-		this.message = message;
+	public void setEntityUri(Uri entityUri) {
+		this.entityUri = entityUri;
 	}
 	
 	public Long getSentDate() {
@@ -93,22 +74,6 @@ public class SmsComm {
 		this.sentDate = sentDate;
 	}
 
-	public Long getDeliveredDate() {
-		return deliveredDate;
-	}
-	
-	public void setDeliveredDate(Long deliveredDate) {
-		this.deliveredDate = deliveredDate;
-	}
-	
-	public Long getResponseDate() {
-		return responseDate;
-	}
-	
-	public void setResponseDate(Long responseDate) {
-		this.responseDate = responseDate;
-	}
-	
 	public String getResponse() {
 		return response;
 	}
@@ -117,26 +82,22 @@ public class SmsComm {
 		this.response = response;
 	}
 	
-	public boolean isAck() {
-		return isAck;
+	public int getStatus() {
+		return status;
 	}
 	
-	public void setAck(boolean isAck) {
-		this.isAck = isAck;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	public Uri commit(Context context) {
 		ContentResolver res = context.getContentResolver();
 		
 		ContentValues values = new ContentValues();
-		values.put(Keys.KEY_ENTITY_ID, entityId);
-		values.put(Keys.KEY_DESTINATION, destination);
-		values.put(Keys.KEY_MESSAGE, message);
+		values.put(Keys.KEY_ENTITY_URI, entityUri.toString());
 		values.put(Keys.KEY_SENT_DATE, sentDate);
-		values.put(Keys.KEY_DELIVERED_DATE, deliveredDate);
-		values.put(Keys.KEY_RESPONSE_DATE, responseDate);
 		values.put(Keys.KEY_RESPONSE, response);
-		values.put(Keys.KEY_ACK, isAck ? 1 : 0);
+		values.put(Keys.KEY_SMS_STATUS, status);
 
 		Uri uri;
 		if (rowId != -1) {

@@ -269,24 +269,8 @@
 		</service>
 		
 		<receiver
-			android:name="org.imogene.android.telephony.SmsSentReceiver">
-			<intent-filter>
-				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_SENT" />
-				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.item/smscomm"/>
-			</intent-filter>
-		</receiver>
-
-		<receiver
-			android:name="org.imogene.android.telephony.SmsDeliveredReceiver">
-			<intent-filter>
-				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_DELIVERED" />
-				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.item/smscomm"/>
-			</intent-filter>
-		</receiver>
-		
-		<receiver
 			android:name="org.imogene.android.telephony.SmsResponseReceiver">
-			<intent-filter>
+			<intent-filter android:priority="100" >
 				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
 			</intent-filter>
 		</receiver>
