@@ -47,7 +47,7 @@ import org.imogene.android.util.database.DatabaseUtils;
 public class «name.toFirstUpper()-»SyncService extends AbstractSyncService {
 	
 	public «name.toFirstUpper()-»SyncService() {
-		super(AbstractSyncService.class.getName());
+		super(«name.toFirstUpper()-»SyncService.class.getName());
 	}
 
 	@Override
