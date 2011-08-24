@@ -468,14 +468,14 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 	private void cancel() {
 		AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(Intents.ACTION_CHECK_SYNC);
-		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 		alarmMgr.cancel(pi);
 	}
 
 	private void reschedule() {
 		AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(Intents.ACTION_CHECK_SYNC);
-		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		long period = PreferenceHelper.getSynchronizationPeriod(this);
 

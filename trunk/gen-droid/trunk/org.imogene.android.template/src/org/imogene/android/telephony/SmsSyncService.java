@@ -51,7 +51,7 @@ public class SmsSyncService extends WakefulIntentService {
 	private void reschedule() {
 		AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(Intents.ACTION_SMS_SYNC);
-		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + PERIOD_MS, pi);
 	}
@@ -59,7 +59,7 @@ public class SmsSyncService extends WakefulIntentService {
 	private void cancel() {
 		AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(Intents.ACTION_SMS_SYNC);
-		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 		alarmMgr.cancel(pi);
 	}
 
