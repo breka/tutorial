@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="gwt-deps/org.imogene.gwt.widgets.jar"/>
 	<classpathentry kind="lib" path="gwt-deps/gwt-voices-1.6.0.jar"/>
 	<classpathentry kind="con" path="org.imogene.tools.libraryhelper.IMOGENE_DEV_LIB"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (3)"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="gwt-deps/gwt-datepicker_medes.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
