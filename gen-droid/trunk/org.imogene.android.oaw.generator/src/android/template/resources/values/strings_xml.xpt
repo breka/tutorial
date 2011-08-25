@@ -78,7 +78,7 @@
 «ENDFOREACH-»
 «ENDDEFINE»
 
-«DEFINE getDescription(String isoCode) FOR Project»
+«DEFINE getDescription(String isoCode) FOR Project-»
 «LET description.locale.indexOf(isoCode) AS isoPos-»
 «IF (isoPos != -1)-»«description.get(isoPos).display-»
 «ELSE-»«name-»
