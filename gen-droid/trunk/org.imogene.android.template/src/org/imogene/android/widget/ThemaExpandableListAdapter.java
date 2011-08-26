@@ -2,15 +2,13 @@ package org.imogene.android.widget;
 
 import java.util.ArrayList;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Sync;
+import org.imogene.android.W;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -25,14 +23,12 @@ public final class ThemaExpandableListAdapter extends BaseExpandableListAdapter 
 	private final Context mContext;
 	private final ArrayList<Integer> mGroupData;
 	private final ArrayList<ArrayList<EntityChild>> mChildData;
-	private final AbstractDatabase mHelper;
 
 	public ThemaExpandableListAdapter(
 			Context context,
 			ArrayList<Integer> groupData,
 			ArrayList<ArrayList<EntityChild>> childData) {
 		super();
-		mHelper = AbstractDatabase.getSuper(context);
 		mContext = context;
 		mGroupData = groupData;
 		mChildData = childData;
@@ -73,13 +69,10 @@ public final class ThemaExpandableListAdapter extends BaseExpandableListAdapter 
 	
 		TextView secondary = (TextView) view.findViewById(W.id.list_secondary);
 	
-		SQLiteDatabase db = mHelper.getReadableDatabase();
 		SQLiteBuilder builder = new SQLiteBuilder()
 		.setSelectInTable(entity.mTable, "count(*)")
 		.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
-		SQLiteStatement stat = db.compileStatement(builder.toSQL());
-		long count = stat.simpleQueryForLong();
-		stat.close();
+		long count = SQLiteWrapper.queryForLong(mContext, builder.toSQL());
 	
 		if (count > 1) {
 			secondary.setText(mContext.getString(W.string.entity_count_pl, count));

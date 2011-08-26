@@ -2,10 +2,10 @@ package org.imogene.android.widget.field.edit;
 
 import java.util.ArrayList;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
+import org.imogene.android.W;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
@@ -136,7 +136,7 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 			if (mHierarchicalParent instanceof RelationOneFieldEdit) {
 				final Uri uri = ((RelationOneFieldEdit) mHierarchicalParent).getValue();
 				if (uri != null) {
-					final String id = AbstractDatabase.getSuper(getContext()).queryId(uri);
+					final String id = SQLiteWrapper.queryId(getContext(), uri);
 					builder.appendEq(mHierarchicalField, id);
 					sqlTouched = true;
 				} else {
@@ -149,7 +149,7 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 				if (uris != null && uris.size() > 0) {
 					String[] ids = new String[uris.size()];
 					for (int i = 0; i < uris.size(); i++) {
-						ids[i] = AbstractDatabase.getSuper(getContext()).queryId(uris.get(i));
+						ids[i] = SQLiteWrapper.queryId(getContext(), uris.get(i));
 					}
 					builder.appendIn(mHierarchicalField, ids);
 					sqlTouched = true;

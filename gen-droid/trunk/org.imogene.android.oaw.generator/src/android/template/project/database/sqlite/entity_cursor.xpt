@@ -17,7 +17,6 @@ import android.net.Uri;
 import org.imogene.android.Constants.Sync;
 import org.imogene.android.common.Binary;
 import org.imogene.android.common.LocalizedText;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.database.interfaces.EntityCursor;
 «IF Actor.isAssignableFrom(metaType)-»
 import org.imogene.android.database.sqlite.UserCursorImpl;

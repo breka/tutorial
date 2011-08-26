@@ -15,7 +15,7 @@ import android.location.Location;
 import android.net.Uri;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.common.LocalizedText;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.field.EnumConverter;
 import org.imogene.android.sync.translatable.LocalizedTextSerializer;
@@ -179,7 +179,7 @@ if («shortName.toLowerCase()-» != null) {
 Uri «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
 if («shortName.toLowerCase()-» != null) {
 	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
-	serializer.text(AbstractDatabase.getSuper(context).queryId(«shortName.toLowerCase()-»));
+	serializer.text(SQLiteWrapper.queryId(context, «shortName.toLowerCase()-»));
 	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 }
 «ENDDEFINE»
@@ -190,7 +190,7 @@ Uri «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
 if («shortName.toLowerCase()-» != null) {
 	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 	serializer.startTag(null, «entity.name.toFirstUpper()-».PACKAGE);
-	serializer.attribute(null, "id", AbstractDatabase.getSuper(context).queryId(«shortName.toLowerCase()-»));
+	serializer.attribute(null, "id", SQLiteWrapper.queryId(context, «shortName.toLowerCase()-»));
 	serializer.endTag(null, «entity.name.toFirstUpper()-».PACKAGE);
 	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 }
@@ -201,7 +201,7 @@ ArrayList<Uri> «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
 if (!«shortName.toLowerCase()-».isEmpty()) {
 	for (Uri uri : «shortName.toLowerCase()-») {			
 		serializer.startTag(null, «entity.name.toFirstUpper()-».PACKAGE);
-		serializer.attribute(null, "id", AbstractDatabase.getSuper(context).queryId(uri));
+		serializer.attribute(null, "id", SQLiteWrapper.queryId(context, uri));
 		serializer.endTag(null, «entity.name.toFirstUpper()-».PACKAGE);
 	}
 }

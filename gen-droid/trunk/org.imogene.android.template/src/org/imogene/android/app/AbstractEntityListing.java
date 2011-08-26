@@ -2,15 +2,15 @@ package org.imogene.android.app;
 
 import java.util.ArrayList;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.SortOrder;
 import org.imogene.android.Constants.Sync;
+import org.imogene.android.W;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.IamLost;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.util.database.DatabaseUtils;
@@ -30,14 +30,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public abstract class AbstractEntityListing extends ListActivity implements
 		View.OnClickListener, DialogInterface.OnClickListener {
@@ -237,7 +237,7 @@ public abstract class AbstractEntityListing extends ListActivity implements
 	private EntityCursor query() {
 		String where = computeWhere(mSQLBuilder).toSQL();
 		String order = mSortKey	+ (mSortOrder != SortOrder.DESCENDANT_ORDER	? " asc" : " desc");
-		return (EntityCursor) AbstractDatabase.getSuper(this).query(mUri, where, order);
+		return (EntityCursor) SQLiteWrapper.query(this, mUri, where, order);
 	}
 	
 	protected void requery() {

@@ -11,7 +11,6 @@ import java.util.Arrays;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -24,7 +23,7 @@ import org.imogene.android.common.UserImpl;
 «ELSE-»
 import org.imogene.android.common.EntityImpl;
 «ENDIF-»
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.Tools;
@@ -47,7 +46,7 @@ public class «name.toFirstUpper()-» extends
 	«EXPAND declaration FOREACH groups.fields-»
 	
 	public «name.toFirstUpper()-»(Context context, Uri uri) {
-		«name.toFirstUpper()-»Cursor cursor = («name.toFirstUpper()-»Cursor) AbstractDatabase.getSuper(context).query(uri, null, null);
+		«name.toFirstUpper()-»Cursor cursor = («name.toFirstUpper()-»Cursor) SQLiteWrapper.query(context, uri, null, null);
 		cursor.moveToFirst();
 		init(cursor);
 		«FOREACH groups.fields AS field -»
@@ -468,7 +467,7 @@ values.put("«name.toFirstLower()-»", m«name.toFirstUpper()-»);
 «ENDDEFINE»
 
 «DEFINE commit FOR GeoField-»
-values.put("«name.toFirstLower()-»", GpsTableUtils.saveLocation(AbstractDatabase.getSuper(context).getWritableDatabase(), m«name.toFirstUpper()-»));
+values.put("«name.toFirstLower()-»", GpsTableUtils.saveLocation(context, m«name.toFirstUpper()-»));
 «ENDDEFINE»
 
 «DEFINE commit FOR BinaryField-»
@@ -480,18 +479,18 @@ if (m«name.toFirstUpper()-» != null && !Binary.isBinary(m«name.toFirstUpper()-»)
 	«shortName.toLowerCase()-».setParentKey(getId());
 	m«name.toFirstUpper()-» = «shortName.toLowerCase()-».commit(context, true, false);
 }
-values.put("«name.toFirstLower()-»", AbstractDatabase.getSuper(context).queryId(m«name.toFirstUpper()-»));
+values.put("«name.toFirstLower()-»", SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
 «ENDDEFINE»
 
 «DEFINE commit FOR MainRelationFieldEntity-»
 «IF cardinality == 1-»
-values.put("«name.toFirstLower()-»", AbstractDatabase.getSuper(context).queryId(m«name.toFirstUpper()-»));
+values.put("«name.toFirstLower()-»", SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
 «ENDIF»
 «ENDDEFINE»
 
 «DEFINE commit FOR ReverseRelationFieldEntity-»
 «IF getOppositeCardinality(this) != 1 && cardinality == 1 -»
-values.put("«name.toFirstLower()-»", AbstractDatabase.getSuper(context).queryId(m«name.toFirstUpper()-»));
+values.put("«name.toFirstLower()-»", SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
 «ENDIF-»
 «ENDDEFINE»
 
@@ -515,12 +514,11 @@ for (Uri uri : m«name.toFirstUpper()-»)
 }
 «ELSE-»
 {
-SQLiteDatabase db = AbstractDatabase.getSuper(context).getWritableDatabase();
-db.delete("«shortName.toLowerCase()-»", "«parentGroup.parentCard.name.toLowerCase()-»='" + getId() + "'", null);
+SQLiteWrapper.delete(context, "«shortName.toLowerCase()-»", "«parentGroup.parentCard.name.toLowerCase()-»='" + getId() + "'", null);
 ContentValues v = new ContentValues();
 v.put("«parentGroup.parentCard.name.toLowerCase()-»", getId());
 for (Uri uri : m«name.toFirstUpper()-») {
-	v.put("«entity.name.toLowerCase()-»", AbstractDatabase.getSuper(context).queryId(uri));
+	v.put("«entity.name.toLowerCase()-»", SQLiteWrapper.queryId(context, uri));
 	db.insert("«shortName.toLowerCase()-»", "", v);
 }
 }
@@ -552,12 +550,11 @@ for (Uri uri : m«name.toFirstUpper()-»)
 }
 «ELSE»
 {
-SQLiteDatabase db = AbstractDatabase.getSuper(context).getWritableDatabase();
-db.delete("«oppositeRelationField.shortName.toLowerCase()-»", "«parentGroup.parentCard.name.toLowerCase()-»='" + getId() + "'", null);
+SQLiteWrapper.delete(context, "«oppositeRelationField.shortName.toLowerCase()-»", "«parentGroup.parentCard.name.toLowerCase()-»='" + getId() + "'", null);
 ContentValues v = new ContentValues();
 v.put("«parentGroup.parentCard.name.toLowerCase()-»", getId());
 for (Uri uri : m«name.toFirstUpper()-») {
-	v.put("«entity.name.toLowerCase()-»", AbstractDatabase.getSuper(context).queryId(uri));
+	v.put("«entity.name.toLowerCase()-»", SQLiteWrapper.queryId(context, uri));
 	db.insert("«oppositeRelationField.shortName.toLowerCase()-»", "", v);
 }
 }

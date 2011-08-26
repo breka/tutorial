@@ -2,9 +2,9 @@ package org.imogene.android.widget.field.edit;
 
 import java.util.ArrayList;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Keys;
+import org.imogene.android.W;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.widget.field.FieldManager;
 

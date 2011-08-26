@@ -16,8 +16,8 @@ import org.imogene.android.Constants.Status;
 import org.imogene.android.Constants.Tables;
 import org.imogene.android.W;
 import org.imogene.android.app.WakefulIntentService;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.sync.OptimizedSyncClient;
 import org.imogene.android.sync.SynchronizationException;
 import org.imogene.android.sync.http.OptimizedSyncClientHttp;
@@ -58,7 +58,6 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 	private NotificationManager mNotificationManager;
 
 	private OptimizedSyncClient syncClient;
-	private AbstractDatabase helper;
 
 	private String login;
 	private String password;
@@ -83,8 +82,6 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 	@Override
 	protected void doWakefulWork(Intent intent) {
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-		helper = AbstractDatabase.getSuper(this);
 
 		hardwareId = PreferenceHelper.getHardwareId(this);
 		login = PreferenceHelper.getSyncLogin(this);
@@ -111,12 +108,10 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				updateTimeOffset();
 
 				// look for synchronization ERROR.
-				Cursor cursor = helper.getReadableDatabase().query(
-						Tables.TABLE_SYNCHISTORY,
-						new String[] { Keys.KEY_ROWID, Keys.KEY_ID,
-								Keys.KEY_LEVEL },
-						Keys.KEY_STATUS + " = " + Status.STATUS_ERROR, null,
-						null, null, null);
+				Cursor cursor = SQLiteWrapper.query(this,
+						Tables.TABLE_SYNCHISTORY, new String[] {
+								Keys.KEY_ROWID, Keys.KEY_ID, Keys.KEY_LEVEL, Keys.KEY_DATE },
+						Keys.KEY_STATUS + " = " + Status.STATUS_ERROR);
 				/*
 				 * We resume the synchronization process
 				 */
@@ -125,9 +120,10 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 					long rowId = cursor.getLong(0);
 					UUID id = UUID.fromString(cursor.getString(1));
 					int level = cursor.getInt(2);
-					Log.i(TAG, "resume on error : " + id + ", level : " + level);
+					long date = cursor.getLong(3);
 					cursor.close();
-					received += resumeOnError(rowId, id, level);
+					Log.i(TAG, "resume on error : " + id + ", level : " + level + ", date : " + date);
+					received += resumeOnError(rowId, id, level, date);
 				} else {
 					cursor.close();
 				}
@@ -152,8 +148,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				values.put(Keys.KEY_DATE, syncTime);
 				values.put(Keys.KEY_STATUS, Status.STATUS_ERROR);
 				values.put(Keys.KEY_LEVEL, Levels.LEVEL_SEND);
-				long rowId = helper.getWritableDatabase().insert(
-						Tables.TABLE_SYNCHISTORY, "", values);
+				long rowId = SQLiteWrapper.insert(this, Tables.TABLE_SYNCHISTORY, "", values);
 
 				FileInputStream fis = new FileInputStream(outFile);
 				int res = syncClient.sendClientModification(sessionId, fis);
@@ -169,9 +164,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				if (res > -1) {
 					values.clear();
 					values.put(Keys.KEY_LEVEL, Levels.LEVEL_RECEIVE);
-					helper.getWritableDatabase().update(
-							Tables.TABLE_SYNCHISTORY, values,
-							Keys.KEY_ROWID + "=" + rowId, null);
+					SQLiteWrapper.update(this, Tables.TABLE_SYNCHISTORY, values, Keys.KEY_ROWID + "=" + rowId, null);
 				} else {
 					throw new SynchronizationException(
 							"Error sending data to the server.",
@@ -185,8 +178,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				values.clear();
 				values.put(Keys.KEY_STATUS, Status.STATUS_OK);
 				values.put(Keys.KEY_LEVEL, Levels.LEVEL_RECEIVE);
-				helper.getWritableDatabase().update(Tables.TABLE_SYNCHISTORY,
-						values, Keys.KEY_ROWID + "=" + rowId, null);
+				SQLiteWrapper.update(this, Tables.TABLE_SYNCHISTORY, values, Keys.KEY_ROWID + "=" + rowId, null);
 
 				// 4 - close the session
 				onClose();
@@ -221,7 +213,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 		}
 	}
 
-	private int resumeOnError(long rowId, UUID errorId, int errorLevel)
+	private int resumeOnError(long rowId, UUID errorId, int errorLevel, long date)
 			throws SynchronizationException {
 		ContentValues values = new ContentValues();
 
@@ -235,50 +227,31 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 			try {
 				/* 1 - initialize the resumed session */
 				onInitResume();
-				String result = syncClient.resumeSend(login, password,
-						hardwareId, "xml", errorId);
+				String result = syncClient.resumeSend(login, password, hardwareId, "xml", errorId);
 				/* 2 - sending local modifications */
 				onSendResume();
 				if (result.equals("error")) {
-					throw new SynchronizationException(
-							"Error resuming the session, the server return an error code",
-							SynchronizationException.ERROR_SEND);
+					throw new SynchronizationException("Error resuming the session, the server return an error code", SynchronizationException.ERROR_SEND);
 				} else {
 					int bytesReceived = Integer.parseInt(result);
-					File outFile = new File(Paths.PATH_SYNCHRO, errorId
-							+ ".lmodif");
+					File outFile = new File(Paths.PATH_SYNCHRO, errorId	+ ".lmodif");
 					FileInputStream fis = new FileInputStream(outFile);
 					fis.skip(bytesReceived);
-					Log.i(TAG,
-							"Re-sending data from the file "
-									+ outFile.getAbsolutePath() + " skipping "
-									+ bytesReceived + " bytes");
+					Log.i(TAG, "Re-sending data from the file "	+ outFile.getAbsolutePath() + " skipping " + bytesReceived + " bytes");
 					int res = syncClient.resumeSendModification(errorId, fis);
 					fis.close();
 					if (!debug) {
 						outFile.delete();
 					}
 
-					Cursor c = helper.getReadableDatabase().query(
-							Tables.TABLE_SYNCHISTORY,
-							new String[] { Keys.KEY_DATE },
-							Keys.KEY_ROWID + "=" + rowId, null, null, null,
-							null);
-					if (c.getCount() > 0) {
-						c.moveToFirst();
-						markAsSentForSession(c.getLong(0));
-					}
-					c.close();
+					markAsSentForSession(date);
 
-					Log.i(TAG,
-							"number of server modifications applied on resume: "
-									+ res);
+					Log.i(TAG, "number of server modifications applied on resume: "	+ res);
 
 				}
 				values.clear();
 				values.put(Keys.KEY_LEVEL, Levels.LEVEL_RECEIVE);
-				helper.getWritableDatabase().update(Tables.TABLE_SYNCHISTORY,
-						values, Keys.KEY_ROWID + "=" + rowId, null);
+				SQLiteWrapper.update(this, Tables.TABLE_SYNCHISTORY, values, Keys.KEY_ROWID + "=" + rowId, null);
 
 				/* 3 - receiving the server modifications */
 				onReceiveResume();
@@ -286,8 +259,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 
 				values.clear();
 				values.put(Keys.KEY_STATUS, Status.STATUS_OK);
-				helper.getWritableDatabase().update(Tables.TABLE_SYNCHISTORY,
-						values, Keys.KEY_ROWID + "=" + rowId, null);
+				SQLiteWrapper.update(this, Tables.TABLE_SYNCHISTORY, values, Keys.KEY_ROWID + "=" + rowId, null);
 
 				/* 4 - closing the session */
 				onCloseResume();
@@ -305,8 +277,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 		 * we resume a reception, by re-receiving the server data
 		 */
 		if (errorLevel == Levels.LEVEL_RECEIVE) {
-			Log.i(TAG, "Resuming the receive operation for the session "
-					+ errorId);
+			Log.i(TAG, "Resuming the receive operation for the session " + errorId);
 			try {
 				/* clear the sent file */
 				if (!debug) {
@@ -325,9 +296,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 					received = resumeRequestModification(errorId);
 					values.clear();
 					values.put(Keys.KEY_STATUS, Status.STATUS_OK);
-					helper.getWritableDatabase().update(
-							Tables.TABLE_SYNCHISTORY, values,
-							Keys.KEY_ROWID + "=" + rowId, null);
+					SQLiteWrapper.update(this, Tables.TABLE_SYNCHISTORY, values, Keys.KEY_ROWID + "=" + rowId, null);
 					/* 3 - closing the session */
 					onCloseResume();
 					syncClient.closeSession(errorId, debug);

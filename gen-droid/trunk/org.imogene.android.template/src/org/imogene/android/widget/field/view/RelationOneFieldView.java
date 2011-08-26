@@ -2,7 +2,7 @@ package org.imogene.android.widget.field.view;
 
 import org.imogene.android.W;
 import org.imogene.android.database.interfaces.EntityCursor;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +36,7 @@ public class RelationOneFieldView extends FieldEntityView<Uri> {
 		final Uri uri = getValue();
 		if (uri != null) {
 			final String result;
-			EntityCursor cursor = (EntityCursor) AbstractDatabase.getSuper(getContext()).query(uri, null, null);
+			EntityCursor cursor = (EntityCursor) SQLiteWrapper.query(getContext(), uri, null, null);
 			cursor.moveToFirst();
 			result = cursor.getMainDisplay(getContext());
 			cursor.close();

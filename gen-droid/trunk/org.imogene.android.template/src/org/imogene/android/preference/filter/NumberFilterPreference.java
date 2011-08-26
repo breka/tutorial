@@ -9,9 +9,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public abstract class NumberFilterPreference<U extends Number, T extends NumberFilter<U>> extends FilterPreference<T> implements OnItemSelectedListener {
 

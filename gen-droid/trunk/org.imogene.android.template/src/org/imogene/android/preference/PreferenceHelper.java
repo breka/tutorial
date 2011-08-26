@@ -1,7 +1,7 @@
 package org.imogene.android.preference;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Categories;
+import org.imogene.android.W;
 import org.imogene.android.util.base64.Base64;
 import org.imogene.android.util.encryption.EncryptionManager;
 

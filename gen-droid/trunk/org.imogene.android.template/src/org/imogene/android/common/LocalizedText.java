@@ -2,7 +2,7 @@ package org.imogene.android.common;
 
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.database.sqlite.LocalizedTextCursor;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.util.FormatHelper;
 
 import android.content.ContentValues;
@@ -25,7 +25,7 @@ public class LocalizedText extends EntityImpl {
 	private boolean mPotentialyWrong = false;
 
 	public LocalizedText(Context context, Uri uri) {
-		LocalizedTextCursor cursor = (LocalizedTextCursor) AbstractDatabase.getSuper(context).query(uri, null, null);
+		LocalizedTextCursor cursor = (LocalizedTextCursor) SQLiteWrapper.query(context, uri, null, null);
 		init(cursor);
 		cursor.close();
 	}

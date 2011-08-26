@@ -3,7 +3,7 @@ package org.imogene.android.common;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.util.FormatHelper;
 
 import android.content.ContentValues;
@@ -67,7 +67,7 @@ public class ClientFilter extends EntityImpl {
 			.toSQL();
 			
 			T filter;
-			ClientFilterCursor c = (ClientFilterCursor) AbstractDatabase.getSuper(context).query(CONTENT_URI, where, null);
+			ClientFilterCursor c = (ClientFilterCursor) SQLiteWrapper.query(context, CONTENT_URI, where, null);
 			if (c.getCount() == 1) {
 				c.moveToFirst();
 				filter = newFilter(c);
