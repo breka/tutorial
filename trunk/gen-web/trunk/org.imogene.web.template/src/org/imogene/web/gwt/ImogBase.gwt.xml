@@ -16,16 +16,6 @@ The Imogene common module declaration
   <inherits name='com.allen_sauer.gwt.voices.gwt-voices'/>
   <inherits name="gwtupload.GWTUpload"/>
   
-  <!-- available locale -->
-  <extend-property values="en" name="locale"/>
-  <extend-property values="fr" name="locale"/>
-  <set-property name="locale" value="fr,en"/>  
-  
-    <!-- for tests
-  <extend-property name="locale" values="en"/>
-  <set-property name="locale" value="en"/>
-  <set-property name="user.agent" value="gecko1_8" />
-  --> 
   <set-property name="user.agent" value="%navigators%"/>
   
   <!-- Module style sheet -->
