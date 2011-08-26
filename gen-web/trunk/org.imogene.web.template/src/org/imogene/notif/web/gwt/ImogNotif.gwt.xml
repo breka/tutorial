@@ -12,15 +12,6 @@ author Medes-IMPS
   <!-- Inherits external modules     -->
   <inherits name="org.imogene.web.gwt.ImogBase"/>
   
-  <!-- available locale -->
-  <extend-property name="locale" values="fr"/>
-  <extend-property name="locale" values="en"/>  
-  
-  <!-- for tests
-  <extend-property name="locale" values="en"/>
-  <set-property name="locale" value="en"/>
-  <set-property name="user.agent" value="gecko1_8" />
-  -->
   <set-property name="user.agent" value="%navigators%"/>
   
   <!-- Module style sheet -->
