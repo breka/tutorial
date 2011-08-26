@@ -1,8 +1,8 @@
 package org.imogene.android.app;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
+import org.imogene.android.W;
 
 import android.app.Activity;
 import android.app.AlertDialog;

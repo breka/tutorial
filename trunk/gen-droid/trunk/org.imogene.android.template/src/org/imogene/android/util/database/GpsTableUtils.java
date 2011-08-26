@@ -10,14 +10,13 @@ import org.imogene.android.Constants.Tables;
 import org.imogene.android.app.AbstractEntityListing;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +25,7 @@ public class GpsTableUtils {
 
 	private static final String EXTRA_GPS_ROW = "org.imogene.android.database.gpstablehelper.extra.GPS_ROW";
 
-	public static final long saveLocation(SQLiteDatabase db, Location location) {
+	public static final long saveLocation(Context context, Location location) {
 		if (location == null) return -1;
 		Bundle extras = location.getExtras();
 		if (extras != null && extras.containsKey(EXTRA_GPS_ROW)) {
@@ -47,13 +46,12 @@ public class GpsTableUtils {
 		values.put(Keys.KEY_HASBEARING, location.hasBearing() ? 1 : 0);
 		values.put(Keys.KEY_HASSPEED, location.hasSpeed() ? 1 : 0);
 
-		return db.insert(Tables.TABLE_GPSLOCATIONS, "", values);
+		return SQLiteWrapper.insert(context, Tables.TABLE_GPSLOCATIONS, "", values);
 	}
 
-	public static final Location getLocation(SQLiteDatabase db, long row) {
+	public static final Location getLocation(Context context, long row) {
 		if (row == -1) return null;
-		Cursor c = db.query(Tables.TABLE_GPSLOCATIONS, null, Keys.KEY_ROWID + "=" + row,
-				null, null, null, null);
+		Cursor c = SQLiteWrapper.query(context, Tables.TABLE_GPSLOCATIONS, null, Keys.KEY_ROWID + "=" + row);
 		if (c.getCount() == 1) {
 			c.moveToFirst();
 
@@ -111,7 +109,7 @@ public class GpsTableUtils {
 		
 		String sql = AbstractEntityListing.computeWhere(b).toSQL();
 
-		EntityCursor c = (EntityCursor) AbstractDatabase.getSuper(context).query(uri, sql, null);
+		EntityCursor c = (EntityCursor) SQLiteWrapper.query(context, uri, sql, null);
 		final int count = c.getCount();
 		if (count < 1) {
 			return null;

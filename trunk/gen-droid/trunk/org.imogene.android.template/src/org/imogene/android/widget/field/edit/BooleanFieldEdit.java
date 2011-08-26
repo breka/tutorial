@@ -4,8 +4,8 @@ import org.imogene.android.W;
 import org.imogene.android.widget.field.FieldEntity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;

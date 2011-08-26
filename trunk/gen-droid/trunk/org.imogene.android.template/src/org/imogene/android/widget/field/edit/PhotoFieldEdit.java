@@ -1,7 +1,7 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Categories;
+import org.imogene.android.W;
 
 import android.content.Context;
 import android.content.Intent;

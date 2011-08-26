@@ -9,8 +9,8 @@ import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.field.FieldUtils;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -20,10 +20,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class DateFilterPreference extends FilterPreference<DateFilter> implements
 		OnClickListener, OnLongClickListener, OnItemSelectedListener,

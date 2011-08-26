@@ -1,7 +1,7 @@
 package org.imogene.android.app;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Intents;
+import org.imogene.android.W;
 import org.imogene.android.app.setup.AccountCreationIntroduction;
 import org.imogene.android.app.setup.AccountSetupBasics;
 import org.imogene.android.preference.PreferenceHelper;

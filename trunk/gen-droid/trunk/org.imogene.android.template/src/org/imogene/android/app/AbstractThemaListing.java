@@ -1,9 +1,9 @@
 package org.imogene.android.app;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
+import org.imogene.android.W;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.service.AbstractSyncService;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.widget.ThemaExpandableListAdapter.EntityChild;
@@ -13,9 +13,9 @@ import android.app.Dialog;
 import android.app.ExpandableListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.ContentObserver;
 import android.net.Uri;
@@ -161,7 +161,7 @@ public abstract class AbstractThemaListing extends ExpandableListActivity
 		if (resultCode == RESULT_OK && requestCode == ACTIVITY_BARCODE_ID) {
 			mScanned = data.getStringExtra("SCAN_RESULT");
 			Toast.makeText(this, getString(W.string.scanned, mScanned), Toast.LENGTH_LONG).show();
-			Uri uri = AbstractDatabase.getSuper(this).findInDatabase(mScanned);
+			Uri uri = SQLiteWrapper.findInDatabase(this, mScanned);
 			if (uri != null) {
 				startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			} else {

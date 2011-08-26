@@ -1,7 +1,7 @@
 package org.imogene.android.app.setup;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Intents;
+import org.imogene.android.W;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.base64.Base64;
 import org.imogene.android.util.encryption.EncryptionManager;

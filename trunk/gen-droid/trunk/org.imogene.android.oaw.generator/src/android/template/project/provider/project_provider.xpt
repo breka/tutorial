@@ -52,7 +52,7 @@ public class 南ame.toFirstUpper()-與rovider extends AbstractProvider {
 	
 	@Override
 	public boolean onCreate() {
-		dbHelper = 南ame.toFirstUpper()-聞atabase.getInstance(getContext());
+		dbHelper = 南ame.toFirstUpper()-聞atabase.get(getContext());
 		return true;
 	}
 	
@@ -163,7 +163,7 @@ public class 南ame.toFirstUpper()-與rovider extends AbstractProvider {
 		return result;
 	}
 
-	private static class 南ame.toFirstUpper()-聞atabase extends AbstractDatabase {
+	private static class 南ame.toFirstUpper()-聞atabase extends ImogDatabase {
 
 		private static final String TAG = 南ame.toFirstUpper()-聞atabase.class.getName();
 	
@@ -196,7 +196,7 @@ public class 南ame.toFirstUpper()-與rovider extends AbstractProvider {
 			CREATOR = new Creator<南ame.toFirstUpper()-聞atabase>() {
 				@Override
 				public 南ame.toFirstUpper()-聞atabase getDatabase(Context context) {
-					return 南ame.toFirstUpper()-聞atabase.getInstance(context);
+					return 南ame.toFirstUpper()-聞atabase.get(context);
 				}
 			};
 		}
@@ -210,7 +210,7 @@ public class 南ame.toFirstUpper()-與rovider extends AbstractProvider {
 			super(context, Databases.DATABASE_NAME, null, DATABASE_VERSION);
 		}
 	
-		private static final synchronized 南ame.toFirstUpper()-聞atabase getInstance(Context context) {
+		private static final synchronized 南ame.toFirstUpper()-聞atabase get(Context context) {
 			if (sSingleton == null) {
 				sSingleton = new 南ame.toFirstUpper()-聞atabase(context);
 			}

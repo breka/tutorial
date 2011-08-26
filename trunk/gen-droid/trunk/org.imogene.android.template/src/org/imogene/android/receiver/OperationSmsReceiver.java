@@ -3,9 +3,9 @@ package org.imogene.android.receiver;
 import java.io.File;
 import java.util.UUID;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
+import org.imogene.android.W;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.service.MetadataService;
 

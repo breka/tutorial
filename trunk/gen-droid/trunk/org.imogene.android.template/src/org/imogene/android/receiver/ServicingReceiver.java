@@ -2,24 +2,22 @@ package org.imogene.android.receiver;
 
 import java.util.UUID;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Tables;
+import org.imogene.android.W;
 import org.imogene.android.app.HighPreferences;
 import org.imogene.android.app.UnSyncDialog;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.FormatHelper;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 
 public class ServicingReceiver extends BroadcastReceiver {
 
@@ -39,8 +37,7 @@ public class ServicingReceiver extends BroadcastReceiver {
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(i);
 		} else if (Intents.ACTION_RM_SYNC_HISTORY.equals(intent.getAction())) {
-			SQLiteDatabase db = AbstractDatabase.getSuper(context).getWritableDatabase();
-			db.delete(Tables.TABLE_SYNCHISTORY, null, null);
+			SQLiteWrapper.delete(context, Tables.TABLE_SYNCHISTORY, null, null);
 		} else if (Intents.ACTION_RM_DATABASE.equals(intent.getAction())) {
 			if (intent.hasExtra(Extras.EXTRA_FORCE)) {
 				deleteAll(context);
@@ -65,17 +62,15 @@ public class ServicingReceiver extends BroadcastReceiver {
 	private static final String[] COL = new String[] {KEY_NAME};
 	
 	private void deleteAll(Context context) {
-		SQLiteDatabase db = AbstractDatabase.getSuper(context).getWritableDatabase();
-		
 		SQLiteBuilder builder = new SQLiteBuilder();
 		builder.setAnd(true);
 		builder.appendEq(KEY_TYPE, TYPE_TABLE);
 		
-		Cursor c = db.query(SQLITE_MASTER, COL, builder.toSQL(), null, null, null, null);
+		Cursor c = SQLiteWrapper.query(context, SQLITE_MASTER, COL, builder.toSQL());
 		while (c.moveToNext()) {
 			String table = c.getString(0);
 			if (!ANDROID_METADATA.equals(table)) {
-				db.delete(table, null, null);
+				SQLiteWrapper.delete(context, table, null, null);
 			}
 		}
 		c.close();
@@ -85,31 +80,24 @@ public class ServicingReceiver extends BroadcastReceiver {
 	}
 
 	private boolean hasUnSync(Context context) {
-		SQLiteDatabase db = AbstractDatabase.getSuper(context).getReadableDatabase();
-		
 		SQLiteBuilder builder = new SQLiteBuilder();
 		builder.setAnd(true);
 		builder.appendLike(KEY_SQL, Keys.KEY_SYNCHRONIZED);
 		builder.appendEq(KEY_TYPE, TYPE_TABLE);
 		
-		Cursor c = db.query(SQLITE_MASTER, new String[] {KEY_NAME}, builder.toSQL(), null, null, null, null);
+		Cursor c = SQLiteWrapper.query(context, SQLITE_MASTER, new String[] {KEY_NAME}, builder.toSQL());
+		SQLiteBuilder b = new SQLiteBuilder();
+		b.setSelect("count(*)");
+		b.appendEq(Keys.KEY_SYNCHRONIZED, 0);
 		while(c.moveToNext()) {
-			if (countUnSyncForTable(db, c.getString(0)) > 0) {
+			long count = SQLiteWrapper.queryForLong(context, b.setTable(c.getString(0)).toSQL());
+			if (count > 0) {
 				c.close();
 				return true;
 			}
 		}
 		c.close();
 		return false;
-	}
-
-	private long countUnSyncForTable(SQLiteDatabase db, String table) {
-		SQLiteStatement stat = db.compileStatement(
-				"select count(*) from " + table + " where "
-				+ Keys.KEY_SYNCHRONIZED + "=0");
-		long result = stat.simpleQueryForLong();
-		stat.close();
-		return result;
 	}
 
 }

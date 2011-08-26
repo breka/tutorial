@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Paths;
+import org.imogene.android.W;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.sync.OptimizedSyncClient;
 import org.imogene.android.sync.http.OptimizedSyncClientHttp;
 import org.xmlpull.v1.XmlPullParserException;
@@ -20,8 +20,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -106,7 +106,7 @@ public abstract class AbstractEntityDownloader extends Activity {
 
 	private void onSuccess(String searched) {
 		dismissDialog(DIALOG_DOWNLOAD_ID);
-		Uri uri = AbstractDatabase.getSuper(this).findInDatabase(searched);
+		Uri uri = SQLiteWrapper.findInDatabase(this, searched);
 		if (uri != null) {
 			setResult(RESULT_OK, new Intent().setData(uri));
 			finish();

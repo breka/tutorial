@@ -1,12 +1,12 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Keys;
+import org.imogene.android.W;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 import org.imogene.android.widget.field.FieldManager.RelationManager;
 
@@ -31,7 +31,7 @@ public class RelationOneFieldEdit extends RelationFieldEdit<Uri> implements OnAc
 		final Uri uri = getValue();
 		final String result;
 		if (uri != null) {
-			EntityCursor cursor = (EntityCursor) AbstractDatabase.getSuper(getContext()).query(uri, null, null);
+			EntityCursor cursor = (EntityCursor) SQLiteWrapper.query(getContext(), uri, null, null);
 			cursor.moveToFirst();
 			result = cursor.getMainDisplay(getContext());
 			cursor.close();

@@ -12,7 +12,6 @@ import org.imogene.android.common.Binary;
 import org.imogene.android.common.ClientFilter;
 import org.imogene.android.common.LocalizedText;
 import org.imogene.android.common.SmsComm;
-import org.imogene.android.database.interfaces.DatabaseHelper;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.LocalizedTextCursor;
@@ -64,7 +63,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		sURIMatcher.addURI(Constants.AUTHORITY, SmsComm.TABLE_NAME + "/#", SMS_COMM_ID);
 	}
 
-	protected abstract AbstractDatabase getHelper();
+	protected abstract ImogDatabase getHelper();
 	
 	protected abstract String getVndDir();
 	
@@ -351,7 +350,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		}
 	}
 	
-	public static abstract class AbstractDatabase extends SQLiteOpenHelper implements DatabaseHelper {
+	public static abstract class ImogDatabase extends SQLiteOpenHelper {
 
 		private static final String DATABASE_CREATE_CLIENTFILTER = "create table if not exists "
 				+ ClientFilter.TABLE_NAME
@@ -513,22 +512,22 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ " text, "
 				+ Keys.KEY_SMS_STATUS
 				+ " integer);";
-		protected interface Creator<T extends DatabaseHelper> {
+		protected interface Creator<T extends ImogDatabase> {
 			public T getDatabase(Context context);
 		}
 
-		protected static Creator<? extends AbstractDatabase> CREATOR;
-		protected static AbstractDatabase sSingleton = null;
+		protected static Creator<? extends ImogDatabase> CREATOR;
+		protected static ImogDatabase sSingleton = null;
 		
 		private final Context mContext;
 		
-		public synchronized static final AbstractDatabase getSuper(Context context) {
+		public synchronized static final ImogDatabase getInstance(Context context) {
 			if (sSingleton == null)
 				sSingleton = CREATOR.getDatabase(context);
 			return sSingleton;
 		}
-
-		public AbstractDatabase(Context context, String name,
+		
+		public ImogDatabase(Context context, String name,
 				CursorFactory factory, int version) {
 			super(context, name, factory, version);
 			mContext = context;
@@ -617,6 +616,8 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			}
 			return -1;
 		}
+		
+		public abstract Uri findInDatabase(String id);
 
 		protected final Context getContext() {
 			return mContext;

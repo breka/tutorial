@@ -4,8 +4,8 @@ import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Sync;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.BeanKeyGenerator;
 
 import android.content.ContentResolver;
@@ -122,7 +122,7 @@ public abstract class EntityImpl implements Entity {
 	}
 	
 	protected final long getRowIdFromId(Context context, String id) {
-		return AbstractDatabase.getSuper(context).queryRowId(getContentUri(), id);
+		return SQLiteWrapper.queryRowId(context, getContentUri(), id);
 	}
 	
 	protected abstract String getBeanType();

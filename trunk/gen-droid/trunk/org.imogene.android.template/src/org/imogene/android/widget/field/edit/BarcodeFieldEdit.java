@@ -1,7 +1,7 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
 import org.imogene.android.Constants.Intents;
+import org.imogene.android.W;
 import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;

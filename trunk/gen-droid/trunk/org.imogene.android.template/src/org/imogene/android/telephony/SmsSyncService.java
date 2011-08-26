@@ -5,9 +5,9 @@ import org.imogene.android.Constants.Keys;
 import org.imogene.android.app.WakefulIntentService;
 import org.imogene.android.common.SmsComm;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.database.sqlite.SmsCommCursor;
 import org.imogene.android.preference.PreferenceHelper;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -66,7 +66,7 @@ public class SmsSyncService extends WakefulIntentService {
 	@Override
 	protected void doWakefulWork(Intent intent) {
 		if (Intents.ACTION_SMS_SYNC.equals(intent.getAction())) {
-			SmsCommCursor c = (SmsCommCursor) AbstractDatabase.getSuper(this).query(SmsComm.CONTENT_URI, WHERE, null);
+			SmsCommCursor c = (SmsCommCursor) SQLiteWrapper.query(this, SmsComm.CONTENT_URI, WHERE, null);
 			for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 				// String message = ... - Build message
 				// SmsHelper.sendSms(this, message); - Send message

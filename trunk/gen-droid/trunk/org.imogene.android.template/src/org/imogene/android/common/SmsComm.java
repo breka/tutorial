@@ -1,8 +1,8 @@
 package org.imogene.android.common;
 
 import org.imogene.android.Constants.Keys;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.database.sqlite.SmsCommCursor;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.FormatHelper;
 
 import android.content.ContentResolver;
@@ -32,7 +32,7 @@ public class SmsComm {
 	}
 	
 	public SmsComm(Context context, Uri uri) {
-		SmsCommCursor cursor = (SmsCommCursor) AbstractDatabase.getSuper(context).query(uri, null, null);
+		SmsCommCursor cursor = (SmsCommCursor) SQLiteWrapper.query(context, uri, null, null);
 		cursor.moveToFirst();
 		init(cursor);
 		cursor.close();

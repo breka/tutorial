@@ -7,7 +7,6 @@ import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Sync;
 import org.imogene.android.common.LocalizedText;
 import org.imogene.android.database.interfaces.EntityCursor;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.database.GpsTableUtils;
@@ -162,7 +161,7 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 		builder.appendEq(Keys.KEY_FIELD_ID, key);
 		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
 		
-		LocalizedTextCursor c = (LocalizedTextCursor) AbstractDatabase.getSuper(null).query(LocalizedText.CONTENT_URI, builder.toSQL(), null);
+		LocalizedTextCursor c = (LocalizedTextCursor) SQLiteWrapper.query(null, LocalizedText.CONTENT_URI, builder.toSQL(), null);
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			if (result == null) {
 				result = new LocalizedTextList(key);
@@ -205,7 +204,7 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	protected final Location getAsLocation(int columnIndex) {
 		Long rowId = getAsLong(columnIndex);
 		if (rowId != null) {
-			return GpsTableUtils.getLocation(getDatabase(), rowId.longValue());
+			return GpsTableUtils.getLocation(null, rowId.longValue());
 		} else {
 			return null;
 		}
@@ -219,7 +218,7 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 			if (mBuffer.containsKey(uri)) {
 				builder.append(mBuffer.get(uri)).append(" ");
 			} else {
-				EntityCursor c = (EntityCursor) AbstractDatabase.getSuper(context).query(uri, null, null);
+				EntityCursor c = (EntityCursor) SQLiteWrapper.query(context, uri, null, null);
 				c.moveToFirst();
 				String main = c.getMainDisplay(context);
 				c.close();

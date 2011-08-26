@@ -7,9 +7,9 @@ package org.imogene.android.«name.toLowerCase()-».app;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.app.AbstractEntityListing;
 import org.imogene.android.app.AbstractUserListing;
-import org.imogene.android.provider.AbstractProvider.AbstractDatabase;
 import org.imogene.android.database.UserCursorJoiner;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.database.sqlite.SQLiteWrapper;
 «EXPAND importCursor(name) FOREACH entities-»
 «EXPAND importEntity(name) FOREACH entities-»
 
@@ -64,6 +64,6 @@ private «name.toFirstUpper()»Cursor get«name.toFirstUpper()»Cursor() {
 	builder.appendIsNotNull(Keys.KEY_LOGIN);
 	builder.appendIsNotNull(Keys.KEY_PASSWORD);
 	
-	return («name.toFirstUpper()»Cursor) AbstractDatabase.getSuper(this).query(«name.toFirstUpper()».CONTENT_URI, AbstractEntityListing.computeWhere(builder).toSQL(), null);
+	return («name.toFirstUpper()»Cursor) SQLiteWrapper.query(this, «name.toFirstUpper()».CONTENT_URI, AbstractEntityListing.computeWhere(builder).toSQL(), null);
 }
 «ENDDEFINE»
