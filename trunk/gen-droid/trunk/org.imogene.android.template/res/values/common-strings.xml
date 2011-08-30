@@ -88,13 +88,6 @@
 	<string name="sync_close">"Closing session"</string>
 	<string name="sync_close_resume">"Closing the resumed session"</string>
 	
-	<string name="synchro_resume_title">"Synchronization finished"</string>
-	<string name="synchro_resume_detail">"You just received %d entities."</string>
-	<string name="synchro_resume">"Synchronization resume"</string>
-	<string name="synchro_receive_resume">"Received entities"</string>
-	<string name="synchro_empty_unread">"You don't have any unread entities"</string>
-	<string name="synchro_exit">"Quit"</string>
-	
 	<!-- Account creation -->
 	<string name="account_welcome">"Account creation"</string>
 	<string name="account_introduction">"Welcome to Imogene setup !\n\nUse your Imogene account to use this application."</string>

@@ -19,6 +19,7 @@ import android.view.SubMenu;
 import org.imogene.android.Constants.SortOrder;
 import org.imogene.android.app.AbstractEntityListing;
 import org.imogene.android.«projectName.toLowerCase()».entities.«name.toFirstUpper()-»;
+import org.imogene.android.«projectName.toLowerCase()».notification.«projectName.toFirstUpper()-»Notification;
 import org.imogene.android.«projectName.toLowerCase()».roles.«name.toFirstUpper()-»Roles;
 import org.imogene.android.«projectName.toLowerCase()».search.«projectName.toFirstUpper()-»SearchSupport;
 import org.imogene.android.«projectName.toLowerCase()».R;
@@ -64,6 +65,8 @@ public class «name.toFirstUpper()-»Listing extends AbstractEntityListing {
 		mCanDelete = canDelete && mCanCreate;
 		mCanModify = canModify && mCanCreate;
 		«ENDIF-»
+		
+		«projectName.toFirstUpper()»Notification.cancel«name.toFirstUpper()»Notification(this);
 	}
 
 	@Override

@@ -184,7 +184,6 @@ public final class W {
 		public static final int menu_iamlost = R.id.menu_iamlost;
 		public static final int menu_info = R.id.menu_info;
 		public static final int menu_preferences = R.id.menu_preferences;
-		public static final int menu_resume_sync = R.id.menu_resume_sync;
 		public static final int menu_save = R.id.menu_save;
 		public static final int menu_search = R.id.menu_search;
 		public static final int menu_sync = R.id.menu_sync;
@@ -475,13 +474,7 @@ public final class W {
 		public static final int sync_time_summary = R.string.sync_time_summary;
 		public static final int sync_time_title = R.string.sync_time_title;
 		public static final int sync_user_title = R.string.sync_user_title;
-		public static final int synchro_empty_unread = R.string.synchro_empty_unread;
-		public static final int synchro_exit = R.string.synchro_exit;
 		public static final int synchro_parameters = R.string.synchro_parameters;
-		public static final int synchro_receive_resume = R.string.synchro_receive_resume;
-		public static final int synchro_resume = R.string.synchro_resume;
-		public static final int synchro_resume_detail = R.string.synchro_resume_detail;
-		public static final int synchro_resume_title = R.string.synchro_resume_title;
 		public static final int synchronization = R.string.synchronization;
 		public static final int tile_loader_filter_title = R.string.tile_loader_filter_title;
 		public static final int uncomplete_dialog_msg = R.string.uncomplete_dialog_msg;

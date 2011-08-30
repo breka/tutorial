@@ -35,6 +35,7 @@ import org.imogene.android.widget.field.edit.TextFieldEdit;
 import org.imogene.android.widget.field.edit.TimeFieldEdit;
 import org.imogene.android.«projectName.toLowerCase()».R;
 import org.imogene.android.«projectName.toLowerCase()».entities.«name.toFirstUpper()-»;
+import org.imogene.android.«projectName.toLowerCase()».notification.«projectName.toFirstUpper()»Notification;
 «EXPAND android::template::EntityUtil::organizeEntityImport(projectName) FOREACH groups.fields-»
 import org.imogene.android.«projectName.toLowerCase()».roles.«name.toFirstUpper()»Roles;
 
@@ -51,6 +52,8 @@ public class «name.toFirstUpper()-»Edit extends AbstractEntityEdit implements Re
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		«projectName.toFirstUpper()»Notification.cancel«name.toFirstUpper()»Notification(this);
 		
 		if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
 			if (getIntent().hasExtra(Extras.EXTRA_ENTITY))

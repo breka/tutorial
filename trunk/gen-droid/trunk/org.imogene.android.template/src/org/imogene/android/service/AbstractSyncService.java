@@ -52,10 +52,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 
 	private static final String TAG = AbstractSyncService.class.getName();
 
-	private static final int SYNC_STATE_ID = 1;
-	private static final int SYNC_RESUME_ID = 2;
-
-	private NotificationManager mNotificationManager;
+	private static final int SYNC_STATE_ID = 1111;
 
 	private OptimizedSyncClient syncClient;
 
@@ -81,8 +78,6 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
 		hardwareId = PreferenceHelper.getHardwareId(this);
 		login = PreferenceHelper.getSyncLogin(this);
 		password = PreferenceHelper.getSyncPassword(this);
@@ -98,7 +93,6 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 		}
 
 		if (Intents.ACTION_CHECK_SYNC.equals(intent.getAction())) {
-			int received = 0;
 			try {
 				onStart();
 
@@ -123,7 +117,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 					long date = cursor.getLong(3);
 					cursor.close();
 					Log.i(TAG, "resume on error : " + id + ", level : " + level + ", date : " + date);
-					received += resumeOnError(rowId, id, level, date);
+					resumeOnError(rowId, id, level, date);
 				} else {
 					cursor.close();
 				}
@@ -173,7 +167,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 
 				// 3 - get server modifications
 				onReceive();
-				received += requestServerModification(sessionId);
+				requestServerModification(sessionId);
 
 				values.clear();
 				values.put(Keys.KEY_STATUS, Status.STATUS_OK);
@@ -195,7 +189,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				Log.e(TAG, "error during synchronization", e);
 			} finally {
 				markAsReadHidden();
-				onFinish(received);
+				onFinish();
 			}
 		} else if (Intents.ACTION_CANCEL.equals(intent.getAction())) {
 			onCancel();
@@ -374,11 +368,9 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 		reschedule();
 	}
 
-	private void onFinish(int received) {
-		mNotificationManager.cancel(SYNC_STATE_ID);
-
-		if (received > 0)
-			notifySynchronizationResume(received);
+	private void onFinish() {
+		NotificationManager notifMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		notifMgr.cancel(SYNC_STATE_ID);
 
 		if (PreferenceHelper.getSynchronizationStatus(this)) {
 			reschedule();
@@ -456,11 +448,8 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				SystemClock.elapsedRealtime() + period * 1000, pi);
 	}
 
-	protected abstract Intent getResumeIntent(int received);
-
 	private void notifyState(String msg) {
-		NotificationManager notifMgr = (NotificationManager) this
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager notifMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 		Notification notif = new Notification(W.drawable.logo_android_s, msg,
 				System.currentTimeMillis());
@@ -474,26 +463,4 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 		notifMgr.notify(SYNC_STATE_ID, notif);
 	}
 
-	private void notifySynchronizationResume(int received) {
-		CharSequence chr = getString(W.string.synchro_resume_title);
-		Notification notif = new Notification(W.drawable.logo_android_s, chr,
-				System.currentTimeMillis());
-
-		Intent intent = getResumeIntent(received);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				intent, 0);
-
-		CharSequence chrLong = getString(W.string.synchro_resume_detail,
-				received);
-		notif.setLatestEventInfo(this, chr, chrLong, contentIntent);
-
-		notif.flags = Notification.FLAG_AUTO_CANCEL
-				| Notification.FLAG_SHOW_LIGHTS;
-		notif.defaults = Notification.DEFAULT_ALL;
-		notif.ledARGB = 0xff00ff00;
-		notif.ledOnMS = 500;
-		notif.ledOffMS = 2000;
-
-		mNotificationManager.notify(SYNC_RESUME_ID, notif);
-	}
 }

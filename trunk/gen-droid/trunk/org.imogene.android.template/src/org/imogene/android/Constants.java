@@ -52,6 +52,9 @@ public final class Constants {
 		
 		public static final String ACTION_SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
 		
+		/* Notification */
+		public static final String ACTION_NOTIFICATION_DELETED = "org.imogene.android.%realProjectName%.receiver.SMS_NOTIFICATION_DELETED";
+		
 		/* Sms intents */
 		public static final String ACTION_SMS_AUTHENTICATION = "org.imogene.android.%realProjectName%.receiver.SMS_AUTHENTICATION";
 		
