@@ -96,7 +96,6 @@ public class ThemaListing extends AbstractThemaListing {
 		«IF hasFilter(this)-»
 		menu.findItem(R.id.menu_preferences).setIntent(new Intent(this, ExtendedPreferences.class));
 		«ENDIF-»
-		menu.findItem(R.id.menu_resume_sync).setIntent(SyncResume.createResumeIntent(this, 0));
 		return result;
 	}
 

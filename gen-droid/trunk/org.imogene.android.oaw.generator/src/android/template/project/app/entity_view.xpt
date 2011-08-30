@@ -39,6 +39,7 @@ import org.imogene.android.widget.field.view.TextFieldView;
 import org.imogene.android.widget.field.view.TimeFieldView;
 import org.imogene.android.«projectName.toLowerCase()».R;
 import org.imogene.android.«projectName.toLowerCase()».entities.«name.toFirstUpper()-»;
+import org.imogene.android.«projectName.toLowerCase()».notification.«projectName.toFirstUpper()»Notification;
 «EXPAND android::template::EntityUtil::organizeEntityImport(projectName) FOREACH groups.fields-»
 import org.imogene.android.«projectName.toLowerCase()».roles.«name.toFirstUpper()»Roles;
 «IF getMoreFields(groups.fields).size > 0 -»
@@ -65,6 +66,8 @@ public class «name.toFirstUpper()-»View extends AbstractEntityView implements Re
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		«projectName.toFirstUpper()»Notification.cancel«name.toFirstUpper()»Notification(this);
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean canDelete = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_delete), «canDelete»);

@@ -10,6 +10,7 @@ import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.base64.Base64;
 import org.imogene.android.util.encryption.EncryptionManager;
 import org.imogene.android.«name.toLowerCase()».R;
+import org.imogene.android.«name.toLowerCase()».notification.«name.toFirstUpper()»Notification;
 
 public class MainApp extends Application {
 
@@ -17,6 +18,8 @@ public class MainApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		
+		«name.toFirstUpper()»Notification.init();
+
 		if (PreferenceHelper.getHardwareId(this) == null)
         	PreferenceHelper.getSharedPreferences(this)
         	.edit()

@@ -165,13 +165,6 @@
 		</activity>
 		
 		<activity 
-			android:name=".app.SyncResume"
-			android:label="@string/synchro_resume"
-			android:theme="@android:style/Theme.Light" >
-			<category android:name="android.intent.category.DEFAULT"/>
-		</activity>
-		
-		<activity 
 			android:name=".app.EntityDownloader"
 			android:label="@string/«name.toLowerCase()-»_downloader"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"
@@ -210,6 +203,13 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
+		
+		<receiver
+			android:name=".notification.«name.toFirstUpper()»Notification$OnDeletedReceiver">
+			<intent-filter>
+				<action android:name="org.imogene.android.«name.toLowerCase()».receiver.SMS_NOTIFICATION_DELETED" />
+			</intent-filter>
+		</receiver>
 		
 		<receiver
 			android:name="org.imogene.android.receiver.OperationSmsReceiver">
