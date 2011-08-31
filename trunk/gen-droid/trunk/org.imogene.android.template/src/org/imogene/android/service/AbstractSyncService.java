@@ -17,6 +17,7 @@ import org.imogene.android.Constants.Tables;
 import org.imogene.android.W;
 import org.imogene.android.app.WakefulIntentService;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
+import org.imogene.android.notification.MessagingNotification;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.sync.OptimizedSyncClient;
 import org.imogene.android.sync.SynchronizationException;
@@ -93,6 +94,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 		}
 
 		if (Intents.ACTION_CHECK_SYNC.equals(intent.getAction())) {
+			int received = 0;
 			try {
 				onStart();
 
@@ -117,7 +119,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 					long date = cursor.getLong(3);
 					cursor.close();
 					Log.i(TAG, "resume on error : " + id + ", level : " + level + ", date : " + date);
-					resumeOnError(rowId, id, level, date);
+					received += resumeOnError(rowId, id, level, date);
 				} else {
 					cursor.close();
 				}
@@ -167,7 +169,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 
 				// 3 - get server modifications
 				onReceive();
-				requestServerModification(sessionId);
+				received += requestServerModification(sessionId);
 
 				values.clear();
 				values.put(Keys.KEY_STATUS, Status.STATUS_OK);
@@ -189,6 +191,9 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				Log.e(TAG, "error during synchronization", e);
 			} finally {
 				markAsReadHidden();
+				if (received > 0) {
+					MessagingNotification.blockingUpdateNewMessageIndicator(this);
+				}
 				onFinish();
 			}
 		} else if (Intents.ACTION_CANCEL.equals(intent.getAction())) {
