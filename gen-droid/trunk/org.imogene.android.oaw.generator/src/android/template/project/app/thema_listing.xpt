@@ -7,7 +7,6 @@ package org.imogene.android.«name.toLowerCase()-».app;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.view.Menu;
 import org.imogene.android.app.AbstractThemaListing;
 «FOREACH entities AS entity-»
