@@ -519,7 +519,7 @@ ContentValues v = new ContentValues();
 v.put("«parentGroup.parentCard.name.toLowerCase()-»", getId());
 for (Uri uri : m«name.toFirstUpper()-») {
 	v.put("«entity.name.toLowerCase()-»", SQLiteWrapper.queryId(context, uri));
-	db.insert("«shortName.toLowerCase()-»", "", v);
+	SQLiteWrapper.insert(context, "«shortName.toLowerCase()-»", "", v);
 }
 }
 «ENDIF-»
@@ -555,7 +555,7 @@ ContentValues v = new ContentValues();
 v.put("«parentGroup.parentCard.name.toLowerCase()-»", getId());
 for (Uri uri : m«name.toFirstUpper()-») {
 	v.put("«entity.name.toLowerCase()-»", SQLiteWrapper.queryId(context, uri));
-	db.insert("«oppositeRelationField.shortName.toLowerCase()-»", "", v);
+	SQLiteWrapper.insert(context, "«oppositeRelationField.shortName.toLowerCase()-»", "", v);
 }
 }
 «ENDIF»
