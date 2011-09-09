@@ -634,7 +634,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 		«name.toFirstLower()».setMinimum(«min»);
 	«ENDIF -»
 	«IF this.max != "" -»
-		«name.toFirstLower()».setMaximum(«min»);
+		«name.toFirstLower()».setMaximum(«max»);
 	«ENDIF -»
 «ENDDEFINE»
 
@@ -980,7 +980,9 @@ import org.imogene.web.gwt.client.ui.field.ImogPaginatedRelationList.ListButtonC
 					lastEventParent=«name.toFirstLower()»;
 					«IF getOppositeCardinality(this)==1 && oppositeRelationField!=null-»
 					if(entity!=null)
-						composite.set«oppositeRelationField.name.toFirstUpper()»(entity);			
+						composite.set«oppositeRelationField.name.toFirstUpper()»(entity);
+					else
+						composite.set«oppositeRelationField.name.toFirstUpper()»(null);							
 					«ENDIF-»
 					
 					«IF this.relationHierarchicalFilter!=null && this.relationHierarchicalFilter.size==2 -»
@@ -1063,9 +1065,11 @@ import org.imogene.web.gwt.client.ui.field.ImogPaginatedRelationList.ListButtonC
 	public void set«this.name.toFirstUpper()»(«this.entity.name.toFirstUpper()» value) {
 		«IF getHierarchicalFilterChilds(this, this.parentGroup.parentCard.groups.fields).isEmpty -»
 		«name.toFirstLower()».setValue(value);
+		«name.toFirstLower()».setLocked(true);
 		«ELSE -»
 		// The value of «name.toFirstLower()» affects other fields
 		«name.toFirstLower()».setValue(value,true);
+		«name.toFirstLower()».setLocked(true);
 		«ENDIF -»		
 		«FOREACH getHierarchicalFilterChilds(this, this.parentGroup.parentCard.groups.fields) AS f -»
 		// Field «f.name.toFirstUpper()» depends on the value of field «f.relationHierarchicalFilter.get(0).name.toFirstLower()»

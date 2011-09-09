@@ -354,7 +354,7 @@ public class «name.toFirstUpper()»ExportExcelServiceServlet implements Controlle
 	«IF (cardinality >1) || (cardinality == -1)-»
 		{
 			int i = 0;
-			String result = new String("");
+			String result = "";
 			for(«this.entity.name.toFirstUpper()» cur:current.«EXPAND template::CommonFieldUtil::getterName FOR this-»()) {
 				if (i==0)
 					result = result + ServerMainFieldsUtilImpl.get().getDisplayValue(cur, rb);
