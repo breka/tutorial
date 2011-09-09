@@ -118,7 +118,18 @@ public class ImogEnumField extends ImogFieldAbstract<String> implements ValueCha
 		}else{
 			listChoices.addItem(label, value);
 		}
-	}	
+	}
+	
+	/**
+	 * Removes all the itmes from the enumeration field
+	 */
+	public void removeItems() {
+		if (!listWidget) {
+			fieldPanel.clear();
+		}else{
+			listChoices.clear();
+		}
+	}
 	
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> arg0) {

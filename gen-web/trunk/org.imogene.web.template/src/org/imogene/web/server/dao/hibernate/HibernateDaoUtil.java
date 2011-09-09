@@ -62,6 +62,7 @@ public class HibernateDaoUtil {
 			} else if (operator.equals(CriteriaConstants.STRING_OPERATOR_STARTWITH)) {
 				junction.add(Restrictions.ilike(property, value + "%"));  				
 			} else if (operator.equals(CriteriaConstants.DATE_OPERATOR_BEFORE)) {
+				//value = value + " 23:59";
 				junction.add(Restrictions.le(property, DateUtil.parseDate(value)));  										
 			} else if (operator.equals(CriteriaConstants.DATE_OPERATOR_AFTER)) {
 				junction.add(Restrictions.ge(property, DateUtil.parseDate(value)));  										

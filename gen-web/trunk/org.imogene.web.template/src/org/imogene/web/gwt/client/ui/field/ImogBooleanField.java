@@ -62,7 +62,7 @@ public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements Valu
 	/**
 	 */
 	private void properties(){
-		nspBox.setValue(true);
+		//nspBox.setValue(true);
 		nspBox.addValueChangeHandler(this);
 		noBox.addValueChangeHandler(this);
 		yesBox.addValueChangeHandler(this);

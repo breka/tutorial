@@ -169,6 +169,7 @@ public class ImogPaginatedRelationBox<T extends ImogBean> extends ImogFieldAbstr
 
 	@Override
 	public boolean validate() {
+		if(isLocked()) return true;
 		if(isMandatory() && paginatedList.getText().equals("")){
 			displayError(BaseNLS.constants().field_mandatory());
 			return false;
