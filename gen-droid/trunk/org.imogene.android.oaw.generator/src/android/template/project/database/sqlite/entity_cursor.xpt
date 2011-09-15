@@ -319,6 +319,14 @@ if («shortName.toLowerCase()» != -1) {
 «ENDIF-»
 «ENDDEFINE»
 
+«DEFINE getDisplay FOR GeoField-»
+Location «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(FormatHelper.displayLocation(«shortName.toLowerCase()»));
+	str.append(" ");
+}
+«ENDDEFINE»
+
 «DEFINE getDisplay FOR RelationFieldEntity-»
 «IF cardinality == 1-»
 buildRelationDisplay(context, str, get«name.toFirstUpper()-»());
