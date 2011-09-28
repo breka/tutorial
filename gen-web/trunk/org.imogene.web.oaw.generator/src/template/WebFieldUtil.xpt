@@ -40,7 +40,11 @@
 «DEFINE formFieldType FOR RelationFieldEntity -»
 	«IF cardinality == 1 -»
 		«IF getOppositeCardinality(this)==1 -»
-		ImogRelationField<«entity.name.toFirstUpper()-»>
+			«IF oppositeRelationField==null -»
+			ImogRelationField<«entity.name.toFirstUpper()-»>
+			«ELSE -»
+			ImogPaginatedRelationBox<«entity.name.toFirstUpper()-»>
+			«ENDIF -»
 		«ELSE -»
 		ImogPaginatedRelationBox<«entity.name.toFirstUpper()-»>
 		«ENDIF -»

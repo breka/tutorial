@@ -28,6 +28,7 @@ public class «name.toFirstUpper()»SelectionListBoxDataProvider extends AbstractI
 			
 			
 	private boolean nonAffected = false;
+	private boolean searchInReverse = false;
 	private String property = null;
 
 	/**
@@ -66,7 +67,21 @@ public class «name.toFirstUpper()»SelectionListBoxDataProvider extends AbstractI
 		nonAffected = true;
 		property = pProperty;
 		this.isFiltered = isFiltered;
-	}	
+	}
+	
+	/**
+	 * Provides filtered instances of entity «name.toFirstUpper()» that have non affected values for a given property (RelationField with card==1) with pagination
+	 * @param pProperty the property for which non affected values are searched
+	 * @param isFiltered true if the box shall be filtered (setFilterParameters to define the filter)
+	 * @param searchInReverse true for 1:1 realtions, if the property for which non affected values are searched shall be looked in reverse relation
+	 */
+	public «name.toFirstUpper()»SelectionListBoxDataProvider(String pProperty, boolean isFiltered, boolean searchInReverse) {
+		super();
+		nonAffected = true;
+		property = pProperty;
+		this.searchInReverse = searchInReverse;
+		this.isFiltered = isFiltered;
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -85,8 +100,12 @@ public class «name.toFirstUpper()»SelectionListBoxDataProvider extends AbstractI
 					/* search criterion added to the permanent filter */
 					listCriterions.add(searchCriterions);
 
-				if (nonAffected)
-					«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(startRow, maxRows, listCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, new PushRelation«name.toFirstUpper()»Callback());
+				if (nonAffected) {
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(startRow, maxRows, listCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, new PushRelation«name.toFirstUpper()»Callback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»Reverse(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, listCriterions, new PushRelation«name.toFirstUpper()»Callback());
+				}
 				else
 					«name.toFirstUpper()»ServiceFacade.getInstance().list«name.toFirstUpper()»(startRow, maxRows, listCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», new PushRelation«name.toFirstUpper()»Callback());			
 			}
@@ -96,15 +115,23 @@ public class «name.toFirstUpper()»SelectionListBoxDataProvider extends AbstractI
 		else {
 			if(searchCriterions != null) {
 
-				if (nonAffected)
-					«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(startRow, maxRows, searchCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", false, property, new PushRelation«name.toFirstUpper()»Callback());
+				if (nonAffected) {
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(startRow, maxRows, searchCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", false, property, new PushRelation«name.toFirstUpper()»Callback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»Reverse(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, searchCriterions, new PushRelation«name.toFirstUpper()»Callback());
+				}
 				else
 					«name.toFirstUpper()»ServiceFacade.getInstance().list«name.toFirstUpper()»(startRow, maxRows, searchCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», new PushRelation«name.toFirstUpper()»Callback());	
 			}
 			else {
 				
-				if (nonAffected)
-					«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, new PushRelation«name.toFirstUpper()»Callback());
+				if (nonAffected) {
+					if (!searchInReverse)				
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, new PushRelation«name.toFirstUpper()»Callback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»Reverse(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, new PushRelation«name.toFirstUpper()»Callback());
+				}
 				else
 					«name.toFirstUpper()»ServiceFacade.getInstance().list«name.toFirstUpper()»(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», new PushRelation«name.toFirstUpper()»Callback());
 			}	
@@ -128,8 +155,12 @@ public class «name.toFirstUpper()»SelectionListBoxDataProvider extends AbstractI
 					/* search criterion added to the permanent filter */
 					listCriterions.add(searchCriterions);
 
-				if (nonAffected)
-					«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»(property, listCriterions, new CountCallback());
+				if (nonAffected) {
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»(property, listCriterions, new CountCallback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»Reverse(property, listCriterions, new CountCallback());
+				}
 				else
 					«name.toFirstUpper()»ServiceFacade.getInstance().count«name.toFirstUpper()»(listCriterions, new CountCallback());			
 			}
@@ -139,15 +170,23 @@ public class «name.toFirstUpper()»SelectionListBoxDataProvider extends AbstractI
 		else {
 			if(searchCriterions != null) {
 				
-				if (nonAffected)
-					«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»(property, searchCriterions, new CountCallback());
+				if (nonAffected){
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»(property, searchCriterions, new CountCallback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»Reverse(property, searchCriterions, new CountCallback());
+				}
 				else
 					«name.toFirstUpper()»ServiceFacade.getInstance().count«name.toFirstUpper()»(searchCriterions, new CountCallback());	
 			}
 			else {
 				
-				if (nonAffected)
-					«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»(property, new CountCallback());
+				if (nonAffected) {
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»(property, new CountCallback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»Reverse(property, null, new CountCallback());
+				}
 				else
 					«name.toFirstUpper()»ServiceFacade.getInstance().count«name.toFirstUpper()»(new CountCallback());
 			}			

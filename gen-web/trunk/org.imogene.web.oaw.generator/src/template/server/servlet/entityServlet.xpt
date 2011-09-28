@@ -204,7 +204,57 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 		List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) ImogSecurityHandler.getInstance().getPolicy().toSecure(beans, actor);
 
 		return securedBeans;
-	}	
+	}
+		
+
+	/**
+	 * Used when «name.toFirstUpper()» is involved in a Relation 1 <-> 1 
+	 * Association and is the ReverseRelationField of the Relation
+	 * Return all instance of «name.toFirstUpper()» non affected
+	 * regarding specified property.	
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @param sortProperty the property used to sort the collection
+	 * @param asc true for an ascendant sort
+	 * @param property the property which is not affected
+	 * @param criterion request criteria
+	 * @return list of «name.toFirstLower()»
+	 */
+	@SuppressWarnings("unchecked")
+	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»Reverse(int i, int j, String sortProperty, boolean asc, String property) {
+		ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
+		ImogJunction junction = createFilterJuntion(actor);
+
+		List<«name.toFirstUpper()»> beans = «name.toFirstLower()»Dao.listNonAffected«name.toFirstUpper()»Reverse(i, j , sortProperty, asc, property, junction);
+		List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) ImogSecurityHandler.getInstance().getPolicy().toSecure(beans, actor);
+
+		return securedBeans;
+	}
+	
+	/**
+	 * Used when «name.toFirstUpper()» is involved in a Relation 1 <-> 1 
+	 * Association and is the ReverseRelationField of the Relation
+	 * Return all instance of «name.toFirstUpper()» non affected
+	 * regarding specified property.	
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @param sortProperty the property used to sort the collection
+	 * @param asc true for an ascendant sort
+	 * @param property the property which is not affected
+	 * @param ImogJunction request criteria
+	 * @return list of «name.toFirstLower()»
+	 */
+	@SuppressWarnings("unchecked")
+	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»Reverse(int i, int j, String sortProperty, boolean asc, String property, ImogJunction criterions) {
+		ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
+		ImogJunction junction = createFilterJuntion(actor);
+		junction.add(criterions);
+
+		List<«name.toFirstUpper()»> beans = «name.toFirstLower()»Dao.listNonAffected«name.toFirstUpper()»Reverse(i, j , sortProperty, asc, property, junction);
+		List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) ImogSecurityHandler.getInstance().getPolicy().toSecure(beans, actor);
+
+		return securedBeans;
+	}
 	
 	/**
 	 * Counts the number of «name.toFirstLower()» in the database
@@ -258,7 +308,22 @@ public class «name.toFirstUpper()»ServiceServlet extends PersistentRemoteService
 		ImogJunction junction = createFilterJuntion(actor);
 
 		return «name.toFirstLower()»Dao.countNonAffected«name.toFirstUpper()»(property, junction);
-	}	
+	}
+	
+	/**
+	 * Counts the number of non affected «name.toFirstLower()» entities in the database
+	 * @param property the property which is not affected
+	 * @param criterion request criteria
+	 * @return the count
+	 */	
+	public int countNonAffected«name.toFirstUpper()»Reverse(String property, ImogJunction criterion) {
+
+		ImogActor actor = (ImogActor) this.getThreadLocalRequest().getSession().getAttribute(ServerConstants.SESSION_USER);
+		ImogJunction junction = createFilterJuntion(actor);
+		if (criterion!=null)
+			junction.add(criterion);
+		return «name.toFirstLower()»Dao.countNonAffected«name.toFirstUpper()»Reverse(property, junction);
+	}
 	
 	/**
 	 * Saves or updates the entity

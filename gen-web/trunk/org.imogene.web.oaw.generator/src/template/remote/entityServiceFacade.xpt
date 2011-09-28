@@ -129,7 +129,41 @@ public class «name.toFirstUpper()»ServiceFacade {
 	 */		
 	public void listNonAffected«name.toFirstUpper()»(int i, int j, String sortProperty, boolean asc, String property, AsyncCallback<List<«name.toFirstUpper()»>> callback) {
 		proxy.listNonAffected«name.toFirstUpper()»(i, j, sortProperty, asc, property, callback);
-	}	
+	}
+	
+	/**
+	 * Used when «name.toFirstUpper()» is involved in a Relation 1 <-> 1 
+	 * Association and is the ReverseRelationField of the Relation
+	 * Return all instance of «name.toFirstUpper()» non affected
+	 * regarding specified property.
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @param sortProperty the property used to sort the collection
+	 * @param asc true for an ascendant sort	
+	 * @param property the property which is not affected
+	 * @param callback the result call back	
+	 */
+	 public void listNonAffected«name.toFirstUpper()»Reverse(int i, int j, String sortProperty, boolean asc, String property, AsyncCallback<List<«name.toFirstUpper()»>> callback){
+	 	proxy.listNonAffected«name.toFirstUpper()»Reverse(i, j, sortProperty, asc, property, callback);
+	 }	
+	 
+	 /**
+	 * Used when «name.toFirstUpper()» is involved in a Relation 1 <-> 1 
+	 * Association and is the ReverseRelationField of the Relation
+	 * Return all instance of «name.toFirstUpper()» non affected
+	 * regarding specified property.
+	 * @param i first index to retrieve
+	 * @param j nb of items to retrieve
+	 * @param sortProperty the property used to sort the collection
+	 * @param asc true for an ascendant sort	
+	 * @param property the property which is not affected
+	 * @param searchCriterions request criteria
+	 * @param callback the result call back	
+	 */
+	 public void listNonAffected«name.toFirstUpper()»Reverse(int i, int j, String sortProperty, boolean asc, String property, ImogJunction searchCriterions, AsyncCallback<List<«name.toFirstUpper()»>> callback){
+	 	proxy.listNonAffected«name.toFirstUpper()»Reverse(i, j, sortProperty, asc, property, searchCriterions, callback);
+	 }	
+	 
 	
 	/**
 	 * Counts the number of «name.toFirstLower()» in the database
@@ -166,7 +200,18 @@ public class «name.toFirstUpper()»ServiceFacade {
 	 */		
 	public void countNonAffected«name.toFirstUpper()»(String property, AsyncCallback<Integer> callback) {
 		proxy.countNonAffected«name.toFirstUpper()»(property, callback);
-	}	
+	}
+
+	/**
+	 * Counts the number of non affected entities in the database
+	 * regarding specified property.
+	 * @param property the property which is not affected
+	 * @param searchCriterions request criteria
+	 * @param callback the result call back
+	 */	
+	public void countNonAffected«name.toFirstUpper()»Reverse(String property, ImogJunction searchCriterions, AsyncCallback<Integer> callback) {
+		proxy.countNonAffected«name.toFirstUpper()»Reverse(property, searchCriterions, callback);
+	}
 	
 	/**
 	 * Saves or updates the entity

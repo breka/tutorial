@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -15,6 +19,7 @@ public class MenuItemImpl extends MenuItem {
 	private String token;	
 	private String color;
 	private Set<SelectionHandler> listeners = new HashSet<SelectionHandler>();
+	private boolean selected=false;
 	
 	
 	
@@ -37,8 +42,27 @@ public class MenuItemImpl extends MenuItem {
 	private void properties(){
 		layout.setWidth("100%");
 		layout.setStylePrimaryName("imogene-MenuItem");		
+		MouseOverHandler mouseOver = new MouseOverHandler() {
+			
+			@Override
+			public void onMouseOver(MouseOverEvent arg0) {	
+				if(!selected)
+					layout.addStyleDependentName("selected");
+	}
+		};
+		MouseOutHandler mouseOut = new MouseOutHandler() {
+	
+			@Override
+			public void onMouseOut(MouseOutEvent arg0) {				
+				layout.removeStyleDependentName("selected");
+			}
+		};
+		layout.addDomHandler(mouseOver, MouseOverEvent.getType());
+		layout.addDomHandler(mouseOut, MouseOutEvent.getType());
+		
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void behavior(){
 		link.addClickHandler(this);
 	}		
@@ -52,8 +76,11 @@ public class MenuItemImpl extends MenuItem {
 	}
 
 	public void setSelected(boolean selected){
-		if(selected)
+		this.selected = selected;
+		if(selected){
+			layout.removeStyleDependentName("selected");
 			layout.addStyleDependentName(color+"selected");
+		}
 		else
 			layout.removeStyleDependentName(color+"selected");
 	}
