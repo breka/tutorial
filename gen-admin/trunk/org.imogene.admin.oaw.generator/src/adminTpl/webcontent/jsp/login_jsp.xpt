@@ -155,7 +155,7 @@
 			</table>
 			<div class="imogene-LoginImage"
 				style="position: absolute; left: -100px; top: 85px;"><img
-				class="gwt-Image" src="../imogbase/images/logo_admin.png"></div>
+				class="gwt-Image" src="../imog«projectName.toLowerCase()»/images/logo_admin.png"></div>
 			</div>
 			</td>
 		</tr>
