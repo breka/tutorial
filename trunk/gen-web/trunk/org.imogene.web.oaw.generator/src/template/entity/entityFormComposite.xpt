@@ -581,6 +581,11 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 «REM» ------------------- DEFAULT VALUES --------------- «ENDREM»
 «REM» Set the default value «ENDREM»
 «DEFINE defaultValue FOR FieldEntity-»«ENDDEFINE»
+«DEFINE defaultValue FOR IntegerField-»
+	«IF defaultValue!=null && defaultValue.matches("[0-9]+") -»
+		«name.toFirstLower()».setValue(«defaultValue»);
+	«ENDIF-»
+«ENDDEFINE»
 «DEFINE defaultValue FOR EnumField-»
 	«IF defaultValue!=null»
 		«name.toFirstLower()».setValue("«defaultValue»");
@@ -730,10 +735,23 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 «DEFINE createFieldView(String entityName) FOR RelationFieldEntity -»
 «IF cardinality == 1 -»
 	«IF getOppositeCardinality(this)==1 -»
+	
+		«IF oppositeRelationField==null -»
 	if (AccessManager.canCreateForm("«entity.name.toLowerCase()»") && AccessManager.canEditForm("«entity.name.toLowerCase()»"))
 		«name.toFirstLower()» = new ImogRelationField<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
 	else
 		«name.toFirstLower()» = new ImogRelationField<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»(), false);
+		«ELSE -»
+	if (AccessManager.canCreateForm("«entity.name.toLowerCase()»") && AccessManager.canEditForm("«entity.name.toLowerCase()»"))
+		«name.toFirstLower()» = new ImogPaginatedRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() );
+	else
+		«name.toFirstLower()» = new ImogPaginatedRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() , false);
+			«IF MainRelationFieldEntity.isAssignableFrom(this.metaType)-»
+	«name.toFirstLower()».setDataProvider(new «entity.name.toFirstUpper()»SelectionListBoxDataProvider("«EXPAND template::CommonFieldUtil::propertyName FOR this.oppositeRelationField»", false, true), MainFieldsUtilImpl.get());		
+			«ELSE -»
+	«name.toFirstLower()».setDataProvider(new «entity.name.toFirstUpper()»SelectionListBoxDataProvider("«EXPAND template::CommonFieldUtil::propertyName FOR this.oppositeRelationField»"), MainFieldsUtilImpl.get());		
+			«ENDIF -»
+		«ENDIF -»		
 	«ELSE -»
 	if (AccessManager.canCreateForm("«entity.name.toLowerCase()»") && AccessManager.canEditForm("«entity.name.toLowerCase()»"))
 		«name.toFirstLower()» = new ImogPaginatedRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»() );
@@ -860,7 +878,11 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 «DEFINE affectValueToView FOR RelationFieldEntity -»
 «IF cardinality==1 -»
 	«IF getOppositeCardinality(this)==1 -»
-	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»(),MainFieldsUtilImpl.get().getDisplayValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»()));
+		«IF oppositeRelationField==null -»
+	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»(),MainFieldsUtilImpl.get().getDisplayValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»()));	
+		«ELSE -»
+	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());	
+		«ENDIF -»
 	«ELSE -»
 	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
 	«ENDIF -»
@@ -1057,10 +1079,17 @@ import org.imogene.web.gwt.client.ui.field.ImogPaginatedRelationList.ListButtonC
 «IF cardinality == 1 »
 	/** Injection for field «name.toFirstUpper()» */
 	«IF getOppositeCardinality(this)==1 -»
+		«IF oppositeRelationField==null -»
 	public void set«name.toFirstUpper()»(«entity.name.toFirstUpper()» entity){
 		«name.toFirstLower()».setValue(entity, MainFieldsUtilImpl.get().getDisplayValue(entity));
 		«name.toFirstLower()».setLocked(true);
-	}
+	}		
+		«ELSE -»
+	public void set«this.name.toFirstUpper()»(«this.entity.name.toFirstUpper()» value) {
+		«name.toFirstLower()».setValue(value);
+		«name.toFirstLower()».setLocked(true);	
+	}		
+		«ENDIF -»
 	«ELSE -»
 	public void set«this.name.toFirstUpper()»(«this.entity.name.toFirstUpper()» value) {
 		«IF getHierarchicalFilterChilds(this, this.parentGroup.parentCard.groups.fields).isEmpty -»
@@ -1172,10 +1201,18 @@ import org.imogene.web.gwt.client.ui.field.ImogPaginatedRelationList.ListButtonC
 «DEFINE setRelationBroadcastBehavior FOR RelationFieldEntity»
 	«IF cardinality == 1 -»
 		«IF getOppositeCardinality(this)==1 -»
+			«IF oppositeRelationField==null -»
 		if(myObject instanceof «entity.name.toFirstUpper()» && «name.toFirstLower()».equals(lastEventParent)){
 			«entity.name.toFirstUpper()» «name.toFirstLower()»Tmp = ((«entity.name.toFirstUpper()»)myObject);		
 			«name.toFirstLower()».setValue(«name.toFirstLower()»Tmp, MainFieldsUtilImpl.get().getDisplayValue(«name.toFirstLower()»Tmp));
-			lastEventParent=null;
+			lastEventParent=null;			
+			«ELSE -»
+		if(myObject instanceof «entity.name.toFirstUpper()»){
+			if(«name.toFirstLower()».equals(lastEventParent)){
+				«entity.name.toFirstUpper()» «name.toFirstLower()»Tmp = ((«entity.name.toFirstUpper()»)myObject);
+				«name.toFirstLower()».setValue(«name.toFirstLower()»Tmp);
+			}				
+			«ENDIF-»
 		«ELSE -»	
 		if(myObject instanceof «entity.name.toFirstUpper()»){
 			if(«name.toFirstLower()».equals(lastEventParent)){
@@ -1295,7 +1332,7 @@ private ImogRelationPaginatedSelectionBox<«entity.name.toFirstUpper()»> «name.to
 			}			
 				«ENDIF-»
 			«ELSE-» «REM» filtered field has card = n «ENDREM»
-				«IF !(getOppositeCardinality(this)==1 && oppositeRelationField!=null) -»
+				«REM»«IF !(getOppositeCardinality(this)==1 && oppositeRelationField!=null) -»«ENDREM»
 			/**
 			 * Filters the content of the RelationField «name» by the value of 
 			 * the RelationField «this.relationHierarchicalFilter.get(0).name»
@@ -1319,7 +1356,7 @@ private ImogRelationPaginatedSelectionBox<«entity.name.toFirstUpper()»> «name.to
 				else
 					«name.toFirstLower()»SelectionBox.setFilterParameters(null);
 			}		
-				«ENDIF-»
+				«REM» «ENDIF-»«ENDREM»
 			«ENDIF-»		
 		
 		«ELSE -» «REM» filtered by field with card = n «ENDREM»

@@ -147,13 +147,19 @@ h1 {
 .imogene-MainHeader {
 	height: 10px;
 	width: 100%;
+	background-color: #F4F4F4;
 	border-bottom: 1px solid #777777;
 }
 
 .imogene-Logo {
+	width: 90%;
 	height: 30px;
-	padding-left: 30px;
-	padding-right: 30px;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-left: 30px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	/*border-bottom: 1px solid #777777;*/
 }
 
 .imogene-greytext {
@@ -274,8 +280,12 @@ h1 {
 	margin-bottom: 3px;
 	padding-right: 2px;
 	padding-left: 2px;
-	padding-top: 2px;
-	padding-bottom: 2px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.imogene-MenuItem-selected {
+	background-color: #f4f4f4;
 }
 
 .imogene-MenuItemSeparator {
