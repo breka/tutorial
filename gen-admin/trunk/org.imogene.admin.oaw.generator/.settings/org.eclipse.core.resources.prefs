@@ -1,4 +1,4 @@
-#Mon Jun 06 15:52:28 CEST 2011
+#Tue Oct 04 10:28:19 CEST 2011
 eclipse.preferences.version=1
 encoding//src/adminTpl/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/adminTpl/dot_project.xpt=ISO-8859-1
@@ -27,6 +27,7 @@ encoding//src/adminTpl/server/dao/hibernateMapping.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/roleActorDao.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/roleActorDaoHibernate.xpt=ISO-8859-1
 encoding//src/adminTpl/server/security/ImogSecurityDetailService.xpt=ISO-8859-1
+encoding//src/adminTpl/server/securityContext_xml.xpt=ISO-8859-1
 encoding//src/adminTpl/server/servlet/authServlet.xpt=ISO-8859-1
 encoding//src/adminTpl/server/servlet/downloadServlet.xpt=ISO-8859-1
 encoding//src/adminTpl/server/servlet/encryptionServlet.xpt=ISO-8859-1
