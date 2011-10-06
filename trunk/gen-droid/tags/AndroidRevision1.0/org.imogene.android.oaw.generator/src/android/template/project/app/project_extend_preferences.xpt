@@ -1,0 +1,52 @@
+«IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate FOR Project »
+«IF hasFilter(this)»
+«FILE "/" + name.toLowerCase() + "/app/ExtendedPreferences.java"-»
+package org.imogene.android.«name.toLowerCase()-».app;
+
+import android.os.Bundle;
+import org.imogene.android.app.Preferences;
+«FOREACH entities AS e-»
+«IF e.clientPeriodFilterable || e.clientFilterFields.size > 0-»
+import org.imogene.android.«name.toLowerCase()».roles.«e.name.toFirstUpper()»Roles;
+«ENDIF-»
+«ENDFOREACH-»
+
+public class ExtendedPreferences extends Preferences {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isEmpty = «IF hasLocationFilter()»false«ELSE»true«ENDIF»;
+		«FOREACH entities AS e-»
+		«IF e.clientPeriodFilterable || e.clientFilterFields.size > 0-»
+		if («e.name.toFirstUpper()»Roles.canRead(this)) {
+			boolean isEmptyEntity = «!e.clientPeriodFilterable»;
+			«FOREACH getFilteredGroups(e.clientFilterFields) AS g-»
+			boolean canRead«g.name.toFirstUpper()» = «e.name.toFirstUpper()»Roles.canRead«g.name.toFirstUpper()»(this);
+			if (isEmptyEntity && canRead«g.name.toFirstUpper()»)
+				isEmptyEntity = false;
+			«FOREACH e.clientFilterFields AS f-»
+			«IF g.fields.contains(f)-»
+			findPreference("«f.shortName.toLowerCase()»_filter").setEnabled(canRead«g.name.toFirstUpper()»);
+			«ENDIF-»
+			«ENDFOREACH-»
+			«ENDFOREACH-»
+			if (isEmptyEntity)
+				findPreference("«e.name.toLowerCase()»_filters").setEnabled(false);
+			else if (isEmpty)
+				isEmpty = false;
+		} else {
+			findPreference("«e.name.toLowerCase()»_filters").setEnabled(false);
+		}
+		«ENDIF-»
+		«ENDFOREACH-»
+		if (isEmpty)
+			findPreference("screen_filters").setEnabled(false);
+	}
+
+}
+«ENDFILE»
+«ENDIF»
+«ENDDEFINE»

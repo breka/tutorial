@@ -1,0 +1,231 @@
+«IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate(boolean multilogin, boolean canDeleteDatabase, String webService) FOR Project »
+«FILE 'xml/preferences.xml'-»
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res/org.imogene.android.«name.toLowerCase()»">
+	<PreferenceCategory 
+		android:title="@string/synchro_parameters">
+		«IF multilogin»
+		<org.imogene.android.preference.EncryptedPreference
+			android:key="@string/sync_login_key"
+			android:title="@string/sync_user_title" />
+		<org.imogene.android.preference.MyEditTextPreference 
+			android:key="@string/sync_roles_key"
+			android:title="@string/sync_roles_title"
+			android:shouldDisableView="false"
+			android:enabled="false" />
+		«ENDIF»
+		<org.imogene.android.preference.ServerUrlPreference
+			android:key="@string/sync_server_url_key"
+			android:title="@string/sync_server_title"
+			android:inputType="textUri" />
+		<org.imogene.android.preference.MyEditTextPreference 
+			android:key="@string/sync_hardware_key"
+			android:title="@string/sync_hardware_title"
+			android:shouldDisableView="false"
+			android:enabled="false" />
+		«IF hasFilter(this)-»
+		<PreferenceScreen
+			android:key="screen_filters"
+			android:title="@string/screen_filters_title"
+			android:summary="@string/screen_filters_summary">
+			<org.imogene.android.preference.MyEditTextPreference 
+				android:key="@string/webservice_url_key"
+				android:title="@string/webservice_url_title"
+				android:inputType="textUri"
+				android:defaultValue="«webService»" />
+			«IF hasLocationFilter()-»
+			<org.imogene.android.preference.filter.LocationFilterPreference
+				android:key="«name.toLowerCase()»_location_filter"
+				android:title="@string/location_filter_title"
+				app:entity="«name.toLowerCase()»_project"
+				app:field="georeferenced_fields" />
+			<org.imogene.android.preference.filter.DownloadTilesPreference
+				android:key="«name.toLowerCase()»_location_filter"
+				android:title="@string/tile_loader_filter_title"
+				app:entity="«name.toLowerCase()»_project"
+				app:field="georeferenced_fields" />
+			«ENDIF-»
+			«FOREACH entities AS e-»
+			«IF e.clientPeriodFilterable || e.clientFilterFields.size > 0-»
+			<PreferenceScreen
+				android:key="«e.name.toLowerCase()»_filters"
+				android:title="@string/«e.shortName.toLowerCase()»_des_sg">
+				«IF e.clientPeriodFilterable-»
+				<org.imogene.android.preference.filter.DateFilterPreference
+					android:key="«e.shortName.toLowerCase()»_modified_filter"
+					android:dialogIcon="@android:drawable/ic_dialog_info"
+					android:dialogTitle="@string/modified"
+					android:title="@string/modified"
+					app:entity="«e.shortName.toUpperCase()»"
+					app:field="modified" />
+				<org.imogene.android.preference.filter.DateFilterPreference
+					android:key="«e.shortName.toLowerCase()»_created_filter"
+					android:dialogIcon="@android:drawable/ic_dialog_info"
+					android:dialogTitle="@string/created"
+					android:title="@string/created"
+					app:entity="«e.shortName.toUpperCase()»"
+					app:field="created" />
+				«ENDIF-»
+				«EXPAND preferenceCriteria FOREACH e.clientFilterFields-»
+			</PreferenceScreen>
+			«ENDIF-»
+			«ENDFOREACH-»
+		</PreferenceScreen>
+		«ENDIF-»
+		<org.imogene.android.preference.SyncOneShotPreference
+			android:key="@string/sync_one_shot_key"
+			android:title="@string/sync_one_shot_title"
+			android:summary="@string/sync_one_shot_summary" />
+		<org.imogene.android.preference.SyncOnOffPreference 
+			android:key="@string/sync_on_off_key"
+			android:title="@string/sync_on_off_title"
+			android:summaryOn="@string/sync_on_off_summaryon"
+			android:summaryOff="@string/sync_on_off_summaryoff" />
+		<ListPreference
+			android:key="@string/sync_time_key"
+			android:title="@string/sync_time_title"
+			android:summary="@string/sync_time_summary"
+			android:defaultValue="15" 
+			android:entries="@array/entries_period_preference"
+			android:entryValues="@array/entryvalues_period_preference" />
+		<CheckBoxPreference
+			android:key="@string/sync_bidirectional_key"
+			android:title="@string/sync_bidirectional_title"
+			android:summaryOn="@string/sync_bidirectional_summaryon"
+			android:summaryOff="@string/sync_bidirectional_summaryoff"
+			android:defaultValue="true" />
+		«IF hasFilter(this)»
+		«ENDIF»
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="@string/application_parameters">
+		<org.imogene.android.preference.EncryptedPreference
+			android:key="@string/«IF multilogin»current_login_key«ELSE»sync_login_key«ENDIF»"
+			android:title="@string/app_user_title" />
+		<org.imogene.android.preference.MyEditTextPreference 
+			android:key="@string/«IF multilogin»current_roles_key«ELSE»sync_roles_key«ENDIF»"
+			android:title="@string/app_roles_title"
+			android:shouldDisableView="false"
+			android:enabled="false" />
+		<CheckBoxPreference
+			android:key="@string/app_wizard_key"
+			android:title="@string/app_wizard_title"
+			android:summaryOn="@string/app_wizard_summaryon"
+			android:summaryOff="@string/app_wizard_summaryoff" />
+		«IF canDeleteDatabase-»
+		<org.imogene.android.preference.DeleteDatabasePreference
+			android:title="@string/renew_database_title"
+			android:summary="@string/renew_database_summary"
+			android:dialogIcon="@android:drawable/ic_dialog_alert"
+			android:dialogTitle="@string/renew_database_title"
+			android:dialogMessage="@string/renew_database_dialog_message" />
+		«ENDIF-»
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="@string/about">
+		<org.imogene.android.preference.AboutPreference
+			android:title="@string/about_title"
+			android:summary="@string/about_summary"
+			android:dialogIcon="@android:drawable/ic_dialog_info"
+			android:dialogTitle="@string/about_title"
+			android:negativeButtonText="@null"
+			android:dialogLayout="@layout/about_preference" />
+	</PreferenceCategory>
+</PreferenceScreen>
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE preferenceCriteria FOR FieldEntity»
+«ENDDEFINE»
+
+«DEFINE preferenceCriteria FOR StringField»
+<org.imogene.android.preference.filter.StringFilterPreference
+	android:key="«shortName.toLowerCase()»_filter"
+	android:dialogIcon="@android:drawable/ic_dialog_info"
+	android:dialogTitle="@string/«shortName.toLowerCase()»"
+	android:title="@string/«shortName.toLowerCase()»"
+	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
+	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+/>
+«ENDDEFINE»
+
+«DEFINE preferenceCriteria FOR DateField»
+<org.imogene.android.preference.filter.DateFilterPreference
+	android:key="«shortName.toLowerCase()»_filter"
+	android:dialogIcon="@android:drawable/ic_dialog_info"
+	android:dialogTitle="@string/«shortName.toLowerCase()»"
+	android:title="@string/«shortName.toLowerCase()»"
+	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
+	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+/>
+«ENDDEFINE»
+
+«DEFINE preferenceCriteria FOR IntegerField»
+<org.imogene.android.preference.filter.IntegerFilterPreference
+	android:key="«shortName.toLowerCase()»_filter"
+	android:dialogIcon="@android:drawable/ic_dialog_info"
+	android:dialogTitle="@string/«shortName.toLowerCase()»"
+	android:title="@string/«shortName.toLowerCase()»"
+	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
+	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+/>
+«ENDDEFINE»
+
+«DEFINE preferenceCriteria FOR FloatField»
+<org.imogene.android.preference.filter.FloatFilterPreference
+	android:key="«shortName.toLowerCase()»_filter"
+	android:dialogIcon="@android:drawable/ic_dialog_info"
+	android:dialogTitle="@string/«shortName.toLowerCase()»"
+	android:title="@string/«shortName.toLowerCase()»"
+	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
+	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+/>
+«ENDDEFINE»
+
+«DEFINE preferenceCriteria FOR BooleanField»
+<org.imogene.android.preference.filter.BooleanFilterPreference
+	android:key="«shortName.toLowerCase()»_filter"
+	android:dialogIcon="@android:drawable/ic_dialog_info"
+	android:dialogTitle="@string/«shortName.toLowerCase()»"
+	android:title="@string/«shortName.toLowerCase()»"
+	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
+	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+/>
+«ENDDEFINE»
+
+«DEFINE preferenceCriteria FOR EnumField»
+<org.imogene.android.preference.filter.EnumFilterPreference
+	android:key="«shortName.toLowerCase()»_filter"
+	android:dialogIcon="@android:drawable/ic_dialog_info"
+	android:dialogTitle="@string/«shortName.toLowerCase()»"
+	android:title="@string/«shortName.toLowerCase()»"
+	app:multiple="«multipleSelection»"
+	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
+	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+	app:entries="@array/«shortName.toLowerCase()»"
+	app:size="«enumValues.size»"
+	app:array="@array/«shortName.toLowerCase()»_values"
+/>
+«ENDDEFINE»
+
+«DEFINE preferenceCriteria FOR RelationFieldEntity»
+«IF cardinality == 1-»
+<org.imogene.android.preference.filter.RelationFilterPreference
+	android:key="«shortName.toLowerCase()»_filter"
+	android:dialogIcon="@android:drawable/ic_dialog_info"
+	android:dialogTitle="@string/«shortName.toLowerCase()»"
+	android:title="@string/«shortName.toLowerCase()»"
+	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
+	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
+	app:entityws="«entity.name.toLowerCase()»"
+	«IF relationHierarchicalFilter.size == 2»
+	android:dependency="«relationHierarchicalFilter.get(0).shortName.toLowerCase()»_filter"
+	app:hierarchicalField="«EXPAND template::CommonFieldUtil::propertyName FOR relationHierarchicalFilter.get(0)»"
+	«ENDIF»
+/>
+«ENDIF-»
+«ENDDEFINE»
