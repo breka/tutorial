@@ -1,0 +1,334 @@
+«IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate(String projectName) FOR CardEntity»
+«FILE "/" + projectName.toLowerCase() + "/database/sqlite/" + name.toFirstUpper() + "Cursor.java"»
+package org.imogene.android.«projectName.toLowerCase()-».database.sqlite;
+
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteCursorDriver;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQuery;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.location.Location;
+import android.net.Uri;
+import org.imogene.android.Constants.Sync;
+import org.imogene.android.common.Binary;
+import org.imogene.android.common.LocalizedText;
+import org.imogene.android.database.interfaces.EntityCursor;
+«IF Actor.isAssignableFrom(metaType)-»
+import org.imogene.android.database.sqlite.UserCursorImpl;
+«ELSE-»
+import org.imogene.android.database.sqlite.EntityCursorImpl;
+«ENDIF-»
+import org.imogene.android.util.FormatHelper;
+import org.imogene.android.util.LocalizedTextList;
+import org.imogene.android.«projectName.toLowerCase()».R;
+«EXPAND organizeImports(projectName) FOREACH groups.fields-»
+
+public class «name.toFirstUpper()-»Cursor extends «IF Actor.isAssignableFrom(metaType)-»UserCursorImpl«ELSE-»EntityCursorImpl«ENDIF-» {
+
+	public «name.toFirstUpper()-»Cursor(SQLiteDatabase db, SQLiteCursorDriver driver,
+			String editTable, SQLiteQuery query) {
+		super(db, driver, editTable, query);
+	}
+	
+	public static class Factory implements CursorFactory {
+		public Cursor newCursor(SQLiteDatabase db,
+				SQLiteCursorDriver masterQuery, String editTable,
+				SQLiteQuery query) {
+			return new «name.toFirstUpper()-»Cursor(db, masterQuery, editTable, query);
+		}
+	}
+	
+	«EXPAND createGetter FOREACH groups.fields»
+	
+	@Override
+	public String getMainDisplay(Context context) {
+		StringBuilder str = new StringBuilder();
+		«EXPAND getDisplay FOREACH getMainFields(this)-»
+		return str.toString();
+	}
+
+	@Override
+	public String getSecondaryDisplay(Context context) {
+		StringBuilder str = new StringBuilder();
+		«EXPAND getDisplay FOREACH secondaryFields-»
+		return str.toString();
+	}
+	
+	«IF Actor.isAssignableFrom(metaType)-»
+	@Override
+	public String getUserDisplay(Context context) {
+		StringBuilder str = new StringBuilder();
+		«EXPAND getDisplayForActor FOR this-»
+		return str.toString();
+	}
+	«ENDIF-»
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+
+
+
+
+
+
+«DEFINE organizeImports(String projectName) FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE organizeImports(String projectName) FOR RelationFieldEntity-»
+import org.imogene.android.«projectName.toLowerCase()-».entities.«entity.name.toFirstUpper()-»;
+«ENDDEFINE»
+
+
+
+
+«DEFINE createGetter FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE createGetter FOR StringField-»
+public final String get«name.toFirstUpper()»() {
+	return getString(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ENDDEFINE»
+
+«DEFINE createGetter FOR TextField-»
+«IF translatable-»
+public final LocalizedTextList get«name.toFirstUpper()»() {
+	return getLocalizedText(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ELSE-»
+public final String get«name.toFirstUpper()»() {
+	return getString(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE createGetter FOR IntegerField-»
+public final Integer get«name.toFirstUpper()»() {
+	return getAsInteger(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ENDDEFINE»
+
+«DEFINE createGetter FOR FloatField-»
+public final Float get«name.toFirstUpper()»() {
+	return getAsFloat(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ENDDEFINE»
+
+«DEFINE createGetter FOR BooleanField-»
+public final Boolean get«name.toFirstUpper()»() {
+	return getAsBoolean(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ENDDEFINE»
+
+«DEFINE createGetter FOR DatesField-»
+public final Long get«name.toFirstUpper()»() {
+	return getAsLong(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ENDDEFINE»
+
+«DEFINE createGetter FOR BinaryField-»
+public final Uri get«name.toFirstUpper()-»() {
+	return getEntity(Binary.CONTENT_URI, Binary.TABLE_NAME, getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ENDDEFINE»
+
+«DEFINE createGetter FOR EnumField-»
+«IF multipleSelection -»
+public final boolean[] get«name.toFirstUpper()-»() {
+	return getEnumMulti("«name.toFirstLower()-»", «enumValues.size-»);
+}
+«ELSE-»
+public final int get«name.toFirstUpper()-»() {
+	Integer i = getAsInteger(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+	if (i != null) {
+		return i.intValue();
+	} else {
+		return -1;
+	}
+}
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE createGetter FOR GeoField-»
+public final Location get«name.toFirstUpper()-»() {
+	return getAsLocation(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+}
+«ENDDEFINE»
+
+«DEFINE createGetter FOR RelationFieldEntity-»
+«IF cardinality == 1-»
+public final Uri get«name.toFirstUpper()-»() {
+	return «EXPAND getterSingleForRelation FOR this -»
+}
+«ELSE-»
+public final ArrayList<Uri> get«name.toFirstUpper()-»() {
+	return «EXPAND getterMultiForRelation FOR this-»
+}
+«ENDIF-»
+«ENDDEFINE»
+
+
+
+
+
+
+«DEFINE getterSingleForRelation FOR RelationFieldEntity-»
+«ENDDEFINE»
+
+«DEFINE getterSingleForRelation FOR MainRelationFieldEntity-»
+getEntity(«entity.name.toFirstUpper()-».CONTENT_URI, "«entity.name.toLowerCase()-»", getColumnIndexOrThrow("«name.toFirstLower()-»"));
+«ENDDEFINE»
+
+«DEFINE getterSingleForRelation FOR ReverseRelationFieldEntity-»
+«IF oppositeRelationField != null-»
+«IF oppositeRelationField.cardinality == 1-»
+getEntity(«entity.name.toFirstUpper()-».CONTENT_URI, "«entity.name.toLowerCase()-»", "«oppositeRelationField.name.toFirstLower()-»");
+«ELSE-»
+getEntity(«entity.name.toFirstUpper()-».CONTENT_URI, "«entity.name.toLowerCase()-»", getColumnIndexOrThrow("«name.toFirstLower()-»"));
+«ENDIF-»
+«ENDIF-»
+«ENDDEFINE»
+
+
+
+
+
+
+«DEFINE getterMultiForRelation FOR RelationFieldEntity-»
+«ENDDEFINE»
+
+«DEFINE getterMultiForRelation FOR MainRelationFieldEntity-»
+«IF oppositeRelationField != null-»
+«IF oppositeRelationField.cardinality == 1-»
+getEntities(«entity.name.toFirstUpper()-».CONTENT_URI, "«entity.name.toLowerCase()-»", "«oppositeRelationField.name.toFirstLower()-»");
+«ELSE-»
+getEntities(«entity.name.toFirstUpper()-».CONTENT_URI, "«entity.name.toLowerCase()-»", "«shortName.toLowerCase()-»", "«parentGroup.parentCard.name.toLowerCase()-»", "«entity.name.toLowerCase()-»");
+«ENDIF-»
+«ELSEIF InverseCardinality == -1 -»
+getEntities(«entity.name.toFirstUpper()-».CONTENT_URI, "«entity.name.toLowerCase()-»", "«shortName.toLowerCase()-»", "«parentGroup.parentCard.name.toLowerCase()-»", "«entity.name.toLowerCase()-»");
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE getterMultiForRelation FOR ReverseRelationFieldEntity-»
+«IF oppositeRelationField != null-»
+«IF oppositeRelationField.cardinality == 1-»
+getEntities(«entity.name.toFirstUpper()-».CONTENT_URI, "«entity.name.toLowerCase()-»", "«oppositeRelationField.name.toFirstLower()-»");
+«ELSE-»
+getEntities(«entity.name.toFirstUpper()-».CONTENT_URI, "«entity.name.toLowerCase()-»", "«oppositeRelationField.shortName.toLowerCase()-»", "«parentGroup.parentCard.name.toLowerCase()-»", "«entity.name.toLowerCase()-»");
+«ENDIF-»
+«ENDIF-»
+«ENDDEFINE»
+
+
+
+
+
+«DEFINE getDisplayForActor FOR CardEntity-»
+«ENDDEFINE»
+
+«DEFINE getDisplayForActor FOR Actor-»
+«EXPAND getDisplay FOREACH adminFields-»
+«ENDDEFINE»
+
+
+
+
+
+
+«DEFINE getDisplay FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE getDisplay FOR StringField-»
+String «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(«shortName.toLowerCase()»);
+	str.append(" ");
+}
+«ENDDEFINE»
+
+«DEFINE getDisplay FOR TextField-»
+«IF translatable-»
+LocalizedTextList «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	String localized = «shortName.toLowerCase()».getLocalized();
+	if (localized != null) {
+		str.append(localized);
+		str.append(" ");
+	}
+}
+«ELSE-»
+String «shortName.toLowerCase()» = get«name.toFirstUpper()»();
+if («shortName.toLowerCase()» != null) {
+	str.append(«shortName.toLowerCase()»);
+	str.append(" ");
+}
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE getDisplay FOR NumericField-»
+Number «shortName.toLowerCase()» = get«name.toFirstUpper()»();
+if («shortName.toLowerCase()» != null) {
+	str.append(«shortName.toLowerCase()».toString());
+	str.append(" ");
+	«IF unit.length > 0-»
+	str.append(context.getString(R.string.«shortName.toLowerCase()»_unit));
+	str.append(" ");
+	«ENDIF-»
+}
+«ENDDEFINE»
+
+«DEFINE getDisplay FOR DateField-»
+Long «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(FormatHelper.displayAsDate(«shortName.toLowerCase()»));
+	str.append(" ");
+}
+«ENDDEFINE»
+
+«DEFINE getDisplay FOR DateTimeField-»
+Long «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(FormatHelper.displayAsDateTime(«shortName.toLowerCase()»));
+	str.append(" ");
+}
+«ENDDEFINE»
+
+«DEFINE getDisplay FOR TimeField-»
+Long «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(FormatHelper.displayAsTime(«shortName.toLowerCase()»));
+	str.append(" ");
+}
+«ENDDEFINE»
+
+«DEFINE getDisplay FOR EnumField-»
+«IF !multipleSelection -»
+int «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != -1) {
+	String[] array = context.getResources().getStringArray(R.array.«shortName.toLowerCase()»);
+	str.append(array[«shortName.toLowerCase()»]);
+	str.append(" ");
+}
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE getDisplay FOR GeoField-»
+Location «shortName.toLowerCase()» = get«name.toFirstUpper()-»();
+if («shortName.toLowerCase()» != null) {
+	str.append(FormatHelper.displayLocation(«shortName.toLowerCase()»));
+	str.append(" ");
+}
+«ENDDEFINE»
+
+«DEFINE getDisplay FOR RelationFieldEntity-»
+«IF cardinality == 1-»
+buildRelationDisplay(context, str, get«name.toFirstUpper()-»());
+«ENDIF-»
+«ENDDEFINE»

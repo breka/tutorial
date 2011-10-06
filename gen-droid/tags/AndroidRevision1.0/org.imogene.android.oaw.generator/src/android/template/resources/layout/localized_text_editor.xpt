@@ -1,0 +1,59 @@
+«IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
+«DEFINE generate FOR Project »
+«FILE 'layout/localized_text_editor.xml'-»
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+	«FOREACH languages AS l ITERATOR i»
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+		<EditText
+			android:id="@+id/localized_text_«i.counter0»"
+			android:layout_width="0dip"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:saveEnabled="false" />
+		
+		«IF i.counter0 == 0»
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+				
+			<TextView 
+				android:id="@+id/language_display_«i.counter0»"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="12dip" />
+			
+			<ImageView
+				android:id="@+id/more_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:duplicateParentState="true"
+				style="@style/MoreButton" />
+				
+			<ImageView
+				android:id="@+id/less_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:duplicateParentState="true"
+				style="@style/LessButton" />
+			
+		</LinearLayout>
+		«ELSE»
+		<TextView 
+			android:id="@+id/language_display_«i.counter0»"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="12dip" />
+		«ENDIF»
+
+	</LinearLayout>
+	«ENDFOREACH»
+</merge>
+«ENDFILE»
+«ENDDEFINE»
