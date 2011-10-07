@@ -11,8 +11,8 @@ import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import org.imogene.android.Constants.Keys;
-import org.imogene.android.app.AbstractEntityListing;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.util.database.DatabaseUtils;
 «FOREACH entities AS e-»
 import org.imogene.android.«name.toLowerCase()-».database.sqlite.«e.name.toFirstUpper()-»Cursor;
 import org.imogene.android.«name.toLowerCase()-».entities.«e.name.toFirstUpper()-»;
@@ -48,7 +48,7 @@ public static final MatrixCursor get«name.toFirstUpper()-»Suggestions(Context co
 	SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 	qb.setCursorFactory(new «name.toFirstUpper()-»Cursor.Factory());
 	qb.setTables(«name.toFirstUpper()-».TABLE_NAME);
-	qb.appendWhere(AbstractEntityListing.computeWhere(searchFor«name.toFirstUpper()-»(s)).create().toSQL());
+	qb.appendWhere(DatabaseUtils.computeWhere(searchFor«name.toFirstUpper()-»(s)).create().toSQL());
 	
 	MatrixCursor result = new MatrixCursor(COLUMNS);
 	

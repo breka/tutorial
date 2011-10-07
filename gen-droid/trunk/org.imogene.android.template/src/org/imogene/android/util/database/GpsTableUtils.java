@@ -7,7 +7,6 @@ import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Tables;
-import org.imogene.android.app.AbstractEntityListing;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
@@ -107,7 +106,7 @@ public class GpsTableUtils {
 		
 		b.appendIn(gpsColumn, locations.create());
 		
-		String sql = AbstractEntityListing.computeWhere(b).toSQL();
+		String sql = DatabaseUtils.computeWhere(b).toSQL();
 
 		EntityCursor c = (EntityCursor) SQLiteWrapper.query(context, uri, sql, null);
 		final int count = c.getCount();

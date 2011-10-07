@@ -19,6 +19,11 @@ public final class W {
 
 	public static final class attr {
 
+		public static final int actionbarCompatButtonStyle = R.attr.actionbarCompatButtonStyle;
+		public static final int actionbarCompatLogoStyle = R.attr.actionbarCompatLogoStyle;
+		public static final int actionbarCompatProgressIndicatorStyle = R.attr.actionbarCompatProgressIndicatorStyle;
+		public static final int actionbarCompatSeparatorStyle = R.attr.actionbarCompatSeparatorStyle;
+		public static final int actionbarCompatTextStyle = R.attr.actionbarCompatTextStyle;
 		public static final int array = R.attr.array;
 		public static final int dateMax = R.attr.dateMax;
 		public static final int dateMin = R.attr.dateMin;
@@ -57,15 +62,25 @@ public final class W {
 
 	public static final class color {
 
+		public static final int actionbar_text = R.color.actionbar_text;
 		public static final int gray = R.color.gray;}
 
 	public static final class dimen {
 
-		public static final int button_minWidth = R.dimen.button_minWidth;}
+		public static final int actionbar_compat_height = R.dimen.actionbar_compat_height;
+		public static final int button_minWidth = R.dimen.button_minWidth;
+		public static final int colorstrip_height = R.dimen.colorstrip_height;
+		public static final int text_size_medium = R.dimen.text_size_medium;}
 
 	public static final class drawable {
 
+		public static final int actionbar_compat_background = R.drawable.actionbar_compat_background;
+		public static final int actionbar_compat_button = R.drawable.actionbar_compat_button;
+		public static final int actionbar_compat_logo = R.drawable.actionbar_compat_logo;
+		public static final int actionbar_compat_separator = R.drawable.actionbar_compat_separator;
 		public static final int arrow_icon = R.drawable.arrow_icon;
+		public static final int btn_bg_pressed = R.drawable.btn_bg_pressed;
+		public static final int btn_bg_selected = R.drawable.btn_bg_selected;
 		public static final int btn_circle = R.drawable.btn_circle;
 		public static final int btn_circle_disable = R.drawable.btn_circle_disable;
 		public static final int btn_circle_disable_focused = R.drawable.btn_circle_disable_focused;
@@ -74,6 +89,8 @@ public final class W {
 		public static final int btn_circle_selected = R.drawable.btn_circle_selected;
 		public static final int button_indicator_next = R.drawable.button_indicator_next;
 		public static final int button_indicator_previous = R.drawable.button_indicator_previous;
+		public static final int colorstrip = R.drawable.colorstrip;
+		public static final int colorstrip_shadow = R.drawable.colorstrip_shadow;
 		public static final int divider_vertical_bright = R.drawable.divider_vertical_bright;
 		public static final int header_background = R.drawable.header_background;
 		public static final int help = R.drawable.help;
@@ -86,24 +103,16 @@ public final class W {
 		public static final int ic_menu_forward = R.drawable.ic_menu_forward;
 		public static final int ic_menu_mark = R.drawable.ic_menu_mark;
 		public static final int ic_menu_sync = R.drawable.ic_menu_sync;
+		public static final int ic_title_home = R.drawable.ic_title_home;
+		public static final int ic_title_search = R.drawable.ic_title_search;
+		public static final int ic_title_sync = R.drawable.ic_title_sync;
+		public static final int indicator_current = R.drawable.indicator_current;
+		public static final int indicator_next_arrow = R.drawable.indicator_next_arrow;
+		public static final int indicator_prev_arrow = R.drawable.indicator_prev_arrow;
 		public static final int list_selector_background_inverse = R.drawable.list_selector_background_inverse;
 		public static final int logo_android = R.drawable.logo_android;
 		public static final int logo_android_s = R.drawable.logo_android_s;
 		public static final int required = R.drawable.required;
-		public static final int tab_bottom = R.drawable.tab_bottom;
-		public static final int tab_focus = R.drawable.tab_focus;
-		public static final int tab_focused = R.drawable.tab_focused;
-		public static final int tab_focused_bottom = R.drawable.tab_focused_bottom;
-		public static final int tab_indicator = R.drawable.tab_indicator;
-		public static final int tab_indicator_bg = R.drawable.tab_indicator_bg;
-		public static final int tab_left_arrow = R.drawable.tab_left_arrow;
-		public static final int tab_press = R.drawable.tab_press;
-		public static final int tab_pressed = R.drawable.tab_pressed;
-		public static final int tab_pressed_bottom = R.drawable.tab_pressed_bottom;
-		public static final int tab_right_arrow = R.drawable.tab_right_arrow;
-		public static final int tab_selected = R.drawable.tab_selected;
-		public static final int tab_selected_bottom = R.drawable.tab_selected_bottom;
-		public static final int tab_unselected = R.drawable.tab_unselected;
 		public static final int timepicker_down_btn = R.drawable.timepicker_down_btn;
 		public static final int timepicker_down_disabled = R.drawable.timepicker_down_disabled;
 		public static final int timepicker_down_disabled_focused = R.drawable.timepicker_down_disabled_focused;
@@ -133,6 +142,10 @@ public final class W {
 		public static final int account_shortpw = R.id.account_shortpw;
 		public static final int account_shotpw_confirm = R.id.account_shotpw_confirm;
 		public static final int acquire = R.id.acquire;
+		public static final int actionbar_compat = R.id.actionbar_compat;
+		public static final int actionbar_compat_container = R.id.actionbar_compat_container;
+		public static final int actionbar_compat_logo = R.id.actionbar_compat_logo;
+		public static final int actionbar_compat_text = R.id.actionbar_compat_text;
 		public static final int address = R.id.address;
 		public static final int after = R.id.after;
 		public static final int amPm = R.id.amPm;
@@ -143,6 +156,8 @@ public final class W {
 		public static final int change_user = R.id.change_user;
 		public static final int check_shortpw = R.id.check_shortpw;
 		public static final int color = R.id.color;
+		public static final int colorstrip = R.id.colorstrip;
+		public static final int current = R.id.current;
 		public static final int dateTimePicker = R.id.dateTimePicker;
 		public static final int day = R.id.day;
 		public static final int decrement = R.id.decrement;
@@ -165,6 +180,7 @@ public final class W {
 		public static final int hour = R.id.hour;
 		public static final int icon = R.id.icon;
 		public static final int increment = R.id.increment;
+		public static final int indicator = R.id.indicator;
 		public static final int infimum = R.id.infimum;
 		public static final int interval = R.id.interval;
 		public static final int left = R.id.left;
@@ -177,9 +193,9 @@ public final class W {
 		public static final int localized = R.id.localized;
 		public static final int main = R.id.main;
 		public static final int map = R.id.map;
+		public static final int menu_add = R.id.menu_add;
 		public static final int menu_change_user = R.id.menu_change_user;
 		public static final int menu_delete = R.id.menu_delete;
-		public static final int menu_discard = R.id.menu_discard;
 		public static final int menu_edit = R.id.menu_edit;
 		public static final int menu_iamlost = R.id.menu_iamlost;
 		public static final int menu_info = R.id.menu_info;
@@ -194,6 +210,7 @@ public final class W {
 		public static final int next = R.id.next;
 		public static final int next_field = R.id.next_field;
 		public static final int number = R.id.number;
+		public static final int pager = R.id.pager;
 		public static final int parent = R.id.parent;
 		public static final int password_edit = R.id.password_edit;
 		public static final int password_view = R.id.password_view;
@@ -210,7 +227,6 @@ public final class W {
 		public static final int start = R.id.start;
 		public static final int string = R.id.string;
 		public static final int supremum = R.id.supremum;
-		public static final int tab_scroll_view = R.id.tab_scroll_view;
 		public static final int text = R.id.text;
 		public static final int timepicker_input = R.id.timepicker_input;
 		public static final int title = R.id.title;
@@ -230,22 +246,25 @@ public final class W {
 		public static final int account_setup_basics = R.layout.account_setup_basics;
 		public static final int account_setup_short_password = R.layout.account_setup_short_password;
 		public static final int account_setup_sms_basics = R.layout.account_setup_sms_basics;
+		public static final int actionbar = R.layout.actionbar;
 		public static final int alert_dialog_text_entry = R.layout.alert_dialog_text_entry;
 		public static final int buttons_field_edit = R.layout.buttons_field_edit;
+		public static final int colorstrip = R.layout.colorstrip;
 		public static final int date_time_picker = R.layout.date_time_picker;
 		public static final int date_time_picker_dialog = R.layout.date_time_picker_dialog;
 		public static final int default_field_entity = R.layout.default_field_entity;
+		public static final int default_view_pager = R.layout.default_view_pager;
 		public static final int dialog_date_filter = R.layout.dialog_date_filter;
 		public static final int dialog_float_filter = R.layout.dialog_float_filter;
 		public static final int dialog_integer_filter = R.layout.dialog_integer_filter;
 		public static final int dialog_list_item = R.layout.dialog_list_item;
 		public static final int dialog_string_filter = R.layout.dialog_string_filter;
 		public static final int download_footer_view = R.layout.download_footer_view;
-		public static final int entity_list_content = R.layout.entity_list_content;
-		public static final int entity_list_pick = R.layout.entity_list_pick;
 		public static final int entity_row = R.layout.entity_row;
 		public static final int entity_row_multiple = R.layout.entity_row_multiple;
+		public static final int expandable_list_content = R.layout.expandable_list_content;
 		public static final int intent_chooser_item = R.layout.intent_chooser_item;
+		public static final int list_content = R.layout.list_content;
 		public static final int localized_text_editor = R.layout.localized_text_editor;
 		public static final int localized_text_field_edit = R.layout.localized_text_field_edit;
 		public static final int localized_text_field_view = R.layout.localized_text_field_view;
@@ -256,18 +275,20 @@ public final class W {
 		public static final int period_picker_dialog = R.layout.period_picker_dialog;
 		public static final int relation_field_entity = R.layout.relation_field_entity;
 		public static final int select_dialog = R.layout.select_dialog;
-		public static final int tab_content = R.layout.tab_content;
-		public static final int tab_indicator = R.layout.tab_indicator;
-		public static final int tab_layout = R.layout.tab_layout;
-		public static final int tab_left_arrow = R.layout.tab_left_arrow;
-		public static final int tab_right_arrow = R.layout.tab_right_arrow;
 		public static final int text_field_edit = R.layout.text_field_edit;
+		public static final int view_pager = R.layout.view_pager;
 		public static final int wizard_content = R.layout.wizard_content;}
 
 	public static final class menu {
 
-		public static final int menu_entity_edit = R.menu.menu_entity_edit;
-		public static final int menu_entity_view = R.menu.menu_entity_view;
+		public static final int actionbar_add_item = R.menu.actionbar_add_item;
+		public static final int actionbar_edit_item = R.menu.actionbar_edit_item;
+		public static final int actionbar_save_item = R.menu.actionbar_save_item;
+		public static final int actionbar_search_item = R.menu.actionbar_search_item;
+		public static final int actionbar_sync_item = R.menu.actionbar_sync_item;
+		public static final int menu_delete_item = R.menu.menu_delete_item;
+		public static final int menu_iamlost_item = R.menu.menu_iamlost_item;
+		public static final int menu_info_item = R.menu.menu_info_item;
 		public static final int menu_thema_listing = R.menu.menu_thema_listing;}
 
 	public static final class raw {
@@ -363,7 +384,6 @@ public final class W {
 		public static final int http_authentication_title = R.string.http_authentication_title;
 		public static final int iamlost_title = R.string.iamlost_title;
 		public static final int infimum = R.string.infimum;
-		public static final int informations = R.string.informations;
 		public static final int insert_entity = R.string.insert_entity;
 		public static final int is_required = R.string.is_required;
 		public static final int list_availables_entities = R.string.list_availables_entities;
@@ -371,16 +391,19 @@ public final class W {
 		public static final int lower_than_decimal = R.string.lower_than_decimal;
 		public static final int lower_than_float = R.string.lower_than_float;
 		public static final int menu_actions = R.string.menu_actions;
+		public static final int menu_add = R.string.menu_add;
 		public static final int menu_change_user = R.string.menu_change_user;
 		public static final int menu_delete = R.string.menu_delete;
 		public static final int menu_discard = R.string.menu_discard;
 		public static final int menu_edit = R.string.menu_edit;
+		public static final int menu_home = R.string.menu_home;
 		public static final int menu_iamlost = R.string.menu_iamlost;
+		public static final int menu_info = R.string.menu_info;
+		public static final int menu_logo = R.string.menu_logo;
 		public static final int menu_map = R.string.menu_map;
 		public static final int menu_mark_all_as_read = R.string.menu_mark_all_as_read;
 		public static final int menu_mark_as_read = R.string.menu_mark_as_read;
 		public static final int menu_mark_as_unread = R.string.menu_mark_as_unread;
-		public static final int menu_new = R.string.menu_new;
 		public static final int menu_resume_sync = R.string.menu_resume_sync;
 		public static final int menu_save = R.string.menu_save;
 		public static final int menu_search = R.string.menu_search;
@@ -490,9 +513,16 @@ public final class W {
 
 	public static final class style {
 
+		public static final int ActionBarCompat = R.style.ActionBarCompat;
+		public static final int ActionBarCompatButton = R.style.ActionBarCompatButton;
+		public static final int ActionBarCompatLogo = R.style.ActionBarCompatLogo;
+		public static final int ActionBarCompatProgressIndicator = R.style.ActionBarCompatProgressIndicator;
+		public static final int ActionBarCompatSeparator = R.style.ActionBarCompatSeparator;
+		public static final int ActionBarCompatText = R.style.ActionBarCompatText;
 		public static final int LessButton = R.style.LessButton;
 		public static final int MoreButton = R.style.MoreButton;
 		public static final int Theme_Dialog_Alert = R.style.Theme_Dialog_Alert;
+		public static final int Theme_Imogene = R.style.Theme_Imogene;
 		public static final int Theme_Light_Hack = R.style.Theme_Light_Hack;}
 
 	public static final class xml {
@@ -503,6 +533,12 @@ public final class W {
 
 	public static final class styleable {
 
+		public static final int[] AppTheme = R.styleable.AppTheme;
+		public static final int AppTheme_actionbarCompatButtonStyle = R.styleable.AppTheme_actionbarCompatButtonStyle;
+		public static final int AppTheme_actionbarCompatLogoStyle = R.styleable.AppTheme_actionbarCompatLogoStyle;
+		public static final int AppTheme_actionbarCompatProgressIndicatorStyle = R.styleable.AppTheme_actionbarCompatProgressIndicatorStyle;
+		public static final int AppTheme_actionbarCompatSeparatorStyle = R.styleable.AppTheme_actionbarCompatSeparatorStyle;
+		public static final int AppTheme_actionbarCompatTextStyle = R.styleable.AppTheme_actionbarCompatTextStyle;
 		public static final int[] DateTimePicker = R.styleable.DateTimePicker;
 		public static final int DateTimePicker_endYear = R.styleable.DateTimePicker_endYear;
 		public static final int DateTimePicker_startYear = R.styleable.DateTimePicker_startYear;

@@ -5,10 +5,9 @@ import org.imogene.android.widget.field.FieldFlipper;
 import org.imogene.android.widget.field.WizardEntityView;
 import org.imogene.android.widget.field.WizardEntityView.OnFinishClickListener;
 
-import android.app.Activity;
 import android.os.Bundle;
 
-public class FieldFlipperActivity extends Activity implements OnFinishClickListener {
+public class FieldFlipperActivity extends BaseActivity implements OnFinishClickListener {
 	
 	private WizardEntityView mWizard;
 	

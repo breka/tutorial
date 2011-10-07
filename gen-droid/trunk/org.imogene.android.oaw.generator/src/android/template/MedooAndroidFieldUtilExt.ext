@@ -53,8 +53,5 @@ boolean hasLocationFilter(Project project) :
 List[FieldGroup] getFilteredGroups(List[FieldEntity] filters) :
   JAVA org.imogene.android.oaw.generator.MedooAndroidGenHelper.getFilteredGroups(java.util.List);
   
-GeoField findGis(CardEntity entity) :
-  JAVA org.imogene.android.oaw.generator.MedooAndroidGenHelper.findGis(org.imogene.model.core.CardEntity);
-  
 Integer getGeoType(GeoField field) :
   JAVA org.imogene.android.oaw.generator.MedooAndroidGenHelper.getGeoType(org.imogene.model.core.GeoField);

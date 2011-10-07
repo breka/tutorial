@@ -8,6 +8,8 @@ import java.io.IOException;
 import org.imogene.android.Constants.Databases;
 import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Paths;
+import org.imogene.android.Constants.Sync;
+import org.imogene.android.database.sqlite.SQLiteBuilder;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -16,13 +18,20 @@ import android.net.Uri;
 
 public class DatabaseUtils {
 	
-	public static final void markAs(ContentResolver res, Uri uri, boolean unread) {
+	public static SQLiteBuilder computeWhere(SQLiteBuilder builder) {
+		SQLiteBuilder result = new SQLiteBuilder();
+		if (builder != null)
+			result.appendWhere(builder.create());
+		return result.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+	}
+	
+	public static void markAs(ContentResolver res, Uri uri, boolean unread) {
 		ContentValues values = new ContentValues();
 		values.put(Keys.KEY_UNREAD, unread ? 1 : 0);
 		res.update(uri, values, null, null);
 	}
 
-	public static final void dbBackup(Context context) {
+	public static void dbBackup(Context context) {
 		File dir = new File(Paths.PATH_BACKUP);
 		dir.mkdirs();
 
