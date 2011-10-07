@@ -7,7 +7,6 @@
 
  	<string name="list_availables_entities">"List of available entities"</string>
  	
- 	<string name="informations">"Informations"</string>
  	<string name="modified">"Last modification date"</string>
  	<string name="modified_by">"Modified by"</string>
  	<string name="modified_from">"Modified from"</string>
@@ -22,13 +21,10 @@
  	</string>
  	<string name="insert_entity">New entity</string>
 
-	<string name="menu_new">"New"</string>
-	<string name="menu_delete">"Delete"</string>
-	<string name="menu_edit">"Edit"</string>
-	<string name="menu_view">"View"</string>
 	<string name="menu_save">"Save"</string>
 	<string name="menu_discard">"Discard"</string>
-	<string name="menu_search">"Search"</string>
+	<string name="menu_delete">"Delete"</string>
+	<string name="menu_view">"View"</string>
 	<string name="menu_mark_as_read">"Mark as read"</string>
 	<string name="menu_mark_as_unread">"Mark as unread"</string>
 	<string name="menu_resume_sync">"Resume Sync."</string>
@@ -39,7 +35,14 @@
 	<string name="menu_iamlost">"I am lost"</string>
 	<string name="menu_change_user">"Change user"</string>
 	<string name="menu_map">"Map"</string>
-	<string name="menu_sync">"Sync."</string>
+	<string name="menu_info">Info.</string>
+	<string name="menu_logo">Imogene Android</string>
+	<string name="menu_home">Home</string>
+	<string name="menu_search">Search</string>
+	<string name="menu_sync">Sync</string>
+	<string name="menu_add">Sync</string>
+	<string name="menu_edit">Edit</string>
+	
 	
 	<string name="bin_binary">"One binary"</string>
 	<string name="bin_video">"One video"</string>

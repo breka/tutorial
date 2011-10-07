@@ -9,7 +9,8 @@
 		android:name="org.imogene.android.«name.toLowerCase()».app.MainApp"
 		android:icon="@drawable/logo_android_s"
 		android:label="@string/app_name"
-	 	android:debuggable="true">
+	 	android:debuggable="true"
+	 	android:theme="@style/Theme.Imogene" >
 
 		<activity
 			android:name="org.imogene.android.app.MainActivity"
@@ -70,7 +71,7 @@
 		</activity>
 
 		<activity 
-			android:name=".app.ThemaListing"
+			android:name=".app.«name.toFirstUpper()»Listing"
 			android:label="@string/list_availables_entities"
 			android:icon="@drawable/logo_android_s" >
 			<intent-filter>
@@ -121,8 +122,7 @@
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»Edit"
 			android:label="@string/«entity.shortName.toLowerCase()-»_des_new"
-			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-»
-			«REM»android:theme="@android:style/Theme.Light"«ENDREM» >
+			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.INSERT" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -147,8 +147,7 @@
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»Edit" 
 			android:label="@string/«entity.shortName.toLowerCase()-»_des_sg"
-			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-»
-			«REM»android:theme="@android:style/Theme.Light"«ENDREM»>
+			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT" />
 				<category android:name="android.intent.category.DEFAULT" />

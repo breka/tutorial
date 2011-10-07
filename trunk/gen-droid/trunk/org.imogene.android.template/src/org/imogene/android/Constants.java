@@ -1,8 +1,5 @@
 package org.imogene.android;
 
-import org.imogene.android.app.AbstractEntityEdit;
-import org.imogene.android.app.AbstractEntityListing;
-
 public final class Constants {
 	
 	public static final String AUTHORITY = "org.imogene.android.%realProjectName%.entity";
@@ -176,35 +173,32 @@ public final class Constants {
 
 		/**
 		 * The base or saved entity to pass to the entity editor
-		 * {@link AbstractEntityEdit}
 		 */
 		public static final String EXTRA_ENTITY = "org.imogene.android.extra.ENTITY";
 
 		/**
 		 * Where clause to display an list of entities
-		 * {@link AbstractEntityListing}
 		 */
 		public static final String EXTRA_WHERE = "org.imogene.android.extra.WHERE";
 		
 		/**
 		 * Had these extra to indicate that the list should allow multiple
-		 * selection {@link AbstractEntityListing}
+		 * selection
 		 */
 		public static final String EXTRA_MULTIPLE = "org.imogene.android.extra.MULTIPLE";
 		
 		/**
 		 * A {@link ArrayList<Uri>} of preselected entities to pass to a
-		 * multiple selection list {@link AbstractEntityListing}
+		 * multiple selection list
 		 */
 		public static final String EXTRA_SELECTED = "org.imogene.android.extra.SELECTED";
 		/**
-		 * The key to sort the entities by {@link AbstractEntityListing}
+		 * The key to sort the entities by
 		 */
 		public static final String EXTRA_SORT_KEY = "org.imogene.android.extra.SORT_KEY";
 		
 		/**
 		 * The sort order 0 for descendant, 1 for ascendant
-		 * {@link AbstractEntityListing}
 		 */
 		public static final String EXTRA_SORT_ORDER = "org.imogene.android.extra.SORT_ORDER";
 
@@ -269,11 +263,11 @@ public final class Constants {
 
 	public static interface SortOrder {
 		/**
-		 * Descendant order to display entities {@link AbstractEntityListing}
+		 * Descendant order to display entities
 		 */
 		public static final int DESCENDANT_ORDER = 0;
 		/**
-		 * Descendant order to display entities {@link AbstractEntityListing}
+		 * Descendant order to display entities
 		 */
 		public static final int ASCENDANT_ORDER = 1;
 	}
@@ -302,6 +296,18 @@ public final class Constants {
 		public static final String PACKAGE_ZXING = "com.google.zxing.client.android";
 
 		public static final String PACKAGE_MAP = "org.imogene.map";
+	}
+	
+	public static interface Editor {
+		public static final String ERROR_TAG = "errorTag";
+		public static final String ERROR_LAYOUT = "errorLayout";
+		public static final String ERROR_MSG = "errorMsg";
+		public static final String ERROR_DESC = "errorDesc";
+	}
+	
+	public static interface Viewer {
+		public static final String INFO_DESC = "infoDesc";
+		public static final String INFO_VALUE = "infoValue";
 	}
 
 }

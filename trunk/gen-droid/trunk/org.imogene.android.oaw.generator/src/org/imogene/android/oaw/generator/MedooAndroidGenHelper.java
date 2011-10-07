@@ -170,14 +170,6 @@ public class MedooAndroidGenHelper {
 		return result;
 	}
 	
-	public static GeoField findGis(CardEntity entity) {
-		for (FieldGroup group : entity.getGroups())
-			for (FieldEntity field : group.getFields())
-				if (field instanceof GeoField)
-					return (GeoField) field;
-		return null;
-	}
-	
 	public static int getGeoType(GeoField field) {
 		return field.getType().getValue();
 	}

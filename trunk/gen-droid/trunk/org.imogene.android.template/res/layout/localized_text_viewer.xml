@@ -6,7 +6,7 @@
 	
 	<ImageView
 		android:id="@+id/left"
-		android:src="@drawable/tab_left_arrow"
+		android:src="@drawable/indicator_prev_arrow"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
@@ -41,7 +41,7 @@
 	
 	<ImageView
 		android:id="@+id/right"
-		android:src="@drawable/tab_right_arrow"
+		android:src="@drawable/indicator_next_arrow"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
