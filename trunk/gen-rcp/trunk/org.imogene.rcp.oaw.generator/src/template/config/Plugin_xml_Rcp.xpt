@@ -199,9 +199,9 @@
 <!-- ClassConverters -->
    <extension point="org.imogene.rcp.core.ClassConverter">
       <ClassConverter
-            alias="org.imogene.imogenedemo.entity.LocalizedFieldMap"
-            converterClass="org.imogene.imogenedemo.serializer.xml.LocalizedFieldMapConverter"
-            entityClassName="org.imogene.imogenedemo.entity.LocalizedFieldMap">
+            alias="org.imogene.«moduleName.toLowerCase()».entity.LocalizedFieldMap"
+            converterClass="org.imogene.«moduleName.toLowerCase()».serializer.xml.LocalizedFieldMapConverter"
+            entityClassName="org.imogene.«moduleName.toLowerCase()».entity.LocalizedFieldMap">
       </ClassConverter>
    </extension>   
 
