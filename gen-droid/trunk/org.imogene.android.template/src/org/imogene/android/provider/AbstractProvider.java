@@ -11,11 +11,9 @@ import org.imogene.android.Constants.Tables;
 import org.imogene.android.common.Binary;
 import org.imogene.android.common.ClientFilter;
 import org.imogene.android.common.LocalizedText;
-import org.imogene.android.common.SmsComm;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.LocalizedTextCursor;
-import org.imogene.android.database.sqlite.SmsCommCursor;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -47,10 +45,8 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 	private static final int CLIENT_FILTERS_ID = 4;
 	private static final int TRANSLATABLE_TEXT = 5;
 	private static final int TRANSLATABLE_TEXT_ID = 6;
-	private static final int SMS_COMM = 7;
-	private static final int SMS_COMM_ID = 8;
 	
-	protected static final int LAST_INDEX = SMS_COMM_ID;
+	protected static final int LAST_INDEX = TRANSLATABLE_TEXT_ID;
 	
 	static {
 		sURIMatcher.addURI(Constants.AUTHORITY, Binary.TABLE_NAME, BINARIES);
@@ -59,8 +55,6 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.TABLE_NAME + "/#", CLIENT_FILTERS_ID);
 		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.TABLE_NAME, TRANSLATABLE_TEXT);
 		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.TABLE_NAME + "/#", TRANSLATABLE_TEXT_ID);
-		sURIMatcher.addURI(Constants.AUTHORITY, SmsComm.TABLE_NAME, SMS_COMM);
-		sURIMatcher.addURI(Constants.AUTHORITY, SmsComm.TABLE_NAME + "/#", SMS_COMM_ID);
 	}
 
 	protected abstract ImogDatabase getHelper();
@@ -93,13 +87,6 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		case TRANSLATABLE_TEXT_ID:
 			String translatableTextId = uri.getPathSegments().get(1);
 			result = deleteSingle(LocalizedText.TABLE_NAME, translatableTextId, selection, selectionArgs);
-			break;
-		case SMS_COMM:
-			result = deleteMulti(SmsComm.TABLE_NAME, selection, selectionArgs);
-			break;
-		case SMS_COMM_ID:
-			String smsCommId = uri.getPathSegments().get(1);
-			result = deleteSingle(SmsComm.TABLE_NAME, smsCommId, selection, selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URL" + uri);
@@ -134,10 +121,6 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			return getVndDir() + LocalizedText.TABLE_NAME;
 		case TRANSLATABLE_TEXT_ID:
 			return getVndItem() + LocalizedText.TABLE_NAME;
-		case SMS_COMM:
-			return getVndDir() + SmsComm.TABLE_NAME;
-		case SMS_COMM_ID:
-			return getVndItem() + SmsComm.TABLE_NAME;
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
 		}
@@ -152,8 +135,6 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			return insertInTable(ClientFilter.TABLE_NAME, ClientFilter.CONTENT_URI, values);
 		case TRANSLATABLE_TEXT:
 			return insertInTable(LocalizedText.TABLE_NAME, LocalizedText.CONTENT_URI, values);
-		case SMS_COMM:
-			return insertInTable(SmsComm.TABLE_NAME, SmsComm.CONTENT_URI, values);
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
 		}
@@ -183,13 +164,6 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			break;
 		case TRANSLATABLE_TEXT_ID:
 			qb.setTables(LocalizedText.TABLE_NAME);
-			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
-			break;
-		case SMS_COMM:
-			qb.setTables(SmsComm.TABLE_NAME);
-			break;
-		case SMS_COMM_ID:
-			qb.setTables(SmsComm.TABLE_NAME);
 			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 			break;
 		default:
@@ -226,13 +200,6 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		case TRANSLATABLE_TEXT_ID:
 			String translatableTextId = uri.getPathSegments().get(1);
 			result = updateSingle(LocalizedText.TABLE_NAME, translatableTextId, values, selection, selectionArgs);
-			break;
-		case SMS_COMM:
-			result = updateMulti(SmsComm.TABLE_NAME, values, selection, selectionArgs);
-			break;
-		case SMS_COMM_ID:
-			String smsCommId = uri.getPathSegments().get(1);
-			result = updateSingle(SmsComm.TABLE_NAME, smsCommId, values, selection, selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
@@ -499,19 +466,6 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ " integer, "
 				+ Keys.KEY_ID
 				+ " text not null);";
-		private static final String DATABASE_CREATE_SMSCOMM = "create table if not exists "
-				+ SmsComm.TABLE_NAME
-				+ " ("
-				+ Keys.KEY_ROWID
-				+ " integer primary key autoincrement, "
-				+ Keys.KEY_ENTITY_URI
-				+ " text, "
-				+ Keys.KEY_SENT_DATE
-				+ " integer, "
-				+ Keys.KEY_RESPONSE
-				+ " text, "
-				+ Keys.KEY_SMS_STATUS
-				+ " integer);";
 		protected interface Creator<T extends ImogDatabase> {
 			public T getDatabase(Context context);
 		}
@@ -540,7 +494,6 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			db.execSQL(DATABASE_CREATE_SYNCHISTORY);
 			db.execSQL(DATABASE_CREATE_GPSLOCATION);
 			db.execSQL(DATABASE_CREATE_TRANSLATABLETEXT);
-			db.execSQL(DATABASE_CREATE_SMSCOMM);
 		}
 		
 		public Cursor query(Uri uri, String where, String order) {
@@ -571,15 +524,6 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			case TRANSLATABLE_TEXT_ID:
 				qb.setCursorFactory(new LocalizedTextCursor.Factory());
 				qb.setTables(LocalizedText.TABLE_NAME);
-				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
-				break;
-			case SMS_COMM:
-				qb.setCursorFactory(new SmsCommCursor.Factory());
-				qb.setTables(SmsComm.TABLE_NAME);
-				break;
-			case SMS_COMM_ID:
-				qb.setCursorFactory(new SmsCommCursor.Factory());
-				qb.setTables(SmsComm.TABLE_NAME);
 				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 				break;
 			default:

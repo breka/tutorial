@@ -46,12 +46,6 @@
 			android:exported="true"
 			android:windowSoftInputMode="adjustPan"/>
 			
-		<activity 
-			android:name="org.imogene.android.app.setup.AccountSetupSmsBasics"
-			android:label="@string/account_setup_basics_title"
-			android:exported="true"
-			android:windowSoftInputMode="adjustPan"/>
-			
 		<activity
 			android:name="org.imogene.android.app.setup.AccountSetupShortPassword"
 			android:label="@string/account_setup_shortpw_title"
@@ -189,13 +183,6 @@
 		</activity>
 		
 		<activity
-			android:name="org.imogene.android.app.AuthenticationSmsActivity"
-			android:label="authentication"
-			android:theme="@android:style/Theme.Translucent.NoTitleBar"
-			android:configChanges="orientation|keyboardHidden">
-		</activity>
-		
-		<activity
 			android:name="org.imogene.android.app.UnSyncDialog"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
 			<intent-filter>
@@ -206,7 +193,7 @@
 		<receiver
 			android:name=".notification.«name.toFirstUpper()»Notification$OnDeletedReceiver">
 			<intent-filter>
-				<action android:name="org.imogene.android.«name.toLowerCase()».receiver.SMS_NOTIFICATION_DELETED" />
+				<action android:name="org.imogene.android.«name.toLowerCase()».receiver.NOTIFICATION_DELETED" />
 			</intent-filter>
 		</receiver>
 		
@@ -249,31 +236,6 @@
 			</intent-filter>
 		</service>
 		
-		<receiver
-			android:name="org.imogene.android.telephony.SmsSyncReceiver">
-			<intent-filter>
-				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_SYNC" />
-				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_RESCHEDULE" />
-				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_CANCEL" />
-			</intent-filter>
-		</receiver>
-		
-		<service
-			android:name="org.imogene.android.telephony.SmsSyncService">
-			<intent-filter>
-				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_SYNC" />
-				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_RESCHEDULE" />
-				<action android:name="org.imogene.android.«name.toLowerCase()».action.SMS_CANCEL" />
-			</intent-filter>
-		</service>
-		
-		<receiver
-			android:name="org.imogene.android.telephony.SmsResponseReceiver">
-			<intent-filter android:priority="100" >
-				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
-			</intent-filter>
-		</receiver>
-
 		<provider 
 			android:authorities="org.imogene.android.«name.toLowerCase()».entity" 
 			android:name=".provider.«name.toFirstUpper()-»Provider" />

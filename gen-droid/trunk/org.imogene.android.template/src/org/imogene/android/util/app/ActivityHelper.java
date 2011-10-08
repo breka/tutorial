@@ -151,6 +151,18 @@ public class ActivityHelper {
 
         setActionBarColor(color);
     }
+    
+    /**
+     * Set action bar clickable or not
+     * @param clickable
+     */
+    public void setActionBarClickable(boolean clickable) {
+    	final View title = mActivity.findViewById(W.id.actionbar_compat_text);
+    	if (title == null) {
+    		return;
+    	}
+    	title.setClickable(clickable);
+    }
 
     /**
      * Sets the action bar color to the given color.

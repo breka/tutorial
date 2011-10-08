@@ -99,9 +99,6 @@
 	<string name="account_setup_basics_password_hint">"Password"</string>
 	<string name="account_setup_basics_server_hint">"Server URL"</string>
 	<string name="account_setup_basics_title">"Set up account"</string>
-	<string name="account_setup_sms_basics_login_hint">"Login"</string>
-	<string name="account_setup_sms_basics_server_hint">"Server phone"</string>
-	<string name="account_setup_sms_basics_code_hint">"Server code"</string>
 	<string name="account_setup_shortpw_instructions">"Set up a short password"</string>
 	<string name="account_setup_shortpw_title">"Set up short password"</string>
 	<string name="account_setup_shortpw_hint">"Short password"</string>
