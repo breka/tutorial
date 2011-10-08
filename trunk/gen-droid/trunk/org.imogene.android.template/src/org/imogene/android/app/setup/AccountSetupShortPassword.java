@@ -2,6 +2,7 @@ package org.imogene.android.app.setup;
 
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.W;
+import org.imogene.android.app.BaseActivity;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.base64.Base64;
 import org.imogene.android.util.encryption.EncryptionManager;
@@ -19,7 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class AccountSetupShortPassword extends Activity implements
+public class AccountSetupShortPassword extends BaseActivity implements
 		OnClickListener, TextWatcher {
 
 	private static final int ERROR_DIALOG_ID = 1;
@@ -52,6 +53,12 @@ public class AccountSetupShortPassword extends Activity implements
 
 		mShortpwView.addTextChangedListener(this);
 		mShortpwConfirmView.addTextChangedListener(this);
+	}
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		getActivityHelper().setActionBarClickable(false);
 	}
 
 	@Override

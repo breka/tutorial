@@ -2,6 +2,7 @@ package org.imogene.android.app.setup;
 
 import org.imogene.android.W;
 import org.imogene.android.app.AuthenticationHttpActivity;
+import org.imogene.android.app.BaseActivity;
 import org.imogene.android.app.OffsetActivity;
 import org.imogene.android.preference.PreferenceHelper;
 
@@ -15,7 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class AccountSetupBasics extends Activity implements OnClickListener,
+public class AccountSetupBasics extends BaseActivity implements OnClickListener,
 		TextWatcher {
 	
 	private static final int ACTIVITY_OFFSET_ID = 1;
@@ -71,6 +72,12 @@ public class AccountSetupBasics extends Activity implements OnClickListener,
 			mLoginView.setText(null);
 			mPasswordView.setText(null);
 		}
+	}
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		getActivityHelper().setActionBarClickable(false);
 	}
 	
 	@Override

@@ -6,7 +6,6 @@ import org.imogene.android.app.setup.AccountCreationIntroduction;
 import org.imogene.android.app.setup.AccountSetupBasics;
 import org.imogene.android.preference.PreferenceHelper;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -19,7 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class MainActivity extends Activity implements OnClickListener, TextWatcher {
+public class MainActivity extends BaseActivity implements OnClickListener, TextWatcher {
 	
 	@SuppressWarnings("unused")
 	private static final String TAG = MainActivity.class.getName();
@@ -55,6 +54,12 @@ public class MainActivity extends Activity implements OnClickListener, TextWatch
         	AccountCreationIntroduction.accountCreationIntroduction(this);
         	finish();
         }
+    }
+    
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+    	super.onPostCreate(savedInstanceState);
+    	getActivityHelper().setActionBarClickable(false);
     }
     
     @Override

@@ -25,7 +25,4 @@
 	<string name="ntp_offset_key">NTP_OFFSET</string>
 	<string name="webservice_url_key">WEBSERVICE</string>
 	<string name="http_authentication_key">HTTP_AUTHENTICATION</string>
-	<string name="sms_login_key">SMS_LOGIN</string>
-	<string name="sms_server_phone_key">SMS_SERVER_PHONE</string>
-	<string name="sms_server_code_key">SMS_SERVER_CODE</string>
 </resources>
