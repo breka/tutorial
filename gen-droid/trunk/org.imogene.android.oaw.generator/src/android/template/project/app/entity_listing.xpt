@@ -104,8 +104,6 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.list_content);
-
 		if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
 			String query = getIntent().getStringExtra(SearchManager.QUERY);
 			mSQLBuilder = «projectName.toFirstUpper()-»SearchSupport.searchFor«name.toFirstUpper()-»(query);

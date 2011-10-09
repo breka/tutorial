@@ -270,6 +270,7 @@ public final class W {
 		public static final int numeric_field_edit = R.layout.numeric_field_edit;
 		public static final int period_picker = R.layout.period_picker;
 		public static final int period_picker_dialog = R.layout.period_picker_dialog;
+		public static final int preference_list_content = R.layout.preference_list_content;
 		public static final int relation_field_entity = R.layout.relation_field_entity;
 		public static final int select_dialog = R.layout.select_dialog;
 		public static final int text_field_edit = R.layout.text_field_edit;

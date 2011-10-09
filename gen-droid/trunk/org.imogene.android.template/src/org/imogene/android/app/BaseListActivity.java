@@ -16,6 +16,7 @@
 
 package org.imogene.android.app;
 
+import org.imogene.android.W;
 import org.imogene.android.util.app.ActivityHelper;
 
 import android.app.ListActivity;
@@ -34,6 +35,12 @@ public abstract class BaseListActivity extends ListActivity {
 
 	final ActivityHelper mActivityHelper = ActivityHelper.createInstance(this);
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(W.layout.list_content);
+	}
+	
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);

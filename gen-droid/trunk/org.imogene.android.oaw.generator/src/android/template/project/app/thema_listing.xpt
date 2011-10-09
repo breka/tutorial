@@ -78,8 +78,6 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.expandable_list_content);
-		
 		fillData();
 
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
