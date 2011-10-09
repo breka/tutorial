@@ -4,10 +4,9 @@ package org.imogene.android.preference;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 
-public class MyPreferenceActivity extends PreferenceActivity {
+public class MyPreferenceActivity extends BasePreferenceActivity {
 	
 	private MyPreferenceManager mManager;
 	

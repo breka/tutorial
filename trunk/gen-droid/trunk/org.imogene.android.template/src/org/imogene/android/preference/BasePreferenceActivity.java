@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.imogene.android.app;
+package org.imogene.android.preference;
 
 import org.imogene.android.W;
 import org.imogene.android.util.app.ActivityHelper;
 
-import android.app.ExpandableListActivity;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,14 +31,14 @@ import android.view.MenuItem;
  * activities should inherit from {@link BaseSinglePaneActivity} or
  * {@link BaseMultiPaneActivity}.
  */
-public abstract class BaseExpandableListActivity extends ExpandableListActivity {
+public abstract class BasePreferenceActivity extends PreferenceActivity {
 
 	final ActivityHelper mActivityHelper = ActivityHelper.createInstance(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(W.layout.expandable_list_content);
+		setContentView(W.layout.preference_list_content);
 	}
 	
 	@Override
