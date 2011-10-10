@@ -5,12 +5,7 @@
 		android:layout_width="10dip"
 		android:layout_height="wrap_content" />
 
-	<ImageView 
-		android:id="@+id/arrow"
-		android:layout_width="20dip"
-		android:layout_height="20dip"
-		android:layout_gravity="center_vertical"
-		android:src="@drawable/arrow_icon" />
+	<ImageView style="@style/FieldArrowView" />
 
 	<View 
 		android:layout_width="10dip"
@@ -23,22 +18,9 @@
 		android:orientation="vertical"
 		android:gravity="center_vertical" >
 
-		<TextView
-			android:id="@+id/title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:scrollHorizontally="true"
-			android:ellipsize="marquee"
-			android:maxLines="1" />
+		<TextView style="@style/FieldTitleText" />
 
-		<EditText
-			android:id="@+id/value"
-			android:saveEnabled="false"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:maxLines="1"
-			android:imeOptions="actionDone" />
+		<EditText style="@style/FieldValueEditText" />
 
 	</LinearLayout>
 	
@@ -49,12 +31,6 @@
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:maxLines="1" />
 
-	<ImageView 
-		android:id="@+id/help"
-		android:layout_width="48dip"
-		android:layout_height="48dip"
-		android:layout_gravity="center_vertical"
-		android:scaleType="fitXY"
-		android:src="@drawable/help" />
+	<ImageView style="@style/FieldHelpView" />
 
 </merge>

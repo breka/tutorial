@@ -14,11 +14,7 @@
  	<string name="created_by">"Created by"</string>
  	<string name="entity_id">"Entity id"</string>
  	
- 	<string name="noEntityHelpText">
-		"You don\'t have any form.\n
-		\nTo add a form, press <font fgcolor="#ffffffff"><b>Menu</b></font> and select:\n
- 		\n<li><font fgcolor="#ffffffff"><b>"New"</b></font>" to create a new form from scratch"</li>"
- 	</string>
+ 	<string name="noEntityHelpText">"You don\'t have any form.\n\n<li>To add a form, press + to create a new form from scratch.</li>"</string>
  	<string name="insert_entity">New entity</string>
 
 	<string name="menu_save">"Save"</string>

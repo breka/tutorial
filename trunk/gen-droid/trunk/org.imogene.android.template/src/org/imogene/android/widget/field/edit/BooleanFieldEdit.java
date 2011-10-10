@@ -3,7 +3,6 @@ package org.imogene.android.widget.field.edit;
 import org.imogene.android.W;
 import org.imogene.android.widget.field.FieldEntity;
 
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ListView;
 
 public class BooleanFieldEdit extends FieldEntity<Boolean> implements OnClickListener {
 
@@ -54,16 +52,19 @@ public class BooleanFieldEdit extends FieldEntity<Boolean> implements OnClickLis
 	protected void onPrepareDialogBuilder(Builder builder) {
 		final Boolean init = getValue();
 		builder.setSingleChoiceItems(W.array.select_yes_no, init != null ? (init ? 0 : 1) : -1, this);
-		builder.setPositiveButton(android.R.string.ok, this);
 		builder.setNeutralButton(android.R.string.cut, this);
-		builder.setNegativeButton(android.R.string.cancel, this);
+		builder.setNegativeButton(android.R.string.cancel, null);
 	}
 	
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which) {
-		case Dialog.BUTTON_POSITIVE:
-			final int pos = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-			setValue(pos != ListView.INVALID_POSITION ? (pos == 0 ? Boolean.TRUE : Boolean.FALSE) : null);
+		case 0:
+			setValue(true);
+			dialog.dismiss();
+			break;
+		case 1:
+			setValue(false);
+			dialog.dismiss();
 			break;
 		case Dialog.BUTTON_NEUTRAL:
 			setValue(null);
