@@ -4,4 +4,10 @@
     <item type="id" name="actionbar_compat_container" />
     <item type="id" name="actionbar_compat_logo" />
     <item type="id" name="actionbar_compat_text" />
+    
+    <item type="id" name="title" />
+    <item type="id" name="value" />
+    <item type="id" name="arrow" />
+    <item type="id" name="icon" />
+    <item type="id" name="help" />
 </resources>

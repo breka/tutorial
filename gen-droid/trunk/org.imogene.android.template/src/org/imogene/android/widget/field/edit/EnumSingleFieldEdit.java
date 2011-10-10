@@ -5,7 +5,6 @@ import org.imogene.android.util.field.EnumConverter;
 import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager.OnActivityDestroyListener;
 
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
@@ -87,9 +86,8 @@ public class EnumSingleFieldEdit extends FieldEntity<Integer> implements DialogI
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
 		builder.setSingleChoiceItems(mEntries, getValue() != null ? getValue().intValue() : -1, this);
-		builder.setPositiveButton(android.R.string.ok, this);
 		builder.setNeutralButton(android.R.string.cut, this);
-		builder.setNegativeButton(android.R.string.cancel, this);
+		builder.setNegativeButton(android.R.string.cancel, null);
 	}
 	
 	@Override
@@ -99,12 +97,14 @@ public class EnumSingleFieldEdit extends FieldEntity<Integer> implements DialogI
 	
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which) {
-		case Dialog.BUTTON_POSITIVE:
-			final int pos = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-			setValue(pos);
-			break;
 		case Dialog.BUTTON_NEUTRAL:
 			setValue(-1);
+			break;
+		default:
+			if (which > -1) {
+				setValue(which);
+				dialog.dismiss();
+			}
 			break;
 		}
 	}

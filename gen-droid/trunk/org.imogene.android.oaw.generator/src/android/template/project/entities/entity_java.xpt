@@ -40,7 +40,7 @@ public class «name.toFirstUpper()-» extends
 	«ENDIF-»
 	public static final String TABLE_NAME = "«name.toLowerCase()-»";
 	public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
-	public static final Drawable COLOR = Tools.getColorChip(Color.parseColor(«IF color.length > 0-»"#«color»"«ELSE-»"white"«ENDIF-»));
+	public static final Drawable COLOR = Tools.getColorChip(Color.parseColor(«IF color.length > 0-»"#«color»"«ELSE-»"black"«ENDIF-»));
 	public static final String TYPE = "«shortName»";
 
 	«EXPAND declaration FOREACH groups.fields-»

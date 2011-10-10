@@ -73,7 +73,8 @@ public final class W {
 		public static final int actionbar_compat_height = R.dimen.actionbar_compat_height;
 		public static final int button_minWidth = R.dimen.button_minWidth;
 		public static final int colorstrip_height = R.dimen.colorstrip_height;
-		public static final int text_size_medium = R.dimen.text_size_medium;}
+		public static final int text_size_medium = R.dimen.text_size_medium;
+		public static final int text_size_small = R.dimen.text_size_small;}
 
 	public static final class drawable {
 
@@ -514,6 +515,12 @@ public final class W {
 		public static final int ActionBarCompatProgressIndicator = R.style.ActionBarCompatProgressIndicator;
 		public static final int ActionBarCompatSeparator = R.style.ActionBarCompatSeparator;
 		public static final int ActionBarCompatText = R.style.ActionBarCompatText;
+		public static final int FieldArrowView = R.style.FieldArrowView;
+		public static final int FieldHelpView = R.style.FieldHelpView;
+		public static final int FieldIconView = R.style.FieldIconView;
+		public static final int FieldTitleText = R.style.FieldTitleText;
+		public static final int FieldValueEditText = R.style.FieldValueEditText;
+		public static final int FieldValueText = R.style.FieldValueText;
 		public static final int LessButton = R.style.LessButton;
 		public static final int MoreButton = R.style.MoreButton;
 		public static final int Theme_Dialog_Alert = R.style.Theme_Dialog_Alert;
