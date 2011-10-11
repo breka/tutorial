@@ -65,6 +65,7 @@ public final class W {
 
 	public static final class color {
 
+		public static final int accent_1 = R.color.accent_1;
 		public static final int actionbar_text = R.color.actionbar_text;
 		public static final int gray = R.color.gray;}
 
@@ -73,6 +74,8 @@ public final class W {
 		public static final int actionbar_compat_height = R.dimen.actionbar_compat_height;
 		public static final int button_minWidth = R.dimen.button_minWidth;
 		public static final int colorstrip_height = R.dimen.colorstrip_height;
+		public static final int tab_height = R.dimen.tab_height;
+		public static final int tab_side_padding = R.dimen.tab_side_padding;
 		public static final int text_size_medium = R.dimen.text_size_medium;
 		public static final int text_size_small = R.dimen.text_size_small;}
 
@@ -83,6 +86,8 @@ public final class W {
 		public static final int actionbar_compat_logo = R.drawable.actionbar_compat_logo;
 		public static final int actionbar_compat_separator = R.drawable.actionbar_compat_separator;
 		public static final int arrow_icon = R.drawable.arrow_icon;
+		public static final int background_noise = R.drawable.background_noise;
+		public static final int background_noise_tile = R.drawable.background_noise_tile;
 		public static final int btn_bg_pressed = R.drawable.btn_bg_pressed;
 		public static final int btn_bg_selected = R.drawable.btn_bg_selected;
 		public static final int btn_circle = R.drawable.btn_circle;
@@ -117,6 +122,15 @@ public final class W {
 		public static final int logo_android = R.drawable.logo_android;
 		public static final int logo_android_s = R.drawable.logo_android_s;
 		public static final int required = R.drawable.required;
+		public static final int tab_background = R.drawable.tab_background;
+		public static final int tab_indicator = R.drawable.tab_indicator;
+		public static final int tab_off_background = R.drawable.tab_off_background;
+		public static final int tab_selected = R.drawable.tab_selected;
+		public static final int tab_selected_focused = R.drawable.tab_selected_focused;
+		public static final int tab_selected_pressed = R.drawable.tab_selected_pressed;
+		public static final int tab_unselected = R.drawable.tab_unselected;
+		public static final int tab_unselected_focused = R.drawable.tab_unselected_focused;
+		public static final int tab_unselected_pressed = R.drawable.tab_unselected_pressed;
 		public static final int timepicker_down_btn = R.drawable.timepicker_down_btn;
 		public static final int timepicker_down_disabled = R.drawable.timepicker_down_disabled;
 		public static final int timepicker_down_disabled_focused = R.drawable.timepicker_down_disabled_focused;
@@ -229,6 +243,7 @@ public final class W {
 		public static final int start = R.id.start;
 		public static final int string = R.id.string;
 		public static final int supremum = R.id.supremum;
+		public static final int tab_label = R.id.tab_label;
 		public static final int text = R.id.text;
 		public static final int timepicker_input = R.id.timepicker_input;
 		public static final int title = R.id.title;
@@ -277,6 +292,8 @@ public final class W {
 		public static final int preference_list_content = R.layout.preference_list_content;
 		public static final int relation_field_entity = R.layout.relation_field_entity;
 		public static final int select_dialog = R.layout.select_dialog;
+		public static final int tab_content = R.layout.tab_content;
+		public static final int tab_indicator = R.layout.tab_indicator;
 		public static final int text_field_edit = R.layout.text_field_edit;
 		public static final int view_pager = R.layout.view_pager;
 		public static final int wizard_content = R.layout.wizard_content;}
@@ -304,6 +321,7 @@ public final class W {
 		public static final int about_summary = R.string.about_summary;
 		public static final int about_title = R.string.about_title;
 		public static final int account_change_user = R.string.account_change_user;
+		public static final int account_check_password_title = R.string.account_check_password_title;
 		public static final int account_creation_introduction_title = R.string.account_creation_introduction_title;
 		public static final int account_introduction = R.string.account_introduction;
 		public static final int account_next_action = R.string.account_next_action;
@@ -515,6 +533,7 @@ public final class W {
 		public static final int ActionBarCompatProgressIndicator = R.style.ActionBarCompatProgressIndicator;
 		public static final int ActionBarCompatSeparator = R.style.ActionBarCompatSeparator;
 		public static final int ActionBarCompatText = R.style.ActionBarCompatText;
+		public static final int DashboardButton = R.style.DashboardButton;
 		public static final int FieldArrowView = R.style.FieldArrowView;
 		public static final int FieldHelpView = R.style.FieldHelpView;
 		public static final int FieldIconView = R.style.FieldIconView;
@@ -525,6 +544,7 @@ public final class W {
 		public static final int MoreButton = R.style.MoreButton;
 		public static final int Theme_Dialog_Alert = R.style.Theme_Dialog_Alert;
 		public static final int Theme_Imogene = R.style.Theme_Imogene;
+		public static final int Theme_Imogene_Home = R.style.Theme_Imogene_Home;
 		public static final int Theme_Light_Hack = R.style.Theme_Light_Hack;}
 
 	public static final class xml {

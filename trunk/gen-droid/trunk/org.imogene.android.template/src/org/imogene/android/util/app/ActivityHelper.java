@@ -1,7 +1,6 @@
 package org.imogene.android.util.app;
 
 import org.imogene.android.W;
-import org.imogene.android.Constants.Intents;
 import org.imogene.android.view.SimpleMenu;
 
 import android.app.Activity;
@@ -88,11 +87,11 @@ public class ActivityHelper {
 //        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        startActivity(intent);
     	
-    	if (Intents.ACTION_LIST_ENTITIES.equals(mActivity.getIntent().getAction())) {
+    	if (ApplicationHelper.getHomeClass().equals(mActivity.getClass())) {
     		return;
     	}
     	
-    	final Intent intent = new Intent(Intents.ACTION_LIST_ENTITIES);
+    	final Intent intent = new Intent(mActivity, ApplicationHelper.getHomeClass());
     	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     	mActivity.startActivity(intent);
     }

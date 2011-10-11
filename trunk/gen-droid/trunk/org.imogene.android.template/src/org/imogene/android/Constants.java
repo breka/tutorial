@@ -13,8 +13,6 @@ public final class Constants {
 	
 	public static interface Intents {
 
-		public static final String ACTION_LIST_ENTITIES = "org.imogene.android.%realProjectName%.action.LIST_ENTITIES";
-
 		public static final String ACTION_SEARCH_ENTITY = "org.imogene.android.%realProjectName%.action.SEARCH_ENTITY";
 
 		public static final String ACTION_CHECK_SYNC = "org.imogene.android.%realProjectName%.action.CHECK_SYNC";

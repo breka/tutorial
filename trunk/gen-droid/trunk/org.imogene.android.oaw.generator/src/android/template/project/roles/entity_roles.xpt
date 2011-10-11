@@ -4,9 +4,7 @@
 package org.imogene.android.«projectName.toLowerCase()-».roles;
 
 import android.content.Context;
-«IF groups.readers.size != 0 || groups.writers.size != 0-»
 import org.imogene.android.preference.PreferenceHelper;
-«ENDIF-»
 
 public class «name.toFirstUpper()-»Roles {
 

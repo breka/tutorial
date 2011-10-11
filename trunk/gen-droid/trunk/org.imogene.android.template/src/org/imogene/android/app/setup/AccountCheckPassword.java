@@ -1,11 +1,11 @@
-package org.imogene.android.app;
+package org.imogene.android.app.setup;
 
-import org.imogene.android.Constants.Intents;
 import org.imogene.android.W;
-import org.imogene.android.app.setup.AccountCreationIntroduction;
-import org.imogene.android.app.setup.AccountSetupBasics;
+import org.imogene.android.app.BaseActivity;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.util.app.ApplicationHelper;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,14 +18,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class MainActivity extends BaseActivity implements OnClickListener, TextWatcher {
-	
-	@SuppressWarnings("unused")
-	private static final String TAG = MainActivity.class.getName();
+public class AccountCheckPassword extends BaseActivity implements OnClickListener, TextWatcher {
 	
 	private static final int ERROR_DIALOG_ID = 1;
 	
-	private String mShortpw;
+	public static final void accountCheckShortPassword(Activity fromActivity) {
+		Intent intent = new Intent(fromActivity, AccountCheckPassword.class);
+		fromActivity.startActivity(intent);
+	}
 	
 	private EditText mShortpwView;
 	private Button mStartButton;
@@ -34,26 +34,18 @@ public class MainActivity extends BaseActivity implements OnClickListener, TextW
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mShortpw = PreferenceHelper.getShortPassword(this);
-
-        if (mShortpw != null) {
-        	setContentView(W.layout.account_check_shortpw);
+       	setContentView(W.layout.account_check_shortpw);
         	
-        	mShortpwView = (EditText) findViewById(W.id.check_shortpw);
-        	mStartButton = (Button) findViewById(W.id.start);
-        	mChangeUserView = (Button) findViewById(W.id.change_user);
+       	mShortpwView = (EditText) findViewById(W.id.check_shortpw);
+       	mStartButton = (Button) findViewById(W.id.start);
+       	mChangeUserView = (Button) findViewById(W.id.change_user);
         	
-        	mShortpwView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+       	mShortpwView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+       	
+       	mStartButton.setOnClickListener(this);
+       	mChangeUserView.setOnClickListener(this);
         	
-        	mStartButton.setOnClickListener(this);
-        	mChangeUserView.setOnClickListener(this);
-        	
-        	mShortpwView.addTextChangedListener(this);
-        	
-        } else {
-        	AccountCreationIntroduction.accountCreationIntroduction(this);
-        	finish();
-        }
+       	mShortpwView.addTextChangedListener(this);
     }
     
     @Override
@@ -101,8 +93,9 @@ public class MainActivity extends BaseActivity implements OnClickListener, TextW
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case W.id.start:
-			if (mShortpw != null && mShortpw.equals(mShortpwView.getText().toString())) {
-				Intent intent = new Intent(Intents.ACTION_LIST_ENTITIES);
+			final String shortpw = PreferenceHelper.getShortPassword(this);
+			if (shortpw != null && shortpw.equals(mShortpwView.getText().toString())) {
+				Intent intent = new Intent(this, ApplicationHelper.getHomeClass());
 				startActivity(intent);
 				finish();
 			} else {
