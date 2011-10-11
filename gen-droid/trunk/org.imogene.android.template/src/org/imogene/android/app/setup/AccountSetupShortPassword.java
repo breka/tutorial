@@ -1,9 +1,9 @@
 package org.imogene.android.app.setup;
 
-import org.imogene.android.Constants.Intents;
 import org.imogene.android.W;
 import org.imogene.android.app.BaseActivity;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.util.app.ApplicationHelper;
 import org.imogene.android.util.base64.Base64;
 import org.imogene.android.util.encryption.EncryptionManager;
 
@@ -116,7 +116,7 @@ public class AccountSetupShortPassword extends BaseActivity implements
 			PreferenceHelper.getSharedPreferences(this).edit().putString(
 					getString(W.string.sync_shortpw_key), encsp).commit();
 
-			Intent intent = new Intent(Intents.ACTION_LIST_ENTITIES);
+			Intent intent = new Intent(this, ApplicationHelper.getHomeClass());
 			startActivity(intent);
 			finish();
 		} else {

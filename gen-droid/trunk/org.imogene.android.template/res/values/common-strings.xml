@@ -89,6 +89,7 @@
 	
 	<!-- Account creation -->
 	<string name="account_welcome">"Account creation"</string>
+	<string name="account_check_password_title">"Check password"</string>
 	<string name="account_introduction">"Welcome to Imogene setup !\n\nUse your Imogene account to use this application."</string>
 	<string name="account_next_action">"Next"</string>
 	<string name="account_setup_basics_login_hint">"Login"</string>

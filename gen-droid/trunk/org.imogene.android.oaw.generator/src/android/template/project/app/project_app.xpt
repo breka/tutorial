@@ -1,23 +1,26 @@
 «IMPORT core»
 «DEFINE generate(boolean multilogin) FOR Project»
-«FILE "/" + name.toLowerCase() + "/app/MainApp.java"»
+«FILE "/" + name.toLowerCase() + "/app/" + name.toFirstUpper() + "App.java"»
 package org.imogene.android.«name.toLowerCase()-».app;
 
 import java.util.UUID;
 
 import android.app.Application;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.util.app.ApplicationHelper;
 import org.imogene.android.util.base64.Base64;
 import org.imogene.android.util.encryption.EncryptionManager;
 import org.imogene.android.«name.toLowerCase()».R;
 import org.imogene.android.«name.toLowerCase()».notification.«name.toFirstUpper()»Notification;
 
-public class MainApp extends Application {
+public class «name.toFirstUpper()»App extends Application {
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		
+		ApplicationHelper.setHomeClass(«name.toFirstUpper()»Listing.class);
+
 		«name.toFirstUpper()»Notification.init();
 
 		if (PreferenceHelper.getHardwareId(this) == null)
