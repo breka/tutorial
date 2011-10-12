@@ -19,11 +19,7 @@ import org.imogene.common.data.handler.EntityHandler;
 import org.imogene.sync.SyncConstants;
 import org.imogene.sync.client.EntityListener;
 
-«IF Actor.isAssignableFrom(this.metaType)-»
-import org.imogene.«moduleName.toLowerCase()».entity.«this.name.toFirstUpper()»User;	
-«ELSE -»
 import org.imogene.«moduleName.toLowerCase()».entity.«this.name.toFirstUpper()»;		
-«ENDIF -»
 
 «FOREACH this.groups.fields AS f-»
 	«EXPAND importParent(moduleName.toLowerCase()) FOR f-»
@@ -55,11 +51,7 @@ public class «this.name.toFirstUpper()»Handler implements EntityHandler {
 	
 	public Synchronizable createNewEntity(String id) {
 		//TODO handle  with not null constraint values
-		«IF Actor.isAssignableFrom(this.metaType)-»
-		«this.name.toFirstUpper()»User entity = new «this.name.toFirstUpper()»User();	
-		«ELSE -»
 		«this.name.toFirstUpper()» entity = new «this.name.toFirstUpper()»();			
-		«ENDIF -»
 		entity.setId(id);
 		entity.setModified(new Date());
 		entity.setCreatedBy(SyncConstants.SYNC_ID_SYS);

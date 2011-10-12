@@ -13,9 +13,6 @@ import org.imogene.sync.client.dao.sqlite.HibernateGenericDao;
 «FOREACH entities AS e-»
 «IF e.topLevel-»
 import org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»;
-«IF Actor.isAssignableFrom(e.metaType)-»
-import org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»User;
-«ENDIF-»
 import org.imogene.«moduleName.toLowerCase()».entity.list.«e.name.toFirstUpper()»ForList;
 «ENDIF-»
 «ENDFOREACH-»
@@ -28,9 +25,6 @@ public class EntityForListUpdater {
 		«FOREACH entities AS e-»
 			«IF e.topLevel-»
 			classes.put(«e.name.toFirstUpper()».class, «e.name.toFirstUpper()»ForList.class);
-				«IF Actor.isAssignableFrom(e.metaType)-»
-				classes.put(«e.name.toFirstUpper()»User.class, «e.name.toFirstUpper()»ForList.class);
-				«ENDIF-»
 			«ENDIF-»
 		«ENDFOREACH-»
 	}

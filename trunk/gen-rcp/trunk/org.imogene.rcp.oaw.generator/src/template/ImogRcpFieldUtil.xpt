@@ -77,6 +77,33 @@ import java.util.Set;
 «REM»----------------------------------------------------------- «ENDREM»
 
 «REM»----------------------------------------------------------- «ENDREM»
+«REM» Génère un import selon le type de champs recu.             «ENDREM»
+«REM»----------------------------------------------------------- «ENDREM»
+«DEFINE importForFieldForList(String moduleName) FOR FieldEntity-»
+«ENDDEFINE»
+«DEFINE importForFieldForList(String moduleName) FOR RelationFieldEntity-»
+«IF this.entity.topLevel==true-»
+	«IF (cardinality > 1) || (cardinality == -1) -»
+import java.util.Set;
+	«ELSE-»
+		«IF ReverseRelationFieldEntity.isAssignableFrom(this.metaType) && (getOppositeCardinality(this) == 1) -»
+		«REM»Relation 1 <-> 1 «ENDREM»
+import org.imogene.«moduleName.toLowerCase()».entity.list.«entity.name.toFirstUpper()-»For«this.oppositeRelationField.name.toFirstUpper()-»List;	
+		«ELSE-»
+import org.imogene.«moduleName.toLowerCase()».entity.list.«entity.name.toFirstUpper()-»ForList;
+		«ENDIF-»
+	«ENDIF-»
+«ELSE-»
+	«IF (cardinality > 1) || (cardinality == -1) -»
+import java.util.Set;
+	«ELSE-»
+import org.imogene.«moduleName.toLowerCase()».entity.«entity.name.toFirstUpper()-»;
+	«ENDIF-»
+«ENDIF-»
+«ENDDEFINE»
+«REM»----------------------------------------------------------- «ENDREM»
+
+«REM»----------------------------------------------------------- «ENDREM»
 «REM» Retourne le display name en fonction du champs             «ENDREM»
 «REM»----------------------------------------------------------- «ENDREM»
 «DEFINE getDisplayName FOR FieldEntity-»

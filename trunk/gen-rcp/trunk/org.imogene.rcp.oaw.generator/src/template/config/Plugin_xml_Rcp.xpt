@@ -146,10 +146,7 @@
  «FOREACH entities AS e»
    <extension
          point="org.imogene.rcp.core.DataHandler">
-      <DataHandler
-			«IF Actor.isAssignableFrom(e.metaType)-»
-			actorClassName="org.imogene.«moduleName.toLowerCase()».entity.«moduleName.toLowerCase()»User"
-			«ENDIF -»          
+      <DataHandler         
             dao="org.imogene.«moduleName.toLowerCase()».dao.hibernate.«e.name.toFirstUpper()»Dao"
             entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»"
 			«IF isTranslatableFieldPresent(e.groups.fields)-»
@@ -158,17 +155,6 @@
             handler="org.imogene.«moduleName.toLowerCase()».handler.«e.name.toFirstUpper()»Handler">
       </DataHandler>
    </extension>
-   «IF Actor.isAssignableFrom(e.metaType)-»
-    <extension
-         point="org.imogene.rcp.core.DataHandler">
-      <DataHandler        
-            dao="org.imogene.«moduleName.toLowerCase()».dao.hibernate.«e.name.toFirstUpper()»Dao"
-            entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»User"
-            handler="org.imogene.«moduleName.toLowerCase()».handler.«e.name.toFirstUpper()»Handler">
-      </DataHandler>
-   </extension>  
-   «ENDIF -»  
-   
 «ENDFOREACH»
 
 <!-- PropertyConverters -->
@@ -178,21 +164,19 @@
     	«ENDFOREACH»  	
     	«IF Actor.isAssignableFrom(e.metaType)-»	
    <extension point="org.imogene.rcp.core.PropertyConverter">
-      <PropertyConverter entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»User" propertyName="password" type="password">
+      <PropertyConverter entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»" propertyName="password" type="password">
       </PropertyConverter>
    </extension>   
    
    <extension point="org.imogene.rcp.core.PropertyConverter">
-      <PropertyConverter entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»User" propertyName="assignedRoles" type="roles">
+      <PropertyConverter entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»" propertyName="assignedRoles" type="roles">
       </PropertyConverter>
    </extension>   	
    
    <extension point="org.imogene.rcp.core.PropertyConverter">
-      <PropertyConverter entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»User" propertyName="assignedSynchronizables" type="synchronizables">
+      <PropertyConverter entityClassName="org.imogene.«moduleName.toLowerCase()».entity.«e.name.toFirstUpper()»" propertyName="assignedSynchronizables" type="synchronizables">
       </PropertyConverter>
    </extension>    
-   
-   «EXPAND filterField(moduleName) FOREACH ((Actor)e).filters-»  	
     	«ENDIF -»
 	«ENDFOREACH»	
 
@@ -298,15 +282,4 @@
 </extension>
 		«ENDIF-»
 	«ENDIF-»
-«ENDDEFINE»
-
-
-«DEFINE filterField(String packageName) FOR FilterField-»
-   <extension point="org.imogene.rcp.core.PropertyConverter">
-      <PropertyConverter
-            entityClassName="org.imogene.«packageName.toLowerCase()».entity.«this.parentActor.name.toFirstUpper()»User"
-            propertyName="«EXPAND template::CommonFieldUtil::propertyName FOR this-»"
-            type="filterfield">
-      </PropertyConverter>
-   </extension>	
 «ENDDEFINE»

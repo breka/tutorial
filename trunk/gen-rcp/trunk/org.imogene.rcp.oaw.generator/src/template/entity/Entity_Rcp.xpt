@@ -7,15 +7,29 @@
 package org.imogene.«moduleName.toLowerCase()».entity;
 
 import java.util.Date;
+«IF Actor.isAssignableFrom(this.metaType)-»
+import java.util.HashSet;
+import java.util.Set;
+«ENDIF-»
 «EXPAND template::ImogRcpFieldUtil::generateImportsForFields FOR this-»
+«IF !Actor.isAssignableFrom(this.metaType)-»
 import org.imogene.common.data.Synchronizable;
+«ELSE-»
+import org.imogene.common.data.SynchronizableUser;
+import org.imogene.uao.role.Role;
+import org.imogene.uao.synchronizable.SynchronizableEntity;
+«ENDIF-»
 import org.imogene.«moduleName.toLowerCase()».wrapper.DisplayValueWrapper;
 
 /**
  * «this.name» Bean Implementation
  * @author Medes-IMPS
  */
+«IF !Actor.isAssignableFrom(this.metaType)-»
 public class «this.name.toFirstUpper()» implements Synchronizable {
+«ELSE-»
+public class «this.name.toFirstUpper()» implements SynchronizableUser {
+«ENDIF-»
 
 	/* Synchronizable properties */
 	private String id;	
@@ -25,6 +39,14 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 	private String modifiedFrom;
 	private Date created;
 	private String createdBy;
+	
+	«IF Actor.isAssignableFrom(this.metaType)-»	
+	/* SynchronizableUser properties */
+	private String login;
+	private String password;
+	private Set<Role> assignedRoles = new HashSet<Role>();
+	private Set<SynchronizableEntity> assignedSynchronizables = new HashSet<SynchronizableEntity>();
+	«ENDIF-»	
 	
 	/* Entity properties */
 	«FOREACH groups.fields AS field-» 
@@ -195,6 +217,50 @@ public class «this.name.toFirstUpper()» implements Synchronizable {
 	public String getDisplayValue() {		
 		return DisplayValueWrapper.getDisplayValue(this);
 	}
+	
+	«IF Actor.isAssignableFrom(this.metaType)-»	
+	/* SynchronizableUser getters and setters */
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<Role> getRoles() {
+		return assignedRoles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.assignedRoles = roles;
+	}
+
+	public void addRole(Role role) {
+		this.assignedRoles.add(role);
+	}
+
+	public Set<SynchronizableEntity> getSynchronizables() {
+		return assignedSynchronizables;
+	}
+
+	public void setSynchronizables(Set<SynchronizableEntity> synchronizables) {
+		this.assignedSynchronizables = synchronizables;
+	}
+
+	public void addSynchronizable(SynchronizableEntity synchronizable) {
+		assignedSynchronizables.add(synchronizable);
+	}
+	«ENDIF-»
 	
 		
 }

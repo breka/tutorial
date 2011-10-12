@@ -53,9 +53,6 @@ import org.imogene.sync.client.dao.sqlite.HibernateGenericDao;
 import org.imogene.sync.localizedtext.LocalizedText;
 import org.imogene.«moduleName.toLowerCase()».Plugin;
 import org.imogene.«moduleName.toLowerCase()».entity.«this.name.toFirstUpper()»;
-«IF Actor.isAssignableFrom(this.metaType)-»
-import org.imogene.«moduleName.toLowerCase()».entity.«this.name.toFirstUpper()»User;
-«ENDIF -»
 import org.imogene.«moduleName.toLowerCase()».entity.LocalizedFieldMap;
 import org.imogene.«moduleName.toLowerCase()».handler.«this.name.toFirstUpper()»Handler;
 import org.imogene.«moduleName.toLowerCase()».security.AccessManager;
@@ -250,11 +247,7 @@ public class «name.toFirstUpper()»RcpForm extends IEntityForm {
 		
 		ImogPlugin plugin = ImogPlugin.getDefault();
 		
-		«IF Actor.isAssignableFrom(this.metaType)-»
-		embedded = new «this.name.toFirstUpper()»User();
-		«ELSE -»
 		embedded = new «this.name.toFirstUpper()»();
-		«ENDIF -»
 		embedded.setId(BeanKeyGenerator.getNewId("«this.shortName»"));
 		embedded.setCreated(new Date(System.currentTimeMillis()));
 		embedded.setCreatedBy(plugin.getCurrentUserIdentity().getLogin());
@@ -368,12 +361,7 @@ public class «name.toFirstUpper()»RcpForm extends IEntityForm {
 	
 		/* update entity */
 		if (embedded == null) {
-			«IF Actor.isAssignableFrom(this.metaType)-»
-			embedded = new «name.toFirstUpper()»User();
-			«ELSE -»
-			embedded = new «name.toFirstUpper()»();
-			«ENDIF -»
-			
+			embedded = new «name.toFirstUpper()»();		
 		}
 		if (embedded.getId()==null) {
 			embedded.setId(BeanKeyGenerator.getNewId("«this.shortName»"));
