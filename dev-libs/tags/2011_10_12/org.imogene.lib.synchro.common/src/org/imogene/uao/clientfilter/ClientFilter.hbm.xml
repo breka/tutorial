@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class lazy="false" name="org.imogene.uao.clientfilter.ClientFilter" table="ClientFilter">
+		<id column="ClientFilter_Id" name="id"/>			
+		<property column="UserId" name="userId"/>
+		<property column="TerminalId" name="terminalId"/>
+		<property column="CardEntity" name="cardEntity"/>
+		<property column="EntityField" name="entityField"/>
+		<property column="FieldOperator" name="operator"/>
+		<property column="FieldValue" name="fieldValue"/>
+		<property column="IsNew" name="isNew"/>
+		<property column="Creator" name="createdBy"/>
+		<property column="CreationDate" name="created" type="timestamp"/>
+		<property column="Modifier" name="modifiedBy"/>
+		<property column="ModifiedFrom" name="modifiedFrom"/>
+		<property column="LastModificationDate" name="modified" type="timestamp"/>
+		<property column="UploadDate" name="uploadDate" type="timestamp"/>				
+    </class>		
+</hibernate-mapping>
