@@ -6,14 +6,23 @@ import org.imogene.uao.role.Role;
 import org.imogene.uao.synchronizable.SynchronizableEntity;
 
 
+/**
+ * This interface describes a SynchronizableUser, which is an Imogene bean that is an
+ * application user too.
+ * @author Medes-IMPS
+ */
 public interface SynchronizableUser extends Synchronizable {
 	
+	/** Get the assigned login for this user */
 	public String getLogin();
 	
+	/** Set the assigned login for this user */
 	public void setLogin(String login);
-	
+
+	/** Get the assigned password for this user */
 	public String getPassword();
-	
+
+	/** Set the assigned password for this user */
 	public void setPassword(String password);
 	
 	/**
