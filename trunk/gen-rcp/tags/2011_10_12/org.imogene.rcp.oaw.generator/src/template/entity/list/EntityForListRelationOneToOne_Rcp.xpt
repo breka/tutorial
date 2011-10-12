@@ -1,0 +1,191 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt»
+
+«DEFINE generate(String moduleName) FOR CardEntity»
+«IF this.topLevel == true -»
+		«IF columnFields.isEmpty -»
+			«EXPAND getOneToOneRelations(moduleName, this.mainFields.addAll(this.secondaryFields)) FOR this-»		
+		«ELSE -»
+			«EXPAND getOneToOneRelations(moduleName, this.columnFields) FOR this-»
+		«ENDIF- »	
+«ENDIF -»
+«ENDDEFINE»
+
+«REM» go through fields to identify one to one relations «ENDREM»
+«DEFINE getOneToOneRelations(String moduleName, Collection[FieldEntity] fieldList) FOR CardEntity»
+	«FOREACH fieldList AS field-» 
+	«EXPAND getOneToOneRelation(moduleName) FOR field-»		
+	«ENDFOREACH-»
+«ENDDEFINE»
+
+«REM» for a one to one relation, on the reverse side, generate bean and mapping of related entity «ENDREM»
+«DEFINE getOneToOneRelation(String packageName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getOneToOneRelation(String packageName) FOR ReverseRelationFieldEntity-»
+	«IF (this.cardinality == 1)-»
+		«IF (getOppositeCardinality(this) == 1)-»
+		«REM»Relation 1 <-> 1 «ENDREM»
+		«EXPAND getFile(packageName, this.oppositeRelationField) FOR this.entity-»
+		«ENDIF-»
+	«ENDIF-»
+«ENDDEFINE»
+
+
+
+
+«REM» --------------------------------------------------------------------------- «ENDREM»
+«REM» ---------------------- GET FILE CONTENT ----------------------------------- «ENDREM»
+«REM» ---------------------------------------------------------------------------- «ENDREM»
+
+«DEFINE getFile(String moduleName, RelationFieldEntity ofield) FOR CardEntity»
+
+«FILE moduleName.toLowerCase() + "/entity/list/" + this.name.toFirstUpper() + "For" + ofield.name.toFirstUpper() + "List.java"»
+package org.imogene.«moduleName.toLowerCase()».entity.list;
+
+import java.util.Date;
+
+import org.imogene.common.data.Synchronizable;
+import org.imogene.«moduleName.toLowerCase()».wrapper.DisplayValueWrapper;
+«FOREACH this.mainFields AS field-» 
+«EXPAND template::ImogRcpFieldUtil::importForField FOR field-»	
+«EXPAND generateRelationImports(moduleName.toLowerCase()) FOR field-»	
+«ENDFOREACH-»
+
+
+/**
+ * «this.name» Bean implementation for the one to one
+ * relation «ofield.name» declared in the Bean «ofield.entity.name»
+ * (only the mainfields and the one to one relation are kept)
+ * @author Medes-IMPS
+ */
+public class «this.name.toFirstUpper()»For«ofield.name.toFirstUpper()»List implements Synchronizable {
+
+	/* Synchronizable properties */
+	private String id;	
+	private Date modified;	
+	private Date uploadDate;
+	private String modifiedBy;	
+	private String modifiedFrom;
+	private Date created;
+	private String createdBy;
+	
+	/* Entity properties */
+	«FOREACH this.mainFields AS field-» 
+	private «EXPAND template::ImogRcpFieldUtil::fieldTypeForList FOR field-» «EXPAND template::CommonFieldUtil::propertyName FOR field-»;
+	«ENDFOREACH-»	
+	«REM»Relation 1 <-> 1 property «ENDREM»
+	«IF !this.mainFields.contains(ofield)-»
+	private «EXPAND template::ImogRcpFieldUtil::fieldTypeForList FOR ofield-» «EXPAND template::CommonFieldUtil::propertyName FOR ofield-»;
+	«ENDIF -»
+				
+	
+	public «this.name»For«ofield.name.toFirstUpper()»List() {
+	}
+		
+	
+	/* Entity getters and setters */
+
+	«FOREACH this.mainFields AS field-»
+	
+	public «EXPAND template::ImogRcpFieldUtil::fieldTypeForList FOR field-» «EXPAND template::CommonFieldUtil::getterName FOR field-»()
+	{
+		return «EXPAND template::CommonFieldUtil::propertyName FOR field-»;
+	}
+   
+	public void «EXPAND template::CommonFieldUtil::setterName FOR field-»(«EXPAND template::ImogRcpFieldUtil::fieldTypeForList FOR field-» param)
+	{
+		«EXPAND template::CommonFieldUtil::propertyName FOR field-» = param;
+	}
+	
+	«ENDFOREACH-»
+	
+	«REM»Relation 1 <-> 1 property «ENDREM»
+	«IF !this.mainFields.contains(ofield)-»
+	public «EXPAND template::ImogRcpFieldUtil::fieldTypeForList FOR ofield-» «EXPAND template::CommonFieldUtil::getterName FOR ofield-»()
+	{
+		return «EXPAND template::CommonFieldUtil::propertyName FOR ofield-»;
+	}
+   
+	public void «EXPAND template::CommonFieldUtil::setterName FOR ofield-»(«EXPAND template::ImogRcpFieldUtil::fieldTypeForList FOR ofield-» param)
+	{
+		«EXPAND template::CommonFieldUtil::propertyName FOR ofield-» = param;
+	}
+	«ENDIF -»	
+	
+
+	/* Synchronizable getters and setters */
+	
+	public String getId() {		
+		return id;
+	}
+
+	public void setId(String pId) {
+		id = pId;
+	}	
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date pModified) {
+		modified = pModified;
+	}	
+	
+	public Date getUploadDate() {
+		return uploadDate;
+	}
+	
+	public void setUploadDate(Date date) {
+		uploadDate = date;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String id) {
+		modifiedBy = id;
+	}
+	
+	public String getModifiedFrom() {
+		return modifiedFrom;
+	}
+
+	public void setModifiedFrom(String modifiedFrom) {
+		this.modifiedFrom = modifiedFrom;
+	}
+	
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}	
+	
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}	
+	
+	public String getDisplayValue() {		
+		return DisplayValueWrapper.getDisplayValue(this);
+	}
+	
+		
+}
+«ENDFILE»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+«DEFINE generateRelationImports(String moduleName) FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE generateRelationImports(String moduleName) FOR RelationFieldEntity-»
+	«IF this.entity.topLevel==false-»
+import org.imogene.«moduleName».entity.«this.entity.name.toFirstUpper()»;
+	«ENDIF-»
+«ENDDEFINE»

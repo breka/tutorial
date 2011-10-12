@@ -1,0 +1,264 @@
+«IMPORT core»
+
+«DEFINE generate(String moduleName) FOR Project»
+«FILE moduleName.toLowerCase() + "/view/MenuView.java"-»
+package org.imogene.«moduleName.toLowerCase()».view;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.UUID;
+
+import org.apache.log4j.Logger;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.forms.IFormColors;
+import org.eclipse.ui.forms.events.ExpansionAdapter;
+import org.eclipse.ui.forms.events.ExpansionEvent;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
+import org.eclipse.ui.part.ViewPart;
+
+import org.imogene.rcp.core.ImogPlugin;
+import org.imogene.rcp.core.view.EntityInfo;
+import org.imogene.rcp.core.view.IEntityForm;
+import org.imogene.rcp.core.view.ViewUtil;
+import org.imogene.«moduleName.toLowerCase()».Plugin;
+import org.imogene.«moduleName.toLowerCase()».security.AccessManager;
+import org.imogene.«moduleName.toLowerCase()».wrapper.DisplayValueWrapper;
+import org.imogene.«moduleName.toLowerCase()».wrapper.Messages;
+
+
+/**
+ * Application Menu View
+ * @author Medes-IMPS
+ */
+public class MenuView extends ViewPart {
+
+	private Logger logger = Logger.getLogger("org.imogene.«moduleName.toLowerCase()».view.MenuView");
+
+	public final static String ID="Imog.«moduleName.toFirstUpper()».MenuView";
+	
+	private FormToolkit toolkit;
+	
+	private ScrolledForm form;
+	
+	@Override
+	public void createPartControl(Composite parent) {
+
+		/* construct the form base */
+		parent.setLayout(new FillLayout());
+		toolkit = new FormToolkit(parent.getDisplay());
+		form = toolkit.createScrolledForm(parent);
+		form.setText(Messages.getString("application_title"));
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.numColumns = 1;
+		layout.verticalSpacing = 15;
+		form.getBody().setLayout(layout);
+				
+		LinkedHashMap<String, List<EntityInfo>> temaContent = ViewUtil.assignEntitiesToTemas();
+		LinkedHashMap<String, List<EntityInfo>> securedTemaContent = getReadableEntitiesForTemas(temaContent);
+		
+		/* create tema and entity composites */
+		//int i = 1;
+		for (String tema: securedTemaContent.keySet()){	
+			//if (i <= 3)
+			//	addTema(tema, securedTemaContent.get(tema), true);
+			//else
+				addTema(tema, securedTemaContent.get(tema), false);	
+			//i = i + 1;
+		}
+		
+		toolkit.paintBordersFor(form.getBody());
+	}
+	
+	/**
+	 * For each tema filters the entities that the current user can read
+	 * @param temaContent list of entities per tema
+	 * @return filtered temas, if tema has not readable entities, it is not returned
+	 */
+	private LinkedHashMap<String, List<EntityInfo>> getReadableEntitiesForTemas(LinkedHashMap<String, List<EntityInfo>> temaContent) {
+		
+		LinkedHashMap<String, List<EntityInfo>> result = new LinkedHashMap<String, List<EntityInfo>>();
+		
+		for (String tema:temaContent.keySet()) {
+			List<EntityInfo> securedEntities = new ArrayList<EntityInfo>();
+			for (EntityInfo entity:temaContent.get(tema)) {			
+				if (AccessManager.canDirectAccessForm(entity.getName().toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles())
+					&& AccessManager.canReadForm(entity.getName().toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles()))
+					securedEntities.add(entity);
+			}
+			if (securedEntities.size()>0)
+				result.put(tema, securedEntities);
+		}
+		return result;
+	}	
+	
+	/**
+	 * Creates a tema section
+	 * @param tema name of the tema
+	 * @param temaEntities list of entities belonging to the tema
+	 * @param expanded true if the tema section should be expanded
+	 */
+	private void addTema(String tema, List<EntityInfo> temaEntities, boolean expanded) {
+		
+		/* create a section for this tema */
+		int style = Section.TITLE_BAR | Section.TWISTIE ;
+		if (expanded)
+			style = style | Section.EXPANDED;
+		ExpandableComposite section = toolkit.createExpandableComposite(form.getBody(), style);
+		section.setBackground(toolkit.getColors().getColor(IFormColors.TB_BG));
+		section.setTitleBarForeground(toolkit.getColors().getColor(IFormColors.BORDER));
+		section.setToggleColor(toolkit.getColors().getColor(IFormColors.BORDER));
+		section.setActiveToggleColor(toolkit.getColors().getColor(IFormColors.H_HOVER_FULL));
+		//section.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
+		section.setText(Messages.getString("tema_" + tema + "_title"));
+		section.addExpansionListener(new ExpansionAdapter() {
+			public void expansionStateChanged(ExpansionEvent e) {
+				form.reflow(true);
+			}
+		});
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		section.setLayoutData(td);		
+		
+		/* creates the tema section client part */
+		Composite sectionClient = toolkit.createComposite(section);		
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.numColumns = 1;	
+		layout.bottomMargin = 20;
+		sectionClient.setLayout(layout);
+		sectionClient.setBackground(toolkit.getColors().getColor(IFormColors.TB_BG));
+		section.setClient(sectionClient);
+		
+		/* add entity composites to the tema section */
+		//int i = 1;
+		for (EntityInfo entity: temaEntities){	
+		//		if (i <= 3)
+					addEntity(sectionClient, entity.getName(), entity.getClassName(), entity.getIconName(), entity.getEntityId(), true);
+		//		else
+		//			addEntity(sectionClient, entity.getName(), entity.getClassName(), entity.getIconName(), entity.getEntityId(), false);
+		//		i = i + 1;
+		}
+		
+	}
+
+
+	/**
+	 * Creates an entity section
+	 * @param parent parent composite
+	 * @param className class name of the composite
+	 * @param iconName name of the icon assigned to the entity
+	 * @param entityId entity id
+	 * @param expanded true if the entity section should be expanded
+	 */
+	private void addEntity(Composite parent, String name, String className, String iconName,
+			final String entityId, boolean expanded) {
+
+		/* create a section for this entity */
+		int style = Section.TITLE_BAR | Section.TWISTIE | Section.CLIENT_INDENT;
+		if (expanded)
+			style = style | Section.EXPANDED;
+		Section section = toolkit.createSection(parent, style);
+		section.setText(DisplayValueWrapper.getEntityText(className,
+				DisplayValueWrapper.ENTITY_DISPLAY));
+		section.clientVerticalSpacing = 1;
+		section.addExpansionListener(new ExpansionAdapter() {
+			public void expansionStateChanged(ExpansionEvent e) {
+				form.reflow(true);
+			}
+		});
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		section.setLayoutData(td);		
+		
+		/* creates the entity section client part */
+		Composite sectionClient = toolkit.createComposite(section);
+		sectionClient.setLayout(new GridLayout(2, false));
+		section.setClient(sectionClient);
+
+		/* logo of the entity  */
+		ImageHyperlink image = toolkit.createImageHyperlink(sectionClient,
+				SWT.WRAP);
+		try{
+			image.setImage(Plugin.getImageDescriptor("icons/" + iconName)
+				.createImage());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			System.err.println("Image : '"+iconName+"' not found.");
+		}
+		GridData data = new GridData();
+		data.verticalSpan = 3;
+		image.setLayoutData(data);
+
+		/* link to list the entity */
+	
+		Hyperlink link = toolkit.createHyperlink(sectionClient, Messages.getString("form_action_list"), SWT.WRAP);
+		
+		link.addHyperlinkListener(new HyperlinkAdapter() {
+
+			@Override
+			public void linkActivated(org.eclipse.ui.forms.events.HyperlinkEvent e) {
+				super.linkActivated(e);
+				try {
+					Plugin.getDefault().getWorkbench().getActiveWorkbenchWindow()
+							.getActivePage().showView(entityId + ".List");
+				} catch (PartInitException ex) {
+					logger.error(ex.getMessage());
+				}
+			}
+		});
+
+		
+		if (AccessManager.canCreateForm(name.toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles()) 
+			&&   AccessManager.canEditForm(name.toLowerCase(), ImogPlugin.getDefault().getCurrentUserIdentity().getAssignedRoles())) {
+
+			/* link to create a new entity */
+			
+			Hyperlink createLink = toolkit.createHyperlink(sectionClient, Messages.getString("form_action_create"), SWT.WRAP);
+			
+			createLink.addHyperlinkListener(new HyperlinkAdapter() {
+	
+				@Override
+				public void linkActivated(org.eclipse.ui.forms.events.HyperlinkEvent e) {
+					super.linkActivated(e);
+					try {
+						IWorkbenchPage page = Plugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+						IViewPart lview = page.showView(entityId + ".Form",	UUID.randomUUID().toString(), IWorkbenchPage.VIEW_ACTIVATE);
+						((IEntityForm) lview).initializeForm();
+					} catch (PartInitException ex) {
+						logger.error(ex.getMessage());
+					}
+				}
+			});
+		}
+
+		/* link to search an entity */
+		/* toolkit.createHyperlink(sectionClient, DisplayValueWrapper.getEntityText(className, DisplayValueWrapper.ACTION_SEARCH), SWT.WRAP);*/
+	}
+
+	@Override
+	public void setFocus() {
+		form.setFocus();
+	}
+
+	@Override
+	public void dispose() {
+		toolkit.dispose();
+		super.dispose();
+	}
+}
+
+«ENDFILE»
+«ENDDEFINE»
