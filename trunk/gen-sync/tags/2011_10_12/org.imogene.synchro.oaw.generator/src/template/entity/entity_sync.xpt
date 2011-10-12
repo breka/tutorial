@@ -1,0 +1,338 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+«EXTENSION template::CommonEntityUtilExt» 
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR CardEntity»
+«FILE packagePath.toLowerCase() + "/entity/" + name.toFirstUpper() + ".java"»
+package «packageName.toLowerCase()».entity;
+
+import java.util.Date;
+
+«EXPAND template::SyncFieldUtil::generateImportsForFields FOR this-»
+import org.imogene.common.data.Synchronizable;
+«IF this.georeferenced!=null -»
+import org.imogene.common.data.IsGeoreferenced;
+«ENDIF»
+«IF isTypePresent(this.groups.fields, "GeoField") -»
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.imogene.common.data.GeoField;
+«ENDIF»
+
+/**
+ * «this.name» Bean Implementation
+ * @author Medes-IMPS
+ */
+public class «this.name.toFirstUpper()» implements Synchronizable «IF this.georeferenced!=null», IsGeoreferenced«ENDIF»{
+
+	/* Synchronizable properties */
+	private String id;	
+	private Date modified;	
+	private Date uploadDate;
+	private String modifiedBy;	
+	private String modifiedFrom;
+	private Date created;
+	private String createdBy;
+	
+	/* Entity properties */
+	«FOREACH groups AS g-»
+	/* «g.name.toFirstUpper()» group fields */
+	«FOREACH g.fields AS f -»
+	«EXPAND fieldDeclaration FOR f-»
+	«ENDFOREACH -»	
+	«ENDFOREACH»	
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	/* For localized fields */
+	private LocalizedFieldMap translations;	
+	«ENDIF»	
+				
+	
+	public «this.name»() {
+	
+		«IF isTranslatableFieldPresent(this.groups.fields)-»
+		translations = new LocalizedFieldMap();
+		«ENDIF-»	
+	
+	   // Add the ENABLED keyword before 'START' to protect this area 
+	    «PROTECT CSTART '/*' CEND '*/' ID 'init'+ this.shortName DISABLE »		
+		«FOREACH groups.fields AS field-» 
+			«EXPAND propertyInit FOR field-»
+		«ENDFOREACH-»
+		«ENDPROTECT»	
+	}
+	
+	/* Getters and Setters for Entity fields */
+	
+	«FOREACH groups AS g-»
+	/* Getters and Setters for «g.name.toFirstUpper()» group fields */
+	«FOREACH g.fields AS f -»
+	«EXPAND template::SyncFieldUtil::getterDeclarationForField FOR f»
+	«EXPAND template::SyncFieldUtil::setterDeclarationForField FOR f»	
+	«REM»
+	When a property has a lowercase first char and an upper case second char,
+	some bean introspectors need getter/setter with type getXxxx
+	and some other need getter/setter with type getxxx
+	«ENDREM»
+	«IF isPropertyWithLowerUpperCaseFirstTwoChar(f.name)-»
+	/* second set of getter/setter because of property has first char with lowercase and second char with uppercase 
+	   and bean introspectors do not use same naming conventions */
+	«EXPAND template::SyncFieldUtil::getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR f»
+	«EXPAND template::SyncFieldUtil::setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR f-»
+	/* ----------------------------------------------------------------------------------------------------------- */
+	«ENDIF-»	
+		
+	«IF RelationFieldEntity.isAssignableFrom(f.metaType) && (((RelationFieldEntity)f).cardinality != 1)-»
+	/**
+	 * @param param the «((RelationFieldEntity)f).entity.name-» to add to the «EXPAND template::CommonFieldUtil::propertyName FOR f-» collection
+	 */
+	public void addTo«EXPAND template::CommonFieldUtil::propertyName FOR f-»(«((RelationFieldEntity)f).entity.name-» param)
+	{
+		«EXPAND template::CommonFieldUtil::propertyName FOR f-».add(param);
+	}	
+	
+	/**
+	 * @param param the «((RelationFieldEntity)f).entity.name-» to remove from the «EXPAND template::CommonFieldUtil::propertyName FOR f-» collection
+	 */
+	public void removeFrom«EXPAND template::CommonFieldUtil::propertyName FOR f-»(«((RelationFieldEntity)f).entity.name-» param)
+	{
+		«EXPAND template::CommonFieldUtil::propertyName FOR f-».remove(param);
+	}	
+	«ENDIF-»
+	
+	«ENDFOREACH-»
+	«ENDFOREACH-»
+	
+	«IF this.georeferenced!=null -»
+	public Double getLatitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Latitude;
+	}
+	public Double getLongitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Longitude;
+	}
+	«ENDIF»
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	public LocalizedFieldMap getLocalizedFieldMap() {
+		return translations;
+	}
+
+	public void setLocalizedFieldMap(LocalizedFieldMap localizedFieldMap) {
+		translations = localizedFieldMap;
+	}
+	«ENDIF»		
+	
+
+	/* Synchronizable getters and setters */
+	
+	public String getId() {		
+		return id;
+	}
+
+	public void setId(String pId) {
+		id = pId;
+	}	
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date pModified) {
+		modified = pModified;
+	}	
+	
+	public Date getUploadDate() {
+		return uploadDate;
+	}
+	
+	public void setUploadDate(Date date) {
+		uploadDate = date;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String id) {
+		modifiedBy = id;
+	}
+	
+	public String getModifiedFrom() {
+		return modifiedFrom;
+	}
+
+	public void setModifiedFrom(String modifiedFrom) {
+		this.modifiedFrom = modifiedFrom;
+	}
+	
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}	
+	
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}	
+	
+	
+	/* other getters and setters */
+	
+	public void setEntity(«this.name» entity) {
+		this.setId(entity.getId());
+		this.setModified(entity.getModified());
+		this.setModifiedBy(entity.getModifiedBy());
+		this.setCreated(entity.getCreated());
+		this.setCreatedBy(entity.getCreatedBy());		
+		«FOREACH groups.fields AS field-» 
+		«EXPAND setEntity FOR field-»
+		«ENDFOREACH-»
+	}
+	
+	public String getDisplayValue() {		
+		StringBuffer displayValue = new StringBuffer();
+		«FOREACH mainFields AS mainfield-»
+			«EXPAND getDisplay FOR mainfield-»
+		«ENDFOREACH-»
+		return displayValue.toString().trim();
+	}	
+		
+}
+«ENDFILE»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+
+«REM» Define pour gerer l'initialisation du champs dans le bean «ENDREM» 
+«DEFINE propertyInit FOR FieldEntity-»
+	«IF (defaultValue!=null) && (defaultValue.length >0)-»
+		«EXPAND template::CommonFieldUtil::propertyName FOR this-»= "«defaultValue»";
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE propertyInit FOR GeoField-»«ENDDEFINE»
+
+«DEFINE propertyInit FOR BooleanField-»
+	«IF (defaultValue!=null) && (defaultValue.length >0) -»
+		«EXPAND template::CommonFieldUtil::propertyName FOR this-» = new Boolean(«defaultValue.toLowerCase()»);
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE propertyInit FOR IntegerField-»
+	«IF (defaultValue!=null) && (defaultValue.length >0)-»
+		«EXPAND template::CommonFieldUtil::propertyName FOR this-» = new Integer(«defaultValue»);
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE propertyInit FOR FloatField-»
+	«IF (defaultValue!=null) && (defaultValue.length >0)-»
+	«EXPAND template::CommonFieldUtil::propertyName FOR this-» = new Float(«defaultValue»f);
+	«ENDIF-»
+«ENDDEFINE»
+
+«REM» Define pour gerer l'initialisation d'un enum «ENDREM» 
+«DEFINE propertyInit FOR EnumField-»
+	«IF (!this.multipleSelection) && (defaultValue!=null) && (defaultValue.length >0)-»
+		«EXPAND template::CommonFieldUtil::propertyName FOR this-» = "«defaultValue»";
+	«ENDIF-»
+«ENDDEFINE»
+
+«REM» Define pour gerer l'initialisation d'une date avec le now «ENDREM» 
+«DEFINE propertyInit FOR DatesField-»
+	«IF (defaultValue!=null) && (defaultValue.toLowerCase().startsWith("now"))-»
+		«EXPAND template::CommonFieldUtil::propertyName FOR this-» = new java.util.Date();
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE propertyInit FOR BinaryField»«ENDDEFINE»
+
+«REM» Define pour gerer l'initialisation d'une relation via HashSet«ENDREM» 
+«DEFINE propertyInit FOR RelationFieldEntity-»
+	«IF (cardinality >1) || (cardinality == -1)-»
+		«EXPAND template::CommonFieldUtil::propertyName FOR this-» = new java.util.HashSet<«entity.name-»>();
+	«ENDIF-»
+«ENDDEFINE»
+
+
+
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE getDisplay FOR FieldEntity-»
+	if (this.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+		displayValue.append(this.«EXPAND template::CommonFieldUtil::getterName FOR this-»()).append(" ");
+«ENDDEFINE»
+«DEFINE getDisplay FOR GeoField-»«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR EnumField»
+	String «name.toFirstLower()» = this.«EXPAND template::CommonFieldUtil::getterName FOR this-»();
+	if ( «name.toFirstLower()»!=null)
+	{	
+	«IF this.multipleSelection==true-»		
+		String[] indexesStr = «name.toFirstLower()».split(",");
+		String result = new String();
+		for(int j=0; j< indexesStr.length; j++){				
+		«FOREACH enumValues AS enumValue ITERATOR iter-»
+		«IF iter.counter1==1 -»
+			if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + "«enumValue.name»";
+				else
+					result = result + ", " + "«enumValue.name»";											
+			}				
+        «ELSE -»
+			else if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + "«enumValue.name»";
+				else
+					result = result + ", " + "«enumValue.name»";											
+			}			
+		«ENDIF -»
+		«ENDFOREACH -»									
+		}				
+		displayValue.append(result).append(" ");		
+	«ELSE-»
+		«FOREACH enumValues AS enumValue ITERATOR iter-»		
+			«IF iter.counter1==1 -»
+        if («name.toFirstLower()».equals("«enumValue.value»") )
+        	displayValue.append("«enumValue.name»".append(" ");
+        	«ELSE -»
+        else if («name.toFirstLower()».equals("«enumValue.value»") )
+        	 displayValue.append("«enumValue.name»".append(" ");		
+			«ENDIF -»
+		«ENDFOREACH -»	
+	«ENDIF-»	
+	}
+«ENDDEFINE»
+«DEFINE getDisplay FOR RelationFieldEntity -»
+	«IF (this.cardinality == 1)-»
+		if (this.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+			displayValue.append(this.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getDisplayValue()).append(" ");	
+	«ENDIF -»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+«DEFINE setEntity FOR FieldEntity-»
+		this.«EXPAND template::CommonFieldUtil::setterName FOR this-»(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+«DEFINE setEntity FOR GeoField-»
+		this.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude());
+		this.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+«DEFINE fieldDeclaration FOR FieldEntity-»
+	private «EXPAND template::SyncFieldUtil::fieldType FOR this-» «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+«ENDDEFINE»
+«DEFINE fieldDeclaration FOR GeoField-»
+	@XStreamOmitField
+	private «EXPAND template::SyncFieldUtil::fieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude; 
+	@XStreamOmitField
+	private «EXPAND template::SyncFieldUtil::fieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
+	private GeoField «EXPAND template::CommonFieldUtil::propertyName FOR this» = new GeoField();
+«ENDDEFINE»

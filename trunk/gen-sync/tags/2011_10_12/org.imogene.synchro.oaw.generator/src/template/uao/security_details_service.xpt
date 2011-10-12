@@ -1,0 +1,60 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String packagePath) FOR Project»
+«FILE packagePath.toLowerCase() + "/uao/security/MedooSecurityDetailService.java"»
+package «packageName.toLowerCase()».uao.security;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import «packageName.toLowerCase()».uao.UserAccessControlImpl;
+import org.imogene.common.data.SynchronizableUser;
+import org.imogene.synchro.security.MedooUserDetails;
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+/**
+ * Class to manage the application user access
+ * @author Medes-IMPS
+ */
+public class MedooSecurityDetailService implements UserDetailsService {
+
+	private UserAccessControlImpl accessControl;
+		
+	public UserDetails loadUserByUsername(String login)
+			throws UsernameNotFoundException, DataAccessException {
+		SynchronizableUser current = null;
+
+		«FOREACH entities AS e»
+			«EXPAND checkActorValidation FOR e-»
+		«ENDFOREACH-»		
+
+		/* Default User */
+		current = accessControl.validateForDefaultUser(login);
+		if(current!=null)
+			return new MedooUserDetails(current);
+		return  null;
+	}
+	
+	
+	/**
+	 * bean injection
+	 * @param accessControl
+	 */
+	public void setUserAccessControl(UserAccessControlImpl accessControl){
+		this.accessControl = accessControl;
+	}
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE checkActorValidation FOR CardEntity -»«ENDDEFINE»
+«DEFINE checkActorValidation FOR Actor -»
+/* «this.name.toFirstUpper()» validation */
+current = accessControl.validateFor«this.name.toFirstUpper()-»(login);
+if(current!=null)
+	return new MedooUserDetails(current);	
+«ENDDEFINE»

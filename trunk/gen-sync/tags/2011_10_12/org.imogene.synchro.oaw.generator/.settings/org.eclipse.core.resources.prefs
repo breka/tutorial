@@ -1,0 +1,6 @@
+#Thu Apr 29 17:54:44 CEST 2010
+eclipse.preferences.version=1
+encoding//src/template/config/web_sync_xml.xpt=ISO-8859-1
+encoding//src/template/entity/entity_hibernate_mapping_sync.xpt=ISO-8859-1
+encoding//src/template/entity/syncEntityHelper.xpt=ISO-8859-1
+encoding/<project>=ISO-8859-1
