@@ -1,0 +1,90 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String projectName) FOR CardEntity»
+«FILE packageName.toLowerCase()+ "/entity/serializer/xml/" + this.name.toFirstUpper() + "ListAdapter.java"»
+package org.imogene.«projectName.toLowerCase()».entity.serializer.xml;
+
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import org.imogene.«projectName.toLowerCase()».dao.«name.toFirstUpper()»Dao;
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»;
+«IF Actor.isAssignableFrom(this.metaType)-»
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor;
+«ENDIF-»
+import org.imogene.ws.serializer.xml.BeanUtil;
+import org.imogene.ws.serializer.xml.EntityIdCollection;
+
+
+/**
+ * JAXB adapter for when entity «name.toFirstUpper()» appears 
+ * in an association with cardinality n.
+ * @author MEDES-IMPS
+ */
+public class «name.toFirstUpper()»ListAdapter extends XmlAdapter<EntityIdCollection, Set<«name.toFirstUpper()»>> {
+	
+	private «name.toFirstUpper()»Dao dao;
+	
+
+	/**
+	 * Serialize a list of entity by as a list of String
+	 * whose values are the entity ids
+	 */
+	public EntityIdCollection marshal(Set<«name.toFirstUpper()»> beans) {	
+		
+		if (beans!=null) {
+			List<String> result =new ArrayList<String>();
+			EntityIdCollection list = new EntityIdCollection();
+			for («name.toFirstUpper()» bean:beans) {
+				result.add(bean.getId());
+			}
+			list.setIdList(result);
+			return list;
+		}
+		else
+			return null;
+	}
+
+
+	/**
+	 * Deserialize entities by using their ids
+	 * to get the corresponding beans from database
+	 */
+	public Set<«name.toFirstUpper()»> unmarshal(EntityIdCollection idCollection) {
+		
+		if (idCollection!=null) {
+			Set<«name.toFirstUpper()»> result = new HashSet<«name.toFirstUpper()»>();
+			if(idCollection.getIdList()!=null) {
+				for(String id:idCollection.getIdList()) {				
+					«name.toFirstUpper()» bean = dao.get«name.toFirstUpper()»(id);
+					if(bean==null){
+						bean = («name.toFirstUpper()»)BeanUtil.createNewEntity(id, «IF Actor.isAssignableFrom(this.metaType)»«name.toFirstUpper()»Actor.class«ELSE»«name.toFirstUpper()».class«ENDIF»);
+						dao.saveOrUpdate(bean,false);
+					}			
+					result.add(bean);
+				}			
+			}
+			return result;			
+		}
+		else
+			return null;
+	}
+
+
+	/**
+	 * Setter for bean injection
+	 * @param dao
+	 */
+	public void setDao(«name.toFirstUpper()»Dao dao) {
+		this.dao = dao;
+	}
+
+}
+
+«ENDFILE»
+«ENDDEFINE»

@@ -1,0 +1,65 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String projectName) FOR CardEntity»
+«FILE packageName.toLowerCase()+ "/entity/serializer/xml/" + this.name.toFirstUpper() + "Adapter.java"»
+package org.imogene.«projectName.toLowerCase()».entity.serializer.xml;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import org.imogene.«projectName.toLowerCase()».dao.«name.toFirstUpper()»Dao;
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»;
+«IF Actor.isAssignableFrom(this.metaType)-»
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor;
+«ENDIF-»
+import org.imogene.ws.serializer.xml.BeanUtil;
+
+
+/**
+ * JAXB adapter when entity «name.toFirstUpper()» appears 
+ * in an association with cardinality 1.
+ * @author MEDES-IMPS
+ */
+public class «name.toFirstUpper()»Adapter extends XmlAdapter<String, «name.toFirstUpper()»> {
+
+	private «name.toFirstUpper()»Dao dao;
+
+	/**
+	 * Serialize the entity as a String whose value is the entity id
+	 */
+	public String marshal(«name.toFirstUpper()» bean) {
+		if (bean != null)
+			return bean.getId();
+		else
+			return null;
+
+	}
+
+	/**
+	 * Deserialize the entity by using its id
+	 * to get the corresponding bean from database
+	 */
+	public «name.toFirstUpper()» unmarshal(String beanId) {
+
+		if (beanId != null && !beanId.equals("")) {
+			«name.toFirstUpper()» bean = dao.get«name.toFirstUpper()»(beanId);
+			if (bean == null) {
+				bean = («name.toFirstUpper()») BeanUtil.createNewEntity(beanId, «IF Actor.isAssignableFrom(this.metaType)»«name.toFirstUpper()»Actor.class«ELSE»«name.toFirstUpper()».class«ENDIF»);
+				dao.saveOrUpdate(bean, false);
+			}
+			return bean;
+		} else
+			return null;
+
+	}
+
+	/**
+	 * Setter for bean injection
+	 * @param dao
+	 */
+	public void setDao(«name.toFirstUpper()»Dao dao) {
+		this.dao = dao;
+	}
+
+}
+«ENDFILE»
+«ENDDEFINE»

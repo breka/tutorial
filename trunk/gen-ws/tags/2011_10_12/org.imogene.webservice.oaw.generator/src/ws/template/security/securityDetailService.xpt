@@ -1,0 +1,134 @@
+«IMPORT core»
+«EXTENSION template::CommonEntityUtilExt» 
+«DEFINE generate(String packageName, String projectName) FOR Project»
+«FILE packageName.toLowerCase()+"/security/MedooSecurityDetailService.java"»
+package org.imogene.«projectName.toLowerCase()».security;
+
+import java.util.List;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.imogene.ws.dao.GenericDao;
+import org.imogene.ws.entity.DefaultActor;
+import org.imogene.ws.entity.MedooActor;
+import org.imogene.ws.http.SessionUtil;
+import org.imogene.ws.security.MedooUserDetails;
+«FOREACH entities AS e -»
+	«IF Actor.isAssignableFrom(e.metaType)-»
+import org.imogene.«projectName.toLowerCase()».dao.«e.name.toFirstUpper()»Dao;
+import org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»Actor;
+	«ENDIF -»
+«ENDFOREACH -»	
+
+public class MedooSecurityDetailService implements UserDetailsService {
+
+	private GenericDao genericDao;
+	«FOREACH entities AS e -»
+	«IF Actor.isAssignableFrom(e.metaType)-»
+	private «e.name.toFirstUpper()»Dao «e.name.toFirstLower()»Dao;
+	«ENDIF -»
+	«ENDFOREACH -»	
+	
+	
+	@Override
+	public UserDetails loadUserByUsername(String login)
+			throws UsernameNotFoundException, DataAccessException {
+		MedooActor current = null;
+		
+		«FOREACH entities AS e»
+			«EXPAND loginValidation FOR e-»
+		«ENDFOREACH-»	
+		
+		/* Default User */
+		current = validateForDefaultUser(login);
+		if (current != null)
+			return setSessionUser(current);		
+		
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param actor
+	 * @return
+	 */
+	private MedooUserDetails setSessionUser(MedooActor actor) {
+		SessionUtil.session().setAttribute(SessionUtil.CURRENT_USER, actor);
+		return new MedooUserDetails(actor);	
+	}	
+	
+	«EXPAND loginValidationMethod FOREACH this.entities -»
+	
+	/**
+	 * 
+	 * @param login
+	 * @return
+	 */
+	private DefaultActor validateForDefaultUser(String login) {
+		List<DefaultActor> actors = (List<DefaultActor>) genericDao.listBeans(DefaultActor.class);
+		if (actors.size() > 1) {
+			for (MedooActor it : actors) {
+				if (it.getLogin().equals(login))
+					return (DefaultActor) it;
+			}
+		}
+		if (actors.size() == 1) {
+			if (actors.get(0).getLogin().equals(login))
+				return actors.get(0);
+		}
+		return null;
+	}	
+
+	«FOREACH entities AS e -»
+	«IF Actor.isAssignableFrom(e.metaType)-»
+	/**
+	 * Setter for bean injection
+	 * @param «e.name.toFirstLower()»Dao the dao
+	 */
+	public void set«e.name.toFirstUpper()»Dao(«e.name.toFirstUpper()»Dao «e.name.toFirstLower()»Dao) {
+		this.«e.name.toFirstLower()»Dao = «e.name.toFirstLower()»Dao;
+	}	
+	«ENDIF -»
+	«ENDFOREACH -»
+	
+	/**
+	 * Setter for bean injection
+	 * @param genericDao the dao
+	 */
+	public void setGenericDao(GenericDao genericDao) {
+		this.genericDao = genericDao;
+	}		
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+«REM» Login validation for actor «ENDREM»
+«DEFINE loginValidation FOR CardEntity -»«ENDDEFINE»
+«DEFINE loginValidation FOR Actor -»
+		current = validateFor«name.toFirstUpper()»(login);
+		if (current!=null)
+			return setSessionUser(current);				
+«ENDDEFINE»
+
+«REM» Login validation method for Actor«ENDREM»
+«DEFINE loginValidationMethod FOR CardEntity»«ENDDEFINE»
+«DEFINE loginValidationMethod FOR Actor»
+	/**
+	 * User authentication
+	 * @return the «name.toFirstUpper()»Actor if it exist, null otherwise
+	 */
+	private «name.toFirstUpper()»Actor validateFor«name.toFirstUpper()»(String login){
+		List<«name.toFirstUpper()»Actor> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
+		if(actors.size()>1)
+			System.out.println("Can't process authentification, several users use the same login ! ");
+		if(actors.size() == 1){			
+			if (actors.get(0).getLogin().equals(login))
+				return actors.get(0);					
+		}
+		return null;
+	}
+«ENDDEFINE»

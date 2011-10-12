@@ -1,0 +1,168 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+
+
+«REM» Field type for entity «ENDREM»
+«DEFINE entityFieldType FOR FieldEntity»String«ENDDEFINE»
+«DEFINE entityFieldType FOR GeoField»Double«ENDDEFINE»
+«DEFINE entityFieldType FOR DateField»Date«ENDDEFINE»
+«DEFINE entityFieldType FOR DateTimeField»Date«ENDDEFINE»
+«DEFINE entityFieldType FOR TimeField»Date«ENDDEFINE»
+«DEFINE entityFieldType FOR BooleanField»Boolean«ENDDEFINE»
+«DEFINE entityFieldType FOR IntegerField»Integer«ENDDEFINE»
+«DEFINE entityFieldType FOR FloatField»Float«ENDDEFINE»	
+«DEFINE entityFieldType FOR RelationFieldEntity -»
+  «IF cardinality == 1 -»
+  «entity.name.toFirstUpper() -»
+  «ELSE -»
+  Set<«entity.name.toFirstUpper()»>
+  «ENDIF -»
+«ENDDEFINE»
+«REM»------------------------------------------------------------------------------------------«ENDREM»
+
+
+«REM» Entity field getters declaration «ENDREM»
+«DEFINE getterDeclarationForField FOR FieldEntity-»
+«EXPAND getXMLAnnotation FOR this-»
+@XmlElement(name="«name.toLowerCase() -»")
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
+«ENDDEFINE»
+
+«DEFINE getterDeclarationForField FOR TextField-»
+«IF !this.translatable -»
+«EXPAND getXMLAnnotation FOR this-»
+@XmlElement(name="«name.toLowerCase() -»")
+«ELSE -»
+@XmlTransient
+«ENDIF -»
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
+
+«IF this.translatable -»
+@XmlElement(name="«name.toLowerCase() -»")
+public LocalizedField «EXPAND template::CommonFieldUtil::getterName FOR this»LocalizedField() {
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»LocalizedField;
+}
+«ENDIF -»
+«ENDDEFINE»
+
+«DEFINE getterDeclarationForField FOR GeoField-»
+@XmlTransient
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Latitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude;
+}
+@XmlTransient
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Longitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
+}
+@XmlElement(name="«name.toLowerCase() -»")
+public GeoField «EXPAND template::CommonFieldUtil::getterName FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
+«ENDDEFINE»
+«REM»------------------------------------------------------------------------------------------«ENDREM»
+
+
+«REM» Entity field setters declaration «ENDREM»
+«DEFINE setterDeclarationForField FOR FieldEntity-»
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+}
+«ENDDEFINE»
+
+«DEFINE setterDeclarationForField FOR TextField-»
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+}
+
+«IF this.translatable -»
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»LocalizedField(LocalizedField value) {
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»LocalizedField = value;
+}
+«ENDIF -»
+«ENDDEFINE»
+
+«DEFINE setterDeclarationForField FOR GeoField-»
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLatitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLongitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»(GeoField value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+		if (value!=null) {
+			«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value.getLatitude();
+			«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value.getLongitude();
+		}
+}
+«ENDDEFINE»
+«REM»------------------------------------------------------------------------------------------«ENDREM»
+
+
+«REM» Entity field getters declaration ForFieldWithLowerUpperCaseFirstTwoChar «ENDREM»
+«DEFINE getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR FieldEntity-»
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
+«ENDDEFINE»
+
+«DEFINE getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude;
+}
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
+}
+public GeoField «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
+«ENDDEFINE»
+«REM»------------------------------------------------------------------------------------------«ENDREM»
+
+
+«REM» Entity field setters declaration ForFieldWithLowerUpperCaseFirstTwoChar «ENDREM»
+«DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR FieldEntity-»
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+}
+«ENDDEFINE»
+
+«DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLatitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLongitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(GeoField value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+		if (value!=null) {
+			«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value.getLatitude();
+			«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value.getLongitude();
+		}
+}
+«ENDDEFINE»
+«REM»------------------------------------------------------------------------------------------«ENDREM»
+
+«REM» Entity field setters declaration ForFieldWithLowerUpperCaseFirstTwoChar «ENDREM»
+«DEFINE getXMLAnnotation FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getXMLAnnotation FOR DatesField-»@XmlJavaTypeAdapter(value=DateAdapter.class)«ENDDEFINE»
+«DEFINE getXMLAnnotation FOR RelationFieldEntity-»
+	«IF this.cardinality == 1 -»
+@XmlJavaTypeAdapter(value=«entity.name.toFirstUpper()»Adapter.class)
+	«ELSE -»
+@XmlJavaTypeAdapter(value=«entity.name.toFirstUpper()»ListAdapter.class)
+	«ENDIF -»
+«ENDDEFINE»
+
+
+
+

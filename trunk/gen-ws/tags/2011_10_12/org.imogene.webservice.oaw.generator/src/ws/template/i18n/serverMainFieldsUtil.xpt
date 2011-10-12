@@ -1,0 +1,306 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String projectName) FOR Project»
+«FILE packageName.toLowerCase() + "/entity/display/util/ServerMainFieldsUtilImpl.java"»
+
+package org.imogene.«projectName.toLowerCase()».entity.display.util;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import org.imogene.ws.entity.LocalizedField;
+import org.imogene.ws.entity.LocalizedText;
+import org.imogene.ws.entity.LocalizedTextList;
+import org.imogene.ws.entity.MedooBean;
+import org.imogene.ws.util.DateUtil;
+import org.imogene.ws.util.BooleanUtil;
+import org.imogene.ws.util.ServerMainFieldsUtil;
+«FOREACH entities AS e-»
+import org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»;
+«ENDFOREACH-»
+
+
+/**
+ *
+ */
+public class ServerMainFieldsUtilImpl implements ServerMainFieldsUtil {
+
+	private final static String propertyFile = "org.imogene.«projectName.toLowerCase()».entity.display.i18n.«projectName.toFirstUpper()»Translations";
+	private static ResourceBundle rb;
+
+	private static ServerMainFieldsUtilImpl instance = new ServerMainFieldsUtilImpl();
+	
+	private ServerMainFieldsUtilImpl(){	
+		rb = ResourceBundle.getBundle(propertyFile);
+	}
+
+
+	public static ServerMainFieldsUtilImpl get(){
+		return instance;
+	}
+
+    /**
+     * Get display representation for a MedooBean     
+     * @param bean the MedooBean
+     * @return string representation for IHM display
+     */
+	public String getDisplayValue(MedooBean bean){
+		
+	
+		«FOREACH entities AS e -»
+		if(bean instanceof «e.name.toFirstUpper()»){
+			return getDisplayValue((«e.name.toFirstUpper()») bean);
+		}
+		«ENDFOREACH -»		
+		return "";
+	}
+	
+	/**
+	 * Get display representation for a MedooBean
+	 * @param bean a MedooBean
+	 * @param bundle localized bundle   
+	 * @return string representation for IHM display
+	 */
+	public String getDisplayValue(MedooBean bean, ResourceBundle bundle) {
+		if (!rb.equals(bundle)) {
+			rb = bundle;
+		}
+		return getDisplayValue(bean);
+	}	
+		
+	
+	«FOREACH entities AS e -»
+	/**	 */
+	private String getDisplayValue(«e.name.toFirstUpper()» bean){
+		String value = new String();
+		«IF !(e.mainFields==null) && !e.mainFields.isEmpty -»
+		«FOREACH e.mainFields AS f -»
+			«EXPAND stringRepresentation FOR f -»
+		«ENDFOREACH -»				
+		«ELSE -»
+		value = rb.getString("no_display_value_text");
+		«ENDIF -»		
+		return value.trim();	
+	}
+	«ENDFOREACH»
+	
+	
+	/**
+	 * Gets the localized text for the given field and the given locale
+	 * If no text is found, returns the first found for any available locale
+	 * @param LocalizedField the LocalizedField
+	 * @param locale the locale as iso code
+	 * @return a localized text
+	 */
+	private String getFieldI18nValue(LocalizedField field, String locale) {
+
+		if (field!=null && field.getTranslations()!=null) {
+			LocalizedTextList translations = field.getTranslations();
+			for (LocalizedText text:translations.getLocalizedTexts()) {
+				if(text.getLocale().equals(locale))
+					return text.getValue();
+			}		
+			// if value for locale not available, return first available value
+			for (LocalizedText text:translations.getLocalizedTexts()) {
+				if(text.getValue()!=null && !text.getValue().equals(""))
+					return text.getValue();
+			}	
+		}
+		return null;
+	}
+	 
+	 
+    /**
+     * Get enumeration representation for a MedooBean type enumeration field
+     * @param beanClass a MedooBean class type
+     * @param fieldName the MedooBean field name     
+     * @param fieldValue the bean field value    
+     * @return string representation for IHM display
+     */
+	public String getEnumDisplayValue(Class<?> beanClass, String fieldName, String fieldValue){
+
+		if (fieldValue!=null && !fieldValue.equals("")){
+			«FOREACH entities AS e»
+			if (beanClass.equals(«e.name.toFirstUpper()».class)) {
+				return get«e.name»EnumDisplayValue(fieldName, fieldValue);
+			}		
+			«ENDFOREACH»				
+		}
+		return "";		
+	}	
+	
+	/**
+	 * Get enumeration representation for a MedooBean type enumeration field
+	 * @param beanClass a MedooBean class type
+	 * @param fieldName the MedooBean field name     
+	 * @param fieldValue the bean field value   
+	 * @param bundle localized bundle   
+	 * @return string representation for IHM display
+	 */
+	public String getEnumDisplayValue(Class<?> beanClass, String fieldName, String fieldValue, ResourceBundle bundle) {
+		
+		if (!rb.equals(bundle)) {		
+			rb = bundle;			
+		}		
+		return getEnumDisplayValue(beanClass, fieldName, fieldValue);
+	}
+	
+	public String getEnumDisplayValue(Class<?> beanClass, String fieldName, String fieldValue, Locale locale) {
+		
+		if (!rb.getLocale().equals(locale)) {		
+			rb = ResourceBundle.getBundle(propertyFile, locale);			
+		}
+		return getEnumDisplayValue(beanClass, fieldName, fieldValue);
+	}	
+	
+	«FOREACH entities AS e»
+	/**
+	 *
+	 */
+	private String get«e.name»EnumDisplayValue(String fieldName, String fieldValue){
+		String value = rb.getString("enumeration_unknown");
+		«FOREACH e.groups.fields AS f»
+			«EXPAND enumStringRepresentation FOR f»
+		«ENDFOREACH»
+		return value.trim();
+	}
+	«ENDFOREACH»		 
+	 
+	 
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM» Format date/time and enumeration field to current local «ENDREM»
+«DEFINE stringRepresentation FOR FieldEntity -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR TextField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		«IF this.translatable-»
+		value = value + getFieldI18nValue( bean.«EXPAND template::CommonFieldUtil::getterName FOR this»LocalizedField(), rb.getString("locale")) + " ";
+		«ELSE-»
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";		
+		«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR RelationFieldEntity -»
+	«IF cardinality==1»
+	if(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + getDisplayValue(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()) + " " ;
+	«ENDIF»
+		
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR DateField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + DateUtil.getFormatedDate(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»())+	" " ;						
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR DateTimeField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + DateUtil.getFormatedDateTime(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()) + " " ;
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR TimeField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + DateUtil.getFormatedTime(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»())+	" " ;
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR EnumField -»
+	String «name.toFirstLower()» = bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»();
+	if ( «name.toFirstLower()»!=null)
+	{	
+	«IF this.multipleSelection==true-»		
+		String[] indexesStr = «name.toFirstLower()».split(";");
+		String result = new String();
+		for(int j=0; j< indexesStr.length; j++){				
+		«FOREACH enumValues AS enumValue ITERATOR iter-»
+		«IF iter.counter1==1 -»
+			if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option");
+				else
+					result = result + ", " + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option");											
+			}				
+        «ELSE -»
+			else if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option");
+				else
+					result = result + ", " + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option");											
+			}			
+		«ENDIF -»
+		«ENDFOREACH -»									
+		}				
+		value = value + result + " ";		
+	«ELSE-»
+		«FOREACH enumValues AS enumValue ITERATOR iter-»		
+			«IF iter.counter1==1 -»
+        if («name.toFirstLower()».equals("«enumValue.value»") )
+        	value = value + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option")+ " ";
+        	«ELSE -»
+        else if («name.toFirstLower()».equals("«enumValue.value»") )
+        	 value = value + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option")+ " ";		
+			«ENDIF -»
+		«ENDFOREACH -»	
+	«ENDIF-»	
+	}
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR BooleanField»
+	value = value +  BooleanUtil.getFormatedBoolean(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()) + " ";
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR GeoField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude()!=null && bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude()!=null)
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude() + ";" + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude() + " ";
+«ENDDEFINE»
+
+
+«DEFINE enumStringRepresentation FOR FieldEntity»«ENDDEFINE»
+«DEFINE enumStringRepresentation FOR EnumField»
+	if (fieldName.equals("«EXPAND template::CommonFieldUtil::propertyName FOR this-»"))
+	{
+	
+	«IF this.multipleSelection==true-»		
+		String[] indexesStr = fieldValue.split(";");
+		String result = new String();
+		for(int j=0; j< indexesStr.length; j++){				
+		«FOREACH enumValues AS enumValue ITERATOR iter-»
+		«IF iter.counter1==1 -»
+			if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option");
+				else
+					result = result + ", " + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option");											
+			}				
+        «ELSE -»
+			else if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option");
+				else
+					result = result + ", " + rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option");											
+			}			
+		«ENDIF -»
+		«ENDFOREACH -»									
+		}				
+		value = result;		
+	«ELSE-»
+		«FOREACH enumValues AS enumValue ITERATOR iter-»		
+			«IF iter.counter1==1 -»
+        if (fieldValue.equals("«enumValue.value»") )
+        	value = rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option");        	
+        	«ELSE -»
+        else if (fieldValue.equals("«enumValue.value»") )
+        	value = rb.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option") ;        	 		
+			«ENDIF -»
+		«ENDFOREACH -»	
+	«ENDIF-»	
+		
+	}
+«ENDDEFINE»
+

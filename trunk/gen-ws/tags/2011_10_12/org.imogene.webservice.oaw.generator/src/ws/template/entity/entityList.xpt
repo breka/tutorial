@@ -1,0 +1,66 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+
+«DEFINE generate(String packageName, String projectName) FOR CardEntity»
+«FILE packageName.toLowerCase()+ "/entity/" + this.name.toFirstUpper() + "List.java"»
+package org.imogene.«projectName.toLowerCase()».entity;
+
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+«IF !Actor.isAssignableFrom(this.metaType)-»
+/**
+ * Bean for the XML serialization of lists of entity «name.toFirstUpper()»
+ * @author MEDES-IMPS
+ */
+@XmlRootElement(name="«name.toLowerCase()»s")
+public class «name.toFirstUpper()»List {
+	
+	private List<«name.toFirstUpper()»> «name.toFirstLower()»s;
+	
+	public «name.toFirstUpper()»List() {}
+	
+	public «name.toFirstUpper()»List(List<«name.toFirstUpper()»> «name.toFirstLower()»s) {
+		this.«name.toFirstLower()»s = «name.toFirstLower()»s;
+	}
+
+	@XmlElement(name="«name.toLowerCase()»")
+	public List<«name.toFirstUpper()»> get«name.toFirstUpper()»s() {
+		return «name.toFirstLower()»s;
+	}
+	
+	public void set«name.toFirstUpper()»s(List<«name.toFirstUpper()»> «name.toFirstLower()»s) {
+		this.«name.toFirstLower()»s = «name.toFirstLower()»s;
+	}
+}
+«ELSE-»
+/**
+ * Bean for the XML serialization of lists of entity «name.toFirstUpper()»
+ * @author MEDES-IMPS
+ */
+@XmlRootElement(name="«name.toLowerCase()»s")
+public class «name.toFirstUpper()»List {
+	
+	private List<«name.toFirstUpper()»Actor> «name.toFirstLower()»s;
+	
+	public «name.toFirstUpper()»List() {}
+	
+	public «name.toFirstUpper()»List(List<«name.toFirstUpper()»Actor> «name.toFirstLower()»s) {
+		this.«name.toFirstLower()»s = «name.toFirstLower()»s;
+	}
+
+	@XmlElement(name="«name.toLowerCase()»")
+	public List<«name.toFirstUpper()»Actor> get«name.toFirstUpper()»s() {
+		return «name.toFirstLower()»s;
+	}
+	
+	public void set«name.toFirstUpper()»s(List<«name.toFirstUpper()»Actor> «name.toFirstLower()»s) {
+		this.«name.toFirstLower()»s = «name.toFirstLower()»s;
+	}
+}
+«ENDIF-»
+
+«ENDFILE»
+«ENDDEFINE»
