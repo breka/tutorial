@@ -82,17 +82,6 @@
 		<expand value='ws::template::entity::entityList::generate("${packagePath}", "${modelName}") FOREACH project.entities' />
 		<genPath value="${home-gen}/src" />
 		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
-	</component>			
-	
-	<!-- User Bean implementation -->
-	<component class="org.eclipse.xpand2.Generator">
-		<fileEncoding value="iso-8859-1"/>
-		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel">
-			<metaModelFile value="${imogeneMetaModel}" />
-		</metaModel>
-		<expand value='ws::template::entity::actor::generate("${packagePath}", "${modelName}") FOREACH project.entities' />
-		<genPath value="${home-gen}/src" />
-		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
 	</component>
 	
 	<!-- Bean Display implementation -->
@@ -126,7 +115,18 @@
 		<expand value='ws::template::entity::hibernateMapping::generate("${packagePath}", "${modelName}") FOREACH project.entities' />
 		<genPath value="${home-gen}/src" />
 		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
-	</component>	
+	</component>
+
+	<!-- Hibernate mapping implementation for actors -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel">
+			<metaModelFile value="${imogeneMetaModel}" />
+		</metaModel>
+		<expand value='ws::template::entity::hibernateMappingForActors::generate("${packagePath}", "${modelName}") FOR project' />
+		<genPath value="${home-gen}/src" />
+		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
+	</component>
 	
 	<!-- Entity DAO interfaces -->
 	<component class="org.eclipse.xpand2.Generator">

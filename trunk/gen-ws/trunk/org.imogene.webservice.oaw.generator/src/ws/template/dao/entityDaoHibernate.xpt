@@ -25,9 +25,6 @@ import org.imogene.ws.criteria.MedooJunction;
 import org.imogene.ws.criteria.HibernateDaoUtil;
 
 import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»;
-«IF Actor.isAssignableFrom(this.metaType) -»
-import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor;
-«ENDIF -»
 
 
 /**
@@ -206,8 +203,8 @@ public class «name.toFirstUpper()»DaoImpl extends HibernateDaoSupport implements
 	«IF Actor.isAssignableFrom(this.metaType) -»
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<«name.toFirstUpper()»Actor> get«name.toFirstUpper()»ActorFromLogin(String login){
-		Criteria crit = getSession().createCriteria(org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor.class);		
+	public List<«name.toFirstUpper()»> get«name.toFirstUpper()»ActorFromLogin(String login){
+		Criteria crit = getSession().createCriteria(org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()».class);		
 		crit.add(Restrictions.eq("login", login));
 		return crit.list();		
 	}

@@ -23,9 +23,6 @@ import org.imogene.ws.security.MedooSecurityPolicy;
 
 «FOREACH entities AS e-»
 import org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»;
-«IF Actor.isAssignableFrom(e.metaType)-»
-import org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»Actor;
-«ENDIF-»
 «ENDFOREACH-»
 
 /**
@@ -173,20 +170,12 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 
 «REM» CardEntity dispatcher to secure «ENDREM»
 «DEFINE dispatchSecure FOR CardEntity-»
-	«IF Actor.isAssignableFrom(this.metaType)-»
-		if(bean instanceof «name.toFirstUpper()»Actor)
-				return toSecure«name.toFirstUpper()»Actor((«name.toFirstUpper()»Actor)bean, getRoleNames(actor));
-	«ENDIF-»
 	if(bean instanceof «name.toFirstUpper()»)
 			return toSecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
 «ENDDEFINE»	
 
 «REM» CarEntity dispatcher to unsecure «ENDREM»
-«DEFINE dispatchUnsecure FOR CardEntity-»
-	«IF Actor.isAssignableFrom(this.metaType)-»
-	if(bean instanceof «name.toFirstUpper()»Actor)
-			return toUnsecure«name.toFirstUpper()»Actor((«name.toFirstUpper()»Actor)bean, getRoleNames(actor));	
-	«ENDIF-»		
+«DEFINE dispatchUnsecure FOR CardEntity-»		
 	if(bean instanceof «name.toFirstUpper()»)
 			return toUnsecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
 «ENDDEFINE»
@@ -295,37 +284,6 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 
 		return transformedBean;
 	}
-	
-	«REM» Generate additional Actor method if Actor «ENDREM»
-	«IF Actor.isAssignableFrom(this.metaType)-»	
-	/**
-	 * Secures an «this.name.toFirstUpper()» bean.
-	 * @param «this.name.toFirstLower()» The «this.name.toFirstUpper()» bean to secure
-	 * @param roleNames set of role ids for the user 
-	 * @return A secured «this.name.toFirstUpper()» bean
-	 */	 
-	private MedooBean toSecure«this.name.toFirstUpper()»Actor(«this.name.toFirstUpper()»Actor bean, Set<String> roleNames){
-
-		«this.name.toFirstUpper()»Actor transformedBean = new «this.name.toFirstUpper()»Actor();
-
-		«EXPAND toSecureCommon FOR this-»
-		«REM»
-		/*
-		if(roleNames.contains("administrator")){
-			transformedBean.setLogin(bean.getLogin());
-			transformedBean.setPassword(bean.getPassword());
-			transformedBean.setNotificationLocale(bean.getNotificationLocale());
-			transformedBean.setNotificationMethod(bean.getNotificationMethod());
-			transformedBean.setBeNotified(bean.getBeNotified());			
-			updateCollection(bean.getRoles(), transformedBean.getRoles());
-			«EXPAND handleAdminField(true) FOR this-»
-			«EXPAND handleFilterField(true) FOR this-»
-		}*/
-		«ENDREM»
-		return transformedBean;
-	}	
-	«ENDIF-»	
-
 «ENDDEFINE»
 
 «REM» Common code between CardEntity and Actor for toSecure expand «ENDREM»
@@ -376,37 +334,6 @@ public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPol
 		
 		return transformedBean;
 	}
-	
-	«REM» Generate additional Actor method if Actor «ENDREM»
-	«IF Actor.isAssignableFrom(this.metaType)»
-	private MedooBean toUnsecure«this.name.toFirstUpper()»Actor(«this.name.toFirstUpper()»Actor bean, Set<String> roleNames){	
-		«this.name.toFirstUpper()»Actor transformedBean = («this.name.toFirstUpper()»Actor)dao.loadEntity(«this.name.toFirstUpper()»Actor.class, bean.getId());
-		
-		if(transformedBean == null){
-			transformedBean = new «this.name.toFirstUpper()»Actor();				
-			transformedBean.setId(bean.getId());
-		}
-
-		«EXPAND toUnSecureCommon FOR this-»
-		«REM»
-		«IF Actor.isAssignableFrom(this.metaType)-»
-		/*
-			if (roleNames.contains("administrator")) {
-				transformedBean.setLogin(bean.getLogin());
-				transformedBean.setPassword(bean.getPassword());
-				transformedBean.setNotificationLocale(bean.getNotificationLocale());
-				transformedBean.setNotificationMethod(bean.getNotificationMethod());
-				transformedBean.setBeNotified(bean.getBeNotified());
-				updateCollection(bean.getRoles(), transformedBean.getRoles());
-				«EXPAND handleAdminField(false) FOR this-»	
-				«EXPAND handleFilterField(false) FOR this-»			
-			}
-		*/
-		«ENDIF-»
-		«ENDREM»
-		return transformedBean;
-	}
-	«ENDIF-»
 
 «ENDDEFINE»
 

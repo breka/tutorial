@@ -33,9 +33,6 @@ import org.imogene.ws.util.MedooKeyGenerator;
 
 import org.imogene.«projectName.toLowerCase()».dao.«name.toFirstUpper()»Dao;
 import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»;
-«IF Actor.isAssignableFrom(this.metaType)-»
-import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor;
-«ENDIF-»
 import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»List;
 import org.imogene.«projectName.toLowerCase()».entity.display.«name.toFirstUpper()»Display;
 import org.imogene.«projectName.toLowerCase()».entity.display.«name.toFirstUpper()»DisplayList;
@@ -95,13 +92,8 @@ public class «name.toFirstUpper()»Service {
 		if («projectName.toFirstUpper()»AccessManager.canReadForm("«name.toLowerCase()»", actor.getRoles())) {
 			MedooJunction junction = createFilterJuntion(actor);			
 			List<«name.toFirstUpper()»> beans = dao.list«name.toFirstUpper()»(junction);					
-			«IF !Actor.isAssignableFrom(this.metaType)-»
 			List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) MedooSecurityHandler
 					.getInstance().getPolicy().toSecure(beans, actor);
-			«ELSE-»
-			List<«name.toFirstUpper()»Actor> securedBeans = (List<«name.toFirstUpper()»Actor>) MedooSecurityHandler
-					.getInstance().getPolicy().toSecure(beans, actor);			
-			«ENDIF-»
 						
 			list.set«name.toFirstUpper()»s(securedBeans);			
 		} 
@@ -139,11 +131,7 @@ public class «name.toFirstUpper()»Service {
 	 */
 	@ResponseBody
 	@RequestMapping(method=RequestMethod.PUT, value="/«name.toLowerCase()»")
-	«IF !Actor.isAssignableFrom(this.metaType)-»
 	public void saveOrUpdate«name.toFirstUpper()»(@RequestBody «name.toFirstUpper()» bean) {	
-	«ELSE-»
-	public void saveOrUpdate«name.toFirstUpper()»(@RequestBody «name.toFirstUpper()»Actor bean) {	
-	«ENDIF-»
 
 		MedooActor actor = (MedooActor) SessionUtil.session().getAttribute(SessionUtil.CURRENT_USER);
 		
@@ -312,13 +300,8 @@ public class «name.toFirstUpper()»Service {
 			List<«name.toFirstUpper()»> «name.toFirstLower()»s = dao.list«name.toFirstUpper()»(junction);
 			
 			«IF isTranslatableFieldPresent(this.groups.fields) || hasTranslatableEntityInRelationFields(this.mainFields)-»
-				«IF !Actor.isAssignableFrom(this.metaType)-»
 				List<«name.toFirstUpper()»> securedBeans = (List<«name.toFirstUpper()»>) MedooSecurityHandler
 						.getInstance().getPolicy().toSecure(«name.toFirstLower()»s, actor);
-				«ELSE-»
-				List<«name.toFirstUpper()»Actor> securedBeans = (List<«name.toFirstUpper()»Actor>) MedooSecurityHandler
-						.getInstance().getPolicy().toSecure(«name.toFirstLower()»s, actor);			
-				«ENDIF-»
 				for(«name.toFirstUpper()» «name.toFirstLower()»:securedBeans) {
 			«ELSE-»
 				for(«name.toFirstUpper()» «name.toFirstLower()»:«name.toFirstLower()»s) {
@@ -446,11 +429,7 @@ public class «name.toFirstUpper()»Service {
 			criterion.add(criteria);
 			
 			List<«this.parentGroup.parentCard.name.toFirstUpper()»> «this.parentGroup.parentCard.name.toFirstLower()»s = dao.list«this.parentGroup.parentCard.name.toFirstUpper()»(criterion);
-			«IF !Actor.isAssignableFrom(this.parentGroup.parentCard.metaType)-»
-			List<«this.parentGroup.parentCard.name.toFirstUpper()»> securedBeans = (List<«this.parentGroup.parentCard.name.toFirstUpper()»>) MedooSecurityHandler.getInstance().getPolicy().toSecure(«this.parentGroup.parentCard.name.toFirstLower()»s, actor);
-			«ELSE-»
-			List<«this.parentGroup.parentCard.name.toFirstUpper()»Actor> securedBeans = (List<«this.parentGroup.parentCard.name.toFirstUpper()»Actor>) MedooSecurityHandler.getInstance().getPolicy().toSecure(«this.parentGroup.parentCard.name.toFirstLower()»s, actor);	
-			«ENDIF-»			
+			List<«this.parentGroup.parentCard.name.toFirstUpper()»> securedBeans = (List<«this.parentGroup.parentCard.name.toFirstUpper()»>) MedooSecurityHandler.getInstance().getPolicy().toSecure(«this.parentGroup.parentCard.name.toFirstLower()»s, actor);		
 			list.set«this.parentGroup.parentCard.name.toFirstUpper()»s(securedBeans);				
 		}
 		
@@ -519,7 +498,7 @@ import org.imogene.«projectName.toLowerCase()».entity.«entity.name.toFirstUpper(
 «REM» Imports for filter fields «ENDREM»
 «DEFINE importsForFilterFields(String projectName) FOR CardEntity -»
 	«FOREACH this.actorFilterFields AS actorField-»
-import org.imogene.«projectName.toLowerCase()».entity.«actorField.actorField.parentActor.name.toFirstUpper()»Actor;
+import org.imogene.«projectName.toLowerCase()».entity.«actorField.actorField.parentActor.name.toFirstUpper()»;
 import org.imogene.«projectName.toLowerCase()».entity.«actorField.entityField.entity.name.toFirstUpper()»;
 	«ENDFOREACH-»
 «ENDDEFINE»
@@ -527,9 +506,9 @@ import org.imogene.«projectName.toLowerCase()».entity.«actorField.entityField.en
 «REM» Filter field handling «ENDREM»
 «DEFINE handleFilterField(String entityName) FOR ActorFilter -»
 	/* add filter field for actor «actorField.parentActor.name.toFirstUpper()» */
-	if(actor instanceof «actorField.parentActor.name.toFirstUpper()»Actor){	
+	if(actor instanceof «actorField.parentActor.name.toFirstUpper()»){	
 		MedooJunction «actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()» = new MedooDisjunction();
-		for(Object «entityField.entity.name.toFirstLower()»:((«actorField.parentActor.name.toFirstUpper()»Actor)actor).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
+		for(Object «entityField.entity.name.toFirstLower()»:((«actorField.parentActor.name.toFirstUpper()»)actor).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
 			BasicCriteria criteria = new BasicCriteria();
 			criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
 			criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");

@@ -38,10 +38,12 @@
 		<property name="mappingResources">
 			<list>
 				«FOREACH entities AS e -»
-				<value>org/imogene/«projectName.toLowerCase()»/entity/«e.name.toFirstUpper()».hbm.xml</value>	
-				«ENDFOREACH -»			
+					«IF !Actor.isAssignableFrom(e.metaType)-»
+				<value>org/imogene/«projectName.toLowerCase()»/entity/«e.name.toFirstUpper()».hbm.xml</value>
+					«ENDIF -»				
+				«ENDFOREACH -»
+				<value>org/imogene/«projectName.toLowerCase()»/entity/AllActors.hbm.xml</value>		
 				<value>org/imogene/ws/entity/RoleBeanImpl.hbm.xml</value>	
-				<value>org/imogene/ws/entity/DefaultActor.hbm.xml</value>
 				<value>org/imogene/ws/binary/BinaryFile.hbm.xml</value>		
 				<value>org/imogene/ws/entity/LocalizedText.hbm.xml</value>
 				<value>org/imogene/ws/entity/SynchronizableEntity.hbm.xml</value>				

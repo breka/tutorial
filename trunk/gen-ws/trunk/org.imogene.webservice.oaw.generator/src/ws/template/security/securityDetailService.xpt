@@ -18,7 +18,7 @@ import org.imogene.ws.security.MedooUserDetails;
 «FOREACH entities AS e -»
 	«IF Actor.isAssignableFrom(e.metaType)-»
 import org.imogene.«projectName.toLowerCase()».dao.«e.name.toFirstUpper()»Dao;
-import org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»Actor;
+import org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»;
 	«ENDIF -»
 «ENDFOREACH -»	
 
@@ -121,8 +121,8 @@ public class MedooSecurityDetailService implements UserDetailsService {
 	 * User authentication
 	 * @return the «name.toFirstUpper()»Actor if it exist, null otherwise
 	 */
-	private «name.toFirstUpper()»Actor validateFor«name.toFirstUpper()»(String login){
-		List<«name.toFirstUpper()»Actor> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
+	private «name.toFirstUpper()» validateFor«name.toFirstUpper()»(String login){
+		List<«name.toFirstUpper()»> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
 		if(actors.size()>1)
 			System.out.println("Can't process authentification, several users use the same login ! ");
 		if(actors.size() == 1){			
