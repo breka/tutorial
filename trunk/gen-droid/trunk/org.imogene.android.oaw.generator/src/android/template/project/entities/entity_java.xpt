@@ -34,7 +34,7 @@ public class «name.toFirstUpper()-» extends
 «IF Actor.isAssignableFrom(metaType) -»UserImpl«ELSE-»EntityImpl«ENDIF-» {
 
 	«IF Actor.isAssignableFrom(metaType) -»
-	public static final String PACKAGE = "org.imogene.«modelName.toLowerCase()».entity.«name»User";
+	public static final String PACKAGE = "org.imogene.«modelName.toLowerCase()».entity.«name»";
 	«ELSE-»
 	public static final String PACKAGE = "org.imogene.«modelName.toLowerCase()».entity.«name»";
 	«ENDIF-»
