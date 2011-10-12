@@ -15,7 +15,7 @@ import org.imogene.common.entity.ImogActor;
 import org.imogene.common.entity.ImogRole;
 «FOREACH entities AS e -»
  «IF Actor.isAssignableFrom(e.metaType)-»
-import org.imogene.«modelName.toLowerCase()».entity.«e.name.toFirstUpper()»Actor;
+import org.imogene.«modelName.toLowerCase()».entity.«e.name.toFirstUpper()»;
  «ENDIF-»
 «ENDFOREACH -»
 import org.imogene.notifier.server.dao.ImogActorDao;
@@ -33,7 +33,7 @@ public class «modelName.toFirstUpper()»ActorsDao extends HibernateDaoSupport imp
 		«IF Actor.isAssignableFrom(e.metaType)»
 		/* «e.name.toFirstUpper()» */
 		try{
-			actor = (ImogActor)getHibernateTemplate().load(«e.name.toFirstUpper()»Actor.class, actorId);
+			actor = (ImogActor)getHibernateTemplate().load(«e.name.toFirstUpper()».class, actorId);
 		if(actor != null)
 			return actor;
 		}catch(Exception ex){
@@ -61,7 +61,7 @@ public class «modelName.toFirstUpper()»ActorsDao extends HibernateDaoSupport imp
 		/* «e.name.toFirstUpper()» */
 		try{
 			Criteria criteria = getSession().createCriteria(
-				«e.name.toFirstUpper()»Actor.class);
+				«e.name.toFirstUpper()».class);
 			criteria.add(Restrictions.eq("login", actorLogin));
 			List<?> result = criteria.list();
 			if(result.size()>0)

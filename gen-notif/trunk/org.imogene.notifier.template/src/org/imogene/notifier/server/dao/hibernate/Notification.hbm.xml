@@ -10,7 +10,7 @@
 		<property column="Notification_users" name="userRecipients"/>
 		<property column="Notification_operation" name="operation"/>
 		<property column="Notification_method" name="method" />
-		<set lazy="false" name="roleRecipients" table="NotificationsRoles">
+		<set lazy="false" name="roleRecipients" table="NotificationRoles">
 			<key column="Notification_ID"/>
 			<many-to-many class="org.imogene.common.entity.RoleBeanImpl" column="Role_ID"/>
 		</set>			    		  				

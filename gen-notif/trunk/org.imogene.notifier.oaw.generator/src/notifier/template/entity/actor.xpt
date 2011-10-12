@@ -49,7 +49,9 @@ public class «name.toFirstUpper()»Actor extends «name.toFirstUpper()» implements
     private Set<ImogRole> assignedRoles = new HashSet<ImogRole>();
  
  	/** The actor last login date */
-	private Date lastLoginDate;         
+	private Date lastLoginDate;
+	
+	     
         
     /** Initialize actor with all information extracted from model */
     public «name.toFirstUpper()»Actor() {
