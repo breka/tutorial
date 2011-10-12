@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library id="org.imogene.library.synchroCommon" name="Imogene synchronizer common library" desc="Imogene synchronizer common library">	
+	<jar file="hibernate3.jar"/>	
+	<jar file="log4j-1.2.16.jar"/>	
+	<jar file="xstream-1.3.jar"/>		
+</library>
