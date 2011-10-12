@@ -5,6 +5,7 @@
 	<jar file="aopalliance-1.0.jar"/>
 	<jar file="jta.jar"/>
 	<jar file="dom4j-1.6.1.jar"/>
+	<jar file="javassist-3.14.0-GA.jar"/>
 	
 	<!-- jaxb (xml serialisation) -->
 	<jar file="jaxb-api.jar"/>
