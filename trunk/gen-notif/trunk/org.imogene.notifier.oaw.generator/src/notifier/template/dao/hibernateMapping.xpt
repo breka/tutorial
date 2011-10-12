@@ -4,7 +4,7 @@
 «REM» 
 Template that generates Hibernate mapping for entities «ENDREM»
 «DEFINE generate(String projectName) FOR CardEntity-»
-«FILE projectName.toLowerCase()+"/dao/hibernate/" + name.toFirstUpper() + ".hbm.xml"-»
+«FILE projectName.toLowerCase() + "/dao/hibernate/" + name.toFirstUpper() + ".hbm.xml"-»
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
@@ -17,31 +17,13 @@ Template that generates Hibernate mapping for entities «ENDREM»
 		<property column="«name»_ModifiedFrom" name="modifiedFrom"/>
 		<property column="«name»_LastModificationDate" name="lastModificationDate" type="timestamp"/>
 		<property column="«name»_UploadDate" name="uploadDate" type="timestamp"/>		
-		
-		«REM»
-		Inheritance specific to Actor entities «ENDREM»
-		«IF Actor.isAssignableFrom(this.metaType)-»
-	    <joined-subclass name="org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»Actor" table="«name.toFirstUpper()»Actor" lazy="false">
-	        <key column="«name»_ID"/>
-		    <property name="login" column="«name»Actor_Login"/>
-		    <property name="password" column="«name»Actor_Password"/>
-			<set lazy="false" name="roles" table="«name»Roles" >
-				<key column="«name»_ID"/>
-				<many-to-many class="org.imogene.common.entity.RoleBeanImpl" column="Role_ID"/>
-			</set>		    
-		    <property name="notificationLocale" column="«name»Actor_NotifLocale"/>
-		    <property name="notificationMethod" column="«name»Actor_NotifMethod"/> 
-		    <property name="beNotified" column="«name»Actor_CanBeNotified" type="boolean"/>			
-			<!--<many-to-one name="delegate" column="Delegate_ID"  not-null="false" lazy="false"/>-->	
-			<property name="lastLoginDate" column="«name»Actor_LastLoginDate" type="timestamp"/>
-			«EXPAND filterField(projectName) FOREACH ((Actor)this).filters»		    						      	    
-	    </joined-subclass>  		
-		«ENDIF -»
 						
     </class>		
 </hibernate-mapping>
 «ENDFILE»
 «ENDDEFINE»
+
+«DEFINE generate(String projectName) FOR Actor-»«ENDDEFINE»
 
 «DEFINE fieldMapping(String packageName) FOR FieldEntity-»
 		<property name="«EXPAND template::CommonFieldUtil::propertyName FOR this»" column="«parentGroup.parentCard.name»_«name»"/>
@@ -167,12 +149,4 @@ Template that generates Hibernate mapping for entities «ENDREM»
 	«ENDIF-»
 «ENDDEFINE»
 
-«REM»
-Define the relation between the actor an the filter fields values «ENDREM»
-«DEFINE filterField(String projectName) FOR FilterField»
-	«REM»<set name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" lazy="false">
-		<key column="«this.parentActor.name.toFirstUpper()»_ID"/>
-		<many-to-many class="org.imogene.«projectName.toLowerCase()».entity.«this.entity.name.toFirstUpper()»" column="«this.name.toFirstLower()»Fields_ID"/>
-	</set>«ENDREM»
-«ENDDEFINE»
 

@@ -32,4 +32,10 @@
     	<appender-ref ref="file" /> 
   	</root>
   	
+  	<!-- hibernate mapping logger -->
+ 	<logger name="org.hibernate.tool.hbm2ddl">
+    	<level value="INFO"/>    	
+    	<appender-ref ref="file"/>
+ 	</logger> 
+  	
 </log4j:configuration>
