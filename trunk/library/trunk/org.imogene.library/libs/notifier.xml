@@ -18,6 +18,7 @@
 	<jar file="slf4j-log4j12-1.6.1.jar"/>	
 	<jar file="cglib-nodep-2.1_3.jar"/>	
 	<jar file="mail-1.4.3.jar"/>
+	<jar file="javassist-3.14.0-GA.jar"/>
 	
 	<!-- SPRING framework -->
 	<jar file="org.springframework.core-3.0.5.RELEASE.jar"/>
