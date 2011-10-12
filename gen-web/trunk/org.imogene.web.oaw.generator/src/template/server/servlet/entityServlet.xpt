@@ -530,7 +530,7 @@ public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(String paren
 	import org.imogene.web.gwt.common.criteria.CriteriaConstants;	
 	import org.imogene.web.gwt.common.criteria.ImogDisjunction;
 	«FOREACH this.actorFilterFields AS actorField-»
-	import org.imogene.«projectName.toLowerCase()».client.entity.«actorField.actorField.parentActor.name.toFirstUpper()»Actor;
+	import org.imogene.«projectName.toLowerCase()».client.entity.«actorField.actorField.parentActor.name.toFirstUpper()»;
 	import org.imogene.«projectName.toLowerCase()».client.entity.«actorField.entityField.entity.name.toFirstUpper()»;
 	«ENDFOREACH-»
 «ENDDEFINE»
@@ -538,9 +538,9 @@ public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(String paren
 «REM» Filter field handling «ENDREM»
 «DEFINE handleFilterField(String entityName) FOR ActorFilter -»
 	/* add filter field for actor «actorField.parentActor.name.toFirstUpper()» */
-	if(actor instanceof «actorField.parentActor.name.toFirstUpper()»Actor){	
+	if(actor instanceof «actorField.parentActor.name.toFirstUpper()»){	
 		ImogJunction «actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()» = new ImogDisjunction();
-		for(Object «entityField.entity.name.toFirstLower()»:((«actorField.parentActor.name.toFirstUpper()»Actor)actor).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
+		for(Object «entityField.entity.name.toFirstLower()»:((«actorField.parentActor.name.toFirstUpper()»)actor).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
 			BasicCriteria criteria = new BasicCriteria();
 			criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
 			criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");

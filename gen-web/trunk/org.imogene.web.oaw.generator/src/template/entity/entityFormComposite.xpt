@@ -340,11 +340,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 			}
 			
 			if(entity == null){
-				«IF Actor.isAssignableFrom(this.metaType)-»
-					entity = new «name.toFirstUpper()»Actor();
-				«ELSE -»
-					entity = new «name.toFirstUpper()»();
-				«ENDIF -»								
+				entity = new «name.toFirstUpper()»();							
 				entity.setId(newEntityId);
 				entity.setCreationDate(new Date(System.currentTimeMillis()));
 				entity.setCreator((LocalSession.get().getCurrentUser().getLogin()));

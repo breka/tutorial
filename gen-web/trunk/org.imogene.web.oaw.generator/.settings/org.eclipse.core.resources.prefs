@@ -1,8 +1,7 @@
-#Thu Aug 18 09:47:41 CEST 2011
+#Mon Oct 10 11:13:19 CEST 2011
 eclipse.preferences.version=1
 encoding//src/template/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/template/accessManager.xpt=ISO-8859-1
-encoding//src/template/entity/actor.xpt=ISO-8859-1
 encoding//src/template/entity/entity.xpt=ISO-8859-1
 encoding//src/template/entity/entityDataProvider.xpt=ISO-8859-1
 encoding//src/template/entity/entityExcelExportComposite.xpt=ISO-8859-1

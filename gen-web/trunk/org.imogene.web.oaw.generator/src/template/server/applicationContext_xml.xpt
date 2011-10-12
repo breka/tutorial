@@ -67,11 +67,13 @@
 		<property name="mappingResources">
 			<list>
 				«FOREACH entities AS e -»
-				<value>org/imogene/«projectName.toLowerCase()»/server/dao/hibernate/«e.name.toFirstUpper()».hbm.xml</value>	
-				«ENDFOREACH -»				
+					«IF !Actor.isAssignableFrom(e.metaType)-»
+				<value>org/imogene/«projectName.toLowerCase()»/server/dao/hibernate/«e.name.toFirstUpper()».hbm.xml</value>
+					«ENDIF -»	
+				«ENDFOREACH -»
+				<value>org/imogene/«projectName.toLowerCase()»/server/dao/hibernate/AllActors.hbm.xml</value>			
 				<value>org/imogene/web/server/binary/file/BinaryFile.hbm.xml</value>
 				<value>org/imogene/web/server/dao/hibernate/RoleBeanImpl.hbm.xml</value>
-				<value>org/imogene/web/server/dao/hibernate/DefaultActor.hbm.xml</value>
 				<value>org/imogene/web/server/dao/hibernate/LocalizedText.hbm.xml</value>
 				<value>org/imogene/web/gwt/client/sync/SynchronizableEntity.hbm.xml</value>
 			</list>

@@ -1,166 +1,235 @@
 package org.imogene.web.gwt.common.entity;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
+
+import org.imogene.web.gwt.client.sync.SynchronizableEntity;
 
 
 public class DefaultActor implements ImogActor {
 	
+	/* Imog bean fields */
 	private String id;
-	private Date creationDate;	
-	private String creator;	
-	private Date modificationDate;
+	private Date creationDate;
+	private String creator;
+	private Date lastModificationDate;
+	private String modifier;
 	private String modifiedFrom;
+	private Date uploadDate;
 	
+	/* Imog actor fields */
+	public static String ENTITY_NAME = "DefaultActor";
 	private String login;
-	private String password;	
+	private String password;
+	private String notifLocale;
+	private Integer defaultNotificationMethod;
+	private Boolean beNotified;
+	private HashMap<String, String> notificationData;
+	private Set<SynchronizableEntity> synchronizables;
+	private Set<ImogRole> assignedRoles = new HashSet<ImogRole>();
 	private Date lastLoginDate;
-	private Set<ImogRole> roles = new HashSet<ImogRole>();
-	
 	
 
+	public DefaultActor() {
+	}
+
+	/* Getters for Imog bean fields */
+
+	public String getId() {
+		return id;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public Date getLastModificationDate() {
+		return lastModificationDate;
+	}
+
+	public String getModifier() {
+		return modifier;
+	}
+
+	public String getModifiedFrom() {
+		return modifiedFrom;
+	}
+
+	public Date getUploadDate() {
+		return uploadDate;
+	}
+
+	/* Setters for Imog bean fields */
+
+	public void setId(String pId) {
+		id = pId;
+	}
+
+	public void setCreationDate(Date date) {
+		creationDate = date;
+	}
+
+	public void setCreator(String pCreator) {
+		creator = pCreator;
+	}
+
+	public void setLastModificationDate(Date date) {
+		lastModificationDate = date;
+	}
+
+	public void setModifier(String pModifier) {
+		modifier = pModifier;
+	}
+
+	public void setModifiedFrom(String terminal) {
+		modifiedFrom = terminal;
+	}
+
+	public void setUploadDate(Date date) {
+		uploadDate = date;
+	}
+
+
+	public String getDisplayValue() {
+		return id;
+	}
+	
+	/** 
+	 * Get the assigned roles for this actor. 
+	 * @return a list of role names (EMPTY_LIST if none). 	  
+	 */
+	public Set<ImogRole> getRoles() {
+		return assignedRoles;
+	}
+
+	/**
+	 * Set the list of roles assigned to this actor. 	 
+	 * @param roles the list of roles assigned. 
+	 */
+	public void setRoles(Set<ImogRole> roles) {
+		assignedRoles = roles;
+	}
+
+	/** 
+	 * Remove the specified role of this actor assigned roles
+	 */
+	public void removeRole(ImogRole role) {
+		assignedRoles.remove(role);
+	}
+
+	/** 
+	 * Get this actor login.
+	 *@return the actor login
+	 */
+	public String getLogin() {
+		return login;
+	}
+
+	/** 
+	 * Get the assigned password for this actor.
+	 *@return the actor password 
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * Set the actor login.
+	 *@param pLogin the actor login.
+	 */
+	public void setLogin(String pLogin) {
+		login = pLogin;
+	}
+
+	/**
+	 * set the actor password
+	 *@param pPassword the actor password 
+	 */
+	public void setPassword(String pPassword) {
+		password = pPassword;
+	}
+
+	/** 
+	 * Get the notification locale ISO code to use for this actor
+	 *@return the locale ISO code
+	 */
+	public String getNotificationLocale() {
+		return notifLocale;
+	}
+
+	/** 
+	 * Set the notification locale ISO code
+	 *@param pLocale the locale ISO code
+	 */
+	public void setNotificationLocale(String locale) {
+		notifLocale = locale;
+	}
+
+	/** 
+	 * Get the notification method to use (if none : NO_METHOD). 
+	 * @return the notification method id
+	 */
+	public Integer getNotificationMethod() {
+		return defaultNotificationMethod;
+	}
+
+	/**
+	 * Set the notification method to use.
+	 *@param method the notification method
+	 */
+	public void setNotificationMethod(Integer method) {
+		defaultNotificationMethod = method;
+	}
+
+	/**
+	 * get th notification data (ie: phone number, email) 
+	 * for the specified notification method.
+	 * @param method the notification method
+	 * @return the data associated with the method
+	 */
+	public String getNotificationDataMethodName(String method) {
+		return (String) notificationData.get(method);
+	}
+
+	/** 
+	 * This actor can be notified ?
+	 *@return true if actor can be notified.
+	 */
+	public Boolean getBeNotified() {
+		return beNotified;
+	}
+
+	/**
+	 * Set if this actor can be notified
+	 *@param notif true if it can be notified
+	 */
+	public void setBeNotified(Boolean notif) {
+		beNotified = notif;
+	}
+
 	@Override
-	public Date getLastLoginDate() {		
+	public Date getLastLoginDate() {
 		return lastLoginDate;
 	}
 
 	@Override
-	public String getLogin() {		
-		return login;
-	}
-	
-	public void setLogin(String pLogin){
-		login = pLogin;
-	}
-
-	@Override
-	public String getPassword() {		
-		return password;
-	}
-
-	@Override
 	public void setLastLoginDate(Date date) {
-		lastLoginDate = date;		
+		this.lastLoginDate = date;
 	}
 
-	@Override
-	public void setPassword(String pass) {		
-		password = pass;
+	public void setSynchronizables(Set<SynchronizableEntity> syncs) {
+		synchronizables = syncs;
 	}
 
-	@Override
-	public Date getCreationDate() {		
-		return creationDate;
-	}
-
-	@Override
-	public String getCreator() {		
-		return creator;
-	}
-
-	@Override
-	public String getDisplayValue() {		
-		return login;
-	}
-
-	@Override
-	public String getId() {		
-		return id;
-	}
-
-	@Override
-	public Date getLastModificationDate() {		
-		return modificationDate;
-	}
-
-	@Override
-	public String getModifiedFrom() {		
-		return modifiedFrom;
-	}
-
-	@Override
-	public String getModifier() {
-		return null;
-	}
-
-	@Override
-	public Date getUploadDate() {
-		return null;
-	}
-	
-	@Override
-	public Integer getDefaultNotificationMethod() {
-		return null;
-	}
-
-	@Override
-	public String getNotificationLocale() {
-		return null;
-	}
-
-	@Override
-	public Boolean getBeNotified() {
-		return null;
-	}
-
-	@Override
-	public void setCreationDate(Date date) {	
-		creationDate = date;
-	}
-
-	@Override
-	public void setCreator(String creator) {
-		this.creator = creator;	
-	}
-
-	@Override
-	public void setId(String id) {		
-		this.id = id;
-	}
-
-	@Override
-	public void setLastModificationDate(Date date) {
-		modificationDate = date;
-	}
-
-	@Override
-	public void setModifiedFrom(String terminal) {
-		modifiedFrom = terminal;		
-	}
-	
-	public void setRoles(Set<ImogRole> pRoles){
-		roles = pRoles;
-	}
-	
-	public Set<ImogRole> getRoles(){
-		return roles;
-	}
-
-	@Override
-	public void setModifier(String modifier) {
-	}
-
-	@Override
-	public void setUploadDate(Date date) {	
-	}
-
-	@Override
-	public void setDefaultnotificationMethod(Integer method) {
-	}
-
-	@Override
-	public void setBeNotified(Boolean notify) {
-	}
-
-	@Override
-	public void setNotificationLacole(String iso) {
+	public Set<SynchronizableEntity> getSynchronizables() {
+		return synchronizables;
 	}
 
 
-	
-	
-	
-	
-	
 }

@@ -122,7 +122,7 @@ public class ImogSecurityDetailService implements UserDetailsService {
 «REM» Imports for actor «ENDREM»
 «DEFINE importForActor(String projectName) FOR CardEntity -»«ENDDEFINE»
 «DEFINE importForActor(String projectName) FOR Actor -»
-import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
 import org.imogene.«projectName.toLowerCase()».server.dao.«name.toFirstUpper()»Dao;
 «ENDDEFINE»
 
@@ -160,8 +160,8 @@ private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;
 	 * @param login the entered login
 	 * @return the «name.toFirstUpper()»Actor
 	 */
-	private «name.toFirstUpper()»Actor validateFor«name.toFirstUpper()»(String login) {
-		List<«name.toFirstUpper()»Actor> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
+	private «name.toFirstUpper()» validateFor«name.toFirstUpper()»(String login) {
+		List<«name.toFirstUpper()»> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
 		if (actors.size() > 1)
 			System.out.println("Can't process authentification, several users use the same login ! ");
 		if (actors.size() == 1) {

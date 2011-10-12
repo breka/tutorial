@@ -22,9 +22,6 @@ import org.imogene.web.server.dao.hibernate.LocalizedTextDao;
 
 «FOREACH entities AS e-»
 import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»;
-«IF Actor.isAssignableFrom(e.metaType)-»
-import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»Actor;
-«ENDIF-»
 «ENDFOREACH-»
 
 /**
@@ -130,20 +127,12 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 
 «REM» CardEntity dispatcher to secure «ENDREM»
 «DEFINE dispatchSecure FOR CardEntity-»
-	«IF Actor.isAssignableFrom(this.metaType)-»
-		if(bean instanceof «name.toFirstUpper()»Actor)
-				return toSecure«name.toFirstUpper()»Actor((«name.toFirstUpper()»Actor)bean, getRoleNames(actor));
-	«ENDIF-»
 	if(bean instanceof «name.toFirstUpper()»)
 			return toSecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
 «ENDDEFINE»	
 
 «REM» CarEntity dispatcher to unsecure «ENDREM»
-«DEFINE dispatchUnsecure FOR CardEntity-»
-	«IF Actor.isAssignableFrom(this.metaType)-»
-	if(bean instanceof «name.toFirstUpper()»Actor)
-			return toUnsecure«name.toFirstUpper()»Actor((«name.toFirstUpper()»Actor)bean, getRoleNames(actor));	
-	«ENDIF-»			
+«DEFINE dispatchUnsecure FOR CardEntity-»			
 	if(bean instanceof «name.toFirstUpper()»)
 			return toUnsecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
 «ENDDEFINE»
@@ -237,8 +226,7 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 «DEFINE toSecure FOR CardEntity»
 
 	/**
-	 * Secured an «this.name.toFirstUpper()» bean.
-	 * 
+	 * Secures a «this.name.toFirstUpper()» bean.
 	 * @param «this.name.toFirstLower()» The «this.name.toFirstUpper()» bean to secure
 	 * @param roleNames set of role ids for the user 
 	 * @return A secured «this.name.toFirstUpper()» bean
@@ -253,42 +241,6 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 
 		return transformedBean;
 	}
-	
-	«REM» Generate additional Actor method if Actor «ENDREM»
-	«IF Actor.isAssignableFrom(this.metaType)-»
-	
-	/**
-	 * Secured an «this.name.toFirstUpper()» bean.
-	 * 
-	 * @param «this.name.toFirstLower()» The «this.name.toFirstUpper()» bean to secure
-	 * @param roleNames set of role ids for the user 
-	 * @return A secured «this.name.toFirstUpper()» bean
-	 */	 
-
-	private ImogBean toSecure«this.name.toFirstUpper()»Actor(«this.name.toFirstUpper()»Actor bean, Set<String> roleNames){
-
-		«this.name.toFirstUpper()»Actor transformedBean = new «this.name.toFirstUpper()»Actor();
-
-		«EXPAND toSecureCommon FOR this-»
-		«REM»
-		/*
-		if(roleNames.contains("administrator")){
-			transformedBean.setLogin(bean.getLogin());
-			transformedBean.setPassword(bean.getPassword());
-			transformedBean.setNotificationLocale(bean.getNotificationLocale());
-			transformedBean.setNotificationMethod(bean.getNotificationMethod());
-			transformedBean.setBeNotified(bean.getBeNotified());
-			transformedBean.setRoles(bean.getRoles());
-			«EXPAND handleAdminField(true) FOR this-»
-			«EXPAND handleFilterField(true) FOR this-»
-		}*/
-		«ENDREM»
-		
-		dao.evictEntity(bean);
-		
-		return transformedBean;
-	}	
-	«ENDIF-»	
 
 «ENDDEFINE»
 
@@ -329,6 +281,12 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 «REM» ---------------------------------------------------------- «ENDREM»
 «DEFINE toUnSecure FOR CardEntity-»
 
+	/**
+	 * Unsecure a «this.name.toFirstUpper()» bean.
+	 * @param bean The «this.name.toFirstUpper()» bean to unsecure
+	 * @param roleNames set of role ids for the user 
+	 * @return An unsecured «this.name.toFirstUpper()» bean
+	 */
 	private ImogBean toUnsecure«this.name.toFirstUpper()»(«this.name.toFirstUpper()» bean, Set<String> roleNames){	
 		«this.name.toFirstUpper()» transformedBean = («this.name.toFirstUpper()»)dao.loadEntity(«this.name.toFirstUpper()».class, bean.getId());
 
@@ -343,40 +301,6 @@ public class Imog«projectName.toFirstUpper()»Policy implements ImogSecurityPolic
 		
 		return transformedBean;
 	}
-	
-	«REM» Generate additional Actor method if Actor «ENDREM»
-	«IF Actor.isAssignableFrom(this.metaType)»
-	private ImogBean toUnsecure«this.name.toFirstUpper()»Actor(«this.name.toFirstUpper()»Actor bean, Set<String> roleNames){	
-		«this.name.toFirstUpper()»Actor transformedBean = («this.name.toFirstUpper()»Actor)dao.loadEntity(«this.name.toFirstUpper()»Actor.class, bean.getId());
-		
-		if(transformedBean == null){
-			transformedBean = new «this.name.toFirstUpper()»Actor();				
-			transformedBean.setId(bean.getId());
-		}
-
-		«EXPAND toUnSecureCommon FOR this-»
-		«REM»
-		«IF Actor.isAssignableFrom(this.metaType)-»
-		/*
-			if (roleNames.contains("administrator")) {
-				transformedBean.setLogin(bean.getLogin());
-				transformedBean.setPassword(bean.getPassword());
-				transformedBean.setNotificationLocale(bean.getNotificationLocale());
-				transformedBean.setNotificationMethod(bean.getNotificationMethod());
-				transformedBean.setBeNotified(bean.getBeNotified());
-				transformedBean.setRoles(bean.getRoles());
-				«EXPAND handleAdminField(false) FOR this-»	
-				«EXPAND handleFilterField(false) FOR this-»			
-			}
-		*/
-		«ENDIF-»
-		«ENDREM»
-		
-		dao.evictEntity(transformedBean);
-		
-		return transformedBean;
-	}
-	«ENDIF-»
 
 «ENDDEFINE»
 

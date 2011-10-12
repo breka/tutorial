@@ -2,14 +2,14 @@
 <hibernate-mapping>
 
 	<class lazy="false" table="sync_entity" name="org.imogene.web.gwt.client.sync.SynchronizableEntity">	
-		<id column="SynchronizableEntity_Id" name="id"/>
-		<property column="SynchronizableEntity_LastModificationDate" name="modified" type="timestamp"/>
-		<property column="SynchronizableEntity_UploadDate" name="uploadDate" type="timestamp"/>
-		<property column="SynchronizableEntity_Modifier" name="modifiedBy"/>
-		<property column="SynchronizableEntity_ModifiedFrom" name="modifiedFrom"/>	
-		<property column="SynchronizableEntity_CreationDate" name="created" type="timestamp"/>	
-		<property column="SynchronizableEntity_Creator" name="createdBy"/>	
-		<property column="SynchronizableEntity_Name" name="name"/>		
+		<id column="SyncEntity_Id" name="id"/>
+		<property column="SyncEntity_LastModificationDate" name="modified" type="timestamp"/>
+		<property column="SyncEntity_UploadDate" name="uploadDate" type="timestamp"/>
+		<property column="SyncEntity_Modifier" name="modifiedBy"/>
+		<property column="SyncEntity_ModifiedFrom" name="modifiedFrom"/>	
+		<property column="SyncEntity_CreationDate" name="created" type="timestamp"/>	
+		<property column="SyncEntity_Creator" name="createdBy"/>	
+		<property column="SyncEntity_Name" name="name"/>		
 	</class>
 	
 </hibernate-mapping>
