@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<library id="org.imogene.library.initializer" name="Imogene initializer library" desc="Imogene initializer library">	
-	<jar file="postgresql-9.0-801.jdbc3.jar"/>	
-</library>
