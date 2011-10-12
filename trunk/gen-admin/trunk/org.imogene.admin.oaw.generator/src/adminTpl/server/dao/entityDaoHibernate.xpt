@@ -27,9 +27,6 @@ import org.imogene.web.server.binary.Binary;
 import org.imogene.web.server.binary.file.BinaryFile;
 
 import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
-«IF Actor.isAssignableFrom(this.metaType) -»
-import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;
-«ENDIF -»
 «FOREACH groups.fields AS f -»
 «EXPAND importsForRelation(projectName) FOR f -»
 «ENDFOREACH -»
@@ -264,8 +261,8 @@ public class «name.toFirstUpper()»DaoImpl extends HibernateDaoSupport implements
 	«IF Actor.isAssignableFrom(this.metaType) -»
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<«name.toFirstUpper()»Actor> get«name.toFirstUpper()»ActorFromLogin(String login){
-		Criteria crit = getSession().createCriteria(org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor.class);		
+	public List<«name.toFirstUpper()»> get«name.toFirstUpper()»ActorFromLogin(String login){
+		Criteria crit = getSession().createCriteria(org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()».class);		
 		crit.add(Restrictions.eq("login", login));
 		return crit.list();		
 	}
@@ -287,8 +284,8 @@ import org.imogene.«projectName.toLowerCase()».client.entity.«entity.name.toFirs
 /**
  * List associated «entity.name.toFirstUpper()», 
  * on the field «name.toFirstLower()»
- *@param parent the parent entity
- *@return the list of the associated entities
+ * @param parent the parent entity
+ * @return the list of the associated entities
  */
 @SuppressWarnings("unchecked")
 public List<«entity.name.toFirstUpper()»> list«entity.name.toFirstUpper()»(«parentEntityType» parent){

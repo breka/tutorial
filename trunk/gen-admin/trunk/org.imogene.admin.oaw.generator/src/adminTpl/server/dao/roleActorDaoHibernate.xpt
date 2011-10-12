@@ -1,6 +1,6 @@
 «IMPORT core»
 «DEFINE generate(String packageName, String projectName) FOR Project»
-«FILE projectName.toLowerCase()+"/server/dao/hibernate/RoleActorDaoImpl.java"»
+«FILE projectName.toLowerCase() + "/server/dao/hibernate/RoleActorDaoImpl.java"»
 package org.imogene.«projectName.toLowerCase()».server.dao.hibernate;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 «FOREACH entities AS e-»
 «IF Actor.isAssignableFrom(e.metaType)-»
-import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»Actor;
+import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»;
 «ENDIF-»
 «ENDFOREACH»
 
@@ -34,8 +34,7 @@ public class RoleActorDaoImpl extends HibernateDaoSupport implements RoleActorDa
 		«IF Actor.isAssignableFrom(e.metaType)-»
 		/* «e.name.toFirstUpper()» */
 		try {
-			actor = (ImogActor) getHibernateTemplate().load(«e.name.toFirstUpper()»Actor.class,
-					actorId);
+			actor = (ImogActor) getHibernateTemplate().load(«e.name.toFirstUpper()».class, actorId);
 			if (actor != null)
 				return actor;
 		} catch (Exception ex) {
@@ -46,8 +45,7 @@ public class RoleActorDaoImpl extends HibernateDaoSupport implements RoleActorDa
 
 		/* default actor*/
 		try {
-			actor = (ImogActor) getHibernateTemplate().load(
-					DefaultActor.class, actorId);
+			actor = (ImogActor) getHibernateTemplate().load(DefaultActor.class, actorId);
 			if (actor != null)
 				return actor;
 		} catch (Exception ex) {
@@ -68,11 +66,11 @@ public class RoleActorDaoImpl extends HibernateDaoSupport implements RoleActorDa
 		«FOREACH entities AS e -»
 		«IF Actor.isAssignableFrom(e.metaType)-»
 		/* «e.name.toFirstUpper()» */
-		DetachedCriteria dc«e.name.toFirstUpper()» = DetachedCriteria.forClass(«e.name.toFirstUpper()»Actor.class);
+		DetachedCriteria dc«e.name.toFirstUpper()» = DetachedCriteria.forClass(«e.name.toFirstUpper()».class);
 		actors.addAll(getHibernateTemplate().findByCriteria(dc«e.name.toFirstUpper()»));
 		«ENDIF»
 		«ENDFOREACH -»		
-		/*default actor*/
+		/* default actor */
 		DetachedCriteria dcDefault = DetachedCriteria.forClass(DefaultActor.class);
 		actors.addAll(getHibernateTemplate().findByCriteria(dcDefault));		
 		return actors;

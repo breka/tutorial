@@ -144,7 +144,7 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 			«name.toFirstUpper()» card = array[i];
 
 			rows[i] = new Widget[«columnFields.size+1»];
-			rows[i][0] = new HTML(((«name.toFirstUpper()»Actor)card).getLogin());
+			rows[i][0] = new HTML(((«name.toFirstUpper()»)card).getLogin());
 		
 		«LET getAdministrationColumnFields(this) AS colFields  -»		
 			«FOREACH colFields AS c ITERATOR iter»

@@ -1,6 +1,6 @@
 «IMPORT core»
 «DEFINE generate(String packageName, String projectName) FOR Project»
-«FILE projectName.toLowerCase()+"/server/dao/RoleActorDao.java"»
+«FILE projectName.toLowerCase() + "/server/dao/RoleActorDao.java"»
 package org.imogene.«projectName.toLowerCase()».server.dao;
 
 import java.util.List;

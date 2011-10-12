@@ -44,7 +44,6 @@ import org.imogene.web.gwt.client.ui.form.GroupField;
 import org.imogene.web.gwt.common.id.ImogKeyGenerator;
 
 import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
-import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;
 import org.imogene.«projectName.toLowerCase()».client.entity.ShortNames;
 import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
 import org.imogene.«projectName.toLowerCase()».client.remote.«this.name.toFirstUpper()»ServiceFacade;
@@ -64,7 +63,7 @@ import org.imogene.web.gwt.client.ui.form.RelationUpdateManager.RelationBroadcas
 public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposite implements  FieldValueChangeHandler, RelationBroadcastReceiver {
 
 	/** status */
-	private «name.toFirstUpper()»Actor entity;
+	private «name.toFirstUpper()» entity;
 	
 	private String newEntityId;	
 	
@@ -286,7 +285,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 			RelationUpdateManager.get().removeRelationBroadcastReceiver(this);			
 	}
 	
-	private void set«name.toFirstUpper()»(«name.toFirstUpper()»Actor entity){
+	private void set«name.toFirstUpper()»(«name.toFirstUpper()» entity){
 		setTitle(NLS.constants().«name.toFirstLower()»_title() +" : "+ MainFieldsUtilImpl.get().getDisplayValue(entity));
 		setMetaData(entity);
 		updateIdLink();
@@ -324,7 +323,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 
 		@Override
 		public void onSuccess(«name.toFirstUpper()» result) {
-			entity = («name.toFirstUpper()»Actor)result;
+			entity = result;
 			set«name.toFirstUpper()»(entity);
 			«FOREACH fieldList AS f -»
 			«EXPAND callToPopulate(name.toFirstUpper(), false) FOR f -»
@@ -402,11 +401,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 				return;
 			}
 			if(entity == null){
-				«IF Actor.isAssignableFrom(this.metaType)-»
-					entity = new «name.toFirstUpper()»Actor();
-				«ELSE -»
-					entity = new «name.toFirstUpper()»();
-				«ENDIF -»								
+				entity = new «name.toFirstUpper()»();							
 				entity.setId(newEntityId);
 				entity.setCreationDate(new Date(System.currentTimeMillis()));
 				entity.setCreator((LocalSession.get().getCurrentUser().getLogin()));
