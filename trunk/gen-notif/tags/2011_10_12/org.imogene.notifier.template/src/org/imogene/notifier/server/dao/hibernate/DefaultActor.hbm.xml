@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class lazy="false" table="DefaultUser"	name="org.imogene.common.entity.DefaultActor" >
+	
+		<id column="User_Id" name="id" />
+		<property column="User_LastModificationDate" name="lastModificationDate" type="timestamp"/>
+		<property column="User_UploadDate" name="uploadDate" type="timestamp"/>
+		<property column="User_Modifier" name="modifier"/>	
+		<property column="User_ModifiedFrom" name="modifiedFrom"/>	
+		<property column="User_CreationDate" name="creationDate" type="timestamp"/>	
+		<property column="User_Creator" name="creator"/>	
+		
+		<property column="User_Login" name="login" />
+		<property column="User_Password" name="password" />	
+						
+		<set lazy="false" name="roles" table="Roles">
+			<key column="User_Id"/>
+			<many-to-many class="org.imogene.common.entity.RoleBeanImpl" column="Role_Id"/>
+		</set>		
+										
+	</class>
+</hibernate-mapping>
