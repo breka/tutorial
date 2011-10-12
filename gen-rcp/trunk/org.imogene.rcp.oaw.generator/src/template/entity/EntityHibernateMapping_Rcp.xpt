@@ -16,22 +16,18 @@
 		<property column="«name»_LastModificationDate" name="modified" type="timestamp"/>
 		<property column="«name»_UploadDate" name="uploadDate" type="timestamp"/>
 		
-		«REM» Specific inheritance for user entities «ENDREM»
 		«IF Actor.isAssignableFrom(this.metaType)-»
-	    <joined-subclass name="org.imogene.«moduleName.toLowerCase()».entity.«name.toFirstUpper()»User" table="«name»Actor" lazy="false">
-	        <key column="«name»_ID"/>
-		    <property name="login" column="«name»Actor_Login"/>
-		    <property name="password" column="«name»Actor_Password"/>
-			<set lazy="false" name="roles" table="«name»Roles" >
-				<key column="«name»_ID"/>
-				<many-to-many class="org.imogene.uao.role.Role" column="Role_ID"/>
-			</set>	
-			<set lazy="false" name="synchronizables" table="«name»_Synchronizables">
-				<key column="«name»_ID"/>
-				<many-to-many class="org.imogene.uao.synchronizable.SynchronizableEntity" column="Synchronizable_Id"/>
-			</set>		 
-			«EXPAND filterField(moduleName.toLowerCase()) FOREACH ((Actor)this).filters-»	   									      	    
-	    </joined-subclass>  		
+		<!-- actor specific properties -->
+	    <property name="login" column="«name»Actor_Login"/>
+	    <property name="password" column="«name»Actor_Password"/>
+		<set lazy="false" name="roles" table="«name»Roles" >
+			<key column="«name»_ID"/>
+			<many-to-many class="org.imogene.uao.role.Role" column="Role_ID"/>
+		</set>	
+		<set lazy="false" name="synchronizables" table="«name»_Synchronizables">
+			<key column="«name»_ID"/>
+			<many-to-many class="org.imogene.uao.synchronizable.SynchronizableEntity" column="Synchronizable_Id"/>
+		</set>				
 		«ENDIF -»	
 						
     </class>		
@@ -148,12 +144,4 @@
 		</set>
 		«ENDIF-»
 	«ENDIF-»
-«ENDDEFINE»
-
-«REM» Define the relation between the actor an the filter fields values «ENDREM»
-«DEFINE filterField(String packageName) FOR FilterField»
-			<set name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" lazy="true">
-				<key column="«this.parentActor.name.toFirstUpper()»_ID"/>
-				<many-to-many class="org.imogene.«packageName».entity.«this.entity.name.toFirstUpper()»" column="«this.name.toFirstLower()»Fields_ID"/>
-			</set>
 «ENDDEFINE»

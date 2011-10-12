@@ -27,7 +27,7 @@ import java.util.Date;
 
 import org.imogene.common.data.Synchronizable;
 import org.imogene.«moduleName.toLowerCase()».wrapper.DisplayValueWrapper;
-«EXPAND template::ImogRcpFieldUtil::generateImportsForFields FOR this-»
+«EXPAND template::ImogRcpFieldUtil::importForFieldForList(moduleName) FOREACH fieldList-»
 «IF isTranslatableFieldPresent(this.groups.fields)-»
 import org.imogene.«moduleName.toLowerCase()».entity.LocalizedFieldMap;
 «ENDIF»
