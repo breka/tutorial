@@ -365,7 +365,7 @@ public class ImogPlugin extends AbstractUIPlugin {
 		try{
 			IConfigurationElement conf = handlerExtension.getConfigurationElements()[0];			
 			String entityClassName = conf.getAttribute("entityClassName");
-			String actorClassName = conf.getAttribute("actorClassName");
+			//String actorClassName = conf.getAttribute("actorClassName");
 			/* instance of the associated dao */
 			EntityDao dao = (EntityDao) conf.createExecutableExtension("dao");
 			/* instance of the handler */
@@ -379,8 +379,8 @@ public class ImogPlugin extends AbstractUIPlugin {
 				handler.setI18nDao(localizedTextDao);
 			}		
 			handlers.put(entityClassName, handler);
-			if(actorClassName!=null)
-				handlers.put(actorClassName, handler);
+			//if(actorClassName!=null)
+			//	handlers.put(actorClassName, handler);
 		}catch(Exception ex){
 			logger.error(ex.getMessage(), ex);
 		}
