@@ -1,0 +1,1317 @@
+/** Add css rules here for your application. */
+* {
+	font-family: Verdana, arial;
+	font-size: 12px;
+}
+
+body {
+	font-family: Verdana, arial;
+	color: #444444;
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	direction: ltr;
+	font-size: 12px;
+}
+
+table td,select,tbody,tr {
+	font-family: Verdana, arial;
+	color: #444444;
+	font-size: 12px;
+	border-collapse: collapse;
+	border-spacing: 0px; 
+}
+
+img {
+	border: 0;
+}
+
+a,a:visited,a:hover {
+	color: #444444;
+}
+
+/** Example rules used by the template application (remove for your app) */
+h1 {
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	margin: 40px 0px 70px;
+	text-align: center;
+}
+
+.sendButton {
+	display: block;
+	font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+	width: 400px;
+}
+
+.dialogVPanel {
+	margin: 5px;
+}
+
+.serverResponseLabelError {
+	color: red;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+	margin: 15px 6px 6px;
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem {
+	width: 75px;
+	height: 20px;
+	max-height: 20px;
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected {
+	width: 150px;
+	height: 20px;
+	max-height: 20px;
+}
+
+.gwt-DecoratorPanel .middleCenter {
+	height: 100%;
+	width: 100%;
+}
+
+/* ------------------------- */
+/* - imogene specific part - */
+/* ------------------------- */
+
+/* ----------------------- */
+/*	    LoginComposite     */
+/* ----------------------- */
+.imogene-Login {
+	margin-top: 50px;
+	width: 500px;
+	height: 400px;
+}
+
+.imogene-LoginDescriptionPanel {
+	border-left: solid 2px #516fb1;
+}
+
+.imogene-LoginImage {
+	background-color: white;
+}
+
+.imogene-LoginMessage {
+	color: #444444;
+	width: 200px;
+}
+
+.imogene-LoginBox {
+	color: #444444;
+}
+
+.Login-Button {
+	font-size: 12px;
+	color: #444444;
+	text-decoration: none;
+	font-weight: normal;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	cursor: pointer;
+	background: url("images/hborder.png") repeat-x 0px -30px;
+	border: 1px solid #BBB;
+	border-bottom-left-radius: 3px 3px;
+	border-top-left-radius: 3px 3px;
+	border-bottom-right-radius: 3px 3px;
+	border-top-right-radius: 3px 3px;
+}
+
+.imogene-LoginPanel {
+	padding-left: 30px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-right: 30px;
+	border: solid 1px #777777;
+}
+
+.imogene-Login-locale {
+	padding-left: 2px;
+}
+
+/* ------------------------ */
+
+/* --------------------- */
+/* - ApplicationHeader - */
+/* --------------------- */
+.imogene-MainHeader {
+	height: 10px;
+	width: 100%;
+	background-color: #F4F4F4;
+	border-bottom: 1px solid #777777;
+}
+
+.imogene-Logo {
+	width: 90%;
+	height: 30px;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-left: 30px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	/*border-bottom: 1px solid #777777;*/
+}
+
+.imogene-greytext {
+	color: #777777;
+	font-size: 11px;
+}
+
+.imogene-greytext b {
+	color: #777777;
+	font-size: 11px;
+}
+
+.imogene-logout a {
+	padding: 4px;
+	margin-left: 0px;
+	font-size: 11px;
+}
+
+.imogene-logout a:hover {
+	background-color: #e4ebf8;
+}
+
+.imogene-locBox {
+	font-size: 11px;
+}
+
+.imogene-locBox option {
+	font-size: 11px;
+}
+
+.imogene-lastConnection {
+	color: #777777;
+	font-size: 11px;
+	margin-left: 10px;
+	width: 200px;
+}
+
+.imogene-lastConnection b {
+	color: #777777;
+	font-size: 11px;
+}
+
+/* ----------------------- */
+/* -      Bottom panel   - */
+/* ----------------------- */
+.imogene-BottomPanel {
+	border-top: 1px solid #444444;
+}
+
+/* ----------------------- */
+/*   ContentComposite      */
+/* ----------------------- */
+.imogene-ContentComposite {
+	width: 90%;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+/* ----------------------- */
+/* -     TableHeader     - */
+/* ----------------------- */
+.imogene-TableHeader {
+	width: 100%;
+	height: 20px;
+}
+
+.imogene-TableTitle {
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.imogene-MenuBar { 
+	/*font-size			: 10px;
+	vertical-align		: top;*/
+	
+}
+
+.imogene-MenuBar a {
+	text-decoration: none;
+	color: #444444;
+}
+
+.imogene-MenuBar .gwt-MenuItem {
+	font-size: 10px;
+	background: url("images/hborder.png") repeat-x 0px -30px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	text-decoration: none;
+	cursor: pointer;
+	margin-left: 2px;
+	margin-right: 0px;
+	color: #444444;
+	border: 1px solid #BBB;
+	border-bottom-left-radius: 3px 3px;
+	border-top-left-radius: 3px 3px;
+	border-bottom-right-radius: 3px 3px;
+	border-top-right-radius: 3px 3px;
+}
+
+.imogene-MenuBar .gwt-MenuItem-selected {
+	border-color: #444444;
+}
+
+/* -------------------- */
+/*       MenuList       */
+/* -------------------- */
+.imogene-MenuList {
+	width: 150px;
+	margin-top: 25px;
+	margin-right: 0px;
+	padding-right: 0px;
+}
+
+.imogene-MenuItem {
+	width: 100%;
+	margin-bottom: 3px;
+	padding-right: 2px;
+	padding-left: 2px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.imogene-MenuItem-selected {
+	background-color: #f4f4f4;
+}
+
+.imogene-MenuItemSeparator {
+	width: 80%;
+	border-bottom: 1px solid #777777;
+	margin-bottom: 3px;
+	padding-right: 5px;
+}
+
+.imogene-MenuItem-selected {
+	
+}
+
+/* -------------------------- */
+/*    Tema DisclosurePanel    */
+/* -------------------------- */
+.tema-DisclosurePanel {
+	
+}
+
+.tema-DisclosurePanel-open {
+	
+}
+
+.tema-DisclosurePanel-closed {
+	
+}
+
+.tema-DisclosurePanel .header,.tema-DisclosurePanel .header a,.tema-DisclosurePanel .header td {
+	text-decoration: none; 
+	/* Remove underline from header */
+	/*background-color	: #777777;*/
+	color: #108fc3;
+	font-weight: bold;
+	cursor: pointer;
+	cursor: hand;
+	padding-right: 5px;
+}
+
+.tema-DisclosurePanel .content {
+	border-left: 2px solid #9fd2e7;
+	padding: 4px 0px 4px 8px;
+	margin-left: 3px;
+}
+
+/* -------------------- */
+/*     RoundedTask      */
+/* -------------------- */
+.imogene-RoundedTask {
+	width: 100%;
+	height: 500px;
+	margin: 0px;
+	background-color: white;
+}
+
+.imogene-RoundedTaskHeader {
+	width: 100%;
+	height: 20px;
+}
+
+.imogene-RoundedTaskHeader-violet,.imogene-RoundedTaskHeader-violet a,.imogene-RoundedTaskHeader-violet a:visited,.imogene-RoundedTaskHeader-violet a:hover {
+	color: #FFFFFF;
+	background-color: #9e24b0;
+}
+
+.imogene-RoundedTaskHeader-red,.imogene-RoundedTaskHeader-red a,.imogene-RoundedTaskHeader-red a:visited,.imogene-RoundedTaskHeader-red a:hover {
+	color: #FFFFFF;
+	background-color: #dc1733;
+}
+
+.imogene-RoundedTaskHeader-blue,.imogene-RoundedTaskHeader-blue a,.imogene-RoundedTaskHeader-blue a:visited,.imogene-RoundedTaskHeader-blue a:hover {
+	color: #FFFFFF;
+	background-color: #210075;
+}
+
+.imogene-RoundedTaskHeader-green,.imogene-RoundedTaskHeader-green a,.imogene-RoundedTaskHeader-green a:visited,.imogene-RoundedTaskHeader-green a:hover {
+	color: #FFFFFF;
+	background-color: #15a029;
+}
+
+.imogene-RoundedTaskList {
+	width: 100%;
+	margin: 0px;
+}
+
+/* ----------------- */
+/*    EntityForm     */
+/* ----------------- */
+.imogene-Form {
+	height: 300px;
+	background-color: #FFFFFF;
+}
+
+.imogene-FormHeader {
+	height: 22px;
+	border-bottom: 1px solid #777777;
+}
+
+.imogene-FormMetadata {
+	height: 22px;
+	padding-left: 3px;
+}
+
+.imogene-FormText {
+	border: 1px solid #777777;
+	color: #444444;
+	font-size: 12px;
+	padding: 2px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	background-color: #FFFFFF;
+	width: 200px;
+}
+
+.imogene-FormListBox {
+	border: 1px solid #777777;
+	color: #444444;
+	font-size: 12px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	background-color: #FFFFFF;
+	width: 200px;
+}
+
+.imogene-search-operator {
+	border: 1px solid #777777;
+	color: #444444;
+	font-size: 12px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-right: 5px;
+	background-color: #FFFFFF;
+	width: 130px;
+}
+
+.imogene-FormText-unit {
+	padding-left: 2px;
+}
+
+.imogene-FormTextArea {
+	height: 150px;
+	width: 200px;
+	border: 1px solid #777777;
+	color: #444444;
+	font-size: 12px;
+	padding: 2px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	background-color: #FFFFFF;
+}
+
+.imogene-FormTextDate {
+	border: 1px solid #777777;
+	color: #444444;
+	font-size: 12px;
+	padding: 2px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	background-color: #FFFFFF;
+	/*width				: 100%;*/
+	width: 90px;
+}
+
+.imogene-FormTextDate-and {
+	padding-right: 2px;
+	padding-left: 2px;
+}
+
+.imogene-FormText-error {
+	background-color: #ff8e99;
+}
+
+.imogene-FormText-disabled {
+	background-color: #f8f8f8;
+}
+
+.imogene-FormTextLocale {
+	border: 1px solid #777777;
+	color: #444444;
+	font-size: 10px;
+	padding: 2px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	background-color: #FFFFFF;
+}
+
+.imogene-FormImageLink {
+	cursor: pointer;
+	cursor: hand;
+}
+
+.imogene-Form-labelColumn {
+	font-family: Verdana, arial;
+	width: 150px;
+	margin-right: 10px;
+	margin-left: 2px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.imogene-ImageLink {
+	cursor: pointer;
+	cursor: hand;
+}
+
+.imogene-HtmlContent {
+	padding: 3px;
+}
+
+.imogene-FormSection {
+	
+}
+
+/* --------------------- */
+/*    DisclosurePanel    */
+/* --------------------- */
+.imogene-DisclosureContainerHeader {
+	font-weight: bold;
+	padding-left: 3px;
+	color: #616161;
+}
+
+.imogene-DisclosureContainerHeader-form {
+	background-color: #ebebeb;
+	color: #444444;
+	border-bottom: 1px solid #616161;
+}
+
+.imogene-DisclosureContainerHeader-default {
+	background-color: #777777;
+	color: #FFFFFF;
+}
+
+.imogene-DisclosureContainerHeader-violet {
+	background-color: #e3adff;
+	color: #444444;
+}
+
+.imogene-DisclosureContainerHeader-blue {
+	background-color: #d0e4f6;
+	color: #444444;
+}
+
+.imogene-DisclosureContainerHeader-green {
+	background-color: #adffbf;
+	color: #444444;
+}
+
+.imogene-DisclosureContainerHeader-red {
+	background-color: #ff8e99;
+	color: #444444;
+}
+
+.imogene-discPanel {
+	
+}
+
+.imogene-discPanel-open {
+	
+}
+
+.imogene-discPanel-closed {
+	
+}
+
+.imogene-discPanel .header,.imogene-discPanel .header a,.imogene-discPanel .header td {
+	text-decoration: none; /* Remove underline from header */
+	color: #444444;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.imogene-discPanel .content {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+/* --------------------- */
+/*        TabPanel       */
+/* --------------------- */
+.imogene-TabBar {
+	
+}
+
+.imogene-TabBar .gwt-TabBarFirst {
+	width: 5px; 
+	/* first tab distance from the left */
+}
+
+.imogene-TabBar .gwt-TabBarRest {
+}
+
+.imogene-TabBar .gwt-TabBarItem {
+	margin-right: 2px;
+	margin-left: 2px;
+	padding: 2px 4px 2px 4px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: normal;
+	color: white;
+	border: 0px;
+	font-size: 10px;
+}
+
+.imogene-TabBar .gwt-TabBarItem-selected {
+	font-weight: bold;
+}
+
+.imogene-TabBar .gwt-TabBarItem-disabled {
+	cursor: default;
+	color: #999999;
+}
+
+.imogene-TabBar .gwt-TabPanel {
+}
+
+.imogene-TabBar .gwt-TabPanelBottom {
+	border-style: solid;
+	border-width: 3px 2px 2px;
+	overflow: hidden;
+	padding: 5px;
+}
+
+/* -------------------------------- */
+/*        RelationSelectionBox      */
+/* -------------------------------- */
+.imogene-RelationSelectionBox {
+	background: white;
+	width: 217px;
+	font-size: 11px;
+}
+
+.imogene-RelationSelectionBox-Listbox {
+	border: 1px solid #777777;
+	margin: 2px;
+	width: 198px;
+	font-size: 12px;
+}
+
+.imogene-RelationSelectionBox-title {
+	padding-top: 2px;
+	padding-bottom: 3px;
+	color: white;
+	font-weight: bold;
+	width: 217px;
+}
+
+.imogene-RelationSelectionBox-ButtonsPanel {
+	margin: 2px;
+}
+
+/* --------------------- */
+/*        HyperLink      */
+/* --------------------- */
+.imogene-Hyperlink {
+}
+
+.imogene-Hyperlink-blue a,.imogene-Hyperlink-blue a:visited {
+	color: #FFFFFF;
+}
+
+/* --------------------- */
+/*        Button         */
+/* --------------------- */
+.imogene-Button {
+	font-size: 11px;
+	color: #444444;
+	text-decoration: none;
+	font-weight: normal;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	cursor: pointer;
+	background: url("images/hborder.png") repeat-x 0px -30px;
+	border: 1px solid #BBB;
+	border-bottom-left-radius: 3px 3px;
+	border-top-left-radius: 3px 3px;
+	border-bottom-right-radius: 3px 3px;
+	border-top-right-radius: 3px 3px;
+}
+
+.imogene-Button .html-face {
+	font-size: 11px;
+	color: #444444;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.imogene-Button .html-face a,imogene-Button .html-face a:link,imogene-Button .html-face a:visited {
+	font-size: 11px;
+	color: #444444;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+/* -------------------------- */
+/*       DecoratorPanel       */
+/* -------------------------- */
+.imogene-DecoratorPanel {
+	margin-right: 2px;
+	margin-bottom: 3px;
+}
+
+.imogene-DecoratorPanel .topLeftInner,.imogene-DecoratorPanel .topRightInner,.imogene-DecoratorPanel .bottomLeftInner,.imogene-DecoratorPanel .bottomRightInner {
+	width: 5px;
+	height: 5px;
+	zoom: 1;
+}
+
+.imogene-DecoratorPanel .topCenter,.imogene-DecoratorPanel .bottomCenter {
+}
+
+.imogene-DecoratorPanel .middleLeft,.imogene-DecoratorPanel .middleRight {
+}
+
+.imogene-DecoratorPanel .topLeft {
+}
+
+.imogene-DecoratorPanel .topRight {
+}
+
+.imogene-DecoratorPanel .bottomLeft {
+}
+
+.imogene-DecoratorPanel .bottomRight {
+}
+
+.imogene-DecoratorPanel .middleCenter {
+	height: 100%;
+	width: 100%;
+}
+
+* html .imogene-DecoratorPanel-red .topLeftInner,* html .imogene-DecoratorPanel-red .topRightInner,* html .imogene-DecoratorPanel-red .bottomLeftInner,* html .imogene-DecoratorPanel-red .bottomRightInner {
+	width: 5px;
+	height: 5px;
+	overflow: hidden;
+}
+
+/*-- RED extension --*/
+.imogene-DecoratorPanel-red .topCenter,.imogene-DecoratorPanel-red .bottomCenter {
+	background-color: #dc1733;
+}
+
+.imogene-DecoratorPanel-red .middleLeft,.imogene-DecoratorPanel-red .middleRight {
+	background-color: #dc1733;
+}
+
+.imogene-DecoratorPanel-red .topLeft {
+	background: url(images/red_corner.png) no-repeat 0px 0px;
+}
+
+.imogene-DecoratorPanel-red .topRight {
+	background: url(images/red_corner.png) no-repeat -5px 0px;
+}
+
+.imogene-DecoratorPanel-red .bottomLeft {
+	background: url(images/red_corner.png) no-repeat 0px -5px;
+}
+
+.imogene-DecoratorPanel-red .bottomRight {
+	background: url(images/red_corner.png) no-repeat -5px -5px;
+}
+
+/*-- BLUE extension --*/
+.imogene-DecoratorPanel-blue .topCenter,.imogene-DecoratorPanel-blue .bottomCenter {
+	background-color: #210075;
+}
+
+.imogene-DecoratorPanel-blue .middleLeft,.imogene-DecoratorPanel-blue .middleRight {
+	background-color: #210075;
+}
+
+.imogene-DecoratorPanel-blue .topLeft {
+	background: url(images/blue_corner.png) no-repeat 0px 0px;
+}
+
+.imogene-DecoratorPanel-blue .topRight {
+	background: url(images/blue_corner.png) no-repeat -5px 0px;
+}
+
+.imogene-DecoratorPanel-blue .bottomLeft {
+	background: url(images/blue_corner.png) no-repeat 0px -5px;
+}
+
+.imogene-DecoratorPanel-blue .bottomRight {
+	background: url(images/blue_corner.png) no-repeat -5px -5px;
+}
+
+* html .imogene-DecoratorPanel-blue .topLeftInner,* html .imogene-DecoratorPanel-blue .topRightInner,* html .imogene-DecoratorPanel-blue .bottomLeftInner,* html .imogene-DecoratorPanel-blue .bottomRightInner
+	{
+	width: 5px;
+	height: 5px;
+	overflow: hidden;
+}
+
+/*-- GREEN extension --*/
+.imogene-DecoratorPanel-green .topCenter,.imogene-DecoratorPanel-green .bottomCenter {
+	background-color: #15a029;
+}
+
+.imogene-DecoratorPanel-green .middleLeft,.imogene-DecoratorPanel-green .middleRight {
+	background-color: #15a029;
+}
+
+.imogene-DecoratorPanel-green .topLeft {
+	background: url(images/green_corner.png) no-repeat 0px 0px;
+}
+
+.imogene-DecoratorPanel-green .topRight {
+	background: url(images/green_corner.png) no-repeat -5px 0px;
+}
+
+.imogene-DecoratorPanel-green .bottomLeft {
+	background: url(images/green_corner.png) no-repeat 0px -5px;
+}
+
+.imogene-DecoratorPanel-green .bottomRight {
+	background: url(images/green_corner.png) no-repeat -5px -5px;
+}
+
+* html .imogene-DecoratorPanel-green .topLeftInner,* html .imogene-DecoratorPanel-green .topRightInner,* html .imogene-DecoratorPanel-green .bottomLeftInner,* html .imogene-DecoratorPanel-green .bottomRightInner {
+	width: 5px;
+	height: 5px;
+	overflow: hidden;
+}
+
+/*-- VIOLET extension --*/
+.imogene-DecoratorPanel-violet .topCenter,.imogene-DecoratorPanel-violet .bottomCenter {
+	background-color: #9e24b0;
+}
+
+.imogene-DecoratorPanel-violet .middleLeft,.imogene-DecoratorPanel-violet .middleRight {
+	background-color: #9e24b0;
+}
+
+.imogene-DecoratorPanel-violet .topLeft {
+	background: url(images/violet_corner.png) no-repeat 0px 0px;
+}
+
+.imogene-DecoratorPanel-violet .topRight {
+	background: url(images/violet_corner.png) no-repeat -5px 0px;
+}
+
+.imogene-DecoratorPanel-violet .bottomLeft {
+	background: url(images/violet_corner.png) no-repeat 0px -5px;
+}
+
+.imogene-DecoratorPanel-violet .bottomRight {
+	background: url(images/violet_corner.png) no-repeat -5px -5px;
+}
+
+* html .imogene-DecoratorPanel-violet .topLeftInner,* html .imogene-DecoratorPanel-violet .topRightInner,* html .imogene-DecoratorPanel-violet .bottomLeftInner,* html .imogene-DecoratorPanel-violet .bottomRightInner {
+	width: 5px;
+	height: 5px;
+	overflow: hidden;
+}
+
+/*-- LIGHT BLUE extension --*/
+.imogene-DecoratorPanel-lightblue .topCenter,.imogene-DecoratorPanel-lightblue .bottomCenter {
+	background-color: #125ef9;
+}
+
+.imogene-DecoratorPanel-lightblue .middleLeft,.imogene-DecoratorPanel-lightblue .middleRight {
+	background-color: #125ef9;
+}
+
+.imogene-DecoratorPanel-lightblue .topLeft {
+	background: url(images/lightblue_corner.png) no-repeat 0px 0px;
+}
+
+.imogene-DecoratorPanel-lightblue .topRight {
+	background: url(images/lightblue_corner.png) no-repeat -5px 0px;
+}
+
+.imogene-DecoratorPanel-lightblue .bottomLeft {
+	background: url(images/lightblue_corner.png) no-repeat 0px -5px;
+}
+
+.imogene-DecoratorPanel-lightblue .bottomRight {
+	background: url(images/lightblue_corner.png) no-repeat -5px -5px;
+}
+
+* html .imogene-DecoratorPanel-lightblue .topLeftInner,* html .imogene-DecoratorPanel-lightblue .topRightInner,* html .imogene-DecoratorPanel-lightblue .bottomLeftInner,* html .imogene-DecoratorPanel-lightblue .bottomRightInner {
+	width: 5px;
+	height: 5px;
+	overflow: hidden;
+}
+
+/*-- ORANGE extension --*/
+.imogene-DecoratorPanel-orange .topCenter,.imogene-DecoratorPanel-orange .bottomCenter {
+	background-color: #ffa200;
+}
+
+.imogene-DecoratorPanel-orange .middleLeft,.imogene-DecoratorPanel-orange .middleRight {
+	background-color: #ffa200;
+}
+
+.imogene-DecoratorPanel-orange .topLeft {
+	background: url(images/orange_corner.png) no-repeat 0px 0px;
+}
+
+.imogene-DecoratorPanel-orange .topRight {
+	background: url(images/orange_corner.png) no-repeat -5px 0px;
+}
+
+.imogene-DecoratorPanel-orange .bottomLeft {
+	background: url(images/orange_corner.png) no-repeat 0px -5px;
+}
+
+.imogene-DecoratorPanel-orange .bottomRight {
+	background: url(images/orange_corner.png) no-repeat -5px -5px;
+}
+
+* html .imogene-DecoratorPanel-orange .topLeftInner,* html .imogene-DecoratorPanel-orange .topRightInner,* html .imogene-DecoratorPanel-orange .bottomLeftInner,* html .imogene-DecoratorPanel-orange .bottomRightInner {
+	width: 5px;
+	height: 5px;
+	overflow: hidden;
+}
+
+/* -------------------- */
+
+/* -------------------- */
+/*     ShadowPanel      */
+/* -------------------- */
+.imogene-ShadowPanel {
+}
+
+.imogene-ShadowPanel .s-topLeftInner,.imogene-ShadowPanel .s-topRightInner {
+}
+
+.imogene-ShadowPanel .s-bottomLeftInner,.imogene-ShadowPanel .s-bottomRightInner {
+	width: 22px;
+	height: 22px;
+	zoom: 1;
+}
+
+.imogene-ShadowPanel .s-topCenter {
+}
+
+.imogene-ShadowPanel .s-bottomCenter {
+	background: url(images/shadow-b.png) repeat-x 0px 0px;
+}
+
+.imogene-ShadowPanel .s-middleLeft {
+	background: url(images/shadow.png) repeat-y 0px 0px;
+}
+
+.imogene-ShadowPanel .s-middleRight {
+	background: url(images/shadow-r.png) repeat-y 0px 0px;
+}
+
+.imogene-ShadowPanel .s-topLeft {
+}
+
+.imogene-ShadowPanel .s-topRight {
+}
+
+.imogene-ShadowPanel .s-bottomLeft {
+}
+
+.imogene-ShadowPanel .s-bottomRight {
+}
+
+.imogene-shadowPanel .s-middleCenter {
+	height: 100%;
+	width: 100%;
+}
+
+* html .imogene-ShadowPanel .s-topLeftInner,* html .imogene-ShadowPanel .s-topRightInner,* html .imogene-ShadowPanel .s-bottomLeftInner,* html .imogene-ShadowPanel .s-bottomRightInner {
+	width: 22px;
+	height: 22px;
+	overflow: hidden;
+}
+
+/* --------------------------------------- */
+/*              DYNATABLE                  */
+/* --------------------------------------- */
+
+/* Navigation Bar */
+.DynaTable-navbar {
+	width: 100%;
+	background-color: white;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	margin-bottom: 1px;
+}
+
+.DynaTable-navbar-button {
+	text-align: center;
+	vertical-align: middle;
+	background-color: #777777;
+	color: #FFFFFF;
+	font-size: 11px;
+	font-family: Verdana;
+	cursor: pointer;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	border: 1px solid #777777;
+}
+
+.DynaTable-navbar-button  .html-face {
+	font-size: 11px;
+	color: #FFFFFF;
+	vertical-align: middle;
+}
+
+.DynaTable-button-search {
+	text-align: center;
+	background-color: #777777;
+	color: #FFFFFF;
+	font-size: 11px;
+	font-family: Verdana;
+	cursor: pointer;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 0px;
+	padding-bottom: 2px;
+	border: 1px solid #777777;
+}
+
+.DynaTable-button-search  .html-face {
+	font-size: 11px;
+	color: #FFFFFF;
+}
+
+.DynaTable-status {
+	padding-left: 6px;
+	vertical-align: middle;
+	margin-right: 6px;
+}
+
+input[type="text"].DynaTable-status-textbox {
+	border: 1px solid #777777;
+	color: #777777;
+	font-size: 11px;
+	padding-left: 2px;
+}
+
+.DynaTable-status-textbox {
+	border: 1px solid #777777;
+	color: #777777;
+	font-size: 11px;
+	padding-left: 2px;
+}
+
+.DynaTable-status-text {
+	font-size: 11px;
+	color: #777777;
+	vertical-align: middle;
+	padding-right: 2px;
+	padding-left: 2px;
+}
+
+/* Table */
+.DynaTable-DynaTableWidget .table {
+	background-color: white;
+	border: 6px solid #FFFFFF;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	width: 100%;
+}
+
+.DynaTable-DynaTableWidget .table td.header {
+	text-align: center;
+	font-weight: bold;
+	border-bottom: solid 1px;
+	font-size: 11px;
+	background-color: #777777;
+	cursor: pointer;
+}
+
+.DynaTable-isNotSortProperty {
+	color: #FFFFFF;
+}
+
+.DynaTable-isSortProperty {
+	color: #FFFBC1;
+}
+
+.DynaTable-DynaTableWidget .table td.style1 {
+}
+
+.DynaTable-DynaTableWidget .table td.style2 {
+}
+
+.DynaTable-DynaTableWidget .table td {
+	font-size: 11px;
+	color: #335c7e;
+	padding: 2px 4px 2px 4px;
+	cursor: pointer;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.DynaTable-DynaTableWidget .table a,.DynaTable-DynaTableWidget .table a:link,.DynaTable-DynaTableWidget .table a:visited {
+	color: #335c7e;
+	text-decoration: none;
+}
+
+.DynaTable-DynaTableWidget .table a:hover {
+	text-decoration: underline;
+}
+
+.DynaTable-DynaTableWidget .table tr.row_1 {
+	background-color: #efefef;
+}
+
+.DynaTable-DynaTableWidget .table tr.row_2 {
+	background-color: #dedede;
+}
+
+.DynaTable-cellText {
+}
+
+.DynaTable-DayFilterWidget {
+	margin: 3em 1em 1em 0;
+	width: 10em;
+	padding: 0px 8px 0px 8px;
+	border: 1px solid #ACA899;
+}
+
+.DynaTable-DayFilterWidget button {
+	width: 4em;
+	margin: 8px 4px 8px 4px;
+}
+/* -----------------------------------------------  */
+
+
+
+/* -----------------------------------------------  */
+/*        Imogene ListBox Composite                  */
+/* -----------------------------------------------  */
+.ImogListBox {
+	background-color: #fff;
+	border: 1px solid #777777;
+	color: #444444;
+	width: 212px;
+	font-size: 12px;
+}
+
+.ImogListBox-TexBox {
+	border-right: 1px solid #777777;
+	border-top: 0px;
+	border-bottom: 0px;
+	border-left: 0px;
+	color: #444444;
+	width: 212px;
+	padding: 2px;
+	font-size: 12px;
+	background-color: #FFFFFF;
+	margin: 0px;
+}
+
+.ImogListBox-PopupPanel {
+	/*border-right: 0px solid #777777;*/
+	/*border: 0px;*/
+	padding: 0px;
+	background-color: #FFFFFF;
+	width: 211px;
+	border: 1px solid #777777;
+}
+
+.ImogListBox-PopupPanel-content {
+	background-color: #fff;
+	color: #444444;
+	font-size: 12px;
+}
+
+.ImogListBox-Listbox {
+	border-bottom: 1px solid #777777;
+	border-top: 0px;
+	border-right: 0px;
+	border-left: 0px;
+	color: #444444;
+	width: 211px;
+	font-size: 12px;
+	margin: 0px;
+	background-color: #dddddd;
+}
+
+.SelectionDialog {
+	border: 3px solid #777777;
+	background-color: #fff;
+}
+
+.SelectionDialog .Caption {
+	vertical-align: middle;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #444444;
+	padding: 5px;
+	/*margin			: 1px;*/
+	cursor: default;
+	border-bottom: 3px solid #777777;
+}
+
+.SelectionDialog-content {
+	vertical-align: middle;
+	text-align: center;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	/*padding-bottom	: 20px;*/
+}
+
+.SelectionDialog-ListBox {
+	border: 1px solid #777777;
+	color: #444444;
+	background-color: #fff;
+	width: 212px;
+}
+
+.SelectionDialog-ButtonLayout {
+}
+
+/* Navigation Bar */
+.ImogListBox-navbar { 
+	/*width: 100%;*/
+	background-color: #fff;
+	padding-left: 1px;
+	padding-bottom: 1px;
+	padding-top: 1px;
+	/*margin-bottom		: 20px;*/
+}
+
+/* Buttons */
+.Button-Select {
+	color: #fff;
+	font-size: 11px;
+	background-color: #777777;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	cursor: pointer;
+	font-weight: bold;
+	border: 1px solid #777777;
+}
+
+.ImogListBox-Button-Search {
+	color: #fff;
+	background-color: #777777;			
+	font-size: 11px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	cursor: pointer;
+	border: 1px solid #777777;
+}
+
+.ImogListBox-Button-Search .html-face{
+	font-size: 11px;
+}
+
+.CancelButton-Select {
+}
+
+.AssignButton-Select {
+	margin-left: 2px;
+}
+
+input.Filter-TextBox {
+	border: 1px solid #777777;
+	color: #444444;
+	padding-left: 4px;
+	font-size: 11px;
+	margin: 0px;
+}
+
+input[type="text"].Filter-TextBox {
+	border: 1px solid #777777;
+	color: #444444;
+	padding-left: 4px;
+	font-size: 11px;
+	margin: 0px;
+}
+
+
+/* --------------------------------------------- */
+
+
+
+.gwt-FileUpload .input {
+	size: 20;
+}
+
+.imogene-ImogMessage {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.imogene-ImogMessage-lightblue {
+	color: #FFFFFF;
+	background: #125ef9;
+}
+
+.imogene-ImogMessage-orange {
+	color: #444444;
+	background: #ffa200;
+}
+
+.imogene-ImogMessage-red {
+	color: #FFFFFF;
+	background: #dc1733;
+}
+
+.imogene-visibleDependentField {
+	padding-left: 20px;
+}
+
+.imogene-visibleDependentLabel {
+	padding-left: 20px;
+	background: url(images/arrow-18.png) no-repeat;
+}
+
+.imogene-errorLabel {
+	color: red;
+	font-weight: bold;
+	font-size: x-small;
+}
