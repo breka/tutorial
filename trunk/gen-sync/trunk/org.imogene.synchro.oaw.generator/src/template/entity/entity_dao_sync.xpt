@@ -23,7 +23,6 @@ import org.imogene.common.data.Synchronizable;
 import «packageName.toLowerCase()».entity.«this.name.toFirstUpper()»;
 «IF Actor.isAssignableFrom(this.metaType)-»
 import org.imogene.common.data.SynchronizableUser;
-import «packageName.toLowerCase()».entity.«this.name.toFirstUpper()»User;
 «ENDIF -»
 import org.imogene.common.dao.criteria.HibernateDaoUtil;
 
@@ -158,7 +157,7 @@ public class «this.name»HibernateDao extends HibernateDaoSupport implements «thi
 	«IF Actor.isAssignableFrom(this.metaType)-»
 	@SuppressWarnings("unused")
 	public List<SynchronizableUser> getUserFromLogin(String login) {
-		Criteria crit = getSession().createCriteria(«this.name»User.class);
+		Criteria crit = getSession().createCriteria(«this.name».class);
 		crit.add(Restrictions.eq("login", login));
 		return crit.list();
 	}

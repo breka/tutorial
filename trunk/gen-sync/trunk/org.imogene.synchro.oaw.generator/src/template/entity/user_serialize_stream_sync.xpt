@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 import org.imogene.common.data.Synchronizable;
 import org.imogene.data.handler.server.GenericDataHandler;
-import «packageName.toLowerCase()».entity.«this.name»User;
+import «packageName.toLowerCase()».entity.«this.name»;
 import org.imogene.sync.serializer.ImogSerializationException;
 import org.imogene.sync.serializer.SerializationConstants;
 import org.imogene.sync.serializer.stream.EntityStreamSerializer;
@@ -21,7 +21,7 @@ import org.imogene.uao.role.Role;
 import org.imogene.uao.synchronizable.SynchronizableEntity;
 
 /**
- * Serialize and un-serialize a «this.name»User
+ * Serialize and un-serialize a «this.name»
  * @author Medes-IMPS
  */
 public class «this.name»UserStreamSerializer implements EntityStreamSerializer {
@@ -35,10 +35,10 @@ public class «this.name»UserStreamSerializer implements EntityStreamSerializer {
 	 * @see EntityStreamSerializer#deSerialize(java.io.DataInputStream)
 	 */
 	public Synchronizable deSerialize(DataInputStream data) throws ImogSerializationException {
-		//logger.info("Un-serializing a «this.name»User");
-		«this.name»User entity = null;
+		//logger.info("Un-serializing a «this.name»");
+		«this.name» entity = null;
 		try{
-			entity = new «this.name»User();
+			entity = new «this.name»();
 			entity.setId(data.readUTF());
 			
 			// login
@@ -95,7 +95,7 @@ public class «this.name»UserStreamSerializer implements EntityStreamSerializer {
 	public void serialize(Synchronizable entity, DataOutputStream data) throws ImogSerializationException {
 		//logger.info("Serializing a «this.name»User");		
 		try{
-			«this.name»User «this.name.toFirstLower()»User = («this.name»User)entity;			
+			«this.name» «this.name.toFirstLower()»User = («this.name»)entity;			
 
 			data.writeUTF(«this.name.toFirstLower()»User.getId());
 			

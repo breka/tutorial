@@ -7,6 +7,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class lazy="false" table="«name»" name="«packageName.toLowerCase()».entity.«name»">
+	
 		<id name="id" column="«name»_ID"/>			
 		«EXPAND fieldMapping(packageName) FOREACH this.groups.fields-»
 		<property column="«name»_Creator" name="createdBy"/>
@@ -15,31 +16,13 @@
 		<property column="«name»_ModifiedFrom" name="modifiedFrom"/>
 		<property column="«name»_LastModificationDate" name="modified" type="timestamp"/>
 		<property column="«name»_UploadDate" name="uploadDate" type="timestamp"/>
-		
-		«REM» Specific inheritance for user entities «ENDREM»
-		«IF Actor.isAssignableFrom(this.metaType)-»
-	    <joined-subclass name="«packageName.toLowerCase()».entity.«name»User" table="«name»Actor" lazy="false">
-	        <key column="«name»_ID"/>
-		    <property name="login" column="«name»Actor_Login"/>
-		    <property name="password" column="«name»Actor_Password"/>
-			<set lazy="false" name="roles" table="«name»Roles" >
-				<key column="«name»_ID"/>
-				<many-to-many class="org.imogene.uao.role.Role" column="Role_ID"/>
-			</set>	
-			<set lazy="false" name="synchronizables" table="«name»_Synchronizables">
-				<key column="«name»_ID"/>
-				<many-to-many class="org.imogene.uao.synchronizable.SynchronizableEntity" column="Synchronizable_Id"/>
-			</set>		 
-			«EXPAND filterField(packageName) FOREACH ((Actor)this).filters-»	   									      	    
-	    </joined-subclass>  		
-		«ENDIF -»	
 						
     </class>		
 </hibernate-mapping>
 «ENDFILE»
 «ENDDEFINE»
 
-
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR Actor-»«ENDDEFINE»
 
 
 «DEFINE fieldMapping(String packageName) FOR FieldEntity-»
@@ -162,12 +145,4 @@
 		</set>
 		«ENDIF-»
 	«ENDIF-»
-«ENDDEFINE»
-
-«REM» Define the relation between the actor an the filter fields values «ENDREM»
-«DEFINE filterField(String packageName) FOR FilterField»
-			<set name="«EXPAND template::CommonFieldUtil::propertyName FOR this-»" lazy="true">
-				<key column="«this.parentActor.name.toFirstUpper()»_ID"/>
-				<many-to-many class="«packageName.toLowerCase()».entity.«this.entity.name.toFirstUpper()»" column="«this.name.toFirstLower()»Fields_ID"/>
-			</set>
 «ENDDEFINE»

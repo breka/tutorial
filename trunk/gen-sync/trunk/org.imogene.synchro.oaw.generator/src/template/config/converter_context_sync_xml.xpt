@@ -61,8 +61,8 @@
 	<bean id="«e.name.toFirstLower()»UserConverter" class="«packageName.toLowerCase()».serializer.xml.«e.name»UserConverter"/> 
 	
 	<bean id="«e.name.toFirstLower()»UserClassConverter" class="org.imogene.sync.serializer.xml.ClassConverter">
-		<property name="alias" value="«packageName.toLowerCase()».entity.«e.name»User"/>
-		<property name="classType" value="«packageName.toLowerCase()».entity.«e.name»User"/>
+		<property name="alias" value="«packageName.toLowerCase()».entity.«e.name»"/>
+		<property name="classType" value="«packageName.toLowerCase()».entity.«e.name»"/>
 		<property name="converter" ref="«e.name.toFirstLower()»UserConverter"/>
 	</bean>		
 		«ENDIF -»
@@ -77,19 +77,19 @@
     	«ENDFOREACH»  	
     	«IF Actor.isAssignableFrom(e.metaType)-»
     <bean class="org.imogene.sync.serializer.xml.PropertyConverter" id="password«e.name.toFirstUpper()»Converter">
-		<property name="className" value="«packageName.toLowerCase()».entity.«e.name»User"/>
+		<property name="className" value="«packageName.toLowerCase()».entity.«e.name»"/>
 		<property name="propertyName" value="password"/>
 		<property name="converter" ref="passwordConverter"/>
 	</bean>	 
 	
 	<bean class="org.imogene.sync.serializer.xml.PropertyConverter" id="roles«e.name.toFirstUpper()»Converter">
-		<property name="className" value="«packageName.toLowerCase()».entity.«e.name»User"/>
+		<property name="className" value="«packageName.toLowerCase()».entity.«e.name»"/>
 		<property name="propertyName" value="assignedRoles"/>
 		<property name="converter" ref="rolesConverter"/>
 	</bean>	 	
 	
 	<bean class="org.imogene.sync.serializer.xml.PropertyConverter" id="synchronizables«e.name.toFirstUpper()»Converter">
-		<property name="className" value="«packageName.toLowerCase()».entity.«e.name»User"/>
+		<property name="className" value="«packageName.toLowerCase()».entity.«e.name»"/>
 		<property name="propertyName" value="assignedSynchronizables"/>
 		<property name="converter" ref="synchronizablesConverter"/>
 	</bean>	 

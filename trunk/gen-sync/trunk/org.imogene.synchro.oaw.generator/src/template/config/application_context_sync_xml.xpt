@@ -22,10 +22,7 @@
 		<property name="entityShortNameReferences">
 			<map>
 			    «FOREACH entities AS e-»
-				<entry key="«packageName.toLowerCase()».entity.«e.name»" value="«e.shortName»" />
-			    	«IF Actor.isAssignableFrom(e.metaType)-»
-				<entry key="«packageName.toLowerCase()».entity.«e.name»User" value="«e.shortName»" />
-					«ENDIF -»				
+				<entry key="«packageName.toLowerCase()».entity.«e.name»" value="«e.shortName»" />			
 				«ENDFOREACH-»		
 			</map>
 		</property>		
@@ -78,9 +75,6 @@
 		<property name="handlers">
 			<map>
 			    «FOREACH entities AS e-»
-			    «IF Actor.isAssignableFrom(e.metaType)-»
-			    <entry key="«packageName.toLowerCase()».entity.«e.name»User" value-ref="«e.name.toFirstLower()»Handler"/>
-			    «ENDIF -»
 				<entry key="«packageName.toLowerCase()».entity.«e.name»" value-ref="«e.name.toFirstLower()»Handler"/>
 				«ENDFOREACH-»	
 				<entry key="org.imogene.sync.server.binary.file.BinaryFile" value-ref="binaryHandler"/>
@@ -111,10 +105,7 @@
 		<property name="entitySerializers">
 			<map>
 			    «FOREACH entities AS e-»
-				<entry key="«packageName.toLowerCase()».entity.«e.name»" value-ref="«e.name.toFirstLower()»StreamSerializer"/>
-		    	«IF Actor.isAssignableFrom(e.metaType)-»
-				<entry key="«packageName.toLowerCase()».entity.«e.name»User" value-ref="«e.name.toFirstLower()»UserStreamSerializer"/>
-				«ENDIF -»				
+				<entry key="«packageName.toLowerCase()».entity.«e.name»" value-ref="«e.name.toFirstLower()»StreamSerializer"/>			
 				«ENDFOREACH-»	
 				<entry key="org.imogene.sync.server.binary.file.BinaryFile" value-ref="binaryStreamSerializer"/>	
 				<entry key="org.imogene.uao.clientfilter.ClientFilter" value-ref="clientFilterStreamSerializer"/>				

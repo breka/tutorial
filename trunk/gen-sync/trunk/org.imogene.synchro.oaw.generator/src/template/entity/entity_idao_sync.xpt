@@ -23,7 +23,6 @@ import org.imogene.common.data.Synchronizable;
 import «packageName.toLowerCase()».entity.«this.name»;
 «IF Actor.isAssignableFrom(this.metaType)-»
 import org.imogene.common.data.SynchronizableUser;
-import «packageName.toLowerCase()».entity.«this.name»User;
 «ENDIF -»
 import org.imogene.common.dao.criteria.HibernateDaoUtil;
 

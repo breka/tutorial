@@ -31,10 +31,8 @@ import org.imogene.uao.clientfilter.ClientFilter;
 
 «IF Actor.isAssignableFrom(this.metaType)-»
 import org.imogene.common.data.handler.UserHandler;
-import «packageName.toLowerCase()».entity.«this.name»User;
 «ELSE -»
 import org.imogene.common.data.handler.EntityHandler;
-import «packageName.toLowerCase()».entity.«this.name»;
 «ENDIF -»
 «EXPAND importEntityForFilterField(packageName) FOR this»
 «IF isTranslatableFieldPresent(this.groups.fields)-»
@@ -61,11 +59,7 @@ public class «this.name»Handler extends EntityHandlerImpl implements «IF Actor.i
 	
 	public Synchronizable createNewEntity(String id) {
 		//TODO handle  with not null constraint values
-		«IF Actor.isAssignableFrom(this.metaType)-»
-		«this.name»User entity = new «this.name»User();
-		«ELSE -»
-		«this.name» entity = new «this.name»();
-		«ENDIF -»				
+		«this.name» entity = new «this.name»();			
 		entity.setId(id);
 		entity.setModified(new Date());
 		entity.setCreatedBy(SyncConstants.SYNC_ID_SYS);
@@ -282,7 +276,7 @@ public class «this.name»Handler extends EntityHandlerImpl implements «IF Actor.i
 «REM» Import for filter field«ENDREM»
 «DEFINE importEntityForFilterField(String packageName) FOR CardEntity»
 	«FOREACH this.actorFilterFields AS actorField»
-	import «packageName.toLowerCase()».entity.«actorField.actorField.parentActor.name.toFirstUpper()»User;
+	import «packageName.toLowerCase()».entity.«actorField.actorField.parentActor.name.toFirstUpper()»;
 	import «packageName.toLowerCase()».entity.«actorField.entityField.entity.name.toFirstUpper()»;
 	«ENDFOREACH»
 «ENDDEFINE»
@@ -290,9 +284,9 @@ public class «this.name»Handler extends EntityHandlerImpl implements «IF Actor.i
 «REM» Filter field handling «ENDREM»
 «DEFINE handleFilterField(String entityName) FOR ActorFilter -»
 		/* add filter field for user «actorField.parentActor.name.toFirstUpper()» */
-		if(user instanceof «actorField.parentActor.name.toFirstUpper()»User){	
+		if(user instanceof «actorField.parentActor.name.toFirstUpper()»){	
 			ImogJunction «this.actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()» = new ImogDisjunction();
-			for(Object «this.entityField.entity.name.toFirstLower()»:((«this.actorField.parentActor.name.toFirstUpper()»User)user).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
+			for(Object «this.entityField.entity.name.toFirstLower()»:((«this.actorField.parentActor.name.toFirstUpper()»)user).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
 				BasicCriteria criteria = new BasicCriteria();
 				criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
 				criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");
