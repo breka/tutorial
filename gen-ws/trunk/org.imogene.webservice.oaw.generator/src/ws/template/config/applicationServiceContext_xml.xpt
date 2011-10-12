@@ -47,11 +47,7 @@
 		<property name="classesToBeBound">
 			<list>			
 				«FOREACH entities AS e -»
-					«IF !Actor.isAssignableFrom(e.metaType)-»
 				<value>org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»</value>
-					«ELSE-»
-				<value>org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»Actor</value>		
-					«ENDIF-»
 				<value>org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»List</value>
 				<value>org.imogene.«projectName.toLowerCase()».entity.display.«e.name.toFirstUpper()»Display</value>
 				<value>org.imogene.«projectName.toLowerCase()».entity.display.«e.name.toFirstUpper()»DisplayList</value>				
