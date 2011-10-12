@@ -182,7 +182,7 @@ public class «projectName.toFirstUpper()»AuthServlet extends PersistentRemoteSer
 «REM» Imports for actor «ENDREM»
 «DEFINE importForActor(String projectName) FOR CardEntity -»«ENDDEFINE»
 «DEFINE importForActor(String projectName) FOR Actor -»
-import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
 import org.imogene.«projectName.toLowerCase()».server.dao.«name.toFirstUpper()»Dao;
 «ENDDEFINE»
 
@@ -191,36 +191,33 @@ import org.imogene.«projectName.toLowerCase()».server.dao.«name.toFirstUpper()»D
 private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;
 «ENDDEFINE»
 
-«REM»
-	Set actor dao «ENDREM»
+«REM» Set actor dao «ENDREM»
 «DEFINE actorDao FOR CardEntity -»«ENDDEFINE»
 «DEFINE actorDao FOR Actor -»
 «name.toFirstLower()»Dao = («name.toFirstUpper()»Dao)wac.getBean("«name.toFirstLower()»Dao");
 «ENDDEFINE»
 
-«REM»
-	Login validation for actor «ENDREM»
+«REM» Login validation for actor «ENDREM»
 «DEFINE loginValidation FOR CardEntity -»«ENDDEFINE»
 «DEFINE loginValidation FOR Actor -»
 	    current = validateFor«name.toFirstUpper()»(login);
 		if(current != null && validatePasswd(current, password)){
 			setSessionParameter(current);			
 			current.setLastLoginDate(new Date());
-			«name.toFirstLower()»Dao.saveOrUpdateShadow((«name.toFirstUpper()»Actor)current, false);			
+			«name.toFirstLower()»Dao.saveOrUpdateShadow((«name.toFirstUpper()»)current, false);			
 			return current;
 		}
 «ENDDEFINE»
 
-«REM»
-	Login validation method for Actor«ENDREM»
+«REM» Login validation method for Actor«ENDREM»
 «DEFINE loginValidationMethod FOR CardEntity»«ENDDEFINE»
 «DEFINE loginValidationMethod FOR Actor»
 	/**
 	 * User authentication
 	 * @return the «name.toFirstUpper()»Actor if it exist, null otherwise
 	 */
-	private «name.toFirstUpper()»Actor validateFor«name.toFirstUpper()»(String login){
-		List<«name.toFirstUpper()»Actor> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
+	private «name.toFirstUpper()» validateFor«name.toFirstUpper()»(String login){
+		List<«name.toFirstUpper()»> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
 		if(actors.size()>1)
 			System.out.println("Can't process authentification, several users use the same login ! ");
 		if(actors.size() == 1){			

@@ -40,6 +40,12 @@
  	<logger name="org.springframework.security.web">
     	<level value="ERROR"/>    	
     	<appender-ref ref="file"/>
- 	</logger>  	
+ 	</logger>
+ 	
+  	<!-- hibernate mapping logger -->
+ 	<logger name="org.hibernate.tool.hbm2ddl">
+    	<level value="INFO"/>    	
+    	<appender-ref ref="file"/>
+ 	</logger> 
   	
 </log4j:configuration>

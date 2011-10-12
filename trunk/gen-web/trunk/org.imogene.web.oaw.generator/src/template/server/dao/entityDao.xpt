@@ -8,9 +8,6 @@ import java.util.List;
 
 import org.imogene.web.gwt.common.criteria.ImogJunction;
 import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
-«IF Actor.isAssignableFrom(this.metaType) -»
-import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;
-«ENDIF -»
 «FOREACH groups.fields AS f -»
 «EXPAND importsForRelation(projectName) FOR f -»
 «ENDFOREACH -»
@@ -181,7 +178,7 @@ public interface «name.toFirstUpper()»Dao {
 	 * @param login the actor login
 	 * @return the actor if it exists or null
 	 */
-	public List<«name.toFirstUpper()»Actor> get«name.toFirstUpper()»ActorFromLogin(String login);
+	public List<«name.toFirstUpper()»> get«name.toFirstUpper()»ActorFromLogin(String login);
 	«ENDIF -»
 }
 «ENDFILE»
