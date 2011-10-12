@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<templates>
+	<template name="Imogene RCP application project" version="1.0">
+		<description>Create an Imogene RCP applciation</description>
+		<natures>
+			<nature>nothing</nature>
+		</natures>
+		<content>medooRcp.zip</content>
+ 		<parseSet>
+              <include filenames=".project,.classpath"/>
+              <exclude extensions="jar"/>
+        </parseSet>		
+	</template>
+</templates>

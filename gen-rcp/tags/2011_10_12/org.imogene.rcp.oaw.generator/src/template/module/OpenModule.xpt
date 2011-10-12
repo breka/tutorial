@@ -1,0 +1,44 @@
+«IMPORT core»
+«DEFINE generate(String moduleName) FOR Project»
+«FILE moduleName.toLowerCase()+"/action/OpenModule.java"-»
+package org.imogene.«moduleName.toLowerCase()».action;
+
+
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IPerspectiveRegistry;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+
+import org.imogene.«moduleName.toLowerCase()».«moduleName.toFirstUpper()»PerspectiveFactory;
+
+public class OpenModule implements IWorkbenchWindowActionDelegate {
+
+	private IWorkbenchWindow window;
+	
+	public void dispose() {		
+	}
+
+	public void init(IWorkbenchWindow window) {
+		this.window = window;
+	}
+
+	public void run(IAction action) {		
+		/* check if the perspective is already opened */
+		String currentId = window.getActivePage().getPerspective().getId();
+		
+		if(currentId != «moduleName.toFirstUpper()»PerspectiveFactory.ID){
+			/* open this module main perspective */
+			IPerspectiveRegistry reg = window.getWorkbench().getPerspectiveRegistry();
+			window.getActivePage().setPerspective(reg.findPerspectiveWithId(«moduleName.toFirstUpper()»PerspectiveFactory.ID));
+		}
+		
+	}
+
+	public void selectionChanged(IAction action, ISelection selection) {				
+	}
+}
+
+
+«ENDFILE»
+«ENDDEFINE»
