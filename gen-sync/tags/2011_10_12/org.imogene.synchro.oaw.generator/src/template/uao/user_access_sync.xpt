@@ -1,0 +1,198 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String packagePath) FOR Project»
+«FILE packagePath.toLowerCase() + "/uao/UserAccessControlImpl.java"»
+package «packageName.toLowerCase()».uao;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import org.imogene.common.data.SynchronizableUser;
+import org.imogene.uao.UserAccessControl;
+import org.imogene.uao.defaultuser.DefaultUser;
+import org.imogene.uao.defaultuser.server.DefaultUserHandler;
+«FOREACH entities AS e-»
+	«EXPAND userImport(packageName) FOR e-»
+«ENDFOREACH-»
+
+
+/**
+ * Class to manage the application user access
+ * @author Medes-IMPS
+ */
+public class UserAccessControlImpl implements UserAccessControl{
+	
+	private Logger logger = Logger.getLogger("«packageName.toLowerCase()».uao");
+	
+	private DefaultUserHandler defaultUserHandler;
+	
+	«FOREACH entities AS e-»
+		«EXPAND handlerDeclaration FOR e-»
+	«ENDFOREACH-»	
+		
+	/**
+	 * Authenticate an account (login/password)
+	 * @param login user login
+	 * @param passwd user password
+	 * @return valid user (existing login/password)
+	 */	
+	public SynchronizableUser authenticate(String user, String password){		
+		return validateLogin(user, password);		
+	}
+	
+	/**
+	 * Validate an account (login/password)
+	 * @param login user login
+	 * @param passwd user password
+	 * @return valid user (existing login/password)
+	 */	
+	private SynchronizableUser validateLogin(String login, String passwd) {
+
+		logger.debug("Validating authentification for login : " + login);
+		
+		SynchronizableUser current = null;
+		
+		«FOREACH entities AS e»
+			«EXPAND loginValidation FOR e-»
+		«ENDFOREACH-»		
+
+		/* Default User */
+		current = validateForDefaultUser(login);
+		if (current != null && validatePasswd(current, passwd)) {
+			return current;
+		}
+		
+		return null;
+	}
+	
+
+	«FOREACH entities AS e»
+		«EXPAND validateForUser FOR e-»
+	«ENDFOREACH-»	
+	
+	
+	/**
+	 * 
+	 * @return the default user if it exist, null otherwise
+	 */
+	public DefaultUser validateForDefaultUser(String login) {
+		List<SynchronizableUser> actors = defaultUserHandler.getUserFromLogin(login);		
+		return (DefaultUser) validateActor(actors, login);
+	}
+	
+	/**
+	 * Checks that that the login entered belongs to one of
+	 * the actors
+	 * @param actors a list of actors
+	 * @param login the login to be validated
+	 * @return the SynchronizableUser to which the login belongs to, null otherwise
+	 */
+	private SynchronizableUser validateActor(List<SynchronizableUser> actors, String login) {
+		if (actors.size() > 1)
+			logger.error("Can't process authentification, several users use the same login !");
+		if (actors.size() == 1) {
+			SynchronizableUser actor = (SynchronizableUser) actors.get(0);
+			if (actor.getLogin().equals(login))
+				return actor;
+		}
+		return null;			
+	}
+	
+	
+	/**
+	 * Checks that the password entered belongs to the actor
+	 * @param actor an actor
+	 * @return true if the password is the one of the actor
+	 */
+	private boolean validatePasswd(SynchronizableUser actor, String passwd) {
+		if (actor.getPassword().equals(passwd))
+			return true;
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * Setter for bean injection
+	 * @param defaultUserHandler
+	 */
+	public void setDefaultUserHandler(DefaultUserHandler defaultUserHandler) {
+		this.defaultUserHandler = defaultUserHandler;
+	}
+
+	«FOREACH entities AS e»
+		«EXPAND setUserHandler FOR e-»
+	«ENDFOREACH-»	
+	
+	
+	
+	public List<String> getSynchronizable(String userId){
+		// TODO implement getSynchronizable method (no need for the moment because user stored in session)
+		return null;
+	}
+	public Object getRestriction(String userId, String entity){
+		// TODO implement getRestriction method (no need for the moment because restriction managed in handler)
+		return null;
+	}	
+		
+}
+
+
+«ENDFILE»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+
+«REM» User classes import «ENDREM»
+«DEFINE userImport(String packageName) FOR CardEntity-»«ENDDEFINE»
+«DEFINE userImport(String packageName) FOR Actor-»
+import «packageName.toLowerCase()».entity.«this.name»User;
+import «packageName.toLowerCase()».handler.«this.name»Handler;
+«ENDDEFINE»
+
+«REM» handler declaration «ENDREM»
+«DEFINE handlerDeclaration FOR CardEntity-»«ENDDEFINE»
+«DEFINE handlerDeclaration FOR Actor-»
+	private «this.name»Handler «this.name.toFirstLower()»Handler;
+«ENDDEFINE»
+
+«REM» login validation «ENDREM»
+«DEFINE loginValidation FOR CardEntity-»«ENDDEFINE»
+«DEFINE loginValidation FOR Actor-»
+		/* «this.name»User */
+		current = validateFor«this.name»(login);
+		if (current != null && validatePasswd(current, passwd)) {
+			return current;
+		}
+«ENDDEFINE»
+
+«REM» login validation «ENDREM»
+«DEFINE validateForUser FOR CardEntity-»«ENDDEFINE»
+«DEFINE validateForUser FOR Actor-»
+	/**
+	 * Validate login for «this.name»User
+	 * @return the «this.name»User if it exist, null otherwise
+	 */
+	public «this.name»User validateFor«this.name»(String login) {		
+		List<SynchronizableUser> actors = «this.name.toFirstLower()»Handler.getUserFromLogin(login);		
+		return («this.name»User) validateActor(actors, login);
+	}
+«ENDDEFINE»
+
+
+
+«REM» setter for handler «ENDREM»
+«DEFINE setUserHandler FOR CardEntity-»«ENDDEFINE»
+«DEFINE setUserHandler FOR Actor-»
+	/**
+	 * Setter for bean injection
+	 * @param «this.name.toFirstLower()»Handler
+	 */
+	public void set«this.name»Handler(«this.name»Handler «this.name.toFirstLower()»Handler) {
+		this.«this.name.toFirstLower()»Handler = «this.name.toFirstLower()»Handler;
+	}
+«ENDDEFINE»
+
+

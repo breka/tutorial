@@ -1,0 +1,334 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt»
+«EXTENSION template::CommonEntityUtilExt» 
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR CardEntity»
+«FILE packagePath.toLowerCase() + "/handler/" + name + "Handler.java"»
+package «packageName.toLowerCase()».handler;
+
+import java.util.Date;
+import java.util.List;
+
+import org.imogene.common.dao.EntityDao;
+import org.imogene.common.dao.criteria.BasicCriteria;
+import org.imogene.common.dao.criteria.CriteriaConstants;
+import org.imogene.common.dao.criteria.ImogConjunction;
+import org.imogene.common.dao.criteria.ImogCriterion;
+import org.imogene.common.dao.criteria.ImogDisjunction;
+import org.imogene.common.dao.criteria.ImogJunction;
+import org.imogene.common.data.handler.EntityHandlerImpl;
+import org.imogene.common.data.Synchronizable;
+import org.imogene.common.data.SynchronizableUser;
+import org.imogene.uao.security.ImogSecurityHandler;
+import «packageName.toLowerCase()».dao.«this.name»Dao;
+import «packageName.toLowerCase()».entity.«this.name»;
+import org.imogene.sync.SyncConstants;
+«IF clientFilterFields.size>0 || clientPeriodFilterable -»
+import org.imogene.sync.server.clientfilter.ClientFilterDao;
+import org.imogene.sync.server.clientfilter.ClientFilterUtil;
+import org.imogene.uao.clientfilter.ClientFilter;
+«ENDIF -»	
+
+«IF Actor.isAssignableFrom(this.metaType)-»
+import org.imogene.common.data.handler.UserHandler;
+import «packageName.toLowerCase()».entity.«this.name»User;
+«ELSE -»
+import org.imogene.common.data.handler.EntityHandler;
+import «packageName.toLowerCase()».entity.«this.name»;
+«ENDIF -»
+«EXPAND importEntityForFilterField(packageName) FOR this»
+«IF isTranslatableFieldPresent(this.groups.fields)-»
+import org.imogene.sync.localizedtext.LocalizedText;
+import org.imogene.common.dao.LocalizedTextDao;
+«ENDIF»	
+
+
+/**
+ * Implements a data handler for the «this.name» 
+ * @author Medes-IMPS
+ */
+public class «this.name»Handler extends EntityHandlerImpl implements «IF Actor.isAssignableFrom(this.metaType)-»UserHandler«ELSE -»EntityHandler«ENDIF -» {
+
+	private «this.name»Dao dao;
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	private LocalizedTextDao i18nDao;
+	«ENDIF»	
+	
+	«IF clientFilterFields.size>0 || clientPeriodFilterable -»
+	private ClientFilterDao clientFilterDao;
+	«ENDIF -»	
+	
+	
+	public Synchronizable createNewEntity(String id) {
+		//TODO handle  with not null constraint values
+		«IF Actor.isAssignableFrom(this.metaType)-»
+		«this.name»User entity = new «this.name»User();
+		«ELSE -»
+		«this.name» entity = new «this.name»();
+		«ENDIF -»				
+		entity.setId(id);
+		entity.setModified(new Date());
+		entity.setCreatedBy(SyncConstants.SYNC_ID_SYS);
+		entity.setModifiedBy(SyncConstants.SYNC_ID_SYS);
+		entity.setModifiedFrom(SyncConstants.SYNC_ID_SYS);
+		return entity;
+	}
+	
+	public void saveOrUpdate(Synchronizable entity, SynchronizableUser user) {		
+		«this.name» toSave = («this.name»)ImogSecurityHandler.getInstance().getPolicy().toHibernate(entity, user);
+		if (toSave!=null) {
+		«FOREACH this.groups.fields AS f-»
+			«EXPAND saveParent FOR f-»
+		«ENDFOREACH-»		
+			getDao().saveOrUpdate(toSave);	
+			«IF isTranslatableFieldPresent(this.groups.fields)-»
+			// save related LocalizedTexts
+			List<LocalizedText> texts = toSave.getLocalizedFieldMap().getI18nValues();
+			for (LocalizedText current : texts)
+				i18nDao.saveOrUpdate(current);
+			«ENDIF»		
+		}	
+	}
+	
+
+	public void merge(Synchronizable entity, SynchronizableUser user) {	
+		«this.name» toSave = («this.name»)ImogSecurityHandler.getInstance().getPolicy().toHibernate(entity, user);
+		if (toSave!=null) {
+		«FOREACH this.groups.fields AS f-»
+			«EXPAND saveParent FOR f-»
+		«ENDFOREACH-»		
+			getDao().merge(toSave);	
+			«IF isTranslatableFieldPresent(this.groups.fields)-»
+			// save related LocalizedTexts
+			List<LocalizedText> texts = toSave.getLocalizedFieldMap().getI18nValues();
+			for (LocalizedText current : texts)
+				i18nDao.saveOrUpdate(current);
+			«ENDIF»		
+		}
+	}	
+	
+	public void delete(Synchronizable entity, SynchronizableUser user) {
+		Synchronizable toHibernate = ImogSecurityHandler.getInstance().getPolicy().toHibernate(entity, user);
+		// TODO deletion of foreign keys references
+		if (toHibernate!=null)
+			getDao().delete(toHibernate);
+	}
+	
+	
+	protected ImogJunction createFilterJuntion(SynchronizableUser user) {
+		ImogConjunction filterConjunction = new ImogConjunction();
+		
+		«EXPAND handleFilterField(this.name) FOREACH this.actorFilterFields»
+
+		return filterConjunction;
+	}
+	
+	/**
+	 * Creates filtering criterias
+	 * @param userId the login of the user whose filters are searched
+	 * @param terminalId Id of the terminal for which filtering criterias are defined
+	 * @return Meedoo junction containing filtering criterias if the user
+	 * has created filtering criteria from the terminal whose id is passed as a parameter
+	 */	
+	protected ImogJunction createClientFilterJuntion(String userId, String terminalId) {
+	«IF clientFilterFields.size>0 || clientPeriodFilterable -»
+		/* for conditions between field types, it is an 'AND' */
+		ImogConjunction filterBetweenFieldTypes = new ImogConjunction();
+
+		List<ClientFilter> filters = getClientFilters(userId, terminalId);	
+		
+		if (filters!=null) {
+			for(ClientFilter filter:filters) {
+				
+				String fieldValue = filter.getFieldValue();	
+				String fieldType = filter.getEntityField();		
+				String operator = filter.getOperator();	
+				
+					/* application behavior is different if it is the first time the filter is read or not */
+					/* first time -> do not take into account the modification date, after -> take into account modification date */
+					if (filter.getIsNew()!=null && filter.getIsNew()) {
+						hasNewClientFilter = true;
+						filter.setIsNew(false);
+						clientFilterDao.saveOrUpdate(filter);
+					}				
+				
+				if (operator!=null && !operator.equals(CriteriaConstants.OPERATOR_UNDEF) && fieldValue!=null && !fieldValue.equals("")) {
+					
+					/* build filter depending on fields */
+					ImogCriterion criterion = null;
+					
+					«IF clientFilterFields.size>0 -»
+					«FOREACH clientFilterFields AS clfl ITERATOR iter-»
+						«IF iter.counter0==0 -»
+					if (fieldType.equals("«EXPAND template::CommonFieldUtil::propertyName FOR clfl-»")) {
+						«EXPAND handleClientFilterField FOR clfl -»
+					}
+						«ELSE -»
+					else if (fieldType.equals("«EXPAND template::CommonFieldUtil::propertyName FOR clfl-»")) {
+						«EXPAND handleClientFilterField FOR clfl -»
+					}						
+						«ENDIF -»
+					
+					«ENDFOREACH-»
+					«ENDIF -»
+					
+					«IF clientPeriodFilterable -»
+						«IF clientFilterFields.size==0 -»
+					if (fieldType.equals("created") || fieldType.equals("modified")) {
+						criterion = ClientFilterUtil.getDateCriterion(filter);									
+					}						
+						«ELSE -»
+					else if (fieldType.equals("created") || fieldType.equals("modified")) {
+						criterion = ClientFilterUtil.getDateCriterion(filter);									
+					}						
+						«ENDIF -»
+					«ENDIF -»	
+					
+					if (criterion!=null)
+						filterBetweenFieldTypes.add(criterion);
+				}
+			}	
+			return filterBetweenFieldTypes;
+		}
+		else
+			return null;
+	«ELSE -»
+		return null;	
+	«ENDIF -»		
+	}	
+	
+	«IF clientFilterFields.size>0 || clientPeriodFilterable -»
+	/**
+	 * Gets filtering criterias
+	 * @param userId the id of the user whose filters are searched
+	 * @param terminalId the id of the terminal for which filtering criterias are defined
+	 * @return a list of ClientFilters
+	 */
+	private List<ClientFilter> getClientFilters(String userId, String terminalId) {
+		List<ClientFilter> result = clientFilterDao.loadFilters(userId, terminalId, "«shortName»");
+		return result;
+	}	
+	«ENDIF -»
+	
+	«IF Actor.isAssignableFrom(this.metaType)-»
+	public List<SynchronizableUser> getUserFromLogin(String login) {
+		return dao.getUserFromLogin(login);
+	}
+	«ENDIF -»
+	
+	public List<Synchronizable> loadEntities(int startRow, int maxRows,	String sortProperty, boolean sortOrder, SynchronizableUser user) {
+		// not used in the context of the synchro server
+		return null;
+	}	
+	
+	
+	/**
+	 * Setter for bean injection
+	 * @param dao
+	 */
+	public void setDao(«this.name»Dao dao) {
+		this.dao = dao;
+	}
+	
+	public void setDao(EntityDao dao){
+		this.dao = («this.name»Dao)dao;
+	}	
+
+	public «this.name»Dao getDao() {
+		return dao;
+	}
+	
+	«IF clientFilterFields.size>0 || clientPeriodFilterable -»
+	public ClientFilterDao getClientFilterDao() {
+		return clientFilterDao;
+	}
+
+	public void setClientFilterDao(ClientFilterDao clientFilterDao) {
+		this.clientFilterDao = clientFilterDao;
+	}
+	«ENDIF -»	
+	
+	«IF isTranslatableFieldPresent(this.groups.fields)-»
+	public LocalizedTextDao getI18nDao() {
+		return i18nDao;
+	}
+
+	public void setI18nDao(LocalizedTextDao i18nDao) {
+		this.i18nDao = i18nDao;
+	}
+	«ENDIF-»		
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+
+
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE saveParent FOR FieldEntity-»«ENDDEFINE»
+«DEFINE saveParent FOR ReverseRelationFieldEntity -»
+	«IF (this.cardinality == 1 && this.oppositeRelationField!=null && this.oppositeRelationField.cardinality == 1)-»
+		«REM» Relation 1 <-> 1 «ENDREM»
+		if(toSave.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null){
+			toSave.«EXPAND template::CommonFieldUtil::getterName FOR this-»().«EXPAND template::CommonFieldUtil::setterName FOR this.oppositeRelationField-»(toSave);
+		}		
+	«ENDIF -»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+«REM» Import for filter field«ENDREM»
+«DEFINE importEntityForFilterField(String packageName) FOR CardEntity»
+	«FOREACH this.actorFilterFields AS actorField»
+	import «packageName.toLowerCase()».entity.«actorField.actorField.parentActor.name.toFirstUpper()»User;
+	import «packageName.toLowerCase()».entity.«actorField.entityField.entity.name.toFirstUpper()»;
+	«ENDFOREACH»
+«ENDDEFINE»
+
+«REM» Filter field handling «ENDREM»
+«DEFINE handleFilterField(String entityName) FOR ActorFilter -»
+		/* add filter field for user «actorField.parentActor.name.toFirstUpper()» */
+		if(user instanceof «actorField.parentActor.name.toFirstUpper()»User){	
+			ImogJunction «this.actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()» = new ImogDisjunction();
+			for(Object «this.entityField.entity.name.toFirstLower()»:((«this.actorField.parentActor.name.toFirstUpper()»User)user).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
+				BasicCriteria criteria = new BasicCriteria();
+				criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
+				criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");
+				criteria.setValue(((«this.entityField.entity.name.toFirstUpper()»)«this.entityField.entity.name.toFirstLower()»).getId());
+				«this.actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()».add(criteria);
+			}
+			filterConjunction.add(«this.actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()»);
+		}
+«ENDDEFINE»
+
+
+«REM» Client Filter field handling «ENDREM»
+«DEFINE handleClientFilterField FOR FieldEntity -»
+	criterion = ClientFilterUtil.getCriterion(filter);
+«ENDDEFINE»
+«DEFINE handleClientFilterField FOR DatesField -»
+	criterion = ClientFilterUtil.getDateCriterion(filter);
+«ENDDEFINE»
+«DEFINE handleClientFilterField FOR EnumField -»
+	criterion = ClientFilterUtil.getEnumerationCriterion(filter);
+«ENDDEFINE»
+«DEFINE handleClientFilterField FOR IntegerField -»
+	criterion = ClientFilterUtil.getIntegerCriterion(filter);
+«ENDDEFINE»
+«DEFINE handleClientFilterField FOR FloatField -»
+	criterion = ClientFilterUtil.getFloatCriterion(filter);
+«ENDDEFINE»
+«DEFINE handleClientFilterField FOR RelationFieldEntity -»
+	«IF (cardinality == 1 && getOppositeCardinality(this) ==1)-»	
+	«REM»Relation 1<->1 «ENDREM»	
+		«IF MainRelationFieldEntity.isAssignableFrom(this.metaType)-»
+		«REM»Foreign key only on the MainRelationField table«ENDREM»
+	criterion = ClientFilterUtil.getRelationCriterion(filter);
+		«ENDIF-»	
+	«ELSEIF cardinality == 1 -»
+	«REM»Relation 1<->N «ENDREM»		
+	criterion = ClientFilterUtil.getRelationCriterion(filter);
+	«ENDIF-»
+«ENDDEFINE»

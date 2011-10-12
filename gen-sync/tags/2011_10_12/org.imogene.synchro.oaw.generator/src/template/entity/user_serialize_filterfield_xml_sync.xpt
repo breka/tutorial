@@ -1,0 +1,68 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR Actor»
+	«EXPAND generateFile(packageName, packagePath, this) FOREACH ((Actor)this).filters-»
+«ENDDEFINE»	
+
+«DEFINE generateFile(String packageName, String packagePath, Actor actor) FOR FilterField»
+«FILE packagePath.toLowerCase() + "/serializer/xml/" + name.toFirstUpper() + parentActor.name.toFirstUpper() + "FilterFieldConverter.java"»
+package «packageName.toLowerCase()».serializer.xml;
+
+import java.util.Set;
+
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
+import «packageName.toLowerCase()».entity.«this.entity.name.toFirstUpper()»;
+
+/**
+ * XStream converter for the «this.parentActor.name.toFirstUpper()»User «EXPAND template::CommonFieldUtil::propertyName FOR this-» property.
+ * @author Medes-IMPS
+ */
+public class «this.name.toFirstUpper()»«this.parentActor.name.toFirstUpper()»FilterFieldConverter implements Converter  {
+		
+	
+	/*
+	 * (non-Javadoc)
+	 * @see Converter#marshal(Object, HierarchicalStreamWriter, MarshallingContext)
+	 */
+	@SuppressWarnings("unchecked")
+	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {		
+		
+		for(«this.entity.name.toFirstUpper()» filterValue:(Set<«this.entity.name.toFirstUpper()»>)value){	
+			writer.startNode(«this.entity.name.toFirstUpper()».class.getName());
+			writer.addAttribute("id", filterValue.getId());			
+			writer.endNode();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see Converter#unmarshal(HierarchicalStreamReader, UnmarshallingContext)
+	 */
+	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {	
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ConverterMatcher#canConvert(java.lang.Class)
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean canConvert(Class toConvert) {		
+		return true;
+	}
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR CardEntity»
+«ENDDEFINE»
+
+
+
+
