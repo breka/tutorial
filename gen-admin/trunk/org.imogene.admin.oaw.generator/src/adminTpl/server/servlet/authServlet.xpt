@@ -195,7 +195,7 @@ public class «projectName.toFirstUpper()»AuthServlet extends PersistentRemoteSer
 «REM» Imports for actor «ENDREM»
 «DEFINE importForActor(String projectName) FOR CardEntity -»«ENDDEFINE»
 «DEFINE importForActor(String projectName) FOR Actor -»
-import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
 import org.imogene.«projectName.toLowerCase()».server.dao.«name.toFirstUpper()»Dao;
 «ENDDEFINE»
 
@@ -218,7 +218,7 @@ private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;
 			if(containsRole(ADMIN_ROLE_ID, current.getRoles())){
 				setSessionParameter(current);			
 				current.setLastLoginDate(new Date());
-				«name.toFirstLower()»Dao.saveOrUpdateShadow((«name.toFirstUpper()»Actor)current, false);			
+				«name.toFirstLower()»Dao.saveOrUpdateShadow((«name.toFirstUpper()»)current, false);			
 				return current;
 			}
 		}
@@ -231,8 +231,8 @@ private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;
 	 * Validates the authentication for the «name.toFirstUpper()»Actor.
 	 * @return the «name.toFirstUpper()»Actor if it exist, null otherwise
 	 */
-	private «name.toFirstUpper()»Actor validateFor«name.toFirstUpper()»(String login){
-		List<«name.toFirstUpper()»Actor> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
+	private «name.toFirstUpper()» validateFor«name.toFirstUpper()»(String login){
+		List<«name.toFirstUpper()»> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
 		if(actors.size()>1)
 			System.out.println("Can't process authentification, several users use the same login ! ");
 		if(actors.size() == 1){			
