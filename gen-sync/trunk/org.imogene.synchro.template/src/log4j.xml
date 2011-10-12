@@ -32,4 +32,9 @@
     	<appender-ref ref="file" /> 
   	</root>
   	
+  	<logger name="org.hibernate.tool.hbm2ddl">
+    	<level value="INFO"/>    	
+    	<appender-ref ref="file"/>
+ 	</logger>  
+  	
 </log4j:configuration>

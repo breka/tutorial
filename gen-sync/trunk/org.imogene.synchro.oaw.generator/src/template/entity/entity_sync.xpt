@@ -7,22 +7,38 @@
 package «packageName.toLowerCase()».entity;
 
 import java.util.Date;
+«IF Actor.isAssignableFrom(this.metaType)-»
+import java.util.HashSet;
+import java.util.Set;
+«ENDIF-»
 
 «EXPAND template::SyncFieldUtil::generateImportsForFields FOR this-»
+
+«IF !Actor.isAssignableFrom(this.metaType)-»
 import org.imogene.common.data.Synchronizable;
+«ELSE-»
+import org.imogene.common.data.SynchronizableUser;
+import org.imogene.uao.role.Role;
+import org.imogene.uao.synchronizable.SynchronizableEntity;
+«ENDIF-»
+
 «IF this.georeferenced!=null -»
 import org.imogene.common.data.IsGeoreferenced;
-«ENDIF»
+«ENDIF-»
 «IF isTypePresent(this.groups.fields, "GeoField") -»
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.imogene.common.data.GeoField;
-«ENDIF»
+«ENDIF-»
 
 /**
  * «this.name» Bean Implementation
  * @author Medes-IMPS
  */
+«IF !Actor.isAssignableFrom(this.metaType)-»
 public class «this.name.toFirstUpper()» implements Synchronizable «IF this.georeferenced!=null», IsGeoreferenced«ENDIF»{
+«ELSE-»
+public class «this.name.toFirstUpper()» implements SynchronizableUser «IF this.georeferenced!=null», IsGeoreferenced«ENDIF»{
+«ENDIF-»
 
 	/* Synchronizable properties */
 	private String id;	
@@ -32,6 +48,14 @@ public class «this.name.toFirstUpper()» implements Synchronizable «IF this.geore
 	private String modifiedFrom;
 	private Date created;
 	private String createdBy;
+	
+	«IF Actor.isAssignableFrom(this.metaType)-»	
+	/* SynchronizableUser properties */
+	private String login;
+	private String password;
+	private Set<Role> assignedRoles = new HashSet<Role>();
+	private Set<SynchronizableEntity> assignedSynchronizables = new HashSet<SynchronizableEntity>();
+	«ENDIF-»	
 	
 	/* Entity properties */
 	«FOREACH groups AS g-»
@@ -181,7 +205,7 @@ public class «this.name.toFirstUpper()» implements Synchronizable «IF this.geore
 	}	
 	
 	
-	/* other getters and setters */
+	/* Other getters and setters */
 	
 	public void setEntity(«this.name» entity) {
 		this.setId(entity.getId());
@@ -200,7 +224,56 @@ public class «this.name.toFirstUpper()» implements Synchronizable «IF this.geore
 			«EXPAND getDisplay FOR mainfield-»
 		«ENDFOREACH-»
 		return displayValue.toString().trim();
+	}
+	
+	«IF Actor.isAssignableFrom(this.metaType)-»	
+	/* Getters and Setters for Actor fields */
+	
+	public String getLogin() {
+		return login;
+	}
+	
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}	
+	
+	public Set<Role> getRoles() {
+		return assignedRoles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.assignedRoles = roles;
+	}
+	
+	public void addRole(Role role) {
+		this.assignedRoles.add(role);
+	}
+	
+	public Set<SynchronizableEntity> getSynchronizables() {
+		return assignedSynchronizables;
+	}
+
+	public void setSynchronizables(Set<SynchronizableEntity> synchronizables) {
+		this.assignedSynchronizables = synchronizables;
+	}	
+	
+	public void addSynchronizable(SynchronizableEntity synchronizable) {
+		assignedSynchronizables.add(synchronizable);
+	}
+	
+	
+	/* Filter fields management */ 
+	
+	«EXPAND filterField FOREACH ((Actor)this).filters»
+	«ENDIF-»
 		
 }
 «ENDFILE»
@@ -335,4 +408,36 @@ public class «this.name.toFirstUpper()» implements Synchronizable «IF this.geore
 	@XStreamOmitField
 	private «EXPAND template::SyncFieldUtil::fieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
 	private GeoField «EXPAND template::CommonFieldUtil::propertyName FOR this» = new GeoField();
+«ENDDEFINE»
+
+
+«REM» Create variable, getter and setter for the filter fields «ENDREM»
+«DEFINE filterField FOR FilterField»
+
+	/** 
+	 * Filter fields for the «this.entity.name» entity 
+	 */		
+	private Set<«this.entity.name»> «EXPAND template::CommonFieldUtil::propertyName FOR this» = new HashSet<«this.entity.name»>();
+	
+	/**
+	 * Set the list of allowed «this.entity.name»s for card access.
+	 */
+	public void «EXPAND template::CommonFieldUtil::setterName FOR this»(Set<«this.entity.name»> filterFields){
+		«EXPAND template::CommonFieldUtil::propertyName FOR this» = filterFields;
+	}
+	
+	/**
+	 * Get the list of allowed «this.entity.name»s for card access.
+	 * @return a list of «this.entity.name»s 
+	 */
+	public Set<«this.entity.name»> «EXPAND template::CommonFieldUtil::getterName FOR this»(){
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this»;
+	} 
+	
+	/**
+	 * Add a «this.entity.name» to list of allowed «this.entity.name»s for card access.
+	 */
+	public void add«name.toFirstUpper()-»FilterField(«this.entity.name» synchronizable) {
+		«EXPAND template::CommonFieldUtil::propertyName FOR this».add(synchronizable);
+	}
 «ENDDEFINE»

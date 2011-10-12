@@ -50,7 +50,6 @@
 			<list>		
 				<value>org/imogene/sync/server/metadata/ImogMetadata.hbm.xml</value>
 				<value>org/imogene/uao/role/Role.hbm.xml</value>
-				<value>org/imogene/uao/defaultuser/DefaultUser.hbm.xml</value>	
 				<value>org/imogene/uao/synchronizable/SynchronizableEntity.hbm.xml</value>	
 				<value>org/imogene/sync/server/history/SyncHistory.hbm.xml</value>	
 				<value>org/imogene/sync/server/session/SyncSession.hbm.xml</value>
@@ -58,8 +57,11 @@
 				<value>org/imogene/uao/clientfilter/ClientFilter.hbm.xml</value>	
 				<value>org/imogene/sync/server/localizedtext/LocalizedText.hbm.xml</value>					  
 	            «FOREACH entities AS e -»
+					«IF !Actor.isAssignableFrom(e.metaType)-»
 	            <value>«packagePath.toLowerCase()»/entity/«e.name».hbm.xml</value>
+					«ENDIF -»	
 	            «ENDFOREACH-»
+	            <value>«packagePath.toLowerCase()»/entity/AllActors.hbm.xml</value>
             </list>
 		</property>
 		<property name="hibernateProperties">

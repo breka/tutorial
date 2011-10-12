@@ -20,9 +20,6 @@ import org.imogene.uao.role.Role;
 import org.imogene.uao.security.ImogSecurityPolicy;
 «FOREACH entities AS e-»
 import «packageName.toLowerCase()».entity.«e.name»;
-«IF Actor.isAssignableFrom(e.metaType)-»
-import «packageName.toLowerCase()».entity.«e.name»User;
-«ENDIF-»
 «ENDFOREACH-»
 
 
@@ -74,14 +71,8 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 	public Synchronizable toSecure(Synchronizable bean, SynchronizableUser actor) {
 
 		«FOREACH entities AS e»
-		«IF Actor.isAssignableFrom(e.metaType)-»
-		if (bean instanceof «e.name»User)
-			return toSecure«e.name»User((«e.name»User) bean, getRoleNames(actor));			
-		«ELSE-»
 		if (bean instanceof «e.name»)
 			return toSecure«e.name»((«e.name») bean, getRoleNames(actor));			
-		«ENDIF-»
-
 		«ENDFOREACH»
 
 		return null;
@@ -109,16 +100,13 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 	 * @return A secured «e.name» bean
 	 */
 		«IF Actor.isAssignableFrom(e.metaType)-»
-	private SynchronizableUser toSecure«e.name»User(«e.name»User bean, Set<String> roleNames) {
-
-		boolean isSecured = false;
-		«e.name»User transformedBean = new «e.name»User();				
+	private SynchronizableUser toSecure«e.name»(«e.name» bean, Set<String> roleNames) {
 		«ELSE-»
 	private Synchronizable toSecure«e.name»(«e.name» bean, Set<String> roleNames) {
+		«ENDIF-»	
 
 		boolean isSecured = false;
-		«e.name» transformedBean = new «e.name»();		
-		«ENDIF-»	 
+		«e.name» transformedBean = new «e.name»();		 
 
 		/* unsecured data */
 		transformedBean.setId(bean.getId());
@@ -178,11 +166,7 @@ public class ImogDefaultPolicy implements ImogSecurityPolicy {
 		«e.name» transformedBean = («e.name») dao.getBean(«e.name».class, bean.getId());
 
 		if (transformedBean == null) {
-			«IF Actor.isAssignableFrom(e.metaType)-»
-			transformedBean = new «e.name»User();
-			«ELSE-»
 			transformedBean = new «e.name»();
-			«ENDIF-»
 			transformedBean.setId(bean.getId());
 		}
 		transformedBean.setModifiedBy(bean.getModifiedBy());
