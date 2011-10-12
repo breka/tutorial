@@ -57,20 +57,11 @@ public class «projectName»InitialSqlInsert {
 				
 				try{
 					// Default user 'admin'
-					NbIns = s.executeUpdate("insert into DefaultUser (User_ID,User_Login,User_Password) values('admin','admin','«password»')");
+					NbIns = s.executeUpdate("insert into DefaultUser (Actor_ID, Login, Password) values('admin','admin','«password»')");
 					log.log(Level.INFO, NbIns + " row inserted for defaultUser 'admin'");
 				}catch(SQLException ex1){
 					log.log(Level.SEVERE, "SQL exception while processing the default user 'admin'.", ex1);
 				}
-				«REM»
-				try{
-					// Default role 'web' for web consultation
-					NbIns = s.executeUpdate("insert into Role (Role_ID, Role_Name) values('web','web')");
-					log.log(Level.INFO, NbIns + " row inserted for role 'web'");
-				}catch(SQLException ex2){
-					log.log(Level.SEVERE, "SQL exception while processing the default role 'web'.", ex2);
-				}
-				«ENDREM»
 				
 				try{
 					// Default role 'administrator' for user administration
@@ -95,20 +86,10 @@ public class «projectName»InitialSqlInsert {
 				}catch(SQLException ex3){
 					log.log(Level.SEVERE, "SQL exception while processing the default role 'export'.", ex3);
 				}			
-
-				«REM»
-				try{
-					// Affectation of role 'web' to DefaultUser 'admin'
-					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('web','admin')");
-					log.log(Level.INFO, NbIns + " row inserted into roles for role 'web' affected to 'admin'");	
-				}catch(SQLException ex4){
-					log.log(Level.SEVERE, "SQL exception while affecting the role 'web' to DefaultUser 'admin'.", ex4);
-				}
-				«ENDREM»
 				
 				try{
 					// Affectation of role 'administrator' to DefaultUser 'admin'
-					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('administrator','admin')");
+					NbIns = s.executeUpdate("insert into Roles (Role_ID, Actor_ID) values('administrator','admin')");
 					log.log(Level.INFO, NbIns + " row inserted into roles for role 'administrator' affected to 'admin'");
 				}catch(SQLException ex5){
 					log.log(Level.SEVERE, "SQL exception while affecting the role 'administrator' to DefaultUser 'admin'.", ex5);
@@ -116,7 +97,7 @@ public class «projectName»InitialSqlInsert {
 				
 				try{
 					// Affectation of role 'delete' to DefaultUser 'admin'
-					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('delete','admin')");
+					NbIns = s.executeUpdate("insert into Roles (Role_ID, Actor_ID) values('delete','admin')");
 					log.log(Level.INFO, NbIns + " row inserted into roles for role 'delete' affected to 'admin'");
 				}catch(SQLException ex5){
 					log.log(Level.SEVERE, "SQL exception while affecting the role 'delete' to DefaultUser 'admin'.", ex5);
@@ -124,7 +105,7 @@ public class «projectName»InitialSqlInsert {
 				
 				try{
 					// Affectation of role 'export' to DefaultUser 'admin'
-					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('export','admin')");
+					NbIns = s.executeUpdate("insert into Roles (Role_ID, Actor_ID) values('export','admin')");
 					log.log(Level.INFO, NbIns + " row inserted into roles for role 'export' affected to 'admin'");
 				}catch(SQLException ex5){
 					log.log(Level.SEVERE, "SQL exception while affecting the role 'export' to DefaultUser 'admin'.", ex5);
@@ -141,7 +122,7 @@ public class «projectName»InitialSqlInsert {
 				
 				try{
 					// Affectation of role '«r.name»' to DefaultUser 'admin'
-					NbIns = s.executeUpdate("insert into Roles (Role_ID, User_ID) values('«r.name»','admin')");
+					NbIns = s.executeUpdate("insert into Roles (Role_ID, Actor_ID) values('«r.name»','admin')");
 					log.log(Level.INFO, NbIns + " row inserted into roles for role '«r.name»' affected to 'admin'");	
 				}catch(SQLException «r.name.toFirstLower()»Affect){
 					log.log(Level.SEVERE, "SQL exception while affecting the role '«r.name»' to 'admin'.", «r.name.toFirstLower()»Affect);
@@ -151,7 +132,7 @@ public class «projectName»InitialSqlInsert {
 				«FOREACH this.entities AS e -»
 				try{
 					// Entity '«e.name»'
-					NbIns = s.executeUpdate("insert into sync_entity (synchronizableentity_id, synchronizableentity_name) values ('«e.shortName»','«packageName.toLowerCase()».entity.«e.name»')");
+					NbIns = s.executeUpdate("insert into sync_entity (SyncEntity_Id, SyncEntity_Name) values ('«e.shortName»','«packageName.toLowerCase()».entity.«e.name»')");
 					log.log(Level.INFO, NbIns + " row inserted for entity '«e.name»'");
 				}catch(SQLException «e.name.toFirstLower()»){
 					log.log(Level.SEVERE, "SQL exception while inserting the entity '«e.name»' into sync_entity.",«e.name.toFirstLower()» );
@@ -161,7 +142,7 @@ public class «projectName»InitialSqlInsert {
 				«FOREACH this.entities AS e -»
 				try {
 					// Entity '«e.name»' is synchronizable for default user
-					NbIns = s.executeUpdate("insert into user_synchronizables (user_id, synchronizable_id) values ('admin','«e.shortName»')");
+					NbIns = s.executeUpdate("insert into sync_entities (actor_id, synchronizable_id) values ('admin','«e.shortName»')");
 					log.log(Level.INFO, NbIns + " row inserted for entity '«e.name»'");
 				} catch (SQLException «e.name.toFirstLower()») {
 					log.log(Level.SEVERE, "SQL exception while affecting the synchronizable entity '«e.name»' to the default user", «e.name.toFirstLower()»);
@@ -170,7 +151,7 @@ public class «projectName»InitialSqlInsert {
 				
 				try{
 					// Entity 'BinaryFile'
-					NbIns = s.executeUpdate("insert into sync_entity (synchronizableentity_id, synchronizableentity_name) values('BIN','org.imogene.sync.server.binary.file.BinaryFile')");
+					NbIns = s.executeUpdate("insert into sync_entity (SyncEntity_Id, SyncEntity_Name) values('BIN','org.imogene.sync.server.binary.file.BinaryFile')");
 					log.log(Level.INFO, NbIns + " row inserted for entity 'BinaryFile'");
 				}catch(SQLException e){
 					log.log(Level.SEVERE, "SQL exception while affecting the synchronizable entity 'BinaryFile' to the default user", e);
@@ -178,7 +159,7 @@ public class «projectName»InitialSqlInsert {
 				
 				try {
 					// Entity 'BinaryFile' is synchronizable for default user
-					NbIns = s.executeUpdate("insert into user_synchronizables (user_id, synchronizable_id) values ('admin','BIN')");
+					NbIns = s.executeUpdate("insert into sync_entities (actor_id, synchronizable_id) values ('admin','BIN')");
 					log.log(Level.INFO, NbIns + " row inserted for entity 'user'");
 				} catch (SQLException e) {
 					log.log(Level.SEVERE, "SQL exception while affecting the synchronizable entity 'BinaryFile' to the default user", e);
