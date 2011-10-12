@@ -1,0 +1,244 @@
+«IMPORT core»
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR Project»
+«FILE projectName.toLowerCase()+"/server/servlet/"+projectName.toFirstUpper() + "AuthServlet.java"»
+package org.imogene.«projectName.toLowerCase()».server.servlet;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import net.sf.gilead.core.PersistentBeanManager;
+import net.sf.gilead.gwt.PersistentRemoteService;
+
+import org.imogene.web.gwt.common.entity.DefaultActor;
+import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.web.gwt.common.entity.ImogRole;
+import org.imogene.web.gwt.common.entity.SessionInfo;
+import org.imogene.web.gwt.remote.AuthenticationService;
+import org.imogene.web.server.ServerConstants;
+import org.imogene.web.server.dao.GenericDao;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+«FOREACH entities AS e -»
+  «EXPAND importForActor(projectName) FOR e -»
+«ENDFOREACH -»	
+	
+
+/**
+ * Authentication service
+ * @author Medes-IMPS
+ */
+public class «projectName.toFirstUpper()»AuthServlet extends PersistentRemoteService implements AuthenticationService {
+
+	/** serial version */
+	private static final long serialVersionUID = -8984271981044996291L;	
+	private static final String ADMIN_ROLE_ID = "administrator";
+	
+	private GenericDao genericDao;
+	«FOREACH entities AS e-»
+		«EXPAND declarForDao FOR e -»
+	«ENDFOREACH-»	
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
+		setBeanManager((PersistentBeanManager)wac.getBean("beanManager"));
+		genericDao = (GenericDao)wac.getBean("genericDao");
+		«FOREACH entities AS e -»
+  		  «EXPAND actorDao FOR e -»
+		«ENDFOREACH -»
+	}	
+	
+	/**
+	 * Disconnects the current user
+	 */
+	 public void disconnect(){
+	 	getThreadLocalRequest().getSession().invalidate();
+	 }
+	
+	/**
+	 * Authenticates the user
+	 * @param login the user login
+	 * @param password the user password
+	 * @return the default user
+	 */
+	public ImogActor validateLogin(String login, String password){
+
+		ImogActor current = null;	
+		«FOREACH entities AS e»
+			«EXPAND loginValidation FOR e-»
+		«ENDFOREACH-»
+		current = validateForDefaultUser(login);
+		if(current != null && validatePasswd(current, password)){
+			if(containsRole(ADMIN_ROLE_ID, current.getRoles())){
+				setSessionParameter(current);					
+				current.setLastLoginDate(new Date());
+				genericDao.saveOrUpdate(current);								
+				return current;
+			}
+		}				
+		return null;	
+	}
+	
+	«EXPAND loginValidationMethod FOREACH this.entities -»
+	
+	
+	/**
+	 * Validates the authentication for the default user.
+	 * @return the default user if it exist, null otherwise
+	 */
+	 @SuppressWarnings("unchecked")
+	private DefaultActor validateForDefaultUser(String login){
+		List<DefaultActor> actors = (List<DefaultActor>)genericDao.listBeans(DefaultActor.class);
+		if(actors.size()>1){
+			for(ImogActor it : actors){				
+				if(it.getLogin().equals(login))
+					return (DefaultActor)it;
+			}					
+		}
+		if(actors.size() == 1){			
+			if (actors.get(0).getLogin().equals(login))
+				return actors.get(0);		
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * Tests if the password matches the entered one
+	 * @param actor the imogene actor
+	 * @param passwd the password entered by the user
+	 * @return true if the password matches
+	 */
+	private boolean validatePasswd(ImogActor actor, String passwd){
+		if(actor.getPassword().equals(passwd))
+			return true;
+		return false;
+	}
+	
+	/**
+	 * Validates an existing session
+	 * @param sessionId the session id
+	 * @return The associated ImogActor or null if the session is not validated
+	 */	
+	public ImogActor validateSession(String sessionId) {
+		
+		HttpSession session = getThreadLocalRequest().getSession();
+
+		if (sessionId.equals(session.getId())) {
+			ImogActor actor = (ImogActor) session.getAttribute(ServerConstants.SESSION_USER);
+			return actor;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Gets the server session id.
+	 * @return the server session id.
+	 */	
+	public String getSessionId(){
+		return getThreadLocalRequest().getSession().getId();
+	}	
+	
+	
+	/**
+	 * Sets the current session parameters.
+	 * @param actor the current actor
+	 */
+	private void setSessionParameter(ImogActor actor){
+	
+		HttpServletRequest request = getThreadLocalRequest();
+		HttpSession session = request.getSession();
+		
+		/* store in current server session current user */
+		session.setAttribute(ServerConstants.SESSION_USER, actor);
+
+		/* store in current server session actor last login date */
+		session.setAttribute(ServerConstants.SESSION_LAST_LOGIN, actor.getLastLoginDate());
+
+		/* store in current server session current actor ID */
+		session.setAttribute(ServerConstants.SESSION_USER_ID,actor.getId());
+	}
+	
+	/**
+	 * Gets the current user information from session
+	 */
+	public SessionInfo currentUser() {
+		HttpServletRequest request = getThreadLocalRequest();
+		HttpSession session = request.getSession();		
+		ImogActor user = (ImogActor)session.getAttribute(ServerConstants.SESSION_USER);
+		return new SessionInfo(session.getId(),user);
+	}
+	
+	/*
+	 * Test if the set contains the specified role
+	 */
+	private boolean containsRole(String roleId, Collection<ImogRole> roles){
+		for(ImogRole r: roles){
+			if(r.getId().equals(roleId))
+				return true;
+		}
+		return false;
+	}
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM» Imports for actor «ENDREM»
+«DEFINE importForActor(String projectName) FOR CardEntity -»«ENDDEFINE»
+«DEFINE importForActor(String projectName) FOR Actor -»
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;
+import org.imogene.«projectName.toLowerCase()».server.dao.«name.toFirstUpper()»Dao;
+«ENDDEFINE»
+
+«DEFINE declarForDao FOR CardEntity -»«ENDDEFINE»
+«DEFINE declarForDao FOR Actor -»
+private «name.toFirstUpper()»Dao «name.toFirstLower()»Dao;
+«ENDDEFINE»
+
+«REM» Set actor dao «ENDREM»
+«DEFINE actorDao FOR CardEntity -»«ENDDEFINE»
+«DEFINE actorDao FOR Actor -»
+«name.toFirstLower()»Dao = («name.toFirstUpper()»Dao) wac.getBean("«name.toFirstLower()»Dao");
+«ENDDEFINE»
+
+«REM» Login validation for actor «ENDREM»
+«DEFINE loginValidation FOR CardEntity -»«ENDDEFINE»
+«DEFINE loginValidation FOR Actor -»
+	    current = validateFor«name.toFirstUpper()»(login);
+		if(current != null && validatePasswd(current, password)){
+			if(containsRole(ADMIN_ROLE_ID, current.getRoles())){
+				setSessionParameter(current);			
+				current.setLastLoginDate(new Date());
+				«name.toFirstLower()»Dao.saveOrUpdateShadow((«name.toFirstUpper()»Actor)current, false);			
+				return current;
+			}
+		}
+«ENDDEFINE»
+
+«REM» Login validation method for Actor«ENDREM»
+«DEFINE loginValidationMethod FOR CardEntity»«ENDDEFINE»
+«DEFINE loginValidationMethod FOR Actor»
+	/**
+	 * Validates the authentication for the «name.toFirstUpper()»Actor.
+	 * @return the «name.toFirstUpper()»Actor if it exist, null otherwise
+	 */
+	private «name.toFirstUpper()»Actor validateFor«name.toFirstUpper()»(String login){
+		List<«name.toFirstUpper()»Actor> actors = «name.toFirstLower()»Dao.get«name.toFirstUpper()»ActorFromLogin(login);
+		if(actors.size()>1)
+			System.out.println("Can't process authentification, several users use the same login ! ");
+		if(actors.size() == 1){			
+			if (actors.get(0).getLogin().equals(login))
+				return actors.get(0);					
+		}
+		return null;
+	}
+«ENDDEFINE»
