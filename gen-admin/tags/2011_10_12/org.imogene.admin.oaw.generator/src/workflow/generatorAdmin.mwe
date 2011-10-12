@@ -1,0 +1,427 @@
+<workflow>
+	<!-- property definition -->
+	<property name="modelName" value="model" />
+	<property name="projectName" value="${modelName}" />
+	<property name="modelFullPath" value="model.imog" />	
+	<property name="imogeneMetaModel" value="metamodel/ImogeneModel.ecore"/>
+	<property name="model" value="${modelFullPath}" />
+	<property name="home-gen" value="../WebModel" />
+	<property name="packageName" value="org.imogene"  />
+	<property name="packagePath" value="org/imogene" />	
+	<property name="gkey" value="NO_KEY"/>
+	<property name="gmaps" value="false"/>
+	<property name="JDBCDRIVER" value="driver"/>
+	<property name="JDBCPATH" value="path"/>
+	<property name="JDBCLOGIN" value="login"/>
+	<property name="JDBCPASSWORD" value="password"/>
+	<property name="HIBERNATEDIALECT" value="dialect"/>
+
+	<!-- model reader -->
+	<component file="workflow/modelReader.mwe" inheritAll="true" />
+	
+	<!-- Images generation -->
+	<component class="org.imogene.oaw.generator.admin.RoundCornerGen">
+		<metaModel    class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<modelPath    value="${model}" />
+		<projectName  value="${modelName}" />
+		<genPath      value="${home-gen}/src/${packagePath}" />	
+	</component>
+	
+	
+	<!-- eclipse project file -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::dot_project::generate("${javaProjectName}", "${modelName}") FOR project' />
+		<genPath value="${home-gen}" />		
+	</component>
+	
+	<!--                  -->
+	<!-- Web content file -->
+	<!--                  -->
+	<!-- HTML index file -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::webcontent::projectIndex_html::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war" />		
+	</component>
+	
+	<!-- css file -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::webcontent::project_css::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war" />		
+	</component>
+	
+	<!-- web.xml file -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::webcontent::web_xml::generate("${projectName}","${modelName}") FOR project' />
+		<genPath value="${home-gen}/war/WEB-INF/" />	
+		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />	
+	</component>
+	
+	<!-- JSP login file -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::webcontent::jsp::login_jsp::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war/jsp" />		
+	</component>
+	
+	<!-- JSP wrong login file -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::webcontent::jsp::wrong_login_jsp::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war/jsp" />		
+	</component>
+	
+	<!-- JSP login expired file -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::webcontent::jsp::login_expired_jsp::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war/jsp" />		
+	</component>
+		
+	<!--                               -->
+	<!-- GWT relevant file generations -->
+	<!--                               -->
+	
+	<!-- project.gwt.xml -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::module_xml::generate("${packageName}","${modelName}", "${projectName}","${navigators}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
+	</component>
+	
+	<!-- GWT entry point  -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::entryPoint::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT token handler  -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::tokenHandler::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT Top Banner Panel -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::topBannerPanel::generate("${packageName}","${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT display value util  -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::entity::mainFieldsUtil::generate("${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT Entity list composite  -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::entity::actorListComposite::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT Entity list composite  -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::entity::actorDataProvider::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>	
+		
+	<!-- GWT Entity form composite  -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::entity::actorFormComposite::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT Entity form composite  -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::entity::entitySelectionBox::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- Short names and classe names association helper -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::entity::shortNames::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT Entity bean -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::entity::entity::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT Actor  -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::entity::actor::generate("${modelName}") FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT Entity service  -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::remote::entityService::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT Entity service asynchronous -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::remote::entityServiceAsync::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- GWT Entity service facade -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::remote::entityServiceFacade::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!--                                    -->
+	<!-- DAO interfaces and implementations -->
+	<!-- 									-->
+	
+	<!-- DAO interface -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::dao::entityDao::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />		
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- DAO hibernate implementation -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::dao::entityDaoHibernate::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- DAO hibernate mappings -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::dao::hibernateMapping::generate("${packageName}", "${modelName}") FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
+	</component>
+	
+	<!-- DAO for role and actors -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::dao::roleActorDao::generate("${packageName}", "${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />		
+	</component>
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::dao::roleActorDaoHibernate::generate("${packageName}", "${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />		
+	</component>
+	
+	<!--                      -->
+	<!-- Server configuration -->
+	<!--                      -->
+	
+	<!-- spring application context -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::applicationContext_xml::generate("${modelName}") FOR project' />
+		<genPath value="${home-gen}/war/WEB-INF/" />
+		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
+	</component>
+	
+	<!-- spring aop context -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::aopContext_xml::generate("${modelName}") FOR project' />
+		<genPath value="${home-gen}/war/WEB-INF/" />
+		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
+	</component>
+	
+	<!-- spring security context -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::securityContext_xml::generate("${projectName}") FOR project' />
+		<genPath value="${home-gen}/war/WEB-INF/" />
+		<beautifier class="org.eclipse.xpand2.output.XmlBeautifier" />
+	</component>
+	
+	<!-- application properties -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::application_properties::generate("${modelName}","${JDBCDRIVER}","${JDBCPATH}","${JDBCLOGIN}","${JDBCPASSWORD}", "${HIBERNATEDIALECT}","${SMSSERVER}") FOR project' />
+		<genPath value="${home-gen}/war/WEB-INF/" />
+	</component>
+	
+	<!--		  -->
+	<!-- Servlets -->
+	<!--		  -->
+	
+	<!-- Authentication servlet -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::servlet::authServlet::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- Encryption servlet -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::servlet::encryptionServlet::generate("${packageName}","${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- Download binary servlet -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::servlet::downloadServlet::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- Upload binary servlet -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::servlet::uploadServlet::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- entity servlet -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::servlet::entityServlet::generate("${packageName}","${modelName}", ${gmaps}) FOREACH project.entities' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- notification servlet -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::servlet::notifServlet::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- synchronizable servlet -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::servlet::syncServlet::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- RoleActor servlet -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::servlet::roleActorServlet::generate("${packageName}","${modelName}", ${gmaps}) FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<!-- ImogSecurityDetail Service -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::server::security::ImogSecurityDetailService::generate("${packageName}","${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>	
+	
+	<!--                -->
+	<!--  i18n files    -->
+	<!--                -->
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::i18n::NLS::generate("${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<component class="org.eclipse.xpand2.Generator" id="javaGenerator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::i18n::projectTranslation::generate("${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+	
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='adminTpl::i18n::projectTranslation_properties::generate("${modelName}") FOR project' />
+		<genPath value="${home-gen}/src/${packagePath}" />				
+	</component>
+		
+</workflow>

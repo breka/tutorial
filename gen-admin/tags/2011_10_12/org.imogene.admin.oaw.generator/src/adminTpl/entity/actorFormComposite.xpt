@@ -1,0 +1,1077 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+«EXTENSION template::CommonEntityUtilExt» 
+
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»«ENDDEFINE»
+
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR Actor»
+«FILE projectName.toLowerCase()+ "/client/entity/" + this.name.toFirstUpper() + "FormComposite.java"»
+		«EXPAND getFile(packageName, projectName, gmaps, getAdministrationFields(this)) FOR this»
+«ENDFILE»
+«ENDDEFINE»
+
+«REM» --------------------------------------------------------------------------- «ENDREM»
+«REM» ---------------------- GET FILE CONTENT ----------------------------------- «ENDREM»
+«REM» ---------------------------------------------------------------------------- «ENDREM»
+«DEFINE getFile(String packageName, String projectName, boolean gmaps, List[FieldEntity] fieldList) FOR CardEntity»
+«ENDDEFINE»
+
+«DEFINE getFile(String packageName, String projectName, boolean gmaps, List[FieldEntity] fieldList) FOR Actor»
+
+package org.imogene.«projectName.toLowerCase()».client.entity;
+
+import java.util.Date;
+import java.util.List;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Widget;
+
+import org.imogene.web.gwt.client.LocalSession;
+import org.imogene.web.gwt.client.i18n.BaseNLS;
+import org.imogene.web.gwt.client.ui.MessageManager;
+import org.imogene.web.gwt.client.ui.field.*;
+import org.imogene.web.gwt.client.ui.form.AbstractFormComposite;
+import org.imogene.web.gwt.client.ui.form.GroupField;
+import org.imogene.web.gwt.common.id.ImogKeyGenerator;
+
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;
+import org.imogene.«projectName.toLowerCase()».client.entity.ShortNames;
+import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
+import org.imogene.«projectName.toLowerCase()».client.remote.«this.name.toFirstUpper()»ServiceFacade;
+import org.imogene.web.gwt.client.util.MiscTools;
+import org.imogene.web.gwt.client.ui.form.RelationUpdateManager;
+import org.imogene.web.gwt.client.ui.form.RelationUpdateManager.RelationBroadcastReceiver;
+«FOREACH fieldList AS f-»
+«EXPAND importForRelation("org.imogene." + projectName.toLowerCase() + ".client.remote") FOR f-»
+«ENDFOREACH-»
+«FOREACH this.filters AS f-»
+«EXPAND importForRelation("org.imogene." + projectName.toLowerCase() + ".client.remote") FOR f-»
+«ENDFOREACH-»
+
+/**
+ *
+ */
+public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposite implements  FieldValueChangeHandler, RelationBroadcastReceiver {
+
+	/** status */
+	private «name.toFirstUpper()»Actor entity;
+	
+	private String newEntityId;	
+	
+	private int uploadMsgId = -1;
+	
+	/** admin section */
+	private GroupField adminSection;
+	private HTML idLink;
+	private ImogTextBox login;	
+	private ImogPasswordBox passwd;	
+	private ImogPasswordBox confirm;
+	private ImogRoleField roleField;
+	
+	/** synchroniable section */
+	private GroupField synchroSection;
+	private ImogSynchronizableField syncFields;
+	
+	«IF filters.size>0»
+	/** filter fields section */
+	private GroupField filterFieldsSection;
+	«FOREACH this.filters AS f-»
+	private «EXPAND adminTpl::WebFieldUtil::formFieldType FOR f» «f.name.toFirstLower()»FilterField;
+	«ENDFOREACH -»
+	«ENDIF»
+	
+	
+	@SuppressWarnings("unused")
+	private Widget lastEventParent=null;
+	«FOREACH groups AS g-»
+	private GroupField «g.name.toFirstLower()»Section;
+	«ENDFOREACH-»	
+	
+	«FOREACH fieldList AS f -»
+	private «EXPAND adminTpl::WebFieldUtil::formFieldType FOR f» «f.name.toFirstLower()»;
+	«ENDFOREACH -»	
+		
+	/**
+	 * create a «name.toFirstLower()» form form the 
+	 * creation of a new instance.
+	 */
+	public «name.toFirstUpper()»FormComposite(){
+		super(NLS.constants().«name.toFirstLower()»_create_subtitle(), "«name.toFirstLower()»");
+		newEntityId = ImogKeyGenerator.generateKeyId("«shortName»");		
+		isNew = true;
+		layout();
+		properties();		
+		setEditable(true);				
+		«FOREACH fieldList AS f -»
+		«EXPAND callToPopulate(name.toFirstUpper(), false) FOR f -»
+		«ENDFOREACH -»
+		«FOREACH filters AS f-»
+		«IF f.cardinality==1-»
+		«EXPAND callToPopulate(name.toFirstUpper(), false) FOR f -»
+		«ENDIF-»
+		«ENDFOREACH-»
+		setRelationButtonBehavior();
+		computeVisibility(null, true);
+	}
+	
+	/**
+	 * Create a «name.toFirstLower()» form to display a boat entity.
+	 * @param entityId the boat id
+	 */
+	public «name.toFirstUpper()»FormComposite(String entityId){
+		this(entityId, false);
+	}
+	
+	/** 
+	 * Create a «name.toFirstLower()» form to display 
+	 * or edit an existing boat.
+	 * @param entityID the «name.toFirstLower()» id
+	 * @param editable true if in edit mode.
+	 */
+	public «name.toFirstUpper()»FormComposite(String entityId, boolean editable){
+		super(BaseNLS.constants().form_loading(), "«name.toFirstLower()»");
+		layout();
+		properties();		
+		setEditable(editable);		
+		«name.toFirstUpper()»ServiceFacade.getInstance().get«name.toFirstUpper()»(entityId, new PopulateWith«name.toFirstUpper()»());
+		setRelationButtonBehavior();
+	}
+	
+	/**
+	 * Layout the form
+	 */
+	private void layout(){
+		«FOREACH groups AS g -»
+		layout«g.name.toFirstUpper()»Section();
+		addSection(«g.name.toFirstLower()»Section);
+		«ENDFOREACH -»	
+		«FOREACH fieldList AS f -»
+		«EXPAND addMultiFieldsSection FOR f-»
+		«ENDFOREACH»		
+		layoutAdminSection();
+		addSection(adminSection);
+		layoutSynchroSection();
+		addSection(synchroSection);	
+		«IF filters.size>0 -»
+		layoutFilterFieldsSection();
+		addSection(filterFieldsSection);
+		«ENDIF-»		
+	}	
+	
+	/**
+	 * Set the layout properties
+	 */
+	private void properties(){	
+		«IF (icon!=null && icon!="") -»
+		setIconPath(GWT.getModuleBaseURL() + "images/small/«icon»");
+		«ELSE -»
+		setIconPath(GWT.getModuleBaseURL() + "images/entity_default_24.png");
+		«ENDIF -»
+			
+		«FOREACH groups AS g -»	
+		properties«g.name.toFirstUpper()»Section();
+		«ENDFOREACH -»			
+	}	
+	
+	«FOREACH groups AS g -»	
+	/** «g.name.toFirstLower()» section */
+	private void layout«g.name.toFirstUpper()»Section(){
+		«g.name.toFirstLower()»Section = new GroupField(NLS.constants().«name.toFirstLower()»_group_«g.name.toFirstLower()»());					
+		«IF (g.icon!=null && g.icon!="") -»
+		«g.name.toFirstLower()»Section.setImage(new Image(GWT.getModuleBaseURL() + "/images/«g.icon»"));
+		«ELSE -»
+		«g.name.toFirstLower()»Section.setImage(null);
+		«ENDIF -»
+		«FOREACH g.fields AS f -»
+		«IF isAdminOrNotifField(f,this.adminFields,this.notificationInfos) -»
+		«EXPAND createFieldView(name) FOR f -»
+		«EXPAND addFieldToSection(g.name.toFirstLower()) FOR f»	
+		«ENDIF-»	
+		«ENDFOREACH -»						
+	}	
+	«ENDFOREACH -»
+	
+	«IF filters.size>0 -»
+	/** filter fields section */
+	private void layoutFilterFieldsSection(){
+		filterFieldsSection = new GroupField("Filters field");
+		«FOREACH filters AS f-»
+		«EXPAND createFieldView(name) FOR f-» 
+		filterFieldsSection.addField(«f.name.toFirstLower()»FilterField);
+		«ENDFOREACH-»
+	}
+	«ENDIF-»
+	
+	private void layoutAdminSection(){
+		adminSection = new GroupField("Administration");
+		idLink = new HTML();
+		adminSection.addWidget(idLink);
+		/* login */
+		login = new ImogTextBox();
+		login.setLabel("Login");
+		adminSection.addField(login);
+		/* password */
+		passwd = new ImogPasswordBox();
+		passwd.setLabel("Password");
+		adminSection.addField(passwd);
+		/* confirm */
+		confirm = new ImogPasswordBox();
+		confirm.setLabel("Confirm");
+		adminSection.addField(confirm);
+		/* roles */
+		roleField = new ImogRoleField();
+		roleField.setLabel("Roles");
+		adminSection.addField(roleField);		
+	}
+	
+	private void layoutSynchroSection(){
+		synchroSection = new GroupField("Mobilite / Synchronization");
+		/* synchro */
+		syncFields = new ImogSynchronizableField(new ShortNames());
+		syncFields.setLabel("Synchronizable forms");
+		synchroSection.addField(syncFields);
+	}
+	
+	«FOREACH groups AS g»
+	/**
+	 * «g.name.toFirstLower()» section layout properties
+	 */
+	private void properties«g.name.toFirstUpper()»Section(){				
+	}	
+	«ENDFOREACH»
+	
+	/**
+	 * set the behavior of the relation field
+	 * embedded button.
+	 */
+	 private void setRelationButtonBehavior(){
+	 	«FOREACH fieldList AS f -»
+	 	«EXPAND relationButtonBehavior FOR f -»
+	 	«ENDFOREACH -»
+	 }
+	
+	/**
+	 * Set the editable mode.
+	 * @param editable true to edit this form.
+	 */
+	public void setEditable(boolean editable){
+		super.setEditable(editable);
+		idLink.setVisible(!editable);
+		displayButton(printButton, false);
+		«FOREACH fieldList AS f -»
+		«f.name.toFirstLower()».setEnabled(editable);
+		«ENDFOREACH -»	
+		«FOREACH filters AS f-»
+		«f.name.toFirstLower()»FilterField.setEnabled(editable);
+		«ENDFOREACH-»
+		/* admin field */
+		login.setEnabled(editable);
+		passwd.setEnabled(editable);
+		confirm.setEnabled(editable);
+		syncFields.setEnabled(editable);
+		roleField.setEnabled(editable);
+		if(editable)
+			RelationUpdateManager.get().addRelationBroadcastReceiver(this);
+		else
+			RelationUpdateManager.get().removeRelationBroadcastReceiver(this);			
+	}
+	
+	private void set«name.toFirstUpper()»(«name.toFirstUpper()»Actor entity){
+		setTitle(NLS.constants().«name.toFirstLower()»_title() +" : "+ MainFieldsUtilImpl.get().getDisplayValue(entity));
+		setMetaData(entity);
+		updateIdLink();
+		«FOREACH fieldList AS f -»
+		«EXPAND affectValueToView FOR f -»
+		«ENDFOREACH -»	
+		/* admin field */
+		login.setValue(entity.getLogin());
+		passwd.setValue(entity.getPassword());
+		confirm.setValue(entity.getPassword());
+		syncFields.setValue(entity.getSynchronizables());
+		roleField.setValue(entity.getRoles());
+		«FOREACH filters AS f -»
+		«IF f.cardinality == 1-»
+		if((entity.«EXPAND template::CommonFieldUtil::getterName FOR f»().size()>0))
+			«f.name.toFirstLower()»FilterField.setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR f»().iterator().next());
+		«ELSE -»
+			«f.name.toFirstLower()»FilterField.setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR f»());
+		«ENDIF -»
+		«ENDFOREACH -»
+		computeVisibility(null, true);	
+	}
+	
+	/**
+	 * Called when retrieving a «name.toFirstUpper()» entity
+	 * @author Medes-IMPS	 
+	 */
+	private class PopulateWith«name.toFirstUpper()» implements AsyncCallback<«name.toFirstUpper()»> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window
+					.alert("An error occured during the connexion to the server.");
+		}
+
+		@Override
+		public void onSuccess(«name.toFirstUpper()» result) {
+			entity = («name.toFirstUpper()»Actor)result;
+			set«name.toFirstUpper()»(entity);
+			«FOREACH fieldList AS f -»
+			«EXPAND callToPopulate(name.toFirstUpper(), false) FOR f -»
+			«ENDFOREACH -»
+			«REM»filters field «ENDREM»
+			«FOREACH filters AS f-»
+			«IF f.cardinality==1-»
+				«EXPAND callToPopulate(name.toFirstUpper(), false) FOR f -»
+			«ENDIF-»
+			«ENDFOREACH -»
+			
+		}
+	}	
+	
+	/**
+	 *Call back when no result is expected
+	 * @author Medes-IMPS	 
+	 */	
+	private class NoResultCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window
+			.alert("An error occured during the connexion to the server.");
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			/* behavior if form should not be closed after save action */
+			//set«name.toFirstUpper()»(entity);
+			//setEditable(false);
+			if(isNew){
+				RelationUpdateManager.get().relationUdpate(entity);
+				isNew = false;
+			}
+			/* behavior if form should be closed after save action */
+			closeForm();			
+		}
+		
+	}
+	
+	«FOREACH fieldList AS f -»
+		«EXPAND setterForRelation FOR f -»
+	«ENDFOREACH -»
+	
+	«FOREACH fieldList AS f -»
+		«EXPAND callbackForRelation(name) FOR f -»
+	«ENDFOREACH -»
+	
+	«FOREACH filters AS f -»
+	«IF f.cardinality==1 -»
+		«EXPAND callbackForRelation(name) FOR f -»
+	«ENDIF -»
+	«ENDFOREACH -»
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.imogene.gwt.laboudeuse.client.AbstractFormComposite#save()
+	 */
+	@Override
+	protected void save(){		
+		if(validate()){
+			MessageManager.get().newWarningMessage(BaseNLS.constants().form_saving());
+			if(isUploading()){			
+				if(uploadMsgId==-1)
+					uploadMsgId = MessageManager.get().newWarningMessage(BaseNLS.constants().form_uploading());
+				Timer timer = new Timer(){
+
+					@Override
+					public void run() {
+						save();					
+					}				
+				};
+				timer.schedule(2000);
+				return;
+			}
+			if(entity == null){
+				«IF Actor.isAssignableFrom(this.metaType)-»
+					entity = new «name.toFirstUpper()»Actor();
+				«ELSE -»
+					entity = new «name.toFirstUpper()»();
+				«ENDIF -»								
+				entity.setId(newEntityId);
+				entity.setCreationDate(new Date(System.currentTimeMillis()));
+				entity.setCreator((LocalSession.get().getCurrentUser().getLogin()));
+			}
+			entity.setLastModificationDate(new Date(System.currentTimeMillis()));
+			entity.setModifier((LocalSession.get().getCurrentUser().getLogin()));
+			entity.setModifiedFrom("web");		
+			«FOREACH fieldList AS f -»
+			«EXPAND affectValueToEntity FOR f -»
+			«ENDFOREACH -»	
+			entity.setLogin(login.getValue());
+			entity.setPassword(passwd.getValue());	
+			entity.setRoles(roleField.getValue());
+			entity.setSynchronizables(syncFields.getValue());
+			«FOREACH filters AS f-»
+			«IF f.cardinality == 1 -»
+			if(«f.name.toFirstLower()»FilterField.getValue()==null)
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR f»(null);
+			else
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR f»(MiscTools.getHashSet(«f.name.toFirstLower()»FilterField.getValue()));		
+			«ELSE -»
+			entity.«EXPAND template::CommonFieldUtil::setterName FOR f»(«f.name.toFirstLower()»FilterField.getValue());
+			«ENDIF -»
+			«ENDFOREACH -»
+			«name.toFirstUpper()»ServiceFacade.getInstance().saveOrUpdate(entity, isNew, new NoResultCallback());
+			MessageManager.get().newInfoMessage(BaseNLS.constants().form_saved(), 5);
+		}else{
+			MessageManager.get().newWarningMessage(BaseNLS.constants().form_not_validated());
+		}
+	}
+	
+	private boolean isUploading(){
+		boolean result = false;
+		«FOREACH fieldList AS f -»
+		«EXPAND uploadingTest FOR f -»
+		«ENDFOREACH -»		
+		return result;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.imogene.gwt.laboudeuse.client.AbstractFormComposite#cancel()
+	 */
+	@Override
+	protected void cancel(){
+		set«name.toFirstUpper()»(entity);		
+	}
+	
+	@Override
+	public void onFieldValueChange(ImogField<?> source){
+		 computeVisibility(source, false);
+	}
+	
+	private boolean validate(){
+		boolean valid = true;
+		«FOREACH fieldList AS f-»
+			«EXPAND callValidate FOR f -»
+		«ENDFOREACH -»
+		return valid;
+	}
+	
+	/**
+	 * Compute the field visibility
+	 */
+	private void computeVisibility(ImogField<?> source, boolean allValidation){
+		«FOREACH fieldList AS f -»
+		«EXPAND fieldDependantVisibility FOR f -»
+		«ENDFOREACH -» 
+	}
+	
+	«REM» Calculation of field value «ENDREM»
+    «FOREACH fieldList AS f-»
+    «IF f.calculationFunctionName!=null && f.calculationFunctionName.length>0 -»   
+      			   	
+	/**
+	 * Procedure to calculate the value of the field «f.name»
+	 */	
+	private «EXPAND adminTpl::WebFieldUtil::entityFieldType FOR f-» «f.calculationFunctionName-»(){	
+		«EXPAND adminTpl::WebFieldUtil::entityFieldType FOR f-» result = null;
+		«EXPAND computeFunction FOR f -»	
+		return result;
+	}    	    
+    «ENDIF-»
+    «ENDFOREACH-»
+    
+    @Override
+	public void relationUpdate(Object myObject) {
+		«FOREACH fieldList AS f-»
+			«EXPAND setRelationBroadcastBehavior FOR f -»
+		«ENDFOREACH»			
+	}
+	
+	@Override
+	protected void returnToList() {
+		History.newItem("list/«name.toLowerCase()»");
+	}	
+
+	/**
+	 * Set the link to download 
+	 * the associated identification file
+	 */	
+	private void updateIdLink(){
+		if(entity!=null)
+			idLink.setHTML("<a href=\""+GWT.getHostPageBaseURL()+"encrypt?type=«shortName»&id="+entity.getId()+"\">download the id file</a>");
+	}
+	
+	«EXPAND specificMethods FOR this -»
+}
+«ENDDEFINE»
+
+«DEFINE callValidate FOR FieldEntity -»
+	if(!«name.toFirstLower()».validate())
+		valid = valid && false;
+«ENDDEFINE»
+«DEFINE callValidate FOR RelationFieldEntity -»
+	«IF cardinality==1 -»
+	if(!«name.toFirstLower()».validate())
+			valid = valid && false;
+	«ENDIF -»
+«ENDDEFINE»
+
+«REM» --------------- FIELD PROPERTIES ----------------- «ENDREM»
+
+«REM»
+	«ENDREM»
+«DEFINE allPropertiesPackage FOR FieldEntity -»
+	«EXPAND addValueChangeHandler FOR this -»
+	«EXPAND isVisibleDependent FOR this -»
+	«EXPAND isMandatory FOR this -»
+	«EXPAND isVisible FOR this -»
+«ENDDEFINE»
+
+«REM»
+	Add value change handler to field «ENDREM»
+«DEFINE addValueChangeHandler FOR FieldEntity -»
+«name.toFirstLower()».addFieldValueChangeHandler(this);
+«ENDDEFINE»
+
+«REM»
+	Set if the field visibility is dependent «ENDREM»
+«DEFINE isVisibleDependent FOR FieldEntity -»
+«IF fieldDependentVisibility!=null && !fieldDependentVisibility.isEmpty && !hidden-»
+«name.toFirstLower()».setVisibleDependent(true);
+«ENDIF-»
+«ENDDEFINE»
+
+«REM»
+	Set if the field is mandatory «ENDREM»
+«DEFINE isMandatory FOR FieldEntity -»
+«IF required -»
+«name.toFirstLower()».setMandatory(true);
+«ENDIF -»
+«ENDDEFINE»
+
+«REM»
+	Set if the field is visible or hidden «ENDREM»
+«DEFINE isVisible FOR FieldEntity -»
+«IF hidden -»
+«name.toFirstLower()».setVisible(false);
+«ENDIF -»
+«ENDDEFINE»
+	
+«REM» ------------------- DEFAULT VALUES --------------- «ENDREM»
+«REM»
+	Set the default value «ENDREM»
+«DEFINE defaultValue FOR FieldEntity-»«ENDDEFINE»
+«DEFINE defaultValue FOR DateField-»
+	«IF defaultValue!=null && defaultValue.matches("now") -»
+		«name.toFirstLower()».setValue(new Date());
+	«ENDIF -»
+«ENDDEFINE»
+
+«REM» --------------------- CREATE THE FIELD VIEWS ----------- «ENDREM»
+«REM» 
+	create the field view and set the label
+	when constructing the layout «ENDREM»
+«DEFINE createFieldView(String entityName) FOR FieldEntity -»
+	«name.toFirstLower()» = new ImogTextBox();		
+	«EXPAND allPropertiesPackage FOR this -»
+	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
+«ENDDEFINE»
+
+«DEFINE createFieldView(String entityName) FOR IntegerField -»
+	«name.toFirstLower()» = new ImogIntegerField();	
+	«EXPAND allPropertiesPackage FOR this -»
+	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«name.toFirstLower()».setUnit("«unit»");	
+	«IF max!="" -»
+		«name.toFirstLower()».setMaximum(«max»);
+	«ENDIF-»
+	«IF min!=""-»
+		«name.toFirstLower()».setMinimum(«min»);
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE createFieldView(String entityName) FOR FloatField -»
+	«name.toFirstLower()» = new ImogFloatField();	
+	«EXPAND allPropertiesPackage FOR this -»
+	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
+	«name.toFirstLower()».setUnit("«unit»");
+	«IF max!="" -»
+		«name.toFirstLower()».setMaximum(«max»);
+	«ENDIF-»
+	«IF min!=""-»
+		«name.toFirstLower()».setMinimum(«min»);
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE createFieldView(String entityName) FOR TextField -»
+	«name.toFirstLower()» = new ImogTextBox();
+	«EXPAND allPropertiesPackage FOR this -»
+	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
+	«FOREACH this.validationRules AS r ITERATOR i -»
+	«name.toFirstLower()».addRule(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»_rule_«i.counter0-»(), "«r.validationRegularExpression»");
+	«ENDFOREACH-» 
+«ENDDEFINE»
+
+«DEFINE createFieldView(String entityName) FOR TextAreaField -»
+	«name.toFirstLower()» = new ImogTextArea();
+	«EXPAND allPropertiesPackage FOR this -»
+	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
+	«FOREACH this.validationRules AS r ITERATOR i -»
+	«name.toFirstLower()».addRule(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»_rule_«i.counter0-»(), "«r.validationRegularExpression»");
+	«ENDFOREACH-» 
+«ENDDEFINE»
+
+«DEFINE createFieldView(String entityName) FOR GeoField -»
+	«name.toFirstLower()» = new ImogGeoField();
+	«EXPAND allPropertiesPackage FOR this -»
+	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
+«ENDDEFINE»
+
+«DEFINE createFieldView(String entityName) FOR PhotoField -»
+	«name.toFirstLower()» = new ImogPhotoField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«EXPAND allPropertiesPackage FOR this -»
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR SoundField»
+	«name.toFirstLower()» = new ImogAudioField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«EXPAND allPropertiesPackage FOR this -»
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR AddressField -»
+	«name.toFirstLower()» = new ImogAddressField();
+	«EXPAND allPropertiesPackage FOR this -»
+	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR BinaryField -»
+	«name.toFirstLower()» = new ImogBinaryField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR BooleanField -»
+	«name.toFirstLower()» = new ImogBooleanField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«EXPAND allPropertiesPackage FOR this -»
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR EmailField -»
+	«name.toFirstLower()» = new ImogEmailField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«EXPAND allPropertiesPackage FOR this -»
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR VideoField -»
+	«name.toFirstLower()» = new ImogVideoField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«EXPAND allPropertiesPackage FOR this -»
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR DateField -»
+	«name.toFirstLower()» = new ImogDateField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
+	«EXPAND allPropertiesPackage FOR this -»
+	«EXPAND defaultValue FOR this -»
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR DateTimeField -»
+	«name.toFirstLower()» = new ImogDateTimeField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«EXPAND allPropertiesPackage FOR this -»
+	«EXPAND defaultValue FOR this -»
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR TimeField -»
+	«name.toFirstLower()» = new ImogTimeField();		
+	«EXPAND allPropertiesPackage FOR this -»
+	«name.toFirstLower()».setLabel(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());	
+«ENDDEFINE»
+«DEFINE createFieldView(String entityName) FOR EnumField -»
+	«IF enumValues.size > 3 -»
+	«name.toFirstLower()» = new ImogEnumField(«multipleSelection», true, NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«ELSE -»
+	«name.toFirstLower()» = new ImogEnumField(«multipleSelection», NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«ENDIF -»
+	«EXPAND allPropertiesPackage FOR this -»
+	«FOREACH enumValues AS ev»
+	«name.toFirstLower()».addItem(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«ev.name.toFirstLower()»_option(), "«ev.value»");
+	«ENDFOREACH»		
+«ENDDEFINE»
+«REM»Relation fields «ENDREM»
+«DEFINE createFieldView(String entityName) FOR RelationFieldEntity -»
+«IF cardinality == 1 -»
+	«IF getOppositeCardinality(this)==1 -»
+	«name.toFirstLower()» = new ImogRelationField<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«ELSE -»
+	«name.toFirstLower()» = new ImogRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+	«ENDIF -»
+	«EXPAND allPropertiesPackage FOR this -»
+«ELSE -»
+«name.toFirstLower()» = new MultiRelationsField(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»());
+«ENDIF»
+«ENDDEFINE»
+«REM»Filter fields «ENDREM»
+«DEFINE createFieldView(String entityName) FOR FilterField -»
+«IF cardinality == 1 -»	
+	«REM»«name.toFirstLower()»FilterField = new ImogRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«entityName.toFirstLower()»_field_«name.toFirstLower()»()+" : ");«ENDREM»
+	«name.toFirstLower()»FilterField = new ImogRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«parentActor.name.toFirstLower()»_filterfield_«name.toFirstLower()»());		
+«ELSE -»
+	«REM»«name.toFirstLower()»FilterField = new MultiRelationsList(NLS.constants().«entityName.toFirstLower()»_filterField_«name.toFirstLower()»());«ENDREM»
+	
+	«entity.name.toFirstUpper()»RelationSelectionBox «entity.name.toFirstLower()»RelationSelectionBox = new «entity.name.toFirstUpper()»RelationSelectionBox("«this.entity.name.toLowerCase()»");
+	«entity.name.toFirstLower()»RelationSelectionBox.setTitle(NLS.constants().«entity.name.toFirstLower()»_select_title());
+	«name.toFirstLower()»FilterField = new ImogRelationList<«entity.name.toFirstUpper()»>(NLS.constants().«parentActor.name.toFirstLower()»_filterfield_«name.toFirstLower()»(), «entity.name.toFirstLower()»RelationSelectionBox, MainFieldsUtilImpl.get());
+«ENDIF»
+«ENDDEFINE»
+
+«REM»
+	Affect the value of the loaded entity to the view fields «ENDREM»
+«DEFINE affectValueToView FOR FieldEntity -»
+	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
+«ENDDEFINE»
+«DEFINE affectValueToView FOR RelationFieldEntity -»
+«IF cardinality==1 -»
+	«IF getOppositeCardinality(this)==1 -»
+	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»(),MainFieldsUtilIpml.get().getDisplayValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»()));
+	«ELSE -»
+	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
+	«ENDIF -»
+«ENDIF -»
+«ENDDEFINE»
+«DEFINE affectValueToView FOR GeoField -»
+	if (entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude()!=null && entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude()!=null)
+		«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude() + ";" + entity.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude());
+	else
+		«name.toFirstLower()».setValue("");
+«ENDDEFINE»
+«REM» filter fields «ENDREM»
+«DEFINE affectValueToView FOR FilterField -»
+«IF cardinality==1 -»	
+	«name.toFirstLower()».setValue(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());	
+«ENDIF -»
+«ENDDEFINE»
+
+«REM»
+	Affect the value contained in the field view to the entity «ENDREM»
+«DEFINE affectValueToEntity FOR FieldEntity -»
+    «IF calculationFunctionName!=null && calculationFunctionName.length>0 -»
+	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«calculationFunctionName»());
+	«ELSE-»
+	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«name.toFirstLower()».getValue());
+	«ENDIF-»	
+«ENDDEFINE»
+«DEFINE affectValueToEntity FOR RelationFieldEntity -»
+«IF cardinality==1 -»
+	 «IF calculationFunctionName!=null && calculationFunctionName.length>0 -»
+	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«calculationFunctionName»());
+	«ELSE-»
+	entity.«EXPAND template::CommonFieldUtil::setterName FOR this»(«name.toFirstLower()».getValue());
+	«ENDIF-»
+«ENDIF -»	
+«ENDDEFINE»
+
+«REM»
+    Uploading test for binary field «ENDREM»
+«DEFINE uploadingTest FOR FieldEntity -»«ENDDEFINE»
+«DEFINE uploadingTest FOR BinaryField -»
+	if(«name.toFirstLower()».isUploading())
+			return true;
+«ENDDEFINE»
+
+«REM»
+	Add section representing a multi relation field «ENDREM»
+«DEFINE addMultiFieldsSection FOR FieldEntity»«ENDDEFINE»
+«DEFINE addMultiFieldsSection FOR RelationFieldEntity -»
+«IF cardinality>1 || cardinality == -1 -»
+	addSection(«name.toFirstLower()»);
+«ENDIF -»
+«ENDDEFINE»
+
+«REM»
+	Add fields to a section«ENDREM»
+«DEFINE addFieldToSection(String sectionName) FOR FieldEntity»
+«sectionName»Section.addField(«name.toFirstLower()»);
+«ENDDEFINE»
+«DEFINE addFieldToSection(String sectionName) FOR RelationFieldEntity -»
+«IF cardinality==1 -»
+«sectionName»Section.addField(«name.toFirstLower()»);
+«ENDIF -»
+«ENDDEFINE»
+
+«REM»
+	add imports implied by the relation fields «ENDREM»
+«DEFINE importForRelation(String packageName) FOR FieldEntity -»«ENDDEFINE»
+«DEFINE importForRelation(String packageName) FOR RelationFieldEntity -»
+«IF cardinality==1 -»
+import «packageName».«entity.name.toFirstUpper()»ServiceFacade;
+«ENDIF -»
+«ENDDEFINE»
+
+«REM»
+	calls back for multi relation fields «ENDREM»
+«DEFINE callbackForRelation(String parentName) FOR FieldEntity -»«ENDDEFINE»
+«DEFINE callbackForRelation(String parentName) FOR RelationFieldEntity -»
+«IF cardinality == -1 || cardinality>1»
+/**
+ *Call back when no result is expected
+ * @author Medes-IMPS	 
+ */	
+ private class Populate«name.toFirstUpper()» implements AsyncCallback<List<«entity.name.toFirstUpper()»>>{
+
+	@Override
+	public void onFailure(Throwable caught) {
+		Window
+		.alert("An error occured during the connexion to the server.");
+	}
+
+	@Override
+	public void onSuccess(List<«entity.name.toFirstUpper()»> result) {
+		for(«entity.name.toFirstUpper()» entity: result){
+			«name.toFirstLower()».add(new Hyperlink(MainFieldsUtilImpl.get().getDisplayValue(entity),"view/«entity.name.toLowerCase()»/"+entity.getId()));				
+		}
+		«name.toFirstLower()».displayResult();		
+	}
+		
+}
+«ELSE»
+	«IF getOppositeCardinality(this)!=1 -»
+	/**
+	 * Called to populate the relation list box 
+	 * for «entity.name.toFirstUpper()» selection for the field «name.toFirstLower()»
+	 * @author Medes-IMPS	 
+	 */
+	private class Populate«name.toFirstUpper()»With«entity.name.toFirstUpper()» implements AsyncCallback<List<«entity.name.toFirstUpper()»>>{
+
+		@Override
+		public void onFailure(Throwable arg0) {
+			Window.alert("Une erreur est apparue lors de la connection au serveur");
+		}
+
+		@Override
+		public void onSuccess(List<«entity.name.toFirstUpper()»> result) {
+			for(«entity.name.toFirstUpper()» current : result){
+				«name.toFirstLower()».addItem(MainFieldsUtilImpl.get().getDisplayValue(current), current.getId(), current);
+			}	
+			if(«name.toFirstLower()»Injected!=null)
+				set«name.toFirstUpper()»(«name.toFirstLower()»Injected);
+			if(entity != null)
+				set«parentName.toFirstUpper()»(entity);
+		}
+		
+	}
+	«ENDIF-»
+«ENDIF»
+«ENDDEFINE»
+
+«REM» Filter field box population «ENDREM»
+«DEFINE callbackForRelation(String parentName) FOR FilterField -»
+«IF cardinality == -1 || cardinality>1»
+/**
+ *Call back when no result is expected
+ * @author Medes-IMPS	 
+ */	
+ private class Populate«name.toFirstUpper()» implements AsyncCallback<List<«entity.name.toFirstUpper()»>>{
+
+	@Override
+	public void onFailure(Throwable caught) {
+		Window
+		.alert("An error occured during the connexion to the server.");
+	}
+
+	@Override
+	public void onSuccess(List<«entity.name.toFirstUpper()»> result) {
+		for(«entity.name.toFirstUpper()» entity: result){
+			«name.toFirstLower()»FilterField.add(new Hyperlink(MainFieldsUtilImpl.get().getDisplayValue(entity),"view/«entity.name.toLowerCase()»/"+entity.getId()));				
+		}
+		«name.toFirstLower()».displayResult();		
+	}
+		
+}
+«ELSE-»
+/**
+ *Call back when no result is expected
+ * @author Medes-IMPS	 
+ */	
+ private class Populate«name.toFirstUpper()» implements AsyncCallback<List<«entity.name.toFirstUpper()»>>{
+
+	@Override
+	public void onFailure(Throwable caught) {
+		Window
+		.alert("An error occured during the connexion to the server.");
+	}
+
+	@Override
+	public void onSuccess(List<«entity.name.toFirstUpper()»> result) {
+		for(«entity.name.toFirstUpper()» entity: result){
+			«name.toFirstLower()»FilterField.addItem(MainFieldsUtilImpl.get().getDisplayValue(entity), entity.getId(), entity);				
+		}
+		if(entity != null)
+				set«parentName.toFirstUpper()»(entity);
+	}
+		
+}
+«ENDIF-»
+«ENDDEFINE»
+
+
+«REM»
+	remote call to pouplate multi. relation fields«ENDREM»
+«DEFINE callToPopulate(String entityName, Boolean onlySimple) FOR FieldEntity -»«ENDDEFINE»
+«DEFINE callToPopulate(String entityName, Boolean onlySimple) FOR RelationFieldEntity -»
+«IF (cardinality==-1 || cardinality>1) && onlySimple==false -»
+«entityName»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(entity, new Populate«name.toFirstUpper()»());
+«ENDIF -»
+«IF cardinality==1 -»
+	«IF getOppositeCardinality(this)!=1 -»
+	«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(0, -1, null, true, new Populate«name.toFirstUpper()»With«entity.name.toFirstUpper()»());
+	«ENDIF -»
+«ENDIF -»
+«ENDDEFINE»
+«REM»Filter fields«ENDREM» 
+«DEFINE callToPopulate(String entityName, Boolean onlySimple) FOR FilterField -»
+«IF (cardinality==-1 || cardinality>1) && onlySimple==false -»
+«entityName»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(new Populate«name.toFirstUpper()»());
+«ENDIF -»
+«IF cardinality==1 -»
+«entity.name.toFirstUpper()»ServiceFacade.getInstance().list«entity.name.toFirstUpper()»(new Populate«name.toFirstUpper()»());
+«ENDIF -»
+
+«ENDDEFINE»
+
+«REM»
+	embedded relation button behavior «ENDREM»
+«DEFINE relationButtonBehavior FOR FieldEntity -»«ENDDEFINE»
+«DEFINE relationButtonBehavior FOR RelationFieldEntity -»
+«IF cardinality == 1 -»
+/* add button */
+«name.toFirstLower()».setAddClickHandler(new ClickHandler(){
+		@Override
+		public void onClick(ClickEvent event) {
+			if(container!=null){
+				«entity.name.toFirstUpper()»FormComposite composite = new «entity.name.toFirstUpper()»FormComposite();
+				composite.setFormContainer(container);
+				composite.setCloseable(true);
+				container.addForm(composite);
+				lastEventParent=«name.toFirstLower()»;
+			}
+			else{
+				throw new RuntimeException("No container defined");
+			}
+			
+		}
+	});
+/* information button */
+«name.toFirstLower()».setViewClickHandler(new ClickHandler(){
+		@Override
+		public void onClick(ClickEvent event) {
+			if(container!=null){
+				if(«name.toFirstLower()».getValue()!=null){					
+					«entity.name.toFirstUpper()»FormComposite composite = new «entity.name.toFirstUpper()»FormComposite(«name.toFirstLower()».getValue().getId());
+					composite.setFormContainer(container);
+					composite.setCloseable(true);
+					container.addForm(composite);
+				}
+			}
+			else{
+				throw new RuntimeException("No container defined");
+			}
+		}
+	});
+«ENDIF»
+«ENDDEFINE»
+
+«REM»
+	setters for relation with cardinality 1«ENDREM» 
+«DEFINE setterForRelation FOR FieldEntity -»«ENDDEFINE»
+«DEFINE setterForRelation FOR RelationFieldEntity -»
+«IF cardinality == 1 -»	
+	«IF getOppositeCardinality(this)==1 -»
+	private «entity.name.toFirstUpper()» «name.toFirstLower()»Injected;
+	public void set«this.name.toFirstUpper()»(«entity.name.toFirstUpper()» entity){
+		«name.toFirstLower()»Injected =entity;
+		«this.name.toFirstLower()».setValue(«name.toFirstLower()»Injected, MainFieldsUtilImpl.get().getDisplayValue(entity));
+	}
+	«ELSE -»
+	private String «name.toFirstLower()»Injected;
+	public void set«this.name.toFirstUpper()»(String id){
+		«name.toFirstLower()»Injected =id;
+		«this.name.toFirstLower()».select(«name.toFirstLower()»Injected);
+	}
+	«ENDIF -»
+«ENDIF -»
+«ENDDEFINE»
+
+«REM»
+	Behavior for fields dependent visibility «ENDREM»
+«DEFINE fieldDependantVisibility FOR FieldEntity -»
+	«IF fieldDependentVisibility!=null && !fieldDependentVisibility.isEmpty && !hidden-»	
+	if(allValidation ||
+	«FOREACH fieldDependentVisibility AS fdv ITERATOR iter -»
+	source.equals(«fdv.dependencyField.name.toFirstLower()»)
+	«IF iter.counter0 < fieldDependentVisibility.size-1 -»||«ENDIF -»
+	«ENDFOREACH -»
+	){
+		if(
+		«FOREACH fieldDependentVisibility AS fdv2 ITERATOR iter2 -»
+			«EXPAND expandTestForVisibility(fdv2.dependencyFieldValue) FOR fdv2.dependencyField-»
+			«IF iter2.counter0 < fieldDependentVisibility.size-1 -»||«ENDIF -»
+		«ENDFOREACH -»
+		){
+			«name.toFirstLower()».setVisible(true);
+		}else{
+			«name.toFirstLower()».setVisible(false);
+		}
+	}
+	«ENDIF»
+«ENDDEFINE»
+
+«REM»
+	Test value for field denpendent visibility «ENDREM»
+«DEFINE expandTestForVisibility(String value) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE expandTestForVisibility(String value) FOR TextAreaField-»
+	"«value»".equals(«name.toFirstLower()».getValue())
+«ENDDEFINE»
+«DEFINE expandTestForVisibility(String value) FOR IntegerField-»
+	Integer.decode("«value»").equals(«name.toFirstLower()».getValue())
+«ENDDEFINE»
+«DEFINE expandTestForVisibility(String value) FOR FloatField-»
+	Float.decode("«value»").equals(«name.toFirstLower()».getValue())
+«ENDDEFINE»
+«DEFINE expandTestForVisibility(String value) FOR BooleanField-»
+	«IF value.matches("true") -»
+		«name.toFirstLower()».getValue()!=null && «name.toFirstLower()».getValue()
+	«ELSE -»
+		«name.toFirstLower()».getValue()!=null && !«name.toFirstLower()».getValue()
+	«ENDIF -»	
+«ENDDEFINE»
+«DEFINE expandTestForVisibility(String value) FOR EnumField -»
+	"«value»".equals(«name.toFirstLower()».getValue())
+«ENDDEFINE»
+
+«REM»
+	Add the behavior when receiving a relation broadcast message «ENDREM»
+«DEFINE setRelationBroadcastBehavior FOR FieldEntity»«ENDDEFINE» 
+«DEFINE setRelationBroadcastBehavior FOR RelationFieldEntity»
+	«IF cardinality == 1 -»
+		«IF getOppositeCardinality(this)==1 -»
+		if(myObject instanceof «entity.name.toFirstUpper()» && «name.toFirstLower()».equals(lastEventParent)){
+			«entity.name.toFirstUpper()» «name.toFirstLower()»Tmp = ((«entity.name.toFirstUpper()»)myObject);		
+			«name.toFirstLower()».setValue(«name.toFirstLower()»Tmp, MainFieldsUtilImpl.get().getDisplayValue(«name.toFirstLower()»Tmp));
+		«ELSE -»	
+		if(myObject instanceof «entity.name.toFirstUpper()»){
+			«entity.name.toFirstUpper()» «name.toFirstLower()»Tmp = ((«entity.name.toFirstUpper()»)myObject);
+			«name.toFirstLower()».addItem(MainFieldsUtilImpl.get().getDisplayValue(«name.toFirstLower()»Tmp), 
+								«name.toFirstLower()»Tmp.getId(), «name.toFirstLower()»Tmp);
+			if(«name.toFirstLower()».equals(lastEventParent))
+				«name.toFirstLower()».select(«name.toFirstLower()»Tmp.getId());
+		«ENDIF-»
+		}			
+	«ELSE -»
+	«ENDIF -»
+«ENDDEFINE» 
+
+«REM» -------------------------- AOP anchor -------------------- «ENDREM»
+
+«REM» 
+	Anchor for computed field function «ENDREM»
+«DEFINE computeFunction FOR FieldEntity»«ENDDEFINE»
+
+«REM»
+	Specific methods set by AOP«ENDREM»
+«DEFINE specificMethods FOR CardEntity»«ENDDEFINE»

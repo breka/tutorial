@@ -1,0 +1,201 @@
+«IMPORT core»
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»
+«FILE projectName.toLowerCase()+"/server/dao/"+this.name.toFirstUpper() + "Dao.java"»
+package org.imogene.«projectName.toLowerCase()».server.dao;
+
+import java.util.List;
+
+import org.imogene.web.gwt.common.criteria.ImogJunction;
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
+«IF Actor.isAssignableFrom(this.metaType) -»
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»Actor;
+«ENDIF -»
+«FOREACH groups.fields AS f -»
+«EXPAND importsForRelation(projectName) FOR f -»
+«ENDFOREACH -»
+
+public interface «name.toFirstUpper()»Dao {
+	
+	/**
+	 * Load the entity with the specified id
+	 *@param entityId the entity id
+	 *@return the entity or null
+	 */
+	public «name.toFirstUpper()» get«name.toFirstUpper()»(String id);	
+	
+	/**
+	 * Load the entity with the specified id
+	 *@param entityId the entity id
+	 *@param criterions request criteria
+	 *@return the entity or null
+	 */
+	public «name.toFirstUpper()» get«name.toFirstUpper()»(String id, ImogJunction criterions);
+
+	/**
+	 * List entities of type «name.toFirstUpper()»
+	 *@param criterion request criteria
+	 *@return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(ImogJunction criterion);
+	
+	/**
+	 * List entities of type «name.toFirstUpper()»	
+	 *@return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»();
+	
+	/**
+	 * List entities of type «name.toFirstUpper()»
+	 *@param property the property used to sort
+	 *@param asc the sort order
+	 *@param criterion request criteria
+	 *@return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(String property, boolean asc, ImogJunction criterion);
+
+	/**
+	 * List entities of type «name.toFirstUpper()»
+	 *@param first first index to retrieve
+	 *@param max nb of items to retrieve
+	 *@param sortProperty the property used to sort the collection
+	 *@param sortOrder true for an ascendant sort
+	 *@return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int first, int max, String sortProperty, boolean sortOrder);
+	
+	/**
+	 * List entities of type «name.toFirstUpper()»
+	 *@param first first index to retrieve
+	 *@param max nb of items to retrieve	 
+	 *@param property the property used to sort the collection
+	 *@param sortOrder true for an ascendant sort
+	 *@param criterion request criteria
+	 *@return list of «name.toFirstLower()»
+	 */
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int first, int max, String property, boolean sortOrder, ImogJunction criterion);
+	
+	/**
+	 *Count number of «name.toFirstLower()» in the database
+	 *@return the count
+	 */
+	public int count«name.toFirstUpper()»();
+	
+	/**
+	 *Count number of «name.toFirstLower()» in the database, 
+	 *that matches the criteria
+	 *@return the count
+	 */
+	public int count«name.toFirstUpper()»(ImogJunction criterion);
+	
+	/**
+	 * Delete the specified entity
+	 *@param entity the entity to delete
+	 */
+	public void delete(«name.toFirstUpper()» entity);
+	
+	/**
+	 * List the non affected «name.toFirstUpper()»
+	 *@param first the first entities to retrieve
+	 *@param max the number of entities to retrieve
+	 *@param sortProperty the property used to sort
+	 *@param asc the sort order
+	 *@param property the property used by the relation
+	 *@param criterion the request criteria
+	 *@return a list of «name.toFirstUpper()»
+	 */
+	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»(int first, int max, String sortProperty, boolean asc, String property, ImogJunction criterions);
+	
+	/**
+	 * List the non affected «name.toFirstUpper()» for th reverse relations
+	 *@param first the first entities to retrieve
+	 *@param max the number of entities to retrieve
+	 *@param sortProperty the property used to sort
+	 *@param asc the sort order
+	 *@param property the property used by the relation
+	 *@param criterion the request criteria
+	 *@return a list of «name.toFirstUpper()»
+	 */
+	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»Reverse(int first, int max, String sortProperty, boolean asc, String property, ImogJunction criterions);
+	
+	/**
+	 * List ???
+	 *@param property the property used for the relation
+	 *@param id the entity id
+	 *@return a list of «name.toFirstUpper()»
+	 */
+	public List<«name.toFirstUpper()»> listAffectedCardNProperty(String property, String id);
+	
+	/**
+	 * Count the non affected «name.toFirstUpper()»
+	 *@param property the property used by the relation
+	 *@param criterions the request criterions
+	 *@return the count
+	 */
+	public int countNonAffected«name.toFirstUpper()»(String property, ImogJunction criterions);
+	
+	/**
+	 * Count the non affected «name.toFirstUpper()» reverse relation
+	 *@param property the property used by the relation
+	 *@param criterions the request criterions
+	 *@return the count
+	 */
+	public int countNonAffected«name.toFirstUpper()»Reverse(String property, ImogJunction criterions);
+	
+	/**
+	 *Save or update the entity
+	 *@param entity the entity to save or update
+	 *@param isNew true if it is a new entity added for the first time.
+	 */
+	public void saveOrUpdate(«name.toFirstUpper()» entity, boolean isNew);
+	
+	/**
+	 *Save or update the entity without modifing the upload date
+	 *@param entity the entity to save or update
+	 *@param isNew true if it is a new entity added for the first time.
+	 */
+	public void saveOrUpdateShadow(«name.toFirstUpper()» entity, boolean isNew);
+	
+	/* relation dependences */
+	«FOREACH groups.fields AS f -»
+		«EXPAND methodsForRelation(name.toFirstUpper()) FOR f -»
+	«ENDFOREACH -»
+	
+	«EXPAND specificPart FOR this -»
+	
+	«IF Actor.isAssignableFrom(this.metaType) -»
+	/**
+	 * get the associated actor from the login id.
+	 * @param login the actor login
+	 * @return the actor if it exists or null
+	 */
+	public List<«name.toFirstUpper()»Actor> get«name.toFirstUpper()»ActorFromLogin(String login);
+	«ENDIF -»
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM»
+	Imports implied by the relation fields «ENDREM»
+«DEFINE importsForRelation(String projectName) FOR FieldEntity»«ENDDEFINE»
+«DEFINE importsForRelation(String projectName) FOR RelationFieldEntity»
+import org.imogene.«projectName.toLowerCase()».client.entity.«entity.name.toFirstUpper()»;
+«ENDDEFINE»
+
+«REM»
+	DAO methods implied by the relation fields «ENDREM»
+«DEFINE methodsForRelation(String parentEntityType) FOR FieldEntity»«ENDDEFINE»
+«DEFINE methodsForRelation(String parentEntityType) FOR RelationFieldEntity»
+«IF cardinality == -1 || cardinality>1 »
+/**
+ * List associated «entity.name.toFirstUpper()», 
+ * on the field «name.toFirstLower()»
+ *@param parent the parent entity
+ *@return the list of the associated entities
+ */
+public List<«entity.name.toFirstUpper()»> list«entity.name.toFirstUpper()»(«parentEntityType» parent);
+«ENDIF»
+«ENDDEFINE»
+
+«REM»
+	Specific part AOP hook«ENDREM»
+«DEFINE specificPart FOR CardEntity »«ENDDEFINE»
