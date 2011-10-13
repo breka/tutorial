@@ -1,8 +1,7 @@
-#Tue Oct 04 10:28:19 CEST 2011
+#Thu Oct 13 11:35:17 CEST 2011
 eclipse.preferences.version=1
 encoding//src/adminTpl/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/adminTpl/dot_project.xpt=ISO-8859-1
-encoding//src/adminTpl/entity/actor.xpt=ISO-8859-1
 encoding//src/adminTpl/entity/actorDataProvider.xpt=ISO-8859-1
 encoding//src/adminTpl/entity/actorFormComposite.xpt=ISO-8859-1
 encoding//src/adminTpl/entity/actorListComposite.xpt=ISO-8859-1
@@ -24,6 +23,7 @@ encoding//src/adminTpl/server/application_properties.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/entityDao.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/entityDaoHibernate.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/hibernateMapping.xpt=ISO-8859-1
+encoding//src/adminTpl/server/dao/hibernateMappingForActors.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/roleActorDao.xpt=ISO-8859-1
 encoding//src/adminTpl/server/dao/roleActorDaoHibernate.xpt=ISO-8859-1
 encoding//src/adminTpl/server/security/ImogSecurityDetailService.xpt=ISO-8859-1
