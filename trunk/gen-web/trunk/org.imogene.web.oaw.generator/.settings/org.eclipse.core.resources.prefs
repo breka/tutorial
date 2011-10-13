@@ -1,4 +1,4 @@
-#Mon Oct 10 11:13:19 CEST 2011
+#Thu Oct 13 11:30:05 CEST 2011
 eclipse.preferences.version=1
 encoding//src/template/WebFieldUtil.xpt=ISO-8859-1
 encoding//src/template/accessManager.xpt=ISO-8859-1
@@ -29,6 +29,7 @@ encoding//src/template/server/application_properties.xpt=ISO-8859-1
 encoding//src/template/server/dao/entityDao.xpt=ISO-8859-1
 encoding//src/template/server/dao/entityDaoHibernate.xpt=ISO-8859-1
 encoding//src/template/server/dao/hibernateMapping.xpt=ISO-8859-1
+encoding//src/template/server/dao/hibernateMappingForActors.xpt=ISO-8859-1
 encoding//src/template/server/security/ImogSecurityDetailService.xpt=ISO-8859-1
 encoding//src/template/server/security/securityHandler.xpt=ISO-8859-1
 encoding//src/template/server/security/securityPolicy.xpt=ISO-8859-1
