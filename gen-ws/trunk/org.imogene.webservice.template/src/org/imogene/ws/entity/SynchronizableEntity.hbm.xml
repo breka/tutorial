@@ -1,7 +1,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-	<class lazy="false" table="sync_entity" name="org.imogene.web.gwt.client.sync.SynchronizableEntity">	
+	<class lazy="false" table="sync_entity" name="org.imogene.ws.entity.SynchronizableEntity">	
 		<id column="SyncEntity_Id" name="id"/>
 		<property column="SyncEntity_LastModificationDate" name="modified" type="timestamp"/>
 		<property column="SyncEntity_UploadDate" name="uploadDate" type="timestamp"/>
