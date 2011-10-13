@@ -80,7 +80,7 @@ public class RoundCornerGen extends AbstractExpressionsUsingWorkflowComponent {
 				for(CardEntity entity : entities){
 					String color = entity.getColor();
 					if(color !=null && !colors.contains(color) && color.length()==6){
-						generateCorner(color);
+						generateCorner(color, false);
 						colors.add(color);
 					}
 				}
@@ -92,7 +92,7 @@ public class RoundCornerGen extends AbstractExpressionsUsingWorkflowComponent {
 	 * 
 	 * @param color
 	 */
-	private void generateCorner(final String color){
+	private void generateCorner(final String color, final boolean round){
 		try {
 			/* draw the image */
 			final Display display = Display.getDefault();			
@@ -107,8 +107,12 @@ public class RoundCornerGen extends AbstractExpressionsUsingWorkflowComponent {
 					GC gc = new GC(image);
 					gc.setBackground(c);
 					gc.setForeground(display.getSystemColor(SWT.COLOR_RED));
-					gc.setAntialias(SWT.ON);					
-					gc.fillOval(0, 0, 10, 10);
+					gc.setAntialias(SWT.ON);
+					if(round){
+						gc.fillOval(0, 0, 10, 10);
+					}else{									
+						gc.fillRectangle(0, 0, 10, 10);
+					}
 					
 					/* save the image */
 					ImageLoader loader = new ImageLoader();
