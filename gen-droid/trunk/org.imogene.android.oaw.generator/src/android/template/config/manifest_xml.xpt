@@ -38,14 +38,11 @@
 		
 		<activity 
 			android:name="org.imogene.android.app.setup.AccountSetupBasics"
-			android:label="@string/account_setup_basics_title"
-			android:exported="true"
-			android:windowSoftInputMode="adjustPan"/>
+			android:label="@string/account_setup_basics_title" />
 			
 		<activity
 			android:name="org.imogene.android.app.setup.AccountSetupShortPassword"
-			android:label="@string/account_setup_shortpw_title"
-			android:windowSoftInputMode="adjustPan"/>
+			android:label="@string/account_setup_shortpw_title" />
 		
 		<activity
 			android:name="org.imogene.android.app.ImageCapture"
