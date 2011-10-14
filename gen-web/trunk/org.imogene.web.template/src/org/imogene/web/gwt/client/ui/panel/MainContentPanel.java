@@ -4,6 +4,7 @@ import org.imogene.web.gwt.client.ui.menu.MenuList;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,6 +25,7 @@ public class MainContentPanel extends Composite {
 	private VerticalPanel leftSide;
 	private MenuList menuList;	
 	private Widget content;
+	private SimplePanel specific;
 	
 			
 	public MainContentPanel(){
@@ -35,6 +37,8 @@ public class MainContentPanel extends Composite {
 		layout = new HorizontalPanel();
 		leftSide = new VerticalPanel();
 		menuList = new MenuList();
+		specific = new SimplePanel();
+		leftSide.add(specific);
 		leftSide.add(menuList);	
 		layout.add(leftSide);				
 		initWidget(layout);	
@@ -66,6 +70,13 @@ public class MainContentPanel extends Composite {
 	 */
 	public MenuList getMenuList(){
 		return menuList;
+	}
+	
+	public void setSpecificPart(Widget w){
+		if(specific.getWidget()!=null)
+			throw new RuntimeException("A specific part has already been added");
+		else
+			specific.add(w);
 	}
 	
 }
