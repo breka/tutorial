@@ -102,4 +102,10 @@ public class MenuListTema extends Composite implements SelectionHandler {
 		layout.setCellHorizontalAlignment(separator, VerticalPanel.ALIGN_LEFT);
 	}
 	
+	public void unselectAll(){
+		for(MenuItem item : items){
+			item.setSelected(false);
+		}
+	}
+	
 }

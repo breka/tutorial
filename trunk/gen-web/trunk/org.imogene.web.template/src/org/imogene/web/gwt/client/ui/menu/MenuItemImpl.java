@@ -39,27 +39,27 @@ public class MenuItemImpl extends MenuItem {
 		initWidget(layout);
 	}
 	
-	private void properties(){
+	private void properties() {
 		layout.setWidth("100%");
-		layout.setStylePrimaryName("imogene-MenuItem");		
+		layout.setStylePrimaryName("imogene-MenuItem");
 		MouseOverHandler mouseOver = new MouseOverHandler() {
-			
+
 			@Override
-			public void onMouseOver(MouseOverEvent arg0) {	
-				if(!selected)
+			public void onMouseOver(MouseOverEvent arg0) {
+				if (!selected)
 					layout.addStyleDependentName("selected");
-	}
+			}
 		};
 		MouseOutHandler mouseOut = new MouseOutHandler() {
-	
+
 			@Override
-			public void onMouseOut(MouseOutEvent arg0) {				
+			public void onMouseOut(MouseOutEvent arg0) {
 				layout.removeStyleDependentName("selected");
 			}
 		};
 		layout.addDomHandler(mouseOver, MouseOverEvent.getType());
 		layout.addDomHandler(mouseOut, MouseOutEvent.getType());
-		
+		link.setWidth("90%");
 	}
 	
 	@SuppressWarnings("deprecation")

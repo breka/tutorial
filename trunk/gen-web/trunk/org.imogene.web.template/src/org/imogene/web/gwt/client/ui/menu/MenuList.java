@@ -1,5 +1,8 @@
 package org.imogene.web.gwt.client.ui.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -14,6 +17,7 @@ public class MenuList extends Composite {
 	
 	private VerticalPanel layout;	
 	
+	private List<MenuListTema> temas = new ArrayList<MenuListTema>();
 	
 	public MenuList(){
 		layout();
@@ -34,12 +38,13 @@ public class MenuList extends Composite {
 	
 	
 	public void addItem(MenuListEntity item){
-		layout.add(item);
+		layout.add(item);		
 		//layout.setCellWidth(item, "100%");	
 	}
 	
 	public void addItem(MenuListTema item){
 		layout.add(item);
+		temas.add(item);
 		//layout.setCellWidth(item, "100%");	
 	}
 	
@@ -51,6 +56,15 @@ public class MenuList extends Composite {
 		separator.setStyleName("imogene-MenuItemSeparator");
 		layout.add(separator);
 		layout.setCellHorizontalAlignment(separator, VerticalPanel.ALIGN_LEFT);
+	}
+	
+	/**
+	 * Unselect all item of this menu.
+	 */
+	public void unselectAll(){
+		for(MenuListTema tema : temas){
+			tema.unselectAll();
+		}
 	}
 	
 }
