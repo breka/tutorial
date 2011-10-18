@@ -55,6 +55,10 @@ public class BinaryFileHandler extends EntityHandlerImpl implements EntityHandle
 	public List<Synchronizable> loadEntities(SynchronizableUser user, String terminalId) {
 		return loadEntities(user);
 	}
+	
+	public List<Synchronizable> loadEntities(SynchronizableUser user, String terminalId, List<Synchronizable> potentialParents) {
+		return loadEntities(user, potentialParents);
+	}
 
 	public List<Synchronizable> loadEntities(SynchronizableUser user) {	
 		
@@ -92,6 +96,40 @@ public class BinaryFileHandler extends EntityHandlerImpl implements EntityHandle
 		
 	}
 	
+	public List<Synchronizable> loadEntities(SynchronizableUser user, List<Synchronizable> potentialParents) {	
+		
+		List<Synchronizable> result = new ArrayList<Synchronizable>();	
+		List<Synchronizable> binaries = getDao().loadEntities();	
+		for(Synchronizable item:binaries) {
+			Binary binary =  (Binary)item;
+			
+			EntityHandler entityHandler = (EntityHandler) dataHandlerManager.getHandler(SynchronizableUtil.getInstance().getEntityPath(binary.getParentEntity()));
+			if (entityHandler!=null) {
+				Synchronizable entity = entityHandler.loadEntity(binary.getParentKey(), user);
+				if (entity!=null && potentialParents.contains(entity)) {
+					
+						try {
+							Method getterMethod = entity.getClass().getMethod(binary.getParentFieldGetter(), (Class[])null); 
+							String value = (String)getterMethod.invoke(entity, (Object[])null);
+							if (value!=null && value.equals(binary.getId()))
+								result.add(item);
+						} catch (IllegalArgumentException e) {
+							logger.error(e.getMessage());
+						} catch (SecurityException e) {
+							logger.error(e.getMessage());
+						} catch (IllegalAccessException e) {
+							logger.error(e.getMessage());
+						} catch (InvocationTargetException e) {
+							logger.error(e.getMessage());
+						} catch (NoSuchMethodException e) {
+							logger.error(e.getMessage());
+						}
+				}				
+			}			
+		}
+		return result;				
+	}
+	
 	public List<Synchronizable> loadModified(Date date, SynchronizableUser user, String terminalId) {
 		return loadModified(date, user);
 	}
@@ -108,6 +146,48 @@ public class BinaryFileHandler extends EntityHandlerImpl implements EntityHandle
 			if (entityHandler!=null) {
 				Synchronizable entity = entityHandler.loadModified(binary.getParentKey(), date, user);
 				if (entity!=null) {
+					
+						try {
+							Method getterMethod = entity.getClass().getMethod(binary.getParentFieldGetter(), (Class[])null); 
+							String value = (String)getterMethod.invoke(entity, (Object[])null);
+							
+							loggerEmpty.debug("Id retrieve form parent : " + value + ", binary id : "+binary.getId());
+							if (value!=null && value.equals(binary.getId()))
+								result.add(item);
+						} catch (IllegalArgumentException e) {
+							logger.error(e.getMessage());
+						} catch (SecurityException e) {
+							logger.error(e.getMessage());
+						} catch (IllegalAccessException e) {
+							logger.error(e.getMessage());
+						} catch (InvocationTargetException e) {
+							logger.error(e.getMessage());
+						} catch (NoSuchMethodException e) {
+							logger.error(e.getMessage());
+						}
+				}				
+			}			
+		}
+
+		return result;
+	}
+	
+	public List<Synchronizable> loadModified(Date date, SynchronizableUser user, String terminalId, List<Synchronizable> potentialParents) {
+		return loadModified(date, user, potentialParents);
+	}
+	
+	public List<Synchronizable> loadModified(Date date, SynchronizableUser user, List<Synchronizable> potentialParents) {	
+		List<Synchronizable> result = new ArrayList<Synchronizable>();	
+		List<Synchronizable> binaries = getDao().loadModified(date);
+		loggerEmpty.debug("Number of binaries to send : " + binaries.size());
+		for(Synchronizable item:binaries) {
+			Binary binary =  (Binary)item;
+			
+			/* Get the handler of the parent entity */
+			EntityHandler entityHandler = (EntityHandler) dataHandlerManager.getHandler(SynchronizableUtil.getInstance().getEntityPath(binary.getParentEntity()));
+			if (entityHandler!=null) {
+				Synchronizable entity = entityHandler.loadModified(binary.getParentKey(), date, user);
+				if (entity!=null && potentialParents.contains(entity)) {
 					
 						try {
 							Method getterMethod = entity.getClass().getMethod(binary.getParentFieldGetter(), (Class[])null); 
