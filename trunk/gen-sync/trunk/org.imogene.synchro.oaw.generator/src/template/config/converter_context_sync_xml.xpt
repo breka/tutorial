@@ -26,6 +26,9 @@
 	<!-- Initialize the Synchronizable Entities Converter -->
 	<bean class="org.imogene.sync.serializer.xml.SynchronizablesConverter" id="synchronizablesConverter"/>	
 	
+	<!-- Initialize the Filter Converter -->
+	<bean class="org.imogene.sync.serializer.xml.FiltersConverter" id="filtersConverter"/>	
+	
 	<!-- Initialize the Binary Converter -->
 	<bean id="binaryConverter" class="org.imogene.sync.server.binary.file.BinaryFileConverter"/> 	
 	
@@ -121,11 +124,12 @@
 
 
 «DEFINE filterField(String packageName) FOR FilterField-»
-	<bean class="«packageName.toLowerCase()».serializer.xml.«this.name.toFirstUpper()»«this.parentActor.name.toFirstUpper()»FilterFieldConverter" id="«EXPAND template::CommonFieldUtil::propertyName FOR this-»Converter"/>	
+	<!-- <bean class="«packageName.toLowerCase()».serializer.xml.«this.name.toFirstUpper()»«this.parentActor.name.toFirstUpper()»FilterFieldConverter" id="«EXPAND template::CommonFieldUtil::propertyName FOR this-»Converter"/> -->	
 	<bean class="org.imogene.sync.serializer.xml.PropertyConverter" id="«EXPAND template::CommonFieldUtil::propertyName FOR this-»PropertyConverter">
-		<property name="className" value="«packageName.toLowerCase()».entity.«this.parentActor.name.toFirstUpper()»User"/>
+		<property name="className" value="«packageName.toLowerCase()».entity.«this.parentActor.name.toFirstUpper()»"/>
 		<property name="propertyName" value="«EXPAND template::CommonFieldUtil::propertyName FOR this-»"/>
-		<property name="converter" ref="«EXPAND template::CommonFieldUtil::propertyName FOR this-»Converter"/>
+		<!-- <property name="converter" ref="«EXPAND template::CommonFieldUtil::propertyName FOR this-»Converter"/>  -->
+		<property name="converter" ref="filtersConverter"/>
 	</bean>	 	
 «ENDDEFINE»
 
