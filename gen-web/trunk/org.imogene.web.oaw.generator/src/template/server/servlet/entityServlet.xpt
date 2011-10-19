@@ -526,6 +526,8 @@ public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(String paren
 
 «REM» Imports for filter fields «ENDREM»
 «DEFINE importsForFilterFields(String projectName) FOR CardEntity -»
+	import java.util.Set;
+	import org.imogene.web.server.util.FilterFieldsHelper;
 	import org.imogene.web.gwt.common.criteria.BasicCriteria;
 	import org.imogene.web.gwt.common.criteria.CriteriaConstants;	
 	import org.imogene.web.gwt.common.criteria.ImogDisjunction;
@@ -540,12 +542,17 @@ public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(String paren
 	/* add filter field for actor «actorField.parentActor.name.toFirstUpper()» */
 	if(actor instanceof «actorField.parentActor.name.toFirstUpper()»){	
 		ImogJunction «actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()» = new ImogDisjunction();
-		for(Object «entityField.entity.name.toFirstLower()»:((«actorField.parentActor.name.toFirstUpper()»)actor).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
-			BasicCriteria criteria = new BasicCriteria();
-			criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
-			criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");
-			criteria.setValue(((«entityField.entity.name.toFirstUpper()»)«this.entityField.entity.name.toFirstLower()»).getId());
-			«actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()».add(criteria);
+		Set<«entityField.entity.name.toFirstUpper()»> filters = ((«actorField.parentActor.name.toFirstUpper()»)actor).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»();
+		if(filters!=null && !filters.isEmpty()){
+			for(Object «entityField.entity.name.toFirstLower()»:filters){
+				BasicCriteria criteria = new BasicCriteria();
+				criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
+				criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");
+				criteria.setValue(((«entityField.entity.name.toFirstUpper()»)«this.entityField.entity.name.toFirstLower()»).getId());
+				«actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()».add(criteria);
+			}
+		}else{
+			FilterFieldsHelper.addEmptyFilter(«actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()»);
 		}
 		filterConjunction.add(«actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()»);
 	}
