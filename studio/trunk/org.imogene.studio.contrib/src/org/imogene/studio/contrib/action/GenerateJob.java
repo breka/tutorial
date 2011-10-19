@@ -54,6 +54,8 @@ public class GenerateJob extends WorkspaceJob implements GenerationManager {
 	private final HashMap<String, String> mProperties;
 
 	private final String mWorkflowPath;
+	
+	private final boolean mUnCompressArchive;
 
 	private IconCopyTask mIconCopyTask = null;
 
@@ -63,7 +65,7 @@ public class GenerateJob extends WorkspaceJob implements GenerationManager {
 
 	public GenerateJob(IProject selectedProject, String projectName,
 			InputStream archive, InputStream definition,
-			HashMap<String, String> properties, String workflow) {
+			HashMap<String, String> properties, String workflow, boolean uncompress) {
 		super(projectName);
 		mSelectedProject = selectedProject;
 		mProjectName = projectName;
@@ -71,6 +73,7 @@ public class GenerateJob extends WorkspaceJob implements GenerationManager {
 		mDefinition = definition;
 		mProperties = properties;
 		mWorkflowPath = workflow;
+		mUnCompressArchive = uncompress;
 	}
 
 	@Override
@@ -80,12 +83,14 @@ public class GenerateJob extends WorkspaceJob implements GenerationManager {
 		if (!createProject(mProjectName))
 			return Status.CANCEL_STATUS;
 		
-		/* unzip the template and parse the properties */
-		unCompressArchive(project.getLocation().toOSString(), mArchive);
-		parseTemplate();
-		File[] files = project.getLocation().toFile().listFiles();
-		for (File file : files)
-			processFile(file);
+		if (mUnCompressArchive) {
+			/* unzip the template and parse the properties */
+			unCompressArchive(project.getLocation().toOSString(), mArchive);
+			parseTemplate();
+			File[] files = project.getLocation().toFile().listFiles();
+			for (File file : files)
+				processFile(file);
+		}
 
 		/* generation process */
 		if (mWorkflowPath != null) {			
