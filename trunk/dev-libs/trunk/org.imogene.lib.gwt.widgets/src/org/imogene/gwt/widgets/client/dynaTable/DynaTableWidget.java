@@ -51,9 +51,18 @@ public class DynaTableWidget extends Composite {
 	// for quick search
 	private TextBox valueFilter;	
 	private PushButton filterButton;
+	private boolean checkBoxesVisible=true;
 	
 	
 	
+	public boolean isCheckBoxesVisible() {
+		return checkBoxesVisible;
+	}
+
+	public void setCheckBoxesVisible(boolean checkBoxesVisible) {
+		this.checkBoxesVisible = checkBoxesVisible;
+	}
+
 	/**
 	 * construct a dynamic table widget
 	 * 
@@ -603,7 +612,9 @@ public class DynaTableWidget extends Composite {
 					if(selectedRow.contains(entitiesIds[destRowIndex-1])){
 						check=true;
 					}
-					grid.setWidget(destRowIndex, 0, createCheckBox(entitiesIds[destRowIndex-1],check));
+					
+					if(checkBoxesVisible)
+						grid.setWidget(destRowIndex, 0, createCheckBox(entitiesIds[destRowIndex-1],check));
 					for (int srcColIndex = 1; srcColIndex < destColCount; ++srcColIndex) {
 						Widget widget = srcRowData[srcColIndex-1];
 						grid.clearCell(destRowIndex, srcColIndex);
@@ -718,7 +729,7 @@ public class DynaTableWidget extends Composite {
 					}
 				}
 				
-			});
+			});							
 			return chkb;			
 		}
 		
