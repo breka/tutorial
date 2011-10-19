@@ -260,6 +260,9 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	 */
 	public void setEditable(boolean editable){
 		super.setEditable(editable);		
+		if(editable){
+			LocalSession.get().addToEdited(hashCode());
+		}
 
 		«FOREACH groups AS g »
 		/* «g.name.toFirstUpper()» group fields */
@@ -392,6 +395,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 	 */
 	@Override
 	protected void cancel(){
+		LocalSession.get().removeFromEdited(hashCode());
 		set«name.toFirstUpper()»(entity);		
 	}
 	
@@ -516,6 +520,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 				isNew = false;
 			}
 			/* behavior if form should be closed after save action */
+			LocalSession.get().removeFromEdited(hashCode());
 			closeForm();
 		}		
 	}

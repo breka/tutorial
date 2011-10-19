@@ -52,6 +52,7 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 	/* timer to check session validity */
 	private Timer sessionTimer;
 	
+	private String lastToken="";
 	
 	/**
 	 * The message displayed to the user when the server cannot be reached or
@@ -113,29 +114,38 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
 		
-		String token = event.getValue();
-		if(token.equals("")){
-			«FOREACH entities AS e ITERATOR i -»
-			«IF i.counter0 == 0 -»
-			History.newItem("list/«e.name.toLowerCase()»");
-			«ENDIF -»
-			«ENDFOREACH -»			
+		boolean confirmed = true;
+		if(LocalSession.get().isEditing()){
+			confirmed = Window.confirm("Voulez-vous abandonner les modifications en cours ?");
 		}
-		else if (token.equals("logout")) {
-			logout();
-			return;
-		}
-		else if(token.equals("back")){			
-			History.back();			
-			History.back();	
-			return;
-		}
+		if(confirmed){			
+			String token = event.getValue();
+			lastToken = token;
+			if(token.equals("")){
+				«FOREACH entities AS e ITERATOR i -»
+				«IF i.counter0 == 0 -»
+				History.newItem("list/«e.name.toLowerCase()»");
+				«ENDIF -»
+				«ENDFOREACH -»			
+			}
+			else if (token.equals("logout")) {
+				logout();
+				return;
+			}
+			else if(token.equals("back")){			
+				History.back();			
+				History.back();	
+				return;
+			}
 		
-		if (!token.equals("") && content!=null) {
-			Widget tokenView = TokenHandler.getViewForToken(token);
-			if (tokenView != null)
-				content.setContent(tokenView);
-		}	
+			if (!token.equals("") && content!=null) {
+				Widget tokenView = TokenHandler.getViewForToken(token);
+				if (tokenView != null)
+					content.setContent(tokenView);
+			}	
+		}else{
+			History.newItem(lastToken, false);
+		}
 	}
 
 	/**
