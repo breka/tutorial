@@ -51,6 +51,8 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	private ArrayList<OnDependencyChangeListener> mDependents;
 	
+	private ArrayList<OnValueChangeListener> mListeners; 
+	
 	private Dialog mDialog;
 	private Dialog mHelpDialog;
 	
@@ -226,6 +228,7 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		mValue = value;
 		onChangeValue();
 		notifyDependencyChange();
+		notifyValueChange();
 	}
 	
 	public T getValue() {
@@ -250,6 +253,16 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		if (mDividerView != null) {
 			mDividerView.setVisibility(getVisibility());
 		}
+	}
+	
+	public void registerOnValueChangeListener(OnValueChangeListener listener) {
+		if (mListeners == null) {
+			mListeners = new ArrayList<OnValueChangeListener>();
+		}
+		
+		mListeners.add(listener);
+		
+		listener.onValueChange();
 	}
 	
 	public void registerDependent(OnDependencyChangeListener dependent, String dependencyValue) {
@@ -326,6 +339,20 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		for (int i = 0 ; i < size; i++) {
 			final OnDependencyChangeListener listener = dependents.get(i);
 			listener.onDependencyChanged();
+		}
+	}
+	
+	private void notifyValueChange() {
+		final ArrayList<OnValueChangeListener> listeners = mListeners;
+		
+		if (listeners == null) {
+			return;
+		}
+		
+		final int size = listeners.size();
+		for (int i = 0 ; i < size ; i++) {
+			final OnValueChangeListener listener = mListeners.get(i);
+			listener.onValueChange();
 		}
 	}
 	
