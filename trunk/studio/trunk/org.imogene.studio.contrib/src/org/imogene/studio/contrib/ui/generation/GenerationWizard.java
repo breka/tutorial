@@ -13,7 +13,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 import org.imogene.model.core.Project;
 import org.imogene.oaw.generator.common.OawGeneratorMedooCommon;
@@ -80,18 +83,39 @@ public class GenerationWizard extends Wizard {
 		}
 		
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		
+		boolean uncompress = true;
 		if (project.exists()) {
-			boolean delete = MessageDialog.openQuestion(getShell(), Messages.GenerationWizard_1, Messages.GenerationWizard_2);
-			if (delete)
+			MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoCancelQuestion(
+					getShell(),
+					Messages.GenerationWizard_1,
+					Messages.GenerationWizard_2,
+					Messages.GenerationWizard_3,
+					true, null, null);
+			switch (dialog.getReturnCode()) {
+			case IDialogConstants.YES_ID:
 				try {
 					project.delete(true, true, null);
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
+				break;
+			case IDialogConstants.CANCEL_ID:
+				return true;
+			}
+			uncompress = dialog.getToggleState();
+//			boolean delete = MessageDialog.openQuestion(getShell(), Messages.GenerationWizard_1, Messages.GenerationWizard_2);
+//			if (delete) {
+//				try {
+//					project.delete(true, true, null);
+//				} catch (CoreException e) {
+//					e.printStackTrace();
+//				}
+//			} 
 		}
 		
 		GenerateJob job = new GenerateJob(selectedProject, projectName,
-				archive, definition, properties, workflow);
+				archive, definition, properties, workflow, uncompress);
 		job.setIconCopyTask(mIconCopyTask);
 		job.setPostGenerationTask(mPostGenerationTask);
 		job.schedule();
