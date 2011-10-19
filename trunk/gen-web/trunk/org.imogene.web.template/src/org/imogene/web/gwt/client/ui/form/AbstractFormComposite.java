@@ -1,5 +1,6 @@
 package org.imogene.web.gwt.client.ui.form;
 
+import org.imogene.web.gwt.client.LocalSession;
 import org.imogene.web.gwt.client.i18n.BaseNLS;
 import org.imogene.web.gwt.client.i18n.TextFormatUtil;
 import org.imogene.web.gwt.client.ui.panel.TaskWrapperPanel;
@@ -160,6 +161,7 @@ public abstract class AbstractFormComposite extends DisclosureContainerComposite
 		cancelButton.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
+				LocalSession.get().removeFromEdited(hashCode());
 				if(isNew){
 					closeForm();
 				}else{
