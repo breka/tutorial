@@ -28,7 +28,6 @@ import org.imogene.sync.server.clientfilter.ClientFilterDao;
 import org.imogene.sync.server.clientfilter.ClientFilterUtil;
 import org.imogene.uao.clientfilter.ClientFilter;
 «ENDIF -»	
-
 «IF Actor.isAssignableFrom(this.metaType)-»
 import org.imogene.common.data.handler.UserHandler;
 «ELSE -»
@@ -276,6 +275,8 @@ public class «this.name»Handler extends EntityHandlerImpl implements «IF Actor.i
 «REM» Import for filter field«ENDREM»
 «DEFINE importEntityForFilterField(String packageName) FOR CardEntity»
 	«FOREACH this.actorFilterFields AS actorField»
+	import java.util.Set;
+	import org.imogene.synchro.FilterFieldsHelper;
 	import «packageName.toLowerCase()».entity.«actorField.actorField.parentActor.name.toFirstUpper()»;
 	import «packageName.toLowerCase()».entity.«actorField.entityField.entity.name.toFirstUpper()»;
 	«ENDFOREACH»
@@ -286,12 +287,17 @@ public class «this.name»Handler extends EntityHandlerImpl implements «IF Actor.i
 		/* add filter field for user «actorField.parentActor.name.toFirstUpper()» */
 		if(user instanceof «actorField.parentActor.name.toFirstUpper()»){	
 			ImogJunction «this.actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()» = new ImogDisjunction();
-			for(Object «this.entityField.entity.name.toFirstLower()»:((«this.actorField.parentActor.name.toFirstUpper()»)user).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»()){
-				BasicCriteria criteria = new BasicCriteria();
-				criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
-				criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");
-				criteria.setValue(((«this.entityField.entity.name.toFirstUpper()»)«this.entityField.entity.name.toFirstLower()»).getId());
-				«this.actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()».add(criteria);
+			Set<«this.entityField.entity.name.toFirstUpper()»> filters = ((«this.actorField.parentActor.name.toFirstUpper()»)user).«EXPAND template::CommonFieldUtil::getterName FOR this.actorField»();
+			if(filters!=null && !filters.isEmpty()){
+				for(Object «this.entityField.entity.name.toFirstLower()»:filters){
+					BasicCriteria criteria = new BasicCriteria();
+					criteria.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
+					criteria.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this.entityField».id");
+					criteria.setValue(((«this.entityField.entity.name.toFirstUpper()»)«this.entityField.entity.name.toFirstLower()»).getId());
+					«this.actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()».add(criteria);
+				}
+			}else {
+				FilterFieldsHelper.addEmptyFilter(«this.actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()»);
 			}
 			filterConjunction.add(«this.actorField.name.toFirstLower()»«this.entityField.name.toFirstUpper()»);
 		}
