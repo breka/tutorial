@@ -4,8 +4,7 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
 import java.lang.reflect.Method;
 
-import org.imogene.android.Constants.Keys;
-import org.imogene.android.Constants.Sync;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.sync.FieldHandler;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -33,15 +32,15 @@ public class SingleEntHandler<T> implements FieldHandler<T> {
 		try {
 			if (parser.nextTag() == START_TAG) {
 				parser.require(START_TAG, null, mPackage);
-				String id = parser.getAttributeValue(null, Keys.KEY_ID);
+				String id = parser.getAttributeValue(null, Entity.Columns.ID);
 
 				ContentResolver res = context.getContentResolver();
-				Cursor c = res.query(mUri, new String[] { Keys.KEY_ROWID }, Keys.KEY_ID + "='" + id + "'", null, null);
+				Cursor c = res.query(mUri, new String[] { Entity.Columns._ID }, Entity.Columns.ID + "='" + id + "'", null, null);
 				if (c.getCount() != 1) {
 					c.close();
 					ContentValues values = new ContentValues();
-					values.put(Keys.KEY_ID, id);
-					values.put(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+					values.put(Entity.Columns.ID, id);
+					values.put(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 					mMethod.invoke(entity, res.insert(mUri, values));
 				} else {
 					c.moveToFirst();

@@ -13,7 +13,6 @@ import org.xmlpull.v1.XmlSerializer;
 import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.common.LocalizedText;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.util.LocalizedTextList;
@@ -28,48 +27,48 @@ public class «name.toFirstUpper()-»Serializer {
 
 	public static void serialize(Context context, «name.toFirstUpper()-»Cursor cursor, XmlSerializer serializer) throws IllegalArgumentException, IllegalStateException, IOException {
 		
-		serializer.startTag(null, «name.toFirstUpper()-».PACKAGE);
+		serializer.startTag(null, «name.toFirstUpper()-».Columns.PACKAGE);
 		
-		serializer.startTag(null, Keys.KEY_ID);
+		serializer.startTag(null, «name.toFirstUpper()».Columns.ID);
 		serializer.text(cursor.getId());
-		serializer.endTag(null, Keys.KEY_ID);
+		serializer.endTag(null, «name.toFirstUpper()».Columns.ID);
 
-		serializer.startTag(null, Keys.KEY_MODIFIED);
+		serializer.startTag(null, «name.toFirstUpper()».Columns.MODIFIED);
 		serializer.attribute(null, "class", "sql-timestamp");
 		serializer.text(String.valueOf(cursor.getModified()));
-		serializer.endTag(null, Keys.KEY_MODIFIED);
+		serializer.endTag(null, «name.toFirstUpper()».Columns.MODIFIED);
 		
-		serializer.startTag(null, Keys.KEY_UPLOADDATE);
+		serializer.startTag(null, «name.toFirstUpper()».Columns.UPLOADDATE);
 		serializer.attribute(null, "class", "sql-timestamp");
 		serializer.text(String.valueOf(cursor.getUploadDate()));
-		serializer.endTag(null, Keys.KEY_UPLOADDATE);
+		serializer.endTag(null, «name.toFirstUpper()».Columns.UPLOADDATE);
 		
-		serializer.startTag(null, Keys.KEY_MODIFIEDBY);
+		serializer.startTag(null, «name.toFirstUpper()».Columns.MODIFIEDBY);
 		serializer.text(cursor.getModifiedBy());
-		serializer.endTag(null, Keys.KEY_MODIFIEDBY);
+		serializer.endTag(null, «name.toFirstUpper()».Columns.MODIFIEDBY);
 		
-		serializer.startTag(null, Keys.KEY_MODIFIEDFROM);
+		serializer.startTag(null, «name.toFirstUpper()».Columns.MODIFIEDFROM);
 		serializer.text(cursor.getModifiedFrom());
-		serializer.endTag(null, Keys.KEY_MODIFIEDFROM);
+		serializer.endTag(null, «name.toFirstUpper()».Columns.MODIFIEDFROM);
 		
-		serializer.startTag(null, Keys.KEY_CREATED);
+		serializer.startTag(null, «name.toFirstUpper()».Columns.CREATED);
 		serializer.attribute(null, "class", "sql-timestamp");
 		serializer.text(String.valueOf(cursor.getCreated()));
-		serializer.endTag(null, Keys.KEY_CREATED);
+		serializer.endTag(null, «name.toFirstUpper()».Columns.CREATED);
 		
-		serializer.startTag(null, Keys.KEY_CREATEDBY);
+		serializer.startTag(null, «name.toFirstUpper()».Columns.CREATEDBY);
 		serializer.text(cursor.getCreatedBy());
-		serializer.endTag(null, Keys.KEY_CREATEDBY);
+		serializer.endTag(null, «name.toFirstUpper()».Columns.CREATEDBY);
 		
 		«EXPAND serialization FOREACH groups.fields-»
 		
 		«IF hasLocalizedField(this)-»
-		serializer.startTag(null, Keys.KEY_TRANSLATIONS);
+		serializer.startTag(null, «name.toFirstUpper()».Columns.TRANSLATIONS_TAG);
 		«EXPAND localizedSerialization FOREACH groups.fields-»
-		serializer.endTag(null, Keys.KEY_TRANSLATIONS);
+		serializer.endTag(null, «name.toFirstUpper()».Columns.TRANSLATIONS_TAG);
 		«ENDIF-»
 		
-		serializer.endTag(null, «name.toFirstUpper()-».PACKAGE);
+		serializer.endTag(null, «name.toFirstUpper()-».Columns.PACKAGE);
 		
 		serializer.flush();
 	
@@ -189,9 +188,9 @@ if («shortName.toLowerCase()-» != null) {
 Uri «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
 if («shortName.toLowerCase()-» != null) {
 	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
-	serializer.startTag(null, «entity.name.toFirstUpper()-».PACKAGE);
+	serializer.startTag(null, «entity.name.toFirstUpper()-».Columns.PACKAGE);
 	serializer.attribute(null, "id", SQLiteWrapper.queryId(context, «shortName.toLowerCase()-»));
-	serializer.endTag(null, «entity.name.toFirstUpper()-».PACKAGE);
+	serializer.endTag(null, «entity.name.toFirstUpper()-».Columns.PACKAGE);
 	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 }
 «ELSE-»
@@ -200,9 +199,9 @@ serializer.startTag(null, "collection");
 ArrayList<Uri> «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
 if (!«shortName.toLowerCase()-».isEmpty()) {
 	for (Uri uri : «shortName.toLowerCase()-») {			
-		serializer.startTag(null, «entity.name.toFirstUpper()-».PACKAGE);
+		serializer.startTag(null, «entity.name.toFirstUpper()-».Columns.PACKAGE);
 		serializer.attribute(null, "id", SQLiteWrapper.queryId(context, uri));
-		serializer.endTag(null, «entity.name.toFirstUpper()-».PACKAGE);
+		serializer.endTag(null, «entity.name.toFirstUpper()-».Columns.PACKAGE);
 	}
 }
 serializer.endTag(null, "collection");

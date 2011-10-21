@@ -3,13 +3,12 @@ package org.imogene.android.database.sqlite;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.imogene.android.Constants.Keys;
-import org.imogene.android.Constants.Sync;
+import org.imogene.android.common.GpsLocation;
 import org.imogene.android.common.LocalizedText;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.LocalizedTextList;
-import org.imogene.android.util.database.GpsTableUtils;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -41,57 +40,57 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	}
 	
 	public final long getRowId() {
-		return getLong(getColumnIndexOrThrow(Keys.KEY_ROWID));
+		return getLong(getColumnIndexOrThrow(Entity.Columns._ID));
 	}
 
 	public final String getId() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_ID));
+		return getString(getColumnIndexOrThrow(Entity.Columns.ID));
 	}
 
 	public final long getModified() {
-		return getLong(getColumnIndexOrThrow(Keys.KEY_MODIFIED));
+		return getLong(getColumnIndexOrThrow(Entity.Columns.MODIFIED));
 	}
 
 	public final String getModifiedBy() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_MODIFIEDBY));
+		return getString(getColumnIndexOrThrow(Entity.Columns.MODIFIEDBY));
 	}
 
 	public final String getModifiedFrom() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_MODIFIEDFROM));
+		return getString(getColumnIndexOrThrow(Entity.Columns.MODIFIEDFROM));
 	}
 
 	public final long getUploadDate() {
-		return getLong(getColumnIndexOrThrow(Keys.KEY_UPLOADDATE));
+		return getLong(getColumnIndexOrThrow(Entity.Columns.UPLOADDATE));
 	}
 
 	public final long getCreated() {
-		return getLong(getColumnIndexOrThrow(Keys.KEY_CREATED));
+		return getLong(getColumnIndexOrThrow(Entity.Columns.CREATED));
 	}
 
 	public final String getCreatedBy() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_CREATEDBY));
+		return getString(getColumnIndexOrThrow(Entity.Columns.CREATEDBY));
 	}
 
 	public final boolean getUnread() {
-		return getInt(getColumnIndexOrThrow(Keys.KEY_UNREAD)) != 0;
+		return getInt(getColumnIndexOrThrow(Entity.Columns.UNREAD)) != 0;
 	}
 
 	public final boolean getSynchronized() {
-		return getInt(getColumnIndexOrThrow(Keys.KEY_SYNCHRONIZED)) != 0;
+		return getInt(getColumnIndexOrThrow(Entity.Columns.SYNCHRONIZED)) != 0;
 	}
 	
 	protected final Uri getEntity(Uri contentUri, String table, int columnIndex) {
 		String id = getString(columnIndex);
 		SQLiteBuilder builder = new SQLiteBuilder(table, "count(*)");
-		builder.appendEq(Keys.KEY_ID, id);
-		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+		builder.appendEq(Entity.Columns.ID, id);
+		builder.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 		SQLiteStatement stat = getDatabase().compileStatement(builder.toSQL());
 		long count = stat.simpleQueryForLong();
 		stat.close();
 		if (count != 1) {
 			return null;
 		} else {
-			builder.setSelect(Keys.KEY_ROWID);
+			builder.setSelect(Entity.Columns._ID);
 			stat = getDatabase().compileStatement(builder.toSQL());
 			long rowId = stat.simpleQueryForLong();
 			stat.close();
@@ -100,17 +99,17 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	}
 	
 	protected final Uri getEntity(Uri contentUri, String table, String key) {
-		String id = getString(getColumnIndexOrThrow(Keys.KEY_ID));
+		String id = getString(getColumnIndexOrThrow(Entity.Columns.ID));
 		SQLiteBuilder builder = new SQLiteBuilder(table, "count(*)");
 		builder.appendEq(key, id);
-		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+		builder.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 		SQLiteStatement stat = getDatabase().compileStatement(builder.toSQL());
 		long count = stat.simpleQueryForLong();
 		stat.close();
 		if (count != 1) {
 			return null;
 		} else {
-			builder.setSelect(Keys.KEY_ROWID);
+			builder.setSelect(Entity.Columns._ID);
 			stat = getDatabase().compileStatement(builder.toSQL());
 			long rowId = stat.simpleQueryForLong();
 			stat.close();
@@ -120,11 +119,11 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	
 	protected final ArrayList<Uri> getEntities(Uri contentUri, String table, String key) {
 		ArrayList<Uri> result = new ArrayList<Uri>();
-		String id = getString(getColumnIndexOrThrow(Keys.KEY_ID));
+		String id = getString(getColumnIndexOrThrow(Entity.Columns.ID));
 		SQLiteBuilder builder = new SQLiteBuilder();
 		builder.appendEq(key, id);
-		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
-		Cursor c = getDatabase().query(table, new String[] {Keys.KEY_ROWID}, builder.toSQL(), null, null, null, null);
+		builder.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
+		Cursor c = getDatabase().query(table, new String[] {Entity.Columns._ID}, builder.toSQL(), null, null, null, null);
 		for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 			long rowId = c.getLong(0);
 			if (rowId != -1)
@@ -136,13 +135,13 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	
 	protected final ArrayList<Uri> getEntities(Uri contentUri, String table, String relTable, String fromKey, String toKey) {
 		ArrayList<Uri> result = new ArrayList<Uri>();
-		String id = getString(getColumnIndexOrThrow(Keys.KEY_ID));
+		String id = getString(getColumnIndexOrThrow(Entity.Columns.ID));
 		
 		SQLiteBuilder builder = new SQLiteBuilder();
-		builder.appendIn(Keys.KEY_ID, new SQLiteBuilder(relTable, toKey).appendEq(fromKey, id).create());
-		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+		builder.appendIn(Entity.Columns.ID, new SQLiteBuilder(relTable, toKey).appendEq(fromKey, id).create());
+		builder.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 		
-		Cursor c = getDatabase().query(table, new String[] {Keys.KEY_ROWID}, builder.toSQL(), null, null, null, null);
+		Cursor c = getDatabase().query(table, new String[] {Entity.Columns._ID}, builder.toSQL(), null, null, null, null);
 		for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 			long rowId = c.getLong(0);
 			if (rowId != -1)
@@ -158,10 +157,10 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 		LocalizedTextList result = null;
 		
 		SQLiteBuilder builder = new SQLiteBuilder();
-		builder.appendEq(Keys.KEY_FIELD_ID, key);
-		builder.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+		builder.appendEq(LocalizedText.Columns.FIELD_ID, key);
+		builder.appendNotEq(LocalizedText.Columns.MODIFIEDFROM, LocalizedText.Columns.SYNC_SYSTEM);
 		
-		LocalizedTextCursor c = (LocalizedTextCursor) SQLiteWrapper.query(null, LocalizedText.CONTENT_URI, builder.toSQL(), null);
+		LocalizedTextCursor c = (LocalizedTextCursor) SQLiteWrapper.query(null, LocalizedText.Columns.CONTENT_URI, builder.toSQL(), null);
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			if (result == null) {
 				result = new LocalizedTextList(key);
@@ -204,7 +203,7 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	protected final Location getAsLocation(int columnIndex) {
 		Long rowId = getAsLong(columnIndex);
 		if (rowId != null) {
-			return GpsTableUtils.getLocation(null, rowId.longValue());
+			return GpsLocation.getLocation(null, rowId.longValue());
 		} else {
 			return null;
 		}

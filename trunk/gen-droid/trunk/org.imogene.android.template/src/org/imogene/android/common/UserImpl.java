@@ -1,6 +1,5 @@
 package org.imogene.android.common;
 
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.common.interfaces.User;
 
 import android.content.ContentValues;
@@ -41,9 +40,9 @@ public abstract class UserImpl extends EntityImpl implements User {
 	protected void addValues(Context context, ContentValues values) {
 		super.addValues(context, values);
 		if (!TextUtils.isEmpty(mLogin) && mPassword != null && mPassword.length > 0) {
-			values.put(Keys.KEY_LOGIN, mLogin);
-			values.put(Keys.KEY_PASSWORD, mPassword);
-			values.put(Keys.KEY_ROLES, mRoles);
+			values.put(User.Columns.LOGIN, mLogin);
+			values.put(User.Columns.PASSWORD, mPassword);
+			values.put(User.Columns.ROLES, mRoles);
 		}
 	}
 

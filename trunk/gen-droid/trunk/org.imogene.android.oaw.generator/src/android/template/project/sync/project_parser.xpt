@@ -25,7 +25,7 @@ public class «name.toFirstUpper()-»Parser {
 			if (parser.getEventType() == START_TAG) {
 				String name = parser.getName();
 				«FOREACH entities AS entity SEPARATOR " else "-»
-				if («entity.name.toFirstUpper()-».PACKAGE.equals(name)) {
+				if («entity.name.toFirstUpper()-».Columns.PACKAGE.equals(name)) {
 					«entity.name.toFirstUpper()-»Parser.parse(context, parser);
 					count++;
 				}

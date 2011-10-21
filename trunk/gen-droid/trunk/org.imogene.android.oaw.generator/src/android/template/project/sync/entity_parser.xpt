@@ -14,7 +14,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.«projectName.toLowerCase()-».entities.«name.toFirstUpper()-»;
 «EXPAND organizeImport(projectName) FOREACH groups.fields-»
 import org.imogene.android.«projectName.toLowerCase()-».R;
@@ -42,20 +41,20 @@ public class «name.toFirstUpper()-»Parser {
 
 	static {
 		try {
-			mHandlers.put(Keys.KEY_ID, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setId"));
-			mHandlers.put(Keys.KEY_MODIFIED, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModified"));
-			mHandlers.put(Keys.KEY_MODIFIEDBY, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModifiedBy"));
-			mHandlers.put(Keys.KEY_MODIFIEDFROM, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModifiedFrom"));
-			mHandlers.put(Keys.KEY_UPLOADDATE, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setUploadDate"));
-			mHandlers.put(Keys.KEY_CREATED, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setCreated"));
-			mHandlers.put(Keys.KEY_CREATEDBY, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setCreatedBy"));
+			mHandlers.put(«name.toFirstUpper()».Columns.ID, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setId"));
+			mHandlers.put(«name.toFirstUpper()».Columns.MODIFIED, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModified"));
+			mHandlers.put(«name.toFirstUpper()».Columns.MODIFIEDBY, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModifiedBy"));
+			mHandlers.put(«name.toFirstUpper()».Columns.MODIFIEDFROM, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModifiedFrom"));
+			mHandlers.put(«name.toFirstUpper()».Columns.UPLOADDATE, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setUploadDate"));
+			mHandlers.put(«name.toFirstUpper()».Columns.CREATED, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setCreated"));
+			mHandlers.put(«name.toFirstUpper()».Columns.CREATEDBY, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setCreatedBy"));
 			«IF multilogin && Actor.isAssignableFrom(metaType) -»
-			mHandlers.put(Keys.KEY_LOGIN, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setLogin"));
-			mHandlers.put(Keys.KEY_PASSWORD, new ByteArrayHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setPassword"));
-			mHandlers.put(Keys.KEY_ROLES, new RolesHandler<«name.toFirstUpper()-»>());
+			mHandlers.put(«name.toFirstUpper()».Columns.LOGIN, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setLogin"));
+			mHandlers.put(«name.toFirstUpper()».Columns.PASSWORD, new ByteArrayHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setPassword"));
+			mHandlers.put(«name.toFirstUpper()».Columns.ROLES, new RolesHandler<«name.toFirstUpper()-»>());
 			«ENDIF-»
 			«IF hasLocalizedField()-»
-			mHandlers.put(Keys.KEY_TRANSLATIONS, new TranslationsHandler<«name.toFirstUpper()-»>());
+			mHandlers.put(«name.toFirstUpper()».Columns.TRANSLATIONS_TAG, new TranslationsHandler<«name.toFirstUpper()-»>());
 			«ENDIF-»
 			«EXPAND handler(this) FOREACH groups.fields-»
 		} catch (Exception e) {
@@ -71,7 +70,7 @@ public class «name.toFirstUpper()-»Parser {
 		«name.toFirstLower()-».setUnread(true);
 		«name.toFirstLower()-».setSynchronized(true);
 		
-		while (parser.getEventType() != END_TAG || !«name.toFirstUpper()-».PACKAGE.equals(parser.getName())) {
+		while (parser.getEventType() != END_TAG || !«name.toFirstUpper()-».Columns.PACKAGE.equals(parser.getName())) {
 			if (parser.next() == START_TAG) {
 				String name = parser.getName();
 				if (mHandlers.containsKey(name)) {
@@ -148,8 +147,8 @@ mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new B
 
 «DEFINE handler(CardEntity card) FOR RelationFieldEntity»
 «IF cardinality == -1-»
-mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new MultiEntHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "get«name.toFirstUpper()-»", «entity.name.toFirstUpper()-».PACKAGE, «entity.name.toFirstUpper()-».CONTENT_URI));
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new MultiEntHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "get«name.toFirstUpper()-»", «entity.name.toFirstUpper()-».Columns.PACKAGE, «entity.name.toFirstUpper()-».Columns.CONTENT_URI));
 «ELSE-»
-mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new SingleEntHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»", «entity.name.toFirstUpper()-».PACKAGE, «entity.name.toFirstUpper()-».CONTENT_URI));
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new SingleEntHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»", «entity.name.toFirstUpper()-».Columns.PACKAGE, «entity.name.toFirstUpper()-».Columns.CONTENT_URI));
 «ENDIF-»
 «ENDDEFINE»

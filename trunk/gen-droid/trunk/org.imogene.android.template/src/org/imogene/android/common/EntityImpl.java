@@ -1,7 +1,5 @@
 package org.imogene.android.common;
 
-import org.imogene.android.Constants.Keys;
-import org.imogene.android.Constants.Sync;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
@@ -147,13 +145,13 @@ public abstract class EntityImpl implements Entity {
 			if (mRowId != -1) {
 				mModifiedBy = login;
 				if (temporary)
-					mModifiedFrom = Sync.SYNC_SYSTEM;
+					mModifiedFrom = Columns.SYNC_SYSTEM;
 				else
 					mModifiedFrom = PreferenceHelper.getHardwareId(context);
 			} else {
 				mCreatedBy = mModifiedBy = login;
 				if (temporary)
-					mModifiedFrom = Sync.SYNC_SYSTEM;
+					mModifiedFrom = Columns.SYNC_SYSTEM;
 				else
 					mModifiedFrom = PreferenceHelper.getHardwareId(context);
 			}
@@ -165,13 +163,13 @@ public abstract class EntityImpl implements Entity {
 		}
 
 		ContentValues values = new ContentValues();
-		values.put(Keys.KEY_ID, mId);
-		values.put(Keys.KEY_MODIFIEDBY, mModifiedBy);
-		values.put(Keys.KEY_MODIFIEDFROM, mModifiedFrom);
-		values.put(Keys.KEY_UPLOADDATE, mUploadDate);
-		values.put(Keys.KEY_CREATEDBY, mCreatedBy);
-		values.put(Keys.KEY_UNREAD, mUnread ? 1 : 0);
-		values.put(Keys.KEY_SYNCHRONIZED, mSynchronized ? 1 : 0);
+		values.put(Columns.ID, mId);
+		values.put(Columns.MODIFIEDBY, mModifiedBy);
+		values.put(Columns.MODIFIEDFROM, mModifiedFrom);
+		values.put(Columns.UPLOADDATE, mUploadDate);
+		values.put(Columns.CREATEDBY, mCreatedBy);
+		values.put(Columns.UNREAD, mUnread ? 1 : 0);
+		values.put(Columns.SYNCHRONIZED, mSynchronized ? 1 : 0);
 
 		addValues(context, values);
 
@@ -183,8 +181,8 @@ public abstract class EntityImpl implements Entity {
 			}
 		}
 
-		values.put(Keys.KEY_CREATED, mCreated);
-		values.put(Keys.KEY_MODIFIED, mModified);
+		values.put(Columns.CREATED, mCreated);
+		values.put(Columns.MODIFIED, mModified);
 
 		Uri uri;
 		if (mRowId != -1) {

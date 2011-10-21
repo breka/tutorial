@@ -5,12 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.imogene.android.Constants;
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Paths;
-import org.imogene.android.Constants.Tables;
 import org.imogene.android.common.Binary;
 import org.imogene.android.common.ClientFilter;
+import org.imogene.android.common.GpsLocation;
 import org.imogene.android.common.LocalizedText;
+import org.imogene.android.common.SyncHistory;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.LocalizedTextCursor;
@@ -49,12 +49,12 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 	protected static final int LAST_INDEX = TRANSLATABLE_TEXT_ID;
 	
 	static {
-		sURIMatcher.addURI(Constants.AUTHORITY, Binary.TABLE_NAME, BINARIES);
-		sURIMatcher.addURI(Constants.AUTHORITY, Binary.TABLE_NAME + "/#", BINARIES_ID);
-		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.TABLE_NAME, CLIENT_FILTERS);
-		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.TABLE_NAME + "/#", CLIENT_FILTERS_ID);
-		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.TABLE_NAME, TRANSLATABLE_TEXT);
-		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.TABLE_NAME + "/#", TRANSLATABLE_TEXT_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, Binary.Columns.TABLE_NAME, BINARIES);
+		sURIMatcher.addURI(Constants.AUTHORITY, Binary.Columns.TABLE_NAME + "/#", BINARIES_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.Columns.TABLE_NAME, CLIENT_FILTERS);
+		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.Columns.TABLE_NAME + "/#", CLIENT_FILTERS_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.Columns.TABLE_NAME, TRANSLATABLE_TEXT);
+		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.Columns.TABLE_NAME + "/#", TRANSLATABLE_TEXT_ID);
 	}
 
 	protected abstract ImogDatabase getHelper();
@@ -68,25 +68,25 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		int result = -1;
 		switch (sURIMatcher.match(uri)) {
 		case BINARIES:
-			result = deleteMultiBinary(Binary.TABLE_NAME, selection, selectionArgs);
+			result = deleteMultiBinary(Binary.Columns.TABLE_NAME, selection, selectionArgs);
 			break;
 		case BINARIES_ID:
 			String binaryId = uri.getPathSegments().get(1);
-			result = deleteSingleBinary(Binary.TABLE_NAME, binaryId, selection, selectionArgs);
+			result = deleteSingleBinary(Binary.Columns.TABLE_NAME, binaryId, selection, selectionArgs);
 			break;
 		case CLIENT_FILTERS:
-			result = deleteMulti(ClientFilter.TABLE_NAME, selection, selectionArgs);
+			result = deleteMulti(ClientFilter.Columns.TABLE_NAME, selection, selectionArgs);
 			break;
 		case CLIENT_FILTERS_ID:
 			String clientFilterId = uri.getPathSegments().get(1);
-			result = deleteSingle(ClientFilter.TABLE_NAME, clientFilterId, selection, selectionArgs);
+			result = deleteSingle(ClientFilter.Columns.TABLE_NAME, clientFilterId, selection, selectionArgs);
 			break;
 		case TRANSLATABLE_TEXT:
-			result = deleteMulti(LocalizedText.TABLE_NAME, selection, selectionArgs);
+			result = deleteMulti(LocalizedText.Columns.TABLE_NAME, selection, selectionArgs);
 			break;
 		case TRANSLATABLE_TEXT_ID:
 			String translatableTextId = uri.getPathSegments().get(1);
-			result = deleteSingle(LocalizedText.TABLE_NAME, translatableTextId, selection, selectionArgs);
+			result = deleteSingle(LocalizedText.Columns.TABLE_NAME, translatableTextId, selection, selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URL" + uri);
@@ -99,13 +99,13 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 	public String getType(Uri uri) {
 		switch (sURIMatcher.match(uri)) {
 		case BINARIES:
-			return getVndDir() + Binary.TABLE_NAME;
+			return getVndDir() + Binary.Columns.TABLE_NAME;
 		case BINARIES_ID:
 			SQLiteDatabase sqlDB = getHelper().getReadableDatabase();
 			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-			qb.setTables(Binary.TABLE_NAME);
+			qb.setTables(Binary.Columns.TABLE_NAME);
 			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
-			Cursor c = qb.query(sqlDB, new String[] {Keys.KEY_CONTENT_TYPE}, null, null, null, null, null);
+			Cursor c = qb.query(sqlDB, new String[] {Binary.Columns.CONTENT_TYPE}, null, null, null, null, null);
 			String result = getVndItem() + "binaries";
 			if (c.getCount() == 1) {
 				c.moveToFirst();
@@ -114,13 +114,13 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			c.close();
 			return result;
 		case CLIENT_FILTERS:
-			return getVndDir() + ClientFilter.TABLE_NAME;
+			return getVndDir() + ClientFilter.Columns.TABLE_NAME;
 		case CLIENT_FILTERS_ID:
-			return getVndItem() + ClientFilter.TABLE_NAME;
+			return getVndItem() + ClientFilter.Columns.TABLE_NAME;
 		case TRANSLATABLE_TEXT:
-			return getVndDir() + LocalizedText.TABLE_NAME;
+			return getVndDir() + LocalizedText.Columns.TABLE_NAME;
 		case TRANSLATABLE_TEXT_ID:
-			return getVndItem() + LocalizedText.TABLE_NAME;
+			return getVndItem() + LocalizedText.Columns.TABLE_NAME;
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
 		}
@@ -132,9 +132,9 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		case BINARIES:
 			return insertInTableBinary(values);
 		case CLIENT_FILTERS:
-			return insertInTable(ClientFilter.TABLE_NAME, ClientFilter.CONTENT_URI, values);
+			return insertInTable(ClientFilter.Columns.TABLE_NAME, ClientFilter.Columns.CONTENT_URI, values);
 		case TRANSLATABLE_TEXT:
-			return insertInTable(LocalizedText.TABLE_NAME, LocalizedText.CONTENT_URI, values);
+			return insertInTable(LocalizedText.Columns.TABLE_NAME, LocalizedText.Columns.CONTENT_URI, values);
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
 		}
@@ -146,24 +146,24 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		switch (sURIMatcher.match(uri)) {
 		case BINARIES:
-			qb.setTables(Binary.TABLE_NAME);
+			qb.setTables(Binary.Columns.TABLE_NAME);
 			break;
 		case BINARIES_ID:
-			qb.setTables(Binary.TABLE_NAME);
+			qb.setTables(Binary.Columns.TABLE_NAME);
 			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 			break;
 		case CLIENT_FILTERS:
-			qb.setTables(ClientFilter.TABLE_NAME);
+			qb.setTables(ClientFilter.Columns.TABLE_NAME);
 			break;
 		case CLIENT_FILTERS_ID:
-			qb.setTables(ClientFilter.TABLE_NAME);
+			qb.setTables(ClientFilter.Columns.TABLE_NAME);
 			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 			break;
 		case TRANSLATABLE_TEXT:
-			qb.setTables(LocalizedText.TABLE_NAME);
+			qb.setTables(LocalizedText.Columns.TABLE_NAME);
 			break;
 		case TRANSLATABLE_TEXT_ID:
-			qb.setTables(LocalizedText.TABLE_NAME);
+			qb.setTables(LocalizedText.Columns.TABLE_NAME);
 			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 			break;
 		default:
@@ -180,26 +180,26 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		int result = -1;
 		switch (sURIMatcher.match(uri)) {
 		case BINARIES:
-			result = updateMulti(Binary.TABLE_NAME, values, selection, selectionArgs);
+			result = updateMulti(Binary.Columns.TABLE_NAME, values, selection, selectionArgs);
 			break;
 		case BINARIES_ID:
 			String binaryId = uri.getPathSegments().get(1);
-			result = updateSingle(Binary.TABLE_NAME, binaryId, values, selection,
+			result = updateSingle(Binary.Columns.TABLE_NAME, binaryId, values, selection,
 					selectionArgs);
 			break;
 		case CLIENT_FILTERS:
-			result = updateMulti(ClientFilter.TABLE_NAME, values, selection, selectionArgs);
+			result = updateMulti(ClientFilter.Columns.TABLE_NAME, values, selection, selectionArgs);
 			break;
 		case CLIENT_FILTERS_ID:
 			String clientFilterId = uri.getPathSegments().get(1);
-			result = updateSingle(ClientFilter.TABLE_NAME, clientFilterId, values, selection, selectionArgs);
+			result = updateSingle(ClientFilter.Columns.TABLE_NAME, clientFilterId, values, selection, selectionArgs);
 			break;
 		case TRANSLATABLE_TEXT:
-			result = updateMulti(LocalizedText.TABLE_NAME, values, selection, selectionArgs);
+			result = updateMulti(LocalizedText.Columns.TABLE_NAME, values, selection, selectionArgs);
 			break;
 		case TRANSLATABLE_TEXT_ID:
 			String translatableTextId = uri.getPathSegments().get(1);
-			result = updateSingle(LocalizedText.TABLE_NAME, translatableTextId, values, selection, selectionArgs);
+			result = updateSingle(LocalizedText.Columns.TABLE_NAME, translatableTextId, values, selection, selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
@@ -225,7 +225,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			String[] whereArgs) {
 		Log.i(TAG, "delete multi binary");
 		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
-		Cursor cursor = sqlDB.query(tableName, new String[] { Keys.KEY_DATA }, where,
+		Cursor cursor = sqlDB.query(tableName, new String[] { Binary.Columns.DATA }, where,
 				whereArgs, null, null, null);
 		for (cursor.moveToFirst();!cursor.isAfterLast();cursor.moveToNext()) {
 			String path = cursor.getString(0);
@@ -239,13 +239,13 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			String[] whereArgs) {
 		Log.i(TAG, "delete binary");
 		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
-		Cursor cursor = sqlDB.query(tableName, new String[] { Keys.KEY_DATA }, "_id="
+		Cursor cursor = sqlDB.query(tableName, new String[] { Binary.Columns.DATA }, "_id="
 				+ id
 				+ (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""),
 				whereArgs, null, null, null);
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
-			String path = cursor.getString(cursor.getColumnIndexOrThrow(Keys.KEY_DATA));
+			String path = cursor.getString(cursor.getColumnIndexOrThrow(Binary.Columns.DATA));
 			new File(path).delete();
 		}
 		cursor.close();
@@ -256,9 +256,9 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 	
 	protected final Uri insertInTableBinary(ContentValues values) {
 		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
-		long rowId = sqlDB.insert(Binary.TABLE_NAME, "", values);
+		long rowId = sqlDB.insert(Binary.Columns.TABLE_NAME, "", values);
 		if (rowId > 0) {
-			Uri rowUri = ContentUris.withAppendedId(Binary.CONTENT_URI,	rowId);
+			Uri rowUri = ContentUris.withAppendedId(Binary.Columns.CONTENT_URI,	rowId);
 			
 			Paths.PATH_BINARIES.mkdirs();
 
@@ -270,8 +270,8 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				return null;
 			}
 			String path = file.getAbsolutePath();
-			values.put(Keys.KEY_DATA, path);
-			sqlDB.update(Binary.TABLE_NAME, values, "_id=?", new String[]{"" + rowId});
+			values.put(Binary.Columns.DATA, path);
+			sqlDB.update(Binary.Columns.TABLE_NAME, values, "_id=?", new String[]{"" + rowId});
 			getContext().getContentResolver().notifyChange(rowUri, null);
 			return rowUri;
 		}
@@ -321,151 +321,151 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 	public static abstract class ImogDatabase extends SQLiteOpenHelper {
 
 		private static final String DATABASE_CREATE_CLIENTFILTER = "create table if not exists "
-				+ ClientFilter.TABLE_NAME
+				+ ClientFilter.Columns.TABLE_NAME
 				+ " ("
-				+ Keys.KEY_ROWID
+				+ ClientFilter.Columns._ID
 				+ " integer primary key autoincrement, "
-				+ Keys.KEY_ID
+				+ ClientFilter.Columns.ID
 				+ " text not null, "
-				+ Keys.KEY_MODIFIED
+				+ ClientFilter.Columns.MODIFIED
 				+ " integer, "
-				+ Keys.KEY_MODIFIEDBY
+				+ ClientFilter.Columns.MODIFIEDBY
 				+ " text, "
-				+ Keys.KEY_MODIFIEDFROM
+				+ ClientFilter.Columns.MODIFIEDFROM
 				+ " text, "
-				+ Keys.KEY_UPLOADDATE
+				+ ClientFilter.Columns.UPLOADDATE
 				+ " integer, "
-				+ Keys.KEY_CREATED
+				+ ClientFilter.Columns.CREATED
 				+ " integer, "
-				+ Keys.KEY_CREATEDBY
+				+ ClientFilter.Columns.CREATEDBY
 				+ " text, "
-				+ Keys.KEY_UNREAD
+				+ ClientFilter.Columns.UNREAD
 				+ " integer, "
-				+ Keys.KEY_SYNCHRONIZED
+				+ ClientFilter.Columns.SYNCHRONIZED
 				+ " integer, "
-				+ Keys.KEY_USERID
+				+ ClientFilter.Columns.USERID
 				+ " text, "
-				+ Keys.KEY_TERMINALID
+				+ ClientFilter.Columns.TERMINALID
 				+ " text, "
-				+ Keys.KEY_CARDENTITY
+				+ ClientFilter.Columns.CARDENTITY
 				+ " text, "
-				+ Keys.KEY_ENTITYFIELD
+				+ ClientFilter.Columns.ENTITYFIELD
 				+ " text, "
-				+ Keys.KEY_OPERATOR
+				+ ClientFilter.Columns.OPERATOR
 				+ " text, "
-				+ Keys.KEY_FIELDVALUE
+				+ ClientFilter.Columns.FIELDVALUE
 				+ " text, "
-				+ Keys.KEY_DISPLAY
+				+ ClientFilter.Columns.DISPLAY
 				+ " text, "
-				+ Keys.KEY_ISNEW
+				+ ClientFilter.Columns.ISNEW
 				+ " text);";
 		private static final String DATABASE_CREATE_BINARIES = "create table if not exists "
-				+ Binary.TABLE_NAME
+				+ Binary.Columns.TABLE_NAME
 				+ " ("
-				+ Keys.KEY_ROWID
+				+ Binary.Columns._ID
 				+ " integer primary key autoincrement, "
-				+ Keys.KEY_ID
+				+ Binary.Columns.ID
 				+ " text not null, "
-				+ Keys.KEY_MODIFIED
+				+ Binary.Columns.MODIFIED
 				+ " integer, "
-				+ Keys.KEY_MODIFIEDBY
+				+ Binary.Columns.MODIFIEDBY
 				+ " text, "
-				+ Keys.KEY_MODIFIEDFROM
+				+ Binary.Columns.MODIFIEDFROM
 				+ " text, "
-				+ Keys.KEY_UPLOADDATE
+				+ Binary.Columns.UPLOADDATE
 				+ " integer, "
-				+ Keys.KEY_CREATED
+				+ Binary.Columns.CREATED
 				+ " integer, "
-				+ Keys.KEY_CREATEDBY
+				+ Binary.Columns.CREATEDBY
 				+ " text, "
-				+ Keys.KEY_LENGTH
+				+ Binary.Columns.LENGTH
 				+ " text, "
-				+ Keys.KEY_DATA
+				+ Binary.Columns.DATA
 				+ " text, "
-				+ Keys.KEY_CONTENT_TYPE
+				+ Binary.Columns.CONTENT_TYPE
 				+ " text, "
-				+ Keys.KEY_PARENT_ENTITY
+				+ Binary.Columns.PARENT_ENTITY
 				+ " text, "
-				+ Keys.KEY_PARENT_KEY
+				+ Binary.Columns.PARENT_KEY
 				+ " text, "
-				+ Keys.KEY_PARENT_FIELD_GETTER
+				+ Binary.Columns.PARENT_FIELD_GETTER
 				+ " text, "
-				+ Keys.KEY_FILE_NAME
+				+ Binary.Columns.FILE_NAME
 				+ " text);";
 		private static final String DATABASE_CREATE_SYNCHISTORY = "create table if not exists "
-				+ Tables.TABLE_SYNCHISTORY
+				+ SyncHistory.Columns.TABLE_NAME
 				+ " ("
-				+ Keys.KEY_ROWID
+				+ SyncHistory.Columns._ID
 				+ " integer primary key autoincrement, "
-				+ Keys.KEY_ID
+				+ SyncHistory.Columns.ID
 				+ " text not null, "
-				+ Keys.KEY_DATE
+				+ SyncHistory.Columns.DATE
 				+ " integer not null, "
-				+ Keys.KEY_STATUS
+				+ SyncHistory.Columns.STATUS
 				+ " integer, "
-				+ Keys.KEY_LEVEL
+				+ SyncHistory.Columns.LEVEL
 				+ " integer);";
 		private static final String DATABASE_CREATE_GPSLOCATION = "create table if not exists "
-				+ Tables.TABLE_GPSLOCATIONS
+				+ GpsLocation.Columns.TABLE_NAME
 				+ " ("
-				+ Keys.KEY_ROWID
+				+ GpsLocation.Columns._ID
 				+ " integer primary key autoincrement, "
-				+ Keys.KEY_ACCURACY
+				+ GpsLocation.Columns.ACCURACY
 				+ " real, "
-				+ Keys.KEY_ALTITUDE
+				+ GpsLocation.Columns.ALTITUDE
 				+ " real, "
-				+ Keys.KEY_BEARING
+				+ GpsLocation.Columns.BEARING
 				+ " real, "
-				+ Keys.KEY_LATITUDE
+				+ GpsLocation.Columns.LATITUDE
 				+ " real, "
-				+ Keys.KEY_LONGITUDE
+				+ GpsLocation.Columns.LONGITUDE
 				+ " real, "
-				+ Keys.KEY_PROVIDER
+				+ GpsLocation.Columns.PROVIDER
 				+ " text, "
-				+ Keys.KEY_SPEED
+				+ GpsLocation.Columns.SPEED
 				+ " real, "
-				+ Keys.KEY_TIME
+				+ GpsLocation.Columns.TIME
 				+ " integer, "
-				+ Keys.KEY_HASACCURACY
+				+ GpsLocation.Columns.HASACCURACY
 				+ " integer, "
-				+ Keys.KEY_HASALTITUDE
+				+ GpsLocation.Columns.HASALTITUDE
 				+ " integer, "
-				+ Keys.KEY_HASBEARING
+				+ GpsLocation.Columns.HASBEARING
 				+ " integer, "
-				+ Keys.KEY_HASSPEED
+				+ GpsLocation.Columns.HASSPEED
 				+ " integer);";
 		private static final String DATABASE_CREATE_TRANSLATABLETEXT = "create table if not exists "
-				+ LocalizedText.TABLE_NAME
+				+ LocalizedText.Columns.TABLE_NAME
 				+ " ("
-				+ Keys.KEY_ROWID
+				+ LocalizedText.Columns._ID
 				+ " integer primary key autoincrement, "
-				+ Keys.KEY_MODIFIED
+				+ LocalizedText.Columns.MODIFIED
 				+ " integer, "
-				+ Keys.KEY_MODIFIEDBY
+				+ LocalizedText.Columns.MODIFIEDBY
 				+ " text, "
-				+ Keys.KEY_MODIFIEDFROM
+				+ LocalizedText.Columns.MODIFIEDFROM
 				+ " text, "
-				+ Keys.KEY_UPLOADDATE
+				+ LocalizedText.Columns.UPLOADDATE
 				+ " integer, "
-				+ Keys.KEY_CREATED
+				+ LocalizedText.Columns.CREATED
 				+ " integer, "
-				+ Keys.KEY_CREATEDBY
+				+ LocalizedText.Columns.CREATEDBY
 				+ " text, "
-				+ Keys.KEY_UNREAD
+				+ LocalizedText.Columns.UNREAD
 				+ " integer, "
-				+ Keys.KEY_SYNCHRONIZED
+				+ LocalizedText.Columns.SYNCHRONIZED
 				+ " integer, "
-				+ Keys.KEY_FIELD_ID
+				+ LocalizedText.Columns.FIELD_ID
 				+ " text, "
-				+ Keys.KEY_LOCALE
+				+ LocalizedText.Columns.LOCALE
 				+ " text, "
-				+ Keys.KEY_VALUE
+				+ LocalizedText.Columns.VALUE
 				+ " text, "
-				+ Keys.KEY_ORIGINAL_VALUE
+				+ LocalizedText.Columns.ORIGINAL_VALUE
 				+ " integer, "
-				+ Keys.KEY_POTENTIALY_WRONG
+				+ LocalizedText.Columns.POTENTIALY_WRONG
 				+ " integer, "
-				+ Keys.KEY_ID
+				+ LocalizedText.Columns.ID
 				+ " text not null);";
 		protected interface Creator<T extends ImogDatabase> {
 			public T getDatabase(Context context);
@@ -502,29 +502,29 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			switch (sURIMatcher.match(uri)) {
 			case BINARIES:
 				qb.setCursorFactory(new BinaryCursor.Factory());
-				qb.setTables(Binary.TABLE_NAME);
+				qb.setTables(Binary.Columns.TABLE_NAME);
 				break;
 			case BINARIES_ID:
 				qb.setCursorFactory(new BinaryCursor.Factory());
-				qb.setTables(Binary.TABLE_NAME);
+				qb.setTables(Binary.Columns.TABLE_NAME);
 				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 				break;
 			case CLIENT_FILTERS:
 				qb.setCursorFactory(new ClientFilterCursor.Factory());
-				qb.setTables(ClientFilter.TABLE_NAME);
+				qb.setTables(ClientFilter.Columns.TABLE_NAME);
 				break;
 			case CLIENT_FILTERS_ID:
 				qb.setCursorFactory(new ClientFilterCursor.Factory());
-				qb.setTables(ClientFilter.TABLE_NAME);
+				qb.setTables(ClientFilter.Columns.TABLE_NAME);
 				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 				break;
 			case TRANSLATABLE_TEXT:
 				qb.setCursorFactory(new LocalizedTextCursor.Factory());
-				qb.setTables(LocalizedText.TABLE_NAME);
+				qb.setTables(LocalizedText.Columns.TABLE_NAME);
 				break;
 			case TRANSLATABLE_TEXT_ID:
 				qb.setCursorFactory(new LocalizedTextCursor.Factory());
-				qb.setTables(LocalizedText.TABLE_NAME);
+				qb.setTables(LocalizedText.Columns.TABLE_NAME);
 				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 				break;
 			default:
@@ -541,11 +541,11 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				return null;
 			switch (sURIMatcher.match(uri)) {
 			case BINARIES_ID:
-				return getEntityId(Binary.TABLE_NAME, uri);
+				return getEntityId(Binary.Columns.TABLE_NAME, uri);
 			case CLIENT_FILTERS_ID:
-				return getEntityId(ClientFilter.TABLE_NAME, uri);
+				return getEntityId(ClientFilter.Columns.TABLE_NAME, uri);
 			case TRANSLATABLE_TEXT_ID:
-				return getEntityId(LocalizedText.TABLE_NAME, uri);
+				return getEntityId(LocalizedText.Columns.TABLE_NAME, uri);
 			}
 			return null;
 		}
@@ -553,11 +553,11 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		public long queryRowId(Uri uri, String id) {
 			switch (sURIMatcher.match(uri)) {
 			case BINARIES:
-				return getEntityRowId(Binary.TABLE_NAME, id);
+				return getEntityRowId(Binary.Columns.TABLE_NAME, id);
 			case CLIENT_FILTERS:
-				return getEntityRowId(ClientFilter.TABLE_NAME, id);
+				return getEntityRowId(ClientFilter.Columns.TABLE_NAME, id);
 			case TRANSLATABLE_TEXT:
-				return getEntityRowId(LocalizedText.TABLE_NAME, id);
+				return getEntityRowId(LocalizedText.Columns.TABLE_NAME, id);
 			}
 			return -1;
 		}

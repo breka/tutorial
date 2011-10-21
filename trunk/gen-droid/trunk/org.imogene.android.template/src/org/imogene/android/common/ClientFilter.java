@@ -1,6 +1,6 @@
 package org.imogene.android.common;
 
-import org.imogene.android.Constants.Keys;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
@@ -11,6 +11,22 @@ import android.content.Context;
 import android.net.Uri;
 
 public class ClientFilter extends EntityImpl {
+	
+	public static class Columns implements Entity.Columns {
+		public static final String PACKAGE = "org.imogene.uao.clientfilter.ClientFilter";
+		public static final String TABLE_NAME = "clientfilter";
+		public static final String TYPE = "CLTFIL";
+		public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
+		
+		public static final String USERID = "userId";
+		public static final String TERMINALID = "terminalId";
+		public static final String CARDENTITY = "cardEntity";
+		public static final String ENTITYFIELD = "entityField";
+		public static final String OPERATOR = "operator";
+		public static final String FIELDVALUE = "fieldValue";
+		public static final String DISPLAY = "display";
+		public static final String ISNEW = "isNew";
+	}
 	
 	public static final String MULTIENUM_OPERATOR_EQUAL = "equalMultiEnum";
 	public static final String STRING_OPERATOR_CONTAINS = "contains";
@@ -60,14 +76,14 @@ public class ClientFilter extends EntityImpl {
 				String terminalId, String entity, String field) {
 			String where = new SQLiteBuilder()
 			.setAnd(true)
-			.appendEq(Keys.KEY_USERID, userId)
-			.appendEq(Keys.KEY_TERMINALID, terminalId)
-			.appendEq(Keys.KEY_CARDENTITY, entity)
-			.appendEq(Keys.KEY_ENTITYFIELD, field)
+			.appendEq(Columns.USERID, userId)
+			.appendEq(Columns.TERMINALID, terminalId)
+			.appendEq(Columns.CARDENTITY, entity)
+			.appendEq(Columns.ENTITYFIELD, field)
 			.toSQL();
 			
 			T filter;
-			ClientFilterCursor c = (ClientFilterCursor) SQLiteWrapper.query(context, CONTENT_URI, where, null);
+			ClientFilterCursor c = (ClientFilterCursor) SQLiteWrapper.query(context, Columns.CONTENT_URI, where, null);
 			if (c.getCount() == 1) {
 				c.moveToFirst();
 				filter = newFilter(c);
@@ -86,12 +102,6 @@ public class ClientFilter extends EntityImpl {
 		
 		protected abstract T newFilter(ClientFilterCursor c);
 	}
-
-	public static final String PACKAGE = "org.imogene.uao.clientfilter.ClientFilter";
-	public static final String TABLE_NAME = "clientfilter";
-	public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
-
-	public static final String TYPE = "CLTFIL";
 
 	private String mUserId = null;
 	private String mTerminalId = null;
@@ -169,12 +179,12 @@ public class ClientFilter extends EntityImpl {
 
 	@Override
 	protected final Uri getContentUri() {
-		return CONTENT_URI;
+		return Columns.CONTENT_URI;
 	}
 
 	@Override
 	protected final String getBeanType() {
-		return TYPE;
+		return Columns.TYPE;
 	}
 	
 	@Override
@@ -188,17 +198,17 @@ public class ClientFilter extends EntityImpl {
 
 	@Override
 	protected final void addValues(Context context, ContentValues values) {
-		values.put(Keys.KEY_USERID, mUserId);
-		values.put(Keys.KEY_TERMINALID, mTerminalId);
-		values.put(Keys.KEY_CARDENTITY, mCardEntity);
-		values.put(Keys.KEY_ENTITYFIELD, mEntityField);
-		values.put(Keys.KEY_OPERATOR, mOperator);
-		values.put(Keys.KEY_FIELDVALUE, mFieldValue);
-		values.put(Keys.KEY_DISPLAY, mDisplay);
+		values.put(Columns.USERID, mUserId);
+		values.put(Columns.TERMINALID, mTerminalId);
+		values.put(Columns.CARDENTITY, mCardEntity);
+		values.put(Columns.ENTITYFIELD, mEntityField);
+		values.put(Columns.OPERATOR, mOperator);
+		values.put(Columns.FIELDVALUE, mFieldValue);
+		values.put(Columns.DISPLAY, mDisplay);
 		if (mIsNew != null)
-			values.put(Keys.KEY_ISNEW, mIsNew.toString());
+			values.put(Columns.ISNEW, mIsNew.toString());
 		else
-			values.putNull(Keys.KEY_ISNEW);
+			values.putNull(Columns.ISNEW);
 	}
 
 	public final void reset() {

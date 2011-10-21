@@ -1,6 +1,6 @@
 package org.imogene.android.database.sqlite;
 
-import org.imogene.android.Constants.Keys;
+import org.imogene.android.common.interfaces.User;
 import org.imogene.android.database.interfaces.UserCursor;
 
 import android.content.Context;
@@ -16,15 +16,15 @@ public abstract class UserCursorImpl extends EntityCursorImpl implements UserCur
 	}
 	
 	public final String getLogin() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_LOGIN));
+		return getString(getColumnIndexOrThrow(User.Columns.LOGIN));
 	}
 	
 	public final byte[] getPassword() {
-		return getBlob(getColumnIndexOrThrow(Keys.KEY_PASSWORD));
+		return getBlob(getColumnIndexOrThrow(User.Columns.PASSWORD));
 	}
 	
 	public final String getRoles() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_ROLES));
+		return getString(getColumnIndexOrThrow(User.Columns.ROLES));
 	}
 
 	public abstract String getUserDisplay(Context context);

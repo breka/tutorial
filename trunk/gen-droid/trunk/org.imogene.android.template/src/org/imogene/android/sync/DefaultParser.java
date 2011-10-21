@@ -14,9 +14,9 @@ import android.content.Context;
 public class DefaultParser {
 	
 	public static final void parse(Context context, XmlPullParser parser, String name) throws XmlPullParserException, IOException {
-		if (Binary.PACKAGE.equals(name))
+		if (Binary.Columns.PACKAGE.equals(name))
 			BinaryParser.parse(context, parser);
-		else if (ClientFilter.PACKAGE.equals(name))
+		else if (ClientFilter.Columns.PACKAGE.equals(name))
 			ClientFilterParser.parse(context, parser);
 	}
 

@@ -204,7 +204,7 @@ public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implement
 	}
 	
 	public Uri getCurrentContentUri() {
-		return «name.toFirstUpper()».CONTENT_URI;
+		return «name.toFirstUpper()».Columns.CONTENT_URI;
 	}
 
 }

@@ -2,8 +2,6 @@ package org.imogene.android.sync.handler;
 
 import java.lang.reflect.Method;
 
-import org.imogene.android.Constants.Keys;
-import org.imogene.android.Constants.Sync;
 import org.imogene.android.common.Binary;
 import org.imogene.android.sync.FieldHandler;
 import org.xmlpull.v1.XmlPullParser;
@@ -28,18 +26,18 @@ public class BinaryHandler<T> implements FieldHandler<T> {
 		try {
 			String id = parser.nextText();
 			ContentResolver res = context.getContentResolver();
-			Cursor c = res.query(Binary.CONTENT_URI, new String[] {Keys.KEY_ROWID}, Keys.KEY_ID + "='" + id + "'", null, null);
+			Cursor c = res.query(Binary.Columns.CONTENT_URI, new String[] {Binary.Columns._ID}, Binary.Columns.ID + "='" + id + "'", null, null);
 			if (c.getCount() != 1) {
 				c.close();
 				ContentValues values = new ContentValues();
-				values.put(Keys.KEY_ID, id);
-				values.put(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
-				mMethod.invoke(entity, res.insert(Binary.CONTENT_URI, values));
+				values.put(Binary.Columns.ID, id);
+				values.put(Binary.Columns.MODIFIEDFROM, Binary.Columns.SYNC_SYSTEM);
+				mMethod.invoke(entity, res.insert(Binary.Columns.CONTENT_URI, values));
 			} else {
 				c.moveToFirst();
 				long rowId = c.getLong(0);
 				c.close();
-				mMethod.invoke(entity, ContentUris.withAppendedId(Binary.CONTENT_URI, rowId));
+				mMethod.invoke(entity, ContentUris.withAppendedId(Binary.Columns.CONTENT_URI, rowId));
 			}
 		} catch (Exception e) {
 			Log.e(BinaryHandler.class.getName(), "error parsing binary", e);

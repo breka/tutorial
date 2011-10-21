@@ -15,11 +15,10 @@ import org.xmlpull.v1.XmlSerializer;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.util.Xml;
-import org.imogene.android.Constants.Keys;
-import org.imogene.android.Constants.Status;
-import org.imogene.android.Constants.Tables;
 import org.imogene.android.common.Binary;
 import org.imogene.android.common.ClientFilter;
+import org.imogene.android.common.SyncHistory;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
@@ -54,7 +53,7 @@ public class «name.toFirstUpper()-»SyncService extends AbstractSyncService {
 			«IF e.directAccess.size > 0-»
 			if (!«e.name.toFirstUpper()»Roles.directAccess(this))
 			«ENDIF-»
-			DatabaseUtils.markAs(getContentResolver(), «e.name.toFirstUpper()-».CONTENT_URI, false);
+			DatabaseUtils.markAs(getContentResolver(), «e.name.toFirstUpper()-».Columns.CONTENT_URI, false);
 		«ENDIF-»
 		«ENDFOREACH-»
 	}
@@ -62,13 +61,13 @@ public class «name.toFirstUpper()-»SyncService extends AbstractSyncService {
 	@Override
 	protected void markAsSentForSession(long time) {
 		ContentValues values = new ContentValues();
-		values.put(Keys.KEY_SYNCHRONIZED, 1);
+		values.put(Entity.Columns.SYNCHRONIZED, 1);
 	
 		ContentResolver res = getContentResolver();
 		
-		res.update(ClientFilter.CONTENT_URI, values, Keys.KEY_MODIFIED + " < " + time, null);
+		res.update(ClientFilter.Columns.CONTENT_URI, values, ClientFilter.Columns.MODIFIED + " < " + time, null);
 		«FOREACH entities AS entity-»
-		res.update(«entity.name.toFirstUpper()-».CONTENT_URI, values, Keys.KEY_MODIFIED + " < " + time, null);
+		res.update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, values, «entity.name.toFirstUpper()».Columns.MODIFIED + " < " + time, null);
 		«ENDFOREACH-»
 	}
 
@@ -83,10 +82,10 @@ public class «name.toFirstUpper()-»SyncService extends AbstractSyncService {
 
 	@Override
 	protected int getDataToSynchronize(FileOutputStream fos, String hardwareId) throws IllegalArgumentException, IllegalStateException, IOException {
-	    long date = SQLiteWrapper.queryForLong(this, "select max("+Keys.KEY_DATE+") from "+Tables.TABLE_SYNCHISTORY+" where "+Keys.KEY_STATUS+" = "+Status.STATUS_OK);
+	    long date = SQLiteWrapper.queryForLong(this, "select max("+SyncHistory.Columns.DATE+") from "+SyncHistory.Columns.TABLE_NAME+" where "+SyncHistory.Columns.STATUS+" = "+SyncHistory.Columns.STATUS_OK);
 
-		String where = Keys.KEY_MODIFIED + " > " + date + " AND " + Keys.KEY_MODIFIEDFROM + " = '" + hardwareId + "'";
-		String sortOrder = Keys.KEY_MODIFIED + " ASC";
+		String where = Entity.Columns.MODIFIED + " > " + date + " AND " + Entity.Columns.MODIFIEDFROM + " = '" + hardwareId + "'";
+		String sortOrder = Entity.Columns.MODIFIED + " ASC";
 
 		int count = 0;
 
@@ -95,20 +94,20 @@ public class «name.toFirstUpper()-»SyncService extends AbstractSyncService {
 		serializer.startDocument(null, Boolean.valueOf(true));
 		serializer.startTag(null, "entities");
 			
-		BinaryCursor cBinary = (BinaryCursor) SQLiteWrapper.query(this, Binary.CONTENT_URI, where, sortOrder);
+		BinaryCursor cBinary = (BinaryCursor) SQLiteWrapper.query(this, Binary.Columns.CONTENT_URI, where, sortOrder);
 		while (cBinary.moveToNext())
 			BinarySerializer.serialize(this, cBinary, serializer);
 		cBinary.close();
 		cBinary = null;
 
-		ClientFilterCursor cClientFilter = (ClientFilterCursor) SQLiteWrapper.query(this, ClientFilter.CONTENT_URI, where, sortOrder);
+		ClientFilterCursor cClientFilter = (ClientFilterCursor) SQLiteWrapper.query(this, ClientFilter.Columns.CONTENT_URI, where, sortOrder);
 		while (cClientFilter.moveToNext())
 			ClientFilterSerializer.serialize(this, cClientFilter, serializer);
 		cClientFilter.close();
 		cClientFilter = null;
 
 		«FOREACH entities AS entity»
-		«entity.name.toFirstUpper()-»Cursor c«entity.name.toFirstUpper()-» = («entity.name.toFirstUpper()-»Cursor) SQLiteWrapper.query(this, «entity.name.toFirstUpper()-».CONTENT_URI, where, sortOrder);
+		«entity.name.toFirstUpper()-»Cursor c«entity.name.toFirstUpper()-» = («entity.name.toFirstUpper()-»Cursor) SQLiteWrapper.query(this, «entity.name.toFirstUpper()-».Columns.CONTENT_URI, where, sortOrder);
 		while (c«entity.name.toFirstUpper()-».moveToNext()) {
 			«entity.name.toFirstUpper()-»Serializer.serialize(this, c«entity.name.toFirstUpper()-», serializer);
 			count++;

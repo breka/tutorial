@@ -148,13 +148,7 @@ app:displayPl="@string/«entity.shortName.toLowerCase()-»_des_sg"
 app:displaySg="@string/«entity.shortName.toLowerCase()-»_des_sg"
 app:oppositeCardinality="«getOppositeCardinality(this)-»"
 app:type="«IF MainRelationFieldEntity.isAssignableFrom(metaType)»main«ELSE»reverse«ENDIF»"
-«IF oppositeRelationField != null-»
-app:oppositeRelationField="«oppositeRelationField.name.toFirstLower()»"
-«ENDIF-»
-app:fieldName="«name.toFirstLower()»"
-app:tableName="«parentGroup.parentCard.name.toLowerCase()»"
 «IF relationHierarchicalFilter.size == 2-»
-app:hierarchicalField="«relationHierarchicalFilter.get(1).name.toFirstLower()»"
 app:hierarchicalParent="@id/«relationHierarchicalFilter.get(0).shortName.toLowerCase()»"
 «ENDIF-»
 «ENDDEFINE»

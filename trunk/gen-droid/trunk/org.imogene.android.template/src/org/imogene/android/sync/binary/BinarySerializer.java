@@ -2,7 +2,6 @@ package org.imogene.android.sync.binary;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.common.Binary;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.util.base64.Base64;
@@ -22,52 +21,52 @@ public class BinarySerializer {
 		
 		serializer.startTag(null, PACKAGE);
 		
-		serializer.startTag(null, Keys.KEY_ID);
+		serializer.startTag(null, Binary.Columns.ID);
 		serializer.text(cursor.getId());
-		serializer.endTag(null, Keys.KEY_ID);
+		serializer.endTag(null, Binary.Columns.ID);
 		
-		serializer.startTag(null, Keys.KEY_MODIFIED);
+		serializer.startTag(null, Binary.Columns.MODIFIED);
 		serializer.attribute(null, "class", "sql-timestamp");
 		serializer.text(String.valueOf(cursor.getModified()));
-		serializer.endTag(null, Keys.KEY_MODIFIED);
+		serializer.endTag(null, Binary.Columns.MODIFIED);
 
-		serializer.startTag(null, Keys.KEY_UPLOADDATE);
+		serializer.startTag(null, Binary.Columns.UPLOADDATE);
 		serializer.attribute(null, "class", "sql-timestamp");
 		serializer.text(String.valueOf(cursor.getUploadDate()));
-		serializer.endTag(null, Keys.KEY_UPLOADDATE);
+		serializer.endTag(null, Binary.Columns.UPLOADDATE);
 
-		serializer.startTag(null, Keys.KEY_MODIFIEDBY);
+		serializer.startTag(null, Binary.Columns.MODIFIEDBY);
 		serializer.text(cursor.getModifiedBy());
-		serializer.endTag(null, Keys.KEY_MODIFIEDBY);
+		serializer.endTag(null, Binary.Columns.MODIFIEDBY);
 
-		serializer.startTag(null, Keys.KEY_MODIFIEDFROM);
+		serializer.startTag(null, Binary.Columns.MODIFIEDFROM);
 		serializer.text(cursor.getModifiedFrom());
-		serializer.endTag(null, Keys.KEY_MODIFIEDFROM);
+		serializer.endTag(null, Binary.Columns.MODIFIEDFROM);
 
-		serializer.startTag(null, Keys.KEY_CREATED);
+		serializer.startTag(null, Binary.Columns.CREATED);
 		serializer.attribute(null, "class", "sql-timestamp");
 		serializer.text(String.valueOf(cursor.getCreated()));
-		serializer.endTag(null, Keys.KEY_CREATED);
+		serializer.endTag(null, Binary.Columns.CREATED);
 
-		serializer.startTag(null, Keys.KEY_CREATEDBY);
+		serializer.startTag(null, Binary.Columns.CREATEDBY);
 		serializer.text(cursor.getCreatedBy());
-		serializer.endTag(null, Keys.KEY_CREATEDBY);
+		serializer.endTag(null, Binary.Columns.CREATEDBY);
 		
-		serializer.startTag(null, Keys.KEY_FILE_NAME);
+		serializer.startTag(null, Binary.Columns.FILE_NAME);
 		serializer.text(cursor.getFileName());
-		serializer.endTag(null, Keys.KEY_FILE_NAME);
+		serializer.endTag(null, Binary.Columns.FILE_NAME);
 		
-		serializer.startTag(null, Keys.KEY_CONTENT_TYPE);
+		serializer.startTag(null, Binary.Columns.CONTENT_TYPE);
 		serializer.text(cursor.getContentType());
-		serializer.endTag(null, Keys.KEY_CONTENT_TYPE);
+		serializer.endTag(null, Binary.Columns.CONTENT_TYPE);
 		
-		serializer.startTag(null, Keys.KEY_LENGTH);
+		serializer.startTag(null, Binary.Columns.LENGTH);
 		serializer.text(String.valueOf(cursor.getLength()));
-		serializer.endTag(null, Keys.KEY_LENGTH);
+		serializer.endTag(null, Binary.Columns.LENGTH);
 		
 		serializer.startTag(null, "content");
 		
-		Uri uri = ContentUris.withAppendedId(Binary.CONTENT_URI, cursor.getRowId());
+		Uri uri = ContentUris.withAppendedId(Binary.Columns.CONTENT_URI, cursor.getRowId());
 		InputStream is = context.getContentResolver().openInputStream(uri);
 
 		byte[] bytes = new byte[1024];
@@ -79,17 +78,17 @@ public class BinarySerializer {
 		
 		serializer.endTag(null, "content");
 		
-		serializer.startTag(null, Keys.KEY_PARENT_ENTITY);
+		serializer.startTag(null, Binary.Columns.PARENT_ENTITY);
 		serializer.text(cursor.getParentEntity());
-		serializer.endTag(null, Keys.KEY_PARENT_ENTITY);
+		serializer.endTag(null, Binary.Columns.PARENT_ENTITY);
 		
-		serializer.startTag(null, Keys.KEY_PARENT_KEY);
+		serializer.startTag(null, Binary.Columns.PARENT_KEY);
 		serializer.text(cursor.getParentKey());
-		serializer.endTag(null, Keys.KEY_PARENT_KEY);
+		serializer.endTag(null, Binary.Columns.PARENT_KEY);
 		
-		serializer.startTag(null, Keys.KEY_PARENT_FIELD_GETTER);
+		serializer.startTag(null, Binary.Columns.PARENT_FIELD_GETTER);
 		serializer.text(cursor.getParentFieldGetter());
-		serializer.endTag(null, Keys.KEY_PARENT_FIELD_GETTER);
+		serializer.endTag(null, Binary.Columns.PARENT_FIELD_GETTER);
 		
 		serializer.endTag(null, PACKAGE);
 	}

@@ -7,7 +7,6 @@ package org.imogene.android.«name.toLowerCase()-».provider;
 
 import org.imogene.android.Constants;
 import org.imogene.android.Constants.Databases;
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.provider.AbstractProvider;
 «FOREACH entities AS entity-»
 import org.imogene.android.«name.toLowerCase()-».database.sqlite.«entity.name.toFirstUpper()-»Cursor;
@@ -25,6 +24,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 public class «name.toFirstUpper()-»Provider extends AbstractProvider {
@@ -40,10 +40,10 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 
 	static {
 		«FOREACH entities AS entity-»
-		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME, «entity.name.toUpperCase()»);
-		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME + "/#", «entity.name.toUpperCase()»_ID);
-		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME + "/" + SearchManager.SUGGEST_URI_PATH_QUERY, «entity.name.toUpperCase()»_SEARCH_SUGGEST);
-		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».TABLE_NAME + "/" + SearchManager.SUGGEST_URI_PATH_QUERY + "/*", «entity.name.toUpperCase()»_SEARCH_SUGGEST);
+		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toUpperCase()»);
+		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».Columns.TABLE_NAME + "/#", «entity.name.toUpperCase()»_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».Columns.TABLE_NAME + "/" + SearchManager.SUGGEST_URI_PATH_QUERY, «entity.name.toUpperCase()»_SEARCH_SUGGEST);
+		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».Columns.TABLE_NAME + "/" + SearchManager.SUGGEST_URI_PATH_QUERY + "/*", «entity.name.toUpperCase()»_SEARCH_SUGGEST);
 		«ENDFOREACH-»
 	}
 	
@@ -74,11 +74,11 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		switch (sURIMatcher.match(uri)) {
 		«FOREACH entities AS entity-»
 		case «entity.name.toUpperCase()»:
-			result = deleteMulti(«entity.name.toFirstUpper()».TABLE_NAME, selection, selectionArgs);
+			result = deleteMulti(«entity.name.toFirstUpper()».Columns.TABLE_NAME, selection, selectionArgs);
 			break;
 		case «entity.name.toUpperCase()»_ID:
 			String «entity.shortName.toLowerCase()»Id = uri.getPathSegments().get(1);
-			result = deleteSingle(«entity.name.toFirstUpper()».TABLE_NAME, «entity.shortName.toLowerCase()»Id, selection, selectionArgs);
+			result = deleteSingle(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.shortName.toLowerCase()»Id, selection, selectionArgs);
 			break;
 		«ENDFOREACH-»
 		default:
@@ -109,7 +109,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		switch (sURIMatcher.match(uri)) {
 		«FOREACH entities AS entity-»
 		case «entity.name.toUpperCase()»:
-			return insertInTable(«entity.name.toFirstUpper()-».TABLE_NAME, «entity.name.toFirstUpper()-».CONTENT_URI, values);
+			return insertInTable(«entity.name.toFirstUpper()-».Columns.TABLE_NAME, «entity.name.toFirstUpper()-».Columns.CONTENT_URI, values);
 		«ENDFOREACH»
 		default:
 			return super.insert(uri, values);
@@ -124,10 +124,10 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		switch (sURIMatcher.match(uri)) {
 		«FOREACH entities AS entity-»
 		case «entity.name.toUpperCase()»:
-			qb.setTables(«entity.name.toFirstUpper()».TABLE_NAME);
+			qb.setTables(«entity.name.toFirstUpper()».Columns.TABLE_NAME);
 			break;
 		case «entity.name.toUpperCase()»_ID:
-			qb.setTables(«entity.name.toFirstUpper()».TABLE_NAME);
+			qb.setTables(«entity.name.toFirstUpper()».Columns.TABLE_NAME);
 			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 			break;
 		case «entity.name.toUpperCase()»_SEARCH_SUGGEST:
@@ -149,11 +149,11 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		switch (sURIMatcher.match(uri)) {
 		«FOREACH entities AS entity-»
 		case «entity.name.toUpperCase()»:
-			result = updateMulti(«entity.name.toFirstUpper()».TABLE_NAME, values, selection, selectionArgs);
+			result = updateMulti(«entity.name.toFirstUpper()».Columns.TABLE_NAME, values, selection, selectionArgs);
 			break;
 		case «entity.name.toUpperCase()»_ID:
 			String «entity.shortName.toLowerCase()»Id = uri.getPathSegments().get(1);
-			result = updateSingle(«entity.name.toFirstUpper()».TABLE_NAME, «entity.shortName.toLowerCase()»Id, values, selection, selectionArgs);
+			result = updateSingle(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.shortName.toLowerCase()»Id, values, selection, selectionArgs);
 			break;
 		«ENDFOREACH-»
 		default:
@@ -171,23 +171,23 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 
 		«FOREACH entities AS entity-»
 		private static final String DATABASE_CREATE_«entity.name.toUpperCase()» = 
-			"create table if not exists «entity.name.toLowerCase()» ("
-				+ Keys.KEY_ROWID	+ " integer primary key autoincrement, "
-				+ Keys.KEY_MODIFIED + " integer, "
-				+ Keys.KEY_MODIFIEDBY + " text, "
-				+ Keys.KEY_MODIFIEDFROM + " text, "
-				+ Keys.KEY_UPLOADDATE + " integer, "
-				+ Keys.KEY_CREATED + " integer, "
-				+ Keys.KEY_CREATEDBY + " text, "
-				+ Keys.KEY_UNREAD + " integer, "
-				+ Keys.KEY_SYNCHRONIZED + " integer, "
+			"create table if not exists " + «entity.name.toFirstUpper()».Columns.TABLE_NAME + " ("
+				+ «entity.name.toFirstUpper()».Columns._ID + " integer primary key autoincrement, "
+				+ «entity.name.toFirstUpper()».Columns.MODIFIED + " integer, "
+				+ «entity.name.toFirstUpper()».Columns.MODIFIEDBY + " text, "
+				+ «entity.name.toFirstUpper()».Columns.MODIFIEDFROM + " text, "
+				+ «entity.name.toFirstUpper()».Columns.UPLOADDATE + " integer, "
+				+ «entity.name.toFirstUpper()».Columns.CREATED + " integer, "
+				+ «entity.name.toFirstUpper()».Columns.CREATEDBY + " text, "
+				+ «entity.name.toFirstUpper()».Columns.UNREAD + " integer, "
+				+ «entity.name.toFirstUpper()».Columns.SYNCHRONIZED + " integer, "
 				«IF Actor.isAssignableFrom(entity.metaType) -»
-				+ Keys.KEY_LOGIN + " text, "
-				+ Keys.KEY_PASSWORD + " blob, "
-				+ Keys.KEY_ROLES + " text, "
+				+ «entity.name.toFirstUpper()».Columns.LOGIN + " text, "
+				+ «entity.name.toFirstUpper()».Columns.PASSWORD + " blob, "
+				+ «entity.name.toFirstUpper()».Columns.ROLES + " text, "
 				«ENDIF-»
 				«EXPAND getKey FOREACH entity.groups.fields-»
-				+ Keys.KEY_ID + " text not null);";
+				+ «entity.name.toFirstUpper()».Columns.ID + " text not null);";
 		«ENDFOREACH-»
 	
 		«EXPAND buildTableManyToMany FOREACH entities.groups.fields-»
@@ -238,8 +238,8 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		public final Uri findInDatabase(String scanned) {
     		long id;
     		«FOREACH entities AS e SEPARATOR " else "»
-   	 		if ((id = queryRowId(«e.name.toFirstUpper()-».CONTENT_URI, scanned)) != -1)
-    			return ContentUris.withAppendedId(«e.name.toFirstUpper()-».CONTENT_URI, id);
+   	 		if ((id = queryRowId(«e.name.toFirstUpper()-».Columns.CONTENT_URI, scanned)) != -1)
+    			return ContentUris.withAppendedId(«e.name.toFirstUpper()-».Columns.CONTENT_URI, id);
     		«ENDFOREACH»
     		else
     			return null;
@@ -252,11 +252,11 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			«FOREACH entities AS entity-»
 			case «entity.name.toUpperCase()»:
 				qb.setCursorFactory(new «entity.name.toFirstUpper()»Cursor.Factory());
-				qb.setTables(«entity.name.toFirstUpper()».TABLE_NAME);
+				qb.setTables(«entity.name.toFirstUpper()».Columns.TABLE_NAME);
 				break;
 			case «entity.name.toUpperCase()»_ID:
 				qb.setCursorFactory(new «entity.name.toFirstUpper()»Cursor.Factory());
-				qb.setTables(«entity.name.toFirstUpper()».TABLE_NAME);
+				qb.setTables(«entity.name.toFirstUpper()».Columns.TABLE_NAME);
 				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
 				break;
 			«ENDFOREACH-»
@@ -276,7 +276,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			switch (sURIMatcher.match(uri)) {
 			«FOREACH entities AS entity-»
 			case «entity.name.toUpperCase()»_ID:
-				return getEntityId(«entity.name.toFirstUpper()».TABLE_NAME, uri);
+				return getEntityId(«entity.name.toFirstUpper()».Columns.TABLE_NAME, uri);
 			«ENDFOREACH-»
 			default:
 				return super.queryId(uri);
@@ -288,7 +288,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			switch (sURIMatcher.match(uri)) {
 			«FOREACH entities AS entity-»
 			case «entity.name.toUpperCase()»:
-				return getEntityRowId(«entity.name.toFirstUpper()».TABLE_NAME, id);
+				return getEntityRowId(«entity.name.toFirstUpper()».Columns.TABLE_NAME, id);
 			«ENDFOREACH-»
 			default:
 				return super.queryRowId(uri, id);
@@ -302,30 +302,30 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 
 
 «DEFINE getKey FOR FieldEntity-»
-+ "«name.toFirstLower()» text, "
++ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " text, "
 «ENDDEFINE»
 
 «DEFINE getKey FOR DatesField-»
-+ "«name.toFirstLower()» integer, "
++ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " integer, "
 «ENDDEFINE»
 
 «DEFINE getKey FOR IntegerField-»
-+ "«name.toFirstLower()» integer, "
++ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " integer, "
 «ENDDEFINE»
 
 «DEFINE getKey FOR FloatField-»
-+ "«name.toFirstLower()» float, "
++ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " float, "
 «ENDDEFINE»
 
 «DEFINE getKey FOR MainRelationFieldEntity-»
 «IF (cardinality == 1)-»
-+ "«name.toFirstLower()» text, "
++ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " text, "
 «ENDIF-»
 «ENDDEFINE»
 
 «DEFINE getKey FOR ReverseRelationFieldEntity-»
 «IF (cardinality ==1 && getOppositeCardinality(this) != 1)-»
-+ "«name.toFirstLower()» text, "
++ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " text, "
 «ENDIF-»
 «ENDDEFINE»
 
@@ -336,10 +336,11 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 
 «DEFINE buildTableManyToMany FOR MainRelationFieldEntity-»
 «IF (cardinality != 1 && getOppositeCardinality(this) != 1)-»
-private static final String DATABASE_CREATE_«shortName.toUpperCase()» = "create table if not exists «shortName.toLowerCase()» ("
-	+ Keys.KEY_ROWID + " integer primary key autoincrement, "
-	+ "«parentGroup.parentCard.name.toLowerCase()» text not null, "
-	+ "«entity.name.toLowerCase()» text not null);";
+private static final String DATABASE_CREATE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()» = "create table if not exists " +
+	«parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()» + " ("
+	+ BaseColumns._ID + " integer primary key autoincrement, "
+	+ «parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_NAME + " text not null, "
+	+ «entity.name.toFirstUpper()».Columns.TABLE_NAME + " text not null);";
 «ENDIF-»
 «ENDDEFINE»
 
@@ -351,7 +352,7 @@ private static final String DATABASE_CREATE_«shortName.toUpperCase()» = "create 
 «DEFINE buildSQLManyToMany FOR MainRelationFieldEntity-»
 «IF (cardinality != 1)-»
 «IF ((oppositeRelationField != null && oppositeRelationField.cardinality != 1) || (oppositeRelationField == null && InverseCardinality != 1))-»
-	db.execSQL(DATABASE_CREATE_«shortName.toUpperCase()»);
+	db.execSQL(DATABASE_CREATE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()»);
 «ENDIF-»
 «ENDIF-»
 «ENDDEFINE»

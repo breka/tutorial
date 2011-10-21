@@ -4,11 +4,11 @@ import java.util.UUID;
 
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
-import org.imogene.android.Constants.Keys;
-import org.imogene.android.Constants.Tables;
 import org.imogene.android.W;
 import org.imogene.android.app.HighPreferences;
 import org.imogene.android.app.UnSyncDialog;
+import org.imogene.android.common.SyncHistory;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
@@ -37,7 +37,7 @@ public class ServicingReceiver extends BroadcastReceiver {
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(i);
 		} else if (Intents.ACTION_RM_SYNC_HISTORY.equals(intent.getAction())) {
-			SQLiteWrapper.delete(context, Tables.TABLE_SYNCHISTORY, null, null);
+			SQLiteWrapper.delete(context, SyncHistory.Columns.TABLE_NAME, null, null);
 		} else if (Intents.ACTION_RM_DATABASE.equals(intent.getAction())) {
 			if (intent.hasExtra(Extras.EXTRA_FORCE)) {
 				deleteAll(context);
@@ -82,13 +82,13 @@ public class ServicingReceiver extends BroadcastReceiver {
 	private boolean hasUnSync(Context context) {
 		SQLiteBuilder builder = new SQLiteBuilder();
 		builder.setAnd(true);
-		builder.appendLike(KEY_SQL, Keys.KEY_SYNCHRONIZED);
+		builder.appendLike(KEY_SQL, Entity.Columns.SYNCHRONIZED);
 		builder.appendEq(KEY_TYPE, TYPE_TABLE);
 		
 		Cursor c = SQLiteWrapper.query(context, SQLITE_MASTER, new String[] {KEY_NAME}, builder.toSQL());
 		SQLiteBuilder b = new SQLiteBuilder();
 		b.setSelect("count(*)");
-		b.appendEq(Keys.KEY_SYNCHRONIZED, 0);
+		b.appendEq(Entity.Columns.SYNCHRONIZED, 0);
 		while(c.moveToNext()) {
 			long count = SQLiteWrapper.queryForLong(context, b.setTable(c.getString(0)).toSQL());
 			if (count > 0) {

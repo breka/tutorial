@@ -240,23 +240,23 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 			«IF entity.directAccess.size > 0-»
 			if («entity.name.toFirstUpper()»Roles.directAccess(this)) {
 			«ENDIF-»
-			getContentResolver().registerContentObserver(«entity.name.toFirstUpper()-».CONTENT_URI, true, mObserver);
+			getContentResolver().registerContentObserver(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, true, mObserver);
 			«IF isInMiscellaneousThema(themas, entity)-»
 			themaMiscellaneous.add(new EntityChild(
-				«entity.name.toFirstUpper()-».CONTENT_URI,
-				«entity.name.toFirstUpper()-».TABLE_NAME,
+				«entity.name.toFirstUpper()-».Columns.CONTENT_URI,
+				«entity.name.toFirstUpper()-».Columns.TABLE_NAME,
 				R.string.«entity.shortName.toLowerCase()-»_des_pl,
 				«IF entity.icon.length > 0-»R.drawable.«entity.icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»,
-				«entity.name.toFirstUpper()-».COLOR));
+				«entity.name.toFirstUpper()-».Columns.COLOR));
 			«ELSE-»
 			«FOREACH themas AS thema-»
 				«IF thema.entities.contains(entity)-»
 				thema«thema.name.toFirstUpper()-».add(new EntityChild(
-					«entity.name.toFirstUpper()-».CONTENT_URI,
-					«entity.name.toFirstUpper()-».TABLE_NAME,
+					«entity.name.toFirstUpper()-».Columns.CONTENT_URI,
+					«entity.name.toFirstUpper()-».Columns.TABLE_NAME,
 					R.string.«entity.shortName.toLowerCase()-»_des_pl,
 					«IF entity.icon.length > 0-»R.drawable.«entity.icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»,
-					«entity.name.toFirstUpper()-».COLOR));
+					«entity.name.toFirstUpper()-».Columns.COLOR));
 				«ENDIF-»
 			«ENDFOREACH-»
 			«ENDIF-»

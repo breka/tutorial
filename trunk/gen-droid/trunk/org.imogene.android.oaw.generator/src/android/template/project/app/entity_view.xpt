@@ -261,7 +261,7 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 		«IF getMoreFields(groups.fields).size > 0-»
 		«FOREACH getMoreFields(groups.fields) AS f-»
 		case R.id.menu_action_new_«f.name.toLowerCase()»: {
-			Intent intent = new Intent(Intent.ACTION_INSERT, «f.entity.name.toFirstUpper()».CONTENT_URI)
+			Intent intent = new Intent(Intent.ACTION_INSERT, «f.entity.name.toFirstUpper()».Columns.CONTENT_URI)
 				.addCategory(PreferenceHelper.getEditionCategory(this));
 			«IF f.oppositeRelationField.cardinality == 1 || f.commonFields.size > 0-»
 			Bundle bundle = new Bundle();
@@ -282,7 +282,7 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 			bundle.putParcelable(
 				"«f.oppositeRelationField.name.toFirstLower()»",
 				ContentUris.withAppendedId(
-					«name.toFirstUpper()-».CONTENT_URI,
+					«name.toFirstUpper()-».Columns.CONTENT_URI,
 					mEntity.getRowId()));
 			«ENDIF-»
 			intent.putExtra(Extras.EXTRA_ENTITY, bundle);
@@ -347,7 +347,7 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 	}
 	
 	public Uri getCurrentContentUri() {
-		return «name.toFirstUpper()».CONTENT_URI;
+		return «name.toFirstUpper()».Columns.CONTENT_URI;
 	}
 
 }
@@ -396,9 +396,9 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 «ENDDEFINE»
 
 «DEFINE specificInit FOR RelationFieldEntity-»
-«name.toFirstLower()».setDrawable(«entity.name.toFirstUpper()-».COLOR);
+«name.toFirstLower()».setDrawable(«entity.name.toFirstUpper()-».Columns.COLOR);
 «IF cardinality != 1»
-«name.toFirstLower()».setContentUri(«entity.name.toFirstUpper()-».CONTENT_URI);
+«name.toFirstLower()».setContentUri(«entity.name.toFirstUpper()-».Columns.CONTENT_URI);
 «ENDIF»
 «ENDDEFINE»
 

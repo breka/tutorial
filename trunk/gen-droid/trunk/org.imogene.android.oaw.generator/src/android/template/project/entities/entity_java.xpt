@@ -17,31 +17,35 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import org.imogene.android.common.Binary;
+import org.imogene.android.common.GpsLocation;
 import org.imogene.android.common.LocalizedText;
 «IF Actor.isAssignableFrom(metaType)-»
 import org.imogene.android.common.UserImpl;
+import org.imogene.android.common.interfaces.User;
 «ELSE-»
 import org.imogene.android.common.EntityImpl;
+import org.imogene.android.common.interfaces.Entity;
 «ENDIF-»
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.Tools;
-import org.imogene.android.util.database.GpsTableUtils;
 import org.imogene.android.«projectName.toLowerCase()-».database.sqlite.«name.toFirstUpper()-»Cursor;
 
 public class «name.toFirstUpper()-» extends 
 «IF Actor.isAssignableFrom(metaType) -»UserImpl«ELSE-»EntityImpl«ENDIF-» {
 
-	«IF Actor.isAssignableFrom(metaType) -»
-	public static final String PACKAGE = "org.imogene.«modelName.toLowerCase()».entity.«name»";
-	«ELSE-»
-	public static final String PACKAGE = "org.imogene.«modelName.toLowerCase()».entity.«name»";
-	«ENDIF-»
-	public static final String TABLE_NAME = "«name.toLowerCase()-»";
-	public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
-	public static final Drawable COLOR = Tools.getColorChip(Color.parseColor(«IF color.length > 0-»"#«color»"«ELSE-»"black"«ENDIF-»));
-	public static final String TYPE = "«shortName»";
+	public static class Columns implements «IF Actor.isAssignableFrom(metaType) -»User.Columns«ELSE-»Entity.Columns«ENDIF-» {
+		public static final Drawable COLOR = Tools.getColorChip(Color.parseColor(«IF color.length > 0-»"#«color»"«ELSE-»"black"«ENDIF-»));
+		public static final String PACKAGE = "org.imogene.«modelName.toLowerCase()».entity.«name»";
+		public static final String TABLE_NAME = "«name.toLowerCase()-»";
+		public static final String BEAN_TYPE = "«shortName»";
+		public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
+		
+		«EXPAND column FOREACH groups.fields-»
+		
+		«EXPAND nTonTable FOREACH groups.fields-»
+	}
 
 	«EXPAND declaration FOREACH groups.fields-»
 	
@@ -67,12 +71,12 @@ public class «name.toFirstUpper()-» extends
 	
 	@Override
 	protected final Uri getContentUri() {
-		return CONTENT_URI;
+		return Columns.CONTENT_URI;
 	}
 	
 	@Override
 	protected final String getBeanType() {
-		return TYPE;
+		return Columns.BEAN_TYPE;
 	}
 	
 	@Override
@@ -101,6 +105,29 @@ public class «name.toFirstUpper()-» extends
 
 
 
+
+«DEFINE column FOR FieldEntity-»
+public static final String «name.toUpperCase()» = "«name.toFirstLower()»";
+«ENDDEFINE»
+
+
+
+
+
+«DEFINE nTonTable FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE nTonTable FOR MainRelationFieldEntity-»
+«IF (cardinality != 1 && getOppositeCardinality(this) != 1)-»
+public static final String TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()» = "«shortName.toLowerCase()»";
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE nTonTable FOR ReverseRelationFieldEntity-»
+«IF (cardinality != 1 && getOppositeCardinality(this) != 1)-»
+public static final String TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()» = "«oppositeRelationField.shortName.toLowerCase()»";
+«ENDIF-»
+«ENDDEFINE»
 
 
 
@@ -406,11 +433,11 @@ public final void set«name.toFirstUpper()-»(ArrayList<Uri> «name.toFirstLower()-
 «ENDDEFINE»
 
 «DEFINE createFromBundle FOR RelationFieldEntity-»
-if (bundle.containsKey("«name.toFirstLower()»")) {
+if (bundle.containsKey(Columns.«name.toUpperCase()»)) {
 	«IF cardinality == 1-»
-	m«name.toFirstUpper()» = bundle.getParcelable("«name.toFirstLower()»");
+	m«name.toFirstUpper()» = bundle.getParcelable(Columns.«name.toUpperCase()»);
 	«ELSE-»
-	m«name.toFirstUpper()» = bundle.getParcelableArrayList("«name.toFirstLower()»");
+	m«name.toFirstUpper()» = bundle.getParcelableArrayList(Columns.«name.toUpperCase()»);
 	«ENDIF-»
 }
 «ENDDEFINE»
@@ -436,61 +463,61 @@ if (m«name.toFirstUpper()» != null) {
 
 
 «DEFINE commit FOR FieldEntity-»
-values.put("«name.toFirstLower()-»", m«name.toFirstUpper()-»);
+values.put(Columns.«name.toUpperCase()», m«name.toFirstUpper()-»);
 «ENDDEFINE»
 
 «DEFINE commit FOR TextField-»
 «IF translatable-»
 if (m«name.toFirstUpper()» != null) {
-	values.put("«name.toFirstLower()-»", m«name.toFirstUpper()-».getTextId());
+	values.put(Columns.«name.toUpperCase()», m«name.toFirstUpper()-».getTextId());
 } else {
-	values.putNull("«name.toFirstLower()-»");
+	values.putNull(Columns.«name.toUpperCase()»);
 }
 «ELSE-»
-values.put("«name.toFirstLower()-»", m«name.toFirstUpper()-»);
+values.put(Columns.«name.toUpperCase()», m«name.toFirstUpper()-»);
 «ENDIF-»
 «ENDDEFINE»
 
 «DEFINE commit FOR BooleanField-»
 if (m«name.toFirstUpper()-» != null)
-	values.put("«name.toFirstLower()-»", m«name.toFirstUpper()-».toString());
+	values.put(Columns.«name.toUpperCase()», m«name.toFirstUpper()-».toString());
 else
-	values.putNull("«name.toFirstLower()-»");
+	values.putNull(Columns.«name.toUpperCase()»);
 «ENDDEFINE»
 
 «DEFINE commit FOR EnumField-»
 «IF multipleSelection -»
-values.put("«name.toFirstLower()-»", Arrays.toString(m«name.toFirstUpper()-»));
+values.put(Columns.«name.toUpperCase()», Arrays.toString(m«name.toFirstUpper()-»));
 «ELSE-»
-values.put("«name.toFirstLower()-»", m«name.toFirstUpper()-»);
+values.put(Columns.«name.toUpperCase()», m«name.toFirstUpper()-»);
 «ENDIF-»
 «ENDDEFINE»
 
 «DEFINE commit FOR GeoField-»
-values.put("«name.toFirstLower()-»", GpsTableUtils.saveLocation(context, m«name.toFirstUpper()-»));
+values.put(Columns.«name.toUpperCase()», GpsLocation.saveLocation(context, m«name.toFirstUpper()-»));
 «ENDDEFINE»
 
 «DEFINE commit FOR BinaryField-»
 if (m«name.toFirstUpper()-» != null && !Binary.isBinary(m«name.toFirstUpper()-»)) {
-	Binary «shortName.toLowerCase()-» = new Binary();
-	«shortName.toLowerCase()-».setData(m«name.toFirstUpper()-»);
-	«shortName.toLowerCase()-».setParentEntity("«parentGroup.parentCard.shortName-»");
-	«shortName.toLowerCase()-».setParentFieldGetter("get«name.toFirstUpper()-»");
-	«shortName.toLowerCase()-».setParentKey(getId());
-	m«name.toFirstUpper()-» = «shortName.toLowerCase()-».commit(context, true, false);
+	Binary «name.toLowerCase()-» = new Binary();
+	«name.toLowerCase()-».setData(m«name.toFirstUpper()-»);
+	«name.toLowerCase()-».setParentEntity(Columns.BEAN_TYPE);
+	«name.toLowerCase()-».setParentFieldGetter("get«name.toFirstUpper()-»");
+	«name.toLowerCase()-».setParentKey(getId());
+	m«name.toFirstUpper()-» = «name.toLowerCase()-».commit(context, true, false);
 }
-values.put("«name.toFirstLower()-»", SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
+values.put(Columns.«name.toUpperCase()», SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
 «ENDDEFINE»
 
 «DEFINE commit FOR MainRelationFieldEntity-»
 «IF cardinality == 1-»
-values.put("«name.toFirstLower()-»", SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
+values.put(Columns.«name.toUpperCase()», SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
 «ENDIF»
 «ENDDEFINE»
 
 «DEFINE commit FOR ReverseRelationFieldEntity-»
 «IF getOppositeCardinality(this) != 1 && cardinality == 1 -»
-values.put("«name.toFirstLower()-»", SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
+values.put(Columns.«name.toUpperCase()», SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
 «ENDIF-»
 «ENDDEFINE»
 
@@ -506,20 +533,20 @@ values.put("«name.toFirstLower()-»", SQLiteWrapper.queryId(context, m«name.toFir
 «IF oppositeRelationField != null && getOppositeCardinality(this) == 1-»
 {
 ContentValues v = new ContentValues();
-v.putNull("«oppositeRelationField.name.toFirstLower()-»");
-context.getContentResolver().update(«entity.name.toFirstUpper()-».CONTENT_URI, v, "«oppositeRelationField.name.toFirstLower()-»='" + getId() + "'", null);
-v.put("«oppositeRelationField.name.toFirstLower()-»", getId());
+v.putNull(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
+context.getContentResolver().update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, v, «entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()» + "='" + getId() + "'", null);
+v.put(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()», getId());
 for (Uri uri : m«name.toFirstUpper()-»)
 	context.getContentResolver().update(uri, v, null, null);
 }
 «ELSE-»
 {
-SQLiteWrapper.delete(context, "«shortName.toLowerCase()-»", "«parentGroup.parentCard.name.toLowerCase()-»='" + getId() + "'", null);
+SQLiteWrapper.delete(context, Columns.TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()», «parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_NAME + "='" + getId() + "'", null);
 ContentValues v = new ContentValues();
-v.put("«parentGroup.parentCard.name.toLowerCase()-»", getId());
+v.put(«parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_NAME, getId());
 for (Uri uri : m«name.toFirstUpper()-») {
-	v.put("«entity.name.toLowerCase()-»", SQLiteWrapper.queryId(context, uri));
-	SQLiteWrapper.insert(context, "«shortName.toLowerCase()-»", "", v);
+	v.put(«entity.name.toFirstUpper()».Columns.TABLE_NAME, SQLiteWrapper.queryId(context, uri));
+	SQLiteWrapper.insert(context, Columns.TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()», "", v);
 }
 }
 «ENDIF-»
@@ -530,10 +557,10 @@ for (Uri uri : m«name.toFirstUpper()-») {
 «IF isForbiddenCase(this)»
 {
 ContentValues v = new ContentValues();
-v.putNull("«oppositeRelationField.name.toFirstLower()-»");
-context.getContentResolver().update(«entity.name.toFirstUpper()-».CONTENT_URI, v, "«oppositeRelationField.name.toFirstLower()-»='" + getId() + "'", null);
+v.putNull(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
+context.getContentResolver().update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, v, «entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()» + "='" + getId() + "'", null);
 if (m«name.toFirstUpper()-» != null) {
-	v.put("«oppositeRelationField.name.toFirstLower()-»", getId());
+	v.put(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()», getId());
 	context.getContentResolver().update(m«name.toFirstUpper()-», v, null, null);
 }
 }
@@ -542,20 +569,20 @@ if (m«name.toFirstUpper()-» != null) {
 «IF getOppositeCardinality(this) == 1-»
 {
 ContentValues v = new ContentValues();
-v.putNull("«oppositeRelationField.name.toFirstLower()-»");
-context.getContentResolver().update(«entity.name.toFirstUpper()-».CONTENT_URI, v, "«oppositeRelationField.name.toFirstLower()-»='" + getId() + "'", null);
-v.put("«oppositeRelationField.name.toFirstLower()-»", getId());
+v.putNull(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
+context.getContentResolver().update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, v, «entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()» + "='" + getId() + "'", null);
+v.put(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()», getId());
 for (Uri uri : m«name.toFirstUpper()-»)
 	context.getContentResolver().update(uri, v, null, null);
 }
 «ELSE»
 {
-SQLiteWrapper.delete(context, "«oppositeRelationField.shortName.toLowerCase()-»", "«parentGroup.parentCard.name.toLowerCase()-»='" + getId() + "'", null);
+SQLiteWrapper.delete(context, Columns.TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()», Columns.TABLE_NAME + "='" + getId() + "'", null);
 ContentValues v = new ContentValues();
-v.put("«parentGroup.parentCard.name.toLowerCase()-»", getId());
+v.put(Columns.TABLE_NAME, getId());
 for (Uri uri : m«name.toFirstUpper()-») {
-	v.put("«entity.name.toLowerCase()-»", SQLiteWrapper.queryId(context, uri));
-	SQLiteWrapper.insert(context, "«oppositeRelationField.shortName.toLowerCase()-»", "", v);
+	v.put(«entity.name.toFirstUpper()».Columns.TABLE_NAME, SQLiteWrapper.queryId(context, uri));
+	SQLiteWrapper.insert(context, Columns.TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()», "", v);
 }
 }
 «ENDIF»

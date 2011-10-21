@@ -1,6 +1,6 @@
 package org.imogene.android.database.sqlite;
 
-import org.imogene.android.Constants.Keys;
+import org.imogene.android.common.LocalizedText;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -25,19 +25,19 @@ public class LocalizedTextCursor extends EntityCursorImpl {
 	}
 
 	public final String getFieldId() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_FIELD_ID));
+		return getString(getColumnIndexOrThrow(LocalizedText.Columns.FIELD_ID));
 	}
 	public final String getLocale() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_LOCALE));
+		return getString(getColumnIndexOrThrow(LocalizedText.Columns.LOCALE));
 	}
 	public final String getValue() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_VALUE));
+		return getString(getColumnIndexOrThrow(LocalizedText.Columns.VALUE));
 	}
 	public final boolean getOriginalValue() {
-		return getInt(getColumnIndexOrThrow(Keys.KEY_ORIGINAL_VALUE)) != 0;
+		return getInt(getColumnIndexOrThrow(LocalizedText.Columns.ORIGINAL_VALUE)) != 0;
 	}
 	public final boolean getPotentialyWrong() {
-		return getInt(getColumnIndexOrThrow(Keys.KEY_POTENTIALY_WRONG)) != 0;
+		return getInt(getColumnIndexOrThrow(LocalizedText.Columns.POTENTIALY_WRONG)) != 0;
 	}
 
 	@Override
