@@ -1,6 +1,5 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.Constants.Categories;
 import org.imogene.android.W;
 
 import android.content.Context;
@@ -21,7 +20,7 @@ public class PhotoFieldEdit extends BinaryFieldEdit {
 	@Override
 	protected void onCreateIntent(Intent acquire) {
 		acquire.setType("image/*");
-		acquire.addCategory(Categories.CATERGORY_IMAGE_CAPTURE);
+		//acquire.addCategory(Categories.CATERGORY_IMAGE_CAPTURE);
 	}
 
 }

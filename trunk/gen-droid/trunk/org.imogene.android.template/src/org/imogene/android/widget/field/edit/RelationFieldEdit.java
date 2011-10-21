@@ -23,9 +23,14 @@ import android.view.View;
 import android.widget.Toast;
 
 public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnActivityResultListener {
+	
+	public static interface ExtraBuilder {
+		public void build(Bundle bundle);
+	}
 
 	private ArrayList<Entry> mCommonFields;
 	private ArrayList<RelationFieldEdit<?>> mHierarchicalDependents;
+	private ArrayList<ExtraBuilder> mBuilders;
 
 	protected final boolean mHasReverse;
 	protected final int mDisplayPlId;
@@ -80,6 +85,7 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 	@Override
 	public void setReadOnly(boolean readOnly) {
 		super.setReadOnly(readOnly);
+		setOnClickListener(readOnly ? null : this);
 		setOnLongClickListener(readOnly ? null : this);
 	}
 	
@@ -108,6 +114,14 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 		}
 		
 		mHierarchicalDependents.add(dependent);
+	}
+	
+	public void registerExtraBuilder(ExtraBuilder builder) {
+		if (mBuilders == null) {
+			mBuilders = new ArrayList<ExtraBuilder>();
+		}
+		
+		mBuilders.add(builder);
 	}
 	
 	public void setValue(T value) {
@@ -182,6 +196,11 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 				} else if (entry.commonField instanceof RelationManyFieldEdit) {
 					bundle.putParcelableArrayList(entry.oppositeRelation, ((RelationManyFieldEdit) entry.commonField).getValue());
 				}
+			}
+		}
+		if (mBuilders != null) {
+			for (ExtraBuilder builder : mBuilders) {
+				builder.build(bundle);
 			}
 		}
 		return bundle;

@@ -98,8 +98,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 			try {
 				onStart();
 
-				File directory = new File(Paths.PATH_SYNCHRO);
-				directory.mkdirs();
+				Paths.PATH_SYNCHRO.mkdirs();
 
 				updateTimeOffset();
 

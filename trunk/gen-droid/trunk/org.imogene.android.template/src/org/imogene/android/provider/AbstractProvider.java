@@ -259,10 +259,11 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		long rowId = sqlDB.insert(Binary.TABLE_NAME, "", values);
 		if (rowId > 0) {
 			Uri rowUri = ContentUris.withAppendedId(Binary.CONTENT_URI,	rowId);
-			File directory = new File(Paths.PATH_BINARIES);
-			directory.mkdirs();
+			
+			Paths.PATH_BINARIES.mkdirs();
+
 			String filename = System.currentTimeMillis() + ".bin";
-			File file = new File(directory, filename);
+			File file = new File(Paths.PATH_BINARIES, filename);
 			try {
 				file.createNewFile();
 			} catch (IOException e) {

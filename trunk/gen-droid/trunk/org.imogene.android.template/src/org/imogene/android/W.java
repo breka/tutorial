@@ -355,6 +355,7 @@ public final class W {
 		public static final int bin_binary = R.string.bin_binary;
 		public static final int bin_photo = R.string.bin_photo;
 		public static final int bin_video = R.string.bin_video;
+		public static final int camcorder = R.string.camcorder;
 		public static final int camera = R.string.camera;
 		public static final int created = R.string.created;
 		public static final int created_by = R.string.created_by;

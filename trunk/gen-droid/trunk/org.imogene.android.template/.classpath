@@ -8,5 +8,5 @@
 			<attribute name="javadoc_location" value="file:/home/julien/apps/android-sdk-linux_x86/extras/android/compatibility/v4/docs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

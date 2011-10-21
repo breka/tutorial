@@ -1,14 +1,19 @@
 package org.imogene.android;
 
+import java.io.File;
+
+import android.os.Environment;
+
 public final class Constants {
 	
 	public static final String AUTHORITY = "org.imogene.android.%realProjectName%.entity";
 	
 	public static interface Paths {
-		public static final String PATH_BACKUP = "/sdcard/.%realProjectName%/backup";
-		public static final String PATH_BINARIES = "/sdcard/.%realProjectName%/binaries";
-		public static final String PATH_SYNCHRO = "/sdcard/.%realProjectName%/synchro";
-		public static final String PATH_TEMPORARY = "/sdcard/.%realProjectName%/temporary";
+		public static final File PATH_BACKUP = new File(Environment.getExternalStorageDirectory(), ".%realProjectName%/backup");
+		public static final File PATH_BINARIES = new File(Environment.getExternalStorageDirectory(), ".%realProjectName%/binaries");
+		public static final File PATH_SYNCHRO = new File(Environment.getExternalStorageDirectory(), ".%realProjectName%/synchro");
+		public static final File PATH_TEMPORARY = new File(Environment.getExternalStorageDirectory(), ".%realProjectName%/temporary");
+		public static final File PATH_MEDIA = new File(Environment.getExternalStorageDirectory(), "%realProjectName%/media");
 	}
 	
 	public static interface Intents {
@@ -256,7 +261,8 @@ public final class Constants {
 		public static final String CATEGORY_CLASSIC = "org.imogene.android.category.CLASSIC";
 		public static final String CATEGORY_WIZARD = "org.imogene.android.category.WIZARD";
 		
-		public static final String CATERGORY_IMAGE_CAPTURE = "org.imogene.android.%realProjectName%.category.IMAGE_CATPURE";
+		public static final String CATERGORY_IMAGE_CAPTURE = "org.imogene.android.diabsat.category.IMAGE_CATPURE";
+		public static final String CATERGORY_VIDEO_CAPTURE = "org.imogene.android.diabsat.category.VIDEO_CATPURE";
 		
 		/* Outside categories */
 		public static final String CATEGORY_GPS = "org.imogene.map.category.GPS";

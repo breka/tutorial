@@ -27,6 +27,10 @@ import android.widget.TextView;
 
 public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, OnDependencyChangeListener, OnClickListener, OnLongClickListener, OnDismissListener, OnActivityDestroyListener {
 	
+	public interface OnValueChangeListener {
+		public void onValueChange();
+	}
+	
 	private final TextView mValueView;
 	private final TextView mTitleView;
 	private final View mHelpView;
@@ -43,12 +47,13 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	private int mIconId;
 	private int mTitleId;
 	private boolean mDependent;
-	private boolean mReadOnly;
 	private boolean mRequired;
 	private boolean mHidden;
 	private boolean mUpdateDisplayOnChange = true;
 	private boolean mAutomaticVisibility = true;
 	
+	protected boolean mReadOnly;
+
 	private ArrayList<OnDependencyChangeListener> mDependents;
 	
 	private ArrayList<OnValueChangeListener> mListeners; 
@@ -141,6 +146,7 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	public void setReadOnly(boolean readOnly) {
 		mReadOnly = readOnly;
+		setEnabled(!readOnly);
 	}
 	
 	public boolean isHidden() {
@@ -149,9 +155,7 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	public void setHidden(boolean hidden) {
 		mHidden = hidden;
-		if (hidden) {
-			setVisibility(View.GONE);
-		}
+		setVisibility(hidden ? View.GONE : View.VISIBLE);
 	}
 	
 	public boolean isReadOnly() {

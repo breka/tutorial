@@ -1,76 +1,65 @@
 package org.imogene.android.app;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.UUID;
 
-import org.imogene.android.Constants;
 import org.imogene.android.Constants.Paths;
-import org.imogene.android.util.file.FileUtils;
+import org.imogene.android.media.SingleMediaScanner;
+import org.imogene.android.media.SingleMediaScanner.SingleMediaListener;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images.Media;
-import android.util.Log;
 
-public class ImageCapture extends Activity {
+public class ImageCapture extends Activity implements SingleMediaListener {
 	
-	private static final String EXTRA_PATH = "ImageCapture_path";
+	public static final String EXTRA_PATH = "ImageCapture_path";
 	
 	private static final int ACTIVITY_IMAGE_CAPTURE = 1;
 	
-	private String mPath;
+	private File mPath;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (savedInstanceState != null) {
-			mPath = savedInstanceState.getString(EXTRA_PATH);
+		
+		if (savedInstanceState != null)
 			return;
+		
+		File path = null;
+		if (getIntent().hasExtra(EXTRA_PATH)) {
+			path = new File(getIntent().getStringExtra(EXTRA_PATH));
+		} else {
+			path = Paths.PATH_MEDIA;
 		}
-		File tmp = new File(Paths.PATH_TEMPORARY);
-		tmp.mkdirs();
-		try {
-			File img = File.createTempFile("tmp", ".img", tmp);
-			mPath = img.getAbsolutePath();
-			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(img));
-			startActivityForResult(intent, ACTIVITY_IMAGE_CAPTURE);
-		} catch (IOException e) {
-			Log.i(ImageCapture.class.getName(), "error creating temp file", e);
+		path.mkdirs();
+		
+		mPath = new File(path, UUID.randomUUID().toString() + ".png");
+		
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPath));
+		startActivityForResult(intent, ACTIVITY_IMAGE_CAPTURE);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == ACTIVITY_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+			new SingleMediaScanner(this, mPath, this);
+		} else {
+			mPath.delete();
 			setResult(RESULT_CANCELED);
 			finish();
 		}
 	}
 	
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString(EXTRA_PATH, mPath);
-	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == ACTIVITY_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-			try {
-				String title = UUID.randomUUID().toString();
-				String description = Constants.AUTHORITY;
-				String uriString = Media.insertImage(getContentResolver(), mPath, title, description);
-				FileUtils.deleteFile(mPath);
-				setResult(RESULT_OK, new Intent().setData(Uri.parse(uriString)));
-				finish();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				FileUtils.deleteFile(mPath);
-				setResult(RESULT_CANCELED);
-				finish();
-			}
+	public void onScanComplete(Uri uri) {
+		if (uri != null) {
+			setResult(RESULT_OK, new Intent().setData(uri));
+			finish();
 		} else {
-			FileUtils.deleteFile(mPath);
 			setResult(RESULT_CANCELED);
 			finish();
 		}
