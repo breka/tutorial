@@ -10,7 +10,12 @@ public class FieldEntityView<T> extends FieldEntity<T> {
 
 	public FieldEntityView(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs, layoutId);
-	}	
+	}
+	
+	@Override
+	public void setReadOnly(boolean readOnly) {
+		mReadOnly = readOnly;
+	}
 	
 	protected boolean isEmpty() {
 		return false;

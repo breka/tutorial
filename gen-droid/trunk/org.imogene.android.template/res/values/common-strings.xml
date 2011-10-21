@@ -3,7 +3,8 @@
 
 	<string name="no">No</string>
 
-	<string name="camera">Camera</string>
+	<string name="camera">"Camera"</string>
+	<string name="camcorder">"Camcorder"</string>
 
  	<string name="list_availables_entities">"List of available entities"</string>
  	

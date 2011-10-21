@@ -32,11 +32,10 @@ public class DatabaseUtils {
 	}
 
 	public static void dbBackup(Context context) {
-		File dir = new File(Paths.PATH_BACKUP);
-		dir.mkdirs();
+		Paths.PATH_BACKUP.mkdirs();
 
 		String name = "backup_" + System.currentTimeMillis() + ".db";
-		File backup = new File(dir, name);
+		File backup = new File(Paths.PATH_BACKUP, name);
 		File db = context.getDatabasePath(Databases.DATABASE_NAME);
 
 		try {

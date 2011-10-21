@@ -20,6 +20,7 @@ public class VideoFieldEdit extends BinaryFieldEdit {
 	@Override
 	protected void onCreateIntent(Intent acquire) {
 		acquire.setType("video/*");
+		//acquire.addCategory(Categories.CATERGORY_VIDEO_CAPTURE);
 	}
 	
 }

@@ -48,12 +48,27 @@
 			android:name="org.imogene.android.app.ImageCapture"
 			android:label="@string/camera"
 			android:icon="@drawable/ic_launcher_camera" 
-			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation" >
 			<intent-filter>
 				<action android:name="android.intent.action.GET_CONTENT"/>
 				<data android:mimeType="image/*"/>
 				<category android:name="android.intent.category.DEFAULT"/>
 				<category android:name="org.imogene.android.«name.toLowerCase()».category.IMAGE_CATPURE"/>
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="org.imogene.android.app.VideoCapture"
+			android:label="@string/camcorder"
+			android:icon="@drawable/ic_launcher_video_camera" 
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation" >
+			<intent-filter>
+				<action android:name="android.intent.action.GET_CONTENT"/>
+				<data android:mimeType="video/*"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="org.imogene.android.«name.toLowerCase()».category.VIDEO_CATPURE"/>
 			</intent-filter>
 		</activity>
 

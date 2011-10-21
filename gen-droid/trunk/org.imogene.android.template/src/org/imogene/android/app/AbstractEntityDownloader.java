@@ -132,10 +132,10 @@ public abstract class AbstractEntityDownloader extends Activity {
 		private final String mSearched;
 
 		public AbstractDownloader(Context context, String searched) {
-			File dir = new File(Paths.PATH_SYNCHRO);
-			dir.mkdirs();
+			Paths.PATH_SYNCHRO.mkdirs();
+			
 			mContext = context;
-			mFile = new File(dir, "searched_" + searched + ".ssearch");
+			mFile = new File(Paths.PATH_SYNCHRO, "searched_" + searched + ".ssearch");
 			
 			mLogin = PreferenceHelper.getSyncLogin(context);
 			mPassword = PreferenceHelper.getSyncPassword(context);			

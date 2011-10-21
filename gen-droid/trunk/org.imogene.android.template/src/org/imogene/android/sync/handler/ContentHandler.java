@@ -19,9 +19,9 @@ public class ContentHandler implements FieldHandler<Binary>{
 
 	public void parse(Context context, XmlPullParser parser, Binary entity) {
 		try {
-			File tmp = new File(Paths.PATH_TEMPORARY);
-			tmp.mkdirs();
-			File file = File.createTempFile("tmp", ".bin", tmp);
+			Paths.PATH_TEMPORARY.mkdirs();
+
+			File file = File.createTempFile("tmp", ".bin", Paths.PATH_TEMPORARY);
 			FileOutputStream fos = new FileOutputStream(file);
 		
 			while (parser.nextTag() == START_TAG) {
