@@ -1,6 +1,6 @@
 package org.imogene.android.database.sqlite;
 
-import org.imogene.android.Constants.Keys;
+import org.imogene.android.common.ClientFilter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -25,28 +25,28 @@ public class ClientFilterCursor extends EntityCursorImpl {
 	}
 
 	public final String getUserId() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_USERID));
+		return getString(getColumnIndexOrThrow(ClientFilter.Columns.USERID));
 	}
 	public final String getTerminalId() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_TERMINALID));
+		return getString(getColumnIndexOrThrow(ClientFilter.Columns.TERMINALID));
 	}
 	public final String getCardEntity() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_CARDENTITY));
+		return getString(getColumnIndexOrThrow(ClientFilter.Columns.CARDENTITY));
 	}
 	public final String getEntityField() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_ENTITYFIELD));
+		return getString(getColumnIndexOrThrow(ClientFilter.Columns.ENTITYFIELD));
 	}
 	public final String getOperator() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_OPERATOR));
+		return getString(getColumnIndexOrThrow(ClientFilter.Columns.OPERATOR));
 	}
 	public final String getFieldValue() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_FIELDVALUE));
+		return getString(getColumnIndexOrThrow(ClientFilter.Columns.FIELDVALUE));
 	}
 	public final String getDisplay() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_DISPLAY));
+		return getString(getColumnIndexOrThrow(ClientFilter.Columns.DISPLAY));
 	}
 	public final Boolean getIsNew() {
-		return getAsBoolean(getColumnIndexOrThrow(Keys.KEY_ISNEW));
+		return getAsBoolean(getColumnIndexOrThrow(ClientFilter.Columns.ISNEW));
 	}
 
 	@Override

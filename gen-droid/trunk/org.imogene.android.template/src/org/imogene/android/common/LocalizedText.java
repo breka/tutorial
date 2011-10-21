@@ -1,6 +1,6 @@
 package org.imogene.android.common;
 
-import org.imogene.android.Constants.Keys;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.LocalizedTextCursor;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.util.FormatHelper;
@@ -11,12 +11,21 @@ import android.net.Uri;
 import android.os.Bundle;
 
 public class LocalizedText extends EntityImpl {
+	
 
-	public static final String PACKAGE = "LocalizedText";
-	public static final String TABLE_NAME = "localizedtext";
-	public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
+	public static class Columns implements Entity.Columns {
+		public static final String PACKAGE = "LocalizedText";
+		public static final String TABLE_NAME = "localizedtext";
+		public static final String TYPE = "LTXT";
+		public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
 
-	public static final String TYPE = "LTXT";
+		public static final String FIELD_ID = "fieldId";
+		public static final String LOCALE = "locale";
+		public static final String VALUE = "value";
+		public static final String ORIGINAL_VALUE = "originalValue";
+		public static final String POTENTIALY_WRONG = "potentialyWrong";
+	}
+
 
 	private String mFieldId = null;
 	private String mLocale = null;
@@ -83,22 +92,22 @@ public class LocalizedText extends EntityImpl {
 
 	@Override
 	protected final Uri getContentUri() {
-		return CONTENT_URI;
+		return Columns.CONTENT_URI;
 	}
 
 	@Override
 	protected final String getBeanType() {
-		return TYPE;
+		return Columns.TYPE;
 	}
 
 	@Override
 	protected final void addValues(Context context, ContentValues values) {
 		super.addValues(context, values);
-		values.put(Keys.KEY_FIELD_ID, mFieldId);
-		values.put(Keys.KEY_LOCALE, mLocale);
-		values.put(Keys.KEY_VALUE, mValue);
-		values.put(Keys.KEY_ORIGINAL_VALUE, mOriginalValue ? 1 : 0);
-		values.put(Keys.KEY_POTENTIALY_WRONG, mPotentialyWrong ? 1 : 0);
+		values.put(Columns.FIELD_ID, mFieldId);
+		values.put(Columns.LOCALE, mLocale);
+		values.put(Columns.VALUE, mValue);
+		values.put(Columns.ORIGINAL_VALUE, mOriginalValue ? 1 : 0);
+		values.put(Columns.POTENTIALY_WRONG, mPotentialyWrong ? 1 : 0);
 	}
 
 	@Override

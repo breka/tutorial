@@ -1,8 +1,8 @@
 package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.W;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
@@ -72,8 +72,8 @@ public class RelationOneFieldEdit extends RelationFieldEdit<Uri> implements OnAc
 		if (mHasReverse && mOppositeCardinality == 1 && mType == 0) {
 			final RelationManager mgr = getFieldManager().getRelationManager();
 			final SQLiteBuilder request = new SQLiteBuilder(mTableName, mFieldName);
-			request.appendNotEq(Keys.KEY_ID, mgr.getCurrentId());
-			builder.appendNotIn(Keys.KEY_ID, request.create());
+			request.appendNotEq(Entity.Columns.ID, mgr.getCurrentId());
+			builder.appendNotIn(Entity.Columns.ID, request.create());
 			return true;
 		}
 		return false;

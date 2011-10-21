@@ -6,9 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.imogene.android.Constants.Databases;
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.Paths;
-import org.imogene.android.Constants.Sync;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 
 import android.content.ContentResolver;
@@ -22,12 +21,12 @@ public class DatabaseUtils {
 		SQLiteBuilder result = new SQLiteBuilder();
 		if (builder != null)
 			result.appendWhere(builder.create());
-		return result.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+		return result.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 	}
 	
 	public static void markAs(ContentResolver res, Uri uri, boolean unread) {
 		ContentValues values = new ContentValues();
-		values.put(Keys.KEY_UNREAD, unread ? 1 : 0);
+		values.put(Entity.Columns.UNREAD, unread ? 1 : 0);
 		res.update(uri, values, null, null);
 	}
 

@@ -2,8 +2,25 @@ package org.imogene.android.common.interfaces;
 
 import android.content.Context;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 public interface Entity {
+	
+	public static interface Columns extends BaseColumns {
+		public static final String ID = "id";
+		public static final String MODIFIED = "modified";
+		public static final String UPLOADDATE = "uploadDate";
+		public static final String MODIFIEDBY = "modifiedBy";
+		public static final String MODIFIEDFROM = "modifiedFrom";
+		public static final String CREATED = "created";
+		public static final String CREATEDBY = "createdBy";
+		public static final String UNREAD = "unread";
+		public static final String SYNCHRONIZED = "synchronized";
+		
+		public static final String TRANSLATIONS_TAG = "translations";
+		
+		public static final String SYNC_SYSTEM = "sync-system";
+	}
 	
 	public long getRowId();
 	

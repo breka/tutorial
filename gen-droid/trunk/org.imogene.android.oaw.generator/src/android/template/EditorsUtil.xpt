@@ -47,11 +47,19 @@
 «ENDDEFINE»
 
 «DEFINE specificInit FOR RelationFieldEntity-»
-«name.toFirstLower()».setContentUri(«entity.name.toFirstUpper()-».CONTENT_URI);
-«name.toFirstLower()».setDrawable(«entity.name.toFirstUpper()-».COLOR);
+«name.toFirstLower()».setContentUri(«entity.name.toFirstUpper()-».Columns.CONTENT_URI);
+«name.toFirstLower()».setDrawable(«entity.name.toFirstUpper()-».Columns.COLOR);
+«name.toFirstLower()».setTableName(«parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_NAME);
+«name.toFirstLower()».setFieldName(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»);
+«IF oppositeRelationField != null-»
+«name.toFirstLower()».setOppositeRelationField(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
+«ENDIF-»
+«IF relationHierarchicalFilter.size == 2-»
+«name.toFirstLower()».setHierarchicalField(«parentGroup.parentCard.name.toFirstUpper()».Columns.«relationHierarchicalFilter.get(1).name.toUpperCase()»);
+«ENDIF-»
 «FOREACH commonFields AS c ITERATOR i-»
 «IF (mod2(i.counter0) == 0)-»
-«name.toFirstLower()».registerCommonField(«commonFields.get(i.counter0).name.toFirstLower()», "«commonFields.get(i.counter1).name.toFirstLower()»");
+«name.toFirstLower()».registerCommonField(«commonFields.get(i.counter0).name.toFirstLower()», «commonFields.get(i.counter1).parentGroup.parentCard.name.toFirstUpper()».Columns.«commonFields.get(i.counter1).name.toUpperCase()»);
 «ENDIF-»
 «ENDFOREACH-»
 «ENDDEFINE»

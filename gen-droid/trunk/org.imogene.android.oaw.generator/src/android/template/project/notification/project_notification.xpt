@@ -28,7 +28,7 @@ public class «name.toFirstUpper()»Notification extends MessagingNotification {
 		public void onReceive(Context context, Intent intent) {
 			ContentResolver res = context.getContentResolver();
 			«FOREACH entities AS e-»
-			DatabaseUtils.markAs(res, «e.name.toFirstUpper()».CONTENT_URI, false);
+			DatabaseUtils.markAs(res, «e.name.toFirstUpper()».Columns.CONTENT_URI, false);
 			«ENDFOREACH-»
 		}
 	};
@@ -55,7 +55,7 @@ public class «name.toFirstUpper()»Notification extends MessagingNotification {
 			accumulator,
 			getEntityNotificationInfo(
 				context,
-				«e.name.toFirstUpper()».CONTENT_URI,
+				«e.name.toFirstUpper()».Columns.CONTENT_URI,
 				NOTIFICATION_«e.name.toUpperCase()»_ID,
 				R.string.«e.shortName.toLowerCase()»_des_sg,
 				R.string.«e.shortName.toLowerCase()»_des_pl,

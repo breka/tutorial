@@ -2,7 +2,7 @@ package org.imogene.android.database.sqlite;
 
 import java.io.File;
 
-import org.imogene.android.Constants.Keys;
+import org.imogene.android.common.Binary;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -28,31 +28,31 @@ public class BinaryCursor extends EntityCursorImpl {
 	}
 	
 	public final String getParentEntity() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_PARENT_ENTITY));
+		return getString(getColumnIndexOrThrow(Binary.Columns.PARENT_ENTITY));
 	}
 	
 	public final String getParentKey() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_PARENT_KEY));
+		return getString(getColumnIndexOrThrow(Binary.Columns.PARENT_KEY));
 	}
 	
 	public final String getParentFieldGetter() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_PARENT_FIELD_GETTER));
+		return getString(getColumnIndexOrThrow(Binary.Columns.PARENT_FIELD_GETTER));
 	}
 	
 	public final String getFileName() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_FILE_NAME));
+		return getString(getColumnIndexOrThrow(Binary.Columns.FILE_NAME));
 	}
 	
 	public final String getContentType() {
-		return getString(getColumnIndexOrThrow(Keys.KEY_CONTENT_TYPE));
+		return getString(getColumnIndexOrThrow(Binary.Columns.CONTENT_TYPE));
 	}
 	
 	public final long getLength() {
-		return getLong(getColumnIndexOrThrow(Keys.KEY_LENGTH));
+		return getLong(getColumnIndexOrThrow(Binary.Columns.LENGTH));
 	}
 	
 	public final Uri getData() {
-		File file = new File(getString(getColumnIndexOrThrow(Keys.KEY_DATA)));
+		File file = new File(getString(getColumnIndexOrThrow(Binary.Columns.DATA)));
 		return file.exists()?Uri.fromFile(file):null;
 	}
 

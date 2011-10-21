@@ -4,8 +4,8 @@ import java.util.HashSet;
 
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.SortOrder;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
@@ -26,8 +26,8 @@ import android.text.style.StyleSpan;
 
 public class MessagingNotification {
 	
-	private static final String WHERE = new SQLiteBuilder().appendEq(Keys.KEY_UNREAD, 1).toSQL();
-	private static final String ORDER = Keys.KEY_MODIFIED + " desc";
+	private static final String WHERE = new SQLiteBuilder().appendEq(Entity.Columns.UNREAD, 1).toSQL();
+	private static final String ORDER = Entity.Columns.MODIFIED + " desc";
 
 	private static final Intent sNotificationOnDeleteIntent = new Intent(Intents.ACTION_NOTIFICATION_DELETED);
 	
@@ -99,7 +99,7 @@ public class MessagingNotification {
 			String description = null;
 			if (count > 1) {
 				clickIntent.setData(uri);
-				clickIntent.putExtra(Extras.EXTRA_SORT_KEY, Keys.KEY_UNREAD);
+				clickIntent.putExtra(Extras.EXTRA_SORT_KEY, Entity.Columns.UNREAD);
 				clickIntent.putExtra(Extras.EXTRA_SORT_ORDER, SortOrder.DESCENDANT_ORDER);
 				description = count + " " + context.getString(descPl);
 			} else {

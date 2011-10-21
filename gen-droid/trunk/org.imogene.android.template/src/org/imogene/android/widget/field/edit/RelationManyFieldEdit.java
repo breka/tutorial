@@ -3,8 +3,8 @@ package org.imogene.android.widget.field.edit;
 import java.util.ArrayList;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.W;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.widget.field.FieldManager;
 
@@ -83,7 +83,7 @@ public class RelationManyFieldEdit extends RelationFieldEdit<ArrayList<Uri>> {
 					ids[i] = Long.parseLong(list.get(i).getPathSegments().get(1));
 				}
 				SQLiteBuilder builder = new SQLiteBuilder();
-				builder.appendIn(Keys.KEY_ROWID, ids);
+				builder.appendIn(Entity.Columns._ID, ids);
 				intent.putExtra(Extras.EXTRA_WHERE, builder);
 				getContext().startActivity(intent);
 			}

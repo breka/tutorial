@@ -4,7 +4,6 @@
 «FILE "/" + name.toLowerCase() + "/app/MultiUserListing.java"»
 package org.imogene.android.«name.toLowerCase()-».app;
 
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.app.AbstractUserListing;
 import org.imogene.android.database.UserCursorJoiner;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
@@ -20,7 +19,7 @@ public class MultiUserListing extends AbstractUserListing {
 		UserCursorJoiner joiner = new UserCursorJoiner();
 		«FOREACH entities AS e-»
 		«IF Actor.isAssignableFrom(e.metaType)-»
-		joiner.newCursor(get«e.name.toFirstUpper()»Cursor(), «e.name.toFirstUpper()-».COLOR , «e.name.toFirstUpper()».CONTENT_URI);
+		joiner.newCursor(get«e.name.toFirstUpper()»Cursor(), «e.name.toFirstUpper()-».Columns.COLOR , «e.name.toFirstUpper()».Columns.CONTENT_URI);
 		«ENDIF-»
 		«ENDFOREACH-»
 		return joiner;
@@ -61,9 +60,9 @@ import org.imogene.android.«projectName.toLowerCase()».entities.«name.toFirstUpp
 «DEFINE getCursor FOR Actor-»
 private «name.toFirstUpper()»Cursor get«name.toFirstUpper()»Cursor() {
 	SQLiteBuilder builder = new SQLiteBuilder();
-	builder.appendIsNotNull(Keys.KEY_LOGIN);
-	builder.appendIsNotNull(Keys.KEY_PASSWORD);
+	builder.appendIsNotNull(«name.toFirstUpper()».Columns.LOGIN);
+	builder.appendIsNotNull(«name.toFirstUpper()».Columns.PASSWORD);
 	
-	return («name.toFirstUpper()»Cursor) SQLiteWrapper.query(this, «name.toFirstUpper()».CONTENT_URI, DatabaseUtils.computeWhere(builder).toSQL(), null);
+	return («name.toFirstUpper()»Cursor) SQLiteWrapper.query(this, «name.toFirstUpper()».Columns.CONTENT_URI, DatabaseUtils.computeWhere(builder).toSQL(), null);
 }
 «ENDDEFINE»

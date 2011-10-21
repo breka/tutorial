@@ -1,6 +1,7 @@
 package org.imogene.android.media;
 
 import java.io.File;
+
 import android.content.Context;
 import android.media.MediaScannerConnection;
 import android.media.MediaScannerConnection.MediaScannerConnectionClient;

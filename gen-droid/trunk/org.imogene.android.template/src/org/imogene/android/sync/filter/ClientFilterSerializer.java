@@ -2,7 +2,6 @@ package org.imogene.android.sync.filter;
 
 import java.io.IOException;
 
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.common.ClientFilter;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.xmlpull.v1.XmlSerializer;
@@ -15,77 +14,77 @@ public class ClientFilterSerializer {
 			XmlSerializer serializer) throws IllegalArgumentException,
 			IllegalStateException, IOException {
 
-		serializer.startTag(null, ClientFilter.PACKAGE);
+		serializer.startTag(null, ClientFilter.Columns.PACKAGE);
 
-		serializer.startTag(null, Keys.KEY_ID);
+		serializer.startTag(null, ClientFilter.Columns.ID);
 		serializer.text(cursor.getId());
-		serializer.endTag(null, Keys.KEY_ID);
+		serializer.endTag(null, ClientFilter.Columns.ID);
 
-		serializer.startTag(null, Keys.KEY_MODIFIED);
+		serializer.startTag(null, ClientFilter.Columns.MODIFIED);
 		serializer.attribute(null, "class", "sql-timestamp");
 		serializer.text(String.valueOf(cursor.getModified()));
-		serializer.endTag(null, Keys.KEY_MODIFIED);
+		serializer.endTag(null, ClientFilter.Columns.MODIFIED);
 
-		serializer.startTag(null, Keys.KEY_UPLOADDATE);
+		serializer.startTag(null, ClientFilter.Columns.UPLOADDATE);
 		serializer.attribute(null, "class", "sql-timestamp");
 		serializer.text(String.valueOf(cursor.getUploadDate()));
-		serializer.endTag(null, Keys.KEY_UPLOADDATE);
+		serializer.endTag(null, ClientFilter.Columns.UPLOADDATE);
 
-		serializer.startTag(null, Keys.KEY_MODIFIEDBY);
+		serializer.startTag(null, ClientFilter.Columns.MODIFIEDBY);
 		serializer.text(cursor.getModifiedBy());
-		serializer.endTag(null, Keys.KEY_MODIFIEDBY);
+		serializer.endTag(null, ClientFilter.Columns.MODIFIEDBY);
 
-		serializer.startTag(null, Keys.KEY_MODIFIEDFROM);
+		serializer.startTag(null, ClientFilter.Columns.MODIFIEDFROM);
 		serializer.text(cursor.getModifiedFrom());
-		serializer.endTag(null, Keys.KEY_MODIFIEDFROM);
+		serializer.endTag(null, ClientFilter.Columns.MODIFIEDFROM);
 
-		serializer.startTag(null, Keys.KEY_CREATED);
+		serializer.startTag(null, ClientFilter.Columns.CREATED);
 		serializer.attribute(null, "class", "sql-timestamp");
 		serializer.text(String.valueOf(cursor.getCreated()));
-		serializer.endTag(null, Keys.KEY_CREATED);
+		serializer.endTag(null, ClientFilter.Columns.CREATED);
 
-		serializer.startTag(null, Keys.KEY_CREATEDBY);
+		serializer.startTag(null, ClientFilter.Columns.CREATEDBY);
 		serializer.text(cursor.getCreatedBy());
-		serializer.endTag(null, Keys.KEY_CREATEDBY);
+		serializer.endTag(null, ClientFilter.Columns.CREATEDBY);
 
-		serializer.startTag(null, Keys.KEY_USERID);
+		serializer.startTag(null, ClientFilter.Columns.USERID);
 		serializer.text(cursor.getUserId());
-		serializer.endTag(null, Keys.KEY_USERID);
+		serializer.endTag(null, ClientFilter.Columns.USERID);
 
-		serializer.startTag(null, Keys.KEY_TERMINALID);
+		serializer.startTag(null, ClientFilter.Columns.TERMINALID);
 		serializer.text(cursor.getTerminalId());
-		serializer.endTag(null, Keys.KEY_TERMINALID);
+		serializer.endTag(null, ClientFilter.Columns.TERMINALID);
 
-		serializer.startTag(null, Keys.KEY_CARDENTITY);
+		serializer.startTag(null, ClientFilter.Columns.CARDENTITY);
 		serializer.text(cursor.getCardEntity());
-		serializer.endTag(null, Keys.KEY_CARDENTITY);
+		serializer.endTag(null, ClientFilter.Columns.CARDENTITY);
 
-		serializer.startTag(null, Keys.KEY_ENTITYFIELD);
+		serializer.startTag(null, ClientFilter.Columns.ENTITYFIELD);
 		serializer.text(cursor.getEntityField());
-		serializer.endTag(null, Keys.KEY_ENTITYFIELD);
+		serializer.endTag(null, ClientFilter.Columns.ENTITYFIELD);
 
 		String op = cursor.getOperator();
 		if (op != null) {
-			serializer.startTag(null, Keys.KEY_OPERATOR);
+			serializer.startTag(null, ClientFilter.Columns.OPERATOR);
 			serializer.text(op);
-			serializer.endTag(null, Keys.KEY_OPERATOR);
+			serializer.endTag(null, ClientFilter.Columns.OPERATOR);
 		}
 
 		String fieldvalue = cursor.getFieldValue();
 		if (fieldvalue != null) {
-			serializer.startTag(null, Keys.KEY_FIELDVALUE);
+			serializer.startTag(null, ClientFilter.Columns.FIELDVALUE);
 			serializer.text(fieldvalue);
-			serializer.endTag(null, Keys.KEY_FIELDVALUE);
+			serializer.endTag(null, ClientFilter.Columns.FIELDVALUE);
 		}
 		
 		Boolean isNew = cursor.getIsNew();
 		if (isNew != null) {
-			serializer.startTag(null, Keys.KEY_ISNEW);
+			serializer.startTag(null, ClientFilter.Columns.ISNEW);
 			serializer.text(isNew.toString());
-			serializer.endTag(null, Keys.KEY_ISNEW);
+			serializer.endTag(null, ClientFilter.Columns.ISNEW);
 		}
 
-		serializer.endTag(null, ClientFilter.PACKAGE);
+		serializer.endTag(null, ClientFilter.Columns.PACKAGE);
 
 		serializer.flush();
 

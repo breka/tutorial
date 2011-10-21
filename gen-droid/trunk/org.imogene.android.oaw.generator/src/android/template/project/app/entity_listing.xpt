@@ -31,9 +31,9 @@ import android.widget.TextView;
 
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
-import org.imogene.android.Constants.Keys;
 import org.imogene.android.Constants.SortOrder;
 import org.imogene.android.app.BaseListActivity;
+import org.imogene.android.common.GpsLocation;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
@@ -42,7 +42,6 @@ import org.imogene.android.service.AbstractSyncService;
 import org.imogene.android.util.IamLost;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.util.database.DatabaseUtils;
-import org.imogene.android.util.database.GpsTableUtils;
 import org.imogene.android.util.dialog.DialogFactory;
 import org.imogene.android.widget.EntityCursorAdapter;
 import org.imogene.android.«projectName.toLowerCase()».R;
@@ -95,7 +94,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	private boolean mCanModify;
 
 	private SQLiteBuilder mSQLBuilder = null;
-	private String mSortKey = Keys.KEY_MODIFIED;
+	private String mSortKey = «name.toFirstUpper()».Columns.MODIFIED;
 	private int mSortOrder = SortOrder.DESCENDANT_ORDER;
 
 	private Uri mCurrentUri;
@@ -164,7 +163,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 		mCursor = query();
 		startManagingCursor(mCursor);
 		
-		setListAdapter(mAdapter = new EntityCursorAdapter(this, mCursor, «name.toFirstUpper()-».COLOR, choiceMode));
+		setListAdapter(mAdapter = new EntityCursorAdapter(this, mCursor, «name.toFirstUpper()-».Columns.COLOR, choiceMode));
 		
 		if (IsPickMultiple) {
 			getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -173,7 +172,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 				ListView list = getListView();
 				for (int i = 0; i < list.getCount(); i++) {
 					long itemId = list.getItemIdAtPosition(i);
-					Uri itemUri = ContentUris.withAppendedId(«name.toFirstUpper()-».CONTENT_URI, itemId);
+					Uri itemUri = ContentUris.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, itemId);
 					if (selected.contains(itemUri)) {
 						list.setItemChecked(i, true);
 					}
@@ -225,7 +224,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	private EntityCursor query() {
 		String where = DatabaseUtils.computeWhere(mSQLBuilder).toSQL();
 		String order = mSortKey	+ (mSortOrder != SortOrder.DESCENDANT_ORDER	? " asc" : " desc");
-		return (EntityCursor) SQLiteWrapper.query(this, «name.toFirstUpper()-».CONTENT_URI, where, order);
+		return (EntityCursor) SQLiteWrapper.query(this, «name.toFirstUpper()-».Columns.CONTENT_URI, where, order);
 	}
 	
 	protected void requery() {
@@ -239,7 +238,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		if (!getIntent().hasExtra(Extras.EXTRA_MULTIPLE)) {
-			Uri uri = ContentUris.withAppendedId(«name.toFirstUpper()-».CONTENT_URI, id);
+			Uri uri = ContentUris.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, id);
 			if (Intent.ACTION_PICK.equals(getIntent().getAction())) {
 				setResult(RESULT_OK, new Intent().setData(uri));
 				finish();
@@ -264,7 +263,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	public boolean onActionBarItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_add :
-			Intent intent = new Intent(Intent.ACTION_INSERT, «name.toFirstUpper()».CONTENT_URI);
+			Intent intent = new Intent(Intent.ACTION_INSERT, «name.toFirstUpper()».Columns.CONTENT_URI);
 			intent.putExtras(getIntent());
 			intent.addCategory(PreferenceHelper.getEditionCategory(this));
 			startActivity(intent);
@@ -313,7 +312,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (Keys.KEY_MODIFIED.equals(mSortKey))
+		if («name.toFirstUpper()».Columns.MODIFIED.equals(mSortKey))
 			menu.findItem(MENU_SORT_BY_MODIFIED_ID).setChecked(true);
 		«EXPAND onPrepareMenu FOREACH getMainFields(this)»
 		«EXPAND onPrepareMenu FOREACH secondaryFields»
@@ -327,14 +326,14 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			showDialog(DIALOG_IAMLOST_ID);
 			return true;
 		case MENU_MARK_ALL_AS_READ_ID:
-			DatabaseUtils.markAs(getContentResolver(), «name.toFirstUpper()-».CONTENT_URI, false);
+			DatabaseUtils.markAs(getContentResolver(), «name.toFirstUpper()-».Columns.CONTENT_URI, false);
 			return true;
 		case MENU_SORT_BY_MODIFIED_ID:
-			if (Keys.KEY_MODIFIED.equals(mSortKey)) {
+			if («name.toFirstUpper()».Columns.MODIFIED.equals(mSortKey)) {
 				mSortOrder = mSortOrder != SortOrder.DESCENDANT_ORDER ? SortOrder.DESCENDANT_ORDER
 						: SortOrder.ASCENDANT_ORDER;
 			} else {
-				mSortKey = Keys.KEY_MODIFIED;
+				mSortKey = «name.toFirstUpper()».Columns.MODIFIED;
 				mSortOrder = SortOrder.DESCENDANT_ORDER;
 			}
 			requery();
@@ -382,7 +381,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
-		Uri uri = ContentUris.withAppendedId(«name.toFirstUpper()-».CONTENT_URI, info.id);
+		Uri uri = ContentUris.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, info.id);
 		switch (item.getItemId()) {
 		case CMENU_DELETE_ID:
 			mCurrentUri = uri;
@@ -440,9 +439,9 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 				double east = data.getDoubleExtra(Extras.EXTRA_EAST, 0);
 				double south = data.getDoubleExtra(Extras.EXTRA_SOUTH, 0);
 				double west = data.getDoubleExtra(Extras.EXTRA_WEST, 0);
-				Intent intent = GpsTableUtils.build(
+				Intent intent = GpsLocation.build(
 					this,
-					«name.toFirstUpper()».CONTENT_URI,
+					«name.toFirstUpper()».Columns.CONTENT_URI,
 					mSQLBuilder,
 					"«georeferenced.name.toLowerCase()»",
 					"get«georeferenced.name.toFirstUpper()»",
@@ -477,7 +476,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 					if (spa.get(i)) {
 						long id = list.getItemIdAtPosition(i);
 						if (id != -1)
-							uris.add(ContentUris.withAppendedId(«name.toFirstUpper()-».CONTENT_URI, id));
+							uris.add(ContentUris.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, id));
 					}
 				}
 			}

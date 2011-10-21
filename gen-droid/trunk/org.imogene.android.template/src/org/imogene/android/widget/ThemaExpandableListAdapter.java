@@ -2,9 +2,8 @@ package org.imogene.android.widget;
 
 import java.util.ArrayList;
 
-import org.imogene.android.Constants.Keys;
-import org.imogene.android.Constants.Sync;
 import org.imogene.android.W;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 
@@ -71,7 +70,7 @@ public final class ThemaExpandableListAdapter extends BaseExpandableListAdapter 
 	
 		SQLiteBuilder builder = new SQLiteBuilder()
 		.setSelectInTable(entity.mTable, "count(*)")
-		.appendNotEq(Keys.KEY_MODIFIEDFROM, Sync.SYNC_SYSTEM);
+		.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 		long count = SQLiteWrapper.queryForLong(mContext, builder.toSQL());
 	
 		if (count > 1) {

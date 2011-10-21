@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.imogene.android.Constants;
-import org.imogene.android.Constants.Keys;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.BeanKeyGenerator;
@@ -20,12 +20,25 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 
 public final class Binary extends EntityImpl {
-
-	public static final String TABLE_NAME = "binaries";
-	public static final String PACKAGE = "org.imogene.data.Binary";
-	public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
 	
-	private static final String TYPE = "BIN";
+	public static class Columns implements Entity.Columns {
+		public static final String TABLE_NAME = "binaries";
+		public static final String PACKAGE = "org.imogene.data.Binary";
+		public static final String TYPE = "BIN";
+
+		public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
+		
+		public static final String LENGTH = "length";
+		public static final String CONTENT_TYPE = "contentType";
+		public static final String FILE_NAME = "fileName";
+		public static final String DATA = "_data";
+		public static final String PARENT_ENTITY = "parentEntity";
+		public static final String PARENT_KEY = "parentKey";
+		public static final String PARENT_FIELD_GETTER = "parentFieldGetter";
+		
+	}
+
+	
 
 	private String mParentEntity = null;
 	private String mParentKey = null;
@@ -111,12 +124,12 @@ public final class Binary extends EntityImpl {
 
 	@Override
 	protected final  Uri getContentUri() {
-		return CONTENT_URI;
+		return Columns.CONTENT_URI;
 	}
 
 	@Override
 	protected final String getBeanType() {
-		return TYPE;
+		return Columns.TYPE;
 	}
 	
 	@Override
@@ -143,33 +156,33 @@ public final class Binary extends EntityImpl {
 		}
 
 		ContentValues values = new ContentValues();
-		values.put(Keys.KEY_ID, getId());
-		values.put(Keys.KEY_MODIFIED, getModified());
-		values.put(Keys.KEY_MODIFIEDBY, getModifiedBy());
-		values.put(Keys.KEY_MODIFIEDFROM, getModifiedFrom());
-		values.put(Keys.KEY_UPLOADDATE, getUploadDate());
-		values.put(Keys.KEY_CREATED, getCreated());
-		values.put(Keys.KEY_CREATEDBY, getCreatedBy());
-		values.put(Keys.KEY_CONTENT_TYPE, mContentType);
-		values.put(Keys.KEY_FILE_NAME, mFileName);
-		values.put(Keys.KEY_LENGTH, mLength);
-		values.put(Keys.KEY_PARENT_ENTITY, mParentEntity);
-		values.put(Keys.KEY_PARENT_FIELD_GETTER, mParentFieldGetter);
-		values.put(Keys.KEY_PARENT_KEY, mParentKey);
+		values.put(Columns.ID, getId());
+		values.put(Columns.MODIFIED, getModified());
+		values.put(Columns.MODIFIEDBY, getModifiedBy());
+		values.put(Columns.MODIFIEDFROM, getModifiedFrom());
+		values.put(Columns.UPLOADDATE, getUploadDate());
+		values.put(Columns.CREATED, getCreated());
+		values.put(Columns.CREATEDBY, getCreatedBy());
+		values.put(Columns.CONTENT_TYPE, mContentType);
+		values.put(Columns.FILE_NAME, mFileName);
+		values.put(Columns.LENGTH, mLength);
+		values.put(Columns.PARENT_ENTITY, mParentEntity);
+		values.put(Columns.PARENT_FIELD_GETTER, mParentFieldGetter);
+		values.put(Columns.PARENT_KEY, mParentKey);
 
 		Uri uri;
 
-		Cursor c = res.query(CONTENT_URI, new String[] { Keys.KEY_ROWID },
-				Keys.KEY_ID + "='" + getId() + "'", null, null);
+		Cursor c = res.query(Columns.CONTENT_URI, new String[] { Columns._ID },
+				Columns.ID + "='" + getId() + "'", null, null);
 		if (c.getCount() == 1) {
 			c.moveToFirst();
 			setRowId(c.getLong(0));
 			c.close();
-			uri = ContentUris.withAppendedId(CONTENT_URI, getRowId());
+			uri = ContentUris.withAppendedId(Columns.CONTENT_URI, getRowId());
 			res.update(uri, values, null, null);
 		} else {
 			c.close();
-			uri = res.insert(CONTENT_URI, values);
+			uri = res.insert(Columns.CONTENT_URI, values);
 			setRowId(ContentUris.parseId(uri));
 		}
 
@@ -186,15 +199,15 @@ public final class Binary extends EntityImpl {
 
 			ParcelFileDescriptor fd = res.openFileDescriptor(uri, "r");
 			values.clear();
-			values.put(Keys.KEY_LENGTH, fd.getStatSize());
+			values.put(Columns.LENGTH, fd.getStatSize());
 			fd.close();
 
 			if (local) {
 				long time = PreferenceHelper.getRealTime(context);
 				setCreated(time);
 				setModified(time);
-				values.put(Keys.KEY_CREATED, time);
-				values.put(Keys.KEY_MODIFIED, time);
+				values.put(Columns.CREATED, time);
+				values.put(Columns.MODIFIED, time);
 			}
 
 			res.update(uri, values, null, null);
