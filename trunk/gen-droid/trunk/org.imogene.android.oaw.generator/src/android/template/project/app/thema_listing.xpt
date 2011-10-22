@@ -245,7 +245,7 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 			themaMiscellaneous.add(new EntityChild(
 				«entity.name.toFirstUpper()-».Columns.CONTENT_URI,
 				«entity.name.toFirstUpper()-».Columns.TABLE_NAME,
-				R.string.«entity.shortName.toLowerCase()-»_des_pl,
+				R.string.«entity.name.toLowerCase()-»_des_pl,
 				«IF entity.icon.length > 0-»R.drawable.«entity.icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»,
 				«entity.name.toFirstUpper()-».Columns.COLOR));
 			«ELSE-»
@@ -254,7 +254,7 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 				thema«thema.name.toFirstUpper()-».add(new EntityChild(
 					«entity.name.toFirstUpper()-».Columns.CONTENT_URI,
 					«entity.name.toFirstUpper()-».Columns.TABLE_NAME,
-					R.string.«entity.shortName.toLowerCase()-»_des_pl,
+					R.string.«entity.name.toLowerCase()-»_des_pl,
 					«IF entity.icon.length > 0-»R.drawable.«entity.icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»,
 					«entity.name.toFirstUpper()-».Columns.COLOR));
 				«ENDIF-»

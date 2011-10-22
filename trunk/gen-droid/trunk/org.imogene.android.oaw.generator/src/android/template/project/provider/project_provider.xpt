@@ -302,30 +302,30 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 
 
 «DEFINE getKey FOR FieldEntity-»
-+ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " text, "
++ «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this» + " text, "
 «ENDDEFINE»
 
 «DEFINE getKey FOR DatesField-»
-+ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " integer, "
++ «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this» + " integer, "
 «ENDDEFINE»
 
 «DEFINE getKey FOR IntegerField-»
-+ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " integer, "
++ «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this» + " integer, "
 «ENDDEFINE»
 
 «DEFINE getKey FOR FloatField-»
-+ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " float, "
++ «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this» + " float, "
 «ENDDEFINE»
 
 «DEFINE getKey FOR MainRelationFieldEntity-»
 «IF (cardinality == 1)-»
-+ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " text, "
++ «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this» + " text, "
 «ENDIF-»
 «ENDDEFINE»
 
 «DEFINE getKey FOR ReverseRelationFieldEntity-»
 «IF (cardinality ==1 && getOppositeCardinality(this) != 1)-»
-+ «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()» + " text, "
++ «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this» + " text, "
 «ENDIF-»
 «ENDDEFINE»
 

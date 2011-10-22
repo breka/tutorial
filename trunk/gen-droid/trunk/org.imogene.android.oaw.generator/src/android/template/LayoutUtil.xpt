@@ -6,7 +6,7 @@
 
 
 «DEFINE dividerLayout FOR FieldEntity-»
-<View android:id="@+id/«shortName.toLowerCase()-»_divider"
+<View android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_divider"
     android:layout_width="fill_parent"
     android:layout_height="1dip"
     «IF hidden-»
@@ -20,7 +20,7 @@
 
 «DEFINE layout FOR FieldEntity-»
 <org.imogene.android.widget.field.edit.«EXPAND class FOR this-»
-	android:id="@+id/«shortName.toLowerCase()»"
+	android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	android:layout_height="wrap_content" 
 	android:layout_width="fill_parent"
 	android:background="@android:drawable/list_selector_background"
@@ -30,10 +30,10 @@
 	app:readOnly="«readOnly»"
 	app:required="«required»"
 	app:hidden="«hidden»"
-	app:title="@string/«shortName.toLowerCase()»"
-	app:divider="@+id/«shortName.toLowerCase()-»_divider"
+	app:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	app:divider="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_divider"
 	«IF hasHelp(descriptions)-»
-	app:help="@string/«shortName.toLowerCase()»_help"
+	app:help="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_help"
 	«ENDIF-»
 	«EXPAND specificAttributes FOR this-»
 />
@@ -105,7 +105,7 @@ app:geoType="best"
 
 «DEFINE specificAttributes FOR FloatField-»
 «IF unit.length > 0-»
-app:unit="@string/«shortName.toLowerCase()»_unit"
+app:unit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
 «ENDIF-»
 «IF max != null && max.length > 0-»
 app:floatMax="«max»"
@@ -117,7 +117,7 @@ app:floatMin="«min»"
 
 «DEFINE specificAttributes FOR IntegerField-»
 «IF unit.length > 0-»
-app:unit="@string/«shortName.toLowerCase()»_unit"
+app:unit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
 «ENDIF-»
 «IF max != null && max.length > 0-»
 app:intMax="«max»"
@@ -128,8 +128,8 @@ app:intMin="«min»"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR EnumField-»
-app:entries="@array/«shortName.toLowerCase()»"
-app:array="@array/«shortName.toLowerCase()»_values"
+app:entries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+app:array="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
 app:size="«enumValues.size»"
 «ENDDEFINE»
 
@@ -144,11 +144,11 @@ app:dateMin="«min»"
 
 «DEFINE specificAttributes FOR RelationFieldEntity-»
 app:hasReverse="«oppositeRelationField != null»"
-app:displayPl="@string/«entity.shortName.toLowerCase()-»_des_sg"
-app:displaySg="@string/«entity.shortName.toLowerCase()-»_des_sg"
+app:displayPl="@string/«entity.name.toLowerCase()-»_des_sg"
+app:displaySg="@string/«entity.name.toLowerCase()-»_des_sg"
 app:oppositeCardinality="«getOppositeCardinality(this)-»"
 app:type="«IF MainRelationFieldEntity.isAssignableFrom(metaType)»main«ELSE»reverse«ENDIF»"
 «IF relationHierarchicalFilter.size == 2-»
-app:hierarchicalParent="@id/«relationHierarchicalFilter.get(0).shortName.toLowerCase()»"
+app:hierarchicalParent="@id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR relationHierarchicalFilter.get(0)»"
 «ENDIF-»
 «ENDDEFINE»

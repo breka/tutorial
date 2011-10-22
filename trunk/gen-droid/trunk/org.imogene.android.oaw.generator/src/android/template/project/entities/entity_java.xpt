@@ -533,9 +533,9 @@ values.put(Columns.«name.toUpperCase()», SQLiteWrapper.queryId(context, m«name.t
 «IF oppositeRelationField != null && getOppositeCardinality(this) == 1-»
 {
 ContentValues v = new ContentValues();
-v.putNull(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
-context.getContentResolver().update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, v, «entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()» + "='" + getId() + "'", null);
-v.put(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()», getId());
+v.putNull(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField»);
+context.getContentResolver().update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, v, «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField» + "='" + getId() + "'", null);
+v.put(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField», getId());
 for (Uri uri : m«name.toFirstUpper()-»)
 	context.getContentResolver().update(uri, v, null, null);
 }
@@ -557,10 +557,10 @@ for (Uri uri : m«name.toFirstUpper()-») {
 «IF isForbiddenCase(this)»
 {
 ContentValues v = new ContentValues();
-v.putNull(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
-context.getContentResolver().update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, v, «entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()» + "='" + getId() + "'", null);
+v.putNull(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField»);
+context.getContentResolver().update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, v, «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField» + "='" + getId() + "'", null);
 if (m«name.toFirstUpper()-» != null) {
-	v.put(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()», getId());
+	v.put(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField», getId());
 	context.getContentResolver().update(m«name.toFirstUpper()-», v, null, null);
 }
 }
@@ -569,9 +569,9 @@ if (m«name.toFirstUpper()-» != null) {
 «IF getOppositeCardinality(this) == 1-»
 {
 ContentValues v = new ContentValues();
-v.putNull(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
-context.getContentResolver().update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, v, «entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()» + "='" + getId() + "'", null);
-v.put(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()», getId());
+v.putNull(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField»);
+context.getContentResolver().update(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, v, «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField» + "='" + getId() + "'", null);
+v.put(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField», getId());
 for (Uri uri : m«name.toFirstUpper()-»)
 	context.getContentResolver().update(uri, v, null, null);
 }

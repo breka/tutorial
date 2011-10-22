@@ -57,8 +57,8 @@ public class «name.toFirstUpper()»Notification extends MessagingNotification {
 				context,
 				«e.name.toFirstUpper()».Columns.CONTENT_URI,
 				NOTIFICATION_«e.name.toUpperCase()»_ID,
-				R.string.«e.shortName.toLowerCase()»_des_sg,
-				R.string.«e.shortName.toLowerCase()»_des_pl,
+				R.string.«e.name.toLowerCase()»_des_sg,
+				R.string.«e.name.toLowerCase()»_des_pl,
 				«IF e.icon.length > 0-»R.drawable.«e.icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»
 				));
 		«ENDIF-»

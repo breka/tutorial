@@ -94,7 +94,7 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 		LayoutInflater.from(this).inflate(R.layout.«name.toLowerCase()»_edit, getViewPager(), true);
 		
 		«FOREACH groups.fields AS f-»
-			«f.name.toFirstLower()» = («EXPAND android::template::EditorsUtil::nameEditField FOR f») findViewById(R.id.«f.shortName.toLowerCase()»);
+			«f.name.toFirstLower()» = («EXPAND android::template::EditorsUtil::nameEditField FOR f») findViewById(R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR f»);
 		«ENDFOREACH-»
 	
 		«FOREACH groups.fields AS f-»
@@ -109,7 +109,7 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 		«FOREACH groups AS group»
 		if («name.toFirstUpper()-»Roles.canRead«group.name.toFirstUpper()-»(this) ||
 			«name.toFirstUpper()-»Roles.canWrite«group.name.toFirstUpper()-»(this)) {
-			adapter.addPage(R.string.«group.shortName.toLowerCase()-», R.id.«group.shortName.toLowerCase()-»);
+			adapter.addPage(R.string.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group», R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group»);
 
 			if (!«name.toFirstUpper()-»Roles.canWrite«group.name.toFirstUpper()-»(this)) {
 				«FOREACH group.fields AS f-»
@@ -269,9 +269,9 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 		«FOREACH groups.fields AS f-»
 		if (!«f.name.toFirstLower()».isValid()) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put(Editor.ERROR_TAG, R.id.«f.parentGroup.shortName.toLowerCase()-»);
-			map.put(Editor.ERROR_LAYOUT, R.id.«f.shortName.toLowerCase()-»);
-			map.put(Editor.ERROR_DESC, getString(R.string.«f.shortName.toLowerCase()-»));
+			map.put(Editor.ERROR_TAG, R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR f.parentGroup»);
+			map.put(Editor.ERROR_LAYOUT, R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR f»);
+			map.put(Editor.ERROR_DESC, getString(R.string.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR f»));
 			map.put(Editor.ERROR_MSG, «f.name.toFirstLower()».getErrorMessage());
 			result.add(map);
 		}

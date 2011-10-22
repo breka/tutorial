@@ -131,9 +131,9 @@ mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new B
 
 «DEFINE handler(CardEntity card) FOR EnumField»
 «IF multipleSelection-»
-mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new EnumMultiHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»", R.array.«shortName.toLowerCase()»_values));
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new EnumMultiHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»", R.array.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values));
 «ELSE-»
-mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new EnumHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»", R.array.«shortName.toLowerCase()»_values));
+mHandlers.put("«EXPAND template::CommonFieldUtil::propertyName FOR this»", new EnumHandler<«card.name.toFirstUpper()-»>(«card.name.toFirstUpper()-».class, "set«name.toFirstUpper()-»", R.array.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values));
 «ENDIF-»
 «ENDDEFINE»
 
