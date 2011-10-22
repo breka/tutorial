@@ -61,10 +61,10 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	
 	private static final int MENU_SORT_BY_GROUP_ID = 1;
 	«FOREACH getMainFields(this) AS field ITERATOR i-»
-	private static final int MENU_SORT_BY_«field.shortName.toUpperCase()-»_ID = Menu.FIRST + «i.counter1 + 4-»;
+	private static final int MENU_SORT_BY_«field.name.toUpperCase()-»_ID = Menu.FIRST + «i.counter1 + 4-»;
 	«ENDFOREACH-»
 	«FOREACH secondaryFields AS field ITERATOR i-»
-	private static final int MENU_SORT_BY_«field.shortName.toUpperCase()-»_ID = Menu.FIRST + «i.counter1 + getMainFields(this).size + 4-»;
+	private static final int MENU_SORT_BY_«field.name.toUpperCase()-»_ID = Menu.FIRST + «i.counter1 + getMainFields(this).size + 4-»;
 	«ENDFOREACH-»
 	«IF georeferenced != null-»
 	private static final int MENU_SHOW_CLOUD_ID = Menu.FIRST + «secondaryFields.size + getMainFields(this).size + 5»;
@@ -266,7 +266,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			Intent intent = new Intent(Intent.ACTION_INSERT, «name.toFirstUpper()».Columns.CONTENT_URI);
 			intent.putExtras(getIntent());
 			intent.addCategory(PreferenceHelper.getEditionCategory(this));
-			startActivity(intent);
+			startActivityForResult(intent, ACTIVITY_INSERT);
 			return true;
 		case R.id.menu_sync:
 			AbstractSyncService.startService(this);
@@ -498,21 +498,21 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 
 
 «DEFINE addSortMenu FOR FieldEntity-»
-subMenu.add(MENU_SORT_BY_GROUP_ID, MENU_SORT_BY_«shortName.toUpperCase()-»_ID, Menu.NONE, R.string.«shortName.toLowerCase()-»);
+subMenu.add(MENU_SORT_BY_GROUP_ID, MENU_SORT_BY_«name.toUpperCase()-»_ID, Menu.NONE, R.string.«shortName.toLowerCase()-»);
 «ENDDEFINE»
 
 
 «DEFINE onPrepareMenu FOR FieldEntity-»
 if ("«name.toLowerCase()-»".equals(mSortKey))
-	menu.findItem(MENU_SORT_BY_«shortName.toUpperCase()-»_ID).setChecked(true);
+	menu.findItem(MENU_SORT_BY_«name.toUpperCase()-»_ID).setChecked(true);
 «ENDDEFINE»
 
 «DEFINE onOptionItemSelected FOR FieldEntity-»
-case MENU_SORT_BY_«shortName.toUpperCase()-»_ID:
-	if ("«name.toLowerCase()-»".equals(mSortKey)) {
+case MENU_SORT_BY_«name.toUpperCase()-»_ID:
+	if («parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()».equals(mSortKey)) {
 		mSortOrder = mSortOrder != SortOrder.DESCENDANT_ORDER ? SortOrder.DESCENDANT_ORDER : SortOrder.ASCENDANT_ORDER;
 	} else {
-		mSortKey = "«name.toLowerCase()-»";
+		mSortKey = «parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»;
 		mSortOrder = 0;
 	}
 	requery();

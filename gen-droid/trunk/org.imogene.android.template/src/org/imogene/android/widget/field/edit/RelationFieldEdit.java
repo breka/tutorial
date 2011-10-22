@@ -37,9 +37,9 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 	protected final int mDisplaySgId;
 	protected final int mOppositeCardinality;
 	protected final int mType; // 0 for main relation field; 1 for reverse relation field
-	protected final String mOppositeRelationField;
-	protected final String mFieldName;
-	protected final String mTableName;
+	protected String mOppositeRelationField;
+	protected String mFieldName;
+	protected String mTableName;
 
 	private final int mHierarchicalParentId;
 	
@@ -57,13 +57,25 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 		mDisplaySgId = a.getResourceId(W.styleable.RelationFieldEdit_displaySg, 0);
 		mOppositeCardinality = a.getInt(W.styleable.RelationFieldEdit_oppositeCardinality, 0);
 		mType = a.getInt(W.styleable.RelationFieldEdit_type, 0);
-		mOppositeRelationField = a.getString(W.styleable.RelationFieldEdit_oppositeRelationField);
-		mFieldName = a.getString(W.styleable.RelationFieldEdit_fieldName);
-		mTableName = a.getString(W.styleable.RelationFieldEdit_tableName);
-		mHierarchicalField = a.getString(W.styleable.RelationFieldEdit_hierarchicalField);
 		mHierarchicalParentId = a.getResourceId(W.styleable.RelationFieldEdit_hierarchicalParent, -1);
 		a.recycle();
 		setOnClickListener(this);
+	}
+	
+	public void setOppositeRelationField(String oppositerelationField) {
+		mOppositeRelationField = oppositerelationField;
+	}
+	
+	public void setFieldName(String fieldName) {
+		mFieldName = fieldName;
+	}
+	
+	public void setTableName(String tableName) {
+		mTableName = tableName;
+	}
+	
+	public void setHierarchicalField(String hierarchicalField) {
+		mHierarchicalField = hierarchicalField;
 	}
 	
 	@Override
