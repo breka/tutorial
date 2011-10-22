@@ -36,7 +36,6 @@ public final class W {
 		public static final int entityws = R.attr.entityws;
 		public static final int entries = R.attr.entries;
 		public static final int field = R.attr.field;
-		public static final int fieldName = R.attr.fieldName;
 		public static final int floatMax = R.attr.floatMax;
 		public static final int floatMin = R.attr.floatMin;
 		public static final int geoType = R.attr.geoType;
@@ -49,13 +48,11 @@ public final class W {
 		public static final int intMin = R.attr.intMin;
 		public static final int multiple = R.attr.multiple;
 		public static final int oppositeCardinality = R.attr.oppositeCardinality;
-		public static final int oppositeRelationField = R.attr.oppositeRelationField;
 		public static final int readOnly = R.attr.readOnly;
 		public static final int required = R.attr.required;
 		public static final int size = R.attr.size;
 		public static final int startYear = R.attr.startYear;
 		public static final int stringType = R.attr.stringType;
-		public static final int tableName = R.attr.tableName;
 		public static final int title = R.attr.title;
 		public static final int type = R.attr.type;
 		public static final int unit = R.attr.unit;}
@@ -611,13 +608,9 @@ public final class W {
 		public static final int[] RelationFieldEdit = R.styleable.RelationFieldEdit;
 		public static final int RelationFieldEdit_displayPl = R.styleable.RelationFieldEdit_displayPl;
 		public static final int RelationFieldEdit_displaySg = R.styleable.RelationFieldEdit_displaySg;
-		public static final int RelationFieldEdit_fieldName = R.styleable.RelationFieldEdit_fieldName;
 		public static final int RelationFieldEdit_hasReverse = R.styleable.RelationFieldEdit_hasReverse;
-		public static final int RelationFieldEdit_hierarchicalField = R.styleable.RelationFieldEdit_hierarchicalField;
 		public static final int RelationFieldEdit_hierarchicalParent = R.styleable.RelationFieldEdit_hierarchicalParent;
 		public static final int RelationFieldEdit_oppositeCardinality = R.styleable.RelationFieldEdit_oppositeCardinality;
-		public static final int RelationFieldEdit_oppositeRelationField = R.styleable.RelationFieldEdit_oppositeRelationField;
-		public static final int RelationFieldEdit_tableName = R.styleable.RelationFieldEdit_tableName;
 		public static final int RelationFieldEdit_type = R.styleable.RelationFieldEdit_type;
 		public static final int[] RelationFilterPreference = R.styleable.RelationFilterPreference;
 		public static final int RelationFilterPreference_entityws = R.styleable.RelationFilterPreference_entityws;

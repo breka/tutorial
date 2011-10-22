@@ -18,9 +18,6 @@
 	<!-- Array size presented as list -->
 	<attr name="size" format="integer" />
 	
-	<!--  The hierarchical field to filter on -->
-	<attr name="hierarchicalField" format="string" />
-	
 	<!-- Unit reference id of a numeric field -->
 	<attr name="unit" format="reference" />
 	
@@ -82,7 +79,7 @@
 		<!--  The card entity web service -->
 		<attr name="entityws" format="string" />
 		<!--  The hierarchical field to filter on -->
-		<attr name="hierarchicalField" />
+		<attr name="hierarchicalField" format="string" />
 	</declare-styleable>
 	
 	<declare-styleable name="FieldEntity">
@@ -191,14 +188,6 @@
 		<attr name="oppositeCardinality" format="integer" />
 		<!-- Relation type (main or reverse) -->
 		<attr name="type" />
-		<!-- Opposite relation field column name -->
-		<attr name="oppositeRelationField" format="string" />
-		<!-- Name of the current relation field -->
-		<attr name="fieldName" format="string" />
-		<!-- Name of the current relation field table -->
-		<attr name="tableName" format="string" />
-		<!-- The hierarchical field to filter on -->
-		<attr name="hierarchicalField" />
 		<!-- The hierarchical parent field view id -->
 		<attr name="hierarchicalParent" format="reference" />
 	</declare-styleable>

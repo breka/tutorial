@@ -69,17 +69,17 @@ public static final MatrixCursor get«name.toFirstUpper()-»Suggestions(Context co
 
 
 «DEFINE searchInField FOR FieldEntity-»
-.appendLike("«name.toFirstLower()-»", s)
+.appendLike(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()», s)
 «ENDDEFINE»
 
 «DEFINE searchInField FOR MainRelationFieldEntity-»
 «IF cardinality == 1»
-.appendIn("«name.toFirstLower()»", new SQLiteBuilder("«entity.name.toLowerCase()»", «entity.name.toFirstUpper()».Columns.ID).setOr(true)«EXPAND searchInField FOREACH getMainFields(entity)».create())
+.appendIn(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()», new SQLiteBuilder(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.ID).setOr(true)«EXPAND searchInField FOREACH getMainFields(entity)».create())
 «ENDIF»
 «ENDDEFINE»
 
 «DEFINE searchInField FOR ReverseRelationFieldEntity-»
 «IF cardinality == 1 && getOppositeCardinality(this) != 1-»
-.appendIn("«name.toFirstLower()»", new SQLiteBuilder("«entity.name.toLowerCase()»", «entity.name.toFirstUpper()».Columns.ID).setOr(true)«EXPAND searchInField FOREACH getMainFields(entity)».create())
+.appendIn(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()», new SQLiteBuilder(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.ID).setOr(true)«EXPAND searchInField FOREACH getMainFields(entity)».create())
 «ENDIF»
 «ENDDEFINE»
