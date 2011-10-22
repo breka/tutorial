@@ -111,3 +111,21 @@ import java.util.Set;
 «ELSE-»«this.validationRegularExpression-»
 «ENDIF-»
 «ENDDEFINE»
+
+
+
+
+«DEFINE resourceName FOR FieldEntity-»
+«parentGroup.parentCard.name.toLowerCase()»_«parentGroup.name.toLowerCase()»_«name.toLowerCase()-»
+«ENDDEFINE»
+
+«DEFINE resourceName FOR FieldGroup-»
+«parentCard.name.toLowerCase()»_«name.toLowerCase()-»
+«ENDDEFINE»
+
+
+
+
+«DEFINE columnName FOR FieldEntity-»
+«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()-»
+«ENDDEFINE»

@@ -10,7 +10,7 @@
 	
 	«FOREACH groups AS group-»
 	<ScrollView 
-		android:id="@+id/«group.shortName.toLowerCase()-»"
+		android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group»"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 
@@ -41,7 +41,7 @@
 
 «DEFINE layout FOR FieldEntity-»
 <org.imogene.android.widget.field.view.«EXPAND class FOR this-»
-	android:id="@+id/«shortName.toLowerCase()»"
+	android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	android:layout_height="wrap_content" 
 	android:layout_width="fill_parent"
 	android:background="@android:drawable/list_selector_background"
@@ -51,8 +51,8 @@
 	app:readOnly="«readOnly»"
 	app:required="«required»"
 	app:hidden="«hidden»"
-	app:title="@string/«shortName.toLowerCase()»"
-	app:divider="@+id/«shortName.toLowerCase()-»_divider"
+	app:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	app:divider="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_divider"
 	«EXPAND specificAttributes FOR this-»
 />
 «ENDDEFINE»
@@ -120,18 +120,18 @@ app:stringType="address"
 
 «DEFINE specificAttributes FOR NumericField-»
 «IF unit.length > 0-»
-app:unit="@string/«shortName.toLowerCase()»_unit"
+app:unit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
 «ENDIF-»
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR EnumField-»
-app:array="@array/«shortName.toLowerCase()»_values"
-app:entries="@array/«shortName.toLowerCase()»"
+app:array="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
+app:entries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR RelationFieldEntity-»
 «IF cardinality != 1»
-app:displayPl="@string/«entity.shortName.toLowerCase()-»_des_sg"
-app:displaySg="@string/«entity.shortName.toLowerCase()-»_des_sg"
+app:displayPl="@string/«entity.name.toLowerCase()-»_des_sg"
+app:displaySg="@string/«entity.name.toLowerCase()-»_des_sg"
 «ENDIF»
 «ENDDEFINE»

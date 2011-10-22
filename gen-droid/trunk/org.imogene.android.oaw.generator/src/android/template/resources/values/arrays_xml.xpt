@@ -61,7 +61,7 @@
 «ENDDEFINE»
 
 «DEFINE getArray FOR EnumField-»
-	<string-array name="«shortName.toLowerCase()»">
+	<string-array name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»">
 	«FOREACH enumValues AS enum-»
 		<item>"«enum.name-»"</item>
 	«ENDFOREACH-»
@@ -75,7 +75,7 @@
 «ENDDEFINE»
 
 «DEFINE getValuesArray FOR EnumField-»
-	<integer-array name="«shortName.toLowerCase()»_values">
+	<integer-array name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values">
 	«FOREACH enumValues AS e-»
 		<item>«e.value»</item>
 	«ENDFOREACH-»
@@ -90,7 +90,7 @@
 «ENDDEFINE»
 
 «DEFINE getArray(String isoCode) FOR EnumField-»
-	<string-array name="«shortName.toLowerCase()»">
+	<string-array name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»">
 	«FOREACH enumValues AS enum-»
 		<item>"«EXPAND getDescription(isoCode) FOR enum-»"</item>
 	«ENDFOREACH-»

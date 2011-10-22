@@ -53,17 +53,17 @@
 			«IF e.clientPeriodFilterable || e.clientFilterFields.size > 0-»
 			<PreferenceScreen
 				android:key="«e.name.toLowerCase()»_filters"
-				android:title="@string/«e.shortName.toLowerCase()»_des_sg">
+				android:title="@string/«e.name.toLowerCase()»_des_sg">
 				«IF e.clientPeriodFilterable-»
 				<org.imogene.android.preference.filter.DateFilterPreference
-					android:key="«e.shortName.toLowerCase()»_modified_filter"
+					android:key="«e.name.toLowerCase()»_modified_filter"
 					android:dialogIcon="@android:drawable/ic_dialog_info"
 					android:dialogTitle="@string/modified"
 					android:title="@string/modified"
 					app:entity="«e.shortName.toUpperCase()»"
 					app:field="modified" />
 				<org.imogene.android.preference.filter.DateFilterPreference
-					android:key="«e.shortName.toLowerCase()»_created_filter"
+					android:key="«e.name.toLowerCase()»_created_filter"
 					android:dialogIcon="@android:drawable/ic_dialog_info"
 					android:dialogTitle="@string/created"
 					android:title="@string/created"
@@ -144,10 +144,10 @@
 
 «DEFINE preferenceCriteria FOR StringField»
 <org.imogene.android.preference.filter.StringFilterPreference
-	android:key="«shortName.toLowerCase()»_filter"
+	android:key="«name.toLowerCase()»_filter"
 	android:dialogIcon="@android:drawable/ic_dialog_info"
-	android:dialogTitle="@string/«shortName.toLowerCase()»"
-	android:title="@string/«shortName.toLowerCase()»"
+	android:dialogTitle="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	android:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
 	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
 />
@@ -155,10 +155,10 @@
 
 «DEFINE preferenceCriteria FOR DateField»
 <org.imogene.android.preference.filter.DateFilterPreference
-	android:key="«shortName.toLowerCase()»_filter"
+	android:key="«name.toLowerCase()»_filter"
 	android:dialogIcon="@android:drawable/ic_dialog_info"
-	android:dialogTitle="@string/«shortName.toLowerCase()»"
-	android:title="@string/«shortName.toLowerCase()»"
+	android:dialogTitle="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	android:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
 	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
 />
@@ -166,10 +166,10 @@
 
 «DEFINE preferenceCriteria FOR IntegerField»
 <org.imogene.android.preference.filter.IntegerFilterPreference
-	android:key="«shortName.toLowerCase()»_filter"
+	android:key="«name.toLowerCase()»_filter"
 	android:dialogIcon="@android:drawable/ic_dialog_info"
-	android:dialogTitle="@string/«shortName.toLowerCase()»"
-	android:title="@string/«shortName.toLowerCase()»"
+	android:dialogTitle="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	android:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
 	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
 />
@@ -177,10 +177,10 @@
 
 «DEFINE preferenceCriteria FOR FloatField»
 <org.imogene.android.preference.filter.FloatFilterPreference
-	android:key="«shortName.toLowerCase()»_filter"
+	android:key="«name.toLowerCase()»_filter"
 	android:dialogIcon="@android:drawable/ic_dialog_info"
-	android:dialogTitle="@string/«shortName.toLowerCase()»"
-	android:title="@string/«shortName.toLowerCase()»"
+	android:dialogTitle="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	android:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
 	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
 />
@@ -188,10 +188,10 @@
 
 «DEFINE preferenceCriteria FOR BooleanField»
 <org.imogene.android.preference.filter.BooleanFilterPreference
-	android:key="«shortName.toLowerCase()»_filter"
+	android:key="«name.toLowerCase()»_filter"
 	android:dialogIcon="@android:drawable/ic_dialog_info"
-	android:dialogTitle="@string/«shortName.toLowerCase()»"
-	android:title="@string/«shortName.toLowerCase()»"
+	android:dialogTitle="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	android:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
 	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
 />
@@ -199,26 +199,26 @@
 
 «DEFINE preferenceCriteria FOR EnumField»
 <org.imogene.android.preference.filter.EnumFilterPreference
-	android:key="«shortName.toLowerCase()»_filter"
+	android:key="«name.toLowerCase()»_filter"
 	android:dialogIcon="@android:drawable/ic_dialog_info"
-	android:dialogTitle="@string/«shortName.toLowerCase()»"
-	android:title="@string/«shortName.toLowerCase()»"
+	android:dialogTitle="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	android:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	app:multiple="«multipleSelection»"
 	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
 	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
-	app:entries="@array/«shortName.toLowerCase()»"
+	app:entries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	app:size="«enumValues.size»"
-	app:array="@array/«shortName.toLowerCase()»_values"
+	app:array="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
 />
 «ENDDEFINE»
 
 «DEFINE preferenceCriteria FOR RelationFieldEntity»
 «IF cardinality == 1-»
 <org.imogene.android.preference.filter.RelationFilterPreference
-	android:key="«shortName.toLowerCase()»_filter"
+	android:key="«name.toLowerCase()»_filter"
 	android:dialogIcon="@android:drawable/ic_dialog_info"
-	android:dialogTitle="@string/«shortName.toLowerCase()»"
-	android:title="@string/«shortName.toLowerCase()»"
+	android:dialogTitle="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	android:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	app:entity="«parentGroup.parentCard.shortName.toUpperCase()»"
 	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
 	app:entityws="«entity.name.toLowerCase()»"

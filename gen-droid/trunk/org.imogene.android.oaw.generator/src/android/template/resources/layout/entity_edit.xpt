@@ -10,7 +10,7 @@
 	
 	«FOREACH groups AS group-»
 	<ScrollView 
-		android:id="@+id/«group.shortName.toLowerCase()-»"
+		android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group»"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 

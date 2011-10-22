@@ -88,7 +88,7 @@
 		«FOREACH entities AS entity»
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»Listing"
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_pl"
+			android:label="@string/«entity.name.toLowerCase()-»_des_pl"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
@@ -107,7 +107,7 @@
 		
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»View" 
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_sg"
+			android:label="@string/«entity.name.toLowerCase()-»_des_sg"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
@@ -118,7 +118,7 @@
 		
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»Edit"
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_new"
+			android:label="@string/«entity.name.toLowerCase()-»_des_new"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.INSERT" />
@@ -130,7 +130,7 @@
 		
 		<activity 
 			android:name=".app.«entity.name.toFirstUpper()-»Wizard"
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_new"
+			android:label="@string/«entity.name.toLowerCase()-»_des_new"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-»
 			«REM»android:theme="@style/Theme.Light.Hack"comment«ENDREM» >
 			<intent-filter>
@@ -143,7 +143,7 @@
 		
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»Edit" 
-			android:label="@string/«entity.shortName.toLowerCase()-»_des_sg"
+			android:label="@string/«entity.name.toLowerCase()-»_des_sg"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT" />

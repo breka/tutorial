@@ -161,7 +161,7 @@ if («shortName.toLowerCase()-» != null) {
 
 «DEFINE serialization FOR EnumField»
 serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
-serializer.text(EnumConverter.convert(context, R.array.«shortName.toLowerCase()»_values, cursor.get«name.toFirstUpper()»()));
+serializer.text(EnumConverter.convert(context, R.array.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values, cursor.get«name.toFirstUpper()»()));
 serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 «ENDDEFINE»
 

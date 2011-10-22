@@ -93,60 +93,60 @@ import org.imogene.android.«projectName.toLowerCase()-».entities.«entity.name.to
 
 «DEFINE createGetter FOR StringField-»
 public final String get«name.toFirstUpper()»() {
-	return getString(getColumnIndexOrThrow("«name.toFirstLower()-»"));
+	return getString(getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 }
 «ENDDEFINE»
 
 «DEFINE createGetter FOR TextField-»
 «IF translatable-»
 public final LocalizedTextList get«name.toFirstUpper()»() {
-	return getLocalizedText(getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+	return getLocalizedText(getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 }
 «ELSE-»
 public final String get«name.toFirstUpper()»() {
-	return getString(getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+	return getString(getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 }
 «ENDIF-»
 «ENDDEFINE»
 
 «DEFINE createGetter FOR IntegerField-»
 public final Integer get«name.toFirstUpper()»() {
-	return getAsInteger(getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+	return getAsInteger(getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 }
 «ENDDEFINE»
 
 «DEFINE createGetter FOR FloatField-»
 public final Float get«name.toFirstUpper()»() {
-	return getAsFloat(getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+	return getAsFloat(getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 }
 «ENDDEFINE»
 
 «DEFINE createGetter FOR BooleanField-»
 public final Boolean get«name.toFirstUpper()»() {
-	return getAsBoolean(getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+	return getAsBoolean(getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 }
 «ENDDEFINE»
 
 «DEFINE createGetter FOR DatesField-»
 public final Long get«name.toFirstUpper()»() {
-	return getAsLong(getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+	return getAsLong(getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 }
 «ENDDEFINE»
 
 «DEFINE createGetter FOR BinaryField-»
 public final Uri get«name.toFirstUpper()-»() {
-	return getEntity(Binary.Columns.CONTENT_URI, Binary.Columns.TABLE_NAME, getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+	return getEntity(Binary.Columns.CONTENT_URI, Binary.Columns.TABLE_NAME, getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 }
 «ENDDEFINE»
 
 «DEFINE createGetter FOR EnumField-»
 «IF multipleSelection -»
 public final boolean[] get«name.toFirstUpper()-»() {
-	return getEnumMulti(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()», «enumValues.size-»);
+	return getEnumMulti(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this», «enumValues.size-»);
 }
 «ELSE-»
 public final int get«name.toFirstUpper()-»() {
-	Integer i = getAsInteger(getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+	Integer i = getAsInteger(getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 	if (i != null) {
 		return i.intValue();
 	} else {
@@ -158,7 +158,7 @@ public final int get«name.toFirstUpper()-»() {
 
 «DEFINE createGetter FOR GeoField-»
 public final Location get«name.toFirstUpper()-»() {
-	return getAsLocation(getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+	return getAsLocation(getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 }
 «ENDDEFINE»
 
@@ -183,15 +183,15 @@ public final ArrayList<Uri> get«name.toFirstUpper()-»() {
 «ENDDEFINE»
 
 «DEFINE getterSingleForRelation FOR MainRelationFieldEntity-»
-getEntity(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+getEntity(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 «ENDDEFINE»
 
 «DEFINE getterSingleForRelation FOR ReverseRelationFieldEntity-»
 «IF oppositeRelationField != null-»
 «IF oppositeRelationField.cardinality == 1-»
-getEntity(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
+getEntity(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField»);
 «ELSE-»
-getEntity(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, getColumnIndexOrThrow(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»));
+getEntity(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, getColumnIndexOrThrow(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»));
 «ENDIF-»
 «ENDIF-»
 «ENDDEFINE»
@@ -207,7 +207,7 @@ getEntity(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirs
 «DEFINE getterMultiForRelation FOR MainRelationFieldEntity-»
 «IF oppositeRelationField != null-»
 «IF oppositeRelationField.cardinality == 1-»
-getEntities(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
+getEntities(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField»);
 «ELSE-»
 getEntities(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()», «parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.TABLE_NAME);
 «ENDIF-»
@@ -219,7 +219,7 @@ getEntities(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFi
 «DEFINE getterMultiForRelation FOR ReverseRelationFieldEntity-»
 «IF oppositeRelationField != null-»
 «IF oppositeRelationField.cardinality == 1-»
-getEntities(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
+getEntities(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField»);
 «ELSE-»
 getEntities(«entity.name.toFirstUpper()-».Columns.CONTENT_URI, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()», «parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.TABLE_NAME);
 «ENDIF-»
@@ -278,7 +278,7 @@ if («name.toFirstLower()» != null) {
 	str.append(«name.toFirstLower()».toString());
 	str.append(" ");
 	«IF unit.length > 0-»
-	str.append(context.getString(R.string.«shortName.toLowerCase()»_unit));
+	str.append(context.getString(R.string.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit));
 	str.append(" ");
 	«ENDIF-»
 }
@@ -312,7 +312,7 @@ if («name.toFirstLower()» != null) {
 «IF !multipleSelection -»
 int «name.toFirstLower()» = get«name.toFirstUpper()-»();
 if («name.toFirstLower()» != -1) {
-	String[] array = context.getResources().getStringArray(R.array.«shortName.toLowerCase()»);
+	String[] array = context.getResources().getStringArray(R.array.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»);
 	str.append(array[«name.toFirstLower()»]);
 	str.append(" ");
 }

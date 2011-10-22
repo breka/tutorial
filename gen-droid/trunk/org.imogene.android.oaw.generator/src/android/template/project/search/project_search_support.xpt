@@ -69,17 +69,17 @@ public static final MatrixCursor get«name.toFirstUpper()-»Suggestions(Context co
 
 
 «DEFINE searchInField FOR FieldEntity-»
-.appendLike(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()», s)
+.appendLike(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this», s)
 «ENDDEFINE»
 
 «DEFINE searchInField FOR MainRelationFieldEntity-»
 «IF cardinality == 1»
-.appendIn(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()», new SQLiteBuilder(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.ID).setOr(true)«EXPAND searchInField FOREACH getMainFields(entity)».create())
+.appendIn(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this», new SQLiteBuilder(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.ID).setOr(true)«EXPAND searchInField FOREACH getMainFields(entity)».create())
 «ENDIF»
 «ENDDEFINE»
 
 «DEFINE searchInField FOR ReverseRelationFieldEntity-»
 «IF cardinality == 1 && getOppositeCardinality(this) != 1-»
-.appendIn(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()», new SQLiteBuilder(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.ID).setOr(true)«EXPAND searchInField FOREACH getMainFields(entity)».create())
+.appendIn(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this», new SQLiteBuilder(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toFirstUpper()».Columns.ID).setOr(true)«EXPAND searchInField FOREACH getMainFields(entity)».create())
 «ENDIF»
 «ENDDEFINE»

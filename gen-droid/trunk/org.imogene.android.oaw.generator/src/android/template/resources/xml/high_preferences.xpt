@@ -90,16 +90,16 @@
 
 
 «DEFINE modifyRights(String canModify) FOR CardEntity-»
-<CheckBoxPreference android:key="@string/«shortName.toLowerCase()-»_modify"
-	android:title="@string/«shortName.toLowerCase()-»_des_sg"
+<CheckBoxPreference android:key="@string/«name.toLowerCase()-»_modify"
+	android:title="@string/«name.toLowerCase()-»_des_sg"
 	android:summaryOn="@string/rights_modify_summaryon"
 	android:summaryOff="@string/rights_modify_summaryoff"
 	android:defaultValue="«canModify»" />
 «ENDDEFINE»
 
 «DEFINE deleteRights(String canDelete) FOR CardEntity-»
-<CheckBoxPreference android:key="@string/«shortName.toLowerCase()-»_delete"
-	android:title="@string/«shortName.toLowerCase()-»_des_sg"
+<CheckBoxPreference android:key="@string/«name.toLowerCase()-»_delete"
+	android:title="@string/«name.toLowerCase()-»_des_sg"
 	android:summaryOn="@string/rights_delete_summaryon"
 	android:summaryOff="@string/rights_delete_summaryoff"
 	android:defaultValue="«canDelete»" />

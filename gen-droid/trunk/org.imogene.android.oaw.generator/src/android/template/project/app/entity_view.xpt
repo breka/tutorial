@@ -108,8 +108,8 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 		«projectName.toFirstUpper()»Notification.cancel«name.toFirstUpper()»Notification(this);
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean canDelete = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_delete), «canDelete»);
-		boolean canModify = prefs.getBoolean(getString(R.string.«shortName.toLowerCase()-»_modify), «canModify»);
+		boolean canDelete = prefs.getBoolean(getString(R.string.«name.toLowerCase()-»_delete), «canDelete»);
+		boolean canModify = prefs.getBoolean(getString(R.string.«name.toLowerCase()-»_modify), «canModify»);
 		
 		«IF creators.size > 0-»
 		mCanDelete = canDelete && «name.toFirstUpper()-»Roles.canCreate(this);
@@ -126,7 +126,7 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 		LayoutInflater.from(this).inflate(R.layout.«name.toLowerCase()-»_view, getViewPager(), true);
 
 		«FOREACH groups.fields AS f-»
-			«f.name.toFirstLower()» = («EXPAND nameViewField FOR f») findViewById(R.id.«f.shortName.toLowerCase()»);
+			«f.name.toFirstLower()» = («EXPAND nameViewField FOR f») findViewById(R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR f»);
 		«ENDFOREACH-»
 
 		«FOREACH groups.fields AS f-»
@@ -186,7 +186,7 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 			«ENDFOREACH-»
 			
 			if (visible) {
-				adapter.addPage(R.string.«group.shortName.toLowerCase()-», R.id.«group.shortName.toLowerCase()-»);
+				adapter.addPage(R.string.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group», R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group»);
 			}
 		}
 		«ENDFOREACH-»
@@ -269,18 +269,18 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 			«IF (mod2(i.counter0) == 0)-»
 			«IF f.commonFields.get(i.counter0).cardinality == 1-»
 			bundle.putParcelable(
-				"«f.commonFields.get(i.counter1).name.toFirstLower()»", 
+				«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR f.commonFields.get(i.counter1)»,
 				mEntity.get«f.commonFields.get(i.counter0).name.toFirstUpper()»());
 			«ELSE-»
 			bundle.putParcelableArrayList(
-				"«f.commonFields.get(i.counter1).name.toFirstLower()»", 
+				«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR f.commonFields.get(i.counter1)», 
 				mEntity.get«f.commonFields.get(i.counter0).name.toFirstUpper()»());
 			«ENDIF-»
 			«ENDIF-»
 			«ENDFOREACH-»
 			«IF f.oppositeRelationField.cardinality == 1-»
 			bundle.putParcelable(
-				"«f.oppositeRelationField.name.toFirstLower()»",
+				«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR f.oppositeRelationField»,
 				ContentUris.withAppendedId(
 					«name.toFirstUpper()-».Columns.CONTENT_URI,
 					mEntity.getRowId()));

@@ -42,7 +42,7 @@
 «DEFINE specificInit FOR StringField-»
 «IF validationRules.size > 0-»
 «name.toFirstLower()».setRegexs(new String[] {«FOREACH validationRules AS v SEPARATOR ","»"«v.validationRegularExpression-»"«ENDFOREACH»});
-«name.toFirstLower()».setRegexDisplayIds(new int[] {«FOREACH validationRules AS v ITERATOR i SEPARATOR ","-»R.string.«shortName.toLowerCase()-»_val«i.counter0-»«ENDFOREACH-»});
+«name.toFirstLower()».setRegexDisplayIds(new int[] {«FOREACH validationRules AS v ITERATOR i SEPARATOR ","-»R.string.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_val«i.counter0-»«ENDFOREACH-»});
 «ENDIF-»
 «ENDDEFINE»
 
@@ -50,16 +50,16 @@
 «name.toFirstLower()».setContentUri(«entity.name.toFirstUpper()-».Columns.CONTENT_URI);
 «name.toFirstLower()».setDrawable(«entity.name.toFirstUpper()-».Columns.COLOR);
 «name.toFirstLower()».setTableName(«parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_NAME);
-«name.toFirstLower()».setFieldName(«parentGroup.parentCard.name.toFirstUpper()».Columns.«name.toUpperCase()»);
+«name.toFirstLower()».setFieldName(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR this»);
 «IF oppositeRelationField != null-»
-«name.toFirstLower()».setOppositeRelationField(«entity.name.toFirstUpper()».Columns.«oppositeRelationField.name.toUpperCase()»);
+«name.toFirstLower()».setOppositeRelationField(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField»);
 «ENDIF-»
 «IF relationHierarchicalFilter.size == 2-»
-«name.toFirstLower()».setHierarchicalField(«parentGroup.parentCard.name.toFirstUpper()».Columns.«relationHierarchicalFilter.get(1).name.toUpperCase()»);
+«name.toFirstLower()».setHierarchicalField(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR relationHierarchicalFilter.get(1)»);
 «ENDIF-»
 «FOREACH commonFields AS c ITERATOR i-»
 «IF (mod2(i.counter0) == 0)-»
-«name.toFirstLower()».registerCommonField(«commonFields.get(i.counter0).name.toFirstLower()», «commonFields.get(i.counter1).parentGroup.parentCard.name.toFirstUpper()».Columns.«commonFields.get(i.counter1).name.toUpperCase()»);
+«name.toFirstLower()».registerCommonField(«commonFields.get(i.counter0).name.toFirstLower()», «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR commonFields.get(i.counter1)»);
 «ENDIF-»
 «ENDFOREACH-»
 «ENDDEFINE»

@@ -11,8 +11,8 @@
 	
 	<!--  Modify and delete keys for preferences -->
 	«FOREACH entities AS entity»
-	<string name="«entity.shortName.toLowerCase()-»_modify">"«entity.shortName.toUpperCase()-»_MODIFY"</string>
-	<string name="«entity.shortName.toLowerCase()-»_delete">"«entity.shortName.toUpperCase()-»_DELETE"</string>
+	<string name="«entity.name.toLowerCase()-»_modify">"«entity.name.toUpperCase()-»_MODIFY"</string>
+	<string name="«entity.name.toLowerCase()-»_delete">"«entity.name.toUpperCase()-»_DELETE"</string>
 	«ENDFOREACH-»
 	
 
@@ -25,13 +25,13 @@
 	«ENDFOREACH-»
 	
 	«FOREACH entities AS entity-»	
-	<string name="«entity.shortName.toLowerCase()-»_des_sg">"«entity.name-»"</string>
-	<string name="«entity.shortName.toLowerCase()-»_des_pl">"«entity.name-»"</string>
-	<string name="«entity.shortName.toLowerCase()-»_des_new">"New «entity.name-»"</string>
+	<string name="«entity.name.toLowerCase()-»_des_sg">"«entity.name-»"</string>
+	<string name="«entity.name.toLowerCase()-»_des_pl">"«entity.name-»"</string>
+	<string name="«entity.name.toLowerCase()-»_des_new">"New «entity.name-»"</string>
 	«FOREACH entity.groups AS group-»
-	<string name="«group.shortName.toLowerCase()-»">"«group.name-»"</string>
+	<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group»">"«group.name-»"</string>
 	«FOREACH group.fields AS field-»
-	<string name="«field.shortName.toLowerCase()-»">"«field.name-»"</string>
+	<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR field»">"«field.name-»"</string>
 	
 	«EXPAND getHelp("en") FOR field-»
 	«EXPAND getUnit FOR field-»
@@ -58,9 +58,9 @@
 	«EXPAND getDescription(iso) FOREACH themas-»
 	
 	«FOREACH entities AS entity-»	
-	<string name="«entity.shortName.toLowerCase()-»_des_sg">"«EXPAND getDescription(iso) FOR entity-»"</string>
-	<string name="«entity.shortName.toLowerCase()-»_des_pl">"«EXPAND getDescription(iso) FOR entity-»"</string>
-	<string name="«entity.shortName.toLowerCase()-»_des_new">"New «EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.name.toLowerCase()-»_des_sg">"«EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.name.toLowerCase()-»_des_pl">"«EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.name.toLowerCase()-»_des_new">"New «EXPAND getDescription(iso) FOR entity-»"</string>
 	«FOREACH entity.groups AS group-»
 		«EXPAND getDescription(iso) FOR group-»
 		«FOREACH group.fields AS field-»
@@ -97,9 +97,9 @@
 «DEFINE getDescription(String isoCode) FOR FieldGroup-»
 «LET descriptions.locale.indexOf(isoCode) AS isoPos-»
 «IF (isoPos != -1)-»
-<string name="«shortName.toLowerCase()-»">"«descriptions.get(isoPos).display-»"</string>
+<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»">"«descriptions.get(isoPos).display-»"</string>
 «ELSE-»
-<string name="«shortName.toLowerCase()-»">"«name-»_«isoCode-»"</string>
+<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»">"«name-»_«isoCode-»"</string>
 «ENDIF-»
 «ENDLET-»
 «ENDDEFINE»
@@ -107,9 +107,9 @@
 «DEFINE getDescription(String isoCode) FOR FieldEntity-»
 «LET descriptions.locale.indexOf(isoCode) AS isoPos-»
 «IF (isoPos != -1)»
-<string name="«shortName.toLowerCase()-»">"«descriptions.get(isoPos).display-»"</string>
+<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»">"«descriptions.get(isoPos).display-»"</string>
 «ELSE»
-<string name="«shortName.toLowerCase()-»">"«name-»_description_«isoCode-»"</string>
+<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»">"«name-»_description_«isoCode-»"</string>
 «ENDIF-»
 «ENDLET-»
 «ENDDEFINE»
@@ -128,9 +128,9 @@
 «IF hasHelp(descriptions)-»
 	«LET descriptions.locale.indexOf(isoCode) AS isoPos-»
 		«IF (isoPos != -1)»
-		<string name="«shortName.toLowerCase()-»_help">"«descriptions.get(isoPos).help-»"</string>
+		<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_help">"«descriptions.get(isoPos).help-»"</string>
 		«ELSE-»
-		<string name="«shortName.toLowerCase()-»_help">"«name-»_help_«isoCode-»"</string>
+		<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_help">"«name-»_help_«isoCode-»"</string>
 		«ENDIF-»
 	«ENDLET-»
 «ENDIF-»
@@ -141,7 +141,7 @@
 
 «DEFINE getUnit FOR NumericField-»
 «IF unit.length > 0-»
-<string name="«shortName.toLowerCase()»_unit">"«unit-»"</string>
+<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit">"«unit-»"</string>
 «ENDIF-»
 «ENDDEFINE»
 
@@ -153,9 +153,9 @@
 «FOREACH validationRules AS val ITERATOR i-»
 «LET val.descriptions.locale.indexOf(isoCode) AS isoPos-»
 «IF isoPos != -1-»
-<string name="«shortName.toLowerCase()-»_val«i.counter0-»">"«val.descriptions.get(isoPos).display-»"</string>
+<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_val«i.counter0-»">"«val.descriptions.get(isoPos).display-»"</string>
 «ELSE-»
-<string name="«shortName.toLowerCase()-»_val«i.counter0-»">"«name-»Validate_«isoCode-»"</string>
+<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_val«i.counter0-»">"«name-»Validate_«isoCode-»"</string>
 «ENDIF»
 «ENDLET-»
 «ENDFOREACH-»
