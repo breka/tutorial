@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<!-- Available languages iso codes -->
-	<string-array name="languages_iso"/>
-	
-	<!-- Available languages display -->
-	<string-array name="languages_display"/>
-	
-	<!-- Available languages identifiers array of the editable text fields -->
-	<array name="languages_editors"/>
-	
-	<!-- Available languages identifiers array of the language display text fields -->
-	<array name="languages_views"/>
-	
+    <!-- Available languages iso codes -->
+    <string-array name="languages_iso" />
+
+    <!-- Available languages display -->
+    <string-array name="languages_display" />
+
+    <!-- Available languages identifiers array of the editable text fields -->
+    <array name="languages_editors" />
+
+    <!-- Available languages identifiers array of the language display text fields -->
+    <array name="languages_views" />
+
 </resources>

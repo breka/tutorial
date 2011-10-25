@@ -14,21 +14,24 @@
 ** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ** See the License for the specific language governing permissions and
 ** limitations under the License.
-*/
+*/
 -->
 
-<!-- Layout of date picker-->
+<!-- Layout of date picker -->
 
-<!-- Warning: everything within the parent is removed and re-ordered depending
-     on the date format selected by the user. -->
+<!--
+     Warning: everything within the parent is removed and re-ordered depending
+     on the date format selected by the user.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parent"
-    android:orientation="horizontal"
-    android:layout_gravity="center_horizontal"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="horizontal" >
 
     <!-- Year -->
+
     <org.imogene.android.widget.NumberPicker
         android:id="@+id/number"
         android:layout_width="95dip"
@@ -36,9 +39,8 @@
         android:layout_marginLeft="1dip"
         android:layout_marginRight="1dip"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        />
-        
+        android:focusableInTouchMode="true" />
+
     <org.imogene.android.widget.NumberPicker
         android:id="@+id/unit"
         android:layout_width="95dip"
@@ -46,7 +48,6 @@
         android:layout_marginLeft="1dip"
         android:layout_marginRight="1dip"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        />
+        android:focusableInTouchMode="true" />
 
 </LinearLayout>

@@ -78,10 +78,10 @@ public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implement
 
 		«FOREACH groups.fields AS f-»
 			«f.name.toFirstLower()».setAutomaticManageVisibility(false);
-			«f.name.toFirstLower()».onAttachedToHierarchy(mManager);
-			«f.name.toFirstLower()».setValue(mEntity.get«f.name.toFirstUpper()»());
 			«EXPAND android::template::EditorsUtil::specificInit FOR f-»
+			«f.name.toFirstLower()».onAttachedToHierarchy(mManager);
 			«EXPAND android::template::EditorsUtil::dependency FOREACH f.fieldDependentVisibility-»
+			«f.name.toFirstLower()».setValue(mEntity.get«f.name.toFirstUpper()»());
 		«ENDFOREACH»
 		
 		«FOREACH groups.fields AS field-»

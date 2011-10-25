@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
-	
-	<View 
-		android:layout_width="10dip"
-		android:layout_height="wrap_content" />
 
-	<ImageView style="@style/FieldArrowView" />
+    <View
+        android:layout_width="10dip"
+        android:layout_height="wrap_content" />
 
-	<View 
-		android:layout_width="10dip"
-		android:layout_height="wrap_content" />
-	
-	<LinearLayout 
-		android:layout_width="0dip"
-		android:layout_weight="1" 
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:gravity="center_vertical"
-		android:duplicateParentState="true" >
+    <ImageView style="@style/FieldArrowView" />
 
-		<TextView style="@style/FieldTitleText" />
-			
-		<TextView style="@style/FieldValueText" />
+    <View
+        android:layout_width="10dip"
+        android:layout_height="wrap_content" />
 
-	</LinearLayout>
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:duplicateParentState="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
 
-	<ImageView style="@style/FieldHelpView" />
-		
-	<ImageView style="@style/FieldIconView" />
+        <TextView style="@style/FieldTitleText" />
+
+        <TextView style="@style/FieldValueText" />
+    </LinearLayout>
+
+    <ImageView style="@style/FieldHelpView" />
+
+    <ImageView style="@style/FieldIconView" />
 
 </merge>

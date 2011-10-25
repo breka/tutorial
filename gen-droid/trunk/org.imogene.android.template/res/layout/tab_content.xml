@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical">
-	
-	<include layout="@layout/actionbar"/>
-	
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar" />
+
     <TabHost
-    	android:id="@android:id/tabhost"
+        android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent" >
+
         <LinearLayout
-        	android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
             <TabWidget
-            	android:id="@android:id/tabs"
+                android:id="@android:id/tabs"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/tab_off_background" />
+
             <FrameLayout
-            	android:id="@android:id/tabcontent"
+                android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
         </LinearLayout>
     </TabHost>
+
 </LinearLayout>
