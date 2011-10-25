@@ -6,12 +6,12 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
-    
+
     <style name="Theme.Light.Hack" parent="@android:style/Theme.Light">
-    	<item name="android:textColorPrimaryInverse">@android:color/primary_text_light</item>
+        <item name="android:textColorPrimaryInverse">@android:color/primary_text_light</item>
     </style>
-    
-	<!-- Variation on the Light theme that turns off the title -->
+
+    <!-- Variation on the Light theme that turns off the title -->
     <style name="Theme.Imogene" parent="android:style/Theme.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -23,20 +23,20 @@
         <item name="actionbarCompatLogoStyle">@style/ActionBarCompatLogo</item>
         <item name="actionbarCompatTextStyle">@style/ActionBarCompatText</item>
     </style>
-    
+
     <!-- Start with the Holographic Light theme -->
     <style name="Theme.Imogene.Home" parent="style/Theme.Imogene">
         <item name="android:windowBackground">@drawable/background_noise</item>
     </style>
-	
-	<style name="ActionBarCompat">
+
+    <style name="ActionBarCompat">
         <item name="android:id">@id/actionbar_compat</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/actionbar_compat_height</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:background">@drawable/actionbar_compat_background</item>
     </style>
-    
+
     <style name="ActionBarCompatButton">
         <item name="android:layout_width">@dimen/actionbar_compat_height</item>
         <item name="android:layout_height">fill_parent</item>
@@ -82,7 +82,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
     </style>
-    
+
     <style name="DashboardButton">
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_width">wrap_content</item>
@@ -94,71 +94,71 @@
         <item name="android:textColor">@color/accent_1</item>
         <item name="android:background">@null</item>
     </style>
-    
-    <style name="MoreButton">
-		<item name="android:background">@drawable/btn_circle</item>
-		<item name="android:src">@drawable/ic_btn_round_more</item>
-	</style>
 
-	<style name="LessButton">
-		<item name="android:background">@drawable/btn_circle</item>
-		<item name="android:src">@drawable/ic_btn_round_less</item>
-	</style>
-	
-	<style name="FieldTitleText">
-    	<item name="android:id">@id/title</item>
-    	<item name="android:layout_width">wrap_content</item>
-    	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:duplicateParentState">true</item>
-    	<item name="android:textSize">@dimen/text_size_small</item>
+    <style name="MoreButton">
+        <item name="android:background">@drawable/btn_circle</item>
+        <item name="android:src">@drawable/ic_btn_round_more</item>
+    </style>
+
+    <style name="LessButton">
+        <item name="android:background">@drawable/btn_circle</item>
+        <item name="android:src">@drawable/ic_btn_round_less</item>
+    </style>
+
+    <style name="FieldTitleText">
+        <item name="android:id">@id/title</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/actionbar_text</item>
     </style>
-    
+
     <style name="FieldValueText">
-    	<item name="android:id">@id/value</item>
-    	<item name="android:saveEnabled">false</item>
-      	<item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
-		<item name="android:layout_width">wrap_content</item>
-    	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:scrollHorizontally">true</item>
-    	<item name="android:ellipsize">marquee</item>
-    	<item name="android:maxLines">1</item>
-    	<item name="android:duplicateParentState">true</item>
+        <item name="android:id">@id/value</item>
+        <item name="android:saveEnabled">false</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:duplicateParentState">true</item>
     </style>
-    
+
     <style name="FieldValueEditText">
-    	<item name="android:id">@id/value</item>
-    	<item name="android:layout_width">fill_parent</item>
-    	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:saveEnabled">false</item>
-    	<item name="android:imeOptions">actionDone</item>
+        <item name="android:id">@id/value</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:saveEnabled">false</item>
+        <item name="android:imeOptions">actionDone</item>
     </style>
-    
+
     <style name="FieldArrowView">
-    	<item name="android:id">@id/arrow</item>
-    	<item name="android:src">@drawable/arrow_icon</item>
-    	<item name="android:layout_width">20dip</item>
-    	<item name="android:layout_height">20dip</item>
-    	<item name="android:layout_gravity">center_vertical</item>
+        <item name="android:id">@id/arrow</item>
+        <item name="android:src">@drawable/arrow_icon</item>
+        <item name="android:layout_width">20dip</item>
+        <item name="android:layout_height">20dip</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="FieldHelpView">
-    	<item name="android:id">@id/help</item>
-    	<item name="android:src">@drawable/help</item>
-    	<item name="android:layout_width">32dip</item>
-    	<item name="android:layout_height">32dip</item>
-    	<item name="android:layout_gravity">center_vertical</item>
-    	<item name="android:scaleType">fitXY</item>
+        <item name="android:id">@id/help</item>
+        <item name="android:src">@drawable/help</item>
+        <item name="android:layout_width">32dip</item>
+        <item name="android:layout_height">32dip</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:scaleType">fitXY</item>
     </style>
-    
+
     <style name="FieldIconView">
-    	<item name="android:id">@id/icon</item>
-    	<item name="android:layout_width">32dip</item>
-    	<item name="android:layout_height">32dip</item>
-    	<item name="android:gravity">center</item>
-    	<item name="android:scaleType">centerInside</item>
-    	<item name="android:visibility">gone</item>
+        <item name="android:id">@id/icon</item>
+        <item name="android:layout_width">32dip</item>
+        <item name="android:layout_height">32dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:visibility">gone</item>
     </style>
-    
+
 </resources>

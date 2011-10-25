@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item
-		android:id="@+id/menu_preferences"
-		android:title="@string/preferences"
-		android:icon="@android:drawable/ic_menu_preferences" />
-	<item
-		android:id="@+id/menu_search"
-		android:title="@android:string/search_go"
-		android:icon="@android:drawable/ic_menu_search"
-		android:visible="false" />
-	<item
-		android:id="@+id/menu_change_user"
-		android:title="@string/menu_change_user"
-		android:icon="@android:drawable/ic_menu_manage"
-		android:visible="false" />
-</menu>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <item
+        android:id="@+id/menu_preferences"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/preferences"/>
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@android:string/search_go"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/menu_change_user"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="@string/menu_change_user"
+        android:visible="false"/>
+
+</menu>

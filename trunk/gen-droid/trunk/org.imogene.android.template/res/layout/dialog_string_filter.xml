@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content"
-	android:layout_width="fill_parent"
-	android:minHeight="?android:attr/listPreferredItemHeight"
-	android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="vertical" >
 
-	<Spinner
-		android:entries="@array/string_filter_values"
-		android:id="@+id/spinner"
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" />
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/string_filter_values" />
 
-	<EditText
-		android:id="@+id/value"
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" />
+    <EditText
+        android:id="@+id/value"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
