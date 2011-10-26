@@ -269,7 +269,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			startActivityForResult(intent, ACTIVITY_INSERT);
 			return true;
 		case R.id.menu_sync:
-			AbstractSyncService.startService(this);
+			AbstractSyncService.startServiceManually(this);
 			return true;
 		case R.id.menu_search:
 			startSearch(null, false, null, false);

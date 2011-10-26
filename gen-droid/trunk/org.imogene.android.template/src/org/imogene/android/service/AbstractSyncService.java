@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.util.Log;
+import android.widget.Toast;
 
 public abstract class AbstractSyncService extends WakefulIntentService {
 
@@ -42,6 +43,11 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 	}
 
 	public static final void startService(Context context) {
+		sendWakefulWork(context, new Intent(Intents.ACTION_CHECK_SYNC));
+	}
+	
+	public static final void startServiceManually(Context context) {
+		Toast.makeText(context, W.string.sync_manually, Toast.LENGTH_SHORT).show();
 		sendWakefulWork(context, new Intent(Intents.ACTION_CHECK_SYNC));
 	}
 

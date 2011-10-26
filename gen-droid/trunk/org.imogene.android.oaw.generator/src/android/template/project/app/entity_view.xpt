@@ -212,7 +212,7 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 			startActivity(new Intent(Intent.ACTION_EDIT, getIntent().getData()));
 			return true;
 		case R.id.menu_sync :
-			AbstractSyncService.startService(this);
+			AbstractSyncService.startServiceManually(this);
 			return true;
 		default:
 			return super.onActionBarItemSelected(item);

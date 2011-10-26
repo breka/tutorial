@@ -71,6 +71,7 @@
     <string name="sync_receive_resume">"Receiving server modifications on resumed session"</string>
     <string name="sync_close">"Closing session"</string>
     <string name="sync_close_resume">"Closing the resumed session"</string>
+	<string name="sync_manually">"Starting synchronization manually"</string>
 
     <!-- Account creation -->
     <string name="account_welcome">"Account creation"</string>
