@@ -11,6 +11,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.app.FieldFlipperActivity;
 import org.imogene.android.util.IamLost;
@@ -182,6 +184,7 @@ public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implement
 		} else {
 			Uri uri = mEntity.commit(this, true, false);
 			if (uri != null) {
+				Toast.makeText(this, R.string.«name.toLowerCase()»_des_registered, Toast.LENGTH_SHORT).show();
 				setResult(RESULT_OK, new Intent().setData(uri));
 				forceFinish();
 			} else {

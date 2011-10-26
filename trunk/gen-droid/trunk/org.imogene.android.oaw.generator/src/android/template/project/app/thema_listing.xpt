@@ -163,7 +163,7 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 	public boolean onActionBarItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_sync:
-			AbstractSyncService.startService(this);
+			AbstractSyncService.startServiceManually(this);
 			return true;
 		default:
 			return super.onActionBarItemSelected(item);

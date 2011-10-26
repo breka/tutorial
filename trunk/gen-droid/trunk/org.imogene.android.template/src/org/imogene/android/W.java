@@ -95,7 +95,6 @@ public final class W {
 		public static final int colorstrip = R.drawable.colorstrip;
 		public static final int colorstrip_shadow = R.drawable.colorstrip_shadow;
 		public static final int divider_vertical_bright = R.drawable.divider_vertical_bright;
-		public static final int header_background = R.drawable.header_background;
 		public static final int help = R.drawable.help;
 		public static final int ic_btn_round_less = R.drawable.ic_btn_round_less;
 		public static final int ic_btn_round_more = R.drawable.ic_btn_round_more;
@@ -484,6 +483,7 @@ public final class W {
 		public static final int sync_init = R.string.sync_init;
 		public static final int sync_init_resume = R.string.sync_init_resume;
 		public static final int sync_login_key = R.string.sync_login_key;
+		public static final int sync_manually = R.string.sync_manually;
 		public static final int sync_on_off_key = R.string.sync_on_off_key;
 		public static final int sync_on_off_summaryoff = R.string.sync_on_off_summaryoff;
 		public static final int sync_on_off_summaryon = R.string.sync_on_off_summaryon;

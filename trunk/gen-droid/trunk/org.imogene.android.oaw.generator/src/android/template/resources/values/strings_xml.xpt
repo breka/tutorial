@@ -28,6 +28,7 @@
 	<string name="«entity.name.toLowerCase()-»_des_sg">"«entity.name-»"</string>
 	<string name="«entity.name.toLowerCase()-»_des_pl">"«entity.name-»"</string>
 	<string name="«entity.name.toLowerCase()-»_des_new">"New «entity.name-»"</string>
+	<string name="«entity.name.toLowerCase()-»_des_registered">"«entity.name-» registered"</string>
 	«FOREACH entity.groups AS group-»
 	<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group»">"«group.name-»"</string>
 	«FOREACH group.fields AS field-»
@@ -61,6 +62,7 @@
 	<string name="«entity.name.toLowerCase()-»_des_sg">"«EXPAND getDescription(iso) FOR entity-»"</string>
 	<string name="«entity.name.toLowerCase()-»_des_pl">"«EXPAND getDescription(iso) FOR entity-»"</string>
 	<string name="«entity.name.toLowerCase()-»_des_new">"New «EXPAND getDescription(iso) FOR entity-»"</string>
+	<string name="«entity.name.toLowerCase()-»_des_registered">"«EXPAND getDescription(iso) FOR entity-» registered"</string>
 	«FOREACH entity.groups AS group-»
 		«EXPAND getDescription(iso) FOR group-»
 		«FOREACH group.fields AS field-»

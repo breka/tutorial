@@ -15,7 +15,7 @@ public class SyncOneShotPreference extends Preference {
 	@Override
 	protected void onClick() {
 		super.onClick();
-		AbstractSyncService.startService(getContext());
+		AbstractSyncService.startServiceManually(getContext());
 	}
 
 }

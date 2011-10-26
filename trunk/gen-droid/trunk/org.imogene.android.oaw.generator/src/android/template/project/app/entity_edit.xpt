@@ -21,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
+
 import org.imogene.android.Constants.Editor;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.app.ViewPagerIndicatorActivity;
@@ -297,6 +299,7 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 			collect();
 			Uri uri = mEntity.commit(this, true, false);
 			if (uri != null) {
+				Toast.makeText(this, R.string.«name.toLowerCase()»_des_registered, Toast.LENGTH_SHORT).show();
 				setResult(RESULT_OK, new Intent().setData(uri));
 				forceFinish();
 			} else {
