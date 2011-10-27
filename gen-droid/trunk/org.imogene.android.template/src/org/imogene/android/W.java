@@ -4,6 +4,11 @@ import org.imogene.android.theprojectname.R;
 
 public final class W {
 
+	public static final class anim {
+
+		public static final int flip_in = R.anim.flip_in;
+		public static final int flip_out = R.anim.flip_out;}
+
 	public static final class array {
 
 		public static final int entries_period_preference = R.array.entries_period_preference;
@@ -105,7 +110,10 @@ public final class W {
 		public static final int ic_menu_forward = R.drawable.ic_menu_forward;
 		public static final int ic_menu_mark = R.drawable.ic_menu_mark;
 		public static final int ic_menu_sync = R.drawable.ic_menu_sync;
+		public static final int ic_title_add = R.drawable.ic_title_add;
+		public static final int ic_title_edit = R.drawable.ic_title_edit;
 		public static final int ic_title_home = R.drawable.ic_title_home;
+		public static final int ic_title_save = R.drawable.ic_title_save;
 		public static final int ic_title_search = R.drawable.ic_title_search;
 		public static final int ic_title_sync = R.drawable.ic_title_sync;
 		public static final int indicator_current = R.drawable.indicator_current;
@@ -182,7 +190,6 @@ public final class W {
 		public static final int footer = R.id.footer;
 		public static final int footer_downloading = R.id.footer_downloading;
 		public static final int footer_error = R.id.footer_error;
-		public static final int gallery = R.id.gallery;
 		public static final int gps = R.id.gps;
 		public static final int help = R.id.help;
 		public static final int help_layout = R.id.help_layout;
@@ -370,6 +377,7 @@ public final class W {
 		public static final int debug_title = R.string.debug_title;
 		public static final int delete_confirmation = R.string.delete_confirmation;
 		public static final int delete_confirmation_title = R.string.delete_confirmation_title;
+		public static final int dialog_quit = R.string.dialog_quit;
 		public static final int entity_count_pl = R.string.entity_count_pl;
 		public static final int entity_count_sg = R.string.entity_count_sg;
 		public static final int entity_id = R.string.entity_id;
@@ -428,6 +436,12 @@ public final class W {
 		public static final int multilogin = R.string.multilogin;
 		public static final int no = R.string.no;
 		public static final int noEntityHelpText = R.string.noEntityHelpText;
+		public static final int notification_sent_description = R.string.notification_sent_description;
+		public static final int notification_sent_failed_description = R.string.notification_sent_failed_description;
+		public static final int notification_sent_failed_ticker = R.string.notification_sent_failed_ticker;
+		public static final int notification_sent_failed_title = R.string.notification_sent_failed_title;
+		public static final int notification_sent_ticker = R.string.notification_sent_ticker;
+		public static final int notification_sent_title = R.string.notification_sent_title;
 		public static final int ntp_offset_key = R.string.ntp_offset_key;
 		public static final int ntp_offset_title = R.string.ntp_offset_title;
 		public static final int ntp_server_key = R.string.ntp_server_key;

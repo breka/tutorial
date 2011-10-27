@@ -59,6 +59,7 @@
     <string name="obtaining_time_offset_failed">Obtaining time offset failed. Do you wish to try again ?</string>
     <string name="obtaining_roles">Connecting to the distant server...</string>
     <string name="obtaining_roles_failed">"Identification failed ! Check login, password and server settings. Do you wish to try again ?"</string>
+    <string name="dialog_quit">"Exit Imogne android application ?"</string>
 
     <!-- Synchronization messages -->
     <string name="synchronization">"Synchronization"</string>
@@ -71,7 +72,13 @@
     <string name="sync_receive_resume">"Receiving server modifications on resumed session"</string>
     <string name="sync_close">"Closing session"</string>
     <string name="sync_close_resume">"Closing the resumed session"</string>
-	<string name="sync_manually">"Starting synchronization manually"</string>
+    <string name="sync_manually">"Starting synchronization manually"</string>
+    <string name="notification_sent_ticker">"Sending completed"</string>
+    <string name="notification_sent_title">"Data sent"</string>
+    <string name="notification_sent_description">"Your data have been correctly sent"</string>
+    <string name="notification_sent_failed_ticker">"Sending failed"</string>
+    <string name="notification_sent_failed_title">"Data was not sent"</string>
+    <string name="notification_sent_failed_description">"Try to synchronize again or later."</string>
 
     <!-- Account creation -->
     <string name="account_welcome">"Account creation"</string>

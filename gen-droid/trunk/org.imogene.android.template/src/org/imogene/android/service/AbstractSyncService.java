@@ -26,8 +26,10 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
@@ -48,13 +50,32 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 	
 	public static final void startServiceManually(Context context) {
 		Toast.makeText(context, W.string.sync_manually, Toast.LENGTH_SHORT).show();
-		sendWakefulWork(context, new Intent(Intents.ACTION_CHECK_SYNC));
+		Intent intent = new Intent(Intents.ACTION_CHECK_SYNC);
+		intent.putExtra(EXTRA_MANUAL, true);
+		sendWakefulWork(context, intent);
 	}
 
 	private static final String TAG = AbstractSyncService.class.getName();
+	private static final String EXTRA_MANUAL = "AbstractSyncService_manual";
 
 	private static final int SYNC_STATE_ID = 1111;
+	private static final int NOTIFICATION_SENT_ID = 1112;
 
+	public static class OnClickSentReceiver extends BroadcastReceiver {
+		public void onReceive(Context context, Intent intent) {
+			NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			nm.cancel(NOTIFICATION_SENT_ID);
+		}
+	};
+	
+	public static class OnClickSentFailedReceiver extends BroadcastReceiver {
+		public void onReceive(Context context, Intent intent) {
+			NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			nm.cancel(NOTIFICATION_SENT_ID);
+			startServiceManually(context);
+		}
+	};
+	
 	private OptimizedSyncClient syncClient;
 
 	private String login;
@@ -62,6 +83,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 	private String hardwareId;
 	private boolean debug;
 	private boolean bidirectional;
+	private boolean manual;
 
 	public AbstractSyncService(String name) {
 		super(name);
@@ -79,6 +101,8 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 
 	@Override
 	protected void doWakefulWork(Intent intent) {
+		manual = intent.getBooleanExtra(EXTRA_MANUAL, false);
+		
 		hardwareId = PreferenceHelper.getHardwareId(this);
 		login = PreferenceHelper.getSyncLogin(this);
 		password = PreferenceHelper.getSyncPassword(this);
@@ -142,7 +166,9 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				}
 
 				markAsSentForSession(syncTime);
-
+				if (res > 0) {
+					notifySent();
+				}
 				Log.i(TAG, "number of server modifications applied: " + res);
 
 				if (res > -1) {
@@ -172,6 +198,9 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				MetadataService.startMetadataService(this, e,
 						PreferenceHelper.getRealTime(this));
 			} catch (SynchronizationException e) {
+				if (manual && SynchronizationException.ERROR_SEND == e.getCode()) {
+					notifySentFailed();
+				}
 				Log.e(TAG, "error during synchronization", e);
 			} catch (Exception e) {
 				Log.e(TAG, "error during synchronization", e);
@@ -228,7 +257,10 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 					}
 
 					markAsSentForSession(his.date);
-
+					if (res > 0) {
+						notifySent();
+					}
+					
 					Log.i(TAG, "number of server modifications applied on resume: "	+ res);
 
 				}
@@ -448,6 +480,78 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				msg, contentIntent);
 
 		notifMgr.notify(SYNC_STATE_ID, notif);
+	}
+
+	private void notifySent() {
+		Notification notification = new Notification(
+				W.drawable.logo_android_s,
+				getString(W.string.notification_sent_ticker),
+				System.currentTimeMillis());
+
+		// Update the notification.
+		PendingIntent pi = PendingIntent.getBroadcast(
+				this,
+				0,
+				new Intent(this, OnClickSentReceiver.class),
+				0);
+		notification.setLatestEventInfo(
+				this, 
+				getString(W.string.notification_sent_title),
+				getString(W.string.notification_sent_description),
+				pi);
+
+		boolean vibrateAlways = true;
+		boolean vibrateSilent = false;
+
+		AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		boolean nowSilent = audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+
+		if (vibrateAlways || vibrateSilent && nowSilent) {
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
+
+		notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+		notification.defaults |= Notification.DEFAULT_LIGHTS;
+
+		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+		nm.notify(NOTIFICATION_SENT_ID, notification);
+	}
+	
+	private void notifySentFailed() {
+		Notification notification = new Notification(
+				W.drawable.logo_android_s,
+				getString(W.string.notification_sent_failed_ticker),
+				System.currentTimeMillis());
+
+		// Update the notification.
+		PendingIntent pi = PendingIntent.getBroadcast(
+				this,
+				0,
+				new Intent(this, OnClickSentFailedReceiver.class),
+				0);
+		notification.setLatestEventInfo(
+				this, 
+				getString(W.string.notification_sent_failed_title),
+				getString(W.string.notification_sent_failed_description),
+				pi);
+
+		boolean vibrateAlways = true;
+		boolean vibrateSilent = false;
+
+		AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		boolean nowSilent = audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+
+		if (vibrateAlways || vibrateSilent && nowSilent) {
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
+
+		notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+		notification.defaults |= Notification.DEFAULT_LIGHTS;
+
+		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+		nm.notify(NOTIFICATION_SENT_ID, notification);
 	}
 
 }

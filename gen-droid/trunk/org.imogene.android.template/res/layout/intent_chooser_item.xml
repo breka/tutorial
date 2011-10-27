@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:paddingLeft="10dip"
-            android:textAppearance="?android:attr/textAppearanceLargeInverse" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
         <!-- Extended activity info to distinguish between duplicate activity names -->
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:paddingLeft="10dip"
-            android:textAppearance="?android:attr/textAppearanceMediumInverse" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
 </LinearLayout>

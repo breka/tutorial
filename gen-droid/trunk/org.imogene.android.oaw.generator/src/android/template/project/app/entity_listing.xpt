@@ -50,7 +50,7 @@ import org.imogene.android.«projectName.toLowerCase()».notification.«projectName
 import org.imogene.android.«projectName.toLowerCase()».roles.«name.toFirstUpper()-»Roles;
 import org.imogene.android.«projectName.toLowerCase()».search.«projectName.toFirstUpper()-»SearchSupport;
 
-public class «name.toFirstUpper()-»Listing extends BaseListActivity implements View.OnClickListener, DialogInterface.OnClickListener {
+public class «name.toFirstUpper()-»Listing extends BaseListActivity implements View.OnClickListener {
 
 	// Extras keys
 	private static final String EXTRA_CURRENT_URI = "AbstractEntityListing_currentUri";
@@ -266,7 +266,11 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			Intent intent = new Intent(Intent.ACTION_INSERT, «name.toFirstUpper()».Columns.CONTENT_URI);
 			intent.putExtras(getIntent());
 			intent.addCategory(PreferenceHelper.getEditionCategory(this));
-			startActivityForResult(intent, ACTIVITY_INSERT);
+			if (Intent.ACTION_PICK.equals(getIntent().getAction())) {
+				startActivityForResult(intent, ACTIVITY_INSERT);
+			} else {
+				startActivity(intent);
+			}
 			return true;
 		case R.id.menu_sync:
 			AbstractSyncService.startServiceManually(this);
@@ -413,19 +417,18 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			.setIcon(android.R.drawable.ic_dialog_alert)
 			.setMessage(R.string.delete_confirmation)
 			.setNegativeButton(android.R.string.cancel, null)
-			.setPositiveButton(android.R.string.ok, this)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					getContentResolver().delete(mCurrentUri, null, null);
+				}
+			})
 			.setCancelable(false)
 			.create();
 		case DIALOG_IAMLOST_ID:
 			return DialogFactory.createIamLostDialog(this);
 		default:
 			return super.onCreateDialog(id);
-		}
-	}
-	
-	public void onClick(DialogInterface dialog, int which) {
-		if (which == DialogInterface.BUTTON_POSITIVE) {
-			getContentResolver().delete(mCurrentUri, null, null);			
 		}
 	}
 
