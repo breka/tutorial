@@ -25,8 +25,7 @@
 			android:name="org.imogene.android.app.HighPreferences"
 			android:label="@string/high_preferences" />
 		
-		<service android:name="org.imogene.android.service.MetadataService">
-		</service>
+		<service android:name="org.imogene.android.service.MetadataService" />
 		
 		<activity 
 			android:name="org.imogene.android.app.setup.AccountCheckPassword"
@@ -232,6 +231,12 @@
 				<action android:name="org.imogene.android.«name.toLowerCase()».action.CANCEL" />
 			</intent-filter>
 		</service>
+		
+		<receiver
+			android:name="org.imogene.android.service.AbstractSyncService$OnClickSentReceiver" />
+		
+		<receiver
+			android:name="org.imogene.android.service.AbstractSyncService$OnClickSentFailedReceiver" />
 		
 		<provider 
 			android:authorities="org.imogene.android.«name.toLowerCase()».entity" 
