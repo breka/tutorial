@@ -10,6 +10,8 @@ public class Constants {
 	
 	public static final String WS_DESC_PATH="libs/webservices.xml";
 	
+	public static final String WS_SOAP_DESC_PATH="libs/webservices_soap.xml";
+	
 	public static final String SYNC_DESC_PATH="libs/synchro.xml";
 	
 	public static final String NOTIF_DESC_PATH="libs/notifier.xml";

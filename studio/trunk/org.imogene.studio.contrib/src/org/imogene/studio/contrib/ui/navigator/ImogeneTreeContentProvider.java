@@ -180,6 +180,7 @@ public class ImogeneTreeContentProvider extends ArrayContentProvider implements
 						|| p.hasNature(AndroidShadow.NATURE)
 						|| p.hasNature(RcpShadow.NATURE)
 						|| p.hasNature(WebServiceShadow.NATURE)
+						|| p.hasNature(WebServiceSoapShadow.NATURE)
 						|| p.hasNature(InitializerShadow.NATURE);					
 					return result;
 				} catch (CoreException e) {

@@ -12,6 +12,7 @@ import org.imogene.studio.contrib.ui.navigator.InitializerShadow;
 import org.imogene.studio.contrib.ui.navigator.NotifierShadow;
 import org.imogene.studio.contrib.ui.navigator.SynchroShadow;
 import org.imogene.studio.contrib.ui.navigator.WebServiceShadow;
+import org.imogene.studio.contrib.ui.navigator.WebServiceSoapShadow;
 import org.imogene.studio.contrib.ui.navigator.WebShadow;
 
 public class ClassContainerInitializer extends
@@ -44,6 +45,9 @@ public class ClassContainerInitializer extends
 		}
 		else if(p.hasNature(WebServiceShadow.NATURE)){
 			con = new WebServiceClasspathContainer();
+		}
+		else if(p.hasNature(WebServiceSoapShadow.NATURE)){
+			con = new WebServiceSoapClasspathContainer();
 		}
 		if(con==null)
 			con = new AllClasspathContainer();
