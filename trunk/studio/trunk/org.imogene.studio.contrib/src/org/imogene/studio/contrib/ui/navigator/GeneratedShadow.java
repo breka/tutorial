@@ -84,6 +84,15 @@ public class GeneratedShadow extends AbstractShadow {
 			objectCache.put(WebServiceShadow.TYPE, serv);
 		}
 		pp[7] = serv;
+		
+		IShadow serv_soap = (IShadow)objectCache.get(WebServiceSoapShadow.TYPE);
+		if(serv_soap==null){
+			serv_soap = new WebServiceSoapShadow(parent);
+			objectCache.put(WebServiceSoapShadow.TYPE, serv_soap);
+		}
+		pp[8] = serv_soap;
+		
+		
 		return pp;
 	}
 
