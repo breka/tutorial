@@ -4,7 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.imogene.common.dao.EntityDao;
@@ -31,7 +33,7 @@ public class BinaryFileHandler extends EntityHandlerImpl implements EntityHandle
 	
 	private BinaryFileHibernateDao dao;
 	
-	private DataHandlerManager dataHandlerManager;
+	private DataHandlerManager dataHandlerManager;	
 	
 	
 	public Synchronizable createNewEntity(String id) {
@@ -106,7 +108,9 @@ public class BinaryFileHandler extends EntityHandlerImpl implements EntityHandle
 			EntityHandler entityHandler = (EntityHandler) dataHandlerManager.getHandler(SynchronizableUtil.getInstance().getEntityPath(binary.getParentEntity()));
 			if (entityHandler!=null) {
 				Synchronizable entity = entityHandler.loadEntity(binary.getParentKey(), user);
-				if (entity!=null && potentialParents.contains(entity)) {
+				Set<String> parentIDs = extractEntityIDs(potentialParents);
+				
+				if (entity!=null && parentIDs.contains(entity.getId())) {
 					
 						try {
 							Method getterMethod = entity.getClass().getMethod(binary.getParentFieldGetter(), (Class[])null); 
@@ -144,7 +148,8 @@ public class BinaryFileHandler extends EntityHandlerImpl implements EntityHandle
 			/* Get the handler of the parent entity */
 			EntityHandler entityHandler = (EntityHandler) dataHandlerManager.getHandler(SynchronizableUtil.getInstance().getEntityPath(binary.getParentEntity()));
 			if (entityHandler!=null) {
-				Synchronizable entity = entityHandler.loadModified(binary.getParentKey(), date, user);
+				Synchronizable entity = entityHandler.loadModified(binary.getParentKey(), date, user);				
+				
 				if (entity!=null) {
 					
 						try {
@@ -186,8 +191,11 @@ public class BinaryFileHandler extends EntityHandlerImpl implements EntityHandle
 			/* Get the handler of the parent entity */
 			EntityHandler entityHandler = (EntityHandler) dataHandlerManager.getHandler(SynchronizableUtil.getInstance().getEntityPath(binary.getParentEntity()));
 			if (entityHandler!=null) {
+				
 				Synchronizable entity = entityHandler.loadModified(binary.getParentKey(), date, user);
-				if (entity!=null && potentialParents.contains(entity)) {
+				Set<String> parentsIDs = extractEntityIDs(potentialParents);
+				
+				if (entity!=null && parentsIDs.contains(entity.getId())) {
 					
 						try {
 							Method getterMethod = entity.getClass().getMethod(binary.getParentFieldGetter(), (Class[])null); 
@@ -263,7 +271,12 @@ public class BinaryFileHandler extends EntityHandlerImpl implements EntityHandle
 		return null;
 	}
 
-	
+	private Set<String> extractEntityIDs(List<Synchronizable> syncs){
+		Set<String> ids  = new HashSet<String>();
+		for(Synchronizable s: syncs)
+			ids.add(s.getId());
+		return ids;
+	}
 	
 	
 	
