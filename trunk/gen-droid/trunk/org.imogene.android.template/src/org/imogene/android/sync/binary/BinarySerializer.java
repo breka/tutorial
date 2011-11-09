@@ -5,9 +5,9 @@ import java.io.InputStream;
 import org.imogene.android.common.Binary;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.util.base64.Base64;
+import org.imogene.android.util.content.ContentUrisUtils;
 import org.xmlpull.v1.XmlSerializer;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
 
@@ -21,9 +21,9 @@ public class BinarySerializer {
 		
 		serializer.startTag(null, PACKAGE);
 		
-		serializer.startTag(null, Binary.Columns.ID);
+		serializer.startTag(null, "id");
 		serializer.text(cursor.getId());
-		serializer.endTag(null, Binary.Columns.ID);
+		serializer.endTag(null, "id");
 		
 		serializer.startTag(null, Binary.Columns.MODIFIED);
 		serializer.attribute(null, "class", "sql-timestamp");
@@ -66,7 +66,7 @@ public class BinarySerializer {
 		
 		serializer.startTag(null, "content");
 		
-		Uri uri = ContentUris.withAppendedId(Binary.Columns.CONTENT_URI, cursor.getRowId());
+		Uri uri = ContentUrisUtils.withAppendedId(Binary.Columns.CONTENT_URI, cursor.getId());
 		InputStream is = context.getContentResolver().openInputStream(uri);
 
 		byte[] bytes = new byte[1024];

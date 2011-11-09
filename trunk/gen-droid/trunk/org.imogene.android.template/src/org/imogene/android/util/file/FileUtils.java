@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.util.Log;
 
 public class FileUtils {
@@ -69,7 +71,7 @@ public class FileUtils {
 		else
 			return -1;
 	}
-
+	
 	public static final boolean deleteFile(String path) {
 		File file = new File(path);
 		return file.delete();
@@ -87,6 +89,18 @@ public class FileUtils {
 			// No extension.
 			return "";
 		}
+	}
+	
+	public static void appendFile(ContentResolver r, Uri from, Uri to) throws IOException {
+		InputStream is = r.openInputStream(from);
+		OutputStream os = r.openOutputStream(to);
+		byte[] b = new byte[4096];
+		while (is.read(b) != -1) {
+			os.write(b);
+		}
+		os.flush();
+		os.close();
+		is.close();
 	}
 
 }

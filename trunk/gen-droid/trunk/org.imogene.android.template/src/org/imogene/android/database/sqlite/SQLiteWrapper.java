@@ -1,5 +1,6 @@
 package org.imogene.android.database.sqlite;
 
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.provider.AbstractProvider.ImogDatabase;
 
 import android.content.ContentValues;
@@ -30,30 +31,31 @@ public final class SQLiteWrapper {
 		return ImogDatabase.getInstance(context).query(uri, where, order);
 	}
 	
-	public static final String queryId(Context context, Uri uri) {
-		return ImogDatabase.getInstance(context).queryId(uri);
-	}
-	
-	public static final long queryRowId(Context context, Uri uri, String id) {
-		return ImogDatabase.getInstance(context).queryRowId(uri, id);
-	}
-	
 	public static final Uri findInDatabase(Context context, String id) {
 		return ImogDatabase.getInstance(context).findInDatabase(id);
 	}
 	
 	public static final long queryForLong(Context context, String sql) {
 		SQLiteStatement s = ImogDatabase.getInstance(context).getReadableDatabase().compileStatement(sql);
-		long result = s.simpleQueryForLong();
-		s.close();
-		return result;
+		try {
+			return s.simpleQueryForLong();
+		} finally {
+			s.close();
+		}
 	}
 	
 	public static final String queryForString(Context context, String sql) {
 		SQLiteStatement s = ImogDatabase.getInstance(context).getReadableDatabase().compileStatement(sql);
-		String result = s.simpleQueryForString();
-		s.close();
-		return result;
+		try {
+			return s.simpleQueryForString();
+		} finally {
+			s.close();
+		}
+	}
+	
+	public static final boolean exist(Context context, String table, String id) {
+		String w = new SQLiteBuilder(table, "count(*)").appendEq(Entity.Columns._ID, id).toSQL();
+		return queryForLong(context, w) != 0;
 	}
 
 }

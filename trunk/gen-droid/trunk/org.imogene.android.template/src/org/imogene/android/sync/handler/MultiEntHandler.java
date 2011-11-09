@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.sync.FieldHandler;
+import org.imogene.android.util.content.ContentUrisUtils;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -40,19 +40,19 @@ public class MultiEntHandler<T> implements FieldHandler<T> {
 				ContentResolver res = context.getContentResolver();
 				while (parser.nextTag() == START_TAG) {
 					parser.require(START_TAG, null, mPackage);
-					String id = parser.getAttributeValue(null, Entity.Columns.ID);
-					Cursor c = res.query(mUri, new String[] { Entity.Columns._ID }, Entity.Columns.ID + "='" + id + "'", null, null);
+					String id = parser.getAttributeValue(null, "id");
+					Cursor c = res.query(mUri, new String[] { Entity.Columns._ID }, Entity.Columns._ID + "='" + id + "'", null, null);
 					if (c.getCount() != 1) {
 						c.close();
 						ContentValues values = new ContentValues();
-						values.put(Entity.Columns.ID, id);
+						values.put(Entity.Columns._ID, id);
 						values.put(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 						list.add(res.insert(mUri, values));
 					} else {
 						c.moveToFirst();
-						long rowId = c.getLong(0);
+						String sId = c.getString(0);
 						c.close();
-						list.add(ContentUris.withAppendedId(mUri, rowId));
+						list.add(ContentUrisUtils.withAppendedId(mUri, sId));
 					}
 					parser.nextTag();
 					parser.require(END_TAG, null, mPackage);

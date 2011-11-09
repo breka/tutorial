@@ -281,9 +281,7 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 			«IF f.oppositeRelationField.cardinality == 1-»
 			bundle.putParcelable(
 				«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR f.oppositeRelationField»,
-				ContentUris.withAppendedId(
-					«name.toFirstUpper()-».Columns.CONTENT_URI,
-					mEntity.getRowId()));
+				getUri());
 			«ENDIF-»
 			intent.putExtra(Extras.EXTRA_ENTITY, bundle);
 			«ENDIF-»
@@ -338,18 +336,18 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 		}
 	}
 	
-	public String getCurrentId() {
+	public String getId() {
 		return mEntity.getId();
 	}
 	
-	public long getCurrentRowId() {
-		return mEntity.getRowId();
+	public Uri getUri() {
+		return getIntent().getData();
 	}
 	
-	public Uri getCurrentContentUri() {
+	public Uri getContentUri() {
 		return «name.toFirstUpper()».Columns.CONTENT_URI;
 	}
-
+	
 }
 «ENDFILE»
 «ENDDEFINE»

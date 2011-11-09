@@ -50,7 +50,8 @@ public abstract class FilterPreference<T extends ClientFilter> extends DialogPre
 
 	protected final boolean persistFilter() {
 		callChangeListener(mFilter);
-		mFilter.commit(getContext(), true, false).toString();
+		mFilter.prepareForSave(getContext());
+		mFilter.saveOrUpdate(getContext());
 		persisted = true;
 		notifyDependencyChange(shouldDisableDependents());
 		persisted = false;

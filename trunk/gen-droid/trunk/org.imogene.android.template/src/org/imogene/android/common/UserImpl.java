@@ -38,12 +38,11 @@ public abstract class UserImpl extends EntityImpl implements User {
 	
 	@Override
 	protected void addValues(Context context, ContentValues values) {
-		super.addValues(context, values);
 		if (!TextUtils.isEmpty(mLogin) && mPassword != null && mPassword.length > 0) {
 			values.put(User.Columns.LOGIN, mLogin);
 			values.put(User.Columns.PASSWORD, mPassword);
 			values.put(User.Columns.ROLES, mRoles);
 		}
 	}
-
+	
 }

@@ -75,9 +75,9 @@ public class RelationManyFieldView extends FieldEntityView<ArrayList<Uri>> {
 			getContext().startActivity(new Intent(Intent.ACTION_VIEW, list.get(0)));
 		} else {
 			Intent intent = new Intent(Intent.ACTION_VIEW, contentUri);
-			long[] ids = new long[size];
+			String[] ids = new String[size];
 			for (int i = 0; i < size; i++) {
-				ids[i] = Long.parseLong(list.get(i).getPathSegments().get(1));
+				ids[i] = list.get(i).getLastPathSegment();
 			}
 			SQLiteBuilder builder = new SQLiteBuilder();
 			builder.appendIn(Entity.Columns._ID, ids);

@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.W;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
-import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 import org.imogene.android.widget.field.FieldManager.RelationManager;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -162,7 +160,7 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 			if (mHierarchicalParent instanceof RelationOneFieldEdit) {
 				final Uri uri = ((RelationOneFieldEdit) mHierarchicalParent).getValue();
 				if (uri != null) {
-					final String id = SQLiteWrapper.queryId(getContext(), uri);
+					final String id = uri.getLastPathSegment();
 					builder.appendEq(mHierarchicalField, id);
 					sqlTouched = true;
 				} else {
@@ -175,7 +173,7 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 				if (uris != null && uris.size() > 0) {
 					String[] ids = new String[uris.size()];
 					for (int i = 0; i < uris.size(); i++) {
-						ids[i] = SQLiteWrapper.queryId(getContext(), uris.get(i));
+						ids[i] = uris.get(i).getLastPathSegment();
 					}
 					builder.appendIn(mHierarchicalField, ids);
 					sqlTouched = true;
@@ -197,7 +195,7 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 		Bundle bundle = new Bundle();
 		if (mHasReverse && mOppositeCardinality == 1) {
 			final RelationManager mgr = getFieldManager().getRelationManager();
-			bundle.putParcelable(mOppositeRelationField, ContentUris.withAppendedId(mgr.getCurrentContentUri(), mgr.getCurrentRowId()));
+			bundle.putParcelable(mOppositeRelationField, mgr.getUri());
 		}
 		if (mCommonFields != null && !mCommonFields.isEmpty()) {
 			final int size = mCommonFields.size();

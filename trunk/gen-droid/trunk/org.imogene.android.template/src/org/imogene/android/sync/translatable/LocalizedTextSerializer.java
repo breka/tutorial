@@ -14,7 +14,7 @@ public class LocalizedTextSerializer {
 			throws IllegalArgumentException, IllegalStateException, IOException {
 
 		serializer.startTag(null, LocalizedText.Columns.PACKAGE);
-		serializer.attribute(null, LocalizedText.Columns.ID, localized.getId());
+		serializer.attribute(null, "id", localized.getId());
 		
 		String fieldId = localized.getFieldId();
 		if (fieldId != null) {

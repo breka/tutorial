@@ -9,8 +9,8 @@ import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.LocalizedTextList;
+import org.imogene.android.util.content.ContentUrisUtils;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
@@ -20,6 +20,7 @@ import android.database.sqlite.SQLiteQuery;
 import android.database.sqlite.SQLiteStatement;
 import android.location.Location;
 import android.net.Uri;
+import android.text.TextUtils;
 
 public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCursor {
 	
@@ -39,12 +40,8 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 		}
 	}
 	
-	public final long getRowId() {
-		return getLong(getColumnIndexOrThrow(Entity.Columns._ID));
-	}
-
 	public final String getId() {
-		return getString(getColumnIndexOrThrow(Entity.Columns.ID));
+		return getString(getColumnIndexOrThrow(Entity.Columns._ID));
 	}
 
 	public final long getModified() {
@@ -82,7 +79,7 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	protected final Uri getEntity(Uri contentUri, String table, int columnIndex) {
 		String id = getString(columnIndex);
 		SQLiteBuilder builder = new SQLiteBuilder(table, "count(*)");
-		builder.appendEq(Entity.Columns.ID, id);
+		builder.appendEq(Entity.Columns._ID, id);
 		builder.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 		SQLiteStatement stat = getDatabase().compileStatement(builder.toSQL());
 		long count = stat.simpleQueryForLong();
@@ -92,14 +89,14 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 		} else {
 			builder.setSelect(Entity.Columns._ID);
 			stat = getDatabase().compileStatement(builder.toSQL());
-			long rowId = stat.simpleQueryForLong();
+			String sId = stat.simpleQueryForString();
 			stat.close();
-			return ContentUris.withAppendedId(contentUri, rowId);
+			return ContentUrisUtils.withAppendedId(contentUri, sId);
 		}
 	}
 	
 	protected final Uri getEntity(Uri contentUri, String table, String key) {
-		String id = getString(getColumnIndexOrThrow(Entity.Columns.ID));
+		String id = getString(getColumnIndexOrThrow(Entity.Columns._ID));
 		SQLiteBuilder builder = new SQLiteBuilder(table, "count(*)");
 		builder.appendEq(key, id);
 		builder.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
@@ -111,23 +108,23 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 		} else {
 			builder.setSelect(Entity.Columns._ID);
 			stat = getDatabase().compileStatement(builder.toSQL());
-			long rowId = stat.simpleQueryForLong();
+			String sId = stat.simpleQueryForString();
 			stat.close();
-			return ContentUris.withAppendedId(contentUri, rowId);
+			return ContentUrisUtils.withAppendedId(contentUri, sId);
 		}
 	}
 	
 	protected final ArrayList<Uri> getEntities(Uri contentUri, String table, String key) {
 		ArrayList<Uri> result = new ArrayList<Uri>();
-		String id = getString(getColumnIndexOrThrow(Entity.Columns.ID));
+		String id = getString(getColumnIndexOrThrow(Entity.Columns._ID));
 		SQLiteBuilder builder = new SQLiteBuilder();
 		builder.appendEq(key, id);
 		builder.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 		Cursor c = getDatabase().query(table, new String[] {Entity.Columns._ID}, builder.toSQL(), null, null, null, null);
 		for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
-			long rowId = c.getLong(0);
-			if (rowId != -1)
-				result.add(ContentUris.withAppendedId(contentUri, rowId));
+			String sId = c.getString(0);
+			if (!TextUtils.isEmpty(sId))
+				result.add(ContentUrisUtils.withAppendedId(contentUri, sId));
 		}
 		c.close();
 		return result;
@@ -135,17 +132,17 @@ public abstract class EntityCursorImpl extends SQLiteCursor implements EntityCur
 	
 	protected final ArrayList<Uri> getEntities(Uri contentUri, String table, String relTable, String fromKey, String toKey) {
 		ArrayList<Uri> result = new ArrayList<Uri>();
-		String id = getString(getColumnIndexOrThrow(Entity.Columns.ID));
+		String id = getString(getColumnIndexOrThrow(Entity.Columns._ID));
 		
 		SQLiteBuilder builder = new SQLiteBuilder();
-		builder.appendIn(Entity.Columns.ID, new SQLiteBuilder(relTable, toKey).appendEq(fromKey, id).create());
+		builder.appendIn(Entity.Columns._ID, new SQLiteBuilder(relTable, toKey).appendEq(fromKey, id).create());
 		builder.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 		
 		Cursor c = getDatabase().query(table, new String[] {Entity.Columns._ID}, builder.toSQL(), null, null, null, null);
 		for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
-			long rowId = c.getLong(0);
-			if (rowId != -1)
-				result.add(ContentUris.withAppendedId(contentUri, rowId));
+			String sId = c.getString(0);
+			if (!TextUtils.isEmpty(sId))
+				result.add(ContentUrisUtils.withAppendedId(contentUri, sId));
 		}
 		c.close();
 		

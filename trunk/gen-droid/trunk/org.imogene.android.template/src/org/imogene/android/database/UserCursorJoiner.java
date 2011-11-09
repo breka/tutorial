@@ -75,10 +75,6 @@ public class UserCursorJoiner implements UserCursor {
 		return mCursors.get(current).cursor.getModifiedFrom();
 	}
 
-	public long getRowId() {
-		return mCursors.get(current).cursor.getRowId();
-	}
-
 	public String getSecondaryDisplay(Context context) {
 		return mCursors.get(current).cursor.getSecondaryDisplay(context);
 	}
