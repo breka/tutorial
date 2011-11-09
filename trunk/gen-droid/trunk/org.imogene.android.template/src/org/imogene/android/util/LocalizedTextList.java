@@ -121,10 +121,7 @@ public class LocalizedTextList {
 		return true;
 	}
 	
-	public void saveThemAll(Context context, boolean local) {
-		if (!local) {
-			return;
-		}
+	public void saveThemAll(Context context) {
 		boolean noneValid = true;
 		if (mMap != null) {
 			for (LocalizedText lt : mMap.values()) {

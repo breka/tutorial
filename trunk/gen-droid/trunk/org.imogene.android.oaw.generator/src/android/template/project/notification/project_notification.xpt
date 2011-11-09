@@ -59,7 +59,7 @@ public class «name.toFirstUpper()»Notification extends MessagingNotification {
 				NOTIFICATION_«e.name.toUpperCase()»_ID,
 				R.string.«e.name.toLowerCase()»_des_sg,
 				R.string.«e.name.toLowerCase()»_des_pl,
-				«IF e.icon.length > 0-»R.drawable.«e.icon.split("\\.").get(0).toLowerCase()»«ELSE-»0«ENDIF-»
+				«IF e.icon.length > 0-»R.drawable.«e.icon.split("\\.").get(0).toLowerCase()»«ELSE-»R.drawable.logo_android_s«ENDIF-»
 				));
 		«ENDIF-»
 		«ENDFOREACH-»
