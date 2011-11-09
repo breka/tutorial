@@ -79,10 +79,13 @@ public class «name.toFirstUpper()-» extends
 		return Columns.BEAN_TYPE;
 	}
 	
+	«IF hasLocalizedField(this)-»
 	@Override
-	protected final void preCommit(Context context) {
-		«EXPAND preCommit FOREACH groups.fields-»
+	protected void prepareForSave(Context context, String beanType) {
+		super.prepareForSave(context, beanType);
+		«EXPAND prepareForSave FOREACH groups.fields-»
 	}
+	«ENDIF-»
 	
 	@Override
 	protected final void addValues(Context context, ContentValues values) {
@@ -453,13 +456,13 @@ if (bundle.containsKey(Columns.«name.toUpperCase()»)) {
 
 
 
-«DEFINE preCommit FOR FieldEntity-»
+«DEFINE prepareForSave FOR FieldEntity-»
 «ENDDEFINE»
 
-«DEFINE preCommit FOR TextField-»
+«DEFINE prepareForSave FOR TextField-»
 «IF translatable-»
 if (m«name.toFirstUpper()» != null) {
-	m«name.toFirstUpper()».saveThemAll(context, local);
+	m«name.toFirstUpper()».saveThemAll(context);
 }
 «ENDIF-»
 «ENDDEFINE»
