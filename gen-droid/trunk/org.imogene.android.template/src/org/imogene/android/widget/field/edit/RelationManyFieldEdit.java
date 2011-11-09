@@ -80,7 +80,7 @@ public class RelationManyFieldEdit extends RelationFieldEdit<ArrayList<Uri>> {
 				Intent intent = new Intent(Intent.ACTION_VIEW, mContentUri);
 				long[] ids = new long[size];
 				for (int i = 0; i < size; i++) {
-					ids[i] = Long.parseLong(list.get(i).getPathSegments().get(1));
+					ids[i] = Long.parseLong(list.get(i).getLastPathSegment());
 				}
 				SQLiteBuilder builder = new SQLiteBuilder();
 				builder.appendIn(Entity.Columns._ID, ids);
@@ -106,7 +106,7 @@ public class RelationManyFieldEdit extends RelationFieldEdit<ArrayList<Uri>> {
 		if (mHasReverse && mOppositeCardinality == 1) {
 			SQLiteBuilder where = new SQLiteBuilder();
 			where.setOr(true);
-			where.appendEq(mOppositeRelationField, getFieldManager().getRelationManager().getCurrentId());
+			where.appendEq(mOppositeRelationField, getFieldManager().getRelationManager().getId());
 			where.appendIsNull(mOppositeRelationField);
 			builder.appendWhere(where.create());
 			return true;

@@ -9,11 +9,11 @@ import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
+import org.imogene.android.util.content.ContentUrisUtils;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -103,7 +103,7 @@ public class MessagingNotification {
 				clickIntent.putExtra(Extras.EXTRA_SORT_ORDER, SortOrder.DESCENDANT_ORDER);
 				description = count + " " + context.getString(descPl);
 			} else {
-				clickIntent.setData(ContentUris.withAppendedId(uri, c.getRowId()));
+				clickIntent.setData(ContentUrisUtils.withAppendedId(uri, c.getId()));
 				description = c.getMainDisplay(context);
 			}
 

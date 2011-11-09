@@ -7,7 +7,6 @@ import android.provider.BaseColumns;
 public interface Entity {
 	
 	public static interface Columns extends BaseColumns {
-		public static final String ID = "id";
 		public static final String MODIFIED = "modified";
 		public static final String UPLOADDATE = "uploadDate";
 		public static final String MODIFIEDBY = "modifiedBy";
@@ -21,10 +20,6 @@ public interface Entity {
 		
 		public static final String SYNC_SYSTEM = "sync-system";
 	}
-	
-	public long getRowId();
-	
-	public void setRowId(long rowId);
 	
 	public String getId();
 	
@@ -61,6 +56,8 @@ public interface Entity {
 	public boolean getSynchronized();
 
 	public void setSynchronized(boolean isSynchronized);
+	
+	public void prepareForSave(Context context);
 		
-	public Uri commit(Context context, boolean local, boolean temporary);
+	public Uri saveOrUpdate(Context context);
 }

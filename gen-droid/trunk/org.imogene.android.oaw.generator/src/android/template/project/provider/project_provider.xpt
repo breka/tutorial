@@ -41,7 +41,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 	static {
 		«FOREACH entities AS entity-»
 		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.name.toUpperCase()»);
-		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».Columns.TABLE_NAME + "/#", «entity.name.toUpperCase()»_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».Columns.TABLE_NAME + "/*", «entity.name.toUpperCase()»_ID);
 		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».Columns.TABLE_NAME + "/" + SearchManager.SUGGEST_URI_PATH_QUERY, «entity.name.toUpperCase()»_SEARCH_SUGGEST);
 		sURIMatcher.addURI(Constants.AUTHORITY, «entity.name.toFirstUpper()».Columns.TABLE_NAME + "/" + SearchManager.SUGGEST_URI_PATH_QUERY + "/*", «entity.name.toUpperCase()»_SEARCH_SUGGEST);
 		«ENDFOREACH-»
@@ -77,7 +77,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			result = deleteMulti(«entity.name.toFirstUpper()».Columns.TABLE_NAME, selection, selectionArgs);
 			break;
 		case «entity.name.toUpperCase()»_ID:
-			String «entity.shortName.toLowerCase()»Id = uri.getPathSegments().get(1);
+			String «entity.shortName.toLowerCase()»Id = uri.getLastPathSegment();
 			result = deleteSingle(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.shortName.toLowerCase()»Id, selection, selectionArgs);
 			break;
 		«ENDFOREACH-»
@@ -128,7 +128,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			break;
 		case «entity.name.toUpperCase()»_ID:
 			qb.setTables(«entity.name.toFirstUpper()».Columns.TABLE_NAME);
-			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+			qb.appendWhere("_id='" + uri.getLastPathSegment() + "'");
 			break;
 		case «entity.name.toUpperCase()»_SEARCH_SUGGEST:
 			return «name.toFirstUpper()-»SearchSupport.get«entity.name.toFirstUpper()-»Suggestions(getContext(), sqlDB, uri.getLastPathSegment());
@@ -152,7 +152,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			result = updateMulti(«entity.name.toFirstUpper()».Columns.TABLE_NAME, values, selection, selectionArgs);
 			break;
 		case «entity.name.toUpperCase()»_ID:
-			String «entity.shortName.toLowerCase()»Id = uri.getPathSegments().get(1);
+			String «entity.shortName.toLowerCase()»Id = uri.getLastPathSegment();
 			result = updateSingle(«entity.name.toFirstUpper()».Columns.TABLE_NAME, «entity.shortName.toLowerCase()»Id, values, selection, selectionArgs);
 			break;
 		«ENDFOREACH-»
@@ -172,7 +172,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		«FOREACH entities AS entity-»
 		private static final String DATABASE_CREATE_«entity.name.toUpperCase()» = 
 			"create table if not exists " + «entity.name.toFirstUpper()».Columns.TABLE_NAME + " ("
-				+ «entity.name.toFirstUpper()».Columns._ID + " integer primary key autoincrement, "
+				+ «entity.name.toFirstUpper()».Columns._ID + " text primary key, "
 				+ «entity.name.toFirstUpper()».Columns.MODIFIED + " integer, "
 				+ «entity.name.toFirstUpper()».Columns.MODIFIEDBY + " text, "
 				+ «entity.name.toFirstUpper()».Columns.MODIFIEDFROM + " text, "
@@ -180,14 +180,13 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 				+ «entity.name.toFirstUpper()».Columns.CREATED + " integer, "
 				+ «entity.name.toFirstUpper()».Columns.CREATEDBY + " text, "
 				+ «entity.name.toFirstUpper()».Columns.UNREAD + " integer, "
-				+ «entity.name.toFirstUpper()».Columns.SYNCHRONIZED + " integer, "
 				«IF Actor.isAssignableFrom(entity.metaType) -»
 				+ «entity.name.toFirstUpper()».Columns.LOGIN + " text, "
 				+ «entity.name.toFirstUpper()».Columns.PASSWORD + " blob, "
 				+ «entity.name.toFirstUpper()».Columns.ROLES + " text, "
 				«ENDIF-»
 				«EXPAND getKey FOREACH entity.groups.fields-»
-				+ «entity.name.toFirstUpper()».Columns.ID + " text not null);";
+				+ «entity.name.toFirstUpper()».Columns.SYNCHRONIZED + " integer);";
 		«ENDFOREACH-»
 	
 		«EXPAND buildTableManyToMany FOREACH entities.groups.fields-»
@@ -236,6 +235,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 		}
 	
 		public final Uri findInDatabase(String scanned) {
+			«REM»
     		long id;
     		«FOREACH entities AS e SEPARATOR " else "»
    	 		if ((id = queryRowId(«e.name.toFirstUpper()-».Columns.CONTENT_URI, scanned)) != -1)
@@ -243,6 +243,8 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
     		«ENDFOREACH»
     		else
     			return null;
+    		«ENDREM»
+    		return null;
     	}
     	
     	@Override
@@ -257,7 +259,7 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			case «entity.name.toUpperCase()»_ID:
 				qb.setCursorFactory(new «entity.name.toFirstUpper()»Cursor.Factory());
 				qb.setTables(«entity.name.toFirstUpper()».Columns.TABLE_NAME);
-				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+				qb.appendWhere("_id='" + uri.getLastPathSegment() + "'");
 				break;
 			«ENDFOREACH-»
 			default:
@@ -269,31 +271,6 @@ public class «name.toFirstUpper()-»Provider extends AbstractProvider {
 			return c;
 		}
 
-		@Override
-		public String queryId(Uri uri) {
-			if (uri == null)
-				return null;
-			switch (sURIMatcher.match(uri)) {
-			«FOREACH entities AS entity-»
-			case «entity.name.toUpperCase()»_ID:
-				return getEntityId(«entity.name.toFirstUpper()».Columns.TABLE_NAME, uri);
-			«ENDFOREACH-»
-			default:
-				return super.queryId(uri);
-			}
-		}
-
-		@Override
-		public long queryRowId(Uri uri, String id) {
-			switch (sURIMatcher.match(uri)) {
-			«FOREACH entities AS entity-»
-			case «entity.name.toUpperCase()»:
-				return getEntityRowId(«entity.name.toFirstUpper()».Columns.TABLE_NAME, id);
-			«ENDFOREACH-»
-			default:
-				return super.queryRowId(uri, id);
-			}
-		}
 	}
 
 }

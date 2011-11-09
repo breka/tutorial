@@ -31,6 +31,14 @@ public class EntityCursorAdapter extends CursorAdapter {
 	public EntityCursorAdapter(Context context, EntityCursor c, Drawable color) {
 		this(context, c, color, ListView.CHOICE_MODE_NONE);
 	}
+	
+	public String getItemStringId(int position) {
+		EntityCursor c = (EntityCursor) getItem(position);
+		if (c != null) {
+			return c.getId();
+		}
+		return null;
+	}
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {

@@ -106,11 +106,11 @@ public class FieldManager {
 	
 	public static interface RelationManager {
 		
-		public String getCurrentId();
+		public Uri getUri();
 		
-		public long getCurrentRowId();
+		public String getId();
 		
-		public Uri getCurrentContentUri();
+		public Uri getContentUri();
 	}
 
 }

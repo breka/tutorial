@@ -45,7 +45,7 @@ public class LocalizedTextParser {
 		localizedText.setUnread(true);
 		localizedText.setSynchronized(true);
 
-		localizedText.setId(parser.getAttributeValue(null, LocalizedText.Columns.ID));
+		localizedText.setId(parser.getAttributeValue(null, "id"));
 		
 		while (parser.getEventType() != END_TAG
 				|| !LocalizedText.Columns.PACKAGE.equals(parser.getName())) {
@@ -57,6 +57,6 @@ public class LocalizedTextParser {
 			}
 		}
 
-		localizedText.commit(context, false, false);
+		localizedText.saveOrUpdate(context);
 	}
 }

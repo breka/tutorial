@@ -23,7 +23,7 @@ public class ClientFilterParser {
 	static {
 
 		try {
-			mHandlers.put(ClientFilter.Columns.ID, new StringHandler<ClientFilter>(ClientFilter.class, "setId"));
+			mHandlers.put("id", new StringHandler<ClientFilter>(ClientFilter.class, "setId"));
 			mHandlers.put(ClientFilter.Columns.MODIFIED, new PrimitiveLongHandler<ClientFilter>(ClientFilter.class, "setModified"));
 			mHandlers.put(ClientFilter.Columns.MODIFIEDBY, new StringHandler<ClientFilter>(ClientFilter.class, "setModifiedBy"));
 			mHandlers.put(ClientFilter.Columns.MODIFIEDFROM, new StringHandler<ClientFilter>(ClientFilter.class, "setModifiedFrom"));
@@ -61,6 +61,6 @@ public class ClientFilterParser {
 			}
 		}
 
-		clientFilter.commit(context, false, false);
+		clientFilter.saveOrUpdate(context);
 	}
 }

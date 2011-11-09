@@ -5,8 +5,6 @@ import android.database.Cursor;
 
 public interface EntityCursor extends Cursor /*CrossProcessCursor*/{
 
-	public long getRowId();
-
 	public String getId();
 
 	public long getModified();

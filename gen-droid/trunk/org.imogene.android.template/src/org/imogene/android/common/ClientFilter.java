@@ -188,7 +188,7 @@ public class ClientFilter extends EntityImpl {
 	}
 	
 	@Override
-	protected void preCommit(Context context, boolean local, boolean temporary) {
+	protected void preCommit(Context context) {
 		preCommit();
 	}
 	
@@ -220,5 +220,15 @@ public class ClientFilter extends EntityImpl {
 		mFieldValue = null;
 		mDisplay = null;
 		mIsNew = null;
+	}
+	
+	@Override
+	public void prepareForSave(Context context) {
+		prepareForSave(context, Columns.TYPE);
+	}
+	
+	@Override
+	public Uri saveOrUpdate(Context context) {
+		return saveOrUpdate(context, Columns.TABLE_NAME);
 	}
 }

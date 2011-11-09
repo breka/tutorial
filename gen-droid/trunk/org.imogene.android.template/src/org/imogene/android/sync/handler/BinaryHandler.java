@@ -4,10 +4,10 @@ import java.lang.reflect.Method;
 
 import org.imogene.android.common.Binary;
 import org.imogene.android.sync.FieldHandler;
+import org.imogene.android.util.content.ContentUrisUtils;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -26,18 +26,18 @@ public class BinaryHandler<T> implements FieldHandler<T> {
 		try {
 			String id = parser.nextText();
 			ContentResolver res = context.getContentResolver();
-			Cursor c = res.query(Binary.Columns.CONTENT_URI, new String[] {Binary.Columns._ID}, Binary.Columns.ID + "='" + id + "'", null, null);
+			Cursor c = res.query(Binary.Columns.CONTENT_URI, new String[] {Binary.Columns._ID}, Binary.Columns._ID + "='" + id + "'", null, null);
 			if (c.getCount() != 1) {
 				c.close();
 				ContentValues values = new ContentValues();
-				values.put(Binary.Columns.ID, id);
+				values.put(Binary.Columns._ID, id);
 				values.put(Binary.Columns.MODIFIEDFROM, Binary.Columns.SYNC_SYSTEM);
 				mMethod.invoke(entity, res.insert(Binary.Columns.CONTENT_URI, values));
 			} else {
 				c.moveToFirst();
-				long rowId = c.getLong(0);
+				String sId = c.getString(0);
 				c.close();
-				mMethod.invoke(entity, ContentUris.withAppendedId(Binary.Columns.CONTENT_URI, rowId));
+				mMethod.invoke(entity, ContentUrisUtils.withAppendedId(Binary.Columns.CONTENT_URI, sId));
 			}
 		} catch (Exception e) {
 			Log.e(BinaryHandler.class.getName(), "error parsing binary", e);

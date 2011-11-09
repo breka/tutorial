@@ -80,13 +80,12 @@ public class «name.toFirstUpper()-» extends
 	}
 	
 	@Override
-	protected final void preCommit(Context context, boolean local, boolean temporary) {
+	protected final void preCommit(Context context) {
 		«EXPAND preCommit FOREACH groups.fields-»
 	}
 	
 	@Override
 	protected final void addValues(Context context, ContentValues values) {
-		super.addValues(context, values);
 		«EXPAND commit FOREACH groups.fields-»
 	}
 	
@@ -97,6 +96,14 @@ public class «name.toFirstUpper()-» extends
 	
 	public final void reset() {
 		«EXPAND reset FOREACH groups.fields-»
+	}
+	
+	public Uri saveOrUpdate(Context context) {
+		return saveOrUpdate(context, Columns.TABLE_NAME);
+	}
+	
+	public void prepareForSave(Context context) {
+		prepareForSave(context, Columns.BEAN_TYPE);
 	}
 
 }
@@ -498,26 +505,31 @@ values.put(Columns.«name.toUpperCase()», GpsLocation.saveLocation(context, m«nam
 «ENDDEFINE»
 
 «DEFINE commit FOR BinaryField-»
-if (m«name.toFirstUpper()-» != null && !Binary.isBinary(m«name.toFirstUpper()-»)) {
-	Binary «name.toLowerCase()-» = new Binary();
-	«name.toLowerCase()-».setData(m«name.toFirstUpper()-»);
-	«name.toLowerCase()-».setParentEntity(Columns.BEAN_TYPE);
-	«name.toLowerCase()-».setParentFieldGetter("get«name.toFirstUpper()-»");
-	«name.toLowerCase()-».setParentKey(getId());
-	m«name.toFirstUpper()-» = «name.toLowerCase()-».commit(context, true, false);
+m«name.toFirstUpper()» = Binary.toBinary(context, m«name.toFirstUpper()», Columns.BEAN_TYPE, "get«name.toFirstUpper()-»", getId());
+if (m«name.toFirstUpper()» != null) {
+	values.put(Columns.«name.toUpperCase()», m«name.toFirstUpper()».getLastPathSegment());
+} else {
+	values.putNull(Columns.«name.toUpperCase()»);
 }
-values.put(Columns.«name.toUpperCase()», SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
 «ENDDEFINE»
 
 «DEFINE commit FOR MainRelationFieldEntity-»
 «IF cardinality == 1-»
-values.put(Columns.«name.toUpperCase()», SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
+if (m«name.toFirstUpper()» != null) {
+	values.put(Columns.«name.toUpperCase()», m«name.toFirstUpper()».getLastPathSegment());
+} else {
+	values.putNull(Columns.«name.toUpperCase()»);
+}
 «ENDIF»
 «ENDDEFINE»
 
 «DEFINE commit FOR ReverseRelationFieldEntity-»
 «IF getOppositeCardinality(this) != 1 && cardinality == 1 -»
-values.put(Columns.«name.toUpperCase()», SQLiteWrapper.queryId(context, m«name.toFirstUpper()-»));
+if (m«name.toFirstUpper()» != null) {
+	values.put(Columns.«name.toUpperCase()», m«name.toFirstUpper()».getLastPathSegment());
+} else {
+	values.putNull(Columns.«name.toUpperCase()»);
+}
 «ENDIF-»
 «ENDDEFINE»
 
@@ -545,7 +557,7 @@ SQLiteWrapper.delete(context, Columns.TABLE_«parentGroup.parentCard.name.toUpper
 ContentValues v = new ContentValues();
 v.put(«parentGroup.parentCard.name.toFirstUpper()».Columns.TABLE_NAME, getId());
 for (Uri uri : m«name.toFirstUpper()-») {
-	v.put(«entity.name.toFirstUpper()».Columns.TABLE_NAME, SQLiteWrapper.queryId(context, uri));
+	v.put(«entity.name.toFirstUpper()».Columns.TABLE_NAME, uri.getLastPathSegment());
 	SQLiteWrapper.insert(context, Columns.TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()», "", v);
 }
 }
@@ -581,7 +593,7 @@ SQLiteWrapper.delete(context, Columns.TABLE_«parentGroup.parentCard.name.toUpper
 ContentValues v = new ContentValues();
 v.put(Columns.TABLE_NAME, getId());
 for (Uri uri : m«name.toFirstUpper()-») {
-	v.put(«entity.name.toFirstUpper()».Columns.TABLE_NAME, SQLiteWrapper.queryId(context, uri));
+	v.put(«entity.name.toFirstUpper()».Columns.TABLE_NAME, uri.getLastPathSegment());
 	SQLiteWrapper.insert(context, Columns.TABLE_«parentGroup.parentCard.name.toUpperCase()»_«name.toUpperCase()», "", v);
 }
 }

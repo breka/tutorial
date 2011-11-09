@@ -10,10 +10,12 @@ import org.imogene.android.sync.FieldHandler;
 import org.imogene.android.sync.handler.ContentHandler;
 import org.imogene.android.sync.handler.PrimitiveLongHandler;
 import org.imogene.android.sync.handler.StringHandler;
+import org.imogene.android.util.file.FileUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
+import android.net.Uri;
 
 public class BinaryParser {
 	
@@ -21,7 +23,7 @@ public class BinaryParser {
 
 	static {
 		try {
-			mHandlers.put(Binary.Columns.ID, new StringHandler<Binary>(Binary.class, "setId"));
+			mHandlers.put("id", new StringHandler<Binary>(Binary.class, "setId"));
 			mHandlers.put(Binary.Columns.MODIFIED,	new PrimitiveLongHandler<Binary>(Binary.class, "setModified"));
 			mHandlers.put(Binary.Columns.MODIFIEDBY, new StringHandler<Binary>(Binary.class, "setModifiedBy"));
 			mHandlers.put(Binary.Columns.MODIFIEDFROM, new StringHandler<Binary>(Binary.class, "setModifiedFrom"));
@@ -52,7 +54,9 @@ public class BinaryParser {
 				}
 			}
 		}
-
-		binary.commit(context, false, false);
+		
+		Uri data = binary.getData();
+		Uri uri = binary.saveOrUpdate(context);
+		FileUtils.appendFile(context.getContentResolver(), data, uri);
 	}
 }

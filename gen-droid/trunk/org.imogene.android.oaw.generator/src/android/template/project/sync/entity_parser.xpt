@@ -41,7 +41,7 @@ public class «name.toFirstUpper()-»Parser {
 
 	static {
 		try {
-			mHandlers.put(«name.toFirstUpper()».Columns.ID, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setId"));
+			mHandlers.put("id", new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setId"));
 			mHandlers.put(«name.toFirstUpper()».Columns.MODIFIED, new PrimitiveLongHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModified"));
 			mHandlers.put(«name.toFirstUpper()».Columns.MODIFIEDBY, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModifiedBy"));
 			mHandlers.put(«name.toFirstUpper()».Columns.MODIFIEDFROM, new StringHandler<«name.toFirstUpper()-»>(«name.toFirstUpper()-».class, "setModifiedFrom"));
@@ -79,7 +79,7 @@ public class «name.toFirstUpper()-»Parser {
 			}
 		}
 		
-		«name.toFirstLower()-».commit(context, false, false);
+		«name.toFirstLower()-».saveOrUpdate(context);
 	}
 }
 «ENDFILE»

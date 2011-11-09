@@ -29,9 +29,9 @@ public class «name.toFirstUpper()-»Serializer {
 		
 		serializer.startTag(null, «name.toFirstUpper()-».Columns.PACKAGE);
 		
-		serializer.startTag(null, «name.toFirstUpper()».Columns.ID);
+		serializer.startTag(null, "id");
 		serializer.text(cursor.getId());
-		serializer.endTag(null, «name.toFirstUpper()».Columns.ID);
+		serializer.endTag(null, "id");
 
 		serializer.startTag(null, «name.toFirstUpper()».Columns.MODIFIED);
 		serializer.attribute(null, "class", "sql-timestamp");
@@ -178,7 +178,7 @@ if («shortName.toLowerCase()-» != null) {
 Uri «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
 if («shortName.toLowerCase()-» != null) {
 	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
-	serializer.text(SQLiteWrapper.queryId(context, «shortName.toLowerCase()-»));
+	serializer.text(«shortName.toLowerCase()».getLastPathSegment());
 	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 }
 «ENDDEFINE»
@@ -189,7 +189,7 @@ Uri «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
 if («shortName.toLowerCase()-» != null) {
 	serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 	serializer.startTag(null, «entity.name.toFirstUpper()-».Columns.PACKAGE);
-	serializer.attribute(null, "id", SQLiteWrapper.queryId(context, «shortName.toLowerCase()-»));
+	serializer.attribute(null, "id", «shortName.toLowerCase()».getLastPathSegment());
 	serializer.endTag(null, «entity.name.toFirstUpper()-».Columns.PACKAGE);
 	serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 }
@@ -200,7 +200,7 @@ ArrayList<Uri> «shortName.toLowerCase()-» = cursor.get«name.toFirstUpper()-»();
 if (!«shortName.toLowerCase()-».isEmpty()) {
 	for (Uri uri : «shortName.toLowerCase()-») {			
 		serializer.startTag(null, «entity.name.toFirstUpper()-».Columns.PACKAGE);
-		serializer.attribute(null, "id", SQLiteWrapper.queryId(context, uri));
+		serializer.attribute(null, "id", uri.getLastPathSegment());
 		serializer.endTag(null, «entity.name.toFirstUpper()-».Columns.PACKAGE);
 	}
 }

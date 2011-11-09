@@ -5,9 +5,8 @@ import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.BeanKeyGenerator;
+import org.imogene.android.util.content.ContentUrisUtils;
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
@@ -15,7 +14,6 @@ import android.net.Uri;
 
 public abstract class EntityImpl implements Entity {
 	
-	private long mRowId = -1;
 	private String mId = null;
 	private long mModified = 0;
 	private String mModifiedBy = null;
@@ -27,7 +25,6 @@ public abstract class EntityImpl implements Entity {
 	private boolean mSynchronized = false;
 	
 	protected void init(EntityCursor cursor) {
-		mRowId = cursor.getRowId();
 		mId = cursor.getId();
 		mModified = cursor.getModified();
 		mModifiedBy = cursor.getModifiedBy();
@@ -37,14 +34,6 @@ public abstract class EntityImpl implements Entity {
 		mCreatedBy = cursor.getCreatedBy();
 		mUnread = cursor.getUnread();
 		mSynchronized = cursor.getSynchronized();
-	}
-	
-	public final long getRowId() {
-		return mRowId;
-	}
-	
-	public final void setRowId(long rowId) {
-		mRowId = rowId;
 	}
 	
 	public final String getId() {
@@ -119,81 +108,70 @@ public abstract class EntityImpl implements Entity {
 		mSynchronized = isSynchronized;
 	}
 	
-	protected final long getRowIdFromId(Context context, String id) {
-		return SQLiteWrapper.queryRowId(context, getContentUri(), id);
+	protected void prepareForSave(Context context, String beanType) {
+		if (mId == null) {
+			mId = BeanKeyGenerator.getNewId(getBeanType());
+		}
+		if (mCreated == 0) {
+			mCreated = PreferenceHelper.getRealTime(context);
+		}
+		if (mUploadDate == 0) {
+			mUploadDate = mCreated;
+		}
+		mModified = 0;
+		String login = PreferenceHelper.getCurrentLogin(context);
+		mModifiedBy = login;
+		if (mCreatedBy == null) {
+			mCreatedBy = login;
+		}
+		mModifiedFrom = PreferenceHelper.getHardwareId(context);
+		mSynchronized = false;
 	}
 	
 	protected abstract String getBeanType();
 	
 	protected abstract Uri getContentUri();
 	
-	protected void preCommit(Context context, boolean local, boolean temporary) { /* nothing to do */ }
+	protected void preCommit(Context context) {/* nothing to do */}
 	
 	protected void postCommit(Context context) { /* nothing to do */ }
 	
-	protected void addValues(Context context, ContentValues values) { /* nothing to do */ }
+	protected abstract void addValues(Context context, ContentValues values);
 	
-	public Uri commit(Context context, boolean local, boolean temporary) {
-		preCommit(context, local, temporary);
-
-		ContentResolver res = context.getContentResolver();
+	protected Uri saveOrUpdate(Context context, String table) {
+		preCommit(context);
 		
-		if (local) {
-			String login = PreferenceHelper.getCurrentLogin(context);
-			if (mId == null)
-				mId = BeanKeyGenerator.getNewId(getBeanType());
-			if (mRowId != -1) {
-				mModifiedBy = login;
-				if (temporary)
-					mModifiedFrom = Columns.SYNC_SYSTEM;
-				else
-					mModifiedFrom = PreferenceHelper.getHardwareId(context);
-			} else {
-				mCreatedBy = mModifiedBy = login;
-				if (temporary)
-					mModifiedFrom = Columns.SYNC_SYSTEM;
-				else
-					mModifiedFrom = PreferenceHelper.getHardwareId(context);
-			}
-			mSynchronized = false;
-		} else {
-			if (mId == null)
-				return null;
-			mRowId = getRowIdFromId(context, mId);
-		}
-
 		ContentValues values = new ContentValues();
-		values.put(Columns.ID, mId);
+		values.put(Columns._ID, mId);
+		values.put(Columns.MODIFIED, mModified);
 		values.put(Columns.MODIFIEDBY, mModifiedBy);
 		values.put(Columns.MODIFIEDFROM, mModifiedFrom);
 		values.put(Columns.UPLOADDATE, mUploadDate);
+		values.put(Columns.CREATED, mCreated);
 		values.put(Columns.CREATEDBY, mCreatedBy);
 		values.put(Columns.UNREAD, mUnread ? 1 : 0);
 		values.put(Columns.SYNCHRONIZED, mSynchronized ? 1 : 0);
-
+		
 		addValues(context, values);
-
-		if (local) {
-			if (mRowId != -1) {
-				mModified = PreferenceHelper.getRealTime(context);
-			} else {
-				mCreated = mModified = PreferenceHelper.getRealTime(context);
-			}
+		
+		boolean exists = SQLiteWrapper.exist(context, table, mId);
+		
+		if (mModified == 0) {
+			mModified = PreferenceHelper.getRealTime(context);
+			values.put(Columns.MODIFIED, mModified);
 		}
-
-		values.put(Columns.CREATED, mCreated);
-		values.put(Columns.MODIFIED, mModified);
-
+		
 		Uri uri;
-		if (mRowId != -1) {
-			uri = ContentUris.withAppendedId(getContentUri(), mRowId);
-			res.update(uri, values, null, null);
+		if (exists) {
+			uri = ContentUrisUtils.withAppendedId(getContentUri(), mId);
+			context.getContentResolver().update(uri, values, null, null);
 		} else {
-			uri = res.insert(getContentUri(), values);
-			mRowId = ContentUris.parseId(uri);
+			uri = context.getContentResolver().insert(getContentUri(), values);
 		}
+		
 		postCommit(context);
+		
 		return uri;
 	}
-
+	
 }

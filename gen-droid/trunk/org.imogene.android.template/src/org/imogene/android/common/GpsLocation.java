@@ -8,9 +8,9 @@ import org.imogene.android.Constants.Intents;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
+import org.imogene.android.util.content.ContentUrisUtils;
 import org.imogene.android.util.database.DatabaseUtils;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -97,7 +97,7 @@ public class GpsLocation extends Location {
 				Location l = (Location) method.invoke(c, (Object[]) null);
 				latitudes[i] = l.getLatitude();
 				longitudes[i] = l.getLongitude();
-				uris[i] = ContentUris.withAppendedId(uri, c.getRowId()).toString();
+				uris[i] = ContentUrisUtils.withAppendedId(uri, c.getId()).toString();
 			}
 			result = new Intent(Intents.ACTION_SHOW_CLOUDS);
 			result.putExtra(Extras.EXTRA_ITEM_NUMBER, count);

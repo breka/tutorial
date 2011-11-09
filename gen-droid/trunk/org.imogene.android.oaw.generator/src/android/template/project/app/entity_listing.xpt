@@ -10,7 +10,6 @@ import android.app.SearchManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,6 +39,7 @@ import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.service.AbstractSyncService;
 import org.imogene.android.util.IamLost;
+import org.imogene.android.util.content.ContentUrisUtils;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.util.database.DatabaseUtils;
 import org.imogene.android.util.dialog.DialogFactory;
@@ -169,12 +169,11 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 			if (getIntent().hasExtra(Extras.EXTRA_SELECTED)) {
 				ArrayList<Uri> selected = getIntent().getParcelableArrayListExtra(Extras.EXTRA_SELECTED);
-				ListView list = getListView();
-				for (int i = 0; i < list.getCount(); i++) {
-					long itemId = list.getItemIdAtPosition(i);
-					Uri itemUri = ContentUris.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, itemId);
-					if (selected.contains(itemUri)) {
-						list.setItemChecked(i, true);
+				for (int i = 0; i < mAdapter.getCount(); i++) {
+					String id = mAdapter.getItemStringId(i);
+					Uri uri = ContentUrisUtils.withAppendedId(«name.toFirstUpper()».Columns.CONTENT_URI, id);
+					if (selected.contains(uri)) {
+						getListView().setItemChecked(i, true);
 					}
 				}
 			}
@@ -238,7 +237,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		if (!getIntent().hasExtra(Extras.EXTRA_MULTIPLE)) {
-			Uri uri = ContentUris.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, id);
+			Uri uri = ContentUrisUtils.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, mAdapter.getItemStringId(position));
 			if (Intent.ACTION_PICK.equals(getIntent().getAction())) {
 				setResult(RESULT_OK, new Intent().setData(uri));
 				finish();
@@ -385,7 +384,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
-		Uri uri = ContentUris.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, info.id);
+		Uri uri = ContentUrisUtils.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, mAdapter.getItemStringId(info.position));
 		switch (item.getItemId()) {
 		case CMENU_DELETE_ID:
 			mCurrentUri = uri;
@@ -475,11 +474,11 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			SparseBooleanArray spa = list.getCheckedItemPositions();
 			ArrayList<Uri> uris = new ArrayList<Uri>();
 			if (spa.size() != 0) {
-				for (int i = 0; i < list.getCount(); i++) {
+				for (int i = 0; i < mAdapter.getCount(); i++) {
 					if (spa.get(i)) {
-						long id = list.getItemIdAtPosition(i);
-						if (id != -1)
-							uris.add(ContentUris.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, id));
+						String id = mAdapter.getItemStringId(i);
+						if (id != null)
+							uris.add(ContentUrisUtils.withAppendedId(«name.toFirstUpper()-».Columns.CONTENT_URI, id));
 					}
 				}
 			}

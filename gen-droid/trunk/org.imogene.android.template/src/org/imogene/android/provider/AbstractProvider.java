@@ -11,12 +11,14 @@ import org.imogene.android.common.ClientFilter;
 import org.imogene.android.common.GpsLocation;
 import org.imogene.android.common.LocalizedText;
 import org.imogene.android.common.SyncHistory;
+import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.LocalizedTextCursor;
+import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.util.content.ContentUrisUtils;
 
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -26,7 +28,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
@@ -50,11 +51,11 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 	
 	static {
 		sURIMatcher.addURI(Constants.AUTHORITY, Binary.Columns.TABLE_NAME, BINARIES);
-		sURIMatcher.addURI(Constants.AUTHORITY, Binary.Columns.TABLE_NAME + "/#", BINARIES_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, Binary.Columns.TABLE_NAME + "/*", BINARIES_ID);
 		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.Columns.TABLE_NAME, CLIENT_FILTERS);
-		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.Columns.TABLE_NAME + "/#", CLIENT_FILTERS_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.Columns.TABLE_NAME + "/*", CLIENT_FILTERS_ID);
 		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.Columns.TABLE_NAME, TRANSLATABLE_TEXT);
-		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.Columns.TABLE_NAME + "/#", TRANSLATABLE_TEXT_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.Columns.TABLE_NAME + "/*", TRANSLATABLE_TEXT_ID);
 	}
 
 	protected abstract ImogDatabase getHelper();
@@ -71,21 +72,21 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			result = deleteMultiBinary(Binary.Columns.TABLE_NAME, selection, selectionArgs);
 			break;
 		case BINARIES_ID:
-			String binaryId = uri.getPathSegments().get(1);
+			String binaryId = uri.getLastPathSegment();
 			result = deleteSingleBinary(Binary.Columns.TABLE_NAME, binaryId, selection, selectionArgs);
 			break;
 		case CLIENT_FILTERS:
 			result = deleteMulti(ClientFilter.Columns.TABLE_NAME, selection, selectionArgs);
 			break;
 		case CLIENT_FILTERS_ID:
-			String clientFilterId = uri.getPathSegments().get(1);
+			String clientFilterId = uri.getLastPathSegment();
 			result = deleteSingle(ClientFilter.Columns.TABLE_NAME, clientFilterId, selection, selectionArgs);
 			break;
 		case TRANSLATABLE_TEXT:
 			result = deleteMulti(LocalizedText.Columns.TABLE_NAME, selection, selectionArgs);
 			break;
 		case TRANSLATABLE_TEXT_ID:
-			String translatableTextId = uri.getPathSegments().get(1);
+			String translatableTextId = uri.getLastPathSegment();
 			result = deleteSingle(LocalizedText.Columns.TABLE_NAME, translatableTextId, selection, selectionArgs);
 			break;
 		default:
@@ -104,7 +105,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			SQLiteDatabase sqlDB = getHelper().getReadableDatabase();
 			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 			qb.setTables(Binary.Columns.TABLE_NAME);
-			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+			qb.appendWhere(Entity.Columns._ID + "='" + uri.getLastPathSegment() + "'");
 			Cursor c = qb.query(sqlDB, new String[] {Binary.Columns.CONTENT_TYPE}, null, null, null, null, null);
 			String result = getVndItem() + "binaries";
 			if (c.getCount() == 1) {
@@ -150,21 +151,21 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			break;
 		case BINARIES_ID:
 			qb.setTables(Binary.Columns.TABLE_NAME);
-			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+			qb.appendWhere(Entity.Columns._ID + "='" + uri.getLastPathSegment() + "'");
 			break;
 		case CLIENT_FILTERS:
 			qb.setTables(ClientFilter.Columns.TABLE_NAME);
 			break;
 		case CLIENT_FILTERS_ID:
 			qb.setTables(ClientFilter.Columns.TABLE_NAME);
-			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+			qb.appendWhere(Entity.Columns._ID + "='" + uri.getLastPathSegment() + "'");
 			break;
 		case TRANSLATABLE_TEXT:
 			qb.setTables(LocalizedText.Columns.TABLE_NAME);
 			break;
 		case TRANSLATABLE_TEXT_ID:
 			qb.setTables(LocalizedText.Columns.TABLE_NAME);
-			qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+			qb.appendWhere(Entity.Columns._ID + "='" + uri.getLastPathSegment() + "'");
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
@@ -183,22 +184,21 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			result = updateMulti(Binary.Columns.TABLE_NAME, values, selection, selectionArgs);
 			break;
 		case BINARIES_ID:
-			String binaryId = uri.getPathSegments().get(1);
-			result = updateSingle(Binary.Columns.TABLE_NAME, binaryId, values, selection,
-					selectionArgs);
+			String binaryId = uri.getLastPathSegment();
+			result = updateSingle(Binary.Columns.TABLE_NAME, binaryId, values, selection, selectionArgs);
 			break;
 		case CLIENT_FILTERS:
 			result = updateMulti(ClientFilter.Columns.TABLE_NAME, values, selection, selectionArgs);
 			break;
 		case CLIENT_FILTERS_ID:
-			String clientFilterId = uri.getPathSegments().get(1);
+			String clientFilterId = uri.getLastPathSegment();
 			result = updateSingle(ClientFilter.Columns.TABLE_NAME, clientFilterId, values, selection, selectionArgs);
 			break;
 		case TRANSLATABLE_TEXT:
 			result = updateMulti(LocalizedText.Columns.TABLE_NAME, values, selection, selectionArgs);
 			break;
 		case TRANSLATABLE_TEXT_ID:
-			String translatableTextId = uri.getPathSegments().get(1);
+			String translatableTextId = uri.getLastPathSegment();
 			result = updateSingle(LocalizedText.Columns.TABLE_NAME, translatableTextId, values, selection, selectionArgs);
 			break;
 		default:
@@ -213,20 +213,15 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		return sqlDB.delete(tableName, where, whereArgs);
 	}
 
-	protected final int deleteSingle(String tableName, String id, String where,
-			String[] whereArgs) {
+	protected final int deleteSingle(String tableName, String id, String where, String[] whereArgs) {
+		String w = Entity.Columns._ID + "='" + id + "'" + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : "");
 		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
-		return sqlDB.delete(tableName, "_id=" + id
-				+ (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""),
-				whereArgs);
+		return sqlDB.delete(tableName, w, whereArgs);
 	}
 
-	protected final int deleteMultiBinary(String tableName, String where,
-			String[] whereArgs) {
-		Log.i(TAG, "delete multi binary");
+	protected final int deleteMultiBinary(String tableName, String where, String[] whereArgs) {
 		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
-		Cursor cursor = sqlDB.query(tableName, new String[] { Binary.Columns.DATA }, where,
-				whereArgs, null, null, null);
+		Cursor cursor = sqlDB.query(tableName, new String[] { Binary.Columns.DATA }, where, whereArgs, null, null, null);
 		for (cursor.moveToFirst();!cursor.isAfterLast();cursor.moveToNext()) {
 			String path = cursor.getString(0);
 			new File(path).delete();
@@ -235,30 +230,24 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		return sqlDB.delete(tableName, where, whereArgs);
 	}
 
-	protected final int deleteSingleBinary(String tableName, String id, String where,
-			String[] whereArgs) {
-		Log.i(TAG, "delete binary");
+	protected final int deleteSingleBinary(String tableName, String id, String where, String[] whereArgs) {
+		String w = Entity.Columns._ID + "='" + id + "'" + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : "");
 		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
-		Cursor cursor = sqlDB.query(tableName, new String[] { Binary.Columns.DATA }, "_id="
-				+ id
-				+ (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""),
-				whereArgs, null, null, null);
+		Cursor cursor = sqlDB.query(tableName, new String[] { Binary.Columns.DATA }, w,	whereArgs, null, null, null);
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			String path = cursor.getString(cursor.getColumnIndexOrThrow(Binary.Columns.DATA));
 			new File(path).delete();
 		}
 		cursor.close();
-		return sqlDB.delete(tableName, "_id=" + id
-				+ (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""),
-				whereArgs);
+		return sqlDB.delete(tableName, w, whereArgs);
 	}
 	
 	protected final Uri insertInTableBinary(ContentValues values) {
 		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
-		long rowId = sqlDB.insert(Binary.Columns.TABLE_NAME, "", values);
-		if (rowId > 0) {
-			Uri rowUri = ContentUris.withAppendedId(Binary.Columns.CONTENT_URI,	rowId);
+		if (sqlDB.insert(Binary.Columns.TABLE_NAME, "", values) > 0) {
+			String id = values.getAsString(Entity.Columns._ID);
+			Uri rowUri = ContentUrisUtils.withAppendedId(Binary.Columns.CONTENT_URI, id);
 			
 			Paths.PATH_BINARIES.mkdirs();
 
@@ -271,7 +260,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			}
 			String path = file.getAbsolutePath();
 			values.put(Binary.Columns.DATA, path);
-			sqlDB.update(Binary.Columns.TABLE_NAME, values, "_id=?", new String[]{"" + rowId});
+			sqlDB.update(Binary.Columns.TABLE_NAME, values, Entity.Columns._ID + "='" + id +"'", null);
 			getContext().getContentResolver().notifyChange(rowUri, null);
 			return rowUri;
 		}
@@ -282,7 +271,8 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
 		long rowId = sqlDB.insert(table, "", values);
 		if (rowId > 0) {
-			Uri rowUri = ContentUris.withAppendedId(contentUri, rowId);
+			String id = values.getAsString(Entity.Columns._ID);
+			Uri rowUri = ContentUrisUtils.withAppendedId(contentUri, id);
 			getContext().getContentResolver().notifyChange(rowUri, null);
 			return rowUri;
 		}
@@ -295,13 +285,10 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		return sqlDB.update(tableName, values, selection, selectionArgs);
 	}
 
-	protected final int updateSingle(String tableName, String id, ContentValues values,
-			String selection, String[] selectionArgs) {
+	protected final int updateSingle(String tableName, String id, ContentValues values, String selection, String[] selectionArgs) {
+		String where = Entity.Columns._ID + "='" + id + "'" + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : "");
 		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
-		return sqlDB.update(tableName, values, "_id="
-				+ id
-				+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')'
-						: ""), selectionArgs);
+		return sqlDB.update(tableName, values, where, selectionArgs);
 	}
 
 	@Override
@@ -324,9 +311,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ ClientFilter.Columns.TABLE_NAME
 				+ " ("
 				+ ClientFilter.Columns._ID
-				+ " integer primary key autoincrement, "
-				+ ClientFilter.Columns.ID
-				+ " text not null, "
+				+ " text primary key, "
 				+ ClientFilter.Columns.MODIFIED
 				+ " integer, "
 				+ ClientFilter.Columns.MODIFIEDBY
@@ -363,9 +348,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ Binary.Columns.TABLE_NAME
 				+ " ("
 				+ Binary.Columns._ID
-				+ " integer primary key autoincrement, "
-				+ Binary.Columns.ID
-				+ " text not null, "
+				+ " text primary key, "
 				+ Binary.Columns.MODIFIED
 				+ " integer, "
 				+ Binary.Columns.MODIFIEDBY
@@ -378,6 +361,10 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ " integer, "
 				+ Binary.Columns.CREATEDBY
 				+ " text, "
+				+ Binary.Columns.UNREAD
+				+ " integer, "
+				+ Binary.Columns.SYNCHRONIZED
+				+ " integer, "
 				+ Binary.Columns.LENGTH
 				+ " text, "
 				+ Binary.Columns.DATA
@@ -438,7 +425,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ LocalizedText.Columns.TABLE_NAME
 				+ " ("
 				+ LocalizedText.Columns._ID
-				+ " integer primary key autoincrement, "
+				+ " text primary key, "
 				+ LocalizedText.Columns.MODIFIED
 				+ " integer, "
 				+ LocalizedText.Columns.MODIFIEDBY
@@ -464,9 +451,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ LocalizedText.Columns.ORIGINAL_VALUE
 				+ " integer, "
 				+ LocalizedText.Columns.POTENTIALY_WRONG
-				+ " integer, "
-				+ LocalizedText.Columns.ID
-				+ " text not null);";
+				+ " integer);";
 		protected interface Creator<T extends ImogDatabase> {
 			public T getDatabase(Context context);
 		}
@@ -507,7 +492,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			case BINARIES_ID:
 				qb.setCursorFactory(new BinaryCursor.Factory());
 				qb.setTables(Binary.Columns.TABLE_NAME);
-				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+				qb.appendWhere(Entity.Columns._ID + "='" + uri.getLastPathSegment() + "'");
 				break;
 			case CLIENT_FILTERS:
 				qb.setCursorFactory(new ClientFilterCursor.Factory());
@@ -516,7 +501,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			case CLIENT_FILTERS_ID:
 				qb.setCursorFactory(new ClientFilterCursor.Factory());
 				qb.setTables(ClientFilter.Columns.TABLE_NAME);
-				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+				qb.appendWhere(Entity.Columns._ID + "='" + uri.getLastPathSegment() + "'");
 				break;
 			case TRANSLATABLE_TEXT:
 				qb.setCursorFactory(new LocalizedTextCursor.Factory());
@@ -525,7 +510,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			case TRANSLATABLE_TEXT_ID:
 				qb.setCursorFactory(new LocalizedTextCursor.Factory());
 				qb.setTables(LocalizedText.Columns.TABLE_NAME);
-				qb.appendWhere("_id=" + uri.getPathSegments().get(1));
+				qb.appendWhere(Entity.Columns._ID + "='" + uri.getLastPathSegment() + "'");
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown URL " + uri);
@@ -536,71 +521,19 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			return c;
 		}
 		
-		public String queryId(Uri uri) {
-			if (uri == null)
-				return null;
-			switch (sURIMatcher.match(uri)) {
-			case BINARIES_ID:
-				return getEntityId(Binary.Columns.TABLE_NAME, uri);
-			case CLIENT_FILTERS_ID:
-				return getEntityId(ClientFilter.Columns.TABLE_NAME, uri);
-			case TRANSLATABLE_TEXT_ID:
-				return getEntityId(LocalizedText.Columns.TABLE_NAME, uri);
-			}
-			return null;
-		}
-		
-		public long queryRowId(Uri uri, String id) {
-			switch (sURIMatcher.match(uri)) {
-			case BINARIES:
-				return getEntityRowId(Binary.Columns.TABLE_NAME, id);
-			case CLIENT_FILTERS:
-				return getEntityRowId(ClientFilter.Columns.TABLE_NAME, id);
-			case TRANSLATABLE_TEXT:
-				return getEntityRowId(LocalizedText.Columns.TABLE_NAME, id);
-			}
-			return -1;
-		}
-		
 		public abstract Uri findInDatabase(String id);
 
 		protected final Context getContext() {
 			return mContext;
 		}
 
-		protected final Cursor getEntityCursor(CursorFactory factory, String table,
-				Uri uri) {
+		protected final Cursor getEntityCursor(CursorFactory factory, String table, Uri uri) {
 			SQLiteDatabase db = getReadableDatabase();
-			Cursor c = db.rawQueryWithFactory(factory, "select * from " + table
-					+ " where _id=" + ContentUris.parseId(uri), null, null);
+			String where = new SQLiteBuilder(table, "*").appendEq(Entity.Columns._ID, uri.getLastPathSegment()).toSQL(); 
+			Cursor c = db.rawQueryWithFactory(factory, where, null, null);
 			c.setNotificationUri(mContext.getContentResolver(), uri);
 			return c;
 		}
 
-		protected final String getEntityId(String table, Uri uri) {
-			if (uri == null)
-				return null;
-			long rowId = ContentUris.parseId(uri);
-			SQLiteDatabase db = getReadableDatabase();
-			SQLiteStatement stat = db.compileStatement("select id from " + table
-					+ " where _id=" + rowId);
-			String result = stat.simpleQueryForString();
-			stat.close();
-			return result;
-		}
-
-		protected final long getEntityRowId(String table, String id) {
-			SQLiteDatabase db = getReadableDatabase();
-			SQLiteStatement stat = db.compileStatement("select _id from " + table
-					+ " where id='" + id + "'");
-			try {
-				long rowId = stat.simpleQueryForLong();
-				stat.close();
-				return rowId;
-			} catch (Exception e) {
-				stat.close();
-				return -1;
-			}
-		}
 	}
 }

@@ -129,7 +129,8 @@ public class LocalizedTextList {
 		if (mMap != null) {
 			for (LocalizedText lt : mMap.values()) {
 				lt.setFieldId(mTextId);
-				lt.commit(context, true, false);
+				lt.prepareForSave(context);
+				lt.saveOrUpdate(context);
 				if (!TextUtils.isEmpty(lt.getValue())) {
 					noneValid = false;
 				}

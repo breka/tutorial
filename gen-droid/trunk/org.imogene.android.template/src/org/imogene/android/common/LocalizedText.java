@@ -102,16 +102,11 @@ public class LocalizedText extends EntityImpl {
 
 	@Override
 	protected final void addValues(Context context, ContentValues values) {
-		super.addValues(context, values);
 		values.put(Columns.FIELD_ID, mFieldId);
 		values.put(Columns.LOCALE, mLocale);
 		values.put(Columns.VALUE, mValue);
 		values.put(Columns.ORIGINAL_VALUE, mOriginalValue ? 1 : 0);
 		values.put(Columns.POTENTIALY_WRONG, mPotentialyWrong ? 1 : 0);
-	}
-
-	@Override
-	protected final void postCommit(Context context) {
 	}
 
 	public final void reset() {
@@ -120,6 +115,16 @@ public class LocalizedText extends EntityImpl {
 		mValue = null;
 		mOriginalValue = false;
 		mPotentialyWrong = false;
+	}
+	
+	@Override
+	public void prepareForSave(Context context) {
+		prepareForSave(context, Columns.TYPE);
+	}
+	
+	@Override
+	public Uri saveOrUpdate(Context context) {
+		return saveOrUpdate(context, Columns.TABLE_NAME);
 	}
 
 }

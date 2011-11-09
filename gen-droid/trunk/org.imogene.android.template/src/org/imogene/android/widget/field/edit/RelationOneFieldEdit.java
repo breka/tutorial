@@ -72,8 +72,8 @@ public class RelationOneFieldEdit extends RelationFieldEdit<Uri> implements OnAc
 		if (mHasReverse && mOppositeCardinality == 1 && mType == 0) {
 			final RelationManager mgr = getFieldManager().getRelationManager();
 			final SQLiteBuilder request = new SQLiteBuilder(mTableName, mFieldName);
-			request.appendNotEq(Entity.Columns.ID, mgr.getCurrentId());
-			builder.appendNotIn(Entity.Columns.ID, request.create());
+			request.appendNotEq(Entity.Columns._ID, mgr.getId());
+			builder.appendNotIn(Entity.Columns._ID, request.create());
 			return true;
 		}
 		return false;

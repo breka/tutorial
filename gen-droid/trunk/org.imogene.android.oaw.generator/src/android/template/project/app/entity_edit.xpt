@@ -27,6 +27,7 @@ import org.imogene.android.Constants.Editor;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.app.ViewPagerIndicatorActivity;
 import org.imogene.android.util.IamLost;
+import org.imogene.android.util.content.ContentUrisUtils;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.util.database.DatabaseUtils;
 import org.imogene.android.util.dialog.DialogFactory;
@@ -292,12 +293,15 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 	private void save(boolean temporary) {
 		if (temporary) {
 			collect();
-			mEntity.commit(this, true, true);
+			mEntity.prepareForSave(this);
+			mEntity.setModifiedFrom(«name.toFirstUpper()».Columns.SYNC_SYSTEM);
+			mEntity.saveOrUpdate(this);
 			return;
 		}
 		if (check()) {
 			collect();
-			Uri uri = mEntity.commit(this, true, false);
+			mEntity.prepareForSave(this);
+			Uri uri = mEntity.saveOrUpdate(this);
 			if (uri != null) {
 				Toast.makeText(this, R.string.«name.toLowerCase()»_des_registered, Toast.LENGTH_SHORT).show();
 				setResult(RESULT_OK, new Intent().setData(uri));
@@ -317,19 +321,17 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 		«ENDFOREACH-»
 	}
 	
-	public String getCurrentId() {
+	public String getId() {
 		if (mEntity.getId() == null)
 			save(true);
 		return mEntity.getId();
 	}
 	
-	public long getCurrentRowId() {
-		if (mEntity.getRowId() == -1)
-			save(true);
-		return mEntity.getRowId();
+	public Uri getUri() {
+		return ContentUrisUtils.withAppendedId(«name.toFirstUpper()».Columns.CONTENT_URI, getId());
 	}
 	
-	public Uri getCurrentContentUri() {
+	public Uri getContentUri() {
 		return «name.toFirstUpper()».Columns.CONTENT_URI;
 	}
 	

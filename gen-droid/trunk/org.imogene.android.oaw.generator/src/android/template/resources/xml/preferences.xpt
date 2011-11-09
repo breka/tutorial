@@ -223,7 +223,7 @@
 	app:field="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
 	app:entityws="«entity.name.toLowerCase()»"
 	«IF relationHierarchicalFilter.size == 2»
-	android:dependency="«relationHierarchicalFilter.get(0).shortName.toLowerCase()»_filter"
+	android:dependency="«relationHierarchicalFilter.get(0).name.toLowerCase()»_filter"
 	app:hierarchicalField="«EXPAND template::CommonFieldUtil::propertyName FOR relationHierarchicalFilter.get(0)»"
 	«ENDIF»
 />

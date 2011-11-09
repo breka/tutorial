@@ -6,10 +6,10 @@ import java.lang.reflect.Method;
 
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.sync.FieldHandler;
+import org.imogene.android.util.content.ContentUrisUtils;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -32,21 +32,21 @@ public class SingleEntHandler<T> implements FieldHandler<T> {
 		try {
 			if (parser.nextTag() == START_TAG) {
 				parser.require(START_TAG, null, mPackage);
-				String id = parser.getAttributeValue(null, Entity.Columns.ID);
+				String id = parser.getAttributeValue(null, "id");
 
 				ContentResolver res = context.getContentResolver();
-				Cursor c = res.query(mUri, new String[] { Entity.Columns._ID }, Entity.Columns.ID + "='" + id + "'", null, null);
+				Cursor c = res.query(mUri, new String[] { Entity.Columns._ID }, Entity.Columns._ID + "='" + id + "'", null, null);
 				if (c.getCount() != 1) {
 					c.close();
 					ContentValues values = new ContentValues();
-					values.put(Entity.Columns.ID, id);
+					values.put(Entity.Columns._ID, id);
 					values.put(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 					mMethod.invoke(entity, res.insert(mUri, values));
 				} else {
 					c.moveToFirst();
-					long rowId = c.getLong(0);
+					String sId = c.getString(0);
 					c.close();
-					mMethod.invoke(entity, ContentUris.withAppendedId(mUri,	rowId));
+					mMethod.invoke(entity, ContentUrisUtils.withAppendedId(mUri,	sId));
 				}
 			}
 		} catch (Exception e) {

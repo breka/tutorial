@@ -1,21 +1,17 @@
 package org.imogene.android.common;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import org.imogene.android.Constants;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.BeanKeyGenerator;
 import org.imogene.android.util.FormatHelper;
+import org.imogene.android.util.file.FileUtils;
 import org.imogene.android.util.file.MimeTypeManager;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 
@@ -48,10 +44,6 @@ public final class Binary extends EntityImpl {
 	private long mLength = 0;
 	private Uri mData = null;
 
-	public static final boolean isBinary(Uri uri) {
-		return uri != null && Constants.AUTHORITY.equals(uri.getAuthority());
-	}
-	
 	public Binary() {
 	}
 
@@ -133,89 +125,77 @@ public final class Binary extends EntityImpl {
 	}
 	
 	@Override
-	public Uri commit(Context context, boolean local, boolean temporary) {
-		if (getData() == null || getRowId() != -1)
-			return null;
-
-		ContentResolver res = context.getContentResolver();
-
-		if (local) {
-			String login = PreferenceHelper.getCurrentLogin(context);
-			setModifiedBy(login);
-			setCreatedBy(login);
-			setModifiedFrom(PreferenceHelper.getHardwareId(context));
-			setId(BeanKeyGenerator.getNewId("BIN"));
-			
-			MimeTypeManager mgr = MimeTypeManager.getInstance(context);
-			mContentType = res.getType(mData);
-			if (mContentType == null) {
-				mContentType = mgr.getMimeType(mData.toString());
-			}
-			String extension = mgr.getExtension(mContentType);
-			mFileName = getId() + (extension == null ? ".bin" : extension);
-		}
-
-		ContentValues values = new ContentValues();
-		values.put(Columns.ID, getId());
-		values.put(Columns.MODIFIED, getModified());
-		values.put(Columns.MODIFIEDBY, getModifiedBy());
-		values.put(Columns.MODIFIEDFROM, getModifiedFrom());
-		values.put(Columns.UPLOADDATE, getUploadDate());
-		values.put(Columns.CREATED, getCreated());
-		values.put(Columns.CREATEDBY, getCreatedBy());
+	public void prepareForSave(Context context) {
+		prepareForSave(context, Columns.TYPE);
+	}
+	
+	public Uri saveOrUpdate(Context context) {
+		return saveOrUpdate(context, Columns.TABLE_NAME);
+	}
+	
+	@Override
+	protected void addValues(Context context, ContentValues values) {
 		values.put(Columns.CONTENT_TYPE, mContentType);
 		values.put(Columns.FILE_NAME, mFileName);
 		values.put(Columns.LENGTH, mLength);
 		values.put(Columns.PARENT_ENTITY, mParentEntity);
 		values.put(Columns.PARENT_FIELD_GETTER, mParentFieldGetter);
 		values.put(Columns.PARENT_KEY, mParentKey);
-
-		Uri uri;
-
-		Cursor c = res.query(Columns.CONTENT_URI, new String[] { Columns._ID },
-				Columns.ID + "='" + getId() + "'", null, null);
-		if (c.getCount() == 1) {
-			c.moveToFirst();
-			setRowId(c.getLong(0));
-			c.close();
-			uri = ContentUris.withAppendedId(Columns.CONTENT_URI, getRowId());
-			res.update(uri, values, null, null);
-		} else {
-			c.close();
-			uri = res.insert(Columns.CONTENT_URI, values);
-			setRowId(ContentUris.parseId(uri));
+	}
+	
+	private static boolean isBinary(Uri uri) {
+		return uri != null && Constants.AUTHORITY.equals(uri.getAuthority());
+	}
+	
+	public static Uri toBinary(Context context, Uri data, String beanType, String parentFieldGetter, String parentId) {
+		if (data == null || isBinary(data)) {
+			return data;
 		}
+		
+		String login = PreferenceHelper.getCurrentLogin(context);
+		
+		String id = BeanKeyGenerator.getNewId(Columns.TYPE);
+		
+		ContentResolver r = context.getContentResolver();
+		
+		MimeTypeManager mgr = MimeTypeManager.getInstance(context);
+		String contentType = r.getType(data);
+		if (contentType == null) {
+			contentType = mgr.getMimeType(data.toString());
+		}
+		
+		String extension = mgr.getExtension(contentType);
+		String fileName = id + (extension == null ? ".bin" : extension);
 
+		Binary binary = new Binary();
+		binary.setId(id);
+		binary.setCreated(PreferenceHelper.getRealTime(context));
+		binary.setCreatedBy(login);
+		binary.setModified(-1);
+		binary.setModifiedBy(login);
+		binary.setModifiedFrom(PreferenceHelper.getHardwareId(context));
+		binary.setSynchronized(false);
+
+		binary.setParentEntity(beanType);
+		binary.setParentFieldGetter(parentFieldGetter);
+		binary.setParentKey(parentId);
+		binary.setContentType(contentType);
+		binary.setFileName(fileName);
+		
+		Uri uri = binary.saveOrUpdate(context);
+		
 		try {
-			OutputStream os = res.openOutputStream(uri);
-			InputStream is = res.openInputStream(mData);
-			byte[] b = new byte[4096];
-			while (is.read(b) != -1) {
-				os.write(b);
-			}
-			os.flush();
-			os.close();
-			is.close();
+			FileUtils.appendFile(context.getContentResolver(), data, uri);
 
-			ParcelFileDescriptor fd = res.openFileDescriptor(uri, "r");
-			values.clear();
-			values.put(Columns.LENGTH, fd.getStatSize());
+			ParcelFileDescriptor fd = r.openFileDescriptor(uri, "r");
+			binary.setLength(fd.getStatSize());
 			fd.close();
 
-			if (local) {
-				long time = PreferenceHelper.getRealTime(context);
-				setCreated(time);
-				setModified(time);
-				values.put(Columns.CREATED, time);
-				values.put(Columns.MODIFIED, time);
-			}
-
-			res.update(uri, values, null, null);
-
-			return uri;
+			binary.setModified(0);
+			return binary.saveOrUpdate(context);
 		} catch (Exception e) {
 			if (uri != null)
-				res.delete(uri, null, null);
+				r.delete(uri, null, null);
 			return null;
 		}
 	}

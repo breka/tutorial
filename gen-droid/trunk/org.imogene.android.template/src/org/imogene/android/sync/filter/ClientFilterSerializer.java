@@ -16,9 +16,9 @@ public class ClientFilterSerializer {
 
 		serializer.startTag(null, ClientFilter.Columns.PACKAGE);
 
-		serializer.startTag(null, ClientFilter.Columns.ID);
+		serializer.startTag(null, "id");
 		serializer.text(cursor.getId());
-		serializer.endTag(null, ClientFilter.Columns.ID);
+		serializer.endTag(null, "id");
 
 		serializer.startTag(null, ClientFilter.Columns.MODIFIED);
 		serializer.attribute(null, "class", "sql-timestamp");
