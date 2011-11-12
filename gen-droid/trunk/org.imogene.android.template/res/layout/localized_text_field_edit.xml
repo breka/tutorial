@@ -3,13 +3,13 @@
 
     <View
         android:layout_width="10dip"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dip" />
 
     <ImageView style="@style/FieldArrowView" />
 
     <View
         android:layout_width="10dip"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dip" />
 
     <LinearLayout
         android:layout_width="0dip"
@@ -18,7 +18,7 @@
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
-        <TextView style="@style/FieldTitleText" />
+        <include layout="@layout/field_title_bar" />
 
         <EditText
             android:id="@+id/value"
@@ -27,9 +27,43 @@
             android:saveEnabled="false"
             android:visibility="gone" />
 
-        <include layout="@layout/localized_text_editor" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
 
-    <ImageView style="@style/FieldHelpView" />
+            <EditText
+                android:id="@+id/localized"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:saveEnabled="false" />
+
+            <TextView
+                android:id="@+id/locale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dip" />
+
+            <ImageButton style="@style/FieldHelpView" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/more_button"
+            android:layout_width="fill_parent"
+            android:layout_height="17dip" />
+
+        <ImageButton
+            android:id="@+id/less_button"
+            android:layout_width="fill_parent"
+            android:layout_height="17dip" />
+
+        <LinearLayout
+            android:id="@+id/localized_entries"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </LinearLayout>
 
 </merge>

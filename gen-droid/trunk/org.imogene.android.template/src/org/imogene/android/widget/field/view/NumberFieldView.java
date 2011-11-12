@@ -5,23 +5,23 @@ import org.imogene.android.W;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.TextView;
 
 public class NumberFieldView<T extends Number> extends DefaultEntityView<T> {
 
+	private final String unit;
+	private final int unitId;
+	
 	public NumberFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberFieldView, 0, 0);
-		final int unitId = a.getResourceId(W.styleable.NumberFieldView_unit, -1);
+		unitId = a.getResourceId(W.styleable.NumberFieldView_unit, -1);
 		a.recycle();
-		if (unitId != -1) {
-			final View unit = findViewById(W.id.unit);
-			if (unit != null && unit instanceof TextView) {
-				((TextView) unit).setText(unitId);
-			}
-		}
 		
+		if (unitId != -1) {
+			unit = context.getString(unitId);
+		} else {
+			unit = null;
+		}
 	}
 
 	@Override
@@ -32,6 +32,9 @@ public class NumberFieldView<T extends Number> extends DefaultEntityView<T> {
 	@Override
 	public String getDisplay() {
 		final T number = getValue();
+		if (unitId != -1) {
+			return number != null ? number.toString() + " " + unit : null;
+		}
 		return number != null ? number.toString() : null;
 	}
 	

@@ -10,5 +10,7 @@
     <item name="arrow" type="id"/>
     <item name="icon" type="id"/>
     <item name="help" type="id"/>
+    <item name="required" type="id"/>
+    <item name="unit" type="id"/>
 
 </resources>

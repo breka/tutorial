@@ -14,9 +14,7 @@ public final class W {
 		public static final int entries_period_preference = R.array.entries_period_preference;
 		public static final int entryvalues_period_preference = R.array.entryvalues_period_preference;
 		public static final int languages_display = R.array.languages_display;
-		public static final int languages_editors = R.array.languages_editors;
 		public static final int languages_iso = R.array.languages_iso;
-		public static final int languages_views = R.array.languages_views;
 		public static final int numeric_filter_values = R.array.numeric_filter_values;
 		public static final int period_filter_values = R.array.period_filter_values;
 		public static final int select_yes_no = R.array.select_yes_no;
@@ -66,13 +64,16 @@ public final class W {
 
 		public static final int accent_1 = R.color.accent_1;
 		public static final int actionbar_text = R.color.actionbar_text;
-		public static final int gray = R.color.gray;}
+		public static final int gray = R.color.gray;
+		public static final int required_text = R.color.required_text;}
 
 	public static final class dimen {
 
 		public static final int actionbar_compat_height = R.dimen.actionbar_compat_height;
 		public static final int button_minWidth = R.dimen.button_minWidth;
 		public static final int colorstrip_height = R.dimen.colorstrip_height;
+		public static final int field_button_height = R.dimen.field_button_height;
+		public static final int field_button_width = R.dimen.field_button_width;
 		public static final int tab_height = R.dimen.tab_height;
 		public static final int tab_side_padding = R.dimen.tab_side_padding;
 		public static final int text_size_medium = R.dimen.text_size_medium;
@@ -89,20 +90,16 @@ public final class W {
 		public static final int background_noise_tile = R.drawable.background_noise_tile;
 		public static final int btn_bg_pressed = R.drawable.btn_bg_pressed;
 		public static final int btn_bg_selected = R.drawable.btn_bg_selected;
-		public static final int btn_circle = R.drawable.btn_circle;
-		public static final int btn_circle_disable = R.drawable.btn_circle_disable;
-		public static final int btn_circle_disable_focused = R.drawable.btn_circle_disable_focused;
-		public static final int btn_circle_normal = R.drawable.btn_circle_normal;
-		public static final int btn_circle_pressed = R.drawable.btn_circle_pressed;
-		public static final int btn_circle_selected = R.drawable.btn_circle_selected;
 		public static final int button_indicator_next = R.drawable.button_indicator_next;
 		public static final int button_indicator_previous = R.drawable.button_indicator_previous;
 		public static final int colorstrip = R.drawable.colorstrip;
 		public static final int colorstrip_shadow = R.drawable.colorstrip_shadow;
+		public static final int dashboard_bg_highlighted = R.drawable.dashboard_bg_highlighted;
+		public static final int dashboard_bg_normal = R.drawable.dashboard_bg_normal;
+		public static final int dashboard_bg_pressed = R.drawable.dashboard_bg_pressed;
+		public static final int dashboard_button = R.drawable.dashboard_button;
 		public static final int divider_vertical_bright = R.drawable.divider_vertical_bright;
 		public static final int help = R.drawable.help;
-		public static final int ic_btn_round_less = R.drawable.ic_btn_round_less;
-		public static final int ic_btn_round_more = R.drawable.ic_btn_round_more;
 		public static final int ic_dialog_time = R.drawable.ic_dialog_time;
 		public static final int ic_launcher_camera = R.drawable.ic_launcher_camera;
 		public static final int ic_launcher_video_camera = R.drawable.ic_launcher_video_camera;
@@ -207,6 +204,7 @@ public final class W {
 		public static final int list_secondary = R.id.list_secondary;
 		public static final int locale = R.id.locale;
 		public static final int localized = R.id.localized;
+		public static final int localized_entries = R.id.localized_entries;
 		public static final int main = R.id.main;
 		public static final int map = R.id.map;
 		public static final int menu_add = R.id.menu_add;
@@ -234,6 +232,7 @@ public final class W {
 		public static final int periodPicker = R.id.periodPicker;
 		public static final int phone = R.id.phone;
 		public static final int previous_field = R.id.previous_field;
+		public static final int required = R.id.required;
 		public static final int required_layout = R.id.required_layout;
 		public static final int reverse = R.id.reverse;
 		public static final int right = R.id.right;
@@ -279,6 +278,7 @@ public final class W {
 		public static final int entity_row = R.layout.entity_row;
 		public static final int entity_row_multiple = R.layout.entity_row_multiple;
 		public static final int expandable_list_content = R.layout.expandable_list_content;
+		public static final int field_title_bar = R.layout.field_title_bar;
 		public static final int intent_chooser_item = R.layout.intent_chooser_item;
 		public static final int list_content = R.layout.list_content;
 		public static final int localized_text_editor = R.layout.localized_text_editor;
@@ -462,6 +462,7 @@ public final class W {
 		public static final int renew_sync_history_summary = R.string.renew_sync_history_summary;
 		public static final int renew_sync_history_title = R.string.renew_sync_history_title;
 		public static final int renew_title = R.string.renew_title;
+		public static final int required = R.string.required;
 		public static final int rights_delete_summary = R.string.rights_delete_summary;
 		public static final int rights_delete_summaryoff = R.string.rights_delete_summaryoff;
 		public static final int rights_delete_summaryon = R.string.rights_delete_summaryon;
@@ -546,11 +547,11 @@ public final class W {
 		public static final int FieldArrowView = R.style.FieldArrowView;
 		public static final int FieldHelpView = R.style.FieldHelpView;
 		public static final int FieldIconView = R.style.FieldIconView;
+		public static final int FieldRequiredText = R.style.FieldRequiredText;
 		public static final int FieldTitleText = R.style.FieldTitleText;
+		public static final int FieldUnitText = R.style.FieldUnitText;
 		public static final int FieldValueEditText = R.style.FieldValueEditText;
 		public static final int FieldValueText = R.style.FieldValueText;
-		public static final int LessButton = R.style.LessButton;
-		public static final int MoreButton = R.style.MoreButton;
 		public static final int Theme_Dialog_Alert = R.style.Theme_Dialog_Alert;
 		public static final int Theme_Imogene = R.style.Theme_Imogene;
 		public static final int Theme_Imogene_Home = R.style.Theme_Imogene_Home;

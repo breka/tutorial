@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
-    <ImageView
-        android:id="@+id/more_button"
-        style="@style/MoreButton"
+    <EditText
+        android:id="@+id/localized"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:saveEnabled="false" />
+
+    <TextView
+        android:id="@+id/locale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:duplicateParentState="true" />
+        android:textSize="12dip" />
 
-    <ImageView
-        android:id="@+id/less_button"
-        style="@style/LessButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:duplicateParentState="true" />
-
-</merge>
+</LinearLayout>

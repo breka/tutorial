@@ -11,4 +11,8 @@
     <dimen name="tab_height">38dp</dimen>
     <dimen name="tab_side_padding">2dp</dimen>
 
+    <!-- binary field -->
+    <dimen name="field_button_height">45dip</dimen>
+    <dimen name="field_button_width">75dip</dimen>
+
 </resources>

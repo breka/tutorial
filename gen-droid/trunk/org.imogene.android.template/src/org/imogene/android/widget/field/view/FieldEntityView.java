@@ -17,6 +17,11 @@ public class FieldEntityView<T> extends FieldEntity<T> {
 		mReadOnly = readOnly;
 	}
 	
+	@Override
+	public void setRequired(boolean required) {
+		mRequired = required;
+	}
+	
 	protected boolean isEmpty() {
 		return false;
 	}
