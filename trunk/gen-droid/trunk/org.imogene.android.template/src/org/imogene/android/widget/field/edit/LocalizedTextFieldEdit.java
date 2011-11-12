@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.imogene.android.W;
@@ -18,6 +18,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,8 +33,9 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 	private final String[] displayArray;
 	
 	private boolean mOtherLanguagesHidden = true;
-	private final ArrayList<EditText> mEditors;
-	private final ArrayList<TextView> mLanguages;
+	
+	private final HashMap<String, EditText> mEditors;
+	private final ViewGroup mEntries;
 
 	public LocalizedTextFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.localized_text_field_edit);
@@ -50,33 +52,28 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 			Tools.replace(displayArray, 0, pos);
 		}
 		
-		mEditors = new ArrayList<EditText>(isoArray.length);
-		mLanguages = new ArrayList<TextView>(isoArray.length);
+		mEditors = new HashMap<String, EditText>(isoArray.length);
 		
 		findViewById(W.id.more_button).setOnClickListener(this);
 		findViewById(W.id.less_button).setOnClickListener(this);
 		
-		a = context.getResources().obtainTypedArray(W.array.languages_editors);
-		for (int i = 0; i < isoArray.length; i++) {
-			int editId = a.getResourceId(i, 0);
-			View v = findViewById(editId);
-			if (v != null && v instanceof EditText) {
-				mEditors.add((EditText) v);
-			}
-		}
-		a.recycle();
+		mEntries = (ViewGroup) findViewById(W.id.localized_entries);
 		
-		a = context.getResources().obtainTypedArray(W.array.languages_views);
+		boolean first = true;
 		for (int i = 0; i < isoArray.length; i++) {
-			int languageId = a.getResourceId(i, 0);
-			View v = findViewById(languageId);
-			if (v != null && v instanceof TextView) {
-				TextView tv = (TextView) v;
-				tv.setText(displayArray[i]);
-				mLanguages.add(tv);
+			if (first) {
+				mEditors.put(isoArray[i], (EditText) findViewById(W.id.localized));
+				TextView language = (TextView) findViewById(W.id.locale);
+				language.setText(displayArray[i]);
+				first = false;
+			} else {
+				ViewGroup entry = (ViewGroup) View.inflate(context, W.layout.localized_text_editor, mEntries);
+				mEditors.put(isoArray[i], (EditText) entry.findViewById(W.id.localized));
+				TextView language = (TextView) entry.findViewById(W.id.locale);
+				language.setText(displayArray[i]);
 			}
 		}
-		a.recycle();
+		
 		setFocusable(false);
 		updateOtherLanguagesVisibility();
 	}
@@ -89,9 +86,11 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 		}
 		super.setValue(ltl);
 		for (int i = 0; i < isoArray.length; i++) {
-			mEditors.get(i).setText(ltl.getLocalized(isoArray[i]));
 			MyTextWatcher watcher = new MyTextWatcher(isoArray[i], ltl);
-			mEditors.get(i).addTextChangedListener(watcher);
+
+			EditText editText = mEditors.get(isoArray[i]);
+			editText.setText(ltl.getLocalized(isoArray[i]));
+			editText.addTextChangedListener(watcher);
 		}
 	}
 	
@@ -175,12 +174,9 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 	}
 	
 	private void updateOtherLanguagesVisibility() {
-		for (int i = 1; i < isoArray.length; i++) {
-			findViewById(W.id.more_button).setVisibility(mOtherLanguagesHidden ? View.VISIBLE : View.GONE);
-			findViewById(W.id.less_button).setVisibility(mOtherLanguagesHidden ? View.GONE : View.VISIBLE);
-			mEditors.get(i).setVisibility(mOtherLanguagesHidden ? View.GONE : View.VISIBLE);
-			mLanguages.get(i).setVisibility(mOtherLanguagesHidden ? View.GONE : View.VISIBLE);
-		}
+		findViewById(W.id.more_button).setVisibility(mOtherLanguagesHidden ? View.VISIBLE : View.GONE);
+		findViewById(W.id.less_button).setVisibility(mOtherLanguagesHidden ? View.GONE : View.VISIBLE);
+		mEntries.setVisibility(mOtherLanguagesHidden ? View.GONE : View.VISIBLE);
 	}
 	
 	@Override
@@ -324,5 +320,4 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 		}
 		
 	}
-
 }

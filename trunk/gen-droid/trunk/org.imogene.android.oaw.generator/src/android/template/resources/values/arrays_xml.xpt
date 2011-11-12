@@ -24,21 +24,6 @@
 	«ENDFOREACH-»
 	</string-array>
 
-	<!-- Available languages identifiers array of the editable text fields -->
-	<array name="languages_editors">
-	«FOREACH languages AS l ITERATOR i-»
-		<item>@id/localized_text_«i.counter0»</item>
-	«ENDFOREACH-»
-	</array>
-	
-	<!-- Available languages identifiers array of the language display text fields -->
-	<array name="languages_views">
-	«FOREACH languages AS l ITERATOR i-»
-		<item>@id/language_display_«i.counter0»</item>
-	«ENDFOREACH-»
-	</array>
-	
-	
 </resources>
 «ENDFILE»
 

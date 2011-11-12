@@ -3,13 +3,13 @@
 
     <View
         android:layout_width="10dip"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dip" />
 
     <ImageView style="@style/FieldArrowView" />
 
     <View
         android:layout_width="10dip"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dip" />
 
     <LinearLayout
         android:layout_width="0dip"
@@ -18,18 +18,20 @@
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
-        <TextView style="@style/FieldTitleText" />
+        <include layout="@layout/field_title_bar" />
 
-        <EditText style="@style/FieldValueEditText" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <EditText style="@style/FieldValueEditText" />
+
+            <TextView style="@style/FieldUnitText" />
+
+            <ImageButton style="@style/FieldHelpView" />
+        </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/unit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ImageView style="@style/FieldHelpView" />
 
 </merge>

@@ -3,54 +3,61 @@
 
     <View
         android:layout_width="10dip"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dip" />
 
     <ImageView style="@style/FieldArrowView" />
 
     <View
         android:layout_width="10dip"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dip" />
 
     <LinearLayout
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:duplicateParentState="true"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
-        <TextView style="@style/FieldTitleText" />
+        <include layout="@layout/field_title_bar" />
 
-        <TextView style="@style/FieldValueText" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/FieldValueText"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="Value sbsdbsdbsb" />
+
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="@dimen/field_button_width"
+                android:layout_height="@dimen/field_button_height"
+                android:background="@drawable/dashboard_button"
+                android:scaleType="fitCenter"
+                android:src="@android:drawable/ic_menu_delete" />
+
+            <ImageButton
+                android:id="@+id/acquire"
+                android:layout_width="@dimen/field_button_width"
+                android:layout_height="@dimen/field_button_height"
+                android:background="@drawable/dashboard_button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_title_add" />
+
+            <ImageButton
+                android:id="@+id/view"
+                android:layout_width="@dimen/field_button_width"
+                android:layout_height="@dimen/field_button_height"
+                android:background="@drawable/dashboard_button"
+                android:scaleType="fitCenter"
+                android:src="@android:drawable/ic_menu_view" />
+
+            <ImageButton style="@style/FieldHelpView" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingTop="4dip" >
-
-        <ImageButton
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_delete" />
-
-        <ImageButton
-            android:id="@+id/acquire"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_add" />
-
-        <ImageButton
-            android:id="@+id/view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_view" />
-    </LinearLayout>
-
-    <ImageView style="@style/FieldHelpView" />
 
 </merge>

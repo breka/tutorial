@@ -35,6 +35,8 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	private final TextView mTitleView;
 	private final View mHelpView;
 	private final View mDependentView;
+	private final View mRequiredView;
+	private final View mIconView;
 	
 	private View mDividerView;
 	
@@ -47,12 +49,12 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	private int mIconId;
 	private int mTitleId;
 	private boolean mDependent;
-	private boolean mRequired;
 	private boolean mHidden;
 	private boolean mUpdateDisplayOnChange = true;
 	private boolean mAutomaticVisibility = true;
 	
 	protected boolean mReadOnly;
+	protected boolean mRequired;
 
 	private ArrayList<OnDependencyChangeListener> mDependents;
 	
@@ -82,11 +84,24 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		
 		mHelpView = findViewById(W.id.help);
 		mDependentView = findViewById(W.id.arrow);
+		mRequiredView = findViewById(W.id.required);
+		mIconView = findViewById(W.id.icon);
 		
 		mValueView.setSaveEnabled(false);
 		mTitleView.setSaveEnabled(false);
-		mHelpView.setSaveEnabled(false);
-		mDependentView.setSaveEnabled(false);
+		
+		if (mHelpView != null) {
+			mHelpView.setSaveEnabled(false);
+		}
+		if (mDependentView != null) {
+			mDependentView.setSaveEnabled(false);
+		}
+		if (mRequiredView != null) {
+			mRequiredView.setSaveEnabled(false);
+		}
+		if (mIconView != null) {
+			mIconView.setSaveEnabled(false);
+		}
 		
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.FieldEntity, 0, 0);
 		setTitleId(a.getResourceId(W.styleable.FieldEntity_title, android.R.string.unknownName));
@@ -138,6 +153,9 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	public void setRequired(boolean required) {
 		mRequired = required;
+		if (mRequiredView != null) {
+			mRequiredView.setVisibility(required ? View.VISIBLE : View.GONE);
+		}
 	}
 	
 	public boolean isRequired() {
@@ -196,12 +214,11 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	public void setIconId(int iconId) {
 		mIconId = iconId;
-		if (mIconId != 0) {
-			View view = findViewById(W.id.icon);
-			if (view != null && view instanceof ImageView) {
-				((ImageView) view).setImageResource(iconId);
-				view.setVisibility(View.VISIBLE);
+		if (mIconView != null && mIconView instanceof ImageView) {
+			if (iconId != 0) {
+				((ImageView) mIconView).setImageResource(iconId);
 			}
+			mIconView.setVisibility(iconId != 0 ? View.VISIBLE : View.GONE);
 		}
 	}
 	
