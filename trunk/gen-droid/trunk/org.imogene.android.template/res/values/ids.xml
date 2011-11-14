@@ -12,6 +12,5 @@
     <item name="help" type="id"/>
     <item name="required" type="id"/>
     <item name="unit" type="id"/>
-    <item name="divider" type="id"/>
 
 </resources>

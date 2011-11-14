@@ -25,7 +25,7 @@ public class GeoFieldEdit extends BaseFieldEdit<Location> implements OnActivityR
 	private int mRequestCode;
 
 	public GeoFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_edit_buttons_divider);
+		super(context, attrs, W.layout.field_edit_buttons);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.GeoFieldEdit, 0, 0);
 		mProvider = a.getInt(W.styleable.GeoFieldEdit_geoType, -1);
 		a.recycle();

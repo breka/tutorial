@@ -14,7 +14,7 @@ import android.view.View;
 public class RelationOneFieldView extends BaseFieldView<Uri> {
 
 	public RelationOneFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_relation_divider);
+		super(context, attrs, W.layout.field_relation);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.sym_contact_card);
 	}

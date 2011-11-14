@@ -20,7 +20,7 @@ public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements Dialo
 	private final int mArray;
 	
 	public EnumSingleFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default_divider);
+		super(context, attrs, W.layout.field_default);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumSingleFieldEdit, 0, 0);
 		mEntries = a.getResourceId(W.styleable.EnumSingleFieldEdit_entries, 0);
 		mArray = a.getResourceId(W.styleable.EnumSingleFieldEdit_array, 0);

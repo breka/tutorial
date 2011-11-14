@@ -22,7 +22,7 @@ public class TextFieldEdit extends BaseFieldEdit<String> implements TextWatcher 
 	private int mStringType;
 	
 	public TextFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_edit_text_divider);
+		super(context, attrs, W.layout.field_edit_text);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.TextFieldEdit, 0, 0);
 		setStringType(a.getInt(W.styleable.TextFieldEdit_stringType, InputType.TYPE_NULL));
 		a.recycle();

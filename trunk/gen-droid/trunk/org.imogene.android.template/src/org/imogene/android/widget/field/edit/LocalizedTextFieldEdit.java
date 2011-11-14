@@ -37,7 +37,7 @@ public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 	private final ViewGroup mEntries;
 
 	public LocalizedTextFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_edit_localized_divider);
+		super(context, attrs, W.layout.field_edit_localized);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.LocalizedTextFieldEdit, 0, 0);
 		setStringType(a.getInt(W.styleable.LocalizedTextFieldEdit_stringType, InputType.TYPE_NULL));
 		a.recycle();
@@ -66,7 +66,7 @@ public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 				language.setText(displayArray[i]);
 				first = false;
 			} else {
-				ViewGroup entry = (ViewGroup) View.inflate(context, W.layout.localized_text_editor, mEntries);
+				ViewGroup entry = (ViewGroup) inflate(context, W.layout.localized_text_editor, mEntries);
 				mEditors.put(isoArray[i], (EditText) entry.findViewById(W.id.localized));
 				TextView language = (TextView) entry.findViewById(W.id.locale);
 				language.setText(displayArray[i]);

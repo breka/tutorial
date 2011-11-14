@@ -24,7 +24,7 @@ public class FloatFieldEdit extends BaseFieldEdit<Float> implements TextWatcher 
 	private Float mMax;
 	
 	public FloatFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_edit_numeric_divider);
+		super(context, attrs, W.layout.field_edit_numeric);
 		
 		mUnitView = (TextView) findViewById(W.id.unit);
 		if (mUnitView != null) {

@@ -18,7 +18,7 @@ public class BinaryFieldEdit extends BaseFieldEdit<Uri> implements OnActivityRes
 	private int mRequestCode;
 	
 	public BinaryFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_edit_buttons_divider);
+		super(context, attrs, W.layout.field_edit_buttons);
 		findViewById(W.id.acquire).setOnClickListener(this);
 		findViewById(W.id.delete).setOnClickListener(this);
 		findViewById(W.id.view).setOnClickListener(this);

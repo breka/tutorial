@@ -20,7 +20,7 @@ public class AddressFieldView extends BaseFieldView<String> implements OnClickLi
 	private Intent[] mIntents;
 	
 	public AddressFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default_divider);
+		super(context, attrs, W.layout.field_default);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.ic_dialog_map);
 	}

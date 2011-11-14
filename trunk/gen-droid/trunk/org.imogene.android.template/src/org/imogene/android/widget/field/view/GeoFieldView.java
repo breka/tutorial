@@ -20,7 +20,7 @@ public class GeoFieldView extends BaseFieldView<Location> implements OnClickList
 	private Intent[] mIntents;
 	
 	public GeoFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default_divider);
+		super(context, attrs, W.layout.field_default);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.ic_dialog_map);
 	}

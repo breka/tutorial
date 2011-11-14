@@ -83,6 +83,7 @@
         <attr format="string" name="hierarchicalField" />
     </declare-styleable>
     <declare-styleable name="BaseField">
+
         <!--
              Indicates whether this field is dependent
 			 of the value of an other field
@@ -94,13 +95,13 @@
         <attr format="boolean" name="hidden" />
     </declare-styleable>
     <declare-styleable name="BaseFieldEdit">
+
         <!-- The help of the field -->
         <attr format="reference" name="help" />
         <!-- Indicates whether this field is required or not -->
         <attr format="boolean" name="required" />
         <!-- Indicates whether this field is read only or not -->
         <attr format="boolean" name="readOnly" />
-        
     </declare-styleable>
     <declare-styleable name="TextFieldEdit">
 
