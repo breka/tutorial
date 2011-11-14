@@ -8,10 +8,10 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class BinaryFieldView extends FieldEntityView<Uri> {
+public class BinaryFieldView extends BaseFieldView<Uri> {
 
 	public BinaryFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.default_field_entity);
+		super(context, attrs, W.layout.field_default_divider);
 		setOnClickListener(this);
 	}
 	

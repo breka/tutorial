@@ -4,34 +4,15 @@
 
 
 
-
-«DEFINE dividerLayout FOR FieldEntity-»
-<View android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_divider"
-    android:layout_width="fill_parent"
-    android:layout_height="1dip"
-    «IF hidden-»
-    android:visibility="gone"
-    «ENDIF-»
-    android:background="?android:attr/listDivider" />
-«ENDDEFINE»
-
-
-
-
 «DEFINE layout FOR FieldEntity-»
 <org.imogene.android.widget.field.edit.«EXPAND class FOR this-»
+	style="@style/BaseField"
 	android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
-	android:layout_height="wrap_content" 
-	android:layout_width="fill_parent"
-	android:background="@android:drawable/list_selector_background"
-	android:minHeight="?android:attr/listPreferredItemHeight"
-	android:paddingRight="?android:attr/scrollbarSize"
 	app:dependent="«fieldDependentVisibility.size > 0»"
 	app:readOnly="«readOnly»"
 	app:required="«required»"
 	app:hidden="«hidden»"
 	app:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
-	app:divider="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_divider"
 	«IF hasHelp(descriptions)-»
 	app:help="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_help"
 	«ENDIF-»

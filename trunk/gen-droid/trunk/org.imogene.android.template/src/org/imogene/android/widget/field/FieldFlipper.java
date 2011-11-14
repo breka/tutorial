@@ -1,5 +1,7 @@
 package org.imogene.android.widget.field;
 
+import org.imogene.android.widget.field.edit.BaseFieldEdit;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -26,8 +28,8 @@ public class FieldFlipper extends ViewFlipper implements OnDependencyChangeListe
 	@Override
 	public void addView(View child, int index, ViewGroup.LayoutParams params) {
 		super.addView(child, index, params);
-		if (child instanceof FieldEntity<?>) {
-			final FieldEntity<?> field = (FieldEntity<?>) child;
+		if (child instanceof BaseField<?>) {
+			final BaseField<?> field = (BaseField<?>) child;
 			field.registerDependent(this, null);
 		}
 	}
@@ -45,8 +47,8 @@ public class FieldFlipper extends ViewFlipper implements OnDependencyChangeListe
 		if (hasNext()) {
 			super.showNext();
 			final View displayed = getCurrentView();
-			if (displayed != null && displayed instanceof FieldEntity<?>) {
-				final FieldEntity<?> field = (FieldEntity<?>) displayed;
+			if (displayed != null && displayed instanceof BaseField<?>) {
+				final BaseField<?> field = (BaseField<?>) displayed;
 				if (!field.isDependentVisible()) {
 					showNext();
 				}
@@ -59,8 +61,8 @@ public class FieldFlipper extends ViewFlipper implements OnDependencyChangeListe
 		if (hasPrevious()) {
 			super.showPrevious();
 			final View displayed = getCurrentView();
-			if (displayed != null && displayed instanceof FieldEntity<?>) {
-				final FieldEntity<?> field = (FieldEntity<?>) displayed;
+			if (displayed != null && displayed instanceof BaseField<?>) {
+				final BaseField<?> field = (BaseField<?>) displayed;
 				if (!field.isDependentVisible()) {
 					showPrevious();
 				}
@@ -68,8 +70,8 @@ public class FieldFlipper extends ViewFlipper implements OnDependencyChangeListe
 		}
 	}
 	
-	public FieldEntity<?> getCurrentField() {
-		return (FieldEntity<?>) getCurrentView();
+	public BaseFieldEdit<?> getCurrentField() {
+		return (BaseFieldEdit<?>) getCurrentView();
 	}
 	
 	public boolean hasNext() {
@@ -77,8 +79,8 @@ public class FieldFlipper extends ViewFlipper implements OnDependencyChangeListe
 		final int displayed = getDisplayedChild();
 		for (int i = displayed + 1; i < count; i++) {
 			final View child = getChildAt(i);
-			if (child != null && child instanceof FieldEntity<?>) {
-				if (((FieldEntity<?>) child).isDependentVisible()) {
+			if (child != null && child instanceof BaseField<?>) {
+				if (((BaseField<?>) child).isDependentVisible()) {
 					return true;
 				}
 			}
@@ -90,8 +92,8 @@ public class FieldFlipper extends ViewFlipper implements OnDependencyChangeListe
 		final int displayed = getDisplayedChild();
 		for (int i = 0; i < displayed; i++) {
 			final View child = getChildAt(i);
-			if (child != null && child instanceof FieldEntity<?>) {
-				if (((FieldEntity<?>) child).isDependentVisible()) {
+			if (child != null && child instanceof BaseField<?>) {
+				if (((BaseField<?>) child).isDependentVisible()) {
 					return true;
 				}
 			}

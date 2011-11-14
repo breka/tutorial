@@ -2,7 +2,6 @@ package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.W;
 import org.imogene.android.util.field.EnumConverter;
-import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager.OnActivityDestroyListener;
 
 import android.app.AlertDialog.Builder;
@@ -15,13 +14,13 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class EnumSingleFieldEdit extends FieldEntity<Integer> implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener, OnActivityDestroyListener {
+public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener, OnActivityDestroyListener {
 	
 	private final int mEntries;
 	private final int mArray;
 	
 	public EnumSingleFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.default_field_entity);
+		super(context, attrs, W.layout.field_default_divider);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumSingleFieldEdit, 0, 0);
 		mEntries = a.getResourceId(W.styleable.EnumSingleFieldEdit_entries, 0);
 		mArray = a.getResourceId(W.styleable.EnumSingleFieldEdit_array, 0);

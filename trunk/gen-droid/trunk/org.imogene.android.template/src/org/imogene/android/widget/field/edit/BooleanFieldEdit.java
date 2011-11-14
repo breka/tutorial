@@ -1,7 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.W;
-import org.imogene.android.widget.field.FieldEntity;
 
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -13,10 +12,10 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class BooleanFieldEdit extends FieldEntity<Boolean> implements OnClickListener {
+public class BooleanFieldEdit extends BaseFieldEdit<Boolean> implements OnClickListener {
 
 	public BooleanFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.default_field_entity);
+		super(context, attrs, W.layout.field_default_divider);
 	}
 	
 	@Override

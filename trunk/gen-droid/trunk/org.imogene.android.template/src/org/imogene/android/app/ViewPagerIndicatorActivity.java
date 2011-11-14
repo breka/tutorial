@@ -26,6 +26,7 @@ public class ViewPagerIndicatorActivity extends BaseActivity {
 		Resources res = getResources();
 		mPrev = res.getDrawable(W.drawable.indicator_prev_arrow);
 		mNext = res.getDrawable(W.drawable.indicator_next_arrow);
+		setContentView(W.layout.view_pager);
     }
     
     @Override

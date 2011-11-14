@@ -15,12 +15,12 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class AddressFieldView extends FieldEntityView<String> implements OnClickListener {
+public class AddressFieldView extends BaseFieldView<String> implements OnClickListener {
 
 	private Intent[] mIntents;
 	
 	public AddressFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.default_field_entity);
+		super(context, attrs, W.layout.field_default_divider);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.ic_dialog_map);
 	}

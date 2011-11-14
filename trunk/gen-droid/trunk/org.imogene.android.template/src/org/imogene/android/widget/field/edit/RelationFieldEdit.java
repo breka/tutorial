@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.W;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
-import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 import org.imogene.android.widget.field.FieldManager.RelationManager;
@@ -20,7 +19,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Toast;
 
-public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnActivityResultListener {
+public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements OnActivityResultListener {
 	
 	public static interface ExtraBuilder {
 		public void build(Bundle bundle);
@@ -48,7 +47,7 @@ public abstract class RelationFieldEdit<T> extends FieldEntity<T> implements OnA
 	private String mHierarchicalField;
 
 	public RelationFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.relation_field_entity);
+		super(context, attrs, W.layout.field_relation_divider);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationFieldEdit, 0, 0);
 		mHasReverse = a.getBoolean(W.styleable.RelationFieldEdit_hasReverse, false);
 		mDisplayPlId = a.getResourceId(W.styleable.RelationFieldEdit_displayPl, 0);

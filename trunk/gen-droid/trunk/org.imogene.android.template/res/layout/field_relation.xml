@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/FieldDefault" >
 
     <View
         android:id="@+id/color"
@@ -33,10 +34,10 @@
 
             <TextView style="@style/FieldValueText" />
 
-            <ImageButton style="@style/FieldHelpView" />
+            <ImageView style="@style/FieldHelpView" />
 
             <ImageView style="@style/FieldIconView" />
         </LinearLayout>
     </LinearLayout>
 
-</merge>
+</LinearLayout>

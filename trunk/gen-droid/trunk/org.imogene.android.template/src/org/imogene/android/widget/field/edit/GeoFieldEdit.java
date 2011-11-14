@@ -5,7 +5,6 @@ import org.imogene.android.Constants.Intents;
 import org.imogene.android.W;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.content.IntentUtils;
-import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 
@@ -19,14 +18,14 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class GeoFieldEdit extends FieldEntity<Location> implements OnActivityResultListener {
+public class GeoFieldEdit extends BaseFieldEdit<Location> implements OnActivityResultListener {
 
 	private final int mProvider;
 	
 	private int mRequestCode;
 
 	public GeoFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.buttons_field_edit);
+		super(context, attrs, W.layout.field_edit_buttons_divider);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.GeoFieldEdit, 0, 0);
 		mProvider = a.getInt(W.styleable.GeoFieldEdit_geoType, -1);
 		a.recycle();

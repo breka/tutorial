@@ -1,8 +1,7 @@
 package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.W;
-import org.imogene.android.widget.field.FieldEntity;
-import org.imogene.android.widget.field.FieldEntity.DialogFactory;
+import org.imogene.android.widget.field.BaseField.DialogFactory;
 
 import android.content.Context;
 import android.os.Parcel;
@@ -10,13 +9,13 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
-public abstract class DatesFieldEdit extends FieldEntity<Long> implements DialogFactory {
+public abstract class DatesFieldEdit extends BaseFieldEdit<Long> implements DialogFactory {
 	
 	private Long mMin;
 	private Long mMax;
 
 	public DatesFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.default_field_entity);
+		super(context, attrs, W.layout.field_default_divider);
 		setDialogFactory(this);
 	}
 	

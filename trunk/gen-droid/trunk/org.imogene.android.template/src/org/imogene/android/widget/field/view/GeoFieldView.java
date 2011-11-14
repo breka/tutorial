@@ -15,12 +15,12 @@ import android.location.Location;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class GeoFieldView extends FieldEntityView<Location> implements OnClickListener {
+public class GeoFieldView extends BaseFieldView<Location> implements OnClickListener {
 
 	private Intent[] mIntents;
 	
 	public GeoFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.default_field_entity);
+		super(context, attrs, W.layout.field_default_divider);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.ic_dialog_map);
 	}

@@ -97,7 +97,6 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.view_pager);
 		
 		DatabaseUtils.markAs(getContentResolver(), getIntent().getData(), false);
 		getContentResolver().registerContentObserver(getIntent().getData(),

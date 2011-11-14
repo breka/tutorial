@@ -1,7 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.W;
-import org.imogene.android.widget.field.FieldEntity;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,7 +14,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-public class TextFieldEdit extends FieldEntity<String> implements TextWatcher {
+public class TextFieldEdit extends BaseFieldEdit<String> implements TextWatcher {
 	
 	private String[] mRegexs;
 	private int[] mRegexDisplayIds;
@@ -23,7 +22,7 @@ public class TextFieldEdit extends FieldEntity<String> implements TextWatcher {
 	private int mStringType;
 	
 	public TextFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.text_field_edit);
+		super(context, attrs, W.layout.field_edit_text_divider);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.TextFieldEdit, 0, 0);
 		setStringType(a.getInt(W.styleable.TextFieldEdit_stringType, InputType.TYPE_NULL));
 		a.recycle();

@@ -19,13 +19,7 @@
 			android:layout_height="fill_parent"
 			android:orientation="vertical" >
 		
-		«FOREACH group.fields AS f-»
-		
-		«EXPAND android::template::LayoutUtil::layout FOR f-»
-		
-		«EXPAND android::template::LayoutUtil::dividerLayout FOR f-»
-		
-		«ENDFOREACH-»
+		«EXPAND android::template::LayoutUtil::layout FOREACH  group.fields-»
 
 		</LinearLayout>
 

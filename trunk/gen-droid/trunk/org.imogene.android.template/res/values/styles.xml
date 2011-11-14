@@ -94,6 +94,24 @@
         <item name="android:textColor">@color/accent_1</item>
         <item name="android:background">@null</item>
     </style>
+    
+    <style name="BaseField">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:focusable">true</item>
+    </style>
+    
+    <style name="FieldDefault">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:drawable/list_selector_background</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingRight">?android:attr/scrollbarSize</item>
+    </style>
 
     <style name="FieldTitleText">
         <item name="android:id">@id/title</item>
@@ -136,6 +154,7 @@
         <item name="android:duplicateParentState">true</item>
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="FieldArrowView">
@@ -144,15 +163,16 @@
         <item name="android:layout_width">20dip</item>
         <item name="android:layout_height">20dip</item>
         <item name="android:scaleType">fitCenter</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="FieldHelpView">
         <item name="android:id">@id/help</item>
         <item name="android:src">@drawable/help</item>
-        <item name="android:background">@drawable/dashboard_button</item>
-        <item name="android:layout_width">@dimen/field_button_height</item>
-        <item name="android:layout_height">@dimen/field_button_height</item>
+        <item name="android:layout_width">40dip</item>
+        <item name="android:layout_height">40dip</item>
         <item name="android:scaleType">fitCenter</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="FieldIconView">
@@ -174,6 +194,13 @@
         <item name="android:textColor">@color/required_text</item>
         <item name="android:text">@string/required</item>
         <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="FieldDividerView">
+        <item name="android:id">@id/divider</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">?android:attr/listDivider</item>
     </style>
 
 </resources>

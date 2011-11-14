@@ -15,7 +15,7 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class RelationManyFieldView extends FieldEntityView<ArrayList<Uri>> {
+public class RelationManyFieldView extends BaseFieldView<ArrayList<Uri>> {
 	
 	private final int displayPlId;
 	private final int displaySgId;
@@ -23,7 +23,7 @@ public class RelationManyFieldView extends FieldEntityView<ArrayList<Uri>> {
 	private Uri contentUri;
 
 	public RelationManyFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.relation_field_entity);
+		super(context, attrs, W.layout.field_relation_divider);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationManyFieldView, 0, 0);
 		displayPlId = a.getResourceId(W.styleable.RelationManyFieldView_displayPl, 0);
 		displaySgId = a.getResourceId(W.styleable.RelationManyFieldView_displaySg, 0);

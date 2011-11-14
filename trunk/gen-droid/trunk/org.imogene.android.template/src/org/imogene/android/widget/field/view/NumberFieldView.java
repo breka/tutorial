@@ -17,7 +17,7 @@ public class NumberFieldView<T extends Number> extends DefaultEntityView<T> {
 		unitId = a.getResourceId(W.styleable.NumberFieldView_unit, -1);
 		a.recycle();
 		
-		if (unitId != -1) {
+		if (unitId > 0) {
 			unit = context.getString(unitId);
 		} else {
 			unit = null;
@@ -32,7 +32,7 @@ public class NumberFieldView<T extends Number> extends DefaultEntityView<T> {
 	@Override
 	public String getDisplay() {
 		final T number = getValue();
-		if (unitId != -1) {
+		if (unitId > 0) {
 			return number != null ? number.toString() + " " + unit : null;
 		}
 		return number != null ? number.toString() : null;

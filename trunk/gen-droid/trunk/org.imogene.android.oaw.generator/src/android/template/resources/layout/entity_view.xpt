@@ -19,13 +19,7 @@
 			android:layout_height="fill_parent"
 			android:orientation="vertical" >
 		
-		«FOREACH group.fields AS f-»
-		
-		«EXPAND layout FOR f-»
-		
-		«EXPAND android::template::LayoutUtil::dividerLayout FOR f-»
-		
-		«ENDFOREACH-»
+		«EXPAND layout FOREACH group.fields-»
 
 		</LinearLayout>
 
@@ -41,18 +35,11 @@
 
 «DEFINE layout FOR FieldEntity-»
 <org.imogene.android.widget.field.view.«EXPAND class FOR this-»
+	style="@style/BaseField"
 	android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
-	android:layout_height="wrap_content" 
-	android:layout_width="fill_parent"
-	android:background="@android:drawable/list_selector_background"
-	android:minHeight="?android:attr/listPreferredItemHeight"
-	android:paddingRight="?android:attr/scrollbarSize"
 	app:dependent="«fieldDependentVisibility.size > 0»"
-	app:readOnly="«readOnly»"
-	app:required="«required»"
 	app:hidden="«hidden»"
 	app:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
-	app:divider="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_divider"
 	«EXPAND specificAttributes FOR this-»
 />
 «ENDDEFINE»

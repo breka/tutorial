@@ -16,16 +16,14 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, OnDependencyChangeListener, OnClickListener, OnLongClickListener, OnDismissListener, OnActivityDestroyListener {
+public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnDependencyChangeListener, OnClickListener, OnLongClickListener, OnDismissListener, OnActivityDestroyListener {
 	
 	public interface OnValueChangeListener {
 		public void onValueChange();
@@ -33,138 +31,58 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	private final TextView mValueView;
 	private final TextView mTitleView;
-	private final View mHelpView;
 	private final View mDependentView;
-	private final View mRequiredView;
-	private final View mIconView;
-	
-	private View mDividerView;
-	
+
 	private ArrayList<Entry> mDependsOn;
-	private DialogFactory mFactory;
 	private FieldManager mManager;
-	private T mValue;
-	private int mDividerId;
-	private int mHelpId;
-	private int mIconId;
-	private int mTitleId;
+	private DialogFactory mFactory;
+	private Dialog mDialog;
+
 	private boolean mDependent;
 	private boolean mHidden;
-	private boolean mUpdateDisplayOnChange = true;
-	private boolean mAutomaticVisibility = true;
-	
-	protected boolean mReadOnly;
-	protected boolean mRequired;
+	private int mTitleId;
 
 	private ArrayList<OnDependencyChangeListener> mDependents;
-	
 	private ArrayList<OnValueChangeListener> mListeners; 
-	
-	private Dialog mDialog;
-	private Dialog mHelpDialog;
-	
-	public FieldEntity(Context context, AttributeSet attrs, int layoutId) {
+
+	private T mValue;
+
+	public BaseField(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs);
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(layoutId, this, true);
 		
-		View view = findViewById(W.id.value);
-		if (view != null && view instanceof TextView) {
-			mValueView = (TextView) view;
-		} else {
+		mValueView = (TextView) findViewById(W.id.value);
+		if (mValueView == null) {
 			throw new NullPointerException();
 		}
-		
-		view = findViewById(W.id.title);
-		if (view != null && view instanceof TextView) {
-			mTitleView = (TextView) view;
-		} else {
-			throw new NullPointerException();
-		}
-		
-		mHelpView = findViewById(W.id.help);
-		mDependentView = findViewById(W.id.arrow);
-		mRequiredView = findViewById(W.id.required);
-		mIconView = findViewById(W.id.icon);
-		
 		mValueView.setSaveEnabled(false);
+		
+		mTitleView = (TextView) findViewById(W.id.title);
+		if (mTitleView == null) {
+			throw new NullPointerException();
+		}
 		mTitleView.setSaveEnabled(false);
 		
-		if (mHelpView != null) {
-			mHelpView.setSaveEnabled(false);
-		}
+		mDependentView = findViewById(W.id.arrow);
 		if (mDependentView != null) {
 			mDependentView.setSaveEnabled(false);
 		}
-		if (mRequiredView != null) {
-			mRequiredView.setSaveEnabled(false);
-		}
-		if (mIconView != null) {
-			mIconView.setSaveEnabled(false);
-		}
 		
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.FieldEntity, 0, 0);
-		setTitleId(a.getResourceId(W.styleable.FieldEntity_title, android.R.string.unknownName));
-		setHelpId(a.getResourceId(W.styleable.FieldEntity_help, 0));
-		setDividerId(a.getResourceId(W.styleable.FieldEntity_divider, -1));
-		setDependent(a.getBoolean(W.styleable.FieldEntity_dependent, false));
-		setReadOnly(a.getBoolean(W.styleable.FieldEntity_readOnly, false));
-		setRequired(a.getBoolean(W.styleable.FieldEntity_required, false));
-		setHidden(a.getBoolean(W.styleable.FieldEntity_hidden, false));
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.BaseField, 0, 0);
+		setTitleId(a.getResourceId(W.styleable.BaseField_title, android.R.string.unknownName));
+		setDependent(a.getBoolean(W.styleable.BaseField_dependent, false));
+		setHidden(a.getBoolean(W.styleable.BaseField_hidden, false));
 		a.recycle();
-		setOrientation(HORIZONTAL);
-		setGravity(Gravity.CENTER_VERTICAL);
-		setFocusable(true);
 	}
 	
 	@Override
 	public void setVisibility(int visibility) {
 		super.setVisibility(mHidden ? View.GONE : visibility);
-		if (mDividerView != null) {
-			mDividerView.setVisibility(visibility);
-		}
 	}
 	
 	public TextView getValueView() {
 		return mValueView;
-	}
-	
-	public TextView getTitleView() {
-		return mTitleView;
-	}
-	
-	public View getHelpView() {
-		return mHelpView;
-	}
-	
-	public View getDependentView() {
-		return mDependentView;
-	}
-	
-	public boolean isValid() {
-		return mRequired ? mValue != null : true;
-	}
-	
-	public String getErrorMessage() {
-		if (mRequired)
-			return getResources().getString(W.string.is_required);
-		return null;
-	}
-	
-	public void setRequired(boolean required) {
-		mRequired = required;
-		if (mRequiredView != null) {
-			mRequiredView.setVisibility(required ? View.VISIBLE : View.GONE);
-		}
-	}
-	
-	public boolean isRequired() {
-		return mRequired;
-	}
-	
-	public void setReadOnly(boolean readOnly) {
-		mReadOnly = readOnly;
-		setEnabled(!readOnly);
 	}
 	
 	public boolean isHidden() {
@@ -174,10 +92,6 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	public void setHidden(boolean hidden) {
 		mHidden = hidden;
 		setVisibility(hidden ? View.GONE : View.VISIBLE);
-	}
-	
-	public boolean isReadOnly() {
-		return mReadOnly;
 	}
 	
 	public void setTitleId(int titleId) {
@@ -198,51 +112,6 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	public boolean isDependendent() {
 		return mDependent;
-	}
-	
-	public void setHelpId(int helpId) {
-		mHelpId = helpId;
-		if (mHelpView != null) {
-			mHelpView.setOnClickListener(helpId != 0 ? this : null);
-			mHelpView.setVisibility(helpId != 0 ? View.VISIBLE : View.GONE);			
-		}
-	}
-	
-	public int getHelpId() {
-		return mHelpId;
-	}
-	
-	public void setIconId(int iconId) {
-		mIconId = iconId;
-		if (mIconView != null && mIconView instanceof ImageView) {
-			if (iconId != 0) {
-				((ImageView) mIconView).setImageResource(iconId);
-			}
-			mIconView.setVisibility(iconId != 0 ? View.VISIBLE : View.GONE);
-		}
-	}
-	
-	public int getIconId() {
-		return mIconId;
-	}
-	
-	public void setDividerId(int dividerId) {
-		mDividerId = dividerId;
-		if (mManager != null) {
-			mDividerView = mManager.getActivity().findViewById(mDividerId);
-		}
-	}
-	
-	public int getDividerId() {
-		return mDividerId;
-	}
-	
-	public View getDividerView() {
-		return mDividerView;
-	}
-	
-	public void setAutomaticManageVisibility(boolean automatic) {
-		mAutomaticVisibility = automatic;
 	}
 	
 	public void setValue(T value) {
@@ -270,10 +139,6 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	
 	public void onAttachedToHierarchy(FieldManager manager) {
 		mManager = manager;
-		mDividerView = mManager.getActivity().findViewById(mDividerId);
-		if (mDividerView != null) {
-			mDividerView.setVisibility(getVisibility());
-		}
 	}
 	
 	public void registerOnValueChangeListener(OnValueChangeListener listener) {
@@ -316,9 +181,6 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 	}
 	
 	public void onDependencyChanged() {
-		if (!mAutomaticVisibility) {
-			return;
-		}
 		final boolean visible = isDependentVisible();
 		setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
@@ -331,22 +193,8 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		mDependsOn.add(new Entry(matcher, dependencyValue));
 	}
 	
-	protected void enableUpdateDisplayOnChange() {
-		if (!mUpdateDisplayOnChange) {
-			mUpdateDisplayOnChange = true;
-		}
-	}
-	
-	protected void disableUpdateDisplayOnChange() {
-		if (mUpdateDisplayOnChange) {
-			mUpdateDisplayOnChange = false;
-		}
-	}
-	
 	protected void onChangeValue() {
-		if (mUpdateDisplayOnChange) {
-			mValueView.setText(getDisplay());
-		}
+		mValueView.setText(getDisplay());
 	}
 	
 	private void notifyDependencyChange() {
@@ -377,16 +225,13 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		}
 	}
 	
-	protected void dispatchClick(View v) {
-		
+	@Override
+	public void onClick(View v) {
+		dispatchClick(v);
 	}
 	
-	public void onClick(View v) {
-		if (v.getId() == W.id.help) {
-			showHelpDialog(null);
-		} else {
-			dispatchClick(v);
-		}
+	protected void dispatchClick(View v) {
+		
 	}
 	
 	public boolean onLongClick(View v) {
@@ -419,30 +264,10 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		dialog.show();
 	}
 	
-	private void showHelpDialog(Bundle state) {
-		Builder builder = new AlertDialog.Builder(getContext())
-		.setIcon(android.R.drawable.ic_dialog_info)
-		.setTitle(mTitleId)
-		.setMessage(mHelpId)
-		.setPositiveButton(android.R.string.ok, null);
-		
-		mManager.registerOnActivityDestroyListener(this);
-		
-		final Dialog dialog = mHelpDialog = builder.create();
-		if (state != null) {
-			dialog.onRestoreInstanceState(state);
-		}
-		dialog.setOnDismissListener(this);
-		dialog.show();
-	}
-	
 	public void onDismiss(DialogInterface dialog) {
 		mManager.unregisterOnActivityDestroyListener(this);
 		if (dialog.equals(mDialog)) {
 			mDialog = null;
-		}
-		if (dialog.equals(mHelpDialog)) {
-			mHelpDialog = null;
 		}
 	}
 	
@@ -450,26 +275,19 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		if (mDialog != null && mDialog.isShowing()) {
 			mDialog.dismiss();
 		}
-		
-		if (mHelpDialog != null && mHelpDialog.isShowing()) {
-			mHelpDialog.dismiss();
-		}
 	}
 	
 	@Override
 	protected Parcelable onSaveInstanceState() {
 		final Parcelable superState = super.onSaveInstanceState();
 		final boolean hasDialog = mDialog != null && mDialog.isShowing();
-		final boolean hasHelpDialog = mHelpDialog != null && mHelpDialog.isShowing();
-		if (!hasDialog && !hasHelpDialog) {
+		if (!hasDialog) {
 			return superState;
 		}
 		
 		final SavedState myState = new SavedState(superState);
 		myState.isDialogShowing = hasDialog;
 		myState.dialogBundle = hasDialog ? mDialog.onSaveInstanceState() : null;
-		myState.isHelpDialogShowing = hasHelpDialog;
-		myState.helpDialogBundle = hasHelpDialog ? mHelpDialog.onSaveInstanceState() : null;
 		return myState;
 	}
 	
@@ -486,9 +304,6 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		if (myState.isDialogShowing) {
 			showDialog(myState.dialogBundle);
 		}
-		if (myState.isHelpDialogShowing) {
-			showHelpDialog(myState.helpDialogBundle);
-		}
 	}
 	
 	private static class SavedState extends BaseSavedState {
@@ -496,15 +311,10 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 		private boolean isDialogShowing;
 		private Bundle dialogBundle;
 		
-		private boolean isHelpDialogShowing;
-		private Bundle helpDialogBundle;
-
 		public SavedState(Parcel source) {
 			super(source);
 			isDialogShowing = source.readInt() == 1;
 			dialogBundle = source.readBundle();
-			isHelpDialogShowing = source.readInt() == 1;
-			helpDialogBundle = source.readBundle();
 		}
 		
 		public SavedState(Parcelable superState) {
@@ -516,8 +326,6 @@ public class FieldEntity<T> extends LinearLayout implements DependencyMatcher, O
 			super.writeToParcel(dest, flags);
 			dest.writeInt(isDialogShowing ? 1 : 0);
 			dest.writeBundle(dialogBundle);
-			dest.writeInt(isHelpDialogShowing ? 1 : 0);
-			dest.writeBundle(helpDialogBundle);
 		}
 		
 		public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {

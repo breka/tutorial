@@ -2,7 +2,6 @@ package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.W;
-import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 
@@ -16,12 +15,12 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class BarcodeFieldEdit extends FieldEntity<String> implements OnActivityResultListener {
+public class BarcodeFieldEdit extends BaseFieldEdit<String> implements OnActivityResultListener {
 	
 	private int mRequestCode;
 
 	public BarcodeFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.buttons_field_edit);
+		super(context, attrs, W.layout.field_edit_buttons_divider);
 		findViewById(W.id.acquire).setOnClickListener(this);
 		findViewById(W.id.delete).setOnClickListener(this);
 		findViewById(W.id.view).setOnClickListener(this);

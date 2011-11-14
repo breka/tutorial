@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/FieldDefault" >
 
     <View
         android:layout_width="10dip"
@@ -29,35 +30,34 @@
             <TextView
                 style="@style/FieldValueText"
                 android:layout_width="0dip"
-                android:layout_weight="1"
-                android:text="Value sbsdbsdbsb" />
+                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/delete"
-                android:layout_width="@dimen/field_button_width"
-                android:layout_height="@dimen/field_button_height"
-                android:background="@drawable/dashboard_button"
+                android:layout_width="70dip"
+                android:layout_height="45dip"
+                android:background="@drawable/btn_default"
                 android:scaleType="fitCenter"
-                android:src="@android:drawable/ic_menu_delete" />
+                android:src="@drawable/binary_delete" />
 
             <ImageButton
                 android:id="@+id/acquire"
-                android:layout_width="@dimen/field_button_width"
-                android:layout_height="@dimen/field_button_height"
-                android:background="@drawable/dashboard_button"
+                android:layout_width="70dip"
+                android:layout_height="45dip"
+                android:background="@drawable/btn_default"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_title_add" />
+                android:src="@drawable/binary_add" />
 
             <ImageButton
                 android:id="@+id/view"
-                android:layout_width="@dimen/field_button_width"
-                android:layout_height="@dimen/field_button_height"
-                android:background="@drawable/dashboard_button"
+                android:layout_width="70dip"
+                android:layout_height="45dip"
+                android:background="@drawable/btn_default"
                 android:scaleType="fitCenter"
-                android:src="@android:drawable/ic_menu_view" />
+                android:src="@drawable/binary_view" />
 
-            <ImageButton style="@style/FieldHelpView" />
+            <ImageView style="@style/FieldHelpView" />
         </LinearLayout>
     </LinearLayout>
 
-</merge>
+</LinearLayout>
