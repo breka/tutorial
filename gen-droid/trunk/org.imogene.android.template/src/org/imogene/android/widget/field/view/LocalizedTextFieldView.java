@@ -13,14 +13,14 @@ import android.widget.Gallery;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-public class LocalizedTextFieldView extends FieldEntityView<LocalizedTextList> {
+public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
 
 	private final ViewFlipper mViewFlipper;
 	private final View mLeftView;
 	private final View mRightView;
 	
 	public LocalizedTextFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.localized_text_field_view);
+		super(context, attrs, W.layout.field_view_localized_divider);
 		setClickable(false);
 		mViewFlipper = (ViewFlipper) findViewById(W.id.flipper);
 		mLeftView = findViewById(W.id.left);

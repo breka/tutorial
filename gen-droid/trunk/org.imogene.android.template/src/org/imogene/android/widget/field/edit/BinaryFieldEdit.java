@@ -1,7 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.W;
-import org.imogene.android.widget.field.FieldEntity;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 
@@ -14,12 +13,12 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class BinaryFieldEdit extends FieldEntity<Uri> implements OnActivityResultListener {
+public class BinaryFieldEdit extends BaseFieldEdit<Uri> implements OnActivityResultListener {
 
 	private int mRequestCode;
 	
 	public BinaryFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.buttons_field_edit);
+		super(context, attrs, W.layout.field_edit_buttons_divider);
 		findViewById(W.id.acquire).setOnClickListener(this);
 		findViewById(W.id.delete).setOnClickListener(this);
 		findViewById(W.id.view).setOnClickListener(this);

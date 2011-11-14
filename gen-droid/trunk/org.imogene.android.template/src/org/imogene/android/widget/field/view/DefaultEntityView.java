@@ -7,10 +7,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class DefaultEntityView<T> extends FieldEntityView<T> {
+public class DefaultEntityView<T> extends BaseFieldView<T> {
 
 	public DefaultEntityView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.default_field_entity);
+		super(context, attrs, W.layout.field_default_divider);
 		setOnClickListener(this);
 	}
 	

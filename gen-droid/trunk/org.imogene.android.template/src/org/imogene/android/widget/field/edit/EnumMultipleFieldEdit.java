@@ -5,7 +5,6 @@ import java.util.Arrays;
 import org.imogene.android.W;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.field.EnumConverter;
-import org.imogene.android.widget.field.FieldEntity;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -20,14 +19,14 @@ import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
 import android.view.View;
 
-public class EnumMultipleFieldEdit extends FieldEntity<boolean[]> implements OnMultiChoiceClickListener, android.content.DialogInterface.OnClickListener{
+public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements OnMultiChoiceClickListener, android.content.DialogInterface.OnClickListener{
 
 	private final int mEntries;
 	private final int mArray;
 	private final int mSize;
 	
 	public EnumMultipleFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.default_field_entity);
+		super(context, attrs, W.layout.field_default_divider);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumMultipleFieldEdit, 0, 0);
 		mEntries = a.getResourceId(W.styleable.EnumMultipleFieldEdit_entries, 0);
 		mArray = a.getResourceId(W.styleable.EnumMultipleFieldEdit_array, 0);

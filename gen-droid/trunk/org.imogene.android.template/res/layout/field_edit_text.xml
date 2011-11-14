@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/FieldDefault" >
 
     <View
         android:layout_width="10dip"
@@ -28,8 +29,8 @@
 
             <EditText style="@style/FieldValueEditText" />
 
-            <ImageButton style="@style/FieldHelpView" />
+            <ImageView style="@style/FieldHelpView" />
         </LinearLayout>
     </LinearLayout>
 
-</merge>
+</LinearLayout>

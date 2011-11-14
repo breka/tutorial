@@ -6,7 +6,6 @@ import java.util.Locale;
 import org.imogene.android.W;
 import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.Tools;
-import org.imogene.android.widget.field.FieldEntity;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,7 +21,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
+public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 	
 	private String[] mRegexs;
 	private int[] mRegexDisplayIds;
@@ -38,7 +37,7 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 	private final ViewGroup mEntries;
 
 	public LocalizedTextFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.localized_text_field_edit);
+		super(context, attrs, W.layout.field_edit_localized_divider);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.LocalizedTextFieldEdit, 0, 0);
 		setStringType(a.getInt(W.styleable.LocalizedTextFieldEdit_stringType, InputType.TYPE_NULL));
 		a.recycle();
@@ -78,6 +77,10 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 		updateOtherLanguagesVisibility();
 	}
 	
+	private void notifyUpdate() {
+		super.setValue(getValue());
+	}
+	
 	@Override
 	public void setValue(LocalizedTextList value) {
 		LocalizedTextList ltl = value;
@@ -86,7 +89,7 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 		}
 		super.setValue(ltl);
 		for (int i = 0; i < isoArray.length; i++) {
-			MyTextWatcher watcher = new MyTextWatcher(isoArray[i], ltl);
+			MyTextWatcher watcher = new MyTextWatcher(isoArray[i]);
 
 			EditText editText = mEditors.get(isoArray[i]);
 			editText.setText(ltl.getLocalized(isoArray[i]));
@@ -295,18 +298,17 @@ public class LocalizedTextFieldEdit extends FieldEntity<LocalizedTextList> {
 		
 	}
 	
-	private static class MyTextWatcher implements TextWatcher {
+	private class MyTextWatcher implements TextWatcher {
 		
-		private final String mLocale;
-		private final LocalizedTextList mLocalizedTextList;
+		private final String locale;
 		
-		public MyTextWatcher(String locale, LocalizedTextList ltl) {
-			mLocale = locale;
-			mLocalizedTextList = ltl;
+		public MyTextWatcher(String locale) {
+			this.locale = locale;
 		}
 
 		public void afterTextChanged(Editable s) {
-			mLocalizedTextList.add(mLocale, s.toString());
+			getValue().add(locale, s.toString());
+			notifyUpdate();
 		}
 
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {

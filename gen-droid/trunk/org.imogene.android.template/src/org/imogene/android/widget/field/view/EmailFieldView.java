@@ -9,10 +9,10 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class EmailFieldView extends FieldEntityView<String> {
+public class EmailFieldView extends BaseFieldView<String> {
 
 	public EmailFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.default_field_entity);
+		super(context, attrs, W.layout.field_default_divider);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.sym_action_email);
 	}

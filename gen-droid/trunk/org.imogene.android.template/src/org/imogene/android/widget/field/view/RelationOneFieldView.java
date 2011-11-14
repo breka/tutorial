@@ -11,10 +11,10 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class RelationOneFieldView extends FieldEntityView<Uri> {
+public class RelationOneFieldView extends BaseFieldView<Uri> {
 
 	public RelationOneFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.relation_field_entity);
+		super(context, attrs, W.layout.field_relation_divider);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.sym_contact_card);
 	}

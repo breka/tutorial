@@ -3,7 +3,6 @@ package org.imogene.android.widget.field.edit;
 import org.imogene.android.W;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.field.FieldPattern;
-import org.imogene.android.widget.field.FieldEntity;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -17,14 +16,21 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-public class FloatFieldEdit extends FieldEntity<Float> implements TextWatcher {
+public class FloatFieldEdit extends BaseFieldEdit<Float> implements TextWatcher {
 
-	private int mUnitId;
+	private TextView mUnitView;
+
 	private Float mMin;
 	private Float mMax;
 	
 	public FloatFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.numeric_field_edit);
+		super(context, attrs, W.layout.field_edit_numeric_divider);
+		
+		mUnitView = (TextView) findViewById(W.id.unit);
+		if (mUnitView != null) {
+			mUnitView.setSaveEnabled(false);
+		}
+		
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.FloatFieldEdit, 0, 0);
 		setUnitId(a.getResourceId(W.styleable.FloatFieldEdit_unit, -1));
 		if (a.hasValue(W.styleable.FloatFieldEdit_floatMin)) {
@@ -48,17 +54,12 @@ public class FloatFieldEdit extends FieldEntity<Float> implements TextWatcher {
 	}
 	
 	public void setUnitId(int unitId) {
-		mUnitId = unitId;
-		if (unitId != -1) {
-			final View unit = findViewById(W.id.unit);
-			if (unit != null && unit instanceof TextView) {
-				((TextView) unit).setText(unitId);
+		if (mUnitView != null) {
+			if (unitId > 0) {
+				mUnitView.setText(unitId);
 			}
+			mUnitView.setVisibility(unitId > 0 ? View.VISIBLE : View.GONE);
 		}
-	}
-	
-	public int getUnitId() {
-		return mUnitId;
 	}
 	
 	public void setMin(Float min) {

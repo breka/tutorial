@@ -2,6 +2,7 @@ package org.imogene.android.widget.field;
 
 import org.imogene.android.W;
 import org.imogene.android.widget.field.FieldFlipper.Controller;
+import org.imogene.android.widget.field.edit.BaseFieldEdit;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -78,7 +79,7 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 	}
 	
 	public void onFieldChanged() {
-		final FieldEntity<?> displayed = mFlipper.getCurrentField();
+		final BaseFieldEdit<?> displayed = mFlipper.getCurrentField();
 		findViewById(W.id.previous_field).setVisibility(mFlipper.hasPrevious() ? View.VISIBLE : View.GONE);
 		findViewById(W.id.next_field).setEnabled(displayed.isValid());
 		final boolean hasNext = mFlipper.hasNext();
