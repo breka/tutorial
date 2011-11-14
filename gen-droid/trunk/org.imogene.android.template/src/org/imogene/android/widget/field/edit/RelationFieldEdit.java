@@ -47,7 +47,7 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 	private String mHierarchicalField;
 
 	public RelationFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_relation_divider);
+		super(context, attrs, W.layout.field_relation);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationFieldEdit, 0, 0);
 		mHasReverse = a.getBoolean(W.styleable.RelationFieldEdit_hasReverse, false);
 		mDisplayPlId = a.getResourceId(W.styleable.RelationFieldEdit_displayPl, 0);

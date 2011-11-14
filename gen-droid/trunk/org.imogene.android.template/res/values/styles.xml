@@ -197,7 +197,6 @@
     </style>
 
     <style name="FieldDividerView">
-        <item name="android:id">@id/divider</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">1dip</item>
         <item name="android:background">?android:attr/listDivider</item>

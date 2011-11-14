@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -49,8 +48,7 @@ public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnD
 
 	public BaseField(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs);
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(layoutId, this, true);
+		inflate(context, layoutId, this);
 		
 		mValueView = (TextView) findViewById(W.id.value);
 		if (mValueView == null) {
@@ -68,12 +66,13 @@ public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnD
 		if (mDependentView != null) {
 			mDependentView.setSaveEnabled(false);
 		}
-		
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.BaseField, 0, 0);
 		setTitleId(a.getResourceId(W.styleable.BaseField_title, android.R.string.unknownName));
 		setDependent(a.getBoolean(W.styleable.BaseField_dependent, false));
 		setHidden(a.getBoolean(W.styleable.BaseField_hidden, false));
 		a.recycle();
+		
+		inflate(context, W.layout.divider_layout, this);
 	}
 	
 	@Override

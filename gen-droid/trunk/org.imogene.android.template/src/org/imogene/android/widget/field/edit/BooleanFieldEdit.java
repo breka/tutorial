@@ -15,7 +15,7 @@ import android.view.View;
 public class BooleanFieldEdit extends BaseFieldEdit<Boolean> implements OnClickListener {
 
 	public BooleanFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default_divider);
+		super(context, attrs, W.layout.field_default);
 	}
 	
 	@Override

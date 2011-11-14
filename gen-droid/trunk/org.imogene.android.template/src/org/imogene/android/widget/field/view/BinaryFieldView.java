@@ -11,7 +11,7 @@ import android.view.View;
 public class BinaryFieldView extends BaseFieldView<Uri> {
 
 	public BinaryFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default_divider);
+		super(context, attrs, W.layout.field_default);
 		setOnClickListener(this);
 	}
 	

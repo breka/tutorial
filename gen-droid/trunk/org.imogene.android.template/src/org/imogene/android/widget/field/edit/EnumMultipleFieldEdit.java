@@ -26,7 +26,7 @@ public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements O
 	private final int mSize;
 	
 	public EnumMultipleFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default_divider);
+		super(context, attrs, W.layout.field_default);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumMultipleFieldEdit, 0, 0);
 		mEntries = a.getResourceId(W.styleable.EnumMultipleFieldEdit_entries, 0);
 		mArray = a.getResourceId(W.styleable.EnumMultipleFieldEdit_array, 0);

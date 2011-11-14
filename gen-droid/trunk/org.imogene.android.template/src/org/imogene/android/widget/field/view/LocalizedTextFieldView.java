@@ -20,7 +20,7 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
 	private final View mRightView;
 	
 	public LocalizedTextFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_view_localized_divider);
+		super(context, attrs, W.layout.field_view_localized);
 		setClickable(false);
 		mViewFlipper = (ViewFlipper) findViewById(W.id.flipper);
 		mLeftView = findViewById(W.id.left);
