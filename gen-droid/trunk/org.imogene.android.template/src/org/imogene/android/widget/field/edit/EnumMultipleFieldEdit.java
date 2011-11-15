@@ -55,7 +55,7 @@ public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements O
 	public String getDisplay() {
 		boolean[] value = getValue();
 		if (value == null || Arrays.equals(value, new boolean[mSize])) {
-			return getResources().getString(W.string.select);
+			return getEmptyText();
 		} else {
 			return FormatHelper.displayEnumMulti(getResources().getStringArray(mEntries), value);
 		}

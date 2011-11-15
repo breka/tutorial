@@ -7,6 +7,19 @@
         <attr format="reference" name="actionbarCompatSeparatorStyle" />
         <attr format="reference" name="actionbarCompatLogoStyle" />
         <attr format="reference" name="actionbarCompatTextStyle" />
+        <attr format="dimension" name="fieldLayoutHeight">
+            <!--
+                 The view should be as big as its parent (minus padding).
+                 This constant is deprecated starting from API Level 8 and
+                 is replaced by {@code match_parent}.            -->
+            <enum name="fill_parent" value="-1" />
+            <!--
+                 The view should be as big as its parent (minus padding).
+                 Introduced in API Level 8.            -->
+            <enum name="match_parent" value="-1" />
+            <!-- The view should be only big enough to enclose its content (plus padding). -->
+            <enum name="wrap_content" value="-2" />
+        </attr>
     </declare-styleable>
 
     <!-- The human-readable array to present as a list -->
@@ -83,16 +96,16 @@
         <attr format="string" name="hierarchicalField" />
     </declare-styleable>
     <declare-styleable name="BaseField">
-
         <!--
              Indicates whether this field is dependent
-			 of the value of an other field
-        -->
+			 of the value of an other field        -->
         <attr format="boolean" name="dependent" />
         <!-- The title of the field -->
         <attr format="reference" name="title" />
         <!-- Indicates whether this field is hidden or not -->
         <attr format="boolean" name="hidden" />
+        <!-- The default text to display when the field is empty -->
+        <attr format="reference" name="emptyText"/>
     </declare-styleable>
     <declare-styleable name="BaseFieldEdit">
 

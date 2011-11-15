@@ -51,7 +51,7 @@ public class BarcodeFieldEdit extends BaseFieldEdit<String> implements OnActivit
 	public String getDisplay() {
 		final String value = getValue();
 		if (TextUtils.isEmpty(value)) {
-			return getResources().getString(W.string.select);
+			return getEmptyText();
 		} else {
 			return value;
 		}

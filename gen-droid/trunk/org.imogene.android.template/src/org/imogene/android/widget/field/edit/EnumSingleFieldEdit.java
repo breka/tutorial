@@ -48,11 +48,11 @@ public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements Dialo
 	public String getDisplay() {
 		final Integer value = getValue();
 		if (value == null) {
-			return getResources().getString(W.string.select);
+			return getEmptyText();
 		} else {
 			final int intValue = value.intValue();
 			if (intValue == -1) {
-				return getResources().getString(W.string.select);
+				return getEmptyText();
 			} else {
 				String[] array = getResources().getStringArray(mEntries);
 				return array[intValue];

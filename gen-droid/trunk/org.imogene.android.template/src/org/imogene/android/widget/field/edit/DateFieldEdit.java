@@ -40,7 +40,7 @@ public class DateFieldEdit extends DatesFieldEdit implements OnDateSetListener {
 		if (time != null) {
 			return FormatHelper.displayAsDate(time.longValue());
 		} else {
-			return getResources().getString(W.string.select);
+			return getEmptyText();
 		}
 	}
 	

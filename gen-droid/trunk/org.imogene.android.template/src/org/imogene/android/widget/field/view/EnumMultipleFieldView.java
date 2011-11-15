@@ -36,7 +36,7 @@ public class EnumMultipleFieldView extends DefaultEntityView<boolean[]> {
 		if (value != null && !Arrays.equals(value, new boolean[value.length])) {
 			return FormatHelper.displayEnumMulti(getResources().getStringArray(mEntries), value);
 		}
-		return getResources().getString(W.string.select);
+		return super.getDisplay();
 	}
 	
 	@Override
