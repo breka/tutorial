@@ -36,7 +36,7 @@ public class RelationOneFieldEdit extends RelationFieldEdit<Uri> implements OnAc
 			result = cursor.getMainDisplay(getContext());
 			cursor.close();
 		} else {
-			result = getResources().getString(W.string.select);
+			result = getEmptyText();
 		}
 		return result;
 	}

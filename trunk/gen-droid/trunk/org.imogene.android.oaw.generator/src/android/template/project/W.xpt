@@ -36,11 +36,13 @@ public final class W {
 		public static final int dependent = R.attr.dependent;
 		public static final int displayPl = R.attr.displayPl;
 		public static final int displaySg = R.attr.displaySg;
+		public static final int emptyText = R.attr.emptyText;
 		public static final int endYear = R.attr.endYear;
 		public static final int entity = R.attr.entity;
 		public static final int entityws = R.attr.entityws;
 		public static final int entries = R.attr.entries;
 		public static final int field = R.attr.field;
+		public static final int fieldLayoutHeight = R.attr.fieldLayoutHeight;
 		public static final int floatMax = R.attr.floatMax;
 		public static final int floatMin = R.attr.floatMin;
 		public static final int geoType = R.attr.geoType;
@@ -193,6 +195,7 @@ public final class W {
 		public static final int email = R.id.email;
 		public static final int emptyText = R.id.emptyText;
 		public static final int equals = R.id.equals;
+		public static final int fill_parent = R.id.fill_parent;
 		public static final int finish = R.id.finish;
 		public static final int flipper = R.id.flipper;
 		public static final int footer = R.id.footer;
@@ -218,6 +221,7 @@ public final class W {
 		public static final int localized_entries = R.id.localized_entries;
 		public static final int main = R.id.main;
 		public static final int map = R.id.map;
+		public static final int match_parent = R.id.match_parent;
 		public static final int menu_add = R.id.menu_add;
 		public static final int menu_change_user = R.id.menu_change_user;
 		public static final int menu_delete = R.id.menu_delete;
@@ -263,6 +267,7 @@ public final class W {
 		public static final int value = R.id.value;
 		public static final int view = R.id.view;
 		public static final int wizard = R.id.wizard;
+		public static final int wrap_content = R.id.wrap_content;
 		public static final int year = R.id.year;}
 
 	public static final class layout {
@@ -570,6 +575,7 @@ public final class W {
 		public static final int Theme_Dialog_Alert = R.style.Theme_Dialog_Alert;
 		public static final int Theme_Imogene = R.style.Theme_Imogene;
 		public static final int Theme_Imogene_Home = R.style.Theme_Imogene_Home;
+		public static final int Theme_Imogene_Wizard = R.style.Theme_Imogene_Wizard;
 		public static final int Theme_Light_Hack = R.style.Theme_Light_Hack;}
 
 	public static final class xml {
@@ -586,8 +592,10 @@ public final class W {
 		public static final int AppTheme_actionbarCompatProgressIndicatorStyle = R.styleable.AppTheme_actionbarCompatProgressIndicatorStyle;
 		public static final int AppTheme_actionbarCompatSeparatorStyle = R.styleable.AppTheme_actionbarCompatSeparatorStyle;
 		public static final int AppTheme_actionbarCompatTextStyle = R.styleable.AppTheme_actionbarCompatTextStyle;
+		public static final int AppTheme_fieldLayoutHeight = R.styleable.AppTheme_fieldLayoutHeight;
 		public static final int[] BaseField = R.styleable.BaseField;
 		public static final int BaseField_dependent = R.styleable.BaseField_dependent;
+		public static final int BaseField_emptyText = R.styleable.BaseField_emptyText;
 		public static final int BaseField_hidden = R.styleable.BaseField_hidden;
 		public static final int BaseField_title = R.styleable.BaseField_title;
 		public static final int[] BaseFieldEdit = R.styleable.BaseFieldEdit;

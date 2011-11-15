@@ -45,7 +45,7 @@ public class BinaryFieldEdit extends BaseFieldEdit<Uri> implements OnActivityRes
 	
 	@Override
 	public String getDisplay() {
-		return getResources().getString(getValue() != null ? displayId() : W.string.select);
+		return getValue() != null ? getResources().getString(displayId()) : getEmptyText();
 	}
 	
 	@Override

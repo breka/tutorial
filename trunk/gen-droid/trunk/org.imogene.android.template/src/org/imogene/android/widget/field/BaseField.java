@@ -40,6 +40,7 @@ public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnD
 	private boolean mDependent;
 	private boolean mHidden;
 	private int mTitleId;
+	private int mEmptyTextId;
 
 	private ArrayList<OnDependencyChangeListener> mDependents;
 	private ArrayList<OnValueChangeListener> mListeners; 
@@ -67,6 +68,7 @@ public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnD
 			mDependentView.setSaveEnabled(false);
 		}
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.BaseField, 0, 0);
+		setEmptyTextId(a.getResourceId(W.styleable.BaseField_emptyText, W.string.select));
 		setTitleId(a.getResourceId(W.styleable.BaseField_title, android.R.string.unknownName));
 		setDependent(a.getBoolean(W.styleable.BaseField_dependent, false));
 		setHidden(a.getBoolean(W.styleable.BaseField_hidden, false));
@@ -100,6 +102,14 @@ public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnD
 	
 	public int getTitleId() {
 		return mTitleId;
+	}
+	
+	public void setEmptyTextId(int emptyTextId) {
+		mEmptyTextId = emptyTextId;
+	}
+	
+	public String getEmptyText() {
+		return getResources().getString(mEmptyTextId);
 	}
 	
 	public void setDependent(boolean dependent) {

@@ -40,7 +40,7 @@ public class TimeFieldEdit extends DatesFieldEdit implements OnTimeSetListener {
 		if (time != null) {
 			return FormatHelper.displayAsTime(time.longValue());
 		} else {
-			return getResources().getString(W.string.select);
+			return getEmptyText();
 		}
 	}
 	

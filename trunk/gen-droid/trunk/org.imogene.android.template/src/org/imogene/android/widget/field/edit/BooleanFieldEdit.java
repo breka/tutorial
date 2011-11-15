@@ -32,7 +32,7 @@ public class BooleanFieldEdit extends BaseFieldEdit<Boolean> implements OnClickL
 			String[] array = getResources().getStringArray(W.array.select_yes_no);
 			return bool.booleanValue() ? array[0] : array[1];
 		} else {
-			return getResources().getString(W.string.select);
+			return getEmptyText();
 		}
 	}
 	

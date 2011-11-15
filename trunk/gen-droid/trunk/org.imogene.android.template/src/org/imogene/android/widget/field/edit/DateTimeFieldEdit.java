@@ -40,7 +40,7 @@ public class DateTimeFieldEdit extends DatesFieldEdit implements OnDateTimeSetLi
 		if (time != null) {
 			return FormatHelper.displayAsDateTime(time.longValue());
 		} else {
-			return getResources().getString(W.string.select);
+			return getEmptyText();
 		}
 	}
 	

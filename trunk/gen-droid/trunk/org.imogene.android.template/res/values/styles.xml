@@ -22,6 +22,11 @@
         <item name="actionbarCompatSeparatorStyle">@style/ActionBarCompatSeparator</item>
         <item name="actionbarCompatLogoStyle">@style/ActionBarCompatLogo</item>
         <item name="actionbarCompatTextStyle">@style/ActionBarCompatText</item>
+        <item name="fieldLayoutHeight">wrap_content</item>
+    </style>
+
+    <style name="Theme.Imogene.Wizard" parent="style/Theme.Imogene">
+        <item name="fieldLayoutHeight">fill_parent</item>
     </style>
 
     <!-- Start with the Holographic Light theme -->
@@ -94,17 +99,17 @@
         <item name="android:textColor">@color/accent_1</item>
         <item name="android:background">@null</item>
     </style>
-    
+
     <style name="BaseField">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">?attr/fieldLayoutHeight</item>
         <item name="android:orientation">vertical</item>
         <item name="android:focusable">true</item>
     </style>
-    
+
     <style name="FieldDefault">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">?attr/fieldLayoutHeight</item>
         <item name="android:background">@android:drawable/list_selector_background</item>
         <item name="android:duplicateParentState">true</item>
         <item name="android:gravity">center_vertical</item>

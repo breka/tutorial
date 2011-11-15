@@ -60,7 +60,7 @@ public class RelationManyFieldEdit extends RelationFieldEdit<ArrayList<Uri>> {
 				return "1 " + getResources().getString(mDisplaySgId);
 			}
 		} else {
-			return getResources().getString(W.string.select);
+			return getEmptyText();
 		}
 	}
 	
