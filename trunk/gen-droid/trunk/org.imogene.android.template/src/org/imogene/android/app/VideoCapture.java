@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 import org.imogene.android.Constants.Paths;
+import org.imogene.android.W;
 import org.imogene.android.media.SingleMediaScanner;
 import org.imogene.android.media.SingleMediaScanner.SingleMediaListener;
 import org.imogene.android.util.file.FileUtils;
@@ -17,6 +18,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 
 public class VideoCapture extends Activity implements SingleMediaListener {
@@ -28,6 +30,7 @@ public class VideoCapture extends Activity implements SingleMediaListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(W.layout.media_content);
 		
 		if (savedInstanceState != null)
 			return;
@@ -64,6 +67,9 @@ public class VideoCapture extends Activity implements SingleMediaListener {
 
 			getContentResolver().delete(uri, null, null);
 			
+			Intent intent = new Intent(Intent.ACTION_MEDIA_MOUNTED);
+			intent.setData(Uri.fromFile(Environment.getExternalStorageDirectory()));
+			sendBroadcast(intent);
 			new SingleMediaScanner(this, video, this);
 		} else {
 			setResult(RESULT_CANCELED);

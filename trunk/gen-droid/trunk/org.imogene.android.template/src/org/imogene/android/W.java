@@ -66,6 +66,7 @@ public final class W {
 		public static final int accent_1 = R.color.accent_1;
 		public static final int actionbar_text = R.color.actionbar_text;
 		public static final int gray = R.color.gray;
+		public static final int opaque_black = R.color.opaque_black;
 		public static final int required_text = R.color.required_text;}
 
 	public static final class dimen {
@@ -302,6 +303,7 @@ public final class W {
 		public static final int list_content = R.layout.list_content;
 		public static final int localized_text_editor = R.layout.localized_text_editor;
 		public static final int localized_text_viewer = R.layout.localized_text_viewer;
+		public static final int media_content = R.layout.media_content;
 		public static final int number_picker = R.layout.number_picker;
 		public static final int period_picker = R.layout.period_picker;
 		public static final int period_picker_dialog = R.layout.period_picker_dialog;
