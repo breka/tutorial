@@ -5,5 +5,6 @@
     <color name="actionbar_text">#ff29549f</color>
     <color name="accent_1">#ff29549f</color>
     <color name="required_text">#ffe23333</color>
+    <color name="opaque_black">#29000000</color>
 
 </resources>
