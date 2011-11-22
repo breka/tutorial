@@ -22,11 +22,7 @@ import android.view.View.OnLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnDependencyChangeListener, OnClickListener, OnLongClickListener, OnDismissListener, OnActivityDestroyListener {
-	
-	public interface OnValueChangeListener {
-		public void onValueChange();
-	}
+public abstract class BaseField<T> extends LinearLayout implements DependencyMatcher, OnDependencyChangeListener, OnClickListener, OnLongClickListener, OnDismissListener, OnActivityDestroyListener {
 	
 	private final TextView mValueView;
 	private final TextView mTitleView;
@@ -43,7 +39,6 @@ public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnD
 	private int mEmptyTextId;
 
 	private ArrayList<OnDependencyChangeListener> mDependents;
-	private ArrayList<OnValueChangeListener> mListeners; 
 
 	private T mValue;
 
@@ -127,12 +122,13 @@ public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnD
 		mValue = value;
 		onChangeValue();
 		notifyDependencyChange();
-		notifyValueChange();
 	}
 	
 	public T getValue() {
 		return mValue;
 	}
+	
+	public abstract boolean isEmpty();
 	
 	protected FieldManager getFieldManager() {
 		return mManager;
@@ -148,16 +144,6 @@ public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnD
 	
 	public void onAttachedToHierarchy(FieldManager manager) {
 		mManager = manager;
-	}
-	
-	public void registerOnValueChangeListener(OnValueChangeListener listener) {
-		if (mListeners == null) {
-			mListeners = new ArrayList<OnValueChangeListener>();
-		}
-		
-		mListeners.add(listener);
-		
-		listener.onValueChange();
 	}
 	
 	public void registerDependent(OnDependencyChangeListener dependent, String dependencyValue) {
@@ -217,20 +203,6 @@ public class BaseField<T> extends LinearLayout implements DependencyMatcher, OnD
 		for (int i = 0 ; i < size; i++) {
 			final OnDependencyChangeListener listener = dependents.get(i);
 			listener.onDependencyChanged();
-		}
-	}
-	
-	private void notifyValueChange() {
-		final ArrayList<OnValueChangeListener> listeners = mListeners;
-		
-		if (listeners == null) {
-			return;
-		}
-		
-		final int size = listeners.size();
-		for (int i = 0 ; i < size ; i++) {
-			final OnValueChangeListener listener = mListeners.get(i);
-			listener.onValueChange();
 		}
 	}
 	

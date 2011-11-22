@@ -5,7 +5,7 @@ import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.BeanKeyGenerator;
-import org.imogene.android.util.FormatHelper;
+import org.imogene.android.util.content.ContentUrisUtils;
 import org.imogene.android.util.file.FileUtils;
 import org.imogene.android.util.file.MimeTypeManager;
 
@@ -22,7 +22,7 @@ public final class Binary extends EntityImpl {
 		public static final String PACKAGE = "org.imogene.data.Binary";
 		public static final String TYPE = "BIN";
 
-		public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
+		public static final Uri CONTENT_URI = ContentUrisUtils.buildUriForFragment(TABLE_NAME);
 		
 		public static final String LENGTH = "length";
 		public static final String CONTENT_TYPE = "contentType";

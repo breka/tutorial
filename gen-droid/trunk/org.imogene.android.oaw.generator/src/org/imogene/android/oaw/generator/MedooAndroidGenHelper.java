@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.imogene.model.core.CardEntity;
+import org.imogene.model.core.DatesField;
 import org.imogene.model.core.Description;
 import org.imogene.model.core.FieldDependentVisibility;
 import org.imogene.model.core.FieldEntity;
 import org.imogene.model.core.FieldGroup;
 import org.imogene.model.core.GeoField;
+import org.imogene.model.core.NumericField;
 import org.imogene.model.core.Project;
 import org.imogene.model.core.RelationFieldEntity;
 import org.imogene.model.core.ReverseRelationFieldEntity;
+import org.imogene.model.core.StringField;
 import org.imogene.model.core.TextField;
 import org.imogene.model.core.Thema;
+import org.imogene.model.core.ValidationRule;
 
 
 /**
@@ -172,6 +176,37 @@ public class MedooAndroidGenHelper {
 	
 	public static int getGeoType(GeoField field) {
 		return field.getType().getValue();
+	}
+	
+	public static boolean hasConstraint(FieldEntity field) {
+		if (field.isRequired()) {
+			return true;
+		}
+		if (field instanceof NumericField) {
+			String min = ((NumericField) field).getMin();
+			if (min != null && !min.isEmpty()) {
+				return true;
+			}
+			String max = ((NumericField) field).getMax();
+			if (max != null && !max.isEmpty()) {
+				return true;
+			}
+		} else if (field instanceof DatesField) {
+			String min = ((DatesField) field).getMin();
+			if (min != null && !min.isEmpty()) {
+				return true;
+			}
+			String max = ((DatesField) field).getMax();
+			if (max != null && !max.isEmpty()) {
+				return true;
+			}
+		} else if (field instanceof StringField) {
+			List<ValidationRule> rules = ((StringField) field).getValidationRules();
+			if (rules != null && !rules.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

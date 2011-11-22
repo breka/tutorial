@@ -8,8 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -106,57 +104,4 @@ public class BinaryFieldEdit extends BaseFieldEdit<Uri> implements OnActivityRes
 		return false;
 	}
 	
-	@Override
-	protected Parcelable onSaveInstanceState() {
-		final Parcelable superState = super.onSaveInstanceState();
-		final SavedState myState = new SavedState(superState);
-		myState.value = getValue();
-		return myState;
-	}
-	
-	@Override
-	protected void onRestoreInstanceState(Parcelable state) {
-		if (state == null || !state.getClass().equals(SavedState.class)) {
-			// Didn't save state for us in onSaveInstanceState
-			super.onRestoreInstanceState(state);
-			return;
-		}
-
-		SavedState myState = (SavedState) state;
-		super.onRestoreInstanceState(myState.getSuperState());
-		setValue(myState.value);
-	}
-	
-	private static class SavedState extends BaseSavedState {
-		
-		private Uri value;
-
-		public SavedState(Parcel source) {
-			super(source);
-			value = source.readParcelable(null);
-		}
-		
-		public SavedState(Parcelable superState) {
-			super(superState);
-		}
-		
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {		
-			super.writeToParcel(dest, flags);
-			dest.writeParcelable(value, 0);
-		}
-		
-		public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-			
-			public SavedState[] newArray(int size) {
-				return new SavedState[size];
-			}
-			
-			public SavedState createFromParcel(Parcel source) {
-				return new SavedState(source);
-			}
-		};
-		
-	}
-
 }

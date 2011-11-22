@@ -7,7 +7,6 @@ import org.imogene.android.W;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
-import org.imogene.android.widget.field.FieldManager.RelationManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -48,13 +47,13 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 
 	public RelationFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.field_relation);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationFieldEdit, 0, 0);
-		mHasReverse = a.getBoolean(W.styleable.RelationFieldEdit_hasReverse, false);
-		mDisplayPlId = a.getResourceId(W.styleable.RelationFieldEdit_displayPl, 0);
-		mDisplaySgId = a.getResourceId(W.styleable.RelationFieldEdit_displaySg, 0);
-		mOppositeCardinality = a.getInt(W.styleable.RelationFieldEdit_oppositeCardinality, 0);
-		mType = a.getInt(W.styleable.RelationFieldEdit_type, 0);
-		mHierarchicalParentId = a.getResourceId(W.styleable.RelationFieldEdit_hierarchicalParent, -1);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationField, 0, 0);
+		mHasReverse = a.getBoolean(W.styleable.RelationField_hasReverse, false);
+		mDisplayPlId = a.getResourceId(W.styleable.RelationField_displayPl, 0);
+		mDisplaySgId = a.getResourceId(W.styleable.RelationField_displaySg, 0);
+		mOppositeCardinality = a.getInt(W.styleable.RelationField_oppositeCardinality, 0);
+		mType = a.getInt(W.styleable.RelationField_type, 0);
+		mHierarchicalParentId = a.getResourceId(W.styleable.RelationField_hierarchicalParent, -1);
 		a.recycle();
 		setOnClickListener(this);
 	}
@@ -133,10 +132,13 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 		mBuilders.add(builder);
 	}
 	
-	public void setValue(T value) {
-		super.setValue(value);
-		notifyHierarchicalDependencyChange();
-	};
+	@Override
+	protected void onChangeValue() {
+		super.onChangeValue();
+		if (notifyValueChangedEnabled()) {
+			notifyHierarchicalDependencyChange();
+		}
+	}
 	
 	private void notifyHierarchicalDependencyChange() {
 		if (mHierarchicalDependents == null) {
@@ -193,8 +195,7 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 	protected Bundle createBundle() {
 		Bundle bundle = new Bundle();
 		if (mHasReverse && mOppositeCardinality == 1) {
-			final RelationManager mgr = getFieldManager().getRelationManager();
-			bundle.putParcelable(mOppositeRelationField, mgr.getUri());
+			bundle.putParcelable(mOppositeRelationField, getFieldManager().getUri());
 		}
 		if (mCommonFields != null && !mCommonFields.isEmpty()) {
 			final int size = mCommonFields.size();

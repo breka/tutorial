@@ -11,7 +11,7 @@ public class TextFieldView extends DefaultEntityView<String> {
 	}
 	
 	@Override
-	protected boolean isEmpty() {
+	public boolean isEmpty() {
 		return TextUtils.isEmpty(getValue());
 	}
 	

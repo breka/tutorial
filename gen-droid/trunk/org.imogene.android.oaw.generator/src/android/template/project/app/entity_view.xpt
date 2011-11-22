@@ -4,13 +4,10 @@
 «FILE "/" + projectName.toLowerCase() + "/app/" + name.toFirstUpper() + "View.java"»
 package org.imogene.android.«projectName.toLowerCase()-».app;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -24,23 +21,19 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SimpleAdapter;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.Constants.Viewer;
 import org.imogene.android.app.ViewPagerIndicatorActivity;
-import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.service.AbstractSyncService;
-import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.IamLost;
-import org.imogene.android.util.content.EntityUtils;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.util.database.DatabaseUtils;
 import org.imogene.android.util.dialog.DialogFactory;
 import org.imogene.android.widget.EntityPagerAdapter;
+import org.imogene.android.widget.InfoAdapter;
 import org.imogene.android.widget.field.FieldManager;
-import org.imogene.android.widget.field.FieldManager.RelationManager;
+import org.imogene.android.widget.field.FieldManager.FieldContainer;
 import org.imogene.android.widget.field.view.AddressFieldView;
 import org.imogene.android.widget.field.view.BinaryFieldView;
 import org.imogene.android.widget.field.view.BooleanFieldView;
@@ -69,7 +62,8 @@ import org.imogene.android.«projectName.toLowerCase()».roles.«f.entity.name.toFi
 «ENDFOREACH-»
 «ENDIF-»
 
-public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity implements RelationManager, OnClickListener {
+public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity implements
+		FieldContainer, OnClickListener {
 
 	private static final int DIALOG_DELETE_ID = 1;
 	private static final int DIALOG_INFO_ID = 2;
@@ -119,7 +113,7 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 		mCanModify = canModify && canWrite;
 		«ENDIF-»
 		
-		mManager = new FieldManager(this, this, 100);
+		mManager = new FieldManager(this, 100);
 		
 		
 		LayoutInflater.from(this).inflate(R.layout.«name.toLowerCase()-»_view, getViewPager(), true);
@@ -129,9 +123,9 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 		«ENDFOREACH-»
 
 		«FOREACH groups.fields AS f-»
-			«f.name.toFirstLower()».onAttachedToHierarchy(mManager);
 			«EXPAND specificInit FOR f-»
 			«EXPAND dependency FOREACH f.fieldDependentVisibility-»
+			«f.name.toFirstLower()».onAttachedToHierarchy(mManager);
 		«ENDFOREACH-»
 
 		refresh();
@@ -307,17 +301,12 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 			.setCancelable(false)
 			.create();
 		case DIALOG_INFO_ID:
-			final ArrayList<HashMap<String, String>> infos = EntityUtils.buildInfo(this, mEntity);
 			return new AlertDialog.Builder(this)
 			.setTitle(R.string.menu_info)
 			.setIcon(android.R.drawable.ic_dialog_info)
-			.setAdapter(
-				new SimpleAdapter(this, infos,
-					R.layout.dialog_list_item, new String[] {
-						Viewer.INFO_DESC, Viewer.INFO_VALUE }, new int[] {
-						R.id.dialog_item_title,
-						R.id.dialog_item_message }), null)
-			.setPositiveButton(android.R.string.ok, null).create();
+			.setAdapter(new InfoAdapter(this, mEntity),	null)
+			.setPositiveButton(android.R.string.ok, null)
+			.create();
 		case DIALOG_IAMLOST_ID:
 			return DialogFactory.createIamLostDialog(this);
 		default:
@@ -333,6 +322,10 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 			getContentResolver().unregisterContentObserver(mContentObserver);
 			getContentResolver().delete(getIntent().getData(), null, null);
 		}
+	}
+	
+	public Activity getActivity() {
+		return this;
 	}
 	
 	public String getId() {

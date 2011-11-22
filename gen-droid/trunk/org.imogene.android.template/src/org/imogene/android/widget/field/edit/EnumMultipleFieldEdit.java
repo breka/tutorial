@@ -13,8 +13,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.res.TypedArray;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -27,12 +25,27 @@ public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements O
 	
 	public EnumMultipleFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.field_default);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumMultipleFieldEdit, 0, 0);
-		mEntries = a.getResourceId(W.styleable.EnumMultipleFieldEdit_entries, 0);
-		mArray = a.getResourceId(W.styleable.EnumMultipleFieldEdit_array, 0);
-		mSize = a.getInteger(W.styleable.EnumMultipleFieldEdit_size, 0);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumField, 0, 0);
+		mEntries = a.getResourceId(W.styleable.EnumField_entries, 0);
+		mArray = a.getResourceId(W.styleable.EnumField_array, 0);
+		mSize = a.getInteger(W.styleable.EnumField_size, 0);
 		a.recycle();
 		setValue(new boolean[mSize]);
+	}
+	
+	@Override
+	public boolean isEmpty() {
+		final boolean[] value = getValue();
+		return value == null || Arrays.equals(value, new boolean[value.length]);
+	}
+	
+	@Override
+	public boolean isValid() {
+		final boolean[] value = getValue();
+		if (isRequired()) {
+			return value != null && !Arrays.equals(value, new boolean[value.length]);
+		}
+		return true;
 	}
 	
 	@Override
@@ -71,17 +84,6 @@ public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements O
 	}
 	
 	@Override
-	public boolean isValid() {
-		final boolean[] value = getValue();
-		if (isRequired())
-			if (value == null)
-				return false;
-			else
-				return !Arrays.equals(value, new boolean[value.length]);
-		return true;
-	}
-	
-	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
 		builder.setMultiChoiceItems(mEntries, getValue() != null ? getValue().clone() : null, this);
 		builder.setPositiveButton(android.R.string.ok, this);
@@ -113,58 +115,4 @@ public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements O
 		}
 	}
 	
-	@Override
-	protected Parcelable onSaveInstanceState() {
-		final Parcelable superState = super.onSaveInstanceState();
-		final SavedState myState = new SavedState(superState);
-		myState.value = getValue();
-		return myState;
-	}
-	
-	@Override
-	protected void onRestoreInstanceState(Parcelable state) {
-		if (state == null || !state.getClass().equals(SavedState.class)) {
-			// Didn't save state for us in onSaveInstanceState
-			super.onRestoreInstanceState(state);
-			return;
-		}
-
-		SavedState myState = (SavedState) state;
-		super.onRestoreInstanceState(myState.getSuperState());
-		setValue(myState.value);
-	}
-	
-	private static class SavedState extends BaseSavedState {
-		
-		private boolean[] value;
-
-		public SavedState(Parcel source) {
-			super(source);
-			value = source.createBooleanArray();
-		}
-		
-		public SavedState(Parcelable superState) {
-			super(superState);
-		}
-		
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {		
-			super.writeToParcel(dest, flags);
-			dest.writeBooleanArray(value);
-		}
-		
-		public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-			
-			public SavedState[] newArray(int size) {
-				return new SavedState[size];
-			}
-			
-			public SavedState createFromParcel(Parcel source) {
-				return new SavedState(source);
-			}
-		};
-		
-		
-	}
-
 }

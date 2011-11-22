@@ -24,7 +24,7 @@ public class PhoneFieldView extends BaseFieldView<String> {
 	}
 	
 	@Override
-	protected boolean isEmpty() {
+	public boolean isEmpty() {
 		return TextUtils.isEmpty(getValue());
 	}
 	

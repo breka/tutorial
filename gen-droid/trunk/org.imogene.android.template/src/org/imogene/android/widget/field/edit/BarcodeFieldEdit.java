@@ -9,8 +9,6 @@ import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -24,6 +22,11 @@ public class BarcodeFieldEdit extends BaseFieldEdit<String> implements OnActivit
 		findViewById(W.id.acquire).setOnClickListener(this);
 		findViewById(W.id.delete).setOnClickListener(this);
 		findViewById(W.id.view).setOnClickListener(this);
+	}
+	
+	@Override
+	public boolean isEmpty() {
+		return TextUtils.isEmpty(getValue());
 	}
 	
 	@Override
@@ -103,58 +106,4 @@ public class BarcodeFieldEdit extends BaseFieldEdit<String> implements OnActivit
 		return false;
 	}
 	
-	@Override
-	protected Parcelable onSaveInstanceState() {
-		final Parcelable superState = super.onSaveInstanceState();
-		final SavedState myState = new SavedState(superState);
-		myState.value = getValue();
-		return myState;
-	}
-	
-	@Override
-	protected void onRestoreInstanceState(Parcelable state) {
-		if (state == null || !state.getClass().equals(SavedState.class)) {
-			// Didn't save state for us in onSaveInstanceState
-			super.onRestoreInstanceState(state);
-			return;
-		}
-
-		SavedState myState = (SavedState) state;
-		super.onRestoreInstanceState(myState.getSuperState());
-		setValue(myState.value);
-	}
-	
-	private static class SavedState extends BaseSavedState {
-		
-		private String value;
-
-		public SavedState(Parcel source) {
-			super(source);
-			value = source.readString();
-		}
-		
-		public SavedState(Parcelable superState) {
-			super(superState);
-		}
-		
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {		
-			super.writeToParcel(dest, flags);
-			dest.writeString(value);
-		}
-		
-		public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-			
-			public SavedState[] newArray(int size) {
-				return new SavedState[size];
-			}
-			
-			public SavedState createFromParcel(Parcel source) {
-				return new SavedState(source);
-			}
-		};
-		
-	}
-	
-
 }

@@ -52,7 +52,7 @@ public class AddressFieldView extends BaseFieldView<String> implements OnClickLi
 	}
 	
 	@Override
-	protected boolean isEmpty() {
+	public boolean isEmpty() {
 		return TextUtils.isEmpty(getValue());
 	}
 	

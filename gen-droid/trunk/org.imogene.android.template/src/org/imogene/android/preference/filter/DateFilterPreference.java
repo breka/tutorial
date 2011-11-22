@@ -6,7 +6,6 @@ import org.imogene.android.W;
 import org.imogene.android.common.filter.DateFilter;
 import org.imogene.android.common.filter.DateFilter.DateOperator;
 import org.imogene.android.util.FormatHelper;
-import org.imogene.android.util.field.FieldUtils;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -231,7 +230,7 @@ public class DateFilterPreference extends FilterPreference<DateFilter> implement
 	}
 
 	private static void updateView(TextView v, Long time) {
-		if (!FieldUtils.isEmpty(time))
+		if (time != null)
 			v.setText(FormatHelper.displayAsDate(time));
 		else
 			v.setText(W.string.select);

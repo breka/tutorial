@@ -27,9 +27,9 @@ import org.imogene.android.common.EntityImpl;
 import org.imogene.android.common.interfaces.Entity;
 «ENDIF-»
 import org.imogene.android.database.sqlite.SQLiteWrapper;
-import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.Tools;
+import org.imogene.android.util.content.ContentUrisUtils;
 import org.imogene.android.«projectName.toLowerCase()-».database.sqlite.«name.toFirstUpper()-»Cursor;
 
 public class «name.toFirstUpper()-» extends 
@@ -40,7 +40,7 @@ public class «name.toFirstUpper()-» extends
 		public static final String PACKAGE = "org.imogene.«modelName.toLowerCase()».entity.«name»";
 		public static final String TABLE_NAME = "«name.toLowerCase()-»";
 		public static final String BEAN_TYPE = "«shortName»";
-		public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
+		public static final Uri CONTENT_URI = ContentUrisUtils.buildUriForFragment(TABLE_NAME);
 		
 		«EXPAND column FOREACH groups.fields-»
 		
