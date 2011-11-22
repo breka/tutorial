@@ -8,9 +8,7 @@ import android.net.Uri;
 
 public class FieldManager {
 	
-	private final Activity mActivity;
-	
-	private final RelationManager mManager;
+	private final FieldContainer mContainer;
 	
 	private int mNextId = 0;
 	
@@ -18,18 +16,25 @@ public class FieldManager {
 	
 	private ArrayList<OnActivityResultListener> mActivityResultListeners;
 	
-	public FieldManager(Activity activity, RelationManager manager, int firstRequestCode) {
-		mActivity = activity;
-		mManager = manager;
+	public FieldManager(FieldContainer container, int firstRequestCode) {
+		mContainer = container;
 		mNextId = firstRequestCode;
 	}
 	
 	public Activity getActivity() {
-		return mActivity;
+		return mContainer.getActivity();
 	}
 	
-	public RelationManager getRelationManager() {
-		return mManager;
+	public Uri getUri() {
+		return mContainer.getUri();
+	}
+	
+	public String getId() {
+		return mContainer.getId();
+	}
+	
+	public Uri getContentUri() {
+		return mContainer.getContentUri();
 	}
 	
 	public int getNextId() {
@@ -102,6 +107,12 @@ public class FieldManager {
 	
 	public static interface OnActivityDestroyListener {
 		public void onActivityDestroy();
+	}
+	
+	public static interface FieldContainer extends RelationManager {
+		
+		public Activity getActivity();
+		
 	}
 	
 	public static interface RelationManager {

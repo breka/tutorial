@@ -3,7 +3,7 @@ package org.imogene.android.common;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.LocalizedTextCursor;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
-import org.imogene.android.util.FormatHelper;
+import org.imogene.android.util.content.ContentUrisUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -17,7 +17,7 @@ public class LocalizedText extends EntityImpl {
 		public static final String PACKAGE = "LocalizedText";
 		public static final String TABLE_NAME = "localizedtext";
 		public static final String TYPE = "LTXT";
-		public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
+		public static final Uri CONTENT_URI = ContentUrisUtils.buildUriForFragment(TABLE_NAME);
 
 		public static final String FIELD_ID = "fieldId";
 		public static final String LOCALE = "locale";

@@ -8,13 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.imogene.android.Constants;
 import org.imogene.android.Constants.Extras;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.location.Location;
-import android.net.Uri;
 
 public class FormatHelper {
 	
@@ -165,11 +162,6 @@ public class FormatHelper {
 	
 	public static final Location getLocationFromIntent(Intent data) {
 		return data.getParcelableExtra(Extras.EXTRA_LOCATION);
-	}
-	
-	public static final Uri buildUriForFragment(String path) {
-		return new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT)
-				.authority(Constants.AUTHORITY).path(path).build();
 	}
 	
 }

@@ -10,12 +10,6 @@ public class TimeFieldView extends DefaultEntityView<Long> {
 
 	public TimeFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
-	}
-	
-	@Override
-	protected boolean isEmpty() {
-		return getValue() == null;
 	}
 	
 	@Override

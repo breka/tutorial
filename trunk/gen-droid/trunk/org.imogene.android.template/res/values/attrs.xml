@@ -8,14 +8,16 @@
         <attr format="reference" name="actionbarCompatLogoStyle" />
         <attr format="reference" name="actionbarCompatTextStyle" />
         <attr format="dimension" name="fieldLayoutHeight">
+
             <!--
-                 The view should be as big as its parent (minus padding).
-                 This constant is deprecated starting from API Level 8 and
-                 is replaced by {@code match_parent}.            -->
+                 The view should be as big as its parent (minus padding). This constant 
+				is deprecated starting from API Level 8 and is replaced by {@code match_parent}.
+            -->
             <enum name="fill_parent" value="-1" />
             <!--
-                 The view should be as big as its parent (minus padding).
-                 Introduced in API Level 8.            -->
+                 The view should be as big as its parent (minus padding). Introduced 
+				in API Level 8.
+            -->
             <enum name="match_parent" value="-1" />
             <!-- The view should be only big enough to enclose its content (plus padding). -->
             <enum name="wrap_content" value="-2" />
@@ -30,38 +32,6 @@
 
     <!-- Array size presented as list -->
     <attr format="integer" name="size" />
-
-    <!-- Unit reference id of a numeric field -->
-    <attr format="reference" name="unit" />
-
-    <!-- The types available for string fields -->
-    <attr name="stringType">
-        <enum name="string" value="0" />
-        <enum name="address" value="1" />
-        <enum name="phone" value="2" />
-        <enum name="text" value="3" />
-        <enum name="email" value="4" />
-    </attr>
-
-    <!-- The gps location providers -->
-    <attr name="geoType">
-        <enum name="gps" value="0" />
-        <enum name="network" value="1" />
-        <enum name="map" value="2" />
-        <enum name="best" value="3" />
-    </attr>
-
-    <!-- Relation type (main or reverse) -->
-    <attr name="type">
-        <enum name="main" value="0" />
-        <enum name="reverse" value="1" />
-    </attr>
-
-    <!-- Reference to the plural display value -->
-    <attr format="reference" name="displayPl" />
-
-    <!-- Reference to the singular display value -->
-    <attr format="reference" name="displaySg" />
 
     <declare-styleable name="DateTimePicker">
 
@@ -96,16 +66,18 @@
         <attr format="string" name="hierarchicalField" />
     </declare-styleable>
     <declare-styleable name="BaseField">
+
         <!--
-             Indicates whether this field is dependent
-			 of the value of an other field        -->
+             Indicates whether this field is dependent of the value of an other 
+			field
+        -->
         <attr format="boolean" name="dependent" />
         <!-- The title of the field -->
         <attr format="reference" name="title" />
         <!-- Indicates whether this field is hidden or not -->
         <attr format="boolean" name="hidden" />
         <!-- The default text to display when the field is empty -->
-        <attr format="reference" name="emptyText"/>
+        <attr format="reference" name="emptyText" />
     </declare-styleable>
     <declare-styleable name="BaseFieldEdit">
 
@@ -116,24 +88,28 @@
         <!-- Indicates whether this field is read only or not -->
         <attr format="boolean" name="readOnly" />
     </declare-styleable>
-    <declare-styleable name="TextFieldEdit">
+    <declare-styleable name="StringFieldEdit">
 
         <!-- The input type -->
-        <attr name="stringType" />
+        <attr name="stringType">
+            <enum name="string" value="0" />
+            <enum name="address" value="1" />
+            <enum name="phone" value="2" />
+            <enum name="text" value="3" />
+            <enum name="email" value="4" />
+        </attr>
     </declare-styleable>
     <declare-styleable name="GeoFieldEdit">
 
-        <!-- The gps location provider -->
-        <attr name="geoType" />
+        <!-- The gps location providers -->
+        <attr name="geoType">
+            <enum name="gps" value="0" />
+            <enum name="network" value="1" />
+            <enum name="map" value="2" />
+            <enum name="best" value="3" />
+        </attr>
     </declare-styleable>
-    <declare-styleable name="EnumSingleFieldEdit">
-
-        <!-- The human-readable array to present as a list -->
-        <attr name="entries" />
-        <!-- Conversion array for enumerate field -->
-        <attr name="array" />
-    </declare-styleable>
-    <declare-styleable name="EnumMultipleFieldEdit">
+    <declare-styleable name="EnumField">
 
         <!-- The human-readable array to present as a list -->
         <attr name="entries" />
@@ -142,38 +118,14 @@
         <!-- Array size presented as list -->
         <attr name="size" />
     </declare-styleable>
-    <declare-styleable name="EnumSingleFieldView">
-
-        <!-- The human-readable array to present as a list -->
-        <attr name="entries" />
-        <!-- Conversion array for enumerate field -->
-        <attr name="array" />
-    </declare-styleable>
-    <declare-styleable name="EnumMultipleFieldView">
-
-        <!-- The human-readable array to present as a list -->
-        <attr name="entries" />
-        <!-- Conversion array for enumerate field -->
-        <attr name="array" />
-    </declare-styleable>
-    <declare-styleable name="NumberFieldView">
+    <declare-styleable name="NumberField">
 
         <!-- Unit reference id of a numeric field -->
-        <attr name="unit" />
-    </declare-styleable>
-    <declare-styleable name="IntegerFieldEdit">
-
-        <!-- Unit reference id of a numeric field -->
-        <attr name="unit" />
+        <attr format="reference" name="unit" />
         <!-- The minimum value this field can take -->
         <attr format="integer" name="intMin" />
         <!-- The maximum value this field can take -->
         <attr format="integer" name="intMax" />
-    </declare-styleable>
-    <declare-styleable name="FloatFieldEdit">
-
-        <!-- Unit reference id of a numeric field -->
-        <attr name="unit" />
         <!-- The minimum value this field can take -->
         <attr format="float" name="floatMin" />
         <!-- The maximum value this field can take -->
@@ -186,32 +138,23 @@
         <!-- The maximum value this field can take -->
         <attr format="string" name="dateMax" />
     </declare-styleable>
-    <declare-styleable name="RelationManyFieldView">
-
-        <!-- Reference to the plural display value -->
-        <attr name="displayPl" />
-        <!-- Reference to the singular display value -->
-        <attr name="displaySg" />
-    </declare-styleable>
-    <declare-styleable name="RelationFieldEdit">
+    <declare-styleable name="RelationField">
 
         <!-- Has a reverse relation field -->
         <attr format="boolean" name="hasReverse" />
         <!-- Reference to the plural display value -->
-        <attr name="displayPl" />
+        <attr format="reference" name="displayPl" />
         <!-- Reference to the singular display value -->
-        <attr name="displaySg" />
+        <attr format="reference" name="displaySg" />
         <!-- Opposite cardinality -->
         <attr format="integer" name="oppositeCardinality" />
         <!-- Relation type (main or reverse) -->
-        <attr name="type" />
+        <attr name="type">
+            <enum name="main" value="0" />
+            <enum name="reverse" value="1" />
+        </attr>
         <!-- The hierarchical parent field view id -->
         <attr format="reference" name="hierarchicalParent" />
-    </declare-styleable>
-    <declare-styleable name="LocalizedTextFieldEdit">
-
-        <!-- The input type -->
-        <attr name="stringType" />
     </declare-styleable>
 
 </resources>

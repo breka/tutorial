@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
-public class BaseFieldView<T> extends BaseField<T> {
+public abstract class BaseFieldView<T> extends BaseField<T> {
 	
 	private final ImageView mIconView;
 	
@@ -21,8 +21,9 @@ public class BaseFieldView<T> extends BaseField<T> {
 		}
 	}
 	
-	protected boolean isEmpty() {
-		return false;
+	@Override
+	public boolean isEmpty() {
+		return getValue() == null;
 	}
 	
 	@Override

@@ -18,14 +18,14 @@ public class EnumMultipleFieldView extends DefaultEntityView<boolean[]> {
 
 	public EnumMultipleFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumMultipleFieldView, 0, 0);
-		mEntries = a.getResourceId(W.styleable.EnumMultipleFieldView_entries, 0);
-		mArray = a.getResourceId(W.styleable.EnumMultipleFieldView_array, 0);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumField, 0, 0);
+		mEntries = a.getResourceId(W.styleable.EnumField_entries, 0);
+		mArray = a.getResourceId(W.styleable.EnumField_array, 0);
 		a.recycle();
 	}
 	
 	@Override
-	protected boolean isEmpty() {
+	public boolean isEmpty() {
 		final boolean[] value = getValue();
 		return value == null || Arrays.equals(value, new boolean[value.length]);
 	}

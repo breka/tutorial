@@ -8,12 +8,9 @@ import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.Tools;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
@@ -21,12 +18,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
-	
-	private String[] mRegexs;
-	private int[] mRegexDisplayIds;
-	
-	private int mStringType;
+public class LocalizedTextFieldEdit extends StringFieldEdit<LocalizedTextList> {
 	
 	private final String[] isoArray;
 	private final String[] displayArray;
@@ -38,12 +30,9 @@ public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 
 	public LocalizedTextFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.field_edit_localized);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.LocalizedTextFieldEdit, 0, 0);
-		setStringType(a.getInt(W.styleable.LocalizedTextFieldEdit_stringType, InputType.TYPE_NULL));
-		a.recycle();
-		
-		isoArray = context.getResources().getStringArray(W.array.languages_iso);
-		displayArray = context.getResources().getStringArray(W.array.languages_display);
+
+		isoArray = getResources().getStringArray(W.array.languages_iso);
+		displayArray = getResources().getStringArray(W.array.languages_display);
 		
 		int pos = Tools.find(isoArray, Locale.getDefault().getLanguage());
 		if (pos > -1) {
@@ -77,6 +66,29 @@ public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 		updateOtherLanguagesVisibility();
 	}
 	
+	@Override
+	public boolean isEmpty() {
+		LocalizedTextList ltl = getValue();
+		return ltl != null ? ltl.isEmpty() : true;
+	}
+	
+	@Override
+	public boolean isValid() {
+		final LocalizedTextList value = getValue();
+		if (value == null || value.isEmpty()) {
+			return !isRequired();
+		}
+		final String[] regexs = getRegexs();
+		if (regexs != null) {
+			for (String regex : regexs) {
+				if (!value.matches(regex)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	private void notifyUpdate() {
 		super.setValue(getValue());
 	}
@@ -103,79 +115,6 @@ public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 		getValueView().setHint(titleId);
 	}
 	
-	@Override
-	public void setReadOnly(boolean readOnly) {
-		super.setReadOnly(readOnly);
-		setStringType(mStringType);
-	}
-	
-	public void setStringType(int stringType) {
-		mStringType = stringType;
-//		final TextView v = getValueView();
-//		if (isReadOnly()) {
-//			v.setEnabled(false);
-//			v.setInputType(InputType.TYPE_NULL);
-//		} else {
-//			v.setEnabled(true);
-//			switch (stringType) {
-//			case 0:
-//				v.setMaxLines(1);
-//				v.setInputType(InputType.TYPE_CLASS_TEXT);
-//				break;
-//			case 1:
-//				v.setMinLines(3);
-//				v.setInputType(InputType.TYPE_CLASS_TEXT
-//						| InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS
-//						| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-//				break;
-//			case 2:
-//				v.setMaxLines(1);
-//				v.setInputType(InputType.TYPE_CLASS_PHONE);
-//				break;
-//			case 3:
-//				v.setMinLines(3);
-//				v.setInputType(InputType.TYPE_CLASS_TEXT
-//						| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-//				break;
-//			case 4:
-//				v.setMaxLines(1);
-//				v.setInputType(InputType.TYPE_CLASS_TEXT
-//						| InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-//				break;
-//			}
-//		}
-	}
-	
-	public int getStringType() {
-		return mStringType;
-	}
-	
-	public void setRegexs(String[] regexs) {
-		mRegexs = regexs;
-	}
-	
-	public void setRegexDisplayIds(int[] regexDisplayIds) {
-		mRegexDisplayIds = regexDisplayIds;
-	}
-	
-	@Override
-	public boolean isValid() {
-		final LocalizedTextList value = getValue();
-		if (value.isEmpty()) {
-			return !isRequired();
-		} else {
-			if (mRegexs != null) {
-				for (String regex : mRegexs) {
-					if (!value.matches(regex))
-						return false;
-				}
-				return true;
-			} else {
-				return true;
-			}
-		}
-	}
-	
 	private void updateOtherLanguagesVisibility() {
 		findViewById(W.id.more_button).setVisibility(mOtherLanguagesHidden ? View.VISIBLE : View.GONE);
 		findViewById(W.id.less_button).setVisibility(mOtherLanguagesHidden ? View.GONE : View.VISIBLE);
@@ -193,29 +132,6 @@ public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 	}
 	
 	@Override
-	public String getErrorMessage() {
-		final Resources res = getResources();
-		final StringBuilder builder = new StringBuilder();
-		if (isRequired()) {
-			builder.append(res.getString(W.string.is_required));
-			if (mRegexDisplayIds != null) {
-				builder.append('\n');
-			}
-		}
-		if (mRegexDisplayIds != null) {
-			boolean first = true;
-			for (int id : mRegexDisplayIds) {
-				builder.append(res.getString(id));
-				if (first)
-					first = false;
-				else
-					builder.append('\n');
-			}
-		}
-		return builder.toString();
-	}
-
-	@Override
 	public String getDisplay() {
 		return null;
 	}
@@ -225,14 +141,6 @@ public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 		final Parcelable superState = super.onSaveInstanceState();
 		final SavedState myState = new SavedState(superState);
 		myState.otherLanguagesHidden = mOtherLanguagesHidden;
-		LocalizedTextList ltl = getValue();
-		if (ltl != null) {
-			String[][] localized = getValue().createLocalizedArray();
-			if (localized != null) {
-				myState.locales = localized[0];
-				myState.values = localized[1];
-			}
-		}
 		return myState;
 	}
 	
@@ -248,29 +156,15 @@ public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 		super.onRestoreInstanceState(myState.getSuperState());
 		mOtherLanguagesHidden = myState.otherLanguagesHidden;
 		updateOtherLanguagesVisibility();
-		if (myState.locales != null && myState.values != null) {
-			LocalizedTextList ltl = getValue();
-			if (ltl == null) {
-				ltl = new LocalizedTextList();
-			}
-			for (int i = 0; i < myState.locales.length; i++) {
-				ltl.add(myState.locales[i], myState.values[i]);
-			}
-			setValue(ltl);
-		}
 	}
 	
 	private static class SavedState extends BaseSavedState {
 		
 		private boolean otherLanguagesHidden;
-		private String[] locales;
-		private String[] values;
 
 		public SavedState(Parcel source) {
 			super(source);
 			otherLanguagesHidden = source.readInt() == 0;
-			locales = source.createStringArray();
-			values = source.createStringArray();
 		}
 		
 		public SavedState(Parcelable superState) {
@@ -281,8 +175,6 @@ public class LocalizedTextFieldEdit extends BaseFieldEdit<LocalizedTextList> {
 		public void writeToParcel(Parcel dest, int flags) {		
 			super.writeToParcel(dest, flags);
 			dest.writeInt(otherLanguagesHidden ? 0 : 1);
-			dest.writeStringArray(locales);
-			dest.writeStringArray(values);
 		}
 		
 		public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {

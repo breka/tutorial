@@ -1,5 +1,8 @@
 package org.imogene.android.util.content;
 
+import org.imogene.android.Constants;
+
+import android.content.ContentResolver;
 import android.net.Uri;
 
 /**
@@ -44,5 +47,14 @@ public class ContentUrisUtils {
 	 */
 	public static Uri withAppendedId(Uri contentUri, String id) {
 		return appendId(contentUri.buildUpon(), id).build();
+	}
+	
+	
+	public static Uri buildUriForFragment(String path) {
+		return new Uri.Builder()
+		.scheme(ContentResolver.SCHEME_CONTENT)
+		.authority(Constants.AUTHORITY)
+		.path(path)
+		.build();
 	}
 }

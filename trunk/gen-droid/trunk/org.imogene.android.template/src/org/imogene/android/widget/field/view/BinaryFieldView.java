@@ -28,11 +28,6 @@ public class BinaryFieldView extends BaseFieldView<Uri> {
 	}
 	
 	@Override
-	protected boolean isEmpty() {
-		return getValue() == null;
-	}
-	
-	@Override
 	public String getDisplay() {
 		if (getValue() != null) {
 			return getResources().getString(getDisplayId());			

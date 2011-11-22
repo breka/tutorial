@@ -12,11 +12,6 @@ public class BooleanFieldView extends DefaultEntityView<Boolean> {
 	}
 	
 	@Override
-	protected boolean isEmpty() {
-		return getValue() == null;
-	}
-
-	@Override
 	public String getDisplay() {
 		final Boolean bool = getValue();
 		if (bool != null) {

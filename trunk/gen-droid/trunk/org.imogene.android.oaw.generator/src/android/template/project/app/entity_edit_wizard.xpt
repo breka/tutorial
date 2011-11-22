@@ -1,8 +1,10 @@
 «IMPORT core»
+«EXTENSION android::template::MedooAndroidFieldUtilExt»
 «DEFINE generate(String projectName) FOR CardEntity»
 «FILE "/" + projectName.toLowerCase() + "/app/" + name.toFirstUpper() + "Wizard.java"»
 package org.imogene.android.«projectName.toLowerCase()-».app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -20,7 +22,8 @@ import org.imogene.android.util.content.ContentUrisUtils;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.widget.field.FieldFlipper;
 import org.imogene.android.widget.field.FieldManager;
-import org.imogene.android.widget.field.FieldManager.RelationManager;
+import org.imogene.android.widget.field.FieldManager.FieldContainer;
+import org.imogene.android.widget.field.edit.BaseFieldEdit.OnValueChangeListener;
 import org.imogene.android.widget.field.edit.BarcodeFieldEdit;
 import org.imogene.android.widget.field.edit.BinaryFieldEdit;
 import org.imogene.android.widget.field.edit.BooleanFieldEdit;
@@ -42,7 +45,8 @@ import org.imogene.android.«projectName.toLowerCase()».notification.«projectName
 «EXPAND android::template::EntityUtil::organizeEntityImport(projectName) FOREACH groups.fields-»
 import org.imogene.android.«projectName.toLowerCase()».roles.«name.toFirstUpper()»Roles;
 
-public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implements OnClickListener, RelationManager {
+public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implements 
+		OnClickListener, FieldContainer, OnValueChangeListener {
 
 	private static final int DIALOG_UNCOMPLETE_ID = 1;
 	
@@ -61,16 +65,22 @@ public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implement
 		
 		«projectName.toFirstUpper()»Notification.cancel«name.toFirstUpper()»Notification(this);
 
-		if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
-			if (getIntent().hasExtra(Extras.EXTRA_ENTITY))
-				mEntity = new «name.toFirstUpper()-»(getIntent().getBundleExtra(Extras.EXTRA_ENTITY));
-			else
-				mEntity = new «name.toFirstUpper()-»();
+		Object entity = getLastNonConfigurationInstance();
+		if (entity != null && entity instanceof «name.toFirstUpper()») {
+			mEntity = («name.toFirstUpper()») entity;
 		} else {
-			mEntity = new «name.toFirstUpper()-»(this, getIntent().getData());
+			if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
+				if (getIntent().hasExtra(Extras.EXTRA_ENTITY)) {
+					mEntity = new «name.toFirstUpper()»(getIntent().getBundleExtra(Extras.EXTRA_ENTITY));
+				} else {
+					mEntity = new «name.toFirstUpper()»();
+				}
+			} else {
+				mEntity = new «name.toFirstUpper()»(this, getIntent().getData());
+			}
 		}
 		
-		mManager = new FieldManager(this, this, 100);
+		mManager = new FieldManager(this, 100);
 		
 		final FieldFlipper flipper = getFieldFlipper();
 		getLayoutInflater().inflate(R.layout.«name.toLowerCase()»_edit_wizard, flipper, true);
@@ -82,10 +92,14 @@ public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implement
 		«FOREACH groups.fields AS f-»
 			«f.name.toFirstLower()».setAutomaticManageVisibility(false);
 			«EXPAND android::template::EditorsUtil::specificInit FOR f-»
-			«f.name.toFirstLower()».onAttachedToHierarchy(mManager);
 			«EXPAND android::template::EditorsUtil::dependency FOREACH f.fieldDependentVisibility-»
-			«f.name.toFirstLower()».setValue(mEntity.get«f.name.toFirstUpper()»());
+			«f.name.toFirstLower()».setOnValueChangeListener(this);
+			«f.name.toFirstLower()».onAttachedToHierarchy(mManager);
 		«ENDFOREACH»
+		
+		«FOREACH groups.fields AS f-»
+			«f.name.toFirstLower()».init(mEntity.get«f.name.toFirstUpper()»());
+		«ENDFOREACH-»
 		
 		«FOREACH groups.fields AS field-»
 			«IF field.hidden || field.readOnly-»
@@ -100,6 +114,11 @@ public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implement
 			«ENDFOREACH»
 		}
 		«ENDFOREACH»
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return mEntity;
 	}
 	
 	@Override
@@ -171,14 +190,19 @@ public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implement
 		showDialog(DIALOG_UNCOMPLETE_ID);
 	}
 	
-	private void collect() {
+	public void onValueChange(int id) {
+		switch (id) {
 		«FOREACH groups.fields AS f-»
-		mEntity.set«f.name.toFirstUpper()»(«f.name.toFirstLower()».getValue());
+		case R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR f»:
+			mEntity.set«f.name.toFirstUpper()»(«f.name.toFirstLower()».getValue());
+			break;
 		«ENDFOREACH-»
+		default:
+			break;
+		}
 	}
 	
 	private void save(boolean temporary) {
-		collect();
 		if (temporary) {
 			mEntity.prepareForSave(this);
 			mEntity.setModifiedFrom(«name.toFirstUpper()».Columns.SYNC_SYSTEM);
@@ -196,6 +220,10 @@ public class «name.toFirstUpper()-»Wizard extends FieldFlipperActivity implement
 				forceFinish();
 			}
 		}
+	}
+	
+	public Activity getActivity() {
+		return this;
 	}
 	
 	public String getId() {

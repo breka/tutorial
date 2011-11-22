@@ -13,8 +13,8 @@ public class NumberFieldView<T extends Number> extends DefaultEntityView<T> {
 	
 	public NumberFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberFieldView, 0, 0);
-		unitId = a.getResourceId(W.styleable.NumberFieldView_unit, -1);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberField, 0, 0);
+		unitId = a.getResourceId(W.styleable.NumberField_unit, -1);
 		a.recycle();
 		
 		if (unitId > 0) {
@@ -22,11 +22,6 @@ public class NumberFieldView<T extends Number> extends DefaultEntityView<T> {
 		} else {
 			unit = null;
 		}
-	}
-
-	@Override
-	protected boolean isEmpty() {
-		return getValue() == null;
 	}
 	
 	@Override

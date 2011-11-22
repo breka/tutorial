@@ -4,7 +4,7 @@ import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
-import org.imogene.android.util.FormatHelper;
+import org.imogene.android.util.content.ContentUrisUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,7 +16,7 @@ public class ClientFilter extends EntityImpl {
 		public static final String PACKAGE = "org.imogene.uao.clientfilter.ClientFilter";
 		public static final String TABLE_NAME = "clientfilter";
 		public static final String TYPE = "CLTFIL";
-		public static final Uri CONTENT_URI = FormatHelper.buildUriForFragment(TABLE_NAME);
+		public static final Uri CONTENT_URI = ContentUrisUtils.buildUriForFragment(TABLE_NAME);
 		
 		public static final String USERID = "userId";
 		public static final String TERMINALID = "terminalId";

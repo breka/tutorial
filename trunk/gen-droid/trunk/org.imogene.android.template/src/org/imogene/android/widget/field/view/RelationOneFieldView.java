@@ -27,11 +27,6 @@ public class RelationOneFieldView extends BaseFieldView<Uri> {
 	}
 	
 	@Override
-	protected boolean isEmpty() {
-		return getValue() == null;
-	}
-	
-	@Override
 	public String getDisplay() {
 		final Uri uri = getValue();
 		if (uri != null) {

@@ -53,11 +53,6 @@ public class GeoFieldView extends BaseFieldView<Location> implements OnClickList
 	}
 	
 	@Override
-	protected boolean isEmpty() {
-		return getValue() == null;
-	}
-	
-	@Override
 	public String getDisplay() {
 		final Location location = getValue();
 		if (location != null) {

@@ -196,16 +196,4 @@ public final class Constants {
 		public static final String PACKAGE_MAP = "org.imogene.map";
 	}
 	
-	public static interface Editor {
-		public static final String ERROR_TAG = "errorTag";
-		public static final String ERROR_LAYOUT = "errorLayout";
-		public static final String ERROR_MSG = "errorMsg";
-		public static final String ERROR_DESC = "errorDesc";
-	}
-	
-	public static interface Viewer {
-		public static final String INFO_DESC = "infoDesc";
-		public static final String INFO_VALUE = "infoValue";
-	}
-
 }

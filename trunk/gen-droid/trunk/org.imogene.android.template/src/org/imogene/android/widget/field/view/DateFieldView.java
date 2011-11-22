@@ -13,11 +13,6 @@ public class DateFieldView extends DefaultEntityView<Long> {
 	}
 	
 	@Override
-	protected boolean isEmpty() {
-		return getValue() == null;
-	}
-	
-	@Override
 	public String getDisplay() {
 		final Long time = getValue();
 		if (time != null) {

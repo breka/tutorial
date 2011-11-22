@@ -73,7 +73,7 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
 	}
 	
 	@Override
-	protected boolean isEmpty() {
+	public boolean isEmpty() {
 		LocalizedTextList ltl = getValue();
 		return ltl != null ? ltl.isEmpty() : true;
 	}

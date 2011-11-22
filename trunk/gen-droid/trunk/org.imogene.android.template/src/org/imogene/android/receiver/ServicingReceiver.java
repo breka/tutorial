@@ -13,6 +13,7 @@ import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.FormatHelper;
+import org.imogene.android.util.content.ContentUrisUtils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -75,7 +76,7 @@ public class ServicingReceiver extends BroadcastReceiver {
 		}
 		c.close();
 		
-		context.getContentResolver().notifyChange(FormatHelper.buildUriForFragment(null), null);
+		context.getContentResolver().notifyChange(ContentUrisUtils.buildUriForFragment(null), null);
 		PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(W.string.sync_hardware_key), UUID.randomUUID().toString()).commit();
 	}
 

@@ -24,9 +24,9 @@ public class RelationManyFieldView extends BaseFieldView<ArrayList<Uri>> {
 
 	public RelationManyFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.field_relation);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationManyFieldView, 0, 0);
-		displayPlId = a.getResourceId(W.styleable.RelationManyFieldView_displayPl, 0);
-		displaySgId = a.getResourceId(W.styleable.RelationManyFieldView_displaySg, 0);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationField, 0, 0);
+		displayPlId = a.getResourceId(W.styleable.RelationField_displayPl, 0);
+		displaySgId = a.getResourceId(W.styleable.RelationField_displaySg, 0);
 		a.recycle();
 		setOnClickListener(this);
 		setIconId(android.R.drawable.sym_contact_card);
@@ -44,7 +44,7 @@ public class RelationManyFieldView extends BaseFieldView<ArrayList<Uri>> {
 	}
 
 	@Override
-	protected boolean isEmpty() {
+	public boolean isEmpty() {
 		final ArrayList<Uri> list = getValue();
 		return list == null || list.size() == 0;
 	}

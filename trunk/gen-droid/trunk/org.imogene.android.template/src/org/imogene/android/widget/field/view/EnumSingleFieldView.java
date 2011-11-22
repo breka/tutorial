@@ -14,14 +14,14 @@ public class EnumSingleFieldView extends DefaultEntityView<Integer> {
 	
 	public EnumSingleFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumSingleFieldView, 0, 0);
-		mEntries = a.getResourceId(W.styleable.EnumSingleFieldView_entries, 0);
-		mArray = a.getResourceId(W.styleable.EnumSingleFieldView_array, 0);
+		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumField, 0, 0);
+		mEntries = a.getResourceId(W.styleable.EnumField_entries, 0);
+		mArray = a.getResourceId(W.styleable.EnumField_array, 0);
 		a.recycle();
 	}
 	
 	@Override
-	protected boolean isEmpty() {
+	public boolean isEmpty() {
 		final Integer i = getValue();
 		return i == null || i == -1;
 	}
