@@ -520,7 +520,7 @@ public class «this.name.toFirstUpper()»FormComposite extends AbstractFormComposi
 				isNew = false;
 			}
 			/* behavior if form should be closed after save action */
-			LocalSession.get().removeFromEdited(hashCode());
+			LocalSession.get().removeFromEdited(«this.name.toFirstUpper()»FormComposite.this.hashCode());
 			closeForm();
 		}		
 	}
