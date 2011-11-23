@@ -118,7 +118,8 @@ public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, V
 		if(LocalSession.get().isEditing()){
 			confirmed = Window.confirm("Voulez-vous abandonner les modifications en cours ?");
 		}
-		if(confirmed){			
+		if(confirmed){		
+			LocalSession.get().clearEdited();	
 			String token = event.getValue();
 			lastToken = token;
 			if(token.equals("")){
