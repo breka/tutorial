@@ -269,7 +269,6 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which) {
 		case Dialog.BUTTON_POSITIVE:
