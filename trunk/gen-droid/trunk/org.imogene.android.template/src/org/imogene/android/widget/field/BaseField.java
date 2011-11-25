@@ -128,7 +128,9 @@ public abstract class BaseField<T> extends LinearLayout implements DependencyMat
 		return mValue;
 	}
 	
-	public abstract boolean isEmpty();
+	public boolean isEmpty() {
+		return mValue == null;
+	}
 	
 	protected FieldManager getFieldManager() {
 		return mManager;

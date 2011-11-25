@@ -76,5 +76,8 @@
     <string name="http_authentication_title">HTTP basic authentication</string>
     <string name="http_authentication_summaryon">Authentication enabled</string>
     <string name="http_authentication_summaryoff">Authentication disabled</string>
-
+    <string name="check_parameters">"Update parameters"</string>
+	<string name="check_update_title">"Application updates"</string>
+	<string name="check_update_summary">"Check for application updates"</string>
+	<string name="check_server_title">"Server Update URL"</string>
 </resources>
