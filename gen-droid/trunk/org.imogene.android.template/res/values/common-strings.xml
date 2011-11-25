@@ -134,4 +134,10 @@
     <string name="filter_relation_downloading">Downloading</string>
     <string name="filter_relation_download_error">Download error</string>
 
+	<!-- Check for updates -->
+	<string name="check_available_title">"Application Update"</string>
+	<string name="check_available_message">"New application available. Would you like to install it now ?"</string>
+	<string name="check_unavailable_message">"There is no update available, check later."</string>
+	<string name="update_app_title">"Loading..."</string>
+	<string name="update_app_message">"Downloading updates"</string>
 </resources>

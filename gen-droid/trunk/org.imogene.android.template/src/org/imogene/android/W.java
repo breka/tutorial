@@ -177,6 +177,7 @@ public final class W {
 		public static final int arrow = R.id.arrow;
 		public static final int before = R.id.before;
 		public static final int best = R.id.best;
+		public static final int body = R.id.body;
 		public static final int buttons_layout = R.id.buttons_layout;
 		public static final int change_user = R.id.change_user;
 		public static final int check_shortpw = R.id.check_shortpw;
@@ -230,6 +231,7 @@ public final class W {
 		public static final int menu_save = R.id.menu_save;
 		public static final int menu_search = R.id.menu_search;
 		public static final int menu_sync = R.id.menu_sync;
+		public static final int message = R.id.message;
 		public static final int minute = R.id.minute;
 		public static final int month = R.id.month;
 		public static final int more_button = R.id.more_button;
@@ -245,6 +247,9 @@ public final class W {
 		public static final int periodPicker = R.id.periodPicker;
 		public static final int phone = R.id.phone;
 		public static final int previous_field = R.id.previous_field;
+		public static final int progress = R.id.progress;
+		public static final int progress_number = R.id.progress_number;
+		public static final int progress_percent = R.id.progress_percent;
 		public static final int required = R.id.required;
 		public static final int required_layout = R.id.required_layout;
 		public static final int reverse = R.id.reverse;
@@ -276,6 +281,7 @@ public final class W {
 		public static final int account_setup_basics = R.layout.account_setup_basics;
 		public static final int account_setup_short_password = R.layout.account_setup_short_password;
 		public static final int actionbar = R.layout.actionbar;
+		public static final int alert_dialog_progress = R.layout.alert_dialog_progress;
 		public static final int alert_dialog_text_entry = R.layout.alert_dialog_text_entry;
 		public static final int colorstrip = R.layout.colorstrip;
 		public static final int date_time_picker = R.layout.date_time_picker;
@@ -308,6 +314,7 @@ public final class W {
 		public static final int period_picker = R.layout.period_picker;
 		public static final int period_picker_dialog = R.layout.period_picker_dialog;
 		public static final int preference_list_content = R.layout.preference_list_content;
+		public static final int progress_dialog = R.layout.progress_dialog;
 		public static final int select_dialog = R.layout.select_dialog;
 		public static final int tab_content = R.layout.tab_content;
 		public static final int tab_indicator = R.layout.tab_indicator;
@@ -376,6 +383,15 @@ public final class W {
 		public static final int bin_video = R.string.bin_video;
 		public static final int camcorder = R.string.camcorder;
 		public static final int camera = R.string.camera;
+		public static final int check_available_message = R.string.check_available_message;
+		public static final int check_available_title = R.string.check_available_title;
+		public static final int check_parameters = R.string.check_parameters;
+		public static final int check_server_key = R.string.check_server_key;
+		public static final int check_server_title = R.string.check_server_title;
+		public static final int check_unavailable_message = R.string.check_unavailable_message;
+		public static final int check_update_key = R.string.check_update_key;
+		public static final int check_update_summary = R.string.check_update_summary;
+		public static final int check_update_title = R.string.check_update_title;
 		public static final int created = R.string.created;
 		public static final int created_by = R.string.created_by;
 		public static final int current_login_key = R.string.current_login_key;
@@ -542,6 +558,8 @@ public final class W {
 		public static final int tile_loader_filter_title = R.string.tile_loader_filter_title;
 		public static final int uncomplete_dialog_msg = R.string.uncomplete_dialog_msg;
 		public static final int unsaved_dialog_msg = R.string.unsaved_dialog_msg;
+		public static final int update_app_message = R.string.update_app_message;
+		public static final int update_app_title = R.string.update_app_title;
 		public static final int webservice_url_key = R.string.webservice_url_key;
 		public static final int webservice_url_title = R.string.webservice_url_title;
 		public static final int wizard_acquire = R.string.wizard_acquire;

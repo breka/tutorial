@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 
 import android.content.ContentResolver;
 import android.net.Uri;
@@ -101,6 +102,13 @@ public class FileUtils {
 		os.flush();
 		os.close();
 		is.close();
+	}
+	
+	public static String readableFileSize(long size) {
+	    if(size <= 0) return "0";
+	    final String[] units = new String[] { "o", "Ko", "Mo", "Go", "To" };
+	    int digitGroups = (int) (Math.log(size)/Math.log(1000));
+	    return new DecimalFormat("#,##0.###").format(size/Math.pow(1000, digitGroups)) + " " + units[digitGroups];
 	}
 
 }

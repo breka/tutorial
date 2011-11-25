@@ -26,5 +26,7 @@
     <string name="ntp_offset_key">NTP_OFFSET</string>
     <string name="webservice_url_key">WEBSERVICE</string>
     <string name="http_authentication_key">HTTP_AUTHENTICATION</string>
+    <string name="check_update_key">CHECK_UPDATE</string>
+    <string name="check_server_key">CHECK_SERVER</string>
 
 </resources>

@@ -17,7 +17,7 @@ import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
 import android.view.View;
 
-public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements OnMultiChoiceClickListener, android.content.DialogInterface.OnClickListener{
+public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements OnMultiChoiceClickListener, android.content.DialogInterface.OnClickListener {
 
 	private final int mEntries;
 	private final int mArray;

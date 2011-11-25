@@ -2,7 +2,6 @@ package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.W;
 import org.imogene.android.util.field.EnumConverter;
-import org.imogene.android.widget.field.FieldManager.OnActivityDestroyListener;
 
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -12,7 +11,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener, OnActivityDestroyListener {
+public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements DialogInterface.OnClickListener {
 	
 	private final int mEntries;
 	private final int mArray;

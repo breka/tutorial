@@ -80,11 +80,6 @@ public abstract class BaseFieldEdit<T> extends BaseField<T> {
 		return mReadOnly;
 	}
 	
-	@Override
-	public boolean isEmpty() {
-		return getValue() == null;
-	}
-	
 	public boolean isValid() {
 		return mRequired ? !isEmpty() : true;
 	}

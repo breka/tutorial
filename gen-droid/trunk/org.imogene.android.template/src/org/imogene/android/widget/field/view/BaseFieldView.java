@@ -22,11 +22,6 @@ public abstract class BaseFieldView<T> extends BaseField<T> {
 	}
 	
 	@Override
-	public boolean isEmpty() {
-		return getValue() == null;
-	}
-	
-	@Override
 	protected void onChangeValue() {
 		super.onChangeValue();
 		final boolean visible = !isEmpty() && isDependentVisible();
