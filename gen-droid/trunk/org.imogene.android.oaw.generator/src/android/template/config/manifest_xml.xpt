@@ -186,6 +186,10 @@
 		<activity
 			android:name="org.imogene.android.app.UnSyncDialog"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+			
+        <activity
+            android:name="org.imogene.android.update.UpdateActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 		
 		<receiver
 			android:name=".notification.«name.toFirstUpper()»Notification$OnDeletedReceiver">

@@ -101,6 +101,17 @@
 		«IF hasFilter(this)»
 		«ENDIF»
 	</PreferenceCategory>
+	<PreferenceCategory 
+		android:title="@string/check_parameters">
+		<org.imogene.android.preference.CheckUpdatePreference
+			android:key="@string/check_update_key"
+			android:title="@string/check_update_title"
+			android:summary="@string/check_update_summary" />
+		<org.imogene.android.preference.MyEditTextPreference
+			android:key="@string/check_server_key"
+			android:title="@string/check_server_title"
+			android:inputType="textUri" />
+	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="@string/application_parameters">
 		<org.imogene.android.preference.EncryptedPreference
