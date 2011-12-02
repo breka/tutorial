@@ -48,6 +48,8 @@ public final class CriteriaConstants {
 	
 	public static final String OPERATOR_ISNULL_OR_EMPTY = "isNullOrEmpty";
 	
+	public static final String OPERATOR_ISNOTNULL = "isNotNull";
+	
 	public static final String ENUM_MULT_OPERATOR_CONTAINS_ALL = "enumContainsAll";
 	
 	public static final String ENUM_MULT_OPERATOR_CONTAINS_ONE_OF = "enumContainsOneOf";

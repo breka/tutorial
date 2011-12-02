@@ -107,7 +107,9 @@ public class HibernateDaoUtil {
 					}
 					junction.add(disJunction);
 				}
-			}
+			} else if (operator.equals(CriteriaConstants.OPERATOR_ISNOTNULL)) {
+				junction.add(Restrictions.isNotNull(property));
+			} 
 		} catch (ParseException ex) {
 			ex.printStackTrace();
 		}
