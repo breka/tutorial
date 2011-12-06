@@ -274,18 +274,20 @@ public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider 
 	«ENDIF -»
 «ENDDEFINE»
 «DEFINE setDataRow FOR FloatField-»
-	«IF this.DecimalNumber>-1 -»
-	Integer «name.toFirstLower()»Decimals = new Integer("«this.DecimalNumber»");
-	String «name.toFirstLower()»DecimalFormat = "0.";
-	for (int k= 0; k<«name.toFirstLower()»Decimals; k++) {
-		«name.toFirstLower()»DecimalFormat = «name.toFirstLower()»DecimalFormat + "#";
+	if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null) {
+		«IF this.DecimalNumber>-1 -»
+		Integer «name.toFirstLower()»Decimals = new Integer("«this.DecimalNumber»");
+		String «name.toFirstLower()»DecimalFormat = "0.";
+		for (int k= 0; k<«name.toFirstLower()»Decimals; k++) {
+			«name.toFirstLower()»DecimalFormat = «name.toFirstLower()»DecimalFormat + "#";
+		}	
+		NumberFormat format«name.toFirstUpper()» = NumberFormat.getFormat(«name.toFirstLower()»DecimalFormat);
+		String formatted«name.toFirstUpper()»Value = format«name.toFirstUpper()».format(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+		value = new HTML(formatted«name.toFirstUpper()»Value);
+		«ELSE -»
+		value = new HTML(String.valueOf(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ENDIF -»
 	}	
-	NumberFormat format«name.toFirstUpper()» = NumberFormat.getFormat(«name.toFirstLower()»DecimalFormat);
-	String formatted«name.toFirstUpper()»Value = format«name.toFirstUpper()».format(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
-	value = new HTML(formatted«name.toFirstUpper()»Value);
-	«ELSE -»
-	value = new HTML(String.valueOf(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
-	«ENDIF -»		
 «ENDDEFINE»
 «DEFINE setDataRow FOR IntegerField-»
 	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
