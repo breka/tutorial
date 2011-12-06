@@ -1313,5 +1313,5 @@ input[type="text"].Filter-TextBox {
 .imogene-errorLabel {
 	color: red;
 	font-weight: bold;
-	font-size: x-small;
+	font-size: 10px;
 }
