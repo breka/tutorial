@@ -37,6 +37,7 @@ import org.imogene.android.widget.field.edit.BaseFieldEdit.OnValueChangeListener
 import org.imogene.android.widget.field.edit.BarcodeFieldEdit;
 import org.imogene.android.widget.field.edit.BinaryFieldEdit;
 import org.imogene.android.widget.field.edit.BooleanFieldEdit;
+import org.imogene.android.widget.field.edit.BoundedIntegerFieldEdit;
 import org.imogene.android.widget.field.edit.DateFieldEdit;
 import org.imogene.android.widget.field.edit.DateTimeFieldEdit;
 import org.imogene.android.widget.field.edit.EnumMultipleFieldEdit;

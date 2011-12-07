@@ -160,9 +160,15 @@ if («shortName.toLowerCase()-» != null) {
 «ENDDEFINE»
 
 «DEFINE serialization FOR EnumField»
+«IF multipleSelection-»
 serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
 serializer.text(EnumConverter.convert(context, R.array.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values, cursor.get«name.toFirstUpper()»()));
 serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+«ELSE-»
+serializer.startTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+serializer.text(Integer.toString(cursor.get«name.toFirstUpper()»()));
+serializer.endTag(null, "«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+«ENDIF-»
 «ENDDEFINE»
 
 «DEFINE serialization FOR GeoField»

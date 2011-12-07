@@ -98,8 +98,6 @@
 			android:summaryOn="@string/sync_bidirectional_summaryon"
 			android:summaryOff="@string/sync_bidirectional_summaryoff"
 			android:defaultValue="true" />
-		«IF hasFilter(this)»
-		«ENDIF»
 	</PreferenceCategory>
 	<PreferenceCategory 
 		android:title="@string/check_parameters">

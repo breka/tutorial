@@ -76,6 +76,18 @@ public class RelationOneFieldEdit extends RelationFieldEdit<Uri> implements OnAc
 		return false;
 	}
 	
+	@Override
+	public boolean onCreateConstraint(String column, SQLiteBuilder builder) {
+		final Uri uri = getValue();
+		if (uri != null) {
+			builder.appendEq(column, uri.getLastPathSegment());
+			return true;
+		}
+		
+		showToastUnset();
+		return false;
+	}
+	
 	public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == mRequestCode && resultCode != Activity.RESULT_CANCELED) {
 			final Uri uri = data.getData();

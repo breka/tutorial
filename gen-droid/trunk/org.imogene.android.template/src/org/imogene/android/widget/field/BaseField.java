@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -28,7 +29,7 @@ public abstract class BaseField<T> extends LinearLayout implements DependencyMat
 	private final TextView mTitleView;
 	private final View mDependentView;
 
-	private ArrayList<Entry> mDependsOn;
+	private ArrayList<DependsOnEntry> mDependsOn;
 	private FieldManager mManager;
 	private DialogFactory mFactory;
 	private Dialog mDialog;
@@ -166,10 +167,8 @@ public abstract class BaseField<T> extends LinearLayout implements DependencyMat
 	
 	protected boolean isDependentVisible() {
 		if (mDependent && mDependsOn != null) {
-			final int size = mDependsOn.size();
-			for (int i = 0; i < size; i++) {
-				final Entry entry = mDependsOn.get(i);
-				if (!entry.matcher.matchesDependencyValue(entry.dependencyValue)) {
+			for (DependsOnEntry entry : mDependsOn) {
+				if (!entry.first.matchesDependencyValue(entry.second)) {
 					return false;
 				}
 			}
@@ -184,10 +183,10 @@ public abstract class BaseField<T> extends LinearLayout implements DependencyMat
 	
 	public void registerDependsOn(DependencyMatcher matcher, String dependencyValue) {
 		if (mDependsOn == null) {
-			mDependsOn = new ArrayList<Entry>();
+			mDependsOn = new ArrayList<DependsOnEntry>();
 		}
 		
-		mDependsOn.add(new Entry(matcher, dependencyValue));
+		mDependsOn.add(new DependsOnEntry(matcher, dependencyValue));
 	}
 	
 	protected void onChangeValue() {
@@ -328,13 +327,10 @@ public abstract class BaseField<T> extends LinearLayout implements DependencyMat
 		public Dialog createDialog();
 	}
 	
-	private static class Entry {
-		final DependencyMatcher matcher;
-		final String dependencyValue;
+	private static class DependsOnEntry extends Pair<DependencyMatcher, String> {
 		
-		public Entry(DependencyMatcher matcher, String dependencyValue) {
-			this.matcher = matcher;
-			this.dependencyValue = dependencyValue;
+		public DependsOnEntry(DependencyMatcher matcher, String dependencyValue) {
+			super(matcher, dependencyValue);
 		}
 	}
 

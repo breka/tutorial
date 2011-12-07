@@ -47,7 +47,6 @@ public final class W {
 		public static final int help = R.attr.help;
 		public static final int hidden = R.attr.hidden;
 		public static final int hierarchicalField = R.attr.hierarchicalField;
-		public static final int hierarchicalParent = R.attr.hierarchicalParent;
 		public static final int intMax = R.attr.intMax;
 		public static final int intMin = R.attr.intMin;
 		public static final int multiple = R.attr.multiple;
@@ -99,6 +98,18 @@ public final class W {
 		public static final int btn_default_normal_disable_focused = R.drawable.btn_default_normal_disable_focused;
 		public static final int btn_default_pressed = R.drawable.btn_default_pressed;
 		public static final int btn_default_selected = R.drawable.btn_default_selected;
+		public static final int btn_integer_down = R.drawable.btn_integer_down;
+		public static final int btn_integer_down_disabled = R.drawable.btn_integer_down_disabled;
+		public static final int btn_integer_down_disabled_focused = R.drawable.btn_integer_down_disabled_focused;
+		public static final int btn_integer_down_normal = R.drawable.btn_integer_down_normal;
+		public static final int btn_integer_down_pressed = R.drawable.btn_integer_down_pressed;
+		public static final int btn_integer_down_selected = R.drawable.btn_integer_down_selected;
+		public static final int btn_integer_up = R.drawable.btn_integer_up;
+		public static final int btn_integer_up_disabled = R.drawable.btn_integer_up_disabled;
+		public static final int btn_integer_up_disabled_focused = R.drawable.btn_integer_up_disabled_focused;
+		public static final int btn_integer_up_normal = R.drawable.btn_integer_up_normal;
+		public static final int btn_integer_up_pressed = R.drawable.btn_integer_up_pressed;
+		public static final int btn_integer_up_selected = R.drawable.btn_integer_up_selected;
 		public static final int button_indicator_next = R.drawable.button_indicator_next;
 		public static final int button_indicator_previous = R.drawable.button_indicator_previous;
 		public static final int colorstrip = R.drawable.colorstrip;
@@ -186,11 +197,13 @@ public final class W {
 		public static final int current = R.id.current;
 		public static final int dateTimePicker = R.id.dateTimePicker;
 		public static final int day = R.id.day;
+		public static final int decrease = R.id.decrease;
 		public static final int decrement = R.id.decrement;
 		public static final int delete = R.id.delete;
 		public static final int dialog_item_message = R.id.dialog_item_message;
 		public static final int dialog_item_title = R.id.dialog_item_title;
 		public static final int discardButton = R.id.discardButton;
+		public static final int display_value = R.id.display_value;
 		public static final int email = R.id.email;
 		public static final int emptyText = R.id.emptyText;
 		public static final int equals = R.id.equals;
@@ -205,6 +218,7 @@ public final class W {
 		public static final int help_layout = R.id.help_layout;
 		public static final int hour = R.id.hour;
 		public static final int icon = R.id.icon;
+		public static final int increase = R.id.increase;
 		public static final int increment = R.id.increment;
 		public static final int indicator = R.id.indicator;
 		public static final int infimum = R.id.infimum;
@@ -255,6 +269,7 @@ public final class W {
 		public static final int reverse = R.id.reverse;
 		public static final int right = R.id.right;
 		public static final int saveButton = R.id.saveButton;
+		public static final int seekbar = R.id.seekbar;
 		public static final int select_dialog_listview = R.id.select_dialog_listview;
 		public static final int spinner = R.id.spinner;
 		public static final int start = R.id.start;
@@ -299,6 +314,7 @@ public final class W {
 		public static final int expandable_list_content = R.layout.expandable_list_content;
 		public static final int field_default = R.layout.field_default;
 		public static final int field_edit_buttons = R.layout.field_edit_buttons;
+		public static final int field_edit_integer_bounded = R.layout.field_edit_integer_bounded;
 		public static final int field_edit_localized = R.layout.field_edit_localized;
 		public static final int field_edit_numeric = R.layout.field_edit_numeric;
 		public static final int field_edit_text = R.layout.field_edit_text;
@@ -649,7 +665,6 @@ public final class W {
 		public static final int RelationField_displayPl = R.styleable.RelationField_displayPl;
 		public static final int RelationField_displaySg = R.styleable.RelationField_displaySg;
 		public static final int RelationField_hasReverse = R.styleable.RelationField_hasReverse;
-		public static final int RelationField_hierarchicalParent = R.styleable.RelationField_hierarchicalParent;
 		public static final int RelationField_oppositeCardinality = R.styleable.RelationField_oppositeCardinality;
 		public static final int RelationField_type = R.styleable.RelationField_type;
 		public static final int[] RelationFilterPreference = R.styleable.RelationFilterPreference;

@@ -13,25 +13,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class EntityCursorAdapter extends CursorAdapter {
 
 	private final Drawable mColor;
-	private final int mChoiceMode;
+	private final int mLayoutId;
 
-	public EntityCursorAdapter(Context context, EntityCursor c,
-			Drawable color, int choiceMode) {
+	protected EntityCursorAdapter(Context context, EntityCursor c, Drawable color, int layoutId) {
 		super(context, c);
 		mColor = color;
-		mChoiceMode = choiceMode;
-	}
-
-	public EntityCursorAdapter(Context context, EntityCursor c, Drawable color) {
-		this(context, c, color, ListView.CHOICE_MODE_NONE);
+		mLayoutId = layoutId;
 	}
 	
+	public EntityCursorAdapter(Context context, EntityCursor c, Drawable color, boolean multiple) {
+		this(context, c, color, multiple ? W.layout.entity_row_multiple : W.layout.entity_row);
+	}
+
 	public String getItemStringId(int position) {
 		EntityCursor c = (EntityCursor) getItem(position);
 		if (c != null) {
@@ -66,12 +64,10 @@ public class EntityCursorAdapter extends CursorAdapter {
 			secondary.setTypeface(Typeface.DEFAULT);
 		}
 
-		if (mChoiceMode == ListView.CHOICE_MODE_NONE) {
-			ImageView icon = (ImageView) view.findViewById(W.id.list_icon);
-			if (icon != null) {
-				icon.setImageResource(android.R.drawable.stat_notify_sync);
-				icon.setVisibility(c.getSynchronized() ? View.GONE : View.VISIBLE);
-			}
+		ImageView icon = (ImageView) view.findViewById(W.id.list_icon);
+		if (icon != null) {
+			icon.setImageResource(android.R.drawable.stat_notify_sync);
+			icon.setVisibility(c.getSynchronized() ? View.GONE : View.VISIBLE);
 		}
 
 		main.setText(c.getMainDisplay(context));
@@ -87,6 +83,6 @@ public class EntityCursorAdapter extends CursorAdapter {
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		LayoutInflater inflater = LayoutInflater.from(context);
-		return inflater	.inflate(mChoiceMode != ListView.CHOICE_MODE_MULTIPLE ? W.layout.entity_row	: W.layout.entity_row_multiple, parent, false);
+		return inflater.inflate(mLayoutId, parent, false);
 	}
 }

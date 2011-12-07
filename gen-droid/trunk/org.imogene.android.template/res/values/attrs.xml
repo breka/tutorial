@@ -153,8 +153,6 @@
             <enum name="main" value="0" />
             <enum name="reverse" value="1" />
         </attr>
-        <!-- The hierarchical parent field view id -->
-        <attr format="reference" name="hierarchicalParent" />
     </declare-styleable>
 
 </resources>

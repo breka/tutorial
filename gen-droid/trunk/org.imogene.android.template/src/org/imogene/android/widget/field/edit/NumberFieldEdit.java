@@ -12,19 +12,11 @@ import android.widget.TextView;
 
 public abstract class NumberFieldEdit<T extends Number> extends BaseFieldEdit<T> implements TextWatcher {
 	
-	private TextView mUnitView;
-	
 	private T mMin;
 	private T mMax;
 	
 	public NumberFieldEdit(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs, layoutId);
-
-		mUnitView = (TextView) findViewById(W.id.unit);
-		if (mUnitView != null) {
-			mUnitView.setSaveEnabled(false);
-		}
-		
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberField, 0, 0);
 		setUnitId(a.getResourceId(W.styleable.NumberField_unit, -1));
 		a.recycle();
@@ -53,11 +45,12 @@ public abstract class NumberFieldEdit<T extends Number> extends BaseFieldEdit<T>
 	}
 	
 	public void setUnitId(int unitId) {
-		if (mUnitView != null) {
+		final TextView unitView = (TextView) findViewById(W.id.unit);
+		if (unitView != null) {
 			if (unitId > 0) {
-				mUnitView.setText(unitId);
+				unitView.setText(unitId);
 			}
-			mUnitView.setVisibility(unitId > 0 ? View.VISIBLE : View.GONE);
+			unitView.setVisibility(unitId > 0 ? View.VISIBLE : View.GONE);
 		}
 	}
 	

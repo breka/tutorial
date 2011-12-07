@@ -4,33 +4,31 @@ import org.imogene.android.W;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 
 public class NumberFieldView<T extends Number> extends DefaultEntityView<T> {
 
 	private final String unit;
-	private final int unitId;
 	
 	public NumberFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberField, 0, 0);
-		unitId = a.getResourceId(W.styleable.NumberField_unit, -1);
+		unit = a.getString(W.styleable.NumberField_unit);
 		a.recycle();
-		
-		if (unitId > 0) {
-			unit = context.getString(unitId);
-		} else {
-			unit = null;
-		}
 	}
 	
 	@Override
 	public String getDisplay() {
 		final T number = getValue();
-		if (unitId > 0) {
-			return number != null ? number.toString() + " " + unit : null;
+		if (number != null) {
+			if (TextUtils.isEmpty(unit)) {
+				return number.toString();
+			} else {
+				return number + " " + unit;
+			}
 		}
-		return number != null ? number.toString() : null;
+		return null;
 	}
 	
 }

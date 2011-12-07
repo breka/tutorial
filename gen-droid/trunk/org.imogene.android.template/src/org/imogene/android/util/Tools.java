@@ -48,5 +48,14 @@ public class Tools {
 		array[replace] = array[by];
 		array[by] = tmp;
 	}
+	
+	public final static int find(int[] array, int value) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == value) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
-import org.imogene.android.widget.field.FieldManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,13 +33,6 @@ public class RelationManyFieldEdit extends RelationFieldEdit<ArrayList<Uri>> {
 			return value != null && !value.isEmpty();
 		}
 		return true;
-	}
-	
-	@Override
-	public void onAttachedToHierarchy(FieldManager manager) {
-		super.onAttachedToHierarchy(manager);
-		manager.registerOnActivityResultListener(this);
-		mRequestCode = manager.getNextId();
 	}
 	
 	@Override
@@ -117,6 +109,22 @@ public class RelationManyFieldEdit extends RelationFieldEdit<ArrayList<Uri>> {
 			builder.appendWhere(where.create());
 			return true;
 		}
+		return false;
+	}
+	
+	@Override
+	public boolean onCreateConstraint(String column, SQLiteBuilder builder) {
+		final ArrayList<Uri> uris = getValue();
+		if (uris != null && uris.size() > 0) {
+			String[] ids = new String[uris.size()];
+			for (int i = 0; i < uris.size(); i++) {
+				ids[i] = uris.get(i).getLastPathSegment();
+			}
+			builder.appendIn(column, ids);
+			return true;
+		}
+		
+		showToastUnset();
 		return false;
 	}
 

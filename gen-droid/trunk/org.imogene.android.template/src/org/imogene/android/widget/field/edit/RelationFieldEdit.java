@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.W;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.widget.field.ConstraintBuilder;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 
@@ -15,17 +16,17 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Pair;
 import android.view.View;
-import android.widget.Toast;
 
 public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements OnActivityResultListener {
 	
 	public static interface ExtraBuilder {
-		public void build(Bundle bundle);
+		public void onCreateExtra(Bundle bundle);
 	}
-
-	private ArrayList<Entry> mCommonFields;
-	private ArrayList<RelationFieldEdit<?>> mHierarchicalDependents;
+	
+	private ArrayList<ConstraintEntry> mConstraintsBuilders;
+	private ArrayList<CommonFieldEntry> mCommonFields;
 	private ArrayList<ExtraBuilder> mBuilders;
 
 	protected final boolean mHasReverse;
@@ -37,13 +38,8 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 	protected String mFieldName;
 	protected String mTableName;
 
-	private final int mHierarchicalParentId;
-	
 	protected int mRequestCode;
 	protected Uri mContentUri;
-
-	private RelationFieldEdit<?> mHierarchicalParent = null;
-	private String mHierarchicalField;
 
 	public RelationFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.field_relation);
@@ -53,7 +49,6 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 		mDisplaySgId = a.getResourceId(W.styleable.RelationField_displaySg, 0);
 		mOppositeCardinality = a.getInt(W.styleable.RelationField_oppositeCardinality, 0);
 		mType = a.getInt(W.styleable.RelationField_type, 0);
-		mHierarchicalParentId = a.getResourceId(W.styleable.RelationField_hierarchicalParent, -1);
 		a.recycle();
 		setOnClickListener(this);
 	}
@@ -70,24 +65,11 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 		mTableName = tableName;
 	}
 	
-	public void setHierarchicalField(String hierarchicalField) {
-		mHierarchicalField = hierarchicalField;
-	}
-	
 	@Override
 	public void onAttachedToHierarchy(FieldManager manager) {
 		super.onAttachedToHierarchy(manager);
 		manager.registerOnActivityResultListener(this);
 		mRequestCode = manager.getNextId();
-		final View view = manager.getActivity().findViewById(mHierarchicalParentId);
-		if (view != null && view instanceof RelationFieldEdit<?>) {
-			mHierarchicalParent = (RelationFieldEdit<?>) view;
-			if (mHierarchicalParent != null && mHierarchicalField != null) {
-				mHierarchicalParent.registerHierarchicalDependent(this);
-			}
-		} else {
-			mHierarchicalParent = null;
-		}
 	}
 	
 	@Override
@@ -110,18 +92,10 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 	
 	public void registerCommonField(RelationFieldEdit<?> commonField, String commonName) {
 		if (mCommonFields == null) {
-			mCommonFields = new ArrayList<Entry>();
+			mCommonFields = new ArrayList<CommonFieldEntry>();
 		}
 		
-		mCommonFields.add(new Entry(commonField, commonName));
-	}
-	
-	public void registerHierarchicalDependent(RelationFieldEdit<?> dependent) {
-		if (mHierarchicalDependents == null) {
-			mHierarchicalDependents = new ArrayList<RelationFieldEdit<?>>();
-		}
-		
-		mHierarchicalDependents.add(dependent);
+		mCommonFields.add(new CommonFieldEntry(commonField, commonName));
 	}
 	
 	public void registerExtraBuilder(ExtraBuilder builder) {
@@ -132,23 +106,14 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 		mBuilders.add(builder);
 	}
 	
-	@Override
-	protected void onChangeValue() {
-		super.onChangeValue();
-		if (notifyValueChangedEnabled()) {
-			notifyHierarchicalDependencyChange();
-		}
-	}
-	
-	private void notifyHierarchicalDependencyChange() {
-		if (mHierarchicalDependents == null) {
-			return;
+	public void registerConstraintBuilder(ConstraintBuilder builder, String column) {
+		if (mConstraintsBuilders == null) {
+			mConstraintsBuilders = new ArrayList<ConstraintEntry>();
 		}
 		
-		final int size = mHierarchicalDependents.size();
-		for (int i = 0 ; i < size; i++) {
-			mHierarchicalDependents.get(i).setValue(null);
-		}
+		mConstraintsBuilders.add(new ConstraintEntry(builder, column));
+		
+		builder.registerConstraintDependent(this);
 	}
 	
 	@Override
@@ -157,30 +122,11 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 		final SQLiteBuilder builder = new SQLiteBuilder();
 		boolean sqlTouched = onPrepareSQLBuilder(builder);
 		onPrepareIntent(intent);
-		if (mHierarchicalParent != null && mHierarchicalField != null) {
-			if (mHierarchicalParent instanceof RelationOneFieldEdit) {
-				final Uri uri = ((RelationOneFieldEdit) mHierarchicalParent).getValue();
-				if (uri != null) {
-					final String id = uri.getLastPathSegment();
-					builder.appendEq(mHierarchicalField, id);
-					sqlTouched = true;
+		if (mConstraintsBuilders != null) {
+			for (ConstraintEntry entry : mConstraintsBuilders) {
+				if (entry.first.onCreateConstraint(entry.second, builder)) {
+					sqlTouched |= true;
 				} else {
-					final String fieldName = getResources().getString(mHierarchicalParent.getTitleId());
-					Toast.makeText(getContext(), getResources().getString(W.string.relation_hierarchical_parent_unset, fieldName), Toast.LENGTH_LONG).show();
-					return;
-				}
-			} else if (mHierarchicalParent instanceof RelationManyFieldEdit) {
-				final ArrayList<Uri> uris = ((RelationManyFieldEdit) mHierarchicalParent).getValue();
-				if (uris != null && uris.size() > 0) {
-					String[] ids = new String[uris.size()];
-					for (int i = 0; i < uris.size(); i++) {
-						ids[i] = uris.get(i).getLastPathSegment();
-					}
-					builder.appendIn(mHierarchicalField, ids);
-					sqlTouched = true;
-				} else {
-					final String fieldName = getResources().getString(mHierarchicalParent.getTitleId());
-					Toast.makeText(getContext(), getResources().getString(W.string.relation_hierarchical_parent_unset, fieldName), Toast.LENGTH_LONG).show();
 					return;
 				}
 			}
@@ -198,19 +144,17 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 			bundle.putParcelable(mOppositeRelationField, getFieldManager().getUri());
 		}
 		if (mCommonFields != null && !mCommonFields.isEmpty()) {
-			final int size = mCommonFields.size();
-			for (int i = 0; i < size ; i++) {
-				final Entry entry = mCommonFields.get(i);
-				if (entry.commonField instanceof RelationOneFieldEdit) {
-					bundle.putParcelable(entry.oppositeRelation, ((RelationOneFieldEdit) entry.commonField).getValue());
-				} else if (entry.commonField instanceof RelationManyFieldEdit) {
-					bundle.putParcelableArrayList(entry.oppositeRelation, ((RelationManyFieldEdit) entry.commonField).getValue());
+			for (CommonFieldEntry entry : mCommonFields) {
+				if (entry.first instanceof RelationOneFieldEdit) {
+					bundle.putParcelable(entry.second, ((RelationOneFieldEdit) entry.first).getValue());
+				} else if (entry.first instanceof RelationManyFieldEdit) {
+					bundle.putParcelableArrayList(entry.second, ((RelationManyFieldEdit) entry.first).getValue());
 				}
 			}
 		}
 		if (mBuilders != null) {
 			for (ExtraBuilder builder : mBuilders) {
-				builder.build(bundle);
+				builder.onCreateExtra(bundle);
 			}
 		}
 		return bundle;
@@ -224,13 +168,19 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 		return false;
 	}
 	
-	private static class Entry {
-		final RelationFieldEdit<?> commonField;
-		final String oppositeRelation;
-		
-		public Entry(RelationFieldEdit<?> field, String relationName) {
-			commonField = field;
-			oppositeRelation = relationName;
+	private static final class ConstraintEntry extends Pair<ConstraintBuilder, String> {
+
+		public ConstraintEntry(ConstraintBuilder first, String second) {
+			super(first, second);
 		}
+		
+	};
+	
+	private static class CommonFieldEntry extends Pair<RelationFieldEdit<?>, String> {
+		
+		public CommonFieldEntry(RelationFieldEdit<?> first, String second) {
+			super(first, second);
+		}
+
 	}
 }
