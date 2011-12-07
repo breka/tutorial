@@ -1,7 +1,7 @@
 package org.imogene.android.widget.field.view;
 
 import org.imogene.android.W;
-import org.imogene.android.util.field.EnumConverter;
+import org.imogene.android.util.Tools;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,14 +9,14 @@ import android.util.AttributeSet;
 
 public class EnumSingleFieldView extends DefaultEntityView<Integer> {
 
-	private final int mEntries;
-	private final int mArray;
+	private final CharSequence[] mItems;
+	private final int[] mItemsValues;
 	
 	public EnumSingleFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumField, 0, 0);
-		mEntries = a.getResourceId(W.styleable.EnumField_entries, 0);
-		mArray = a.getResourceId(W.styleable.EnumField_array, 0);
+		mItems = a.getTextArray(W.styleable.EnumField_entries);
+		mItemsValues = getResources().getIntArray(a.getResourceId(W.styleable.EnumField_array, 0));
 		a.recycle();
 	}
 	
@@ -32,9 +32,9 @@ public class EnumSingleFieldView extends DefaultEntityView<Integer> {
 		if (value != null) {
 			final int intValue = value.intValue();
 			if (intValue != -1) {
-				String[] array = getResources().getStringArray(mEntries);
-				return array[intValue];
-			}			
+				int checkedItem = Tools.find(mItemsValues, intValue);
+				return mItems[checkedItem].toString();
+			}
 		}
 		return super.getDisplay();
 	}
@@ -45,7 +45,7 @@ public class EnumSingleFieldView extends DefaultEntityView<Integer> {
 		if (i == null)
 			return false;
 		
-		return EnumConverter.convert(getContext(), mArray, i.intValue()).matches(value);
+		return i.toString().matches(value);
 	}
 
 }

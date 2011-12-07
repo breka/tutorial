@@ -1,7 +1,7 @@
 package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.W;
-import org.imogene.android.util.field.EnumConverter;
+import org.imogene.android.util.Tools;
 
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -13,14 +13,14 @@ import android.view.View;
 
 public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements DialogInterface.OnClickListener {
 	
-	private final int mEntries;
-	private final int mArray;
+	private final CharSequence[] mItems;
+	private final int[] mItemsValues;
 	
 	public EnumSingleFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.field_default);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumField, 0, 0);
-		mEntries = a.getResourceId(W.styleable.EnumField_entries, 0);
-		mArray = a.getResourceId(W.styleable.EnumField_array, 0);
+		mItems = a.getTextArray(W.styleable.EnumField_entries);
+		mItemsValues = getResources().getIntArray(a.getResourceId(W.styleable.EnumField_array, 0));
 		a.recycle();
 		setValue(-1);
 	}
@@ -66,8 +66,8 @@ public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements Dialo
 			if (intValue == -1) {
 				return getEmptyText();
 			} else {
-				String[] array = getResources().getStringArray(mEntries);
-				return array[intValue];
+				int checkedItem = Tools.find(mItemsValues, intValue);
+				return mItems[checkedItem].toString();
 			}
 		}
 	}
@@ -86,12 +86,17 @@ public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements Dialo
 		if (i == null)
 			return false;
 		
-		return EnumConverter.convert(getContext(), mArray, i.intValue()).matches(value);
+		return i.toString().matches(value);
 	}
 	
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
-		builder.setSingleChoiceItems(mEntries, getValue() != null ? getValue().intValue() : -1, this);
+		int checkedItem = -1;
+		Integer value = getValue();
+		if (value != null) {
+			checkedItem = Tools.find(mItemsValues, value.intValue());
+		}
+		builder.setSingleChoiceItems(mItems, checkedItem, this);
 		builder.setNeutralButton(android.R.string.cut, this);
 		builder.setNegativeButton(android.R.string.cancel, null);
 	}
@@ -108,7 +113,7 @@ public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements Dialo
 			break;
 		default:
 			if (which > -1) {
-				setValue(which);
+				setValue(mItemsValues[which]);
 				dialog.dismiss();
 			}
 			break;

@@ -28,7 +28,13 @@
 
 «DEFINE nameEditField FOR FloatField»FloatFieldEdit«ENDDEFINE»
 
-«DEFINE nameEditField FOR IntegerField»IntegerFieldEdit«ENDDEFINE»
+«DEFINE nameEditField FOR IntegerField-»
+«IF max != null && max.length > 0 && min != null && min.length > 0-»
+BoundedIntegerFieldEdit
+«ELSE-»
+IntegerFieldEdit
+«ENDIF-»
+«ENDDEFINE»
 
 «DEFINE nameEditField FOR RelationFieldEntity»«IF cardinality == 1»RelationOneFieldEdit«ELSE»RelationManyFieldEdit«ENDIF»«ENDDEFINE»
 
@@ -55,7 +61,7 @@
 «name.toFirstLower()».setOppositeRelationField(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR oppositeRelationField»);
 «ENDIF-»
 «IF relationHierarchicalFilter.size == 2-»
-«name.toFirstLower()».setHierarchicalField(«EXPAND android::template::MedooAndroidFieldUtil::columnName FOR relationHierarchicalFilter.get(1)»);
+«name.toFirstLower()».registerConstraintBuilder(«relationHierarchicalFilter.get(0).name.toFirstLower()», «EXPAND android::template::MedooAndroidFieldUtil::columnName FOR relationHierarchicalFilter.get(1)»);
 «ENDIF-»
 «FOREACH commonFields AS c ITERATOR i-»
 «IF (mod2(i.counter0) == 0)-»

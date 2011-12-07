@@ -141,8 +141,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			mSortOrder = savedInstanceState.getInt(Extras.EXTRA_SORT_ORDER);
 		}
 
-		boolean IsPickMultiple = false;
-		int choiceMode = ListView.CHOICE_MODE_NONE;
+		boolean isMultiple = false;
 		
 		if (Intent.ACTION_PICK.equals(getIntent().getAction())) {
 			if (getIntent().hasExtra(Extras.EXTRA_MULTIPLE)) {
@@ -150,10 +149,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 				findViewById(R.id.saveButton).setOnClickListener(this);
 				findViewById(R.id.discardButton).setOnClickListener(this);
 				
-				IsPickMultiple = true;
-				choiceMode = ListView.CHOICE_MODE_MULTIPLE;
-			} else {
-				choiceMode = ListView.CHOICE_MODE_SINGLE;
+				isMultiple = true;
 			}
 		}
 
@@ -163,9 +159,9 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 		mCursor = query();
 		startManagingCursor(mCursor);
 		
-		setListAdapter(mAdapter = new EntityCursorAdapter(this, mCursor, «name.toFirstUpper()-».Columns.COLOR, choiceMode));
+		setListAdapter(mAdapter = new EntityCursorAdapter(this, mCursor, «name.toFirstUpper()-».Columns.COLOR, isMultiple));
 		
-		if (IsPickMultiple) {
+		if (isMultiple) {
 			getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 			if (getIntent().hasExtra(Extras.EXTRA_SELECTED)) {
 				ArrayList<Uri> selected = getIntent().getParcelableArrayListExtra(Extras.EXTRA_SELECTED);

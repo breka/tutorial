@@ -6,15 +6,6 @@ import android.content.Context;
 
 public class EnumConverter {
 	
-	public static final String convert(Context context, final int resId, int value) {
-		if (value == -1) {
-			return "-1";
-		} else {
-			int[] array = context.getResources().getIntArray(resId);
-			return String.valueOf(array[value]);
-		}
-	}
-	
 	public static final String convert(Context context, final int resId, boolean[] values) {
 		int[] array = context.getResources().getIntArray(resId);
 		StringBuilder builder = new StringBuilder();
@@ -32,19 +23,6 @@ public class EnumConverter {
 			return "-1";
 		else
 			return builder.toString();
-	}
-	
-	public static final int parse(Context context, final int resId, String str) {
-		Integer i = FormatHelper.toInteger(str);
-		if (i != null) {
-			int[] array = context.getResources().getIntArray(resId);
-			for (int j = 0; j < array.length; j++) {
-				if (array[j] == i.intValue()) {
-					return j;
-				}
-			}
-		}
-		return -1;
 	}
 	
 	public static final boolean[] parseMulti(Context context, final int resId, String str) {
