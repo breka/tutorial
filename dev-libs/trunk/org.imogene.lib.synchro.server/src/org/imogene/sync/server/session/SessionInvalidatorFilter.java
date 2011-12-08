@@ -24,9 +24,13 @@ public class SessionInvalidatorFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
 		chain.doFilter(req, res);		
-		HttpSession session = ((HttpServletRequest)req).getSession();
-		session.invalidate();
-		logger.debug("Session invalidate");
+		HttpSession session = ((HttpServletRequest)req).getSession(false);
+		if(session!=null){
+			session.invalidate();
+			logger.debug("Session "+session.getId()+" invalidated");
+		}else{
+			logger.debug("No session to invalidate");
+		}
 	}
 
 	public void init(FilterConfig arg0) throws ServletException {
