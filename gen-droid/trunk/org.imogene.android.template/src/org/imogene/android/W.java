@@ -31,8 +31,7 @@ public final class W {
 		public static final int dateMax = R.attr.dateMax;
 		public static final int dateMin = R.attr.dateMin;
 		public static final int dependent = R.attr.dependent;
-		public static final int displayPl = R.attr.displayPl;
-		public static final int displaySg = R.attr.displaySg;
+		public static final int display = R.attr.display;
 		public static final int emptyText = R.attr.emptyText;
 		public static final int endYear = R.attr.endYear;
 		public static final int entity = R.attr.entity;
@@ -42,6 +41,7 @@ public final class W {
 		public static final int fieldLayoutHeight = R.attr.fieldLayoutHeight;
 		public static final int floatMax = R.attr.floatMax;
 		public static final int floatMin = R.attr.floatMin;
+		public static final int format = R.attr.format;
 		public static final int geoType = R.attr.geoType;
 		public static final int hasReverse = R.attr.hasReverse;
 		public static final int help = R.attr.help;
@@ -141,7 +141,6 @@ public final class W {
 		public static final int list_selector_background_inverse = R.drawable.list_selector_background_inverse;
 		public static final int logo_android = R.drawable.logo_android;
 		public static final int logo_android_s = R.drawable.logo_android_s;
-		public static final int required = R.drawable.required;
 		public static final int tab_background = R.drawable.tab_background;
 		public static final int tab_indicator = R.drawable.tab_indicator;
 		public static final int tab_off_background = R.drawable.tab_off_background;
@@ -215,7 +214,6 @@ public final class W {
 		public static final int footer_error = R.id.footer_error;
 		public static final int gps = R.id.gps;
 		public static final int help = R.id.help;
-		public static final int help_layout = R.id.help_layout;
 		public static final int hour = R.id.hour;
 		public static final int icon = R.id.icon;
 		public static final int increase = R.id.increase;
@@ -265,7 +263,6 @@ public final class W {
 		public static final int progress_number = R.id.progress_number;
 		public static final int progress_percent = R.id.progress_percent;
 		public static final int required = R.id.required;
-		public static final int required_layout = R.id.required_layout;
 		public static final int reverse = R.id.reverse;
 		public static final int right = R.id.right;
 		public static final int saveButton = R.id.saveButton;
@@ -349,6 +346,10 @@ public final class W {
 		public static final int menu_info_item = R.menu.menu_info_item;
 		public static final int menu_thema_listing = R.menu.menu_thema_listing;}
 
+	public static final class plurals {
+
+		public static final int numberOfEntities = R.plurals.numberOfEntities;}
+
 	public static final class raw {
 
 		public static final int encryption = R.raw.encryption;}
@@ -392,6 +393,7 @@ public final class W {
 		public static final int app_wizard_summaryon = R.string.app_wizard_summaryon;
 		public static final int app_wizard_title = R.string.app_wizard_title;
 		public static final int application_parameters = R.string.application_parameters;
+		public static final int bbox_format = R.string.bbox_format;
 		public static final int before = R.string.before;
 		public static final int bin_audio = R.string.bin_audio;
 		public static final int bin_binary = R.string.bin_binary;
@@ -426,8 +428,6 @@ public final class W {
 		public static final int delete_confirmation = R.string.delete_confirmation;
 		public static final int delete_confirmation_title = R.string.delete_confirmation_title;
 		public static final int dialog_quit = R.string.dialog_quit;
-		public static final int entity_count_pl = R.string.entity_count_pl;
-		public static final int entity_count_sg = R.string.entity_count_sg;
 		public static final int entity_id = R.string.entity_id;
 		public static final int filter_date_after = R.string.filter_date_after;
 		public static final int filter_date_before = R.string.filter_date_before;
@@ -452,9 +452,9 @@ public final class W {
 		public static final int iamlost_title = R.string.iamlost_title;
 		public static final int infimum = R.string.infimum;
 		public static final int insert_entity = R.string.insert_entity;
-		public static final int is_required = R.string.is_required;
 		public static final int list_availables_entities = R.string.list_availables_entities;
 		public static final int location_filter_title = R.string.location_filter_title;
+		public static final int location_format = R.string.location_format;
 		public static final int lower_than_decimal = R.string.lower_than_decimal;
 		public static final int lower_than_float = R.string.lower_than_float;
 		public static final int menu_actions = R.string.menu_actions;
@@ -658,12 +658,12 @@ public final class W {
 		public static final int[] NumberField = R.styleable.NumberField;
 		public static final int NumberField_floatMax = R.styleable.NumberField_floatMax;
 		public static final int NumberField_floatMin = R.styleable.NumberField_floatMin;
+		public static final int NumberField_format = R.styleable.NumberField_format;
 		public static final int NumberField_intMax = R.styleable.NumberField_intMax;
 		public static final int NumberField_intMin = R.styleable.NumberField_intMin;
 		public static final int NumberField_unit = R.styleable.NumberField_unit;
 		public static final int[] RelationField = R.styleable.RelationField;
-		public static final int RelationField_displayPl = R.styleable.RelationField_displayPl;
-		public static final int RelationField_displaySg = R.styleable.RelationField_displaySg;
+		public static final int RelationField_display = R.styleable.RelationField_display;
 		public static final int RelationField_hasReverse = R.styleable.RelationField_hasReverse;
 		public static final int RelationField_oppositeCardinality = R.styleable.RelationField_oppositeCardinality;
 		public static final int RelationField_type = R.styleable.RelationField_type;

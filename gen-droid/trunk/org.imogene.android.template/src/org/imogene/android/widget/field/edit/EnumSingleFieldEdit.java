@@ -1,6 +1,7 @@
 package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.W;
+import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.Tools;
 
 import android.app.AlertDialog.Builder;
@@ -66,8 +67,7 @@ public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements Dialo
 			if (intValue == -1) {
 				return getEmptyText();
 			} else {
-				int checkedItem = Tools.find(mItemsValues, intValue);
-				return mItems[checkedItem].toString();
+				return FormatHelper.displayEnumSingle(mItems, mItemsValues, intValue);
 			}
 		}
 	}

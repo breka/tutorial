@@ -71,13 +71,10 @@ public final class ThemaExpandableListAdapter extends BaseExpandableListAdapter 
 		SQLiteBuilder builder = new SQLiteBuilder()
 		.setSelectInTable(entity.mTable, "count(*)")
 		.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
-		long count = SQLiteWrapper.queryForLong(mContext, builder.toSQL());
+		int count = (int) SQLiteWrapper.queryForLong(mContext, builder.toSQL());
 	
-		if (count > 1) {
-			secondary.setText(mContext.getString(W.string.entity_count_pl, count));
-		} else {
-			secondary.setText(mContext.getString(W.string.entity_count_sg, count));
-		}
+		String s = mContext.getResources().getQuantityString(W.plurals.numberOfEntities, count, count);
+		secondary.setText(s);
 	
 		ImageView icon = (ImageView) view.findViewById(W.id.list_icon);
 		if (entity.mDrawable != 0) {

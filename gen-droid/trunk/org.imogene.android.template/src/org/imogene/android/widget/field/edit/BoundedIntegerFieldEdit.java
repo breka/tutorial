@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +23,14 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 
 	private int mMax;
 	private int mMin;
-	private String mUnit;
+	private String mFormat;
 
 	public BoundedIntegerFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.field_default);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberField, 0, 0);
 		setMin(a.getInt(W.styleable.NumberField_intMin, 0));
 		setMax(a.getInt(W.styleable.NumberField_intMax, 100));
-		setUnit(a.getString(W.styleable.NumberField_unit));
+		mFormat = a.getString(W.styleable.NumberField_format);
 		a.recycle();
 	}
 
@@ -41,10 +40,6 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 
 	public void setMax(int max) {
 		mMax = max;
-	}
-
-	public void setUnit(String unit) {
-		mUnit = unit;
 	}
 
 	@Override
@@ -60,11 +55,7 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 		if (value == null) {
 			return getEmptyText();
 		} else {
-			if (TextUtils.isEmpty(mUnit)) {
-				return value.toString();
-			} else {
-				return value + " " + mUnit;
-			}
+			return String.format(mFormat, value);
 		}
 	}
 
@@ -135,7 +126,7 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		mTextView.setText((progress + mMin) + " " + mUnit);
+		mTextView.setText(String.format(mFormat, (progress + mMin)));
 	}
 
 	@Override

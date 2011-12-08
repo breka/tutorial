@@ -56,7 +56,7 @@ public class GeoFieldView extends BaseFieldView<Location> implements OnClickList
 	public String getDisplay() {
 		final Location location = getValue();
 		if (location != null) {
-			return FormatHelper.displayLocation(location);
+			return FormatHelper.displayLocation(getContext(), location);
 		}
 		return super.getDisplay();
 	}

@@ -2,6 +2,7 @@ package org.imogene.android.notification;
 
 import java.util.HashSet;
 
+import org.imogene.android.W;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.Constants.SortOrder;
@@ -41,8 +42,7 @@ public class MessagingNotification {
 	 * Checks to see if there are any "unseen" entities. Shows the most recent
 	 * notification if there is one. Does its work and query in a worker thread.
 	 * 
-	 * @param context
-	 *            the context to use
+	 * @param context the context to use
 	 */
 	public static void nonBlockingUpdateNewEntityIndicator(final Context context) {
 		new Thread(new Runnable() {
@@ -79,8 +79,7 @@ public class MessagingNotification {
 			Context context, 
 			Uri uri,
 			int notificationId,
-			int descSg,
-			int descPl,
+			int titleId,
 			int drawable) {
 		EntityCursor c = (EntityCursor) SQLiteWrapper.query(context, uri, WHERE, ORDER);
 
@@ -96,19 +95,16 @@ public class MessagingNotification {
 			int count = c.getCount();
 
 			Intent clickIntent = new Intent(Intent.ACTION_VIEW);
-			String description = null;
 			if (count > 1) {
 				clickIntent.setData(uri);
 				clickIntent.putExtra(Extras.EXTRA_SORT_KEY, Entity.Columns.UNREAD);
 				clickIntent.putExtra(Extras.EXTRA_SORT_ORDER, SortOrder.DESCENDANT_ORDER);
-				description = count + " " + context.getString(descPl);
 			} else {
 				clickIntent.setData(ContentUrisUtils.withAppendedId(uri, c.getId()));
-				description = c.getMainDisplay(context);
 			}
 
-			String title = context.getString(descSg);
-			long timeMillis = c.getModified();
+			String title = context.getString(titleId);
+			String description = context.getResources().getQuantityString(W.plurals.numberOfEntities, count, count);
 			CharSequence ticker = buildTickerMessage(title, description);
 
 			NotificationInfo info = new NotificationInfo(
@@ -117,7 +113,7 @@ public class MessagingNotification {
 					description,
 					drawable,
 					ticker,
-					timeMillis,
+					c.getModified(),
 					title);
 			return info;
 		} finally {

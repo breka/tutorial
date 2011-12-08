@@ -36,6 +36,7 @@
 	
 	«EXPAND getHelp("en") FOR field-»
 	«EXPAND getUnit FOR field-»
+	«EXPAND getFormat FOR field-»
 	«EXPAND getValidationDescription("en") FOR field-»
 	«ENDFOREACH-»
 	«ENDFOREACH-»
@@ -68,7 +69,6 @@
 		«FOREACH group.fields AS field-»
 			«EXPAND getHelp(iso) FOR field-»
 			«EXPAND getDescription(iso) FOR field-»
-			«EXPAND getUnit FOR field-»
 			«EXPAND getValidationDescription(iso) FOR field-»
 		«ENDFOREACH-»
 	«ENDFOREACH-»
@@ -138,6 +138,24 @@
 «ENDIF-»
 «ENDDEFINE»
 
+
+
+
+«DEFINE getFormat FOR FieldEntity-»
+«ENDDEFINE»
+
+«DEFINE getFormat FOR IntegerField-»
+<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format">"%1$d«IF unit.length > 0» «unit-»«ENDIF»"</string>
+«ENDDEFINE»
+
+«DEFINE getFormat FOR FloatField-»
+<string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format">"%1$«IF DecimalNumber > -1».«DecimalNumber»«ENDIF»f«IF unit.length > 0» «unit-»«ENDIF»"</string>
+«ENDDEFINE»
+
+
+
+
+
 «DEFINE getUnit FOR FieldEntity-»
 «ENDDEFINE»
 
@@ -146,6 +164,10 @@
 <string name="«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit">"«unit-»"</string>
 «ENDIF-»
 «ENDDEFINE»
+
+
+
+
 
 «DEFINE getValidationDescription(String isoCode) FOR FieldEntity-»
 «ENDDEFINE»

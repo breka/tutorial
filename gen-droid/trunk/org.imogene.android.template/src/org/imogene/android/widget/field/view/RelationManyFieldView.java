@@ -17,16 +17,14 @@ import android.view.View;
 
 public class RelationManyFieldView extends BaseFieldView<ArrayList<Uri>> {
 	
-	private final int displayPlId;
-	private final int displaySgId;
+	private final int displayId;
 	
 	private Uri contentUri;
 
 	public RelationManyFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs, W.layout.field_relation);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationField, 0, 0);
-		displayPlId = a.getResourceId(W.styleable.RelationField_displayPl, 0);
-		displaySgId = a.getResourceId(W.styleable.RelationField_displaySg, 0);
+		displayId = a.getResourceId(W.styleable.RelationField_display, 0);
 		a.recycle();
 		setOnClickListener(this);
 		setIconId(android.R.drawable.sym_contact_card);
@@ -52,12 +50,9 @@ public class RelationManyFieldView extends BaseFieldView<ArrayList<Uri>> {
 	@Override
 	public String getDisplay() {
 		final ArrayList<Uri> uris = getValue();
-		if (uris != null && uris.size() > 0) {
-			if (uris.size() > 1) {
-				return uris.size() + " " + getResources().getString(displayPlId);
-			} else {
-				return "1 " + getResources().getString(displaySgId);
-			}
+		if (uris != null && !uris.isEmpty()) {
+			int size = uris.size();
+			return getResources().getQuantityString(displayId, size, size);
 		}
 		return super.getDisplay();
 	}
