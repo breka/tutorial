@@ -106,9 +106,7 @@ app:stringType="address"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR NumericField-»
-«IF unit.length > 0-»
-app:unit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
-«ENDIF-»
+app:format="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR EnumField-»
@@ -118,7 +116,6 @@ app:entries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceNa
 
 «DEFINE specificAttributes FOR RelationFieldEntity-»
 «IF cardinality != 1»
-app:displayPl="@string/«entity.name.toLowerCase()-»_des_sg"
-app:displaySg="@string/«entity.name.toLowerCase()-»_des_sg"
+app:display="@plurals/«entity.name.toLowerCase()-»_display"
 «ENDIF»
 «ENDDEFINE»

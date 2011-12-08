@@ -94,6 +94,7 @@ app:geoType="best"
 «IF unit.length > 0-»
 app:unit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
 «ENDIF-»
+app:format="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format"
 «IF max != null && max.length > 0-»
 app:floatMax="«max»"
 «ENDIF-»
@@ -106,6 +107,7 @@ app:floatMin="«min»"
 «IF unit.length > 0-»
 app:unit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
 «ENDIF-»
+app:format="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format"
 «IF max != null && max.length > 0-»
 app:intMax="«max»"
 «ENDIF-»
@@ -131,8 +133,7 @@ app:dateMin="«min»"
 
 «DEFINE specificAttributes FOR RelationFieldEntity-»
 app:hasReverse="«oppositeRelationField != null»"
-app:displayPl="@string/«entity.name.toLowerCase()-»_des_sg"
-app:displaySg="@string/«entity.name.toLowerCase()-»_des_sg"
+app:display="@plurals/«entity.name.toLowerCase()-»_display"
 app:oppositeCardinality="«getOppositeCardinality(this)-»"
 app:type="«IF MainRelationFieldEntity.isAssignableFrom(metaType)»main«ELSE»reverse«ENDIF»"
 «ENDDEFINE»

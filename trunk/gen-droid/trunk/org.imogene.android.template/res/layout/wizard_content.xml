@@ -17,58 +17,6 @@
             android:layout_height="150dip"
             android:layout_alignParentTop="true" />
 
-        <LinearLayout
-            android:id="@+id/required_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/flipper"
-            android:layout_marginTop="13dip"
-            android:orientation="horizontal"
-            android:paddingLeft="20dip" >
-
-            <ImageView
-                android:layout_width="32dip"
-                android:layout_height="32dip"
-                android:layout_gravity="center_vertical"
-                android:scaleType="fitXY"
-                android:src="@drawable/required" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dip"
-                android:text="@string/is_required"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#ff940909" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/help_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/required_layout"
-            android:layout_marginTop="13dip"
-            android:orientation="horizontal"
-            android:paddingLeft="20dip" >
-
-            <ImageView
-                android:layout_width="32dip"
-                android:layout_height="32dip"
-                android:layout_gravity="center_vertical"
-                android:scaleType="fitXY"
-                android:src="@drawable/help" />
-
-            <TextView
-                android:id="@+id/help"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dip"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#ff204784" />
-        </LinearLayout>
-
         <RelativeLayout
             android:id="@+id/buttons_layout"
             android:layout_width="fill_parent"

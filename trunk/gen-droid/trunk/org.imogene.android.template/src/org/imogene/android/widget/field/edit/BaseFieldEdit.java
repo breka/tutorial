@@ -109,7 +109,7 @@ public abstract class BaseFieldEdit<T> extends BaseField<T> implements Constrain
 		entry.setTag(tag);
 		entry.setTitle(getTitleId());
 		if (mRequired) {
-			entry.addMessage(getResources().getString(W.string.is_required));
+			entry.addMessage(getResources().getString(W.string.required));
 		}
 		return entry;
 	}

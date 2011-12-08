@@ -275,12 +275,8 @@ if («name.toFirstLower()» != null) {
 «DEFINE getDisplay FOR NumericField-»
 Number «name.toFirstLower()» = get«name.toFirstUpper()»();
 if («name.toFirstLower()» != null) {
-	str.append(«name.toFirstLower()».toString());
+	str.append(context.getString(R.string.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format, «name.toFirstLower()»));
 	str.append(" ");
-	«IF unit.length > 0-»
-	str.append(context.getString(R.string.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit));
-	str.append(" ");
-	«ENDIF-»
 }
 «ENDDEFINE»
 
@@ -312,8 +308,11 @@ if («name.toFirstLower()» != null) {
 «IF !multipleSelection -»
 int «name.toFirstLower()» = get«name.toFirstUpper()-»();
 if («name.toFirstLower()» != -1) {
-	String[] array = context.getResources().getStringArray(R.array.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»);
-	str.append(array[«name.toFirstLower()»]);
+	str.append(FormatHelper.displayEnumSingle(
+			context,
+			R.array.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»,
+			R.array.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values,
+			«name.toFirstLower()»));
 	str.append(" ");
 }
 «ENDIF-»
@@ -322,7 +321,7 @@ if («name.toFirstLower()» != -1) {
 «DEFINE getDisplay FOR GeoField-»
 Location «name.toFirstLower()» = get«name.toFirstUpper()-»();
 if («name.toFirstLower()» != null) {
-	str.append(FormatHelper.displayLocation(«name.toFirstLower()»));
+	str.append(FormatHelper.displayLocation(context, «name.toFirstLower()»));
 	str.append(" ");
 }
 «ENDDEFINE»

@@ -1,7 +1,7 @@
 package org.imogene.android.widget.field.view;
 
 import org.imogene.android.W;
-import org.imogene.android.util.Tools;
+import org.imogene.android.util.FormatHelper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -32,8 +32,7 @@ public class EnumSingleFieldView extends DefaultEntityView<Integer> {
 		if (value != null) {
 			final int intValue = value.intValue();
 			if (intValue != -1) {
-				int checkedItem = Tools.find(mItemsValues, intValue);
-				return mItems[checkedItem].toString();
+				return FormatHelper.displayEnumSingle(mItems, mItemsValues, intValue);
 			}
 		}
 		return super.getDisplay();

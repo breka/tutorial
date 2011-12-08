@@ -122,6 +122,8 @@
 
         <!-- Unit reference id of a numeric field -->
         <attr format="reference" name="unit" />
+        <!-- Formatter reference id of a numeric field -->
+        <attr format="reference" name="format" />
         <!-- The minimum value this field can take -->
         <attr format="integer" name="intMin" />
         <!-- The maximum value this field can take -->
@@ -143,9 +145,7 @@
         <!-- Has a reverse relation field -->
         <attr format="boolean" name="hasReverse" />
         <!-- Reference to the plural display value -->
-        <attr format="reference" name="displayPl" />
-        <!-- Reference to the singular display value -->
-        <attr format="reference" name="displaySg" />
+        <attr format="reference" name="display" />
         <!-- Opposite cardinality -->
         <attr format="integer" name="oppositeCardinality" />
         <!-- Relation type (main or reverse) -->

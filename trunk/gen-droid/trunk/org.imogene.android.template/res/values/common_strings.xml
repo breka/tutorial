@@ -48,19 +48,18 @@
     <string name="relation_hierarchical_parent_unset">"You have to fill the field %s"</string>
     <string name="unsaved_dialog_msg">"The entity has been modified. Save changes ?"</string>
     <string name="uncomplete_dialog_msg">"You haven't finished to fill the form. Quit without saving ?"</string>
-    <string name="entity_count_pl">"%1$d Entities"</string>
-    <string name="entity_count_sg">"%1$d Entity"</string>
     <string name="lower_than_decimal">must be lower than %d</string>
     <string name="greater_than_decimal">must be greater than %d</string>
     <string name="lower_than_float">must be lower than %.2f</string>
     <string name="greater_than_float">must be greater than %.2f</string>
-    <string name="is_required">is required</string>
     <string name="required">Required</string>
     <string name="obtaining_time_offset">Obtaining time offset from NTP server</string>
     <string name="obtaining_time_offset_failed">Obtaining time offset failed. Do you wish to try again ?</string>
     <string name="obtaining_roles">Connecting to the distant server...</string>
     <string name="obtaining_roles_failed">"Identification failed ! Check login, password and server settings. Do you wish to try again ?"</string>
-    <string name="dialog_quit">"Exit Imogne android application ?"</string>
+    <string name="dialog_quit">"Exit Imogene android application ?"</string>
+    <string name="location_format">"Lat %1$.3f ; Lon %2$.3f"</string>
+    <string name="bbox_format">"%1$.3f ; %2$.3f ; %3$.3f ; %4$.3f"</string>
 
     <!-- Synchronization messages -->
     <string name="synchronization">"Synchronization"</string>

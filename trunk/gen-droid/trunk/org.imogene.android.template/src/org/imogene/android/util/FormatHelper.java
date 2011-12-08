@@ -1,7 +1,6 @@
 package org.imogene.android.util;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,8 +8,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.imogene.android.Constants.Extras;
+import org.imogene.android.W;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Location;
 
 public class FormatHelper {
@@ -53,29 +55,21 @@ public class FormatHelper {
     	return TIME_FORMAT.format(cal.getTime());
     }
     
-    public static final String displayLocation(Location location) {
-    	return displayDecimals(location.getLatitude(), 2) +	" ; " +
-    		displayDecimals(location.getLongitude(), 2);
+    public static final String displayLocation(Context context, Location location) {
+    	return context.getString(W.string.location_format, location.getLatitude(), location.getLongitude());
     }
     
-    public static final String displayBoundingBox(BoundingBox box) {
-    	return displayDecimals(box.getWest(), 2) + " ; " + 
-    	displayDecimals(box.getNorth(), 2) + " ; " +
-    	displayDecimals(box.getEast(), 2) + " ; " +
-    	displayDecimals(box.getSouth(), 2);
+    public static final String displayBoundingBox(Context context, BoundingBox box) {
+    	return context.getString(W.string.bbox_format, box.getWest(), box.getNorth(), box.getEast(), box.getSouth());
     }
     
-    public static final String displayDecimals(double value, int decimals) {
-		if (decimals > 0) {
-			StringBuilder builder = new StringBuilder("#0.");
-			for (int i = 0; i < decimals; i++)
-				builder.append('#');
-			DecimalFormat format = new DecimalFormat(builder.toString());
-			format.setDecimalFormatSymbols(DFS);
-			return format.format(value);
-		} else {
-			return String.valueOf(value);
-		}
+    public static final String displayEnumSingle(CharSequence[] items, int[] itemsValues, int value) {
+    	return items[Tools.find(itemsValues, value)].toString();
+    }
+    
+    public static final String displayEnumSingle(Context context, int itemsId, int itemsValuesId, int value) {
+    	Resources r = context.getResources();
+    	return displayEnumSingle(r.getTextArray(itemsId), r.getIntArray(itemsValuesId), value);
     }
     
     public static final String displayEnumMulti(String[] array, boolean[] value) {

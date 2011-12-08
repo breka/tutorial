@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class WizardEntityView extends RelativeLayout implements OnClickListener, Controller {
 	
@@ -25,11 +24,6 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 	private View mPrevious;
 	private View mFinish;
 	
-	private View mRequiredLayout;
-	private View mHelpLayout;
-	
-	private TextView mHelp;
-	
 	public WizardEntityView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
@@ -41,11 +35,6 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 		mNext = findViewById(W.id.next_field);
 		mPrevious = findViewById(W.id.previous_field);
 		mFinish = findViewById(W.id.finish);
-		
-		mRequiredLayout = findViewById(W.id.required_layout);
-		mHelpLayout = findViewById(W.id.help_layout);
-		
-		mHelp = (TextView) mHelpLayout.findViewById(W.id.help);
 		
 		mNext.setOnClickListener(this);
 		mPrevious.setOnClickListener(this);
@@ -85,14 +74,6 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 		final boolean hasNext = mFlipper.hasNext();
 		findViewById(W.id.next_field).setVisibility(hasNext ? View.VISIBLE : View.GONE);
 		findViewById(W.id.finish).setVisibility(hasNext ? View.GONE : View.VISIBLE);
-		mRequiredLayout.setVisibility(displayed.isRequired() ? View.VISIBLE : View.INVISIBLE);
-		final int helpId = displayed.getHelpId();
-		if (helpId != 0) {
-			mHelpLayout.setVisibility(View.VISIBLE);
-			mHelp.setText(helpId);
-		} else {
-			mHelpLayout.setVisibility(View.GONE);
-		}
 	}
 	
 }

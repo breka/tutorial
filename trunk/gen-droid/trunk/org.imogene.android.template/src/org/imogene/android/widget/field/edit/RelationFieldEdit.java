@@ -30,8 +30,7 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 	private ArrayList<ExtraBuilder> mBuilders;
 
 	protected final boolean mHasReverse;
-	protected final int mDisplayPlId;
-	protected final int mDisplaySgId;
+	protected final int mDisplayId;
 	protected final int mOppositeCardinality;
 	protected final int mType; // 0 for main relation field; 1 for reverse relation field
 	protected String mOppositeRelationField;
@@ -45,8 +44,7 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 		super(context, attrs, W.layout.field_relation);
 		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationField, 0, 0);
 		mHasReverse = a.getBoolean(W.styleable.RelationField_hasReverse, false);
-		mDisplayPlId = a.getResourceId(W.styleable.RelationField_displayPl, 0);
-		mDisplaySgId = a.getResourceId(W.styleable.RelationField_displaySg, 0);
+		mDisplayId = a.getResourceId(W.styleable.RelationField_display, 0);
 		mOppositeCardinality = a.getInt(W.styleable.RelationField_oppositeCardinality, 0);
 		mType = a.getInt(W.styleable.RelationField_type, 0);
 		a.recycle();

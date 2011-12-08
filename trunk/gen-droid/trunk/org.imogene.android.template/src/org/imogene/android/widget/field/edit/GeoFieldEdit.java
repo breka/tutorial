@@ -51,7 +51,7 @@ public class GeoFieldEdit extends BaseFieldEdit<Location> implements OnActivityR
 	public String getDisplay() {
 		final Location location = getValue();
 		if (location != null) {
-			return FormatHelper.displayLocation(location);
+			return FormatHelper.displayLocation(getContext(), location);
 		} else {
 			return getEmptyText();
 		}

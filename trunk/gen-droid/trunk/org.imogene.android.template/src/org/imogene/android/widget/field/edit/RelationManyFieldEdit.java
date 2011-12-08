@@ -51,12 +51,9 @@ public class RelationManyFieldEdit extends RelationFieldEdit<ArrayList<Uri>> {
 	@Override
 	public String getDisplay() {
 		final ArrayList<Uri> uris = getValue();
-		if (uris != null && uris.size() > 0) {
-			if (uris.size() > 1) {
-				return uris.size() + " " + getResources().getString(mDisplayPlId);
-			} else {
-				return "1 " + getResources().getString(mDisplaySgId);
-			}
+		if (uris != null && !uris.isEmpty()) {
+			int size = uris.size();
+			return getResources().getQuantityString(mDisplayId, size, size);
 		} else {
 			return getEmptyText();
 		}
