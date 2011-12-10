@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.ErrorAdapter.ErrorEntry;
 
 import android.content.Context;
@@ -17,8 +17,8 @@ public abstract class StringFieldEdit<T> extends BaseFieldEdit<T> {
 
 	public StringFieldEdit(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs, layoutId);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.StringFieldEdit, 0, 0);
-		setStringType(a.getInt(W.styleable.StringFieldEdit_stringType, InputType.TYPE_NULL));
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.StringFieldEdit, 0, 0);
+		setStringType(a.getInt(R.styleable.StringFieldEdit_stringType, InputType.TYPE_NULL));
 		a.recycle();
 	}
 	

@@ -16,7 +16,7 @@
 
 package org.imogene.android.widget;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.os.Handler;
@@ -104,20 +104,20 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         super(context, attrs);
         setOrientation(VERTICAL);
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(W.layout.number_picker, this, true);
+        inflater.inflate(R.layout.number_picker, this, true);
         mHandler = new Handler();
         InputFilter inputFilter = new NumberPickerInputFilter();
         mNumberInputFilter = new NumberRangeKeyListener();
-        mIncrementButton = (NumberPickerButton) findViewById(W.id.increment);
+        mIncrementButton = (NumberPickerButton) findViewById(R.id.increment);
         mIncrementButton.setOnClickListener(this);
         mIncrementButton.setOnLongClickListener(this);
         mIncrementButton.setNumberPicker(this);
-        mDecrementButton = (NumberPickerButton) findViewById(W.id.decrement);
+        mDecrementButton = (NumberPickerButton) findViewById(R.id.decrement);
         mDecrementButton.setOnClickListener(this);
         mDecrementButton.setOnLongClickListener(this);
         mDecrementButton.setNumberPicker(this);
         
-        mText = (EditText) findViewById(W.id.timepicker_input);
+        mText = (EditText) findViewById(R.id.timepicker_input);
         mText.setOnFocusChangeListener(this);
         mText.setFilters(new InputFilter[] {inputFilter});
         mText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
@@ -192,9 +192,9 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         if (!mText.hasFocus()) mText.requestFocus();
 
         // now perform the increment/decrement
-        if (W.id.increment == v.getId()) {
+        if (R.id.increment == v.getId()) {
             changeCurrent(mCurrent + 1);
-        } else if (W.id.decrement == v.getId()) {
+        } else if (R.id.decrement == v.getId()) {
             changeCurrent(mCurrent - 1);
         }
     }
@@ -283,10 +283,10 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
          */
         mText.clearFocus();
         
-        if (W.id.increment == v.getId()) {
+        if (R.id.increment == v.getId()) {
             mIncrement = true;
             mHandler.post(mRunnable);
-        } else if (W.id.decrement == v.getId()) {
+        } else if (R.id.decrement == v.getId()) {
             mDecrement = true;
             mHandler.post(mRunnable);
         }

@@ -2,7 +2,7 @@ package org.imogene.android.util.file;
 
 import java.io.IOException;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
@@ -16,7 +16,7 @@ public class MimeTypeManager {
 	
 	private MimeTypeManager(Context context) {
 		MimeTypeParser parser = new MimeTypeParser();
-		XmlResourceParser in = context.getResources().getXml(W.xml.mimetypes);
+		XmlResourceParser in = context.getResources().getXml(R.xml.mimetypes);
 		try {
 			mMimeTypes = parser.fromXmlResource(in);
 		} catch (XmlPullParserException e) {

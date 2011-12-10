@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.view;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.field.BaseField;
 
 import android.content.Context;
@@ -14,7 +14,7 @@ public abstract class BaseFieldView<T> extends BaseField<T> {
 	
 	public BaseFieldView(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs, layoutId);
-		mIconView = (ImageView) findViewById(W.id.icon);
+		mIconView = (ImageView) findViewById(R.id.icon);
 		
 		if (mIconView != null) {
 			mIconView.setSaveEnabled(false);

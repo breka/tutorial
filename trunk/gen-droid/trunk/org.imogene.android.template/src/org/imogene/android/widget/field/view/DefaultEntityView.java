@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.view;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.view.View;
 public abstract class DefaultEntityView<T> extends BaseFieldView<T> {
 
 	public DefaultEntityView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default);
+		super(context, attrs, R.layout.field_default);
 		setOnClickListener(this);
 	}
 	

@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.field.FieldFlipper.Controller;
 import org.imogene.android.widget.field.edit.BaseFieldEdit;
 
@@ -30,11 +30,11 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 	}
 	
 	public void setup() {
-		mFlipper = (FieldFlipper) findViewById(W.id.flipper);
+		mFlipper = (FieldFlipper) findViewById(R.id.flipper);
 		
-		mNext = findViewById(W.id.next_field);
-		mPrevious = findViewById(W.id.previous_field);
-		mFinish = findViewById(W.id.finish);
+		mNext = findViewById(R.id.next_field);
+		mPrevious = findViewById(R.id.previous_field);
+		mFinish = findViewById(R.id.finish);
 		
 		mNext.setOnClickListener(this);
 		mPrevious.setOnClickListener(this);
@@ -53,13 +53,13 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 	
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case W.id.next_field:
+		case R.id.next_field:
 			mFlipper.showNext();
 			break;
-		case W.id.previous_field:
+		case R.id.previous_field:
 			mFlipper.showPrevious();
 			break;
-		case W.id.finish:
+		case R.id.finish:
 			if (mListener != null) {
 				mListener.onFinishClick();
 			}
@@ -69,11 +69,11 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 	
 	public void onFieldChanged() {
 		final BaseFieldEdit<?> displayed = mFlipper.getCurrentField();
-		findViewById(W.id.previous_field).setVisibility(mFlipper.hasPrevious() ? View.VISIBLE : View.GONE);
-		findViewById(W.id.next_field).setEnabled(displayed.isValid());
+		findViewById(R.id.previous_field).setVisibility(mFlipper.hasPrevious() ? View.VISIBLE : View.GONE);
+		findViewById(R.id.next_field).setEnabled(displayed.isValid());
 		final boolean hasNext = mFlipper.hasNext();
-		findViewById(W.id.next_field).setVisibility(hasNext ? View.VISIBLE : View.GONE);
-		findViewById(W.id.finish).setVisibility(hasNext ? View.GONE : View.VISIBLE);
+		findViewById(R.id.next_field).setVisibility(hasNext ? View.VISIBLE : View.GONE);
+		findViewById(R.id.finish).setVisibility(hasNext ? View.GONE : View.VISIBLE);
 	}
 	
 }

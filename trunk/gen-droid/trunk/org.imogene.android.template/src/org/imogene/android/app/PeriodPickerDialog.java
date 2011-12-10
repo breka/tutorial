@@ -16,7 +16,7 @@
 
 package org.imogene.android.app;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.PeriodPicker;
 import org.imogene.android.widget.PeriodPicker.OnPeriodChangedListener;
 
@@ -72,7 +72,7 @@ public class PeriodPickerDialog extends AlertDialog implements OnClickListener,
             OnPeriodSetListener callBack,
             int number,
             int unit) {
-        this(context, W.style.Theme_Dialog_Alert, 
+        this(context, R.style.Theme_Dialog_Alert, 
                 callBack, number, unit);
     }
 
@@ -98,13 +98,13 @@ public class PeriodPickerDialog extends AlertDialog implements OnClickListener,
         
         setButton(context.getText(android.R.string.ok), this);
         setButton2(context.getText(android.R.string.cancel), (OnClickListener) null);
-        setIcon(W.drawable.ic_dialog_time);
+        setIcon(R.drawable.ic_dialog_time);
         
         LayoutInflater inflater = 
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(W.layout.period_picker_dialog, null);
+        View view = inflater.inflate(R.layout.period_picker_dialog, null);
         setView(view);
-        mPeriodPicker = (PeriodPicker) view.findViewById(W.id.periodPicker);
+        mPeriodPicker = (PeriodPicker) view.findViewById(R.id.periodPicker);
         mPeriodPicker.init(mInitialNumber, mInitialUnit, this);
     }
     

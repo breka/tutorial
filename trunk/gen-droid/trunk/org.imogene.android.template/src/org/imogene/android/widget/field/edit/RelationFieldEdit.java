@@ -3,7 +3,7 @@ package org.imogene.android.widget.field.edit;
 import java.util.ArrayList;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.widget.field.ConstraintBuilder;
 import org.imogene.android.widget.field.FieldManager;
@@ -41,12 +41,12 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 	protected Uri mContentUri;
 
 	public RelationFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_relation);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationField, 0, 0);
-		mHasReverse = a.getBoolean(W.styleable.RelationField_hasReverse, false);
-		mDisplayId = a.getResourceId(W.styleable.RelationField_display, 0);
-		mOppositeCardinality = a.getInt(W.styleable.RelationField_oppositeCardinality, 0);
-		mType = a.getInt(W.styleable.RelationField_type, 0);
+		super(context, attrs, R.layout.field_relation);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RelationField, 0, 0);
+		mHasReverse = a.getBoolean(R.styleable.RelationField_hasReverse, false);
+		mDisplayId = a.getResourceId(R.styleable.RelationField_display, 0);
+		mOppositeCardinality = a.getInt(R.styleable.RelationField_oppositeCardinality, 0);
+		mType = a.getInt(R.styleable.RelationField_type, 0);
 		a.recycle();
 		setOnClickListener(this);
 	}
@@ -82,7 +82,7 @@ public abstract class RelationFieldEdit<T> extends BaseFieldEdit<T> implements O
 	}
 	
 	public void setDrawable(Drawable drawable) {
-		final View color = findViewById(W.id.color);
+		final View color = findViewById(R.id.color);
 		if (color != null) {
 			color.setBackgroundDrawable(drawable);
 		}

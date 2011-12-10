@@ -2,7 +2,7 @@ package org.imogene.android.widget.field.edit;
 
 import java.util.Arrays;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.field.EnumConverter;
 
@@ -24,11 +24,11 @@ public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements O
 	private final int mSize;
 	
 	public EnumMultipleFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumField, 0, 0);
-		mEntries = a.getResourceId(W.styleable.EnumField_entries, 0);
-		mArray = a.getResourceId(W.styleable.EnumField_array, 0);
-		mSize = a.getInteger(W.styleable.EnumField_size, 0);
+		super(context, attrs, R.layout.field_default);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumField, 0, 0);
+		mEntries = a.getResourceId(R.styleable.EnumField_entries, 0);
+		mArray = a.getResourceId(R.styleable.EnumField_array, 0);
+		mSize = a.getInteger(R.styleable.EnumField_size, 0);
 		a.recycle();
 		setValue(new boolean[mSize]);
 	}

@@ -1,6 +1,6 @@
 package org.imogene.android.util.ntp;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.preference.PreferenceHelper;
 
 import android.content.Context;
@@ -47,7 +47,7 @@ public class SntpProvider {
     }
     
     public static final void updateTimeOffset(Context context, long offset) {
-    	String ntpOffsetKey = context.getString(W.string.ntp_offset_key);
+    	String ntpOffsetKey = context.getString(R.string.ntp_offset_key);
     	PreferenceHelper.getSharedPreferences(context).edit().putLong(ntpOffsetKey, offset).commit();
     }
 }

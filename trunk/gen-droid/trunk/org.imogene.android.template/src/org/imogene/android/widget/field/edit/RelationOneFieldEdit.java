@@ -1,7 +1,7 @@
 package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
@@ -42,7 +42,7 @@ public class RelationOneFieldEdit extends RelationFieldEdit<Uri> implements OnAc
 	protected void dispatchClick(View v) {
 		if (mType == 1 && mHasReverse && mOppositeCardinality == 1) {
 			// forbidden case
-			Toast.makeText(getContext(), W.string.relation_unsettable, Toast.LENGTH_LONG).show();
+			Toast.makeText(getContext(), R.string.relation_unsettable, Toast.LENGTH_LONG).show();
 			return;
 		}
 		if (isReadOnly() && getValue() != null) {

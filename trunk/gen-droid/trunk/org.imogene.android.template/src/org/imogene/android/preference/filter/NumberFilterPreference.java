@@ -1,6 +1,6 @@
 package org.imogene.android.preference.filter;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.common.ClientFilter.Creator;
 import org.imogene.android.common.filter.NumberFilter;
 import org.imogene.android.common.filter.NumberFilter.NumberOperator;
@@ -37,19 +37,19 @@ public abstract class NumberFilterPreference<U extends Number, T extends NumberF
 		switch (o) {
 		case BETWEEN:
 			if (i != null && s != null)
-				return getContext().getString(W.string.filter_number_between, i.toString(), s.toString());
+				return getContext().getString(R.string.filter_number_between, i.toString(), s.toString());
 			break;
 		case EQUAL:
 			if (e != null)
-				return getContext().getString(W.string.filter_number_equal, e.toString());
+				return getContext().getString(R.string.filter_number_equal, e.toString());
 			break;
 		case INFIMUM:
 			if (i != null)
-				return getContext().getString(W.string.filter_number_gt, i.toString());
+				return getContext().getString(R.string.filter_number_gt, i.toString());
 			break;
 		case SUPREMUM:
 			if (s != null)
-				return getContext().getString(W.string.filter_number_lt, s.toString());
+				return getContext().getString(R.string.filter_number_lt, s.toString());
 			break;
 		}
 		return getContext().getString(android.R.string.unknownName);
@@ -95,12 +95,12 @@ public abstract class NumberFilterPreference<U extends Number, T extends NumberF
 	@Override
 	protected void onBindDialogView(View view) {
 		super.onBindDialogView(view);
-		spinner = ((Spinner) view.findViewById(W.id.spinner));
+		spinner = ((Spinner) view.findViewById(R.id.spinner));
 		
-		equals = (TextView) view.findViewById(W.id.equals);
-		infimum = (TextView) view.findViewById(W.id.infimum);
-		supremum = (TextView) view.findViewById(W.id.supremum);
-		interval = view.findViewById(W.id.interval);
+		equals = (TextView) view.findViewById(R.id.equals);
+		infimum = (TextView) view.findViewById(R.id.infimum);
+		supremum = (TextView) view.findViewById(R.id.supremum);
+		interval = view.findViewById(R.id.interval);
 
 		spinner.setOnItemSelectedListener(this);
 

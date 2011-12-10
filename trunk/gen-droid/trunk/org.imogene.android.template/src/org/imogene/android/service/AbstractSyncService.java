@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.Constants.Paths;
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.app.WakefulIntentService;
 import org.imogene.android.common.SyncHistory;
 import org.imogene.android.notification.MessagingNotification;
@@ -49,7 +49,7 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 	}
 	
 	public static final void startServiceManually(Context context) {
-		Toast.makeText(context, W.string.sync_manually, Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, R.string.sync_manually, Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent(Intents.ACTION_CHECK_SYNC);
 		intent.putExtra(EXTRA_MANUAL, true);
 		sendWakefulWork(context, intent);
@@ -398,47 +398,47 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 
 	private void onStart() {
 		Log.i(TAG, "Starting");
-		notifyState(getString(W.string.sync_start));
+		notifyState(getString(R.string.sync_start));
 	}
 
 	private void onInit() {
 		Log.i(TAG, "Initializing");
-		notifyState(getString(W.string.sync_init));
+		notifyState(getString(R.string.sync_init));
 	}
 
 	private void onInitResume() {
 		Log.i(TAG, "Initializing a resumed session");
-		notifyState(getString(W.string.sync_init_resume));
+		notifyState(getString(R.string.sync_init_resume));
 	}
 
 	private void onSend() {
 		Log.i(TAG, "Sending");
-		notifyState(getString(W.string.sync_send));
+		notifyState(getString(R.string.sync_send));
 	}
 
 	private void onSendResume() {
 		Log.i(TAG, "Sending from a resumed session");
-		notifyState(getString(W.string.sync_send_resume));
+		notifyState(getString(R.string.sync_send_resume));
 	}
 
 	private void onReceive() {
 		Log.i(TAG, "Receiving");
-		notifyState(getString(W.string.sync_receive));
+		notifyState(getString(R.string.sync_receive));
 	}
 
 	private void onReceiveResume() {
 		Log.i(TAG, "Receiving from a resumed session");
-		notifyState(getString(W.string.sync_receive_resume));
+		notifyState(getString(R.string.sync_receive_resume));
 	}
 
 	private void onClose() {
 		Log.i(TAG, "Closing");
-		notifyState(getString(W.string.sync_close));
+		notifyState(getString(R.string.sync_close));
 	}
 
 	private void onCloseResume() {
 		Log.i(TAG, "Closing a resumed session");
-		notifyState(getString(W.string.sync_close_resume));
+		notifyState(getString(R.string.sync_close_resume));
 	}
 
 	private void onUpdateOffset(long offset) {
@@ -470,13 +470,13 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 	private void notifyState(String msg) {
 		NotificationManager notifMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-		Notification notif = new Notification(W.drawable.logo_android_s, msg,
+		Notification notif = new Notification(R.drawable.logo_android_s, msg,
 				System.currentTimeMillis());
 		notif.flags = Notification.FLAG_NO_CLEAR;
 
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, null,
 				0);
-		notif.setLatestEventInfo(this, getString(W.string.synchronization),
+		notif.setLatestEventInfo(this, getString(R.string.synchronization),
 				msg, contentIntent);
 
 		notifMgr.notify(SYNC_STATE_ID, notif);
@@ -484,8 +484,8 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 
 	private void notifySent() {
 		Notification notification = new Notification(
-				W.drawable.logo_android_s,
-				getString(W.string.notification_sent_ticker),
+				R.drawable.logo_android_s,
+				getString(R.string.notification_sent_ticker),
 				System.currentTimeMillis());
 
 		// Update the notification.
@@ -496,8 +496,8 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				0);
 		notification.setLatestEventInfo(
 				this, 
-				getString(W.string.notification_sent_title),
-				getString(W.string.notification_sent_description),
+				getString(R.string.notification_sent_title),
+				getString(R.string.notification_sent_description),
 				pi);
 
 		boolean vibrateAlways = true;
@@ -520,8 +520,8 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 	
 	private void notifySentFailed() {
 		Notification notification = new Notification(
-				W.drawable.logo_android_s,
-				getString(W.string.notification_sent_failed_ticker),
+				R.drawable.logo_android_s,
+				getString(R.string.notification_sent_failed_ticker),
 				System.currentTimeMillis());
 
 		// Update the notification.
@@ -532,8 +532,8 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 				0);
 		notification.setLatestEventInfo(
 				this, 
-				getString(W.string.notification_sent_failed_title),
-				getString(W.string.notification_sent_failed_description),
+				getString(R.string.notification_sent_failed_title),
+				getString(R.string.notification_sent_failed_description),
 				pi);
 
 		boolean vibrateAlways = true;

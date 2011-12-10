@@ -1,6 +1,6 @@
 package org.imogene.android.app;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.sync.OptimizedSyncClient;
 import org.imogene.android.sync.SynchronizationException;
@@ -67,7 +67,7 @@ public class AuthenticationHttpActivity extends Activity implements OnClickListe
 		switch (id) {
 		case DIALOG_AUTHING_ID:
 			ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setMessage(getString(W.string.obtaining_roles));
+			dialog.setMessage(getString(R.string.obtaining_roles));
 			dialog.setIndeterminate(true);
 			dialog.setCancelable(false);
 			return dialog;
@@ -75,7 +75,7 @@ public class AuthenticationHttpActivity extends Activity implements OnClickListe
 			return new AlertDialog.Builder(this)
 			.setTitle(android.R.string.dialog_alert_title)
 			.setIcon(android.R.drawable.ic_dialog_alert)
-			.setMessage(W.string.obtaining_roles_failed)
+			.setMessage(R.string.obtaining_roles_failed)
 			.setCancelable(false)
 			.setPositiveButton(android.R.string.ok, this)
 			.setNegativeButton(android.R.string.no, this)
@@ -125,12 +125,12 @@ public class AuthenticationHttpActivity extends Activity implements OnClickListe
 		String encLogin = new String(Base64.encodeBase64(em.encrypt(mLogin.getBytes())));
 		String encPassword = new String(Base64.encodeBase64(em.encrypt(mPassword.getBytes())));
 		PreferenceHelper.getSharedPreferences(this).edit()
-		.remove(getString(W.string.current_login_key))
-		.remove(getString(W.string.current_roles_key))
-		.putString(getString(W.string.sync_login_key), encLogin)
-		.putString(getString(W.string.sync_password_key), encPassword)
-		.putString(getString(W.string.sync_roles_key), roles)
-		.putString(getString(W.string.sync_server_url_key), mServer)
+		.remove(getString(R.string.current_login_key))
+		.remove(getString(R.string.current_roles_key))
+		.putString(getString(R.string.sync_login_key), encLogin)
+		.putString(getString(R.string.sync_password_key), encPassword)
+		.putString(getString(R.string.sync_roles_key), roles)
+		.putString(getString(R.string.sync_server_url_key), mServer)
 		.commit();
 		removeDialog(DIALOG_AUTHING_ID);
 		setResult(RESULT_OK);

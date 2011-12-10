@@ -1,6 +1,6 @@
 package org.imogene.android.widget;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.database.interfaces.EntityCursor;
 
 import android.content.Context;
@@ -27,7 +27,7 @@ public class EntityCursorAdapter extends CursorAdapter {
 	}
 	
 	public EntityCursorAdapter(Context context, EntityCursor c, Drawable color, boolean multiple) {
-		this(context, c, color, multiple ? W.layout.entity_row_multiple : W.layout.entity_row);
+		this(context, c, color, multiple ? R.layout.entity_row_multiple : R.layout.entity_row);
 	}
 
 	public String getItemStringId(int position) {
@@ -42,16 +42,16 @@ public class EntityCursorAdapter extends CursorAdapter {
 	public void bindView(View view, Context context, Cursor cursor) {
 		EntityCursor c = (EntityCursor) cursor;
 
-		view.findViewById(W.id.list_color).setBackgroundDrawable(mColor);
+		view.findViewById(R.id.list_color).setBackgroundDrawable(mColor);
 
-		TextView main = (TextView) view.findViewById(W.id.list_main);
-		TextView secondary = (TextView) view.findViewById(W.id.list_secondary);
+		TextView main = (TextView) view.findViewById(R.id.list_main);
+		TextView secondary = (TextView) view.findViewById(R.id.list_secondary);
 
 		main.setText(null);
 		secondary.setText(null);
 
 		if (c.getUnread()) {
-			view.setBackgroundResource(W.drawable.list_selector_background_inverse);
+			view.setBackgroundResource(R.drawable.list_selector_background_inverse);
 			main.setTextAppearance(context, android.R.style.TextAppearance_Medium_Inverse);
 			main.setTypeface(Typeface.DEFAULT_BOLD);
 			secondary.setTextAppearance(context, android.R.style.TextAppearance_Small_Inverse);
@@ -64,7 +64,7 @@ public class EntityCursorAdapter extends CursorAdapter {
 			secondary.setTypeface(Typeface.DEFAULT);
 		}
 
-		ImageView icon = (ImageView) view.findViewById(W.id.list_icon);
+		ImageView icon = (ImageView) view.findViewById(R.id.list_icon);
 		if (icon != null) {
 			icon.setImageResource(android.R.drawable.stat_notify_sync);
 			icon.setVisibility(c.getSynchronized() ? View.GONE : View.VISIBLE);

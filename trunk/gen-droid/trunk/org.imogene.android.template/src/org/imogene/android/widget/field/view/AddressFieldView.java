@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.view;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.widget.IntentChooserAdapter;
 
@@ -20,7 +20,7 @@ public class AddressFieldView extends BaseFieldView<String> implements OnClickLi
 	private Intent[] mIntents;
 	
 	public AddressFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default);
+		super(context, attrs, R.layout.field_default);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.ic_dialog_map);
 	}

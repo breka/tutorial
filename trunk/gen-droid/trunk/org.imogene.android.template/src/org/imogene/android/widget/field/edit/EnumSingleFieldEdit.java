@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.Tools;
 
@@ -18,10 +18,10 @@ public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements Dialo
 	private final int[] mItemsValues;
 	
 	public EnumSingleFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumField, 0, 0);
-		mItems = a.getTextArray(W.styleable.EnumField_entries);
-		mItemsValues = getResources().getIntArray(a.getResourceId(W.styleable.EnumField_array, 0));
+		super(context, attrs, R.layout.field_default);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumField, 0, 0);
+		mItems = a.getTextArray(R.styleable.EnumField_entries);
+		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_array, 0));
 		a.recycle();
 		setValue(-1);
 	}

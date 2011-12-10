@@ -2,7 +2,7 @@ package org.imogene.android.app;
 
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,7 +27,7 @@ public class UnSyncDialog extends Activity implements DialogInterface.OnClickLis
 		case DIALOG_UNSYNC_ID:
 			return new AlertDialog.Builder(this)
 			.setTitle(android.R.string.dialog_alert_title)
-			.setMessage(W.string.renew_database_unsync_message)
+			.setMessage(R.string.renew_database_unsync_message)
 			.setPositiveButton(android.R.string.yes, this)
 			.setNegativeButton(android.R.string.no, this)
 			.create();

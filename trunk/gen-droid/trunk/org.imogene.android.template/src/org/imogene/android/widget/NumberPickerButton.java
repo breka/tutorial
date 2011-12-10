@@ -16,7 +16,7 @@
 
 package org.imogene.android.widget;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -77,9 +77,9 @@ public class NumberPickerButton extends ImageButton {
     }
 
     private void cancelLongpress() {
-        if (W.id.increment == getId()) {
+        if (R.id.increment == getId()) {
             mNumberPicker.cancelIncrement();
-        } else if (W.id.decrement == getId()) {
+        } else if (R.id.decrement == getId()) {
             mNumberPicker.cancelDecrement();
         }
     }

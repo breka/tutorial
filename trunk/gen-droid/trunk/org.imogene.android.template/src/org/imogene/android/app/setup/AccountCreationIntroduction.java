@@ -1,6 +1,6 @@
 package org.imogene.android.app.setup;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.app.BaseActivity;
 
 import android.app.Activity;
@@ -22,9 +22,9 @@ public class AccountCreationIntroduction extends BaseActivity implements OnClick
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(W.layout.account_creation_introduction);
+		setContentView(R.layout.account_creation_introduction);
 		
-		mNextButton = (Button) findViewById(W.id.next);
+		mNextButton = (Button) findViewById(R.id.next);
 		
 		mNextButton.setOnClickListener(this);
 	}

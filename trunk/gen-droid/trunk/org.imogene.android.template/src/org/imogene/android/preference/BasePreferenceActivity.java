@@ -16,7 +16,7 @@
 
 package org.imogene.android.preference;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.app.ActivityHelper;
 
 import android.os.Bundle;
@@ -38,7 +38,7 @@ public abstract class BasePreferenceActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(W.layout.preference_list_content);
+		setContentView(R.layout.preference_list_content);
 	}
 	
 	@Override

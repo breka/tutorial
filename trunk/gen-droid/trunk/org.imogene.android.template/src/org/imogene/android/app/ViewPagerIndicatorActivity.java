@@ -1,6 +1,6 @@
 package org.imogene.android.app;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.ViewPagerIndicator;
 
 import android.content.res.Resources;
@@ -24,19 +24,19 @@ public class ViewPagerIndicatorActivity extends BaseActivity {
         // * How many pages are there in total
         // * A callback to get page titles
 		Resources res = getResources();
-		mPrev = res.getDrawable(W.drawable.indicator_prev_arrow);
-		mNext = res.getDrawable(W.drawable.indicator_next_arrow);
-		setContentView(W.layout.view_pager);
+		mPrev = res.getDrawable(R.drawable.indicator_prev_arrow);
+		mNext = res.getDrawable(R.drawable.indicator_next_arrow);
+		setContentView(R.layout.view_pager);
     }
     
     @Override
     public void onContentChanged() {
     	super.onContentChanged();
         // Retrieve our viewpager
-        mViewPager = (ViewPager)findViewById(W.id.pager);
+        mViewPager = (ViewPager)findViewById(R.id.pager);
         
         // Find the indicator from the layout
-        mIndicator = (ViewPagerIndicator)findViewById(W.id.indicator);
+        mIndicator = (ViewPagerIndicator)findViewById(R.id.indicator);
 		
         // Set the indicator as the pageChangeListener
         mViewPager.setOnPageChangeListener(mIndicator);
@@ -59,7 +59,7 @@ public class ViewPagerIndicatorActivity extends BaseActivity {
     	if (mViewPager != null) {
     		return;
     	}
-        setContentView(W.layout.default_view_pager);
+        setContentView(R.layout.default_view_pager);
     }
     
 }

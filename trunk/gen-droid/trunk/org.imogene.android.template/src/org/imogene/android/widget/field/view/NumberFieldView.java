@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.view;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,8 +12,8 @@ public class NumberFieldView<T extends Number> extends DefaultEntityView<T> {
 	
 	public NumberFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberField, 0, 0);
-		format = a.getString(W.styleable.NumberField_format);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumberField, 0, 0);
+		format = a.getString(R.styleable.NumberField_format);
 		a.recycle();
 	}
 	

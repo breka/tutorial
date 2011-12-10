@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.UUID;
 
 import org.imogene.android.Constants.Paths;
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.media.SingleMediaScanner;
 import org.imogene.android.media.SingleMediaScanner.SingleMediaListener;
 
@@ -26,7 +26,7 @@ public class ImageCapture extends Activity implements SingleMediaListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(W.layout.media_content);
+		setContentView(R.layout.media_content);
 		
 		if (savedInstanceState != null)
 			return;

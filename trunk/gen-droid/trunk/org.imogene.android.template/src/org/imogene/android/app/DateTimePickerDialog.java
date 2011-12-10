@@ -19,7 +19,7 @@ package org.imogene.android.app;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.DateTimePicker;
 import org.imogene.android.widget.DateTimePicker.OnDateTimeChangedListener;
 
@@ -86,7 +86,7 @@ public class DateTimePickerDialog extends AlertDialog implements OnClickListener
             int hourOfDay,
             int minute,
             boolean is24HourView) {
-        this(context, W.style.Theme_Dialog_Alert, 
+        this(context, R.style.Theme_Dialog_Alert, 
                 callBack, year, monthOfYear, dayOfMonth, hourOfDay, minute, is24HourView);
     }
 
@@ -123,15 +123,15 @@ public class DateTimePickerDialog extends AlertDialog implements OnClickListener
         
         setButton(context.getText(android.R.string.ok), this);
         setButton2(context.getText(android.R.string.cancel), this);
-        setIcon(W.drawable.ic_dialog_time);
+        setIcon(R.drawable.ic_dialog_time);
         
         LayoutInflater inflater = 
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(W.layout.date_time_picker_dialog, null);
+        View view = inflater.inflate(R.layout.date_time_picker_dialog, null);
         setView(view);
 
         // initialize state
-        mDateTimePicker = (DateTimePicker) view.findViewById(W.id.dateTimePicker);
+        mDateTimePicker = (DateTimePicker) view.findViewById(R.id.dateTimePicker);
         mDateTimePicker.init(mInitialYear, mInitialMonth, mInitialDay, mInitialHourOfDay, mInitialMinute, this);
         mDateTimePicker.setIs24HourView(mIs24HourView);
     }

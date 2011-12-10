@@ -2,7 +2,7 @@ package org.imogene.android.notification;
 
 import java.util.HashSet;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.Constants.SortOrder;
@@ -104,7 +104,7 @@ public class MessagingNotification {
 			}
 
 			String title = context.getString(titleId);
-			String description = context.getResources().getQuantityString(W.plurals.numberOfEntities, count, count);
+			String description = context.getResources().getQuantityString(R.plurals.numberOfEntities, count, count);
 			CharSequence ticker = buildTickerMessage(title, description);
 
 			NotificationInfo info = new NotificationInfo(

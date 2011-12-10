@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.view;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 
@@ -14,13 +14,13 @@ import android.view.View;
 public class RelationOneFieldView extends BaseFieldView<Uri> {
 
 	public RelationOneFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_relation);
+		super(context, attrs, R.layout.field_relation);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.sym_contact_card);
 	}
 	
 	public void setDrawable(Drawable drawable) {
-		final View color = findViewById(W.id.color);
+		final View color = findViewById(R.id.color);
 		if (color != null) {
 			color.setBackgroundDrawable(drawable);
 		}

@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.field.BaseField.DialogFactory;
 
 import android.content.Context;
@@ -13,7 +13,7 @@ public abstract class DatesFieldEdit extends BaseFieldEdit<Long> implements Dial
 	private Long mMax;
 	
 	public DatesFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default);
+		super(context, attrs, R.layout.field_default);
 		setDialogFactory(this);
 	}
 	

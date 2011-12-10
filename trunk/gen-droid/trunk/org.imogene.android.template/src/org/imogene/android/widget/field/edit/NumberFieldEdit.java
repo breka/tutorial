@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,8 +17,8 @@ public abstract class NumberFieldEdit<T extends Number> extends BaseFieldEdit<T>
 	
 	public NumberFieldEdit(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs, layoutId);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberField, 0, 0);
-		setUnitId(a.getResourceId(W.styleable.NumberField_unit, -1));
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumberField, 0, 0);
+		setUnitId(a.getResourceId(R.styleable.NumberField_unit, -1));
 		a.recycle();
 	}
 	
@@ -45,7 +45,7 @@ public abstract class NumberFieldEdit<T extends Number> extends BaseFieldEdit<T>
 	}
 	
 	public void setUnitId(int unitId) {
-		final TextView unitView = (TextView) findViewById(W.id.unit);
+		final TextView unitView = (TextView) findViewById(R.id.unit);
 		if (unitView != null) {
 			if (unitId > 0) {
 				unitView.setText(unitId);

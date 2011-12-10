@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ public class VideoFieldEdit extends BinaryFieldEdit {
 	
 	@Override
 	protected int displayId() {
-		return W.string.bin_video;
+		return R.string.bin_video;
 	}
 	
 	@Override

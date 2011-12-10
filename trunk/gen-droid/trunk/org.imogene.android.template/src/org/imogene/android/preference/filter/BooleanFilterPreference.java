@@ -1,6 +1,6 @@
 package org.imogene.android.preference.filter;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.common.filter.BooleanFilter;
 
 import android.app.AlertDialog;
@@ -21,7 +21,7 @@ public class BooleanFilterPreference extends FilterPreference<BooleanFilter> {
 	public CharSequence getSummary() {
 		Boolean value = getFilter().getValue();
 		if (value != null) {
-			String[] array = getContext().getResources().getStringArray(W.array.select_yes_no);
+			String[] array = getContext().getResources().getStringArray(R.array.select_yes_no);
 			return value.booleanValue() ? array[0] : array[1];
 		}
 		return getContext().getString(android.R.string.unknownName);
@@ -31,7 +31,7 @@ public class BooleanFilterPreference extends FilterPreference<BooleanFilter> {
 	protected void onPrepareDialogBuilder(Builder builder) {
 		super.onPrepareDialogBuilder(builder);
 		Boolean value = getFilter().getValue();
-		builder.setSingleChoiceItems(W.array.select_yes_no, value != null ? (value.booleanValue() ? 0 : 1) : -1, null);
+		builder.setSingleChoiceItems(R.array.select_yes_no, value != null ? (value.booleanValue() ? 0 : 1) : -1, null);
 		builder.setNeutralButton(android.R.string.cut, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				getFilter().setValue(null);

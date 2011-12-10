@@ -1,6 +1,6 @@
 package org.imogene.android.preference.filter;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.common.filter.IntegerFilter;
 import org.imogene.android.util.FormatHelper;
 
@@ -11,7 +11,7 @@ public class IntegerFilterPreference extends NumberFilterPreference<Integer, Int
 	
 	public IntegerFilterPreference(Context context, AttributeSet attrs) {
 		super(context, attrs, IntegerFilter.FILTER_CREATOR);
-		setDialogLayoutResource(W.layout.dialog_integer_filter);
+		setDialogLayoutResource(R.layout.dialog_integer_filter);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.app.MyProgressDialog;
 import org.imogene.android.app.MyProgressDialog.Formatter;
 import org.imogene.android.update.PackageHelper.State;
@@ -45,7 +45,7 @@ public class UpdateActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(W.layout.media_content);
+		setContentView(R.layout.media_content);
 		
 		mPair = (Pair<CheckUpdateTask, DownloadFileTask>) getLastNonConfigurationInstance();
 		if (mPair == null) {
@@ -86,8 +86,8 @@ public class UpdateActivity extends Activity {
 		switch (id) {
 		case DIALOG_AVAILABLE_ID:
 			return new AlertDialog.Builder(this)
-			.setTitle(W.string.check_available_title)
-			.setMessage(W.string.check_available_message)
+			.setTitle(R.string.check_available_title)
+			.setMessage(R.string.check_available_message)
 			.setCancelable(false)
 			.setPositiveButton(android.R.string.ok, new OnClickListener() {
 				
@@ -106,8 +106,8 @@ public class UpdateActivity extends Activity {
 			.create();
 		case DIALOG_UNAVAILABLE_ID:
 			return new AlertDialog.Builder(this)
-			.setTitle(W.string.check_available_title)
-			.setMessage(W.string.check_unavailable_message)
+			.setTitle(R.string.check_available_title)
+			.setMessage(R.string.check_unavailable_message)
 			.setCancelable(false)
 			.setPositiveButton(android.R.string.ok, new OnClickListener() {
 				
@@ -120,8 +120,8 @@ public class UpdateActivity extends Activity {
 		case DIALOG_DOWNLOADING_ID:
             mProgressDialog = new MyProgressDialog(this);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            mProgressDialog.setTitle(W.string.update_app_title);
-            mProgressDialog.setMessage(getString(W.string.update_app_message));
+            mProgressDialog.setTitle(R.string.update_app_title);
+            mProgressDialog.setMessage(getString(R.string.update_app_message));
             mProgressDialog.setFormatter(new Formatter() {
 				@Override
 				public String format(int progress, int max) {
