@@ -87,9 +87,7 @@ public class GenerateJob extends WorkspaceJob implements GenerationManager {
 			/* unzip the template and parse the properties */
 			unCompressArchive(project.getLocation().toOSString(), mArchive);
 			parseTemplate();
-			File[] files = project.getLocation().toFile().listFiles();
-			for (File file : files)
-				processFile(file);
+			processFile(project.getLocation().toFile());
 		}
 
 		/* generation process */
@@ -103,14 +101,17 @@ public class GenerateJob extends WorkspaceJob implements GenerationManager {
 		}
 
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-
+		
 		/* copy icon */
 		if (mIconCopyTask != null)
 			mIconCopyTask.copyIcons(this);
 
 		/* post generation tasks */
-		if (mPostGenerationTask != null)
+		if (mPostGenerationTask != null) {
 			mPostGenerationTask.onPostGeneration(this);
+		}
+		
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		
 		project.close(monitor);
 		project.open(monitor);
