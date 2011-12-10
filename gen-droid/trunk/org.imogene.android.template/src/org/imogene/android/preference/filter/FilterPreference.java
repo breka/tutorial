@@ -1,6 +1,6 @@
 package org.imogene.android.preference.filter;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.common.ClientFilter;
 import org.imogene.android.preference.PreferenceHelper;
 
@@ -26,9 +26,9 @@ public abstract class FilterPreference<T extends ClientFilter> extends DialogPre
 	public FilterPreference(Context context, AttributeSet attrs, ClientFilter.Creator<T> creator) {
 		super(context, attrs);
 		
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.FilterPreference, 0, 0);
-		mCardEntity = a.getString(W.styleable.FilterPreference_entity);		
-		mEntityField = a.getString(W.styleable.FilterPreference_field);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FilterPreference, 0, 0);
+		mCardEntity = a.getString(R.styleable.FilterPreference_entity);		
+		mEntityField = a.getString(R.styleable.FilterPreference_field);
 		a.recycle();
 		
 		mUserId = PreferenceHelper.getSyncLogin(context);

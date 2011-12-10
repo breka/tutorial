@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.text.Editable;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class TextFieldEdit extends StringFieldEdit<String> implements TextWatcher {
 	
 	public TextFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_edit_text);
+		super(context, attrs, R.layout.field_edit_text);
 		setFocusable(false);
 	}
 	

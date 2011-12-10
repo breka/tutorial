@@ -1,6 +1,6 @@
 package org.imogene.android.app.setup;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.app.AuthenticationHttpActivity;
 import org.imogene.android.app.BaseActivity;
 import org.imogene.android.app.OffsetActivity;
@@ -46,11 +46,11 @@ public class AccountSetupBasics extends BaseActivity implements OnClickListener,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(W.layout.account_setup_basics);
-		mLoginView = (EditText) findViewById(W.id.account_login);
-		mPasswordView = (EditText) findViewById(W.id.account_password);
-		mServerView = (EditText) findViewById(W.id.account_server);
-		mNextButton = (Button) findViewById(W.id.next);
+		setContentView(R.layout.account_setup_basics);
+		mLoginView = (EditText) findViewById(R.id.account_login);
+		mPasswordView = (EditText) findViewById(R.id.account_password);
+		mServerView = (EditText) findViewById(R.id.account_server);
+		mNextButton = (Button) findViewById(R.id.next);
 
 		mNextButton.setOnClickListener(this);
 
@@ -126,7 +126,7 @@ public class AccountSetupBasics extends BaseActivity implements OnClickListener,
 
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case W.id.next:
+		case R.id.next:
 			onNext();
 			break;
 		}

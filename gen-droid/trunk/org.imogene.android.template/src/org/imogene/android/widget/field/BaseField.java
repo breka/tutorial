@@ -2,7 +2,7 @@ package org.imogene.android.widget.field;
 
 import java.util.ArrayList;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.field.FieldManager.OnActivityDestroyListener;
 
 import android.app.AlertDialog;
@@ -47,30 +47,30 @@ public abstract class BaseField<T> extends LinearLayout implements DependencyMat
 		super(context, attrs);
 		inflate(context, layoutId, this);
 		
-		mValueView = (TextView) findViewById(W.id.value);
+		mValueView = (TextView) findViewById(R.id.value);
 		if (mValueView == null) {
 			throw new NullPointerException();
 		}
 		mValueView.setSaveEnabled(false);
 		
-		mTitleView = (TextView) findViewById(W.id.title);
+		mTitleView = (TextView) findViewById(R.id.title);
 		if (mTitleView == null) {
 			throw new NullPointerException();
 		}
 		mTitleView.setSaveEnabled(false);
 		
-		mDependentView = findViewById(W.id.arrow);
+		mDependentView = findViewById(R.id.arrow);
 		if (mDependentView != null) {
 			mDependentView.setSaveEnabled(false);
 		}
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.BaseField, 0, 0);
-		setEmptyTextId(a.getResourceId(W.styleable.BaseField_emptyText, W.string.select));
-		setTitleId(a.getResourceId(W.styleable.BaseField_title, android.R.string.unknownName));
-		setDependent(a.getBoolean(W.styleable.BaseField_dependent, false));
-		setHidden(a.getBoolean(W.styleable.BaseField_hidden, false));
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseField, 0, 0);
+		setEmptyTextId(a.getResourceId(R.styleable.BaseField_emptyText, R.string.select));
+		setTitleId(a.getResourceId(R.styleable.BaseField_title, android.R.string.unknownName));
+		setDependent(a.getBoolean(R.styleable.BaseField_dependent, false));
+		setHidden(a.getBoolean(R.styleable.BaseField_hidden, false));
 		a.recycle();
 		
-		inflate(context, W.layout.divider_layout, this);
+		inflate(context, R.layout.divider_layout, this);
 	}
 	
 	@Override

@@ -8,7 +8,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 
@@ -62,7 +62,7 @@ public class DESedeProvider implements EncryptionProvider {
 	private SecretKey loadSecretKeyFromFile(Context context) {
 
 		/* read the key from file */
-		InputStream is = context.getResources().openRawResource(W.raw.encryption);
+		InputStream is = context.getResources().openRawResource(R.raw.encryption);
 		byte[] tripleDesKeyData = new byte[24];
 		try {
 			is.read(tripleDesKeyData);

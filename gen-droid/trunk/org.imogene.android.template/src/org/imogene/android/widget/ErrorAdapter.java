@@ -2,7 +2,7 @@ package org.imogene.android.widget;
 
 import java.util.ArrayList;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -41,7 +41,7 @@ public class ErrorAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		return createViewFromResource(position, convertView, parent,
-				W.layout.dialog_list_item);
+				R.layout.dialog_list_item);
 	}
 
 	private View createViewFromResource(int position, View convertView,
@@ -61,9 +61,9 @@ public class ErrorAdapter extends BaseAdapter {
 	private void bindView(int position, View view) {
 		final ErrorEntry entry = mData.get(position);
 		final TextView titleView = (TextView) view
-				.findViewById(W.id.dialog_item_title);
+				.findViewById(R.id.dialog_item_title);
 		final TextView messageView = (TextView) view
-				.findViewById(W.id.dialog_item_message);
+				.findViewById(R.id.dialog_item_message);
 
 		titleView.setText(entry.title);
 

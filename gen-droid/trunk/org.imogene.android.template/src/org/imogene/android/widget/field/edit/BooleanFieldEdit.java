@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -13,7 +13,7 @@ import android.view.View;
 public class BooleanFieldEdit extends BaseFieldEdit<Boolean> implements OnClickListener {
 
 	public BooleanFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default);
+		super(context, attrs, R.layout.field_default);
 	}
 	
 	@Override
@@ -27,7 +27,7 @@ public class BooleanFieldEdit extends BaseFieldEdit<Boolean> implements OnClickL
 	public String getDisplay() {
 		final Boolean bool = getValue();
 		if (bool != null) {
-			String[] array = getResources().getStringArray(W.array.select_yes_no);
+			String[] array = getResources().getStringArray(R.array.select_yes_no);
 			return bool.booleanValue() ? array[0] : array[1];
 		} else {
 			return getEmptyText();
@@ -48,7 +48,7 @@ public class BooleanFieldEdit extends BaseFieldEdit<Boolean> implements OnClickL
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
 		final Boolean init = getValue();
-		builder.setSingleChoiceItems(W.array.select_yes_no, init != null ? (init ? 0 : 1) : -1, this);
+		builder.setSingleChoiceItems(R.array.select_yes_no, init != null ? (init ? 0 : 1) : -1, this);
 		builder.setNeutralButton(android.R.string.cut, this);
 		builder.setNegativeButton(android.R.string.cancel, null);
 	}

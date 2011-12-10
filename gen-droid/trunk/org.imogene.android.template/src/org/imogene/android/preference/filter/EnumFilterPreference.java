@@ -2,7 +2,7 @@ package org.imogene.android.preference.filter;
 
 import java.util.Arrays;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.common.filter.EnumFilter;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.field.EnumConverter;
@@ -25,11 +25,11 @@ public class EnumFilterPreference extends FilterPreference<EnumFilter> implement
 	
 	public EnumFilterPreference(Context context, AttributeSet attrs) {
 		super(context, attrs, EnumFilter.FILTER_CREATOR);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumFilterPreference, 0, 0);
-		mIsMulti = a.getBoolean(W.styleable.EnumFilterPreference_multiple, false);
-		mEntries = a.getResourceId(W.styleable.EnumFilterPreference_entries, 0);		
-		mSize = a.getInteger(W.styleable.EnumFilterPreference_size, 0);
-		mArray = a.getResourceId(W.styleable.EnumFilterPreference_array, 0);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumFilterPreference, 0, 0);
+		mIsMulti = a.getBoolean(R.styleable.EnumFilterPreference_multiple, false);
+		mEntries = a.getResourceId(R.styleable.EnumFilterPreference_entries, 0);		
+		mSize = a.getInteger(R.styleable.EnumFilterPreference_size, 0);
+		mArray = a.getResourceId(R.styleable.EnumFilterPreference_array, 0);
 		a.recycle();
 		
 		if (mSize == 0 || mEntries == 0 || mArray == 0)

@@ -2,7 +2,7 @@ package org.imogene.android.widget.field.edit;
 
 import java.util.ArrayList;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.widget.ErrorAdapter.ErrorEntry;
 import org.imogene.android.widget.field.BaseField;
@@ -43,20 +43,20 @@ public abstract class BaseFieldEdit<T> extends BaseField<T> implements Constrain
 	public BaseFieldEdit(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs, layoutId);
 		
-		mHelpView = findViewById(W.id.help);
+		mHelpView = findViewById(R.id.help);
 		if (mHelpView != null) {
 			mHelpView.setSaveEnabled(false);
 		}
 
-		mRequiredView = findViewById(W.id.required);
+		mRequiredView = findViewById(R.id.required);
 		if (mRequiredView != null) {
 			mRequiredView.setSaveEnabled(false);
 		}
 		
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.BaseFieldEdit, 0, 0);
-		setHelpId(a.getResourceId(W.styleable.BaseFieldEdit_help, 0));
-		setReadOnly(a.getBoolean(W.styleable.BaseFieldEdit_readOnly, false));
-		setRequired(a.getBoolean(W.styleable.BaseFieldEdit_required, false));
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseFieldEdit, 0, 0);
+		setHelpId(a.getResourceId(R.styleable.BaseFieldEdit_help, 0));
+		setReadOnly(a.getBoolean(R.styleable.BaseFieldEdit_readOnly, false));
+		setRequired(a.getBoolean(R.styleable.BaseFieldEdit_required, false));
 		a.recycle();
 	}
 	
@@ -109,7 +109,7 @@ public abstract class BaseFieldEdit<T> extends BaseField<T> implements Constrain
 		entry.setTag(tag);
 		entry.setTitle(getTitleId());
 		if (mRequired) {
-			entry.addMessage(getResources().getString(W.string.required));
+			entry.addMessage(getResources().getString(R.string.required));
 		}
 		return entry;
 	}
@@ -201,13 +201,13 @@ public abstract class BaseFieldEdit<T> extends BaseField<T> implements Constrain
 	
 	protected void showToastUnset() {
 		String title = getResources().getString(getTitleId());
-		String message = getResources().getString(W.string.relation_hierarchical_parent_unset, title);
+		String message = getResources().getString(R.string.relation_hierarchical_parent_unset, title);
 		Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
 	}
 	
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == W.id.help) {
+		if (v.getId() == R.id.help) {
 			showHelpDialog(null);
 		} else {
 			dispatchClick(v);

@@ -1,6 +1,6 @@
 package org.imogene.android.preference;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.preference.CheckBoxPreference;
@@ -16,10 +16,10 @@ public class ServerUrlPreference extends MyEditTextPreference {
 	@Override
 	public void setText(String text) {
 		if (text != getPersistedString(null))
-			getSharedPreferences().edit().remove(getContext().getString(W.string.sync_shortpw_key)).commit();
+			getSharedPreferences().edit().remove(getContext().getString(R.string.sync_shortpw_key)).commit();
 		super.setText(text);
-		final String onOffKey = getContext().getString(W.string.sync_on_off_key);
-		final String oneShotKey = getContext().getString(W.string.sync_one_shot_key);
+		final String onOffKey = getContext().getString(R.string.sync_on_off_key);
+		final String oneShotKey = getContext().getString(R.string.sync_one_shot_key);
 		CheckBoxPreference onOff = (CheckBoxPreference) getPreferenceManager().findPreference(onOffKey);
 		if (onOff != null) {
 			onOff.setChecked(false);

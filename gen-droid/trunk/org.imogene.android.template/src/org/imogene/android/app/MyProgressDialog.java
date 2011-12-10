@@ -18,7 +18,7 @@ package org.imogene.android.app;
 
 import java.text.NumberFormat;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -83,7 +83,7 @@ public class MyProgressDialog extends AlertDialog {
 	private Handler mViewUpdateHandler;
 
 	public MyProgressDialog(Context context) {
-		this(context, W.style.Theme_Dialog_Alert);
+		this(context, R.style.Theme_Dialog_Alert);
 	}
 
 	public MyProgressDialog(Context context, int theme) {
@@ -150,20 +150,20 @@ public class MyProgressDialog extends AlertDialog {
 					mProgressPercent.setText(tmp);
 				}
 			};
-			View view = inflater.inflate(W.layout.alert_dialog_progress, null);
-			mProgress = (ProgressBar) view.findViewById(W.id.progress);
+			View view = inflater.inflate(R.layout.alert_dialog_progress, null);
+			mProgress = (ProgressBar) view.findViewById(R.id.progress);
 			mProgressNumber = (TextView) view
-					.findViewById(W.id.progress_number);
+					.findViewById(R.id.progress_number);
 			mProgressNumberFormat = "%d/%d";
 			mProgressPercent = (TextView) view
-					.findViewById(W.id.progress_percent);
+					.findViewById(R.id.progress_percent);
 			mProgressPercentFormat = NumberFormat.getPercentInstance();
 			mProgressPercentFormat.setMaximumFractionDigits(0);
 			setView(view);
 		} else {
-			View view = inflater.inflate(W.layout.progress_dialog, null);
-			mProgress = (ProgressBar) view.findViewById(W.id.progress);
-			mMessageView = (TextView) view.findViewById(W.id.message);
+			View view = inflater.inflate(R.layout.progress_dialog, null);
+			mProgress = (ProgressBar) view.findViewById(R.id.progress);
+			mMessageView = (TextView) view.findViewById(R.id.message);
 			setView(view);
 		}
 		if (mMax > 0) {

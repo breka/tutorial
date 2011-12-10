@@ -2,7 +2,7 @@ package org.imogene.android.widget;
 
 import java.util.ArrayList;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.content.Intent;
@@ -63,7 +63,7 @@ public class IntentChooserAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view;
 		if (convertView == null) {
-			view = mInflater.inflate(W.layout.intent_chooser_item, parent, false);
+			view = mInflater.inflate(R.layout.intent_chooser_item, parent, false);
 		} else {
 			view = convertView;
 		}

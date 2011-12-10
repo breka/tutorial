@@ -16,7 +16,7 @@
 
 package org.imogene.android.app;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.app.ActivityHelper;
 
 import android.app.ExpandableListActivity;
@@ -38,7 +38,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(W.layout.expandable_list_content);
+		setContentView(R.layout.expandable_list_content);
 	}
 	
 	@Override

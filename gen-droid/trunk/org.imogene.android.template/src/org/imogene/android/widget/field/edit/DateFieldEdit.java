@@ -2,7 +2,7 @@ package org.imogene.android.widget.field.edit;
 
 import java.util.Calendar;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.field.FieldPattern;
 
@@ -18,15 +18,15 @@ public class DateFieldEdit extends DatesFieldEdit implements OnDateSetListener {
 	
 	public DateFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.DatesFieldEdit, 0, 0);
-		if (a.hasValue(W.styleable.DatesFieldEdit_dateMin)) {
-			String date = a.getString(W.styleable.DatesFieldEdit_dateMin);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DatesFieldEdit, 0, 0);
+		if (a.hasValue(R.styleable.DatesFieldEdit_dateMin)) {
+			String date = a.getString(R.styleable.DatesFieldEdit_dateMin);
 			setMin(FormatHelper.readDate(date));
 		} else {
 			setMin(null);
 		}
-		if (a.hasValue(W.styleable.DatesFieldEdit_dateMax)) {
-			String date = a.getString(W.styleable.DatesFieldEdit_dateMax);
+		if (a.hasValue(R.styleable.DatesFieldEdit_dateMax)) {
+			String date = a.getString(R.styleable.DatesFieldEdit_dateMax);
 			setMax(FormatHelper.readDate(date));
 		} else {
 			setMax(null);

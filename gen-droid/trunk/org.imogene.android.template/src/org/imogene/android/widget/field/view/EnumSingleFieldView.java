@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.view;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
 
 import android.content.Context;
@@ -14,9 +14,9 @@ public class EnumSingleFieldView extends DefaultEntityView<Integer> {
 	
 	public EnumSingleFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.EnumField, 0, 0);
-		mItems = a.getTextArray(W.styleable.EnumField_entries);
-		mItemsValues = getResources().getIntArray(a.getResourceId(W.styleable.EnumField_array, 0));
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumField, 0, 0);
+		mItems = a.getTextArray(R.styleable.EnumField_entries);
+		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_array, 0));
 		a.recycle();
 	}
 	

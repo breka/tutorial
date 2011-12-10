@@ -2,7 +2,7 @@ package org.imogene.android.widget.field.edit;
 
 import java.util.Calendar;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.app.DateTimePickerDialog;
 import org.imogene.android.app.DateTimePickerDialog.OnDateTimeSetListener;
 import org.imogene.android.util.FormatHelper;
@@ -18,15 +18,15 @@ public class DateTimeFieldEdit extends DatesFieldEdit implements OnDateTimeSetLi
 
 	public DateTimeFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.DatesFieldEdit, 0, 0);
-		if (a.hasValue(W.styleable.DatesFieldEdit_dateMin)) {
-			String date = a.getString(W.styleable.DatesFieldEdit_dateMin);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DatesFieldEdit, 0, 0);
+		if (a.hasValue(R.styleable.DatesFieldEdit_dateMin)) {
+			String date = a.getString(R.styleable.DatesFieldEdit_dateMin);
 			setMin(FormatHelper.readDateTime(date));
 		} else {
 			setMin(null);
 		}
-		if (a.hasValue(W.styleable.DatesFieldEdit_dateMax)) {
-			String date = a.getString(W.styleable.DatesFieldEdit_dateMax);
+		if (a.hasValue(R.styleable.DatesFieldEdit_dateMax)) {
+			String date = a.getString(R.styleable.DatesFieldEdit_dateMax);
 			setMax(FormatHelper.readDateTime(date));
 		} else {
 			setMax(null);

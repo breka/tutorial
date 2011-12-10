@@ -1,6 +1,6 @@
 package org.imogene.android.app.setup;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.app.BaseActivity;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.app.ApplicationHelper;
@@ -37,11 +37,11 @@ public class AccountSetupShortPassword extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(W.layout.account_setup_short_password);
+		setContentView(R.layout.account_setup_short_password);
 
-		mShortpwView = (EditText) findViewById(W.id.account_shortpw);
-		mShortpwConfirmView = (EditText) findViewById(W.id.account_shotpw_confirm);
-		mNextButton = (Button) findViewById(W.id.next);
+		mShortpwView = (EditText) findViewById(R.id.account_shortpw);
+		mShortpwConfirmView = (EditText) findViewById(R.id.account_shotpw_confirm);
+		mNextButton = (Button) findViewById(R.id.next);
 
 		mNextButton.setOnClickListener(this);
 
@@ -73,7 +73,7 @@ public class AccountSetupShortPassword extends BaseActivity implements
 			return new AlertDialog.Builder(this).setTitle(
 					android.R.string.dialog_alert_title).setIcon(
 					android.R.drawable.ic_dialog_alert).setMessage(
-					W.string.account_setup_shortpw_error).setCancelable(false)
+					R.string.account_setup_shortpw_error).setCancelable(false)
 					.setPositiveButton(android.R.string.ok, null).create();
 		} else {
 			return super.onCreateDialog(id);
@@ -82,7 +82,7 @@ public class AccountSetupShortPassword extends BaseActivity implements
 
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case W.id.next:
+		case R.id.next:
 			onNext();
 			break;
 		}
@@ -114,7 +114,7 @@ public class AccountSetupShortPassword extends BaseActivity implements
 		if (shortpw != null && shortpw.equals(shortpwConfirm)) {
 			String encsp = new String(Base64.encodeBase64(EncryptionManager.getInstance(this).encrypt(shortpw.getBytes())));
 			PreferenceHelper.getSharedPreferences(this).edit().putString(
-					getString(W.string.sync_shortpw_key), encsp).commit();
+					getString(R.string.sync_shortpw_key), encsp).commit();
 
 			Intent intent = new Intent(this, ApplicationHelper.getHomeClass());
 			startActivity(intent);

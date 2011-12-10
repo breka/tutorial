@@ -16,7 +16,7 @@
 
 package org.imogene.android.app;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.app.ActivityHelper;
 
 import android.app.TabActivity;
@@ -40,7 +40,7 @@ public abstract class BaseTabActivity extends TabActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(W.layout.tab_content);
+		setContentView(R.layout.tab_content);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public abstract class BaseTabActivity extends TabActivity {
      * its label.
      */
     protected View buildIndicator(int textRes) {
-        final TextView indicator = (TextView) getLayoutInflater().inflate(W.layout.tab_indicator, getTabWidget(), false);
+        final TextView indicator = (TextView) getLayoutInflater().inflate(R.layout.tab_indicator, getTabWidget(), false);
         indicator.setText(textRes);
         return indicator;
     }

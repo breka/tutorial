@@ -3,7 +3,7 @@ package org.imogene.android.widget.field.view;
 import java.util.ArrayList;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 
@@ -22,9 +22,9 @@ public class RelationManyFieldView extends BaseFieldView<ArrayList<Uri>> {
 	private Uri contentUri;
 
 	public RelationManyFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_relation);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationField, 0, 0);
-		displayId = a.getResourceId(W.styleable.RelationField_display, 0);
+		super(context, attrs, R.layout.field_relation);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RelationField, 0, 0);
+		displayId = a.getResourceId(R.styleable.RelationField_display, 0);
 		a.recycle();
 		setOnClickListener(this);
 		setIconId(android.R.drawable.sym_contact_card);
@@ -35,7 +35,7 @@ public class RelationManyFieldView extends BaseFieldView<ArrayList<Uri>> {
 	}
 	
 	public void setDrawable(Drawable drawable) {
-		final View color = findViewById(W.id.color);
+		final View color = findViewById(R.id.color);
 		if (color != null) {
 			color.setBackgroundDrawable(drawable);
 		}

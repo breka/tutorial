@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.content.Intent;
@@ -56,11 +56,11 @@ public class FormatHelper {
     }
     
     public static final String displayLocation(Context context, Location location) {
-    	return context.getString(W.string.location_format, location.getLatitude(), location.getLongitude());
+    	return context.getString(R.string.location_format, location.getLatitude(), location.getLongitude());
     }
     
     public static final String displayBoundingBox(Context context, BoundingBox box) {
-    	return context.getString(W.string.bbox_format, box.getWest(), box.getNorth(), box.getEast(), box.getSouth());
+    	return context.getString(R.string.bbox_format, box.getWest(), box.getNorth(), box.getEast(), box.getSouth());
     }
     
     public static final String displayEnumSingle(CharSequence[] items, int[] itemsValues, int value) {

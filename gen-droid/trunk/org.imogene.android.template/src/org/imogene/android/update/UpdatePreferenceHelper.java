@@ -1,6 +1,6 @@
 package org.imogene.android.update;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 public class UpdatePreferenceHelper {
 
 	public static String getUpdateServer(Context context) {
-		return PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(W.string.check_server_key), null);
+		return PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.check_server_key), null);
 	}
 	
 	public static String getApplicationsUrl(Context context) {

@@ -1,6 +1,6 @@
 package org.imogene.android.app.setup;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.app.BaseActivity;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.app.ApplicationHelper;
@@ -34,11 +34,11 @@ public class AccountCheckPassword extends BaseActivity implements OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       	setContentView(W.layout.account_check_shortpw);
+       	setContentView(R.layout.account_check_shortpw);
         	
-       	mShortpwView = (EditText) findViewById(W.id.check_shortpw);
-       	mStartButton = (Button) findViewById(W.id.start);
-       	mChangeUserView = (Button) findViewById(W.id.change_user);
+       	mShortpwView = (EditText) findViewById(R.id.check_shortpw);
+       	mStartButton = (Button) findViewById(R.id.start);
+       	mChangeUserView = (Button) findViewById(R.id.change_user);
         	
        	mShortpwView.setTransformationMethod(PasswordTransformationMethod.getInstance());
        	
@@ -60,7 +60,7 @@ public class AccountCheckPassword extends BaseActivity implements OnClickListene
 			return new AlertDialog.Builder(this)
 			.setTitle(android.R.string.dialog_alert_title)
 			.setIcon(android.R.drawable.ic_dialog_alert)
-    		.setMessage(W.string.account_setup_shortpw_error)
+    		.setMessage(R.string.account_setup_shortpw_error)
     		.setCancelable(false)
     		.setPositiveButton(android.R.string.ok, null)
     		.create();
@@ -92,7 +92,7 @@ public class AccountCheckPassword extends BaseActivity implements OnClickListene
 
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case W.id.start:
+		case R.id.start:
 			final String shortpw = PreferenceHelper.getShortPassword(this);
 			if (shortpw != null && shortpw.equals(mShortpwView.getText().toString())) {
 				Intent intent = new Intent(this, ApplicationHelper.getHomeClass());
@@ -102,7 +102,7 @@ public class AccountCheckPassword extends BaseActivity implements OnClickListene
 				showDialog(ERROR_DIALOG_ID);
 			}
 			break;
-		case W.id.change_user:
+		case R.id.change_user:
 			AccountSetupBasics.actionNewAccount(this);
 			finish();
 		}

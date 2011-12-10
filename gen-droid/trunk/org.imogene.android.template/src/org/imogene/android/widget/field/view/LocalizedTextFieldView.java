@@ -2,7 +2,7 @@ package org.imogene.android.widget.field.view;
 
 import java.util.ArrayList;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.LocalizedTextList;
 
 import android.content.Context;
@@ -20,11 +20,11 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
 	private final View mRightView;
 	
 	public LocalizedTextFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_view_localized);
+		super(context, attrs, R.layout.field_view_localized);
 		setClickable(false);
-		mViewFlipper = (ViewFlipper) findViewById(W.id.flipper);
-		mLeftView = findViewById(W.id.left);
-		mRightView = findViewById(W.id.right);
+		mViewFlipper = (ViewFlipper) findViewById(R.id.flipper);
+		mLeftView = findViewById(R.id.left);
+		mRightView = findViewById(R.id.right);
     	mLeftView.setOnClickListener(this);
     	mRightView.setOnClickListener(this);
 	}
@@ -45,8 +45,8 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
         if (size > 0) {
         	SparseArray<String> display = new SparseArray<String>(size);
         	
-    		String[] llocales = getResources().getStringArray(W.array.languages_iso);
-    		String[] ldisplay = getResources().getStringArray(W.array.languages_display);
+    		String[] llocales = getResources().getStringArray(R.array.languages_iso);
+    		String[] ldisplay = getResources().getStringArray(R.array.languages_display);
     		
     		for (int i = 0; i < llocales.length; i++) {
     			int index = 0;
@@ -56,9 +56,9 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
     		}
     		
     		for (int i = 0; i < size; i++) {
-    	    	View v = inflate(getContext(), W.layout.localized_text_viewer, null);
-    	    	((TextView) v.findViewById(W.id.locale)).setText(display.get(i));
-    	    	((TextView) v.findViewById(W.id.localized)).setText(list.getLocalized(locales.get(i)));
+    	    	View v = inflate(getContext(), R.layout.localized_text_viewer, null);
+    	    	((TextView) v.findViewById(R.id.locale)).setText(display.get(i));
+    	    	((TextView) v.findViewById(R.id.localized)).setText(list.getLocalized(locales.get(i)));
     	    	v.setLayoutParams(new Gallery.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
     	    	mViewFlipper.addView(v);
     		}
@@ -92,10 +92,10 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
 	@Override
 	protected void dispatchClick(View v) {
 		switch (v.getId()) {
-		case W.id.left:
+		case R.id.left:
 			mViewFlipper.showNext();
 			break;
-		case W.id.right:
+		case R.id.right:
 			mViewFlipper.showPrevious();
 			break;
 		}

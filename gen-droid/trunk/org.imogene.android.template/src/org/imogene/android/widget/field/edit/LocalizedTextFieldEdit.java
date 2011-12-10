@@ -3,7 +3,7 @@ package org.imogene.android.widget.field.edit;
 import java.util.HashMap;
 import java.util.Locale;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.Tools;
 
@@ -29,10 +29,10 @@ public class LocalizedTextFieldEdit extends StringFieldEdit<LocalizedTextList> {
 	private final ViewGroup mEntries;
 
 	public LocalizedTextFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_edit_localized);
+		super(context, attrs, R.layout.field_edit_localized);
 
-		isoArray = getResources().getStringArray(W.array.languages_iso);
-		displayArray = getResources().getStringArray(W.array.languages_display);
+		isoArray = getResources().getStringArray(R.array.languages_iso);
+		displayArray = getResources().getStringArray(R.array.languages_display);
 		
 		int pos = Tools.find(isoArray, Locale.getDefault().getLanguage());
 		if (pos > -1) {
@@ -42,22 +42,22 @@ public class LocalizedTextFieldEdit extends StringFieldEdit<LocalizedTextList> {
 		
 		mEditors = new HashMap<String, EditText>(isoArray.length);
 		
-		findViewById(W.id.more_button).setOnClickListener(this);
-		findViewById(W.id.less_button).setOnClickListener(this);
+		findViewById(R.id.more_button).setOnClickListener(this);
+		findViewById(R.id.less_button).setOnClickListener(this);
 		
-		mEntries = (ViewGroup) findViewById(W.id.localized_entries);
+		mEntries = (ViewGroup) findViewById(R.id.localized_entries);
 		
 		boolean first = true;
 		for (int i = 0; i < isoArray.length; i++) {
 			if (first) {
-				mEditors.put(isoArray[i], (EditText) findViewById(W.id.localized));
-				TextView language = (TextView) findViewById(W.id.locale);
+				mEditors.put(isoArray[i], (EditText) findViewById(R.id.localized));
+				TextView language = (TextView) findViewById(R.id.locale);
 				language.setText(displayArray[i]);
 				first = false;
 			} else {
-				ViewGroup entry = (ViewGroup) inflate(context, W.layout.localized_text_editor, mEntries);
-				mEditors.put(isoArray[i], (EditText) entry.findViewById(W.id.localized));
-				TextView language = (TextView) entry.findViewById(W.id.locale);
+				ViewGroup entry = (ViewGroup) inflate(context, R.layout.localized_text_editor, mEntries);
+				mEditors.put(isoArray[i], (EditText) entry.findViewById(R.id.localized));
+				TextView language = (TextView) entry.findViewById(R.id.locale);
 				language.setText(displayArray[i]);
 			}
 		}
@@ -116,16 +116,16 @@ public class LocalizedTextFieldEdit extends StringFieldEdit<LocalizedTextList> {
 	}
 	
 	private void updateOtherLanguagesVisibility() {
-		findViewById(W.id.more_button).setVisibility(mOtherLanguagesHidden ? View.VISIBLE : View.GONE);
-		findViewById(W.id.less_button).setVisibility(mOtherLanguagesHidden ? View.GONE : View.VISIBLE);
+		findViewById(R.id.more_button).setVisibility(mOtherLanguagesHidden ? View.VISIBLE : View.GONE);
+		findViewById(R.id.less_button).setVisibility(mOtherLanguagesHidden ? View.GONE : View.VISIBLE);
 		mEntries.setVisibility(mOtherLanguagesHidden ? View.GONE : View.VISIBLE);
 	}
 	
 	@Override
 	protected void dispatchClick(View v) {
 		switch (v.getId()) {
-		case W.id.less_button:
-		case W.id.more_button:
+		case R.id.less_button:
+		case R.id.more_button:
 			mOtherLanguagesHidden = !mOtherLanguagesHidden;
 			updateOtherLanguagesVisibility();
 		}

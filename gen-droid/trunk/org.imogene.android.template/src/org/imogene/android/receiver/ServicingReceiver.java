@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.app.HighPreferences;
 import org.imogene.android.app.UnSyncDialog;
 import org.imogene.android.common.SyncHistory;
@@ -77,7 +77,7 @@ public class ServicingReceiver extends BroadcastReceiver {
 		c.close();
 		
 		context.getContentResolver().notifyChange(ContentUrisUtils.buildUriForFragment(null), null);
-		PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(W.string.sync_hardware_key), UUID.randomUUID().toString()).commit();
+		PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(R.string.sync_hardware_key), UUID.randomUUID().toString()).commit();
 	}
 
 	private boolean hasUnSync(Context context) {

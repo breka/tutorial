@@ -25,27 +25,6 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>org.imogene.tools.androidhelper.builder.WJavaBuilder</name>
-			<arguments>
-				<dictionary>
-					<key>importRClass</key>
-					<value>org.imogene.android.theprojectname.R</value>
-				</dictionary>
-				<dictionary>
-					<key>packageWClass</key>
-					<value>org.imogene.android</value>
-				</dictionary>
-				<dictionary>
-					<key>pathToRFile</key>
-					<value>gen/org/imogene/android/theprojectname/R.java</value>
-				</dictionary>
-				<dictionary>
-					<key>pathToWFile</key>
-					<value>src/org/imogene/android/W.java</value>
-				</dictionary>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>

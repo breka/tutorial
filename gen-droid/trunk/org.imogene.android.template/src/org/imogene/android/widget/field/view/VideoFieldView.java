@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.view;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -14,7 +14,7 @@ public class VideoFieldView extends BinaryFieldView {
 	
 	@Override
 	public int getDisplayId() {
-		return W.string.bin_video;
+		return R.string.bin_video;
 	}
 
 }

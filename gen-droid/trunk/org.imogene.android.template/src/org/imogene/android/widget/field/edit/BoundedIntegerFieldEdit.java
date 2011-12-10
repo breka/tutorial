@@ -1,6 +1,6 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.util.field.FieldPattern;
 
 import android.app.AlertDialog.Builder;
@@ -26,11 +26,11 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 	private String mFormat;
 
 	public BoundedIntegerFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, W.layout.field_default);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.NumberField, 0, 0);
-		setMin(a.getInt(W.styleable.NumberField_intMin, 0));
-		setMax(a.getInt(W.styleable.NumberField_intMax, 100));
-		mFormat = a.getString(W.styleable.NumberField_format);
+		super(context, attrs, R.layout.field_default);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumberField, 0, 0);
+		setMin(a.getInt(R.styleable.NumberField_intMin, 0));
+		setMax(a.getInt(R.styleable.NumberField_intMax, 100));
+		mFormat = a.getString(R.styleable.NumberField_format);
 		a.recycle();
 	}
 
@@ -68,11 +68,11 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
 		View view = LayoutInflater.from(getContext()).inflate(
-				W.layout.field_edit_integer_bounded, null);
+				R.layout.field_edit_integer_bounded, null);
 
-		mTextView = (TextView) view.findViewById(W.id.display_value);
+		mTextView = (TextView) view.findViewById(R.id.display_value);
 
-		mSeekBar = (SeekBar) view.findViewById(W.id.seekbar);
+		mSeekBar = (SeekBar) view.findViewById(R.id.seekbar);
 		mSeekBar.setOnSeekBarChangeListener(this);
 		mSeekBar.setMax(mMax - mMin);
 
@@ -81,18 +81,18 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
-				case W.id.decrease:
+				case R.id.decrease:
 					mSeekBar.incrementProgressBy(-1);
 					break;
-				case W.id.increase:
+				case R.id.increase:
 					mSeekBar.incrementProgressBy(1);
 					break;
 				}
 			}
 		};
 
-		view.findViewById(W.id.increase).setOnClickListener(listener);
-		view.findViewById(W.id.decrease).setOnClickListener(listener);
+		view.findViewById(R.id.increase).setOnClickListener(listener);
+		view.findViewById(R.id.decrease).setOnClickListener(listener);
 		
 		final Integer value = getValue();
 		if (value != null) {

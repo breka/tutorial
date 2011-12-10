@@ -3,13 +3,11 @@ package org.imogene.android.contrib;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IAction;
@@ -19,8 +17,6 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.imogene.studio.contrib.interfaces.GenerationManager;
-import org.imogene.studio.contrib.interfaces.PostGenerationTask;
 import org.imogene.studio.contrib.ui.generation.GenerationWizard;
 
 
@@ -48,16 +44,8 @@ public class AndroidGenerationAction implements IObjectActionDelegate {
 			wizard.setDefinition(FileLocator.openStream(Activator.getDefault().getBundle(), new Path("template-site/templates.xml"), false));
 			wizard.setWorkflow("android/workflow/generatorImogeneAndroid.mwe");
 			wizard.setIconCopyTask(new AndroidIconCopyTask());
+			wizard.setPostGenerationTask(new AndroidPostGenerationTask());
 			wizard.addPropertiesPage(new RightsWizard());
-			wizard.setPostGenerationTask(new PostGenerationTask() {
-				@Override
-				public void onPostGeneration(GenerationManager manager) throws CoreException {
-					IPath path = new Path("gen/fr/medes/medoo/android/theprojectname");
-					manager.getGeneratedProject().getFolder(path).delete(true, true, null);
-					path = new Path("res/drawable/small");
-					manager.getGeneratedProject().getFolder(path).delete(true, true, null);
-				}
-			});
 			fillTheList(wizard);
 			WizardDialog dialog = new WizardDialog(Display.getCurrent().getActiveShell(), wizard);
 			dialog.open();

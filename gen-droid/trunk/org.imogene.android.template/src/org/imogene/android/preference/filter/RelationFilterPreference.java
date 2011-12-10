@@ -8,7 +8,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
-import org.imogene.android.W;
+import org.imogene.android.template.R;
 import org.imogene.android.common.filter.RelationFilter;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.util.http.ssl.SSLHttpClient;
@@ -53,9 +53,9 @@ public class RelationFilterPreference extends FilterPreference<RelationFilter> {
 
 	public RelationFilterPreference(Context context, AttributeSet attrs) {
 		super(context, attrs, RelationFilter.FILTER_CREATOR);
-		TypedArray a = context.obtainStyledAttributes(attrs, W.styleable.RelationFilterPreference, 0, 0);
-		mEntityWs = a.getString(W.styleable.RelationFilterPreference_entityws);
-		mHierarchicalField = a.getString(W.styleable.RelationFilterPreference_hierarchicalField);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RelationFilterPreference, 0, 0);
+		mEntityWs = a.getString(R.styleable.RelationFilterPreference_entityws);
+		mHierarchicalField = a.getString(R.styleable.RelationFilterPreference_hierarchicalField);
 		a.recycle();
 		mAdapter = new MyAdapter(context, android.R.layout.select_dialog_multichoice);
 		
@@ -357,12 +357,12 @@ public class RelationFilterPreference extends FilterPreference<RelationFilter> {
 						view = getView(position, null, parent);
 					}
 				} else {
-					view = mInflater.inflate(W.layout.download_footer_view, parent, false);
+					view = mInflater.inflate(R.layout.download_footer_view, parent, false);
 					view.setTag(TAG_FOOTER);
 				}
 				final boolean down = DESC_DOWNLOADING.equals(item.description);
-				view.findViewById(W.id.footer_downloading).setVisibility(down?View.VISIBLE:View.GONE);
-				view.findViewById(W.id.footer_error).setVisibility(down?View.GONE:View.VISIBLE);
+				view.findViewById(R.id.footer_downloading).setVisibility(down?View.VISIBLE:View.GONE);
+				view.findViewById(R.id.footer_error).setVisibility(down?View.GONE:View.VISIBLE);
 				return view;
 			} else {
 				if (convertView != null) {
