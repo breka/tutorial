@@ -16,7 +16,7 @@ public class MimeTypeManager {
 	
 	private MimeTypeManager(Context context) {
 		MimeTypeParser parser = new MimeTypeParser();
-		XmlResourceParser in = context.getResources().getXml(R.xml.mimetypes);
+		XmlResourceParser in = context.getResources().getXml(R.xml.ig_mimetypes);
 		try {
 			mMimeTypes = parser.fromXmlResource(in);
 		} catch (XmlPullParserException e) {

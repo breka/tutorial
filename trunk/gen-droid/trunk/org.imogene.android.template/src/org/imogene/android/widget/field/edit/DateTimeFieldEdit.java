@@ -19,14 +19,14 @@ public class DateTimeFieldEdit extends DatesFieldEdit implements OnDateTimeSetLi
 	public DateTimeFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DatesFieldEdit, 0, 0);
-		if (a.hasValue(R.styleable.DatesFieldEdit_dateMin)) {
-			String date = a.getString(R.styleable.DatesFieldEdit_dateMin);
+		if (a.hasValue(R.styleable.DatesFieldEdit_igDateMin)) {
+			String date = a.getString(R.styleable.DatesFieldEdit_igDateMin);
 			setMin(FormatHelper.readDateTime(date));
 		} else {
 			setMin(null);
 		}
-		if (a.hasValue(R.styleable.DatesFieldEdit_dateMax)) {
-			String date = a.getString(R.styleable.DatesFieldEdit_dateMax);
+		if (a.hasValue(R.styleable.DatesFieldEdit_igDateMax)) {
+			String date = a.getString(R.styleable.DatesFieldEdit_igDateMax);
 			setMax(FormatHelper.readDateTime(date));
 		} else {
 			setMax(null);

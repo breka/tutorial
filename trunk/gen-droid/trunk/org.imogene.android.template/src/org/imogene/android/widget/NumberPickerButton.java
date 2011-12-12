@@ -77,9 +77,9 @@ public class NumberPickerButton extends ImageButton {
     }
 
     private void cancelLongpress() {
-        if (R.id.increment == getId()) {
+        if (R.id.ig_increment == getId()) {
             mNumberPicker.cancelIncrement();
-        } else if (R.id.decrement == getId()) {
+        } else if (R.id.ig_decrement == getId()) {
             mNumberPicker.cancelDecrement();
         }
     }

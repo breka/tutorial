@@ -8,13 +8,13 @@
 <org.imogene.android.widget.field.edit.«EXPAND class FOR this-»
 	style="@style/BaseField"
 	android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
-	app:dependent="«fieldDependentVisibility.size > 0»"
-	app:readOnly="«readOnly»"
-	app:required="«required»"
-	app:hidden="«hidden»"
-	app:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	app:igDependent="«fieldDependentVisibility.size > 0»"
+	app:igReadOnly="«readOnly»"
+	app:igRequired="«required»"
+	app:igHidden="«hidden»"
+	app:igTitle="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	«IF hasHelp(descriptions)-»
-	app:help="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_help"
+	app:igHelp="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_help"
 	«ENDIF-»
 	«EXPAND specificAttributes FOR this-»
 />
@@ -57,83 +57,83 @@ IntegerFieldEdit
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR TextField-»
-app:stringType="string"
+app:igStringType="string"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR AddressField-»
-app:stringType="address"
+app:igStringType="address"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR EmailField-»
-app:stringType="email"
+app:igStringType="email"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR PhoneField-»
-app:stringType="phone"
+app:igStringType="phone"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR TextAreaField-»
-app:stringType="text"
+app:igStringType="text"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR GeoField-»
 «LET getGeoType(this) AS geoType-»
 «IF geoType == 0»
-app:geoType="gps"
+app:igGeoType="gps"
 «ELSEIF geoType == 1»
-app:geoType="network"
+app:igGeoType="network"
 «ELSEIF geoType == 2»
-app:geoType="map"
+app:igGeoType="map"
 «ELSEIF geoType == 3»
-app:geoType="best"
+app:igGeoType="best"
 «ENDIF»
 «ENDLET-»
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR FloatField-»
 «IF unit.length > 0-»
-app:unit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
+app:igUnit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
 «ENDIF-»
-app:format="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format"
+app:igFormat="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format"
 «IF max != null && max.length > 0-»
-app:floatMax="«max»"
+app:igFloatMax="«max»"
 «ENDIF-»
 «IF min != null && min.length > 0-»
-app:floatMin="«min»"
+app:igFloatMin="«min»"
 «ENDIF-»
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR IntegerField-»
 «IF unit.length > 0-»
-app:unit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
+app:igUnit="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_unit"
 «ENDIF-»
-app:format="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format"
+app:igFormat="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format"
 «IF max != null && max.length > 0-»
-app:intMax="«max»"
+app:igIntMax="«max»"
 «ENDIF-»
 «IF min != null && min.length > 0-»
-app:intMin="«min»"
+app:igIntMin="«min»"
 «ENDIF-»
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR EnumField-»
-app:entries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
-app:array="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
-app:size="«enumValues.size»"
+app:igEntries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+app:igArray="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
+app:igSize="«enumValues.size»"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR DatesField-»
 «IF max != null && max.length > 0-»
-app:dateMax="«max»"
+app:igDateMax="«max»"
 «ENDIF-»
 «IF min != null && min.length > 0-»
-app:dateMin="«min»"
+app:igDateMin="«min»"
 «ENDIF-»
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR RelationFieldEntity-»
-app:hasReverse="«oppositeRelationField != null»"
-app:display="@plurals/«entity.name.toLowerCase()-»_display"
-app:oppositeCardinality="«getOppositeCardinality(this)-»"
-app:type="«IF MainRelationFieldEntity.isAssignableFrom(metaType)»main«ELSE»reverse«ENDIF»"
+app:igHasReverse="«oppositeRelationField != null»"
+app:igDisplay="@plurals/«entity.name.toLowerCase()-»_display"
+app:igOppositeCardinality="«getOppositeCardinality(this)-»"
+app:igRelationType="«IF MainRelationFieldEntity.isAssignableFrom(metaType)»main«ELSE»reverse«ENDIF»"
 «ENDDEFINE»

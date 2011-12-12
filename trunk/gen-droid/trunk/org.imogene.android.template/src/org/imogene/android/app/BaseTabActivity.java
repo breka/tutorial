@@ -40,7 +40,7 @@ public abstract class BaseTabActivity extends TabActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tab_content);
+		setContentView(R.layout.ig_tab_content);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public abstract class BaseTabActivity extends TabActivity {
      * its label.
      */
     protected View buildIndicator(int textRes) {
-        final TextView indicator = (TextView) getLayoutInflater().inflate(R.layout.tab_indicator, getTabWidget(), false);
+        final TextView indicator = (TextView) getLayoutInflater().inflate(R.layout.ig_tab_indicator, getTabWidget(), false);
         indicator.setText(textRes);
         return indicator;
     }

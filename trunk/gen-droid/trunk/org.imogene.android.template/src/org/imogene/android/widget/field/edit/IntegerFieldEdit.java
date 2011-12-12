@@ -14,15 +14,15 @@ import android.util.AttributeSet;
 public class IntegerFieldEdit extends NumberFieldEdit<Integer> {
 	
 	public IntegerFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_edit_numeric);
+		super(context, attrs, R.layout.ig_field_edit_numeric);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumberField, 0, 0);
-		if (a.hasValue(R.styleable.NumberField_intMin)) {
-			setMin(a.getInt(R.styleable.NumberField_intMin, 0));
+		if (a.hasValue(R.styleable.NumberField_igIntMin)) {
+			setMin(a.getInt(R.styleable.NumberField_igIntMin, 0));
 		} else {
 			setMin(null);
 		}
-		if (a.hasValue(R.styleable.NumberField_intMax)) {
-			setMax(a.getInt(R.styleable.NumberField_intMax, 0));
+		if (a.hasValue(R.styleable.NumberField_igIntMax)) {
+			setMax(a.getInt(R.styleable.NumberField_igIntMax, 0));
 		} else {
 			setMax(null);
 		}
@@ -57,11 +57,11 @@ public class IntegerFieldEdit extends NumberFieldEdit<Integer> {
 		ErrorEntry entry = super.getErrorEntry(tag);
 		final Integer min = getMin();
 		if (min != null) {
-			entry.addMessage(getResources().getString(R.string.greater_than_decimal, min));
+			entry.addMessage(getResources().getString(R.string.ig_greater_than_decimal, min));
 		}
 		final Integer max = getMax();
 		if (max != null) {
-			entry.addMessage(getResources().getString(R.string.lower_than_decimal, max));
+			entry.addMessage(getResources().getString(R.string.ig_lower_than_decimal, max));
 		}
 		return entry;
 	}

@@ -145,16 +145,16 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 		
 		if (Intent.ACTION_PICK.equals(getIntent().getAction())) {
 			if (getIntent().hasExtra(Extras.EXTRA_MULTIPLE)) {
-				findViewById(R.id.footer).setVisibility(View.VISIBLE);
-				findViewById(R.id.saveButton).setOnClickListener(this);
-				findViewById(R.id.discardButton).setOnClickListener(this);
+				findViewById(R.id.ig_footer).setVisibility(View.VISIBLE);
+				findViewById(R.id.ig_saveButton).setOnClickListener(this);
+				findViewById(R.id.ig_discardButton).setOnClickListener(this);
 				
 				isMultiple = true;
 			}
 		}
 
-		TextView empty = (TextView) findViewById(R.id.emptyText);
-		empty.setText(R.string.noEntityHelpText);
+		TextView empty = (TextView) findViewById(R.id.ig_emptyText);
+		empty.setText(R.string.ig_noEntityHelpText);
 		
 		mCursor = query();
 		startManagingCursor(mCursor);
@@ -247,17 +247,17 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	public boolean onCreateActionBarMenu(Menu menu) {
 		boolean result = super.onCreateActionBarMenu(menu);
 		if (mCanCreate) {
-			getMenuInflater().inflate(R.menu.actionbar_add_item, menu);
+			getMenuInflater().inflate(R.menu.ig_actionbar_add_item, menu);
 		}
-		getMenuInflater().inflate(R.menu.actionbar_search_item, menu);
-		getMenuInflater().inflate(R.menu.actionbar_sync_item, menu);
+		getMenuInflater().inflate(R.menu.ig_actionbar_search_item, menu);
+		getMenuInflater().inflate(R.menu.ig_actionbar_sync_item, menu);
 		return result;
 	}
 	
 	@Override
 	public boolean onActionBarItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_add :
+		case R.id.ig_menu_add :
 			Intent intent = new Intent(Intent.ACTION_INSERT, «name.toFirstUpper()».Columns.CONTENT_URI);
 			intent.putExtras(getIntent());
 			intent.addCategory(PreferenceHelper.getEditionCategory(this));
@@ -267,10 +267,10 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 				startActivity(intent);
 			}
 			return true;
-		case R.id.menu_sync:
+		case R.id.ig_menu_sync:
 			AbstractSyncService.startServiceManually(this);
 			return true;
-		case R.id.menu_search:
+		case R.id.ig_menu_search:
 			startSearch(null, false, null, false);
 			return true;
 		default:
@@ -281,25 +281,25 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(Menu.NONE, MENU_MARK_ALL_AS_READ_ID, Menu.NONE,
-				R.string.menu_mark_all_as_read)
-				.setIcon(R.drawable.ic_menu_mark);
+				R.string.ig_menu_mark_all_as_read)
+				.setIcon(R.drawable.ig_ic_menu_mark);
 
-		getMenuInflater().inflate(R.menu.menu_iamlost_item, menu);
+		getMenuInflater().inflate(R.menu.ig_menu_iamlost_item, menu);
 		
 		«IF georeferenced != null-»
 		menu.add(
 			Menu.NONE,
 			MENU_SHOW_CLOUD_ID,
 			Menu.NONE,
-			R.string.menu_map)
+			R.string.ig_menu_map)
 			.setIcon(android.R.drawable.ic_menu_mapmode);
 		«ENDIF-»
 
-		SubMenu subMenu = menu.addSubMenu(R.string.menu_sort_by);
+		SubMenu subMenu = menu.addSubMenu(R.string.ig_menu_sort_by);
 		subMenu.setIcon(android.R.drawable.ic_menu_sort_by_size);
 
 		subMenu.add(MENU_SORT_BY_GROUP_ID, MENU_SORT_BY_MODIFIED_ID, Menu.NONE,
-				R.string.menu_sort_by_modified);
+				R.string.ig_menu_sort_by_modified);
 
 		«EXPAND addSortMenu FOREACH getMainFields(this)»
 		«EXPAND addSortMenu FOREACH secondaryFields»
@@ -321,7 +321,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_iamlost:
+		case R.id.ig_menu_iamlost:
 			showDialog(DIALOG_IAMLOST_ID);
 			return true;
 		case MENU_MARK_ALL_AS_READ_ID:
@@ -357,22 +357,22 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			return;
 
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(Menu.NONE, CMENU_VIEW_ID, Menu.NONE, R.string.menu_view);
+		menu.add(Menu.NONE, CMENU_VIEW_ID, Menu.NONE, R.string.ig_menu_view);
 		if (mCanModify) {
-			menu.add(Menu.NONE, CMENU_EDIT_ID, Menu.NONE, R.string.menu_edit);
+			menu.add(Menu.NONE, CMENU_EDIT_ID, Menu.NONE, R.string.ig_menu_edit);
 		}
 		if (mCanDelete) {
-			menu.add(Menu.NONE, CMENU_DELETE_ID, Menu.NONE, R.string.menu_delete);
+			menu.add(Menu.NONE, CMENU_DELETE_ID, Menu.NONE, R.string.ig_menu_delete);
 		}
 
 		EntityCursor c = (EntityCursor) getListAdapter().getItem(
 				info.position - getListView().getHeaderViewsCount());
 		if (c.getUnread()) {
 			menu.add(Menu.NONE, CMENU_MARK_AS_READ_ID, Menu.NONE,
-					R.string.menu_mark_as_read);
+					R.string.ig_menu_mark_as_read);
 		} else {
 			menu.add(Menu.NONE, CMENU_MARK_AS_UNREAD_ID, Menu.NONE,
-					R.string.menu_mark_as_unread);
+					R.string.ig_menu_mark_as_unread);
 		}
 	}
 
@@ -408,9 +408,9 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 		switch (id) {
 		case DIALOG_DELETE_ID:
 			return new AlertDialog.Builder(this)
-			.setTitle(R.string.delete_confirmation_title)
+			.setTitle(R.string.ig_delete_confirmation_title)
 			.setIcon(android.R.drawable.ic_dialog_alert)
-			.setMessage(R.string.delete_confirmation)
+			.setMessage(R.string.ig_delete_confirmation)
 			.setNegativeButton(android.R.string.cancel, null)
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				@Override
@@ -465,7 +465,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.saveButton:
+		case R.id.ig_saveButton:
 			ListView list = getListView();
 			SparseBooleanArray spa = list.getCheckedItemPositions();
 			ArrayList<Uri> uris = new ArrayList<Uri>();
@@ -483,7 +483,7 @@ public class «name.toFirstUpper()-»Listing extends BaseListActivity implements V
 			setResult(RESULT_OK, data);
 			finish();
 			break;
-		case R.id.discardButton:
+		case R.id.ig_discardButton:
 			setResult(RESULT_CANCELED);
 			finish();
 			break;

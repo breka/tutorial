@@ -30,11 +30,11 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 	}
 	
 	public void setup() {
-		mFlipper = (FieldFlipper) findViewById(R.id.flipper);
+		mFlipper = (FieldFlipper) findViewById(R.id.ig_flipper);
 		
-		mNext = findViewById(R.id.next_field);
-		mPrevious = findViewById(R.id.previous_field);
-		mFinish = findViewById(R.id.finish);
+		mNext = findViewById(R.id.ig_next_field);
+		mPrevious = findViewById(R.id.ig_previous_field);
+		mFinish = findViewById(R.id.ig_finish);
 		
 		mNext.setOnClickListener(this);
 		mPrevious.setOnClickListener(this);
@@ -53,13 +53,13 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 	
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.next_field:
+		case R.id.ig_next_field:
 			mFlipper.showNext();
 			break;
-		case R.id.previous_field:
+		case R.id.ig_previous_field:
 			mFlipper.showPrevious();
 			break;
-		case R.id.finish:
+		case R.id.ig_finish:
 			if (mListener != null) {
 				mListener.onFinishClick();
 			}
@@ -69,11 +69,11 @@ public class WizardEntityView extends RelativeLayout implements OnClickListener,
 	
 	public void onFieldChanged() {
 		final BaseFieldEdit<?> displayed = mFlipper.getCurrentField();
-		findViewById(R.id.previous_field).setVisibility(mFlipper.hasPrevious() ? View.VISIBLE : View.GONE);
-		findViewById(R.id.next_field).setEnabled(displayed.isValid());
+		findViewById(R.id.ig_previous_field).setVisibility(mFlipper.hasPrevious() ? View.VISIBLE : View.GONE);
+		findViewById(R.id.ig_next_field).setEnabled(displayed.isValid());
 		final boolean hasNext = mFlipper.hasNext();
-		findViewById(R.id.next_field).setVisibility(hasNext ? View.VISIBLE : View.GONE);
-		findViewById(R.id.finish).setVisibility(hasNext ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_next_field).setVisibility(hasNext ? View.VISIBLE : View.GONE);
+		findViewById(R.id.ig_finish).setVisibility(hasNext ? View.GONE : View.VISIBLE);
 	}
 	
 }

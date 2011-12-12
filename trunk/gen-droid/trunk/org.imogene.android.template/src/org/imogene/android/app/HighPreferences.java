@@ -10,7 +10,7 @@ public class HighPreferences extends MyPreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.preference_list_content);
+		setContentView(R.layout.ig_preference_list_content);
 		addPreferencesFromResource(R.xml.high_preferences);
 	}
 

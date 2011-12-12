@@ -26,11 +26,11 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 	private String mFormat;
 
 	public BoundedIntegerFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_default);
+		super(context, attrs, R.layout.ig_field_default);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumberField, 0, 0);
-		setMin(a.getInt(R.styleable.NumberField_intMin, 0));
-		setMax(a.getInt(R.styleable.NumberField_intMax, 100));
-		mFormat = a.getString(R.styleable.NumberField_format);
+		setMin(a.getInt(R.styleable.NumberField_igIntMin, 0));
+		setMax(a.getInt(R.styleable.NumberField_igIntMax, 100));
+		mFormat = a.getString(R.styleable.NumberField_igFormat);
 		a.recycle();
 	}
 
@@ -68,11 +68,11 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
 		View view = LayoutInflater.from(getContext()).inflate(
-				R.layout.field_edit_integer_bounded, null);
+				R.layout.ig_field_edit_integer_bounded, null);
 
-		mTextView = (TextView) view.findViewById(R.id.display_value);
+		mTextView = (TextView) view.findViewById(R.id.ig_display_value);
 
-		mSeekBar = (SeekBar) view.findViewById(R.id.seekbar);
+		mSeekBar = (SeekBar) view.findViewById(R.id.ig_seekbar);
 		mSeekBar.setOnSeekBarChangeListener(this);
 		mSeekBar.setMax(mMax - mMin);
 
@@ -81,18 +81,18 @@ public class BoundedIntegerFieldEdit extends BaseFieldEdit<Integer> implements
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
-				case R.id.decrease:
+				case R.id.ig_decrease:
 					mSeekBar.incrementProgressBy(-1);
 					break;
-				case R.id.increase:
+				case R.id.ig_increase:
 					mSeekBar.incrementProgressBy(1);
 					break;
 				}
 			}
 		};
 
-		view.findViewById(R.id.increase).setOnClickListener(listener);
-		view.findViewById(R.id.decrease).setOnClickListener(listener);
+		view.findViewById(R.id.ig_increase).setOnClickListener(listener);
+		view.findViewById(R.id.ig_decrease).setOnClickListener(listener);
 		
 		final Integer value = getValue();
 		if (value != null) {

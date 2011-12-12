@@ -23,21 +23,21 @@ public class GeoFieldEdit extends BaseFieldEdit<Location> implements OnActivityR
 	private int mRequestCode;
 
 	public GeoFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_edit_buttons);
+		super(context, attrs, R.layout.ig_field_edit_buttons);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GeoFieldEdit, 0, 0);
-		mProvider = a.getInt(R.styleable.GeoFieldEdit_geoType, -1);
+		mProvider = a.getInt(R.styleable.GeoFieldEdit_igGeoType, -1);
 		a.recycle();
-		findViewById(R.id.acquire).setOnClickListener(this);
-		findViewById(R.id.delete).setOnClickListener(this);
-		findViewById(R.id.view).setOnClickListener(this);
+		findViewById(R.id.ig_acquire).setOnClickListener(this);
+		findViewById(R.id.ig_delete).setOnClickListener(this);
+		findViewById(R.id.ig_view).setOnClickListener(this);
 	}
 	
 	@Override
 	public void setReadOnly(boolean readOnly) {
 		super.setReadOnly(readOnly);
-		findViewById(R.id.acquire).setVisibility(readOnly ? View.GONE : View.VISIBLE);
-		findViewById(R.id.delete).setVisibility(readOnly ? View.GONE : View.VISIBLE);
-		findViewById(R.id.view).setVisibility(readOnly ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_acquire).setVisibility(readOnly ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_delete).setVisibility(readOnly ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_view).setVisibility(readOnly ? View.GONE : View.VISIBLE);
 	}
 	
 	@Override
@@ -62,20 +62,20 @@ public class GeoFieldEdit extends BaseFieldEdit<Location> implements OnActivityR
 		super.onChangeValue();
 		final Location location = getValue();
 		if (location == null) {
-			findViewById(R.id.acquire).setVisibility(View.VISIBLE);
-			findViewById(R.id.delete).setVisibility(View.GONE);
-			findViewById(R.id.view).setVisibility(View.GONE);
+			findViewById(R.id.ig_acquire).setVisibility(View.VISIBLE);
+			findViewById(R.id.ig_delete).setVisibility(View.GONE);
+			findViewById(R.id.ig_view).setVisibility(View.GONE);
 		} else {
-			findViewById(R.id.acquire).setVisibility(View.GONE);
-			findViewById(R.id.delete).setVisibility(View.VISIBLE);
-			findViewById(R.id.view).setVisibility(View.VISIBLE);
+			findViewById(R.id.ig_acquire).setVisibility(View.GONE);
+			findViewById(R.id.ig_delete).setVisibility(View.VISIBLE);
+			findViewById(R.id.ig_view).setVisibility(View.VISIBLE);
 		}
 	}
 	
 	@Override
 	protected void dispatchClick(View v) {
 		switch (v.getId()) {
-		case R.id.acquire:
+		case R.id.ig_acquire:
 			Intent acquire = new Intent(Intents.ACTION_CAPTURE_GPS);
 			switch (mProvider) {
 			case 0:
@@ -93,10 +93,10 @@ public class GeoFieldEdit extends BaseFieldEdit<Location> implements OnActivityR
 			}
 			getFieldManager().getActivity().startActivityForResult(acquire, mRequestCode);
 			break;
-		case R.id.delete:
+		case R.id.ig_delete:
 			setValue(null);
 			break;
-		case R.id.view:
+		case R.id.ig_view:
 			Intent show = IntentUtils.createShowOnMapIntent(getValue());
 			getContext().startActivity(show);
 			break;

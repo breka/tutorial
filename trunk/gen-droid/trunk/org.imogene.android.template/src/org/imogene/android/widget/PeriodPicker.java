@@ -81,9 +81,9 @@ public class PeriodPicker extends FrameLayout {
         super(context, attrs, defStyle);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.period_picker, this, true);
+        inflater.inflate(R.layout.ig_period_picker, this, true);
 
-        mNumberPicker = (NumberPicker) findViewById(R.id.number);
+        mNumberPicker = (NumberPicker) findViewById(R.id.ig_number);
         mNumberPicker.setSpeed(100);
         mNumberPicker.setOnChangeListener(new OnChangedListener() {
             public void onChanged(NumberPicker picker, int oldVal, int newVal) {
@@ -97,7 +97,7 @@ public class PeriodPicker extends FrameLayout {
         mNumberPicker.setRange(DEFAULT_START_NUMBER, DEFAULT_END_NUMBER);
         
         String[] displayed = new String[] {"jours", "mois", "année"};
-        mUnitPicker = (NumberPicker) findViewById(R.id.unit);
+        mUnitPicker = (NumberPicker) findViewById(R.id.ig_unit);
         mUnitPicker.setRange(DEFAULT_START_UNIT, DEFAULT_END_UNIT, displayed);
         mUnitPicker.setSpeed(200);
         mUnitPicker.setOnChangeListener(new OnChangedListener() {

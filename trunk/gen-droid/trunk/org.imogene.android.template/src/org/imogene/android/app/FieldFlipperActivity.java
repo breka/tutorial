@@ -35,14 +35,14 @@ public class FieldFlipperActivity extends BaseActivity implements OnFinishClickL
 	@Override
 	public void onContentChanged() {
 		super.onContentChanged();
-		mWizard = (WizardEntityView) findViewById(R.id.wizard);
+		mWizard = (WizardEntityView) findViewById(R.id.ig_wizard);
 		mWizard.setup();
 		mWizard.setOnFinishClickListener(this);
 	}
 	
 	private void ensureWizard() {
 		if (mWizard == null) {
-			setContentView(R.layout.wizard_content);
+			setContentView(R.layout.ig_wizard_content);
 		}
 	}
 	

@@ -18,10 +18,10 @@ public class BarcodeFieldEdit extends BaseFieldEdit<String> implements OnActivit
 	private int mRequestCode;
 
 	public BarcodeFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_edit_buttons);
-		findViewById(R.id.acquire).setOnClickListener(this);
-		findViewById(R.id.delete).setOnClickListener(this);
-		findViewById(R.id.view).setOnClickListener(this);
+		super(context, attrs, R.layout.ig_field_edit_buttons);
+		findViewById(R.id.ig_acquire).setOnClickListener(this);
+		findViewById(R.id.ig_delete).setOnClickListener(this);
+		findViewById(R.id.ig_view).setOnClickListener(this);
 	}
 	
 	@Override
@@ -32,9 +32,9 @@ public class BarcodeFieldEdit extends BaseFieldEdit<String> implements OnActivit
 	@Override
 	public void setReadOnly(boolean readOnly) {
 		super.setReadOnly(readOnly);
-		findViewById(R.id.acquire).setVisibility(readOnly ? View.GONE : View.VISIBLE);
-		findViewById(R.id.delete).setVisibility(readOnly ? View.GONE : View.VISIBLE);
-		findViewById(R.id.view).setVisibility(readOnly ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_acquire).setVisibility(readOnly ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_delete).setVisibility(readOnly ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_view).setVisibility(readOnly ? View.GONE : View.VISIBLE);
 	}
 	
 	@Override
@@ -65,27 +65,27 @@ public class BarcodeFieldEdit extends BaseFieldEdit<String> implements OnActivit
 		super.onChangeValue();
 		final String value = getValue();
 		if (TextUtils.isEmpty(value)) {
-			findViewById(R.id.acquire).setVisibility(View.VISIBLE);
-			findViewById(R.id.delete).setVisibility(View.GONE);
-			findViewById(R.id.view).setVisibility(View.GONE);
+			findViewById(R.id.ig_acquire).setVisibility(View.VISIBLE);
+			findViewById(R.id.ig_delete).setVisibility(View.GONE);
+			findViewById(R.id.ig_view).setVisibility(View.GONE);
 		} else {
-			findViewById(R.id.acquire).setVisibility(View.GONE);
-			findViewById(R.id.delete).setVisibility(View.VISIBLE);
-			findViewById(R.id.view).setVisibility(View.VISIBLE);
+			findViewById(R.id.ig_acquire).setVisibility(View.GONE);
+			findViewById(R.id.ig_delete).setVisibility(View.VISIBLE);
+			findViewById(R.id.ig_view).setVisibility(View.VISIBLE);
 		}
 	}
 	
 	@Override
 	protected void dispatchClick(View v) {
 		switch (v.getId()) {
-		case R.id.acquire:
+		case R.id.ig_acquire:
 			Intent intent = new Intent(Intents.ACTION_SCAN);
 			getFieldManager().getActivity().startActivityForResult(intent, mRequestCode);
 			break;
-		case R.id.delete:
+		case R.id.ig_delete:
 			setValue(null);
 			break;
-		case R.id.view:
+		case R.id.ig_view:
 			showDialog(null);
 			break;
 		}

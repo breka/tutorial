@@ -80,7 +80,7 @@ public abstract class AbstractUserListing extends ListActivity implements OnClic
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_PASSWORD_ID :
-			final View textEntryView = LayoutInflater.from(this).inflate(R.layout.alert_dialog_text_entry, null);
+			final View textEntryView = LayoutInflater.from(this).inflate(R.layout.ig_alert_dialog_text_entry, null);
 			return new AlertDialog.Builder(this)
 			.setIcon(android.R.drawable.ic_dialog_alert)
 			.setTitle(getDisplay())
@@ -97,8 +97,8 @@ public abstract class AbstractUserListing extends ListActivity implements OnClic
 		switch (id) {
 		case DIALOG_PASSWORD_ID:
 			dialog.setTitle(getDisplay());
-			((TextView) dialog.findViewById(R.id.username_edit)).setText(login);
-			((TextView) dialog.findViewById(R.id.password_edit)).setText(null);
+			((TextView) dialog.findViewById(R.id.ig_username_edit)).setText(login);
+			((TextView) dialog.findViewById(R.id.ig_password_edit)).setText(null);
 			break;
 		default:
 			super.onPrepareDialog(id, dialog);
@@ -107,18 +107,18 @@ public abstract class AbstractUserListing extends ListActivity implements OnClic
 	}
 	
 	public void onClick(DialogInterface dialog, int which) {
-		final String pwd = ((TextView)((Dialog) dialog).findViewById(R.id.password_edit)).getText().toString();
+		final String pwd = ((TextView)((Dialog) dialog).findViewById(R.id.ig_password_edit)).getText().toString();
 		if (validate(pwd)) {
 			EncryptionManager em = EncryptionManager.getInstance(this);
 			String encLogin = new String(Base64.encodeBase64(em.encrypt(login.getBytes())));
 			PreferenceHelper.getSharedPreferences(this).edit()
-			.putString(getString(R.string.current_login_key), encLogin)
-			.putString(getString(R.string.current_roles_key), roles)
+			.putString(getString(R.string.ig_current_login_key), encLogin)
+			.putString(getString(R.string.ig_current_roles_key), roles)
 			.commit();
 			setResult(RESULT_OK);
 			finish();
 		} else {
-			Toast.makeText(this, R.string.alert_dialog_wrong_password, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.ig_alert_dialog_wrong_password, Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -143,10 +143,10 @@ public abstract class AbstractUserListing extends ListActivity implements OnClic
 		public void bindView(View view, Context context, Cursor cursor) {
 			UserCursorJoiner c = (UserCursorJoiner) cursor;
 
-			view.findViewById(R.id.list_color).setBackgroundDrawable(c.getDrawable());
+			view.findViewById(R.id.ig_list_color).setBackgroundDrawable(c.getDrawable());
 
-			TextView main = (TextView) view.findViewById(R.id.list_main);
-			TextView secondary = (TextView) view.findViewById(R.id.list_secondary);
+			TextView main = (TextView) view.findViewById(R.id.ig_list_main);
+			TextView secondary = (TextView) view.findViewById(R.id.ig_list_secondary);
 
 			main.setText(c.getUserDisplay(context));
 			secondary.setText(c.getLogin());
@@ -154,7 +154,7 @@ public abstract class AbstractUserListing extends ListActivity implements OnClic
 
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			return LayoutInflater.from(context).inflate(R.layout.entity_row, parent, false);
+			return LayoutInflater.from(context).inflate(R.layout.ig_entity_row, parent, false);
 		}
 		
 	}

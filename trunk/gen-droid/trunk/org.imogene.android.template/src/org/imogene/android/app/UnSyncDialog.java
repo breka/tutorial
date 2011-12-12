@@ -27,7 +27,7 @@ public class UnSyncDialog extends Activity implements DialogInterface.OnClickLis
 		case DIALOG_UNSYNC_ID:
 			return new AlertDialog.Builder(this)
 			.setTitle(android.R.string.dialog_alert_title)
-			.setMessage(R.string.renew_database_unsync_message)
+			.setMessage(R.string.ig_renew_database_unsync_message)
 			.setPositiveButton(android.R.string.yes, this)
 			.setNegativeButton(android.R.string.no, this)
 			.create();

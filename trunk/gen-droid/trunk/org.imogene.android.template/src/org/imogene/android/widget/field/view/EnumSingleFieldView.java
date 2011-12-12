@@ -15,8 +15,8 @@ public class EnumSingleFieldView extends DefaultEntityView<Integer> {
 	public EnumSingleFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumField, 0, 0);
-		mItems = a.getTextArray(R.styleable.EnumField_entries);
-		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_array, 0));
+		mItems = a.getTextArray(R.styleable.EnumField_igEntries);
+		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_igArray, 0));
 		a.recycle();
 	}
 	

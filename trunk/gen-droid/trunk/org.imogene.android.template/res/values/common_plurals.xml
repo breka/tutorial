@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <plurals name="numberOfEntities">
-        <item quantity="one">One entity</item>
-        <item quantity="other">%1$d entities</item>
-    </plurals>
-
-</resources>

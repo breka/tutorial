@@ -14,7 +14,7 @@ public class VideoFieldView extends BinaryFieldView {
 	
 	@Override
 	public int getDisplayId() {
-		return R.string.bin_video;
+		return R.string.ig_bin_video;
 	}
 
 }

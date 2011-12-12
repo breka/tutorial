@@ -150,20 +150,20 @@ public class MyProgressDialog extends AlertDialog {
 					mProgressPercent.setText(tmp);
 				}
 			};
-			View view = inflater.inflate(R.layout.alert_dialog_progress, null);
-			mProgress = (ProgressBar) view.findViewById(R.id.progress);
+			View view = inflater.inflate(R.layout.ig_alert_dialog_progress, null);
+			mProgress = (ProgressBar) view.findViewById(R.id.ig_progress);
 			mProgressNumber = (TextView) view
-					.findViewById(R.id.progress_number);
+					.findViewById(R.id.ig_progress_number);
 			mProgressNumberFormat = "%d/%d";
 			mProgressPercent = (TextView) view
-					.findViewById(R.id.progress_percent);
+					.findViewById(R.id.ig_progress_percent);
 			mProgressPercentFormat = NumberFormat.getPercentInstance();
 			mProgressPercentFormat.setMaximumFractionDigits(0);
 			setView(view);
 		} else {
-			View view = inflater.inflate(R.layout.progress_dialog, null);
-			mProgress = (ProgressBar) view.findViewById(R.id.progress);
-			mMessageView = (TextView) view.findViewById(R.id.message);
+			View view = inflater.inflate(R.layout.ig_progress_dialog, null);
+			mProgress = (ProgressBar) view.findViewById(R.id.ig_progress);
+			mMessageView = (TextView) view.findViewById(R.id.ig_message);
 			setView(view);
 		}
 		if (mMax > 0) {

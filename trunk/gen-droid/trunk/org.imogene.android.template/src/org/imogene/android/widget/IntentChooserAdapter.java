@@ -63,7 +63,7 @@ public class IntentChooserAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view;
 		if (convertView == null) {
-			view = mInflater.inflate(R.layout.intent_chooser_item, parent, false);
+			view = mInflater.inflate(R.layout.ig_intent_chooser_item, parent, false);
 		} else {
 			view = convertView;
 		}

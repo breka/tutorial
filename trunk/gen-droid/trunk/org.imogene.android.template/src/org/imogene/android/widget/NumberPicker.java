@@ -104,20 +104,20 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         super(context, attrs);
         setOrientation(VERTICAL);
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.number_picker, this, true);
+        inflater.inflate(R.layout.ig_number_picker, this, true);
         mHandler = new Handler();
         InputFilter inputFilter = new NumberPickerInputFilter();
         mNumberInputFilter = new NumberRangeKeyListener();
-        mIncrementButton = (NumberPickerButton) findViewById(R.id.increment);
+        mIncrementButton = (NumberPickerButton) findViewById(R.id.ig_increment);
         mIncrementButton.setOnClickListener(this);
         mIncrementButton.setOnLongClickListener(this);
         mIncrementButton.setNumberPicker(this);
-        mDecrementButton = (NumberPickerButton) findViewById(R.id.decrement);
+        mDecrementButton = (NumberPickerButton) findViewById(R.id.ig_decrement);
         mDecrementButton.setOnClickListener(this);
         mDecrementButton.setOnLongClickListener(this);
         mDecrementButton.setNumberPicker(this);
         
-        mText = (EditText) findViewById(R.id.timepicker_input);
+        mText = (EditText) findViewById(R.id.ig_timepicker_input);
         mText.setOnFocusChangeListener(this);
         mText.setFilters(new InputFilter[] {inputFilter});
         mText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
@@ -192,9 +192,9 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         if (!mText.hasFocus()) mText.requestFocus();
 
         // now perform the increment/decrement
-        if (R.id.increment == v.getId()) {
+        if (R.id.ig_increment == v.getId()) {
             changeCurrent(mCurrent + 1);
-        } else if (R.id.decrement == v.getId()) {
+        } else if (R.id.ig_decrement == v.getId()) {
             changeCurrent(mCurrent - 1);
         }
     }
@@ -283,10 +283,10 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
          */
         mText.clearFocus();
         
-        if (R.id.increment == v.getId()) {
+        if (R.id.ig_increment == v.getId()) {
             mIncrement = true;
             mHandler.post(mRunnable);
-        } else if (R.id.decrement == v.getId()) {
+        } else if (R.id.ig_decrement == v.getId()) {
             mDecrement = true;
             mHandler.post(mRunnable);
         }

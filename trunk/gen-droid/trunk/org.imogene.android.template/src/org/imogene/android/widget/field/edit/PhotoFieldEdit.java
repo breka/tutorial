@@ -14,7 +14,7 @@ public class PhotoFieldEdit extends BinaryFieldEdit {
 	
 	@Override
 	protected int displayId() {
-		return R.string.bin_photo;
+		return R.string.ig_bin_photo;
 	}
 	
 	@Override

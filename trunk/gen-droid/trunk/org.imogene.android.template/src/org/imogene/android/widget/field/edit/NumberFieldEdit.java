@@ -18,7 +18,7 @@ public abstract class NumberFieldEdit<T extends Number> extends BaseFieldEdit<T>
 	public NumberFieldEdit(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs, layoutId);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumberField, 0, 0);
-		setUnitId(a.getResourceId(R.styleable.NumberField_unit, -1));
+		setUnitId(a.getResourceId(R.styleable.NumberField_igUnit, -1));
 		a.recycle();
 	}
 	
@@ -45,7 +45,7 @@ public abstract class NumberFieldEdit<T extends Number> extends BaseFieldEdit<T>
 	}
 	
 	public void setUnitId(int unitId) {
-		final TextView unitView = (TextView) findViewById(R.id.unit);
+		final TextView unitView = (TextView) findViewById(R.id.ig_unit);
 		if (unitView != null) {
 			if (unitId > 0) {
 				unitView.setText(unitId);

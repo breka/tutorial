@@ -68,7 +68,7 @@ public abstract class AbstractEntityDownloader extends Activity {
 		switch (id) {
 		case DIALOG_DOWNLOAD_ID:
 			ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setTitle(R.string.scanned_searching);
+			dialog.setTitle(R.string.ig_scanned_searching);
 			dialog.setIndeterminate(true);
 			dialog.setButton(
 				DialogInterface.BUTTON_NEGATIVE, 
@@ -85,8 +85,8 @@ public abstract class AbstractEntityDownloader extends Activity {
 			return dialog;
 		case DIALOG_FAILED_ID:
 			return new AlertDialog.Builder(this)
-			.setTitle(R.string.scanned_notfound)
-			.setMessage(getString(R.string.scanned_notfoundonserver, mSearched))
+			.setTitle(R.string.ig_scanned_notfound)
+			.setMessage(getString(R.string.ig_scanned_notfoundonserver, mSearched))
 			.setPositiveButton(android.R.string.ok, new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					setResult(RESULT_CANCELED);

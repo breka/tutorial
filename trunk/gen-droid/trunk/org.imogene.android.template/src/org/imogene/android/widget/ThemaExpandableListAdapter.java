@@ -58,32 +58,32 @@ public final class ThemaExpandableListAdapter extends BaseExpandableListAdapter 
 			view = convertView;
 		} else {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
-			view = inflater.inflate(R.layout.entity_row, parent, false);
+			view = inflater.inflate(R.layout.ig_entity_row, parent, false);
 		}
 	
 		EntityChild entity = getChild(groupPosition, childPosition);
 	
-		TextView main = (TextView) view.findViewById(R.id.list_main);
+		TextView main = (TextView) view.findViewById(R.id.ig_list_main);
 		main.setText(entity.mDescription);
 	
-		TextView secondary = (TextView) view.findViewById(R.id.list_secondary);
+		TextView secondary = (TextView) view.findViewById(R.id.ig_list_secondary);
 	
 		SQLiteBuilder builder = new SQLiteBuilder()
 		.setSelectInTable(entity.mTable, "count(*)")
 		.appendNotEq(Entity.Columns.MODIFIEDFROM, Entity.Columns.SYNC_SYSTEM);
 		int count = (int) SQLiteWrapper.queryForLong(mContext, builder.toSQL());
 	
-		String s = mContext.getResources().getQuantityString(R.plurals.numberOfEntities, count, count);
+		String s = mContext.getResources().getQuantityString(R.plurals.ig_numberOfEntities, count, count);
 		secondary.setText(s);
 	
-		ImageView icon = (ImageView) view.findViewById(R.id.list_icon);
+		ImageView icon = (ImageView) view.findViewById(R.id.ig_list_icon);
 		if (entity.mDrawable != 0) {
 			icon.setImageResource(entity.mDrawable);
 		} else {
 			icon.setImageResource(android.R.color.transparent);
 		}
 	
-		View v = view.findViewById(R.id.list_color);
+		View v = view.findViewById(R.id.ig_list_color);
 		v.setBackgroundDrawable(entity.mColor);
 	
 		return view;

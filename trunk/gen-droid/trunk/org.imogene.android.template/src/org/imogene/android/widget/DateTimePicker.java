@@ -106,9 +106,9 @@ public class DateTimePicker extends FrameLayout {
         super(context, attrs, defStyle);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.date_time_picker, this, true);
+        inflater.inflate(R.layout.ig_date_time_picker, this, true);
 
-        mDayPicker = (NumberPicker) findViewById(R.id.day);
+        mDayPicker = (NumberPicker) findViewById(R.id.ig_day);
         mDayPicker.setFormatter(NumberPicker.TWO_DIGIT_FORMATTER);
         mDayPicker.setSpeed(100);
         mDayPicker.setOnChangeListener(new OnChangedListener() {
@@ -117,7 +117,7 @@ public class DateTimePicker extends FrameLayout {
                 onDateTimeChanged();
             }
         });
-        mMonthPicker = (NumberPicker) findViewById(R.id.month);
+        mMonthPicker = (NumberPicker) findViewById(R.id.ig_month);
         mMonthPicker.setFormatter(NumberPicker.TWO_DIGIT_FORMATTER);
         DateFormatSymbols dfs = new DateFormatSymbols();
         mMonthPicker.setRange(1, 12, dfs.getShortMonths());
@@ -133,7 +133,7 @@ public class DateTimePicker extends FrameLayout {
                 updateDaySpinner();
             }
         });
-        mYearPicker = (NumberPicker) findViewById(R.id.year);
+        mYearPicker = (NumberPicker) findViewById(R.id.ig_year);
         mYearPicker.setSpeed(100);
         mYearPicker.setOnChangeListener(new OnChangedListener() {
             public void onChanged(NumberPicker picker, int oldVal, int newVal) {
@@ -152,7 +152,7 @@ public class DateTimePicker extends FrameLayout {
         a.recycle();
         
         // hour
-        mHourPicker = (NumberPicker) findViewById(R.id.hour);
+        mHourPicker = (NumberPicker) findViewById(R.id.ig_hour);
         mHourPicker.setOnChangeListener(new NumberPicker.OnChangedListener() {
             public void onChanged(NumberPicker spinner, int oldVal, int newVal) {
                 mCurrentHour = newVal;
@@ -172,7 +172,7 @@ public class DateTimePicker extends FrameLayout {
         });
 
         // digits of minute
-        mMinutePicker = (NumberPicker) findViewById(R.id.minute);
+        mMinutePicker = (NumberPicker) findViewById(R.id.ig_minute);
         mMinutePicker.setRange(0, 59);
         mMinutePicker.setSpeed(100);
         mMinutePicker.setFormatter(NumberPicker.TWO_DIGIT_FORMATTER);
@@ -184,7 +184,7 @@ public class DateTimePicker extends FrameLayout {
         });
 
         // am/pm
-        mAmPmButton = (Button) findViewById(R.id.amPm);
+        mAmPmButton = (Button) findViewById(R.id.ig_amPm);
 
         // now that the hour/minute picker objects have been initialized, set
         // the hour range properly based on the 12/24 hour display mode.

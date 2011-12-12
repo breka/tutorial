@@ -24,19 +24,19 @@ public class ViewPagerIndicatorActivity extends BaseActivity {
         // * How many pages are there in total
         // * A callback to get page titles
 		Resources res = getResources();
-		mPrev = res.getDrawable(R.drawable.indicator_prev_arrow);
-		mNext = res.getDrawable(R.drawable.indicator_next_arrow);
-		setContentView(R.layout.view_pager);
+		mPrev = res.getDrawable(R.drawable.ig_indicator_prev_arrow);
+		mNext = res.getDrawable(R.drawable.ig_indicator_next_arrow);
+		setContentView(R.layout.ig_view_pager);
     }
     
     @Override
     public void onContentChanged() {
     	super.onContentChanged();
         // Retrieve our viewpager
-        mViewPager = (ViewPager)findViewById(R.id.pager);
+        mViewPager = (ViewPager)findViewById(R.id.ig_pager);
         
         // Find the indicator from the layout
-        mIndicator = (ViewPagerIndicator)findViewById(R.id.indicator);
+        mIndicator = (ViewPagerIndicator)findViewById(R.id.ig_indicator);
 		
         // Set the indicator as the pageChangeListener
         mViewPager.setOnPageChangeListener(mIndicator);
@@ -59,7 +59,7 @@ public class ViewPagerIndicatorActivity extends BaseActivity {
     	if (mViewPager != null) {
     		return;
     	}
-        setContentView(R.layout.default_view_pager);
+        setContentView(R.layout.ig_default_view_pager);
     }
     
 }

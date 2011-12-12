@@ -123,15 +123,15 @@ public class DateTimePickerDialog extends AlertDialog implements OnClickListener
         
         setButton(context.getText(android.R.string.ok), this);
         setButton2(context.getText(android.R.string.cancel), this);
-        setIcon(R.drawable.ic_dialog_time);
+        setIcon(R.drawable.ig_ic_dialog_time);
         
         LayoutInflater inflater = 
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.date_time_picker_dialog, null);
+        View view = inflater.inflate(R.layout.ig_date_time_picker_dialog, null);
         setView(view);
 
         // initialize state
-        mDateTimePicker = (DateTimePicker) view.findViewById(R.id.dateTimePicker);
+        mDateTimePicker = (DateTimePicker) view.findViewById(R.id.ig_dateTimePicker);
         mDateTimePicker.init(mInitialYear, mInitialMonth, mInitialDay, mInitialHourOfDay, mInitialMinute, this);
         mDateTimePicker.setIs24HourView(mIs24HourView);
     }
@@ -144,7 +144,7 @@ public class DateTimePickerDialog extends AlertDialog implements OnClickListener
 //         * to be very long, in those cases ensure it doesn't wrap to
 //         * 2 lines (as that looks jumpy) and ensure we ellipsize the end.
 //         */
-//        TextView title = (TextView) findViewById(android.R.id.title);
+//        TextView title = (TextView) findViewById(android.R.id.ig_title);
 //        title.setSingleLine();
 //        title.setEllipsize(TruncateAt.END);
 //    }

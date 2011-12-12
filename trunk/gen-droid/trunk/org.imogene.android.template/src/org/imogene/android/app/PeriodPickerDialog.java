@@ -98,13 +98,13 @@ public class PeriodPickerDialog extends AlertDialog implements OnClickListener,
         
         setButton(context.getText(android.R.string.ok), this);
         setButton2(context.getText(android.R.string.cancel), (OnClickListener) null);
-        setIcon(R.drawable.ic_dialog_time);
+        setIcon(R.drawable.ig_ic_dialog_time);
         
         LayoutInflater inflater = 
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.period_picker_dialog, null);
+        View view = inflater.inflate(R.layout.ig_period_picker_dialog, null);
         setView(view);
-        mPeriodPicker = (PeriodPicker) view.findViewById(R.id.periodPicker);
+        mPeriodPicker = (PeriodPicker) view.findViewById(R.id.ig_periodPicker);
         mPeriodPicker.init(mInitialNumber, mInitialUnit, this);
     }
     

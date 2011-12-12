@@ -14,7 +14,7 @@ public class SoundFieldEdit extends BinaryFieldEdit {
 	
 	@Override
 	protected int displayId() {
-		return R.string.bin_audio;
+		return R.string.ig_bin_audio;
 	}
 	
 	@Override

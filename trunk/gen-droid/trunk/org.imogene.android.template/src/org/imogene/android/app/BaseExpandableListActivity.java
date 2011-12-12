@@ -38,7 +38,7 @@ public abstract class BaseExpandableListActivity extends ExpandableListActivity 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.expandable_list_content);
+		setContentView(R.layout.ig_expandable_list_content);
 	}
 	
 	@Override

@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 public class UpdatePreferenceHelper {
 
 	public static String getUpdateServer(Context context) {
-		return PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.check_server_key), null);
+		return PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.ig_check_server_key), null);
 	}
 	
 	public static String getApplicationsUrl(Context context) {

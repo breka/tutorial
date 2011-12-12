@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class TextFieldEdit extends StringFieldEdit<String> implements TextWatcher {
 	
 	public TextFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_edit_text);
+		super(context, attrs, R.layout.ig_field_edit_text);
 		setFocusable(false);
 	}
 	

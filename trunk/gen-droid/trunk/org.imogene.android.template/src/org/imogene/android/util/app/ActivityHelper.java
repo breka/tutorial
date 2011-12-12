@@ -68,7 +68,7 @@ public class ActivityHelper {
     
 	public boolean onActionBarItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_search:
+		case R.id.ig_menu_search:
 			goSearch();
 			return true;
 		}
@@ -126,7 +126,7 @@ public class ActivityHelper {
 
         if (title != null) {
             // Add Home button
-        	// addActionButtonCompat(R.drawable.ic_title_home, R.string.menu_home,
+        	// addActionButtonCompat(R.drawable.ic_title_home, R.string.ig_menu_home,
         	//        homeClickListener, true);
 
             // Add title text
@@ -156,7 +156,7 @@ public class ActivityHelper {
      * @param clickable
      */
     public void setActionBarClickable(boolean clickable) {
-    	final View title = mActivity.findViewById(R.id.actionbar_compat_text);
+    	final View title = mActivity.findViewById(R.id.ig_actionbar_compat_text);
     	if (title == null) {
     		return;
     	}
@@ -171,7 +171,7 @@ public class ActivityHelper {
             return;
         }
 
-        final View colorstrip = mActivity.findViewById(R.id.colorstrip);
+        final View colorstrip = mActivity.findViewById(R.id.ig_colorstrip);
         if (colorstrip == null) {
             return;
         }
@@ -188,7 +188,7 @@ public class ActivityHelper {
             return;
         }
 
-        TextView titleText = (TextView) actionBar.findViewById(R.id.actionbar_compat_text);
+        TextView titleText = (TextView) actionBar.findViewById(R.id.ig_actionbar_compat_text);
         if (titleText != null) {
             titleText.setText(title);
         }
@@ -199,7 +199,7 @@ public class ActivityHelper {
      * Can return null, and will return null on Honeycomb.
      */
     public ViewGroup getActionBarCompat() {
-        return (ViewGroup) mActivity.findViewById(R.id.actionbar_compat);
+        return (ViewGroup) mActivity.findViewById(R.id.ig_actionbar_compat);
     }
 
     /**
@@ -220,7 +220,7 @@ public class ActivityHelper {
         // Create the button
         ImageButton actionButton = new ImageButton(mActivity, null, R.attr.actionbarCompatButtonStyle);
         actionButton.setLayoutParams(new ViewGroup.LayoutParams(
-                (int) mActivity.getResources().getDimension(R.dimen.actionbar_compat_height),
+                (int) mActivity.getResources().getDimension(R.dimen.ig_actionbar_compat_height),
                 ViewGroup.LayoutParams.FILL_PARENT));
         actionButton.setImageResource(iconResId);
         actionButton.setScaleType(ImageView.ScaleType.CENTER);
@@ -263,7 +263,7 @@ public class ActivityHelper {
         ImageButton actionButton = new ImageButton(mActivity, null, R.attr.actionbarCompatButtonStyle);
         actionButton.setId(item.getItemId());
         actionButton.setLayoutParams(new ViewGroup.LayoutParams(
-                (int) mActivity.getResources().getDimension(R.dimen.actionbar_compat_height),
+                (int) mActivity.getResources().getDimension(R.dimen.ig_actionbar_compat_height),
                 ViewGroup.LayoutParams.FILL_PARENT));
         actionButton.setImageDrawable(item.getIcon());
         actionButton.setScaleType(ImageView.ScaleType.CENTER);

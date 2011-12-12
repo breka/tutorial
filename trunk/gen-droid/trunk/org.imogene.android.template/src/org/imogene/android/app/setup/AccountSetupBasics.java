@@ -46,11 +46,11 @@ public class AccountSetupBasics extends BaseActivity implements OnClickListener,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.account_setup_basics);
-		mLoginView = (EditText) findViewById(R.id.account_login);
-		mPasswordView = (EditText) findViewById(R.id.account_password);
-		mServerView = (EditText) findViewById(R.id.account_server);
-		mNextButton = (Button) findViewById(R.id.next);
+		setContentView(R.layout.ig_account_setup_basics);
+		mLoginView = (EditText) findViewById(R.id.ig_account_login);
+		mPasswordView = (EditText) findViewById(R.id.ig_account_password);
+		mServerView = (EditText) findViewById(R.id.ig_account_server);
+		mNextButton = (Button) findViewById(R.id.ig_next);
 
 		mNextButton.setOnClickListener(this);
 
@@ -126,7 +126,7 @@ public class AccountSetupBasics extends BaseActivity implements OnClickListener,
 
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.next:
+		case R.id.ig_next:
 			onNext();
 			break;
 		}

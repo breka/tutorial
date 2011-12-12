@@ -20,11 +20,11 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
 	private final View mRightView;
 	
 	public LocalizedTextFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_view_localized);
+		super(context, attrs, R.layout.ig_field_view_localized);
 		setClickable(false);
-		mViewFlipper = (ViewFlipper) findViewById(R.id.flipper);
-		mLeftView = findViewById(R.id.left);
-		mRightView = findViewById(R.id.right);
+		mViewFlipper = (ViewFlipper) findViewById(R.id.ig_flipper);
+		mLeftView = findViewById(R.id.ig_left);
+		mRightView = findViewById(R.id.ig_right);
     	mLeftView.setOnClickListener(this);
     	mRightView.setOnClickListener(this);
 	}
@@ -56,9 +56,9 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
     		}
     		
     		for (int i = 0; i < size; i++) {
-    	    	View v = inflate(getContext(), R.layout.localized_text_viewer, null);
-    	    	((TextView) v.findViewById(R.id.locale)).setText(display.get(i));
-    	    	((TextView) v.findViewById(R.id.localized)).setText(list.getLocalized(locales.get(i)));
+    	    	View v = inflate(getContext(), R.layout.ig_localized_text_viewer, null);
+    	    	((TextView) v.findViewById(R.id.ig_locale)).setText(display.get(i));
+    	    	((TextView) v.findViewById(R.id.ig_localized)).setText(list.getLocalized(locales.get(i)));
     	    	v.setLayoutParams(new Gallery.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
     	    	mViewFlipper.addView(v);
     		}
@@ -92,10 +92,10 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
 	@Override
 	protected void dispatchClick(View v) {
 		switch (v.getId()) {
-		case R.id.left:
+		case R.id.ig_left:
 			mViewFlipper.showNext();
 			break;
-		case R.id.right:
+		case R.id.ig_right:
 			mViewFlipper.showPrevious();
 			break;
 		}

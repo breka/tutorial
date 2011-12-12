@@ -11,7 +11,7 @@ public class FloatFilterPreference extends NumberFilterPreference<Float, FloatFi
 
 	public FloatFilterPreference(Context context, AttributeSet attrs) {
 		super(context, attrs, FloatFilter.FILTER_CREATOR);
-		setDialogLayoutResource(R.layout.dialog_float_filter);
+		setDialogLayoutResource(R.layout.ig_dialog_float_filter);
 	}
 
 	@Override

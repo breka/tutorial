@@ -37,9 +37,9 @@
 <org.imogene.android.widget.field.view.«EXPAND class FOR this-»
 	style="@style/BaseField"
 	android:id="@+id/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
-	app:dependent="«fieldDependentVisibility.size > 0»"
-	app:hidden="«hidden»"
-	app:title="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	app:igDependent="«fieldDependentVisibility.size > 0»"
+	app:igHidden="«hidden»"
+	app:igTitle="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 	«EXPAND specificAttributes FOR this-»
 />
 «ENDDEFINE»
@@ -90,32 +90,32 @@
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR TextField-»
-app:stringType="string"
+app:igStringType="string"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR AddressField-»
-app:stringType="address"
+app:igStringType="address"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR PhoneField-»
-app:stringType="address"
+app:igStringType="address"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR TextAreaField-»
-app:stringType="address"
+app:igStringType="address"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR NumericField-»
-app:format="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format"
+app:igFormat="@string/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_format"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR EnumField-»
-app:array="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
-app:entries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+app:igArray="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
+app:igEntries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR RelationFieldEntity-»
 «IF cardinality != 1»
-app:display="@plurals/«entity.name.toLowerCase()-»_display"
+app:igDisplay="@plurals/«entity.name.toLowerCase()-»_display"
 «ENDIF»
 «ENDDEFINE»

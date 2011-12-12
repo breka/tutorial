@@ -185,14 +185,14 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 	@Override
 	public boolean onCreateActionBarMenu(Menu menu) {
 		boolean result = super.onCreateActionBarMenu(menu);
-		getMenuInflater().inflate(R.menu.actionbar_save_item, menu);
+		getMenuInflater().inflate(R.menu.ig_actionbar_save_item, menu);
 		return result;
 	}
 	
 	@Override
 	public boolean onActionBarItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_save :
+		case R.id.ig_menu_save :
 			save(false);
 			return true;
 		default:
@@ -203,14 +203,14 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.menu_iamlost_item, menu);
+		getMenuInflater().inflate(R.menu.ig_menu_iamlost_item, menu);
 		return result;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_iamlost :
+			case R.id.ig_menu_iamlost :
 				showDialog(DIALOG_IAMLOST_ID);
 				return true;
 			default :
@@ -225,9 +225,9 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 				return new AlertDialog.Builder(this)
 				.setTitle(android.R.string.dialog_alert_title)
 				.setIcon(android.R.drawable.ic_dialog_alert)
-				.setMessage(R.string.unsaved_dialog_msg)
+				.setMessage(R.string.ig_unsaved_dialog_msg)
 				.setPositiveButton(android.R.string.yes, this)
-				.setNegativeButton(R.string.no, this)
+				.setNegativeButton(R.string.ig_no, this)
 				.setNeutralButton(android.R.string.cancel, null)
 				.setCancelable(false)
 				.create();
