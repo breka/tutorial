@@ -16,18 +16,18 @@ public class BinaryFieldEdit extends BaseFieldEdit<Uri> implements OnActivityRes
 	private int mRequestCode;
 	
 	public BinaryFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_edit_buttons);
-		findViewById(R.id.acquire).setOnClickListener(this);
-		findViewById(R.id.delete).setOnClickListener(this);
-		findViewById(R.id.view).setOnClickListener(this);
+		super(context, attrs, R.layout.ig_field_edit_buttons);
+		findViewById(R.id.ig_acquire).setOnClickListener(this);
+		findViewById(R.id.ig_delete).setOnClickListener(this);
+		findViewById(R.id.ig_view).setOnClickListener(this);
 	}
 	
 	@Override
 	public void setReadOnly(boolean readOnly) {
 		super.setReadOnly(readOnly);
-		findViewById(R.id.acquire).setVisibility(readOnly ? View.GONE : View.VISIBLE);
-		findViewById(R.id.delete).setVisibility(readOnly ? View.GONE : View.VISIBLE);
-		findViewById(R.id.view).setVisibility(readOnly ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_acquire).setVisibility(readOnly ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_delete).setVisibility(readOnly ? View.GONE : View.VISIBLE);
+		findViewById(R.id.ig_view).setVisibility(readOnly ? View.GONE : View.VISIBLE);
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class BinaryFieldEdit extends BaseFieldEdit<Uri> implements OnActivityRes
 	}
 	
 	protected int displayId() {
-		return R.string.bin_binary;
+		return R.string.ig_bin_binary;
 	}
 	
 	@Override
@@ -51,26 +51,26 @@ public class BinaryFieldEdit extends BaseFieldEdit<Uri> implements OnActivityRes
 		super.onChangeValue();
 		final Uri uri = getValue();
 		if (uri == null) {
-			findViewById(R.id.acquire).setVisibility(View.VISIBLE);
-			findViewById(R.id.delete).setVisibility(View.GONE);
-			findViewById(R.id.view).setVisibility(View.GONE);
+			findViewById(R.id.ig_acquire).setVisibility(View.VISIBLE);
+			findViewById(R.id.ig_delete).setVisibility(View.GONE);
+			findViewById(R.id.ig_view).setVisibility(View.GONE);
 		} else {
-			findViewById(R.id.acquire).setVisibility(View.GONE);
-			findViewById(R.id.delete).setVisibility(View.VISIBLE);
-			findViewById(R.id.view).setVisibility(View.VISIBLE);
+			findViewById(R.id.ig_acquire).setVisibility(View.GONE);
+			findViewById(R.id.ig_delete).setVisibility(View.VISIBLE);
+			findViewById(R.id.ig_view).setVisibility(View.VISIBLE);
 		}
 	}
 	
 	@Override
 	protected void dispatchClick(View v) {
 		switch (v.getId()) {
-		case R.id.acquire:
+		case R.id.ig_acquire:
 			acquire(mRequestCode);
 			break;
-		case R.id.delete:
+		case R.id.ig_delete:
 			delete();
 			break;
-		case R.id.view:
+		case R.id.ig_view:
 			view();
 			break;
 		}

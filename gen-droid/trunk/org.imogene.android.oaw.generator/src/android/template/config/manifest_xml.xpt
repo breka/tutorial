@@ -7,7 +7,7 @@
 	package="org.imogene.android.«name.toLowerCase()»" android:versionCode="«versionCode-»">
 	<application
 		android:name="org.imogene.android.«name.toLowerCase()».app.«name.toFirstUpper()»App"
-		android:icon="@drawable/logo_android_s"
+		android:icon="@drawable/ig_logo_android_s"
 		android:label="@string/app_name"
 	 	android:debuggable="true"
 	 	android:theme="@style/Theme.Imogene" >
@@ -23,30 +23,30 @@
 			
 		<activity
 			android:name="org.imogene.android.app.HighPreferences"
-			android:label="@string/high_preferences" />
+			android:label="@string/ig_high_preferences" />
 		
 		<service android:name="org.imogene.android.service.MetadataService" />
 		
 		<activity 
 			android:name="org.imogene.android.app.setup.AccountCheckPassword"
-			android:label="@string/account_check_password_title"/>
+			android:label="@string/ig_account_check_password_title"/>
 		
 		<activity 
 			android:name="org.imogene.android.app.setup.AccountCreationIntroduction"
-			android:label="@string/account_creation_introduction_title"/>
+			android:label="@string/ig_account_creation_introduction_title"/>
 		
 		<activity 
 			android:name="org.imogene.android.app.setup.AccountSetupBasics"
-			android:label="@string/account_setup_basics_title" />
+			android:label="@string/ig_account_setup_basics_title" />
 			
 		<activity
 			android:name="org.imogene.android.app.setup.AccountSetupShortPassword"
-			android:label="@string/account_setup_shortpw_title" />
+			android:label="@string/ig_account_setup_shortpw_title" />
 		
 		<activity
 			android:name="org.imogene.android.app.ImageCapture"
-			android:label="@string/camera"
-			android:icon="@drawable/ic_launcher_camera" 
+			android:label="@string/ig_camera"
+			android:icon="@drawable/ig_ic_launcher_camera" 
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			android:configChanges="orientation" >
 			<intent-filter>
@@ -59,8 +59,8 @@
 		
 		<activity
 			android:name="org.imogene.android.app.VideoCapture"
-			android:label="@string/camcorder"
-			android:icon="@drawable/ic_launcher_video_camera" 
+			android:label="@string/ig_camcorder"
+			android:icon="@drawable/ig_ic_launcher_video_camera" 
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			android:configChanges="orientation" >
 			<intent-filter>
@@ -73,8 +73,8 @@
 
 		<activity 
 			android:name=".app.«name.toFirstUpper()»Listing"
-			android:label="@string/list_availables_entities"
-			android:icon="@drawable/logo_android_s" />
+			android:label="@string/ig_list_availables_entities"
+			android:icon="@drawable/ig_logo_android_s" />
 		
 		<activity 
 		«IF hasFilter(this)-»
@@ -82,7 +82,7 @@
 		«ELSE-»
 			android:name="org.imogene.android.app.Preferences"
 		«ENDIF-»
-			android:label="@string/preferences" />
+			android:label="@string/ig_preferences" />
 		
 		«FOREACH entities AS entity»
 		<activity

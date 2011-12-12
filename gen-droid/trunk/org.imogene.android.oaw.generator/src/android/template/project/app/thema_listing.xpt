@@ -130,21 +130,21 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.menu_thema_listing, menu);
+		getMenuInflater().inflate(R.menu.ig_menu_thema_listing, menu);
 	    «IF hasQRCode(this)-»
-		menu.findItem(R.id.menu_search).setVisible(true);
+		menu.findItem(R.id.ig_menu_search).setVisible(true);
 		«ENDIF-»
 		«IF multilogin-»
-		menu.findItem(R.id.menu_change_user).setVisible(true).setIntent(new Intent(this, MultiUserListing.class));
+		menu.findItem(R.id.ig_menu_change_user).setVisible(true).setIntent(new Intent(this, MultiUserListing.class));
 		«ENDIF-»
-		menu.findItem(R.id.menu_preferences).setIntent(new Intent(this, «IF hasFilter(this)»ExtendedPreferences«ELSE»Preferences«ENDIF».class));
+		menu.findItem(R.id.ig_menu_preferences).setIntent(new Intent(this, «IF hasFilter(this)»ExtendedPreferences«ELSE»Preferences«ENDIF».class));
 		return result;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_search :
+		case R.id.ig_menu_search :
 			startActivityForResult(new Intent(Intents.ACTION_SCAN), ACTIVITY_BARCODE_ID);
 			return true;
 		default :
@@ -155,14 +155,14 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 	@Override
 	public boolean onCreateActionBarMenu(Menu menu) {
 		boolean result = super.onCreateActionBarMenu(menu);
-		getMenuInflater().inflate(R.menu.actionbar_sync_item, menu);
+		getMenuInflater().inflate(R.menu.ig_actionbar_sync_item, menu);
 		return result;
 	}
 
 	@Override
 	public boolean onActionBarItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_sync:
+		case R.id.ig_menu_sync:
 			AbstractSyncService.startServiceManually(this);
 			return true;
 		default:
@@ -183,9 +183,9 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 	}
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (getString(R.string.sync_server_url_key).equals(key))
+		if (getString(R.string.ig_sync_server_url_key).equals(key))
 			finish();
-		else if (getString(R.string.current_roles_key).equals(key))
+		else if (getString(R.string.ig_current_roles_key).equals(key))
 			restart();
 	}
 	
@@ -194,8 +194,8 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 		switch (id) {
 		case DIALOG_SEARCH_SERVER_ID:
 			return new AlertDialog.Builder(this)
-			.setTitle(R.string.scanned_notfound)
-			.setMessage(getString(R.string.scanned_notfoundinapp, mScanned))
+			.setTitle(R.string.ig_scanned_notfound)
+			.setMessage(getString(R.string.ig_scanned_notfoundinapp, mScanned))
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -210,7 +210,7 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 		case DIALOG_EXIT_ID:
 			return new AlertDialog.Builder(this)
 			.setTitle(android.R.string.dialog_alert_title)
-			.setMessage(R.string.dialog_quit)
+			.setMessage(R.string.ig_dialog_quit)
 			.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -228,7 +228,7 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK && requestCode == ACTIVITY_BARCODE_ID) {
 			mScanned = data.getStringExtra("SCAN_RESULT");
-			Toast.makeText(this, getString(R.string.scanned, mScanned), Toast.LENGTH_LONG).show();
+			Toast.makeText(this, getString(R.string.ig_scanned, mScanned), Toast.LENGTH_LONG).show();
 			Uri uri = SQLiteWrapper.findInDatabase(this, mScanned);
 			if (uri != null) {
 				startActivity(new Intent(Intent.ACTION_VIEW, uri));

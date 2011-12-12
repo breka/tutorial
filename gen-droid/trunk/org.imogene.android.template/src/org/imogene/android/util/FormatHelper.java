@@ -56,11 +56,11 @@ public class FormatHelper {
     }
     
     public static final String displayLocation(Context context, Location location) {
-    	return context.getString(R.string.location_format, location.getLatitude(), location.getLongitude());
+    	return context.getString(R.string.ig_location_format, location.getLatitude(), location.getLongitude());
     }
     
     public static final String displayBoundingBox(Context context, BoundingBox box) {
-    	return context.getString(R.string.bbox_format, box.getWest(), box.getNorth(), box.getEast(), box.getSouth());
+    	return context.getString(R.string.ig_bbox_format, box.getWest(), box.getNorth(), box.getEast(), box.getSouth());
     }
     
     public static final String displayEnumSingle(CharSequence[] items, int[] itemsValues, int value) {

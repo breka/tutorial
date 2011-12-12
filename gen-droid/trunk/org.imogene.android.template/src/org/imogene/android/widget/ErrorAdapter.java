@@ -41,7 +41,7 @@ public class ErrorAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		return createViewFromResource(position, convertView, parent,
-				R.layout.dialog_list_item);
+				R.layout.ig_dialog_list_item);
 	}
 
 	private View createViewFromResource(int position, View convertView,
@@ -61,9 +61,9 @@ public class ErrorAdapter extends BaseAdapter {
 	private void bindView(int position, View view) {
 		final ErrorEntry entry = mData.get(position);
 		final TextView titleView = (TextView) view
-				.findViewById(R.id.dialog_item_title);
+				.findViewById(R.id.ig_dialog_item_title);
 		final TextView messageView = (TextView) view
-				.findViewById(R.id.dialog_item_message);
+				.findViewById(R.id.ig_dialog_item_message);
 
 		titleView.setText(entry.title);
 

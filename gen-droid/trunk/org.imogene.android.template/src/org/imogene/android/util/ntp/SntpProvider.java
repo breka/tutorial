@@ -47,7 +47,7 @@ public class SntpProvider {
     }
     
     public static final void updateTimeOffset(Context context, long offset) {
-    	String ntpOffsetKey = context.getString(R.string.ntp_offset_key);
+    	String ntpOffsetKey = context.getString(R.string.ig_ntp_offset_key);
     	PreferenceHelper.getSharedPreferences(context).edit().putLong(ntpOffsetKey, offset).commit();
     }
 }

@@ -104,7 +104,7 @@ public class MessagingNotification {
 			}
 
 			String title = context.getString(titleId);
-			String description = context.getResources().getQuantityString(R.plurals.numberOfEntities, count, count);
+			String description = context.getResources().getQuantityString(R.plurals.ig_numberOfEntities, count, count);
 			CharSequence ticker = buildTickerMessage(title, description);
 
 			NotificationInfo info = new NotificationInfo(

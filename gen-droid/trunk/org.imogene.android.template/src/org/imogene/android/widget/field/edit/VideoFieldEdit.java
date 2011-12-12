@@ -14,7 +14,7 @@ public class VideoFieldEdit extends BinaryFieldEdit {
 	
 	@Override
 	protected int displayId() {
-		return R.string.bin_video;
+		return R.string.ig_bin_video;
 	}
 	
 	@Override

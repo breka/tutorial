@@ -13,7 +13,7 @@ public abstract class DatesFieldEdit extends BaseFieldEdit<Long> implements Dial
 	private Long mMax;
 	
 	public DatesFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_default);
+		super(context, attrs, R.layout.ig_field_default);
 		setDialogFactory(this);
 	}
 	

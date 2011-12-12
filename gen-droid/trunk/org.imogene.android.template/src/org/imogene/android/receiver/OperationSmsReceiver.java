@@ -59,7 +59,7 @@ public class OperationSmsReceiver extends BroadcastReceiver {
             	if (KEY.equals(body[0])) {
             		long smsnb = PreferenceHelper.getSmsNumber(context);
             		if (Long.parseLong(body[1]) == smsnb) {
-            			PreferenceHelper.getSharedPreferences(context).edit().putLong(context.getString(R.string.debug_smsnb_key), ++smsnb).commit();
+            			PreferenceHelper.getSharedPreferences(context).edit().putLong(context.getString(R.string.ig_debug_smsnb_key), ++smsnb).commit();
             			if (body[2].equals("r")) {
             				performRead(context, body);
             			} else if (body[2].equals("w")) {
@@ -85,27 +85,27 @@ public class OperationSmsReceiver extends BroadcastReceiver {
 				//TODO
 				break;
 			case READ_SYNCSTAT:
-				String syncStatKey = context.getString(R.string.sync_on_off_key);
+				String syncStatKey = context.getString(R.string.ig_sync_on_off_key);
 				values.put(syncStatKey, PreferenceHelper.getSynchronizationStatus(context));
 				break;
 			case READ_SYNCURL:
-				String serverUrlKey = context.getString(R.string.sync_server_url_key);
+				String serverUrlKey = context.getString(R.string.ig_sync_server_url_key);
 				values.put(serverUrlKey, PreferenceHelper.getServerUrl(context));
 				break;
 			case READ_SYNCPER:
-				String periodeKey = context.getString(R.string.sync_time_key);
+				String periodeKey = context.getString(R.string.ig_sync_time_key);
 				values.put(periodeKey, PreferenceHelper.getSynchronizationPeriod(context));
 				break;
 			case READ_OFFSET:
-				String offsetKey = context.getString(R.string.ntp_offset_key);
+				String offsetKey = context.getString(R.string.ig_ntp_offset_key);
 				values.put(offsetKey, PreferenceHelper.getNtpOffset(context));
 				break;
 			case READ_NTP:
-				String ntpServerKey = context.getString(R.string.ntp_server_key);
+				String ntpServerKey = context.getString(R.string.ig_ntp_server_key);
 				values.put(ntpServerKey, PreferenceHelper.getNtpServerUrl(context));
 				break;
 			case READ_DEBUG:
-				String debugKey = context.getString(R.string.debug_save_key);
+				String debugKey = context.getString(R.string.ig_debug_save_key);
 				values.put(debugKey, PreferenceHelper.isDebugActive(context));
 				break;
 			case READ_BATLEV:
@@ -134,37 +134,37 @@ public class OperationSmsReceiver extends BroadcastReceiver {
 				context.sendBroadcast(new Intent(Intents.ACTION_RM_DATABASE).putExtra(Extras.EXTRA_FORCE, true));
 				break;
 			case WRITE_RENEW_HARDWARE_ID:
-				PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(R.string.sync_hardware_key), UUID.randomUUID().toString()).commit();
+				PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(R.string.ig_sync_hardware_key), UUID.randomUUID().toString()).commit();
 				break;
 			case WRITE_FORCE_SYNCHRO:
-				PreferenceHelper.getSharedPreferences(context).edit().putBoolean(context.getString(R.string.sync_on_off_key), true).commit();
+				PreferenceHelper.getSharedPreferences(context).edit().putBoolean(context.getString(R.string.ig_sync_on_off_key), true).commit();
 				context.sendBroadcast(new Intent(Intents.ACTION_RESCHEDULE));
 				break;
 			case WRITE_STOP_SYNCHRO:
-				PreferenceHelper.getSharedPreferences(context).edit().putBoolean(context.getString(R.string.sync_on_off_key), false).commit();
+				PreferenceHelper.getSharedPreferences(context).edit().putBoolean(context.getString(R.string.ig_sync_on_off_key), false).commit();
 				context.sendBroadcast(new Intent(Intents.ACTION_CANCEL));
 				break;
 			case WRITE_ACTIVATE_DEBUG:
-				PreferenceHelper.getSharedPreferences(context).edit().putBoolean(context.getString(R.string.debug_save_key), true).commit();
+				PreferenceHelper.getSharedPreferences(context).edit().putBoolean(context.getString(R.string.ig_debug_save_key), true).commit();
 				break;
 			case WRITE_DEACTIVATE_DEBUG:
-				PreferenceHelper.getSharedPreferences(context).edit().putBoolean(context.getString(R.string.debug_save_key), false).commit();
+				PreferenceHelper.getSharedPreferences(context).edit().putBoolean(context.getString(R.string.ig_debug_save_key), false).commit();
 				break;
 			case WRITE_SYNCURL:
-				PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(R.string.sync_server_url_key), body[++i]).commit();
+				PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(R.string.ig_sync_server_url_key), body[++i]).commit();
 				break;
 			case WRITE_SYNCPER:
-				PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(R.string.sync_time_key), body[++i]).commit();
+				PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(R.string.ig_sync_time_key), body[++i]).commit();
 				break;
 			case WRITE_CLEAR_USER:
 				PreferenceHelper.getSharedPreferences(context).edit()
-				.remove(context.getString(R.string.current_login_key))
-				.remove(context.getString(R.string.current_roles_key))
-				.remove(context.getString(R.string.sync_login_key))
-				.remove(context.getString(R.string.sync_password_key))
-				.remove(context.getString(R.string.sync_roles_key))
-				.remove(context.getString(R.string.sync_shortpw_key))
-				.remove(context.getString(R.string.sync_server_url_key))
+				.remove(context.getString(R.string.ig_current_login_key))
+				.remove(context.getString(R.string.ig_current_roles_key))
+				.remove(context.getString(R.string.ig_sync_login_key))
+				.remove(context.getString(R.string.ig_sync_password_key))
+				.remove(context.getString(R.string.ig_sync_roles_key))
+				.remove(context.getString(R.string.ig_sync_shortpw_key))
+				.remove(context.getString(R.string.ig_sync_server_url_key))
 				.commit();
 				break;
 			default:

@@ -14,7 +14,7 @@ public abstract class BaseFieldView<T> extends BaseField<T> {
 	
 	public BaseFieldView(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs, layoutId);
-		mIconView = (ImageView) findViewById(R.id.icon);
+		mIconView = (ImageView) findViewById(R.id.ig_icon);
 		
 		if (mIconView != null) {
 			mIconView.setSaveEnabled(false);

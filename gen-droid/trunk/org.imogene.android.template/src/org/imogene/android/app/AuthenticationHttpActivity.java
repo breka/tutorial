@@ -67,7 +67,7 @@ public class AuthenticationHttpActivity extends Activity implements OnClickListe
 		switch (id) {
 		case DIALOG_AUTHING_ID:
 			ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setMessage(getString(R.string.obtaining_roles));
+			dialog.setMessage(getString(R.string.ig_obtaining_roles));
 			dialog.setIndeterminate(true);
 			dialog.setCancelable(false);
 			return dialog;
@@ -75,7 +75,7 @@ public class AuthenticationHttpActivity extends Activity implements OnClickListe
 			return new AlertDialog.Builder(this)
 			.setTitle(android.R.string.dialog_alert_title)
 			.setIcon(android.R.drawable.ic_dialog_alert)
-			.setMessage(R.string.obtaining_roles_failed)
+			.setMessage(R.string.ig_obtaining_roles_failed)
 			.setCancelable(false)
 			.setPositiveButton(android.R.string.ok, this)
 			.setNegativeButton(android.R.string.no, this)
@@ -125,12 +125,12 @@ public class AuthenticationHttpActivity extends Activity implements OnClickListe
 		String encLogin = new String(Base64.encodeBase64(em.encrypt(mLogin.getBytes())));
 		String encPassword = new String(Base64.encodeBase64(em.encrypt(mPassword.getBytes())));
 		PreferenceHelper.getSharedPreferences(this).edit()
-		.remove(getString(R.string.current_login_key))
-		.remove(getString(R.string.current_roles_key))
-		.putString(getString(R.string.sync_login_key), encLogin)
-		.putString(getString(R.string.sync_password_key), encPassword)
-		.putString(getString(R.string.sync_roles_key), roles)
-		.putString(getString(R.string.sync_server_url_key), mServer)
+		.remove(getString(R.string.ig_current_login_key))
+		.remove(getString(R.string.ig_current_roles_key))
+		.putString(getString(R.string.ig_sync_login_key), encLogin)
+		.putString(getString(R.string.ig_sync_password_key), encPassword)
+		.putString(getString(R.string.ig_sync_roles_key), roles)
+		.putString(getString(R.string.ig_sync_server_url_key), mServer)
 		.commit();
 		removeDialog(DIALOG_AUTHING_ID);
 		setResult(RESULT_OK);

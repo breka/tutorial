@@ -47,30 +47,30 @@ public abstract class BaseField<T> extends LinearLayout implements DependencyMat
 		super(context, attrs);
 		inflate(context, layoutId, this);
 		
-		mValueView = (TextView) findViewById(R.id.value);
+		mValueView = (TextView) findViewById(R.id.ig_value);
 		if (mValueView == null) {
 			throw new NullPointerException();
 		}
 		mValueView.setSaveEnabled(false);
 		
-		mTitleView = (TextView) findViewById(R.id.title);
+		mTitleView = (TextView) findViewById(R.id.ig_title);
 		if (mTitleView == null) {
 			throw new NullPointerException();
 		}
 		mTitleView.setSaveEnabled(false);
 		
-		mDependentView = findViewById(R.id.arrow);
+		mDependentView = findViewById(R.id.ig_arrow);
 		if (mDependentView != null) {
 			mDependentView.setSaveEnabled(false);
 		}
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseField, 0, 0);
-		setEmptyTextId(a.getResourceId(R.styleable.BaseField_emptyText, R.string.select));
-		setTitleId(a.getResourceId(R.styleable.BaseField_title, android.R.string.unknownName));
-		setDependent(a.getBoolean(R.styleable.BaseField_dependent, false));
-		setHidden(a.getBoolean(R.styleable.BaseField_hidden, false));
+		setEmptyTextId(a.getResourceId(R.styleable.BaseField_igEmptyText, R.string.ig_select));
+		setTitleId(a.getResourceId(R.styleable.BaseField_igTitle, android.R.string.unknownName));
+		setDependent(a.getBoolean(R.styleable.BaseField_igDependent, false));
+		setHidden(a.getBoolean(R.styleable.BaseField_igHidden, false));
 		a.recycle();
 		
-		inflate(context, R.layout.divider_layout, this);
+		inflate(context, R.layout.ig_divider_layout, this);
 	}
 	
 	@Override

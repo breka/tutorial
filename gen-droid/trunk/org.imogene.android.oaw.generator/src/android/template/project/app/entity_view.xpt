@@ -192,19 +192,19 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 	public boolean onCreateActionBarMenu(Menu menu) {
 		boolean result = super.onCreateActionBarMenu(menu);
 		if (mCanModify) {
-			getMenuInflater().inflate(R.menu.actionbar_edit_item, menu);
+			getMenuInflater().inflate(R.menu.ig_actionbar_edit_item, menu);
 		}
-		getMenuInflater().inflate(R.menu.actionbar_sync_item, menu);
+		getMenuInflater().inflate(R.menu.ig_actionbar_sync_item, menu);
 		return result;
 	}
 	
 	@Override
 	public boolean onActionBarItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_edit :
+		case R.id.ig_menu_edit :
 			startActivity(new Intent(Intent.ACTION_EDIT, getIntent().getData()));
 			return true;
-		case R.id.menu_sync :
+		case R.id.ig_menu_sync :
 			AbstractSyncService.startServiceManually(this);
 			return true;
 		default:
@@ -215,11 +215,11 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.menu_info_item, menu);
+		getMenuInflater().inflate(R.menu.ig_menu_info_item, menu);
 		if (mCanDelete) {
-			getMenuInflater().inflate(R.menu.menu_delete_item, menu);
+			getMenuInflater().inflate(R.menu.ig_menu_delete_item, menu);
 		}
-		getMenuInflater().inflate(R.menu.menu_iamlost_item, menu);
+		getMenuInflater().inflate(R.menu.ig_menu_iamlost_item, menu);
 		boolean hasMoreMenu = false;
 		«IF getMoreFields(groups.fields).size > 0-»
 		«FOREACH getMoreFields(groups.fields) AS f-»
@@ -230,7 +230,7 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 		«ENDIF-»
 		«ENDFOREACH-»
 		if (hasMoreMenu) {
-			getMenuInflater().inflate(R.menu.«name.toLowerCase()»_more_menu, menu.addSubMenu(R.string.menu_actions).setIcon(android.R.drawable.ic_menu_more));
+			getMenuInflater().inflate(R.menu.«name.toLowerCase()»_more_menu, menu.addSubMenu(R.string.ig_menu_actions).setIcon(android.R.drawable.ic_menu_more));
 			«FOREACH getMoreFields(groups.fields) AS f-»
 			menu.findItem(R.id.menu_action_new_«f.name.toLowerCase()»).setVisible(«f.entity.name.toFirstUpper()»Roles.canWrite(this));
 			«ENDFOREACH-»
@@ -242,13 +242,13 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_delete:
+		case R.id.ig_menu_delete:
 			showDialog(DIALOG_DELETE_ID);
 			return true;
-		case R.id.menu_info:
+		case R.id.ig_menu_info:
 			showDialog(DIALOG_INFO_ID);
 			return true;
-		case R.id.menu_iamlost:
+		case R.id.ig_menu_iamlost:
 			showDialog(DIALOG_IAMLOST_ID);
 			return true;
 		«IF getMoreFields(groups.fields).size > 0-»
@@ -293,16 +293,16 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 		switch (id) {
 		case DIALOG_DELETE_ID:
 			return new AlertDialog.Builder(this)
-			.setTitle(R.string.delete_confirmation_title)
+			.setTitle(R.string.ig_delete_confirmation_title)
 			.setIcon(android.R.drawable.ic_dialog_alert)
-			.setMessage(R.string.delete_confirmation)
+			.setMessage(R.string.ig_delete_confirmation)
 			.setNegativeButton(android.R.string.cancel, null)
 			.setPositiveButton(android.R.string.ok, this)
 			.setCancelable(false)
 			.create();
 		case DIALOG_INFO_ID:
 			return new AlertDialog.Builder(this)
-			.setTitle(R.string.menu_info)
+			.setTitle(R.string.ig_menu_info)
 			.setIcon(android.R.drawable.ic_dialog_info)
 			.setAdapter(new InfoAdapter(this, mEntity),	null)
 			.setPositiveButton(android.R.string.ok, null)

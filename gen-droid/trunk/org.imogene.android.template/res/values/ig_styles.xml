@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Dialog.Alert" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.Light.Hack" parent="@android:style/Theme.Light">
+        <item name="android:textColorPrimaryInverse">@android:color/primary_text_light</item>
+    </style>
+
+    <!-- Variation on the Light theme that turns off the title -->
+    <style name="Theme.Imogene" parent="android:style/Theme.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+        <!-- for programmatic instantiation -->
+        <item name="actionbarCompatButtonStyle">@style/ActionBarCompatButton</item>
+        <item name="actionbarCompatProgressIndicatorStyle">@style/ActionBarCompatProgressIndicator</item>
+        <item name="actionbarCompatSeparatorStyle">@style/ActionBarCompatSeparator</item>
+        <item name="actionbarCompatLogoStyle">@style/ActionBarCompatLogo</item>
+        <item name="actionbarCompatTextStyle">@style/ActionBarCompatText</item>
+        <item name="fieldLayoutHeight">wrap_content</item>
+    </style>
+
+    <style name="Theme.Imogene.Wizard" parent="style/Theme.Imogene">
+        <item name="fieldLayoutHeight">fill_parent</item>
+    </style>
+
+    <!-- Start with the Holographic Light theme -->
+    <style name="Theme.Imogene.Home" parent="style/Theme.Imogene">
+        <item name="android:windowBackground">@drawable/ig_background_noise</item>
+    </style>
+
+    <style name="ActionBarCompat">
+        <item name="android:id">@id/ig_actionbar_compat</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/ig_actionbar_compat_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/ig_actionbar_compat_background</item>
+    </style>
+
+    <style name="ActionBarCompatButton">
+        <item name="android:layout_width">@dimen/ig_actionbar_compat_height</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:background">@drawable/ig_actionbar_compat_button</item>
+    </style>
+
+    <style name="ActionBarCompatProgressIndicator" parent="android:style/Widget.ProgressBar.Small">
+        <item name="android:indeterminate">true</item>
+    </style>
+
+    <style name="ActionBarCompatSeparator">
+        <item name="android:layout_width">2px</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@drawable/ig_actionbar_compat_separator</item>
+    </style>
+
+    <style name="ActionBarCompatLogo">
+        <item name="android:id">@id/ig_actionbar_compat_logo</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:clickable">false</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:contentDescription">@string/ig_menu_logo</item>
+        <item name="android:src">@drawable/ig_actionbar_compat_logo</item>
+    </style>
+
+    <style name="ActionBarCompatText">
+        <item name="android:id">@id/ig_actionbar_compat_text</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ig_text_size_medium</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/ig_actionbar_text</item>
+        <item name="android:shadowColor">#fff</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">0.00001</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="DashboardButton">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:textSize">@dimen/ig_text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/ig_accent_1</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="BaseField">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">?attr/fieldLayoutHeight</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="FieldDefault">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">?attr/fieldLayoutHeight</item>
+        <item name="android:background">@android:drawable/list_selector_background</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingRight">?android:attr/scrollbarSize</item>
+    </style>
+
+    <style name="FieldTitleText">
+        <item name="android:id">@id/ig_title</item>
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="android:textSize">@dimen/ig_text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/ig_actionbar_text</item>
+    </style>
+
+    <style name="FieldValueText">
+        <item name="android:id">@id/ig_value</item>
+        <item name="android:saveEnabled">false</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:duplicateParentState">true</item>
+    </style>
+
+    <style name="FieldValueEditText">
+        <item name="android:id">@id/ig_value</item>
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:saveEnabled">false</item>
+        <item name="android:imeOptions">actionDone</item>
+    </style>
+
+    <style name="FieldUnitText">
+        <item name="android:id">@id/ig_unit</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="android:textSize">@dimen/ig_text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="FieldArrowView">
+        <item name="android:id">@id/ig_arrow</item>
+        <item name="android:src">@drawable/ig_arrow_icon</item>
+        <item name="android:layout_width">20dip</item>
+        <item name="android:layout_height">20dip</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="FieldHelpView">
+        <item name="android:id">@id/ig_help</item>
+        <item name="android:src">@drawable/ig_help</item>
+        <item name="android:layout_width">40dip</item>
+        <item name="android:layout_height">40dip</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="FieldIconView">
+        <item name="android:id">@id/ig_icon</item>
+        <item name="android:layout_width">32dip</item>
+        <item name="android:layout_height">32dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="FieldRequiredText">
+        <item name="android:id">@id/ig_required</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="android:textSize">@dimen/ig_text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/ig_required_text</item>
+        <item name="android:text">@string/ig_required</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="FieldDividerView">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+</resources>

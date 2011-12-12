@@ -26,10 +26,10 @@ public class EnumFilterPreference extends FilterPreference<EnumFilter> implement
 	public EnumFilterPreference(Context context, AttributeSet attrs) {
 		super(context, attrs, EnumFilter.FILTER_CREATOR);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumFilterPreference, 0, 0);
-		mIsMulti = a.getBoolean(R.styleable.EnumFilterPreference_multiple, false);
-		mEntries = a.getResourceId(R.styleable.EnumFilterPreference_entries, 0);		
-		mSize = a.getInteger(R.styleable.EnumFilterPreference_size, 0);
-		mArray = a.getResourceId(R.styleable.EnumFilterPreference_array, 0);
+		mIsMulti = a.getBoolean(R.styleable.EnumFilterPreference_igFilterMultiple, false);
+		mEntries = a.getResourceId(R.styleable.EnumFilterPreference_igFilterEntries, 0);		
+		mSize = a.getInteger(R.styleable.EnumFilterPreference_igFilterSize, 0);
+		mArray = a.getResourceId(R.styleable.EnumFilterPreference_igFilterArray, 0);
 		a.recycle();
 		
 		if (mSize == 0 || mEntries == 0 || mArray == 0)

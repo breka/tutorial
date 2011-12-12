@@ -12,7 +12,7 @@ import android.view.View;
 public class PhoneFieldView extends BaseFieldView<String> {
 
 	public PhoneFieldView(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_default);
+		super(context, attrs, R.layout.ig_field_default);
 		setOnClickListener(this);
 		setIconId(android.R.drawable.sym_action_call);
 	}

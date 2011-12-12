@@ -13,7 +13,7 @@ public class SoundFieldView extends BinaryFieldView {
 	
 	@Override
 	public int getDisplayId() {
-		return R.string.bin_audio;
+		return R.string.ig_bin_audio;
 	}
 
 }

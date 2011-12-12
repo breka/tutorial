@@ -14,7 +14,7 @@
 
 «FOREACH languages AS language -»
 «LET language.isoCode AS iso-»
-«FILE "values-"+iso+"/strings.xml"-»
+«FILE "values-"+iso+"/plurals.xml"-»
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	«FOREACH entities AS e-»

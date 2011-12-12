@@ -11,7 +11,7 @@ public class IntegerFilterPreference extends NumberFilterPreference<Integer, Int
 	
 	public IntegerFilterPreference(Context context, AttributeSet attrs) {
 		super(context, attrs, IntegerFilter.FILTER_CREATOR);
-		setDialogLayoutResource(R.layout.dialog_integer_filter);
+		setDialogLayoutResource(R.layout.ig_dialog_integer_filter);
 	}
 
 	@Override

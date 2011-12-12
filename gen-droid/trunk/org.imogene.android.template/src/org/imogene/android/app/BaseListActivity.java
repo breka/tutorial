@@ -38,7 +38,7 @@ public abstract class BaseListActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.list_content);
+		setContentView(R.layout.ig_list_content);
 	}
 	
 	@Override

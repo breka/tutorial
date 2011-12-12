@@ -3,86 +3,86 @@
 «FILE 'xml/high_preferences.xml'-»
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="@string/security_parameters">
+	<PreferenceCategory android:title="@string/ig_security_parameters">
 		<CheckBoxPreference
-			android:key="@string/http_authentication_key"
-			android:title="@string/http_authentication_title"
-			android:summaryOn="@string/http_authentication_summaryon"
-			android:summaryOff="@string/http_authentication_summaryoff" 
+			android:key="@string/ig_http_authentication_key"
+			android:title="@string/ig_http_authentication_title"
+			android:summaryOn="@string/ig_http_authentication_summaryon"
+			android:summaryOff="@string/ig_http_authentication_summaryoff" 
 			android:defaultValue="true"/>
 	</PreferenceCategory>
-	<PreferenceCategory android:title="@string/synchro_parameters">
+	<PreferenceCategory android:title="@string/ig_synchro_parameters">
 		<org.imogene.android.preference.RenewHardwareId
-			android:key="@string/sync_hardware_key"
-			android:title="@string/sync_hardware_title"
+			android:key="@string/ig_sync_hardware_key"
+			android:title="@string/ig_sync_hardware_title"
 			android:dialogIcon="@android:drawable/ic_dialog_alert"
-			android:dialogTitle="@string/sync_hardware_dialog_title"
-			android:dialogMessage="@string/sync_hardware_dialog_message" />
+			android:dialogTitle="@string/ig_sync_hardware_dialog_title"
+			android:dialogMessage="@string/ig_sync_hardware_dialog_message" />
 		«IF multilogin»
 		<org.imogene.android.preference.MyEditTextPreference 
-			android:key="@string/sync_roles_key"
-			android:title="@string/sync_roles_title" />
+			android:key="@string/ig_sync_roles_key"
+			android:title="@string/ig_sync_roles_title" />
 		«ENDIF»
 		<org.imogene.android.preference.MyEditTextPreference 
-			android:key="@string/«IF multilogin»current_roles_key«ELSE»sync_roles_key«ENDIF»"
-			android:title="@string/app_roles_title" />
+			android:key="@string/ig_«IF multilogin»current_roles_key«ELSE»sync_roles_key«ENDIF»"
+			android:title="@string/ig_app_roles_title" />
 	</PreferenceCategory>
 	<PreferenceCategory
-		android:title="@string/rights_title">
+		android:title="@string/ig_rights_title">
 		<PreferenceScreen
-			android:title="@string/rights_modify_title"
-			android:summary="@string/rights_modify_summary" >
+			android:title="@string/ig_rights_modify_title"
+			android:summary="@string/ig_rights_modify_summary" >
 			«EXPAND modifyRights(canModify) FOREACH entities-»
 		</PreferenceScreen>
 		<PreferenceScreen
-			android:title="@string/rights_delete_title"
-			android:summary="@string/rights_delete_summary" >
+			android:title="@string/ig_rights_delete_title"
+			android:summary="@string/ig_rights_delete_summary" >
 			«EXPAND deleteRights(canDelete) FOREACH entities-»
 		</PreferenceScreen>
 	</PreferenceCategory>
-	<PreferenceCategory android:title="@string/debug_title">
+	<PreferenceCategory android:title="@string/ig_debug_title">
 		<CheckBoxPreference
-			android:key="@string/debug_save_key"
-			android:title="@string/debug_save_title"
-			android:summaryOn="@string/debug_save_summaryon"
-			android:summaryOff="@string/debug_save_summaryoff" />
+			android:key="@string/ig_debug_save_key"
+			android:title="@string/ig_debug_save_title"
+			android:summaryOn="@string/ig_debug_save_summaryon"
+			android:summaryOff="@string/ig_debug_save_summaryoff" />
 		<CheckBoxPreference
-			android:key="@string/debug_safe_key"
-			android:title="@string/debug_safe_title"
-			android:summaryOn="@string/debug_safe_summaryon"
-			android:summaryOff="@string/debug_safe_summaryoff"
+			android:key="@string/ig_debug_safe_key"
+			android:title="@string/ig_debug_safe_title"
+			android:summaryOn="@string/ig_debug_safe_summaryon"
+			android:summaryOff="@string/ig_debug_safe_summaryoff"
 			android:enabled="false"
 			android:defaultValue="false" />
 		<!--
 		<org.imogene.android.preference.MyEditTextPreference
-			android:key="@string/debug_smsnb_key"
-			android:title="@string/debug_smsnb_title"
+			android:key="@string/ig_debug_smsnb_key"
+			android:title="@string/ig_debug_smsnb_title"
 			android:shouldDisableView="false"
 			android:enabled="false" />
 		-->
 	</PreferenceCategory>
-	<PreferenceCategory android:title="@string/renew_title">
+	<PreferenceCategory android:title="@string/ig_renew_title">
 		<org.imogene.android.preference.DeleteSyncHistoryPreference
-			android:title="@string/renew_sync_history_title"
-			android:summary="@string/renew_sync_history_summary"
+			android:title="@string/ig_renew_sync_history_title"
+			android:summary="@string/ig_renew_sync_history_summary"
 			android:dialogIcon="@android:drawable/ic_dialog_alert"
-			android:dialogTitle="@string/renew_sync_history_title"
-			android:dialogMessage="@string/renew_sync_history_dialog_message" />
+			android:dialogTitle="@string/ig_renew_sync_history_title"
+			android:dialogMessage="@string/ig_renew_sync_history_dialog_message" />
 		<org.imogene.android.preference.DeleteDatabasePreference
-			android:title="@string/renew_database_title"
-			android:summary="@string/renew_database_summary"
+			android:title="@string/ig_renew_database_title"
+			android:summary="@string/ig_renew_database_summary"
 			android:dialogIcon="@android:drawable/ic_dialog_alert"
-			android:dialogTitle="@string/renew_database_title"
-			android:dialogMessage="@string/renew_database_dialog_message" />
+			android:dialogTitle="@string/ig_renew_database_title"
+			android:dialogMessage="@string/ig_renew_database_dialog_message" />
 	</PreferenceCategory>
-	<PreferenceCategory android:title="@string/ntp_title">
+	<PreferenceCategory android:title="@string/ig_ntp_title">
 		<org.imogene.android.preference.MyEditTextPreference
-			android:key="@string/ntp_server_key"
-			android:title="@string/ntp_server_title"
+			android:key="@string/ig_ntp_server_key"
+			android:title="@string/ig_ntp_server_title"
 			android:defaultValue="«sntpServer»" />
 		<org.imogene.android.preference.SntpOffsetPreference
-			android:key="@string/ntp_offset_key"
-			android:title="@string/ntp_offset_title" />
+			android:key="@string/ig_ntp_offset_key"
+			android:title="@string/ig_ntp_offset_title" />
 	</PreferenceCategory>
 </PreferenceScreen>
 «ENDFILE-»
@@ -92,15 +92,15 @@
 «DEFINE modifyRights(String canModify) FOR CardEntity-»
 <CheckBoxPreference android:key="@string/«name.toLowerCase()-»_modify"
 	android:title="@string/«name.toLowerCase()-»_des_sg"
-	android:summaryOn="@string/rights_modify_summaryon"
-	android:summaryOff="@string/rights_modify_summaryoff"
+	android:summaryOn="@string/ig_rights_modify_summaryon"
+	android:summaryOff="@string/ig_rights_modify_summaryoff"
 	android:defaultValue="«canModify»" />
 «ENDDEFINE»
 
 «DEFINE deleteRights(String canDelete) FOR CardEntity-»
 <CheckBoxPreference android:key="@string/«name.toLowerCase()-»_delete"
 	android:title="@string/«name.toLowerCase()-»_des_sg"
-	android:summaryOn="@string/rights_delete_summaryon"
-	android:summaryOff="@string/rights_delete_summaryoff"
+	android:summaryOn="@string/ig_rights_delete_summaryon"
+	android:summaryOff="@string/ig_rights_delete_summaryoff"
 	android:defaultValue="«canDelete»" />
 «ENDDEFINE»

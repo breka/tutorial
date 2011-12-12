@@ -43,20 +43,20 @@ public abstract class BaseFieldEdit<T> extends BaseField<T> implements Constrain
 	public BaseFieldEdit(Context context, AttributeSet attrs, int layoutId) {
 		super(context, attrs, layoutId);
 		
-		mHelpView = findViewById(R.id.help);
+		mHelpView = findViewById(R.id.ig_help);
 		if (mHelpView != null) {
 			mHelpView.setSaveEnabled(false);
 		}
 
-		mRequiredView = findViewById(R.id.required);
+		mRequiredView = findViewById(R.id.ig_required);
 		if (mRequiredView != null) {
 			mRequiredView.setSaveEnabled(false);
 		}
 		
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseFieldEdit, 0, 0);
-		setHelpId(a.getResourceId(R.styleable.BaseFieldEdit_help, 0));
-		setReadOnly(a.getBoolean(R.styleable.BaseFieldEdit_readOnly, false));
-		setRequired(a.getBoolean(R.styleable.BaseFieldEdit_required, false));
+		setHelpId(a.getResourceId(R.styleable.BaseFieldEdit_igHelp, 0));
+		setReadOnly(a.getBoolean(R.styleable.BaseFieldEdit_igReadOnly, false));
+		setRequired(a.getBoolean(R.styleable.BaseFieldEdit_igRequired, false));
 		a.recycle();
 	}
 	
@@ -109,7 +109,7 @@ public abstract class BaseFieldEdit<T> extends BaseField<T> implements Constrain
 		entry.setTag(tag);
 		entry.setTitle(getTitleId());
 		if (mRequired) {
-			entry.addMessage(getResources().getString(R.string.required));
+			entry.addMessage(getResources().getString(R.string.ig_required));
 		}
 		return entry;
 	}
@@ -201,13 +201,13 @@ public abstract class BaseFieldEdit<T> extends BaseField<T> implements Constrain
 	
 	protected void showToastUnset() {
 		String title = getResources().getString(getTitleId());
-		String message = getResources().getString(R.string.relation_hierarchical_parent_unset, title);
+		String message = getResources().getString(R.string.ig_relation_hierarchical_parent_unset, title);
 		Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
 	}
 	
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.help) {
+		if (v.getId() == R.id.ig_help) {
 			showHelpDialog(null);
 		} else {
 			dispatchClick(v);

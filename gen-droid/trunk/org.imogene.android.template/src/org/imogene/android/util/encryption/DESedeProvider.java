@@ -62,7 +62,7 @@ public class DESedeProvider implements EncryptionProvider {
 	private SecretKey loadSecretKeyFromFile(Context context) {
 
 		/* read the key from file */
-		InputStream is = context.getResources().openRawResource(R.raw.encryption);
+		InputStream is = context.getResources().openRawResource(R.raw.ig_encryption);
 		byte[] tripleDesKeyData = new byte[24];
 		try {
 			is.read(tripleDesKeyData);

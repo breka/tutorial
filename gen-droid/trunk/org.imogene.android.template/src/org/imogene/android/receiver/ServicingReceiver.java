@@ -77,7 +77,7 @@ public class ServicingReceiver extends BroadcastReceiver {
 		c.close();
 		
 		context.getContentResolver().notifyChange(ContentUrisUtils.buildUriForFragment(null), null);
-		PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(R.string.sync_hardware_key), UUID.randomUUID().toString()).commit();
+		PreferenceHelper.getSharedPreferences(context).edit().putString(context.getString(R.string.ig_sync_hardware_key), UUID.randomUUID().toString()).commit();
 	}
 
 	private boolean hasUnSync(Context context) {

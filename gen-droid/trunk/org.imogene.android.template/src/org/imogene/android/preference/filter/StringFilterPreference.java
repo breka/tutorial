@@ -17,7 +17,7 @@ public class StringFilterPreference extends FilterPreference<StringFilter> imple
 
 	public StringFilterPreference(Context context, AttributeSet attrs) {
 		super(context, attrs, StringFilter.FILTER_CREATOR);
-		setDialogLayoutResource(R.layout.dialog_string_filter);
+		setDialogLayoutResource(R.layout.ig_dialog_string_filter);
 	}
 
 	private Spinner spinner;
@@ -29,13 +29,13 @@ public class StringFilterPreference extends FilterPreference<StringFilter> imple
 		StringOperator operator = filter.getStringOperator();
 		switch (operator) {
 		case CONTAINS:
-			return getContext().getString(R.string.filter_string_contains,
+			return getContext().getString(R.string.ig_filter_string_contains,
 					filter.getFieldValue());
 		case EQUAL:
-			return getContext().getString(R.string.filter_string_equal,
+			return getContext().getString(R.string.ig_filter_string_equal,
 					filter.getFieldValue());
 		case STARTWITH:
-			return getContext().getString(R.string.filter_string_startwith,
+			return getContext().getString(R.string.ig_filter_string_startwith,
 					filter.getFieldValue());
 		}
 		return getContext().getString(android.R.string.unknownName);
@@ -72,8 +72,8 @@ public class StringFilterPreference extends FilterPreference<StringFilter> imple
 	@Override
 	protected void onBindDialogView(View view) {
 		super.onBindDialogView(view);
-		spinner = ((Spinner) view.findViewById(R.id.spinner));
-		value = (TextView) view.findViewById(R.id.value);
+		spinner = ((Spinner) view.findViewById(R.id.ig_spinner));
+		value = (TextView) view.findViewById(R.id.ig_value);
 		spinner.setOnItemSelectedListener(this);
 		StringFilter filter = getFilter();
 		switch (filter.getStringOperator()) {

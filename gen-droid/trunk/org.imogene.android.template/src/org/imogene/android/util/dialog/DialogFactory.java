@@ -10,9 +10,9 @@ public class DialogFactory {
 
 	public static AlertDialog createActivityNotFoundDialog(Context context) {
 		return new AlertDialog.Builder(context)
-		.setTitle(R.string.anf_title)
+		.setTitle(R.string.ig_anf_title)
 		.setIcon(android.R.drawable.ic_dialog_alert)
-		.setMessage(R.string.anf)
+		.setMessage(R.string.ig_anf)
 		.setPositiveButton(android.R.string.ok, null)
 		.setCancelable(false)
 		.create();
@@ -20,7 +20,7 @@ public class DialogFactory {
 
 	public static AlertDialog createIamLostDialog(Context context) {
 		return new AlertDialog.Builder(context)
-		.setTitle(R.string.iamlost_title)
+		.setTitle(R.string.ig_iamlost_title)
 		.setItems(IamLost.getInstance().get(), null)
 		.setPositiveButton(android.R.string.ok, null)
 		.create();

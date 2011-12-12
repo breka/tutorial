@@ -54,8 +54,8 @@ public class RelationFilterPreference extends FilterPreference<RelationFilter> {
 	public RelationFilterPreference(Context context, AttributeSet attrs) {
 		super(context, attrs, RelationFilter.FILTER_CREATOR);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RelationFilterPreference, 0, 0);
-		mEntityWs = a.getString(R.styleable.RelationFilterPreference_entityws);
-		mHierarchicalField = a.getString(R.styleable.RelationFilterPreference_hierarchicalField);
+		mEntityWs = a.getString(R.styleable.RelationFilterPreference_igFilterEntityws);
+		mHierarchicalField = a.getString(R.styleable.RelationFilterPreference_igFilterHierarchicalField);
 		a.recycle();
 		mAdapter = new MyAdapter(context, android.R.layout.select_dialog_multichoice);
 		
@@ -357,12 +357,12 @@ public class RelationFilterPreference extends FilterPreference<RelationFilter> {
 						view = getView(position, null, parent);
 					}
 				} else {
-					view = mInflater.inflate(R.layout.download_footer_view, parent, false);
+					view = mInflater.inflate(R.layout.ig_download_footer_view, parent, false);
 					view.setTag(TAG_FOOTER);
 				}
 				final boolean down = DESC_DOWNLOADING.equals(item.description);
-				view.findViewById(R.id.footer_downloading).setVisibility(down?View.VISIBLE:View.GONE);
-				view.findViewById(R.id.footer_error).setVisibility(down?View.GONE:View.VISIBLE);
+				view.findViewById(R.id.ig_footer_downloading).setVisibility(down?View.VISIBLE:View.GONE);
+				view.findViewById(R.id.ig_footer_error).setVisibility(down?View.GONE:View.VISIBLE);
 				return view;
 			} else {
 				if (convertView != null) {

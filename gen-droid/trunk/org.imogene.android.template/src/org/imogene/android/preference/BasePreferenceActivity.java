@@ -38,7 +38,7 @@ public abstract class BasePreferenceActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.preference_list_content);
+		setContentView(R.layout.ig_preference_list_content);
 	}
 	
 	@Override

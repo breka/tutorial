@@ -22,9 +22,9 @@ public class AccountCreationIntroduction extends BaseActivity implements OnClick
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.account_creation_introduction);
+		setContentView(R.layout.ig_account_creation_introduction);
 		
-		mNextButton = (Button) findViewById(R.id.next);
+		mNextButton = (Button) findViewById(R.id.ig_next);
 		
 		mNextButton.setOnClickListener(this);
 	}

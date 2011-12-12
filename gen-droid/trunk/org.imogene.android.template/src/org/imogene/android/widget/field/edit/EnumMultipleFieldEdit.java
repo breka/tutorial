@@ -24,11 +24,11 @@ public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements O
 	private final int mSize;
 	
 	public EnumMultipleFieldEdit(Context context, AttributeSet attrs) {
-		super(context, attrs, R.layout.field_default);
+		super(context, attrs, R.layout.ig_field_default);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumField, 0, 0);
-		mEntries = a.getResourceId(R.styleable.EnumField_entries, 0);
-		mArray = a.getResourceId(R.styleable.EnumField_array, 0);
-		mSize = a.getInteger(R.styleable.EnumField_size, 0);
+		mEntries = a.getResourceId(R.styleable.EnumField_igEntries, 0);
+		mArray = a.getResourceId(R.styleable.EnumField_igArray, 0);
+		mSize = a.getInteger(R.styleable.EnumField_igSize, 0);
 		a.recycle();
 		setValue(new boolean[mSize]);
 	}

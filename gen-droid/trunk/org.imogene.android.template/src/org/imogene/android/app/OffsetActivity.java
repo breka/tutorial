@@ -33,7 +33,7 @@ public class OffsetActivity extends Activity implements OnClickListener {
 		switch (id) {
 		case DIALOG_SNTPING_ID:
 			ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setMessage(getString(R.string.obtaining_time_offset));
+			dialog.setMessage(getString(R.string.ig_obtaining_time_offset));
 			dialog.setIndeterminate(true);
 			dialog.setCancelable(false);
 			return dialog;
@@ -41,7 +41,7 @@ public class OffsetActivity extends Activity implements OnClickListener {
 			return new AlertDialog.Builder(this)
 			.setTitle(android.R.string.dialog_alert_title)
 			.setIcon(android.R.drawable.ic_dialog_alert)
-			.setMessage(R.string.obtaining_time_offset_failed)
+			.setMessage(R.string.ig_obtaining_time_offset_failed)
 			.setCancelable(false)
 			.setPositiveButton(android.R.string.ok, this)
 			.setNegativeButton(android.R.string.no, this)
@@ -89,7 +89,7 @@ public class OffsetActivity extends Activity implements OnClickListener {
 	private void onSntpSucceed(long offset) {
 		PreferenceHelper.getSharedPreferences(this)
 		.edit()
-		.putLong(getString(R.string.ntp_offset_key), offset)
+		.putLong(getString(R.string.ig_ntp_offset_key), offset)
 		.commit();
 		
 		removeDialog(DIALOG_SNTPING_ID);
