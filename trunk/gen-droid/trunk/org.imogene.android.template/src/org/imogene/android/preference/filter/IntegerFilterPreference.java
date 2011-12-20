@@ -1,7 +1,7 @@
 package org.imogene.android.preference.filter;
 
-import org.imogene.android.template.R;
 import org.imogene.android.common.filter.IntegerFilter;
+import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
 
 import android.content.Context;

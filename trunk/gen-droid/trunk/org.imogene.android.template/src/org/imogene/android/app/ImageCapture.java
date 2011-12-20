@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.UUID;
 
 import org.imogene.android.Constants.Paths;
-import org.imogene.android.template.R;
 import org.imogene.android.media.SingleMediaScanner;
 import org.imogene.android.media.SingleMediaScanner.SingleMediaListener;
+import org.imogene.android.template.R;
 
 import android.app.Activity;
 import android.content.Intent;

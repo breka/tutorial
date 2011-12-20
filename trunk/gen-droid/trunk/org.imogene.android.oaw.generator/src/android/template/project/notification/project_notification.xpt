@@ -58,7 +58,7 @@ public class «name.toFirstUpper()»Notification extends MessagingNotification {
 				«e.name.toFirstUpper()».Columns.CONTENT_URI,
 				NOTIFICATION_«e.name.toUpperCase()»_ID,
 				R.string.«e.name.toLowerCase()»_des_sg,
-				«IF e.icon.length > 0-»R.drawable.«e.icon.split("\\.").get(0).toLowerCase()»«ELSE-»R.drawable.logo_android_s«ENDIF-»
+				«IF e.icon.length > 0-»R.drawable.«e.icon.split("\\.").get(0).toLowerCase()»«ELSE-»R.drawable.ig_logo_android_s«ENDIF-»
 				));
 		«ENDIF-»
 		«ENDFOREACH-»

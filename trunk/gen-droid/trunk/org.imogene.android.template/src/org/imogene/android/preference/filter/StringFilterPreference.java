@@ -1,8 +1,8 @@
 package org.imogene.android.preference.filter;
 
-import org.imogene.android.template.R;
 import org.imogene.android.common.filter.StringFilter;
 import org.imogene.android.common.filter.StringFilter.StringOperator;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.text.TextUtils;

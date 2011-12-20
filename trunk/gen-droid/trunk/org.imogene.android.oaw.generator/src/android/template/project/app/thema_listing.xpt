@@ -4,6 +4,11 @@
 «FILE "/" + name.toLowerCase() + "/app/" + name.toFirstUpper() + "Listing.java"-»
 package org.imogene.android.«name.toLowerCase()-».app;
 
+import greendroid.app.GDExpandableListActivity;
+import greendroid.widget.ActionBar;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
+
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
@@ -26,7 +31,6 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
-import org.imogene.android.app.BaseExpandableListActivity;
 import org.imogene.android.app.Preferences;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.service.AbstractSyncService;
@@ -43,8 +47,10 @@ import org.imogene.android.«name.toLowerCase()-».roles.«entity.name.toFirstUpper
 «ENDFOREACH-»
 import org.imogene.android.«name.toLowerCase()».R;
 
-public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity implements OnSharedPreferenceChangeListener {
+public class «name.toFirstUpper()»Listing extends GDExpandableListActivity implements OnSharedPreferenceChangeListener {
 
+	private	static final int ACTIONBAR_SYNC_ID = 1;
+	
 	private static final String EXTRA_SCANNED = "AbstractThemaListing_scanned";
 	
 	private static final int DIALOG_SEARCH_SERVER_ID = 1;
@@ -73,6 +79,10 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 	
 	private String mScanned;
 	
+	public «name.toFirstUpper()»Listing() {
+		super(ActionBar.Type.Empty);
+	}
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +93,9 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		mPreferences.registerOnSharedPreferenceChangeListener(this);
+		
+		addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class)
+				.setDrawable(R.drawable.ig_ic_title_sync), ACTIONBAR_SYNC_ID);
 	}
 	
 	@Override
@@ -153,20 +166,13 @@ public class «name.toFirstUpper()»Listing extends BaseExpandableListActivity imp
 	}
 	
 	@Override
-	public boolean onCreateActionBarMenu(Menu menu) {
-		boolean result = super.onCreateActionBarMenu(menu);
-		getMenuInflater().inflate(R.menu.ig_actionbar_sync_item, menu);
-		return result;
-	}
-
-	@Override
-	public boolean onActionBarItemSelected(MenuItem item) {
+	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
 		switch (item.getItemId()) {
-		case R.id.ig_menu_sync:
+		case ACTIONBAR_SYNC_ID:
 			AbstractSyncService.startServiceManually(this);
 			return true;
 		default:
-			return super.onActionBarItemSelected(item);
+			return super.onHandleActionBarItemClick(item, position);
 		}
 	}
 	

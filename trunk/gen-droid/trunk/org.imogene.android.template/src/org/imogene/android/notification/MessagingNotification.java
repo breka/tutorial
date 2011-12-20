@@ -2,7 +2,6 @@ package org.imogene.android.notification;
 
 import java.util.HashSet;
 
-import org.imogene.android.template.R;
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.Constants.SortOrder;
@@ -10,6 +9,7 @@ import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
+import org.imogene.android.template.R;
 import org.imogene.android.util.content.ContentUrisUtils;
 
 import android.app.Notification;

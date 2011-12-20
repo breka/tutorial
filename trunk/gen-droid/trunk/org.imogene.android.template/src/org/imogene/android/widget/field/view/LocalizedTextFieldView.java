@@ -39,7 +39,11 @@ public class LocalizedTextFieldView extends BaseFieldView<LocalizedTextList> {
 		mViewFlipper.removeAllViews();
 
 		LocalizedTextList list = getValue();
-        ArrayList<String> locales = list != null ? list.getAvailableLocales() : null;
+		if (list == null) {
+			return;
+		}
+		
+        ArrayList<String> locales = list.getAvailableLocales();
         
         int size = locales.size();
         if (size > 0) {

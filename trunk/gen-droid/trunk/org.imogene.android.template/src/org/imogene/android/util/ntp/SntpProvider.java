@@ -1,7 +1,7 @@
 package org.imogene.android.util.ntp;
 
-import org.imogene.android.template.R;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.os.SystemClock;

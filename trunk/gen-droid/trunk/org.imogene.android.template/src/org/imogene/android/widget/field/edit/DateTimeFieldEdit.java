@@ -2,9 +2,9 @@ package org.imogene.android.widget.field.edit;
 
 import java.util.Calendar;
 
-import org.imogene.android.template.R;
 import org.imogene.android.app.DateTimePickerDialog;
 import org.imogene.android.app.DateTimePickerDialog.OnDateTimeSetListener;
+import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.field.FieldPattern;
 import org.imogene.android.widget.DateTimePicker;

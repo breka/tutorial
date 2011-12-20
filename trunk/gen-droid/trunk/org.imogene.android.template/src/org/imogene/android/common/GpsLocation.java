@@ -1,22 +1,11 @@
 package org.imogene.android.common;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import org.imogene.android.Constants.Extras;
-import org.imogene.android.Constants.Intents;
-import org.imogene.android.database.interfaces.EntityCursor;
-import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
-import org.imogene.android.util.content.ContentUrisUtils;
-import org.imogene.android.util.database.DatabaseUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
-import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class GpsLocation extends Location {
@@ -58,68 +47,6 @@ public class GpsLocation extends Location {
 		} else {
 			return new GpsLocation(location).saveOrUpdate(context);
 		}
-	}
-	
-	public static final Intent build(Context context, Uri uri, SQLiteBuilder builder,
-			String gpsColumn, String gpsMethod,	double north, double east, double south, double west) {
-		SQLiteBuilder b = new SQLiteBuilder();
-		if (builder != null)
-			b.appendWhere(builder.create());
-		
-		SQLiteBuilder locations = new SQLiteBuilder(Columns.TABLE_NAME, Columns._ID);
-		locations.appendSup(Columns.LONGITUDE, west);
-		locations.appendInf(Columns.LONGITUDE, east);
-		locations.appendSup(Columns.LATITUDE, south);
-		locations.appendInf(Columns.LATITUDE, north);
-		
-		b.appendIn(gpsColumn, locations.create());
-		
-		String sql = DatabaseUtils.computeWhere(b).toSQL();
-
-		EntityCursor c = (EntityCursor) SQLiteWrapper.query(context, uri, sql, null);
-		final int count = c.getCount();
-		if (count < 1) {
-			return null;
-		}
-
-		Intent result = null;
-		try {
-			final Method method = c.getClass().getDeclaredMethod(gpsMethod, (Class[]) null);
-			final String[] titles = new String[count];
-			final String[] descriptions = new String[count];
-			final double[] latitudes = new double[count];
-			final double[] longitudes = new double[count];
-			final String[] uris = new String[count];
-			for (int i = 0; i < count; i++) {
-				c.moveToPosition(i);
-				titles[i] = c.getMainDisplay(context);
-				descriptions[i] = c.getSecondaryDisplay(context);
-				Location l = (Location) method.invoke(c, (Object[]) null);
-				latitudes[i] = l.getLatitude();
-				longitudes[i] = l.getLongitude();
-				uris[i] = ContentUrisUtils.withAppendedId(uri, c.getId()).toString();
-			}
-			result = new Intent(Intents.ACTION_SHOW_CLOUDS);
-			result.putExtra(Extras.EXTRA_ITEM_NUMBER, count);
-			result.putExtra(Extras.EXTRA_ITEM_TITLES, titles);
-			result.putExtra(Extras.EXTRA_ITEM_DESCRIPTIONS, descriptions);
-			result.putExtra(Extras.EXTRA_ITEM_LATITUDES, latitudes);
-			result.putExtra(Extras.EXTRA_ITEM_LONGITUDES, longitudes);
-			result.putExtra(Extras.EXTRA_ITEM_URIS, uris);
-			
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		c.close();
-		return result;
 	}
 	
 	private long _id = -1;

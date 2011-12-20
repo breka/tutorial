@@ -1,10 +1,9 @@
 package org.imogene.android.widget.field.edit;
 
-import org.imogene.android.Constants.Categories;
-import org.imogene.android.Constants.Intents;
+import org.imogene.android.maps.MapsConstants;
+import org.imogene.android.maps.app.LocationViewer;
 import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
-import org.imogene.android.util.content.IntentUtils;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 
@@ -76,19 +75,20 @@ public class GeoFieldEdit extends BaseFieldEdit<Location> implements OnActivityR
 	protected void dispatchClick(View v) {
 		switch (v.getId()) {
 		case R.id.ig_acquire:
-			Intent acquire = new Intent(Intents.ACTION_CAPTURE_GPS);
+			Intent acquire = new Intent(Intent.ACTION_PICK);
+			acquire.setType(MapsConstants.MIME_GPS);
 			switch (mProvider) {
 			case 0:
-				acquire.addCategory(Categories.CATEGORY_GPS);
+				acquire.addCategory(MapsConstants.CATEGORY_GPS);
 				break;
 			case 1:
-				acquire.addCategory(Categories.CATEGORY_NETWORK);
+				acquire.addCategory(MapsConstants.CATEGORY_NETWORK);
 				break;
 			case 2:
-				acquire.addCategory(Categories.CATEGORY_MAP);
+				acquire.addCategory(MapsConstants.CATEGORY_MAP);
 				break;
 			case 3:
-				acquire.addCategory(Categories.CATEGORY_BEST);
+				acquire.addCategory(MapsConstants.CATEGORY_BEST);
 				break;
 			}
 			getFieldManager().getActivity().startActivityForResult(acquire, mRequestCode);
@@ -97,15 +97,20 @@ public class GeoFieldEdit extends BaseFieldEdit<Location> implements OnActivityR
 			setValue(null);
 			break;
 		case R.id.ig_view:
-			Intent show = IntentUtils.createShowOnMapIntent(getValue());
-			getContext().startActivity(show);
+			final Location l = getValue();
+			if (l != null) {
+				Intent intent = new Intent(getContext(), LocationViewer.class);
+				intent.putExtra(MapsConstants.EXTRA_LATITUDE, l.getLatitude());
+				intent.putExtra(MapsConstants.EXTRA_LONGITUDE, l.getLongitude());
+				getContext().startActivity(intent);
+			}
 			break;
 		}
 	}
 	
 	public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == mRequestCode && resultCode != Activity.RESULT_CANCELED) {
-			setValue(FormatHelper.getLocationFromIntent(data));
+			setValue((Location) data.getParcelableExtra(MapsConstants.EXTRA_LOCATION));
 			return true;
 		}
 		return false;

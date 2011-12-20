@@ -1,7 +1,9 @@
 package org.imogene.android.app.setup;
 
+import greendroid.app.GDActivity;
+import greendroid.widget.ActionBar;
+
 import org.imogene.android.template.R;
-import org.imogene.android.app.BaseActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class AccountCreationIntroduction extends BaseActivity implements OnClickListener{
+public class AccountCreationIntroduction extends GDActivity implements OnClickListener{
 	
 	private Button mNextButton;
 	
@@ -19,20 +21,18 @@ public class AccountCreationIntroduction extends BaseActivity implements OnClick
 		fromActivity.startActivity(i);
 	}
 	
+	public AccountCreationIntroduction() {
+		super(ActionBar.Type.Empty);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ig_account_creation_introduction);
+		setActionBarContentView(R.layout.ig_account_creation_introduction);
 		
 		mNextButton = (Button) findViewById(R.id.ig_next);
 		
 		mNextButton.setOnClickListener(this);
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		getActivityHelper().setActionBarClickable(false);
 	}
 	
 	public void onClick(View v) {

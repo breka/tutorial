@@ -1,10 +1,12 @@
 package org.imogene.android.app.setup;
 
-import org.imogene.android.template.R;
+import greendroid.app.GDActivity;
+import greendroid.widget.ActionBar;
+
 import org.imogene.android.app.AuthenticationHttpActivity;
-import org.imogene.android.app.BaseActivity;
 import org.imogene.android.app.OffsetActivity;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.template.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class AccountSetupBasics extends BaseActivity implements OnClickListener,
+public class AccountSetupBasics extends GDActivity implements OnClickListener,
 		TextWatcher {
 	
 	private static final int ACTIVITY_OFFSET_ID = 1;
@@ -41,12 +43,16 @@ public class AccountSetupBasics extends BaseActivity implements OnClickListener,
 		i.putExtra(EXTRA_CHANGE_ACCOUNT, true);
 		fromActivity.startActivity(i);
 	}
+	
+	public AccountSetupBasics() {
+		super(ActionBar.Type.Empty);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.ig_account_setup_basics);
+		setActionBarContentView(R.layout.ig_account_setup_basics);
 		mLoginView = (EditText) findViewById(R.id.ig_account_login);
 		mPasswordView = (EditText) findViewById(R.id.ig_account_password);
 		mServerView = (EditText) findViewById(R.id.ig_account_server);
@@ -72,12 +78,6 @@ public class AccountSetupBasics extends BaseActivity implements OnClickListener,
 			mLoginView.setText(null);
 			mPasswordView.setText(null);
 		}
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		getActivityHelper().setActionBarClickable(false);
 	}
 	
 	@Override

@@ -8,9 +8,9 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.imogene.android.template.R;
 import org.imogene.android.app.MyProgressDialog;
 import org.imogene.android.app.MyProgressDialog.Formatter;
+import org.imogene.android.template.R;
 import org.imogene.android.update.PackageHelper.State;
 import org.imogene.android.util.file.FileUtils;
 

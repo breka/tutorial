@@ -5,6 +5,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.imogene.android.«name.toLowerCase()»" android:versionCode="«versionCode-»">
+	
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.CALL_PHONE" />
+	<uses-permission android:name="android.permission.CALL_PRIVILEGED" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.SEND_SMS" />
+	<uses-permission android:name="android.permission.VIBRATE"/>
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_SMS" />
+	
+	<uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+	
 	<application
 		android:name="org.imogene.android.«name.toLowerCase()».app.«name.toFirstUpper()»App"
 		android:icon="@drawable/ig_logo_android_s"
@@ -86,11 +121,13 @@
 		
 		«FOREACH entities AS entity»
 		<activity
-			android:name=".app.«entity.name.toFirstUpper()-»Listing"
+			android:name=".app.«entity.name.toFirstUpper()-»List"
 			android:label="@string/«entity.name.toLowerCase()-»_des_pl"
 			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
 			<intent-filter>
+				«IF entity.georeferenced == null-»
 				<action android:name="android.intent.action.VIEW" />
+				«ENDIF-»
 				<action android:name="android.intent.action.PICK" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.dir/«entity.name.toLowerCase()-»"/>
@@ -103,6 +140,19 @@
             <meta-data android:name="android.app.searchable" 
                        android:resource="@xml/«entity.name.toLowerCase()-»_searchable" />
 		</activity>
+		
+		«IF entity.georeferenced != null-»
+		<activity
+			android:name=".app.«entity.name.toFirstUpper()»ListAndMap"
+			android:label="@string/«entity.name.toLowerCase()-»_des_pl"
+			«IF entity.icon.length > 0-»android:icon="@drawable/«entity.icon.split("\\.").get(0).toLowerCase()»"«ENDIF-» >
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="vnd.org.imogene.android.«name.toLowerCase()-».cursor.dir/«entity.name.toLowerCase()-»"/>
+			</intent-filter>
+		</activity>
+		«ENDIF-»
 		
 		<activity
 			android:name=".app.«entity.name.toFirstUpper()-»View" 
@@ -190,6 +240,71 @@
         <activity
             android:name="org.imogene.android.update.UpdateActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            
+        <activity
+            android:name="org.imogene.android.maps.app.MapActivityWithoutActionBar" />
+            
+        <activity 
+			android:name="org.imogene.android.maps.app.LocationFromSensor"
+			android:icon="@drawable/maps_gps"
+			android:label="@string/maps_gps"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+			<intent-filter>
+				<action android:name="android.intent.action.PICK" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="org.imogene.map.«name.toLowerCase()».category.GPS" />
+				<data android:mimeType="vnd.imogene.«name.toLowerCase()».maps/coordinates" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name="org.imogene.android.maps.app.LocationFromBestAvailable"
+			android:icon="@drawable/maps_best"
+			android:label="@string/maps_best"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+			<intent-filter>
+				<action android:name="android.intent.action.PICK" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="org.imogene.map.«name.toLowerCase()».category.BEST" />
+				<data android:mimeType="vnd.imogene.«name.toLowerCase()».maps/coordinates" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name="org.imogene.android.maps.app.LocationFromNetwork"
+			android:icon="@drawable/maps_network"
+			android:label="@string/maps_network"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+			<intent-filter>
+				<action android:name="android.intent.action.PICK" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="org.imogene.map.«name.toLowerCase()».category.NETWORK" />
+				<data android:mimeType="vnd.imogene.«name.toLowerCase()».maps/coordinates" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="org.imogene.android.maps.app.LocationPicker"
+			android:icon="@drawable/maps_map"
+			android:label="@string/maps_map" >
+			<intent-filter>
+				<action android:name="android.intent.action.PICK" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="org.imogene.map.«name.toLowerCase()».category.MAP" />
+				<data android:mimeType="vnd.imogene.«name.toLowerCase()».maps/coordinates" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="org.imogene.android.maps.app.LocationViewer"
+			android:icon="@drawable/maps_map"
+			android:label="@string/maps_map" />
+		
+		<activity
+			android:name="org.imogene.android.radar.app.RadarActivity"
+			android:icon="@drawable/maps_radar"
+			android:label="@string/maps_map"
+			android:theme="@android:style/Theme.Black.NoTitleBar" />
 		
 		<receiver
 			android:name=".notification.«name.toFirstUpper()»Notification$OnDeletedReceiver">
@@ -248,23 +363,6 @@
 			android:name=".provider.«name.toFirstUpper()-»Provider" />
 	</application>
 	
-	<uses-permission android:name="android.permission.CALL_PHONE" />
-	<uses-permission android:name="android.permission.RECEIVE_SMS" />
-	<uses-permission android:name="android.permission.SEND_SMS" />
-	<uses-permission android:name="android.permission.WRITE_SMS" />
-	<uses-permission android:name="android.permission.CALL_PRIVILEGED" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.VIBRATE"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<!--
-	<supports-screens 
-		android:smallScreens="true"
-		android:normalScreens="true"
-		android:largeScreens="true"
-		android:anyDensity="true" />
-	-->
 </manifest>
 «ENDFILE»
 «ENDDEFINE»

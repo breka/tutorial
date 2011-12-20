@@ -1,7 +1,7 @@
 package org.imogene.android.app;
 
-import org.imogene.android.template.R;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.template.R;
 import org.imogene.android.util.ntp.SntpException;
 import org.imogene.android.util.ntp.SntpProvider;
 

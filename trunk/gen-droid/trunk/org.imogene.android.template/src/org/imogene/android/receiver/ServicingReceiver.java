@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Intents;
-import org.imogene.android.template.R;
 import org.imogene.android.app.HighPreferences;
 import org.imogene.android.app.UnSyncDialog;
 import org.imogene.android.common.SyncHistory;
@@ -12,6 +11,7 @@ import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.content.ContentUrisUtils;
 

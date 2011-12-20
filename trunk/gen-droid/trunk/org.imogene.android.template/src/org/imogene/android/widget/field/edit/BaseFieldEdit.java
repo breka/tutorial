@@ -2,8 +2,8 @@ package org.imogene.android.widget.field.edit;
 
 import java.util.ArrayList;
 
-import org.imogene.android.template.R;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.ErrorAdapter.ErrorEntry;
 import org.imogene.android.widget.field.BaseField;
 import org.imogene.android.widget.field.ConstraintBuilder;

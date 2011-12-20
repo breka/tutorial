@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import org.imogene.android.Constants.Intents;
 import org.imogene.android.Constants.Paths;
-import org.imogene.android.template.R;
 import org.imogene.android.app.WakefulIntentService;
 import org.imogene.android.common.SyncHistory;
 import org.imogene.android.notification.MessagingNotification;
@@ -18,6 +17,7 @@ import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.sync.OptimizedSyncClient;
 import org.imogene.android.sync.SynchronizationException;
 import org.imogene.android.sync.http.OptimizedSyncClientHttp;
+import org.imogene.android.template.R;
 import org.imogene.android.util.ntp.SntpException;
 import org.imogene.android.util.ntp.SntpProvider;
 import org.xmlpull.v1.XmlPullParserException;

@@ -3,9 +3,9 @@ package org.imogene.android.widget.field.view;
 import java.util.ArrayList;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.template.R;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.content.Intent;

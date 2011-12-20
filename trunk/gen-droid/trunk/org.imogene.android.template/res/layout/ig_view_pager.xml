@@ -2,11 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ffffffff"
     android:gravity="center_horizontal"
     android:orientation="vertical" >
-
-    <include layout="@layout/ig_actionbar" />
 
     <org.imogene.android.widget.ViewPagerIndicator
         android:id="@+id/ig_indicator"

@@ -4,6 +4,10 @@
 «FILE "/" + projectName.toLowerCase() + "/app/" + name.toFirstUpper() + "View.java"»
 package org.imogene.android.«projectName.toLowerCase()-».app;
 
+import greendroid.widget.ActionBar;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -65,6 +69,9 @@ import org.imogene.android.«projectName.toLowerCase()».roles.«f.entity.name.toFi
 public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity implements
 		FieldContainer, OnClickListener {
 
+	private static final int ACTIONBAR_EDIT_ID = 1;
+	private static final int ACTIONBAR_SYNC_ID = 2;
+
 	private static final int DIALOG_DELETE_ID = 1;
 	private static final int DIALOG_INFO_ID = 2;
 	private static final int DIALOG_IAMLOST_ID = 3;
@@ -86,7 +93,11 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 	private «EXPAND nameViewField FOR f» «f.name.toFirstLower()»;
 	«ENDFOREACH»
 	
-	private «name.toFirstUpper()-» mEntity = null;
+	private «name.toFirstUpper()» mEntity = null;
+	
+	public «name.toFirstUpper()»View() {
+		super(ActionBar.Type.Empty);
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +138,15 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 			«EXPAND dependency FOREACH f.fieldDependentVisibility-»
 			«f.name.toFirstLower()».onAttachedToHierarchy(mManager);
 		«ENDFOREACH-»
+		
+		if (mCanModify) {
+			addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class)
+				.setDrawable(R.drawable.ig_ic_title_edit), ACTIONBAR_EDIT_ID);
+		}
 
+		addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class)
+				.setDrawable(R.drawable.ig_ic_title_sync), ACTIONBAR_SYNC_ID);
+				
 		refresh();
 	}
 	
@@ -189,26 +208,16 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 	}
 	
 	@Override
-	public boolean onCreateActionBarMenu(Menu menu) {
-		boolean result = super.onCreateActionBarMenu(menu);
-		if (mCanModify) {
-			getMenuInflater().inflate(R.menu.ig_actionbar_edit_item, menu);
-		}
-		getMenuInflater().inflate(R.menu.ig_actionbar_sync_item, menu);
-		return result;
-	}
-	
-	@Override
-	public boolean onActionBarItemSelected(MenuItem item) {
+	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
 		switch (item.getItemId()) {
-		case R.id.ig_menu_edit :
+		case ACTIONBAR_EDIT_ID:
 			startActivity(new Intent(Intent.ACTION_EDIT, getIntent().getData()));
 			return true;
-		case R.id.ig_menu_sync :
+		case ACTIONBAR_SYNC_ID:
 			AbstractSyncService.startServiceManually(this);
 			return true;
 		default:
-			return super.onActionBarItemSelected(item);
+			return super.onHandleActionBarItemClick(item, position);
 		}
 	}
 	

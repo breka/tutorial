@@ -1,12 +1,13 @@
 package org.imogene.android.preference;
 
 
+import greendroid.app.GDPreferenceActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceGroup;
 
-public class MyPreferenceActivity extends BasePreferenceActivity {
+public class MyPreferenceActivity extends GDPreferenceActivity {
 	
 	private MyPreferenceManager mManager;
 	

@@ -2,8 +2,8 @@ package org.imogene.android.preference.filter;
 
 import java.util.Arrays;
 
-import org.imogene.android.template.R;
 import org.imogene.android.common.filter.EnumFilter;
+import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
 import org.imogene.android.util.field.EnumConverter;
 

@@ -1,10 +1,10 @@
 package org.imogene.android.app;
 
-import org.imogene.android.template.R;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.sync.OptimizedSyncClient;
 import org.imogene.android.sync.SynchronizationException;
 import org.imogene.android.sync.http.OptimizedSyncClientHttp;
+import org.imogene.android.template.R;
 import org.imogene.android.util.base64.Base64;
 import org.imogene.android.util.encryption.EncryptionManager;
 
