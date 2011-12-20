@@ -17,6 +17,9 @@ import android.net.Uri;
 import org.imogene.android.common.Binary;
 import org.imogene.android.common.LocalizedText;
 import org.imogene.android.database.interfaces.EntityCursor;
+«IF georeferenced != null-»
+import org.imogene.android.database.interfaces.GeoreferencedEntityCursor;
+«ENDIF-»
 «IF Actor.isAssignableFrom(metaType)-»
 import org.imogene.android.database.sqlite.UserCursorImpl;
 «ELSE-»
@@ -28,7 +31,11 @@ import org.imogene.android.«projectName.toLowerCase()».R;
 import org.imogene.android.«projectName.toLowerCase()».entities.«name.toFirstUpper()»;
 «EXPAND organizeImports(projectName) FOREACH groups.fields-»
 
-public class «name.toFirstUpper()-»Cursor extends «IF Actor.isAssignableFrom(metaType)-»UserCursorImpl«ELSE-»EntityCursorImpl«ENDIF-» {
+public class «name.toFirstUpper()-»Cursor extends «IF Actor.isAssignableFrom(metaType)-»UserCursorImpl«ELSE-»EntityCursorImpl«ENDIF-»
+	«IF georeferenced != null-»
+	implements GeoreferencedEntityCursor
+	«ENDIF-»
+ {
 
 	public «name.toFirstUpper()-»Cursor(SQLiteDatabase db, SQLiteCursorDriver driver,
 			String editTable, SQLiteQuery query) {
@@ -65,6 +72,13 @@ public class «name.toFirstUpper()-»Cursor extends «IF Actor.isAssignableFrom(met
 		StringBuilder str = new StringBuilder();
 		«EXPAND getDisplayForActor FOR this-»
 		return str.toString();
+	}
+	«ENDIF-»
+	
+	«IF georeferenced != null-»
+	@Override
+	public Location getGeoreference() {
+		return get«georeferenced.name.toFirstUpper()»();
 	}
 	«ENDIF-»
 }

@@ -7,11 +7,11 @@ import java.io.IOException;
 
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.Constants.Paths;
-import org.imogene.android.template.R;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.sync.OptimizedSyncClient;
 import org.imogene.android.sync.http.OptimizedSyncClientHttp;
+import org.imogene.android.template.R;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;

@@ -1,7 +1,7 @@
 package org.imogene.android.preference.filter;
 
-import org.imogene.android.template.R;
 import org.imogene.android.common.filter.BooleanFilter;
+import org.imogene.android.template.R;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;

@@ -1,7 +1,7 @@
 package org.imogene.android.widget;
 
-import org.imogene.android.template.R;
 import org.imogene.android.database.interfaces.EntityCursor;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.database.Cursor;

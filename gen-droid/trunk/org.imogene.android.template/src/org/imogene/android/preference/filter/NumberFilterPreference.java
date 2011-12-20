@@ -1,9 +1,9 @@
 package org.imogene.android.preference.filter;
 
-import org.imogene.android.template.R;
 import org.imogene.android.common.ClientFilter.Creator;
 import org.imogene.android.common.filter.NumberFilter;
 import org.imogene.android.common.filter.NumberFilter.NumberOperator;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.util.AttributeSet;

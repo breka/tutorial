@@ -3,8 +3,8 @@ package org.imogene.android.widget.field.edit;
 import java.util.ArrayList;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.template.R;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.field.ConstraintBuilder;
 import org.imogene.android.widget.field.FieldManager;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;

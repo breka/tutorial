@@ -5,6 +5,10 @@
 «FILE "/" + projectName.toLowerCase() + "/app/" + name.toFirstUpper() + "Edit.java"»
 package org.imogene.android.«projectName.toLowerCase()-».app;
 
+import greendroid.widget.ActionBar;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
+
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -59,6 +63,8 @@ import org.imogene.android.«projectName.toLowerCase()».roles.«name.toFirstUpper(
 public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity implements 
 		OnClickListener, FieldContainer, OnValueChangeListener {
 
+	private static final int ACTIONBAR_SAVE_ID = 1;
+	
 	private static final int DIALOG_UNSAVED_ID = 1;
 	private static final int DIALOG_ERROR_ID = 2;
 	private static final int DIALOG_IAMLOST_ID = 3;
@@ -72,7 +78,11 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 	private «EXPAND android::template::EditorsUtil::nameEditField FOR f» «f.name.toFirstLower()»;
 	«ENDFOREACH»
 	
-	private «name.toFirstUpper()-» mEntity;
+	private «name.toFirstUpper()» mEntity;
+	
+	public «name.toFirstUpper()»Edit() {
+		super(ActionBar.Type.Empty);
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +145,9 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 		
 		getViewPager().setAdapter(adapter);
 		getViewPagerIndicator().init(0, adapter.getCount(), adapter);
+		
+		addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class)
+				.setDrawable(R.drawable.ig_ic_title_save), ACTIONBAR_SAVE_ID);
 	}
 	
 	@Override
@@ -183,20 +196,13 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 	}
 	
 	@Override
-	public boolean onCreateActionBarMenu(Menu menu) {
-		boolean result = super.onCreateActionBarMenu(menu);
-		getMenuInflater().inflate(R.menu.ig_actionbar_save_item, menu);
-		return result;
-	}
-	
-	@Override
-	public boolean onActionBarItemSelected(MenuItem item) {
+	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
 		switch (item.getItemId()) {
-		case R.id.ig_menu_save :
+		case ACTIONBAR_SAVE_ID:
 			save(false);
 			return true;
 		default:
-			return super.onActionBarItemSelected(item);
+			return super.onHandleActionBarItemClick(item, position);
 		}
 	}
 	

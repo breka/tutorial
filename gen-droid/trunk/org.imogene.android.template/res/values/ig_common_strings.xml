@@ -59,7 +59,6 @@
     <string name="ig_obtaining_roles_failed">"Identification failed ! Check login, password and server settings. Do you wish to try again ?"</string>
     <string name="ig_dialog_quit">"Exit Imogene android application ?"</string>
     <string name="ig_location_format">"Lat %1$.3f ; Lon %2$.3f"</string>
-    <string name="ig_bbox_format">"%1$.3f ; %2$.3f ; %3$.3f ; %4$.3f"</string>
 
     <!-- Synchronization messages -->
     <string name="ig_synchronization">"Synchronization"</string>
@@ -139,49 +138,5 @@
     <string name="ig_check_unavailable_message">"There is no update available, check later."</string>
     <string name="ig_update_app_title">"Loading..."</string>
     <string name="ig_update_app_message">"Downloading updates"</string>
-
-    <!-- Location From sensor strings -->
-    <string name="ig_obtaining_location">Obtaining current location</string>
-    <string name="ig_provider_disabled">Provider %s is disabled</string>
-
-    <!-- Radar strings -->
-    <string name="ig_scanning">Scanning...</string>
-    <string name="ig_menu_standard">Standard</string>
-    <string name="ig_menu_metric">Metric</string>
-
-    <!-- Map Activity strings -->
-    <string name="ig_map_ativity_title">Map Demo</string>
-    <string name="ig_set_mode_offline">Set to offline mode</string>
-    <string name="ig_set_mode_online">Set to online mode</string>
-    <string name="ig_set_mode_show_me">showing and tracking my current location</string>
-    <string name="ig_set_mode_hide_me">hiding my current location</string>
-
-    <!-- Resource proxy strings -->
-    <string name="ig_osmarender">"Osmarender"</string>
-    <string name="ig_mapnik">"Mapnik"</string>
-    <string name="ig_cyclemap">"Cycle Map"</string>
-    <string name="ig_public_transport">"Public transport"</string>
-    <string name="ig_base">"OSM base layer"</string>
-    <string name="ig_topo">"Topographic"</string>
-    <string name="ig_hills">"Hills"</string>
-    <string name="ig_cloudmade_standard">"CloudMade (Standard tiles)"</string>
-    <string name="ig_cloudmade_small">"CloudMade (small tiles)"</string>
-    <string name="ig_mapquest_osm">"Mapquest"</string>
-    <string name="ig_mapquest_aerial">"Mapquest Aerial"</string>
-    <string name="ig_bing">"Bing"</string>
-    <string name="ig_fiets_nl">"OpenFietsKaart overlay"</string>
-    <string name="ig_base_nl">"Netherlands base overlay"</string>
-    <string name="ig_roads_nl">"Netherlands roads overlay"</string>
-    <string name="ig_unknown">"Unknown"</string>
-    <string name="ig_format_distance_meters">"%s m"</string>
-    <string name="ig_format_distance_kilometers">"%s km"</string>
-    <string name="ig_format_distance_miles">"%s mi"</string>
-    <string name="ig_format_distance_nautical_miles">"%s nm"</string>
-    <string name="ig_format_distance_feet">"%s ft"</string>
-    <string name="ig_online_mode">"Online mode"</string>
-    <string name="ig_offline_mode">"Offline mode"</string>
-    <string name="ig_my_location">"My location"</string>
-    <string name="ig_compass">"Compass"</string>
-    <string name="ig_map_mode">"Map mode"</string>
 
 </resources>

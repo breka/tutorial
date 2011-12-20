@@ -2,10 +2,10 @@ package org.imogene.android.widget;
 
 import java.util.ArrayList;
 
-import org.imogene.android.template.R;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
+import org.imogene.android.template.R;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

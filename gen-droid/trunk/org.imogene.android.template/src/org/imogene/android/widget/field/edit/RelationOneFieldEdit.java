@@ -1,12 +1,12 @@
 package org.imogene.android.widget.field.edit;
 
 import org.imogene.android.Constants.Extras;
-import org.imogene.android.template.R;
 import org.imogene.android.common.interfaces.Entity;
 import org.imogene.android.database.interfaces.EntityCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.template.R;
 import org.imogene.android.widget.field.FieldManager.OnActivityResultListener;
 
 import android.app.Activity;

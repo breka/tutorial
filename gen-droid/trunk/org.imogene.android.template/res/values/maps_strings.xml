@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Coordinates viewer -->
+    <string name="maps_show_on_map">Show on a map</string>
+    <string name="maps_navto">Navigate to</string>
+    <string name="maps_navto_radar">Radar</string>
+    
+    <!-- Coordinates providers -->
+    <string name="maps_gps">Gps</string>
+    <string name="maps_network">Network</string>
+    <string name="maps_best">Best available</string>
+    <string name="maps_map">Map</string>
+
+    <!-- Location From sensor strings -->
+    <string name="maps_obtaining_location">Obtaining current location</string>
+    <string name="maps_provider_disabled">Provider %s is disabled</string>
+
+    <!-- Radar strings -->
+    <string name="maps_scanning">"Scanning..."</string>
+    <string name="maps_menu_standard">Standard</string>
+    <string name="maps_menu_metric">Metric</string>
+
+    <!-- Map Activity strings -->
+    <string name="maps_map_ativity_title">Map Demo</string>
+    <string name="maps_set_mode_offline">Set to offline mode</string>
+    <string name="maps_set_mode_online">Set to online mode</string>
+    <string name="maps_set_mode_show_me">showing and tracking my current location</string>
+    <string name="maps_set_mode_hide_me">hiding my current location</string>
+
+    <!-- Resource proxy strings -->
+    <string name="maps_osmarender">"Osmarender"</string>
+    <string name="maps_mapnik">"Mapnik"</string>
+    <string name="maps_cyclemap">"Cycle Map"</string>
+    <string name="maps_public_transport">"Public transport"</string>
+    <string name="maps_base">"OSM base layer"</string>
+    <string name="maps_topo">"Topographic"</string>
+    <string name="maps_hills">"Hills"</string>
+    <string name="maps_cloudmade_standard">"CloudMade (Standard tiles)"</string>
+    <string name="maps_cloudmade_small">"CloudMade (small tiles)"</string>
+    <string name="maps_mapquest_osm">"Mapquest"</string>
+    <string name="maps_mapquest_aerial">"Mapquest Aerial"</string>
+    <string name="maps_bing">"Bing"</string>
+    <string name="maps_fiets_nl">"OpenFietsKaart overlay"</string>
+    <string name="maps_base_nl">"Netherlands base overlay"</string>
+    <string name="maps_roads_nl">"Netherlands roads overlay"</string>
+    <string name="maps_unknown">"Unknown"</string>
+    <string name="maps_format_distance_meters">"%s m"</string>
+    <string name="maps_format_distance_kilometers">"%s km"</string>
+    <string name="maps_format_distance_miles">"%s mi"</string>
+    <string name="maps_format_distance_nautical_miles">"%s nm"</string>
+    <string name="maps_format_distance_feet">"%s ft"</string>
+    <string name="maps_online_mode">"Online mode"</string>
+    <string name="maps_offline_mode">"Offline mode"</string>
+    <string name="maps_my_location">"My location"</string>
+    <string name="maps_compass">"Compass"</string>
+    <string name="maps_map_mode">"Map mode"</string>
+
+</resources>

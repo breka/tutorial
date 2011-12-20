@@ -2,9 +2,9 @@ package org.imogene.android.preference.filter;
 
 import java.util.Calendar;
 
-import org.imogene.android.template.R;
 import org.imogene.android.common.filter.DateFilter;
 import org.imogene.android.common.filter.DateFilter.DateOperator;
+import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
 
 import android.app.DatePickerDialog;

@@ -1,9 +1,9 @@
 package org.imogene.android.app;
 
-import org.imogene.android.template.R;
 import org.imogene.android.app.setup.AccountSetupBasics;
 import org.imogene.android.preference.MyPreferenceActivity;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.template.R;
 
 import android.os.Bundle;
 

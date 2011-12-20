@@ -24,28 +24,10 @@ public final class Constants {
 		public static final String ACTION_RESCHEDULE = "org.imogene.android.%realProjectName%.action.RESCHEDULE";
 		public static final String ACTION_CANCEL = "org.imogene.android.%realProjectName%.action.CANCEL";
 		
-		public static final String ACTION_SEND_FILTERS = "org.imogene.android.%realProjectName%.action.SEND_FILTERS";
-
 		public static final String ACTION_RM_SYNC_HISTORY = "org.imogene.android.%realProjectName%.action.RM_SYNC_HISTORY";
 		public static final String ACTION_RM_DATABASE = "org.imogene.android.%realProjectName%.action.RM_DATABASE";
 		
 		/* Outside intents */
-		public static final String ACTION_SHOW_RADAR = "org.imogene.radar.SHOW_RADAR";
-		
-		public static final String ACTION_CAPTURE_GPS = "org.imogene.map.action.CAPTURE_GPS";
-
-		public static final String ACTION_SHOW_ON_MAP = "org.imogene.map.action.SHOW_ON_MAP";
-
-		public static final String ACTION_SHOW_CLOUDS = "org.imogene.map.action.SHOW_CLOUDS";
-		
-		public static final String ACTION_NEW_RECT = "org.imogene.map.action.NEW_RECT";
-		
-		public static final String ACTION_VIEW_RECT = "org.imogene.map.action.VIEW_RECT";
-		
-		public static final String ACTION_MANAGE_RECT = "org.imogene.map.action.MANAGE_RECT";
-		
-		public static final String ACTION_DOWNLOAD_TILES = "org.imogene.map.action.DOWNLOAD_TILES";
-		
 		public static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 		
 		public static final String ACTION_SECRET_CODE = "android.provider.Telephony.SECRET_CODE";
@@ -105,57 +87,6 @@ public final class Constants {
 		 */
 		public static final String EXTRA_FORCE = "org.imogene.android.extra.FORCE";
 		
-		
-		/* Outside Extras */
-		/**
-		 * latitude extra (must be a float value) to use with
-		 * {@link Intents.ACTION_SHOW_RADAR} or {@link Intents.ACTION_SHOW_ON_MAP}
-		 */
-		public static final String EXTRA_LATITUDE = "latitude";
-
-		/**
-		 * longitude extra (must be a float value) to use with
-		 * {@link Intents.ACTION_SHOW_RADAR} or {@link Intents.ACTION_SHOW_ON_MAP}
-		 */
-		public static final String EXTRA_LONGITUDE = "longitude";
-		
-		public static final String EXTRA_ITEM_NUMBER = "itemNumber";
-		
-		public static final String EXTRA_ITEM_DESCRIPTIONS = "itemDescriptions";
-		
-		public static final String EXTRA_ITEM_TITLES = "itemTitles";
-		
-		public static final String EXTRA_ITEM_LATITUDES = "itemLatitudes";
-		
-		public static final String EXTRA_ITEM_LONGITUDES = "itemLongitudes";
-		
-		public static final String EXTRA_ITEM_URIS = "itemUris";
-
-		public static final String EXTRA_LOCATION = "location";
-		
-		public static final String EXTRA_NORTH = "northLatitude";
-		
-		public static final String EXTRA_SOUTH = "southLatitude";
-		
-		public static final String EXTRA_EAST = "eastLongitude";
-		
-		public static final String EXTRA_WEST = "westLongitude";
-		
-		public static final String EXTRA_BOXES_BUNDLE = "boxesBundle";
-		
-		public static final String EXTRA_BOXES_COUNT = "boxesCount";
-		
-		public static final String EXTRA_ENABLED_BOXES = "enabledBoxes";
-		
-		public static final String EXTRA_EDITABLE_BOXES = "editableBoxes";
-		
-		public static final String EXTRA_NORTH_LATITUDES = "northLatitudes";
-		
-		public static final String EXTRA_EAST_LONGITUDES = "eastLongitudes";
-		
-		public static final String EXTRA_SOUTH_LATITUDES = "southLatitudes";
-		
-		public static final String EXTRA_WEST_LONGITUDES = "westLongitudes";
 	}
 
 	public static interface SortOrder {
@@ -177,23 +108,10 @@ public final class Constants {
 		public static final String CATERGORY_IMAGE_CAPTURE = "org.imogene.android.diabsat.category.IMAGE_CATPURE";
 		public static final String CATERGORY_VIDEO_CAPTURE = "org.imogene.android.diabsat.category.VIDEO_CATPURE";
 		
-		/* Outside categories */
-		public static final String CATEGORY_GPS = "org.imogene.map.category.GPS";
-
-		public static final String CATEGORY_BEST = "org.imogene.map.category.BEST";
-
-		public static final String CATEGORY_NETWORK = "org.imogene.map.category.NETWORK";
-
-		public static final String CATEGORY_MAP = "org.imogene.map.category.MAP";
-		
 	}
 	
 	public static interface Packages {
-		public static final String PACKAGE_RADAR = "com.google.android.radar";
-
 		public static final String PACKAGE_ZXING = "com.google.zxing.client.android";
-
-		public static final String PACKAGE_MAP = "org.imogene.map";
 	}
 	
 }

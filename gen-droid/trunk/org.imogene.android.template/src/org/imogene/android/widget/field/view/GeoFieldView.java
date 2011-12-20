@@ -1,24 +1,27 @@
 package org.imogene.android.widget.field.view;
 
+import greendroid.widget.QuickAction;
+import greendroid.widget.QuickActionBar;
+import greendroid.widget.QuickActionWidget;
+import greendroid.widget.QuickActionWidget.OnQuickActionClickListener;
+
+import org.imogene.android.maps.MapsConstants;
+import org.imogene.android.maps.app.LocationViewer;
+import org.imogene.android.radar.app.RadarActivity;
 import org.imogene.android.template.R;
 import org.imogene.android.util.FormatHelper;
-import org.imogene.android.util.content.IntentUtils;
-import org.imogene.android.widget.IntentChooserAdapter;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class GeoFieldView extends BaseFieldView<Location> implements OnClickListener {
-
-	private Intent[] mIntents;
+public class GeoFieldView extends BaseFieldView<Location> implements OnQuickActionClickListener {
 	
+	private QuickActionBar mBar;
+
 	public GeoFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs, R.layout.ig_field_default);
 		setOnClickListener(this);
@@ -27,29 +30,43 @@ public class GeoFieldView extends BaseFieldView<Location> implements OnClickList
 	
 	@Override
 	protected void dispatchClick(View v) {
-		mIntents = new Intent[] {
-			IntentUtils.createShowOnMapIntent(getValue()),
-			IntentUtils.createShowRadarIntent(getValue()),
-			IntentUtils.createNavigateToIntent(getValue())
-		};
-		
-		Intent launch = IntentUtils.canLaunchWithoutChoose(getContext(), mIntents);
-		if (launch != null) {
-			getContext().startActivity(launch);
-		} else {
-			showDialog(null);
+		if (mBar == null) {
+			final Context context = getContext();
+			mBar = new QuickActionBar(context) {{
+				addQuickAction(new QuickAction(context, R.drawable.maps_navto, R.string.maps_navto));
+				addQuickAction(new QuickAction(context, R.drawable.maps_map, R.string.maps_show_on_map));
+				addQuickAction(new QuickAction(context, R.drawable.maps_radar, R.string.maps_navto_radar));
+				
+				setOnQuickActionClickListener(GeoFieldView.this);
+			}};
 		}
+		
+		mBar.show(this);
 	}
 	
 	@Override
-	protected void onPrepareDialogBuilder(Builder builder) {
-		builder.setIcon(android.R.drawable.ic_dialog_info);
-		builder.setAdapter(new IntentChooserAdapter(getContext(), mIntents), this);
-	}
-	
-	public void onClick(DialogInterface dialog, int which) {
-		IntentChooserAdapter adapter = (IntentChooserAdapter) ((AlertDialog) dialog).getListView().getAdapter();
-		getContext().startActivity(adapter.intentForPosition(which));
+	public void onQuickActionClicked(QuickActionWidget widget, int position) {
+		Location location = getValue();
+		switch (position) {
+		case 0:
+			Uri uri = Uri.parse("google.navigation:q=" + location.getLatitude() + "," + location.getLongitude());
+			getContext().startActivity(new Intent(Intent.ACTION_VIEW, uri));
+			return;
+		case 1:
+			Intent map = new Intent(getContext(), LocationViewer.class);
+			map.putExtra(MapsConstants.EXTRA_LATITUDE, location.getLatitude());
+			map.putExtra(MapsConstants.EXTRA_LONGITUDE, location.getLongitude());
+			getContext().startActivity(map);
+			return;
+		case 2:
+			Intent radar = new Intent(getContext(), RadarActivity.class);
+			radar.putExtra(MapsConstants.EXTRA_LATITUDE, location.getLatitude());
+			radar.putExtra(MapsConstants.EXTRA_LONGITUDE, location.getLongitude());
+			getContext().startActivity(radar);
+			return;
+		default:
+			break;
+		}
 	}
 	
 	@Override

@@ -2,9 +2,9 @@ package org.imogene.android.app;
 
 import java.util.Arrays;
 
-import org.imogene.android.template.R;
 import org.imogene.android.database.UserCursorJoiner;
 import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.template.R;
 import org.imogene.android.util.base64.Base64;
 import org.imogene.android.util.encryption.EncryptionManager;
 

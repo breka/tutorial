@@ -26,6 +26,9 @@ import org.imogene.android.common.interfaces.User;
 import org.imogene.android.common.EntityImpl;
 import org.imogene.android.common.interfaces.Entity;
 «ENDIF-»
+«IF georeferenced != null-»
+import org.imogene.android.common.interfaces.GeoreferencedEntity;
+«ENDIF-»
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.util.LocalizedTextList;
 import org.imogene.android.util.Tools;
@@ -33,7 +36,11 @@ import org.imogene.android.util.content.ContentUrisUtils;
 import org.imogene.android.«projectName.toLowerCase()-».database.sqlite.«name.toFirstUpper()-»Cursor;
 
 public class «name.toFirstUpper()-» extends 
-«IF Actor.isAssignableFrom(metaType) -»UserImpl«ELSE-»EntityImpl«ENDIF-» {
+«IF Actor.isAssignableFrom(metaType) -»UserImpl«ELSE-»EntityImpl«ENDIF-»
+	«IF georeferenced != null-»
+	implements GeoreferencedEntity
+	«ENDIF-»
+ {
 
 	public static class Columns implements «IF Actor.isAssignableFrom(metaType) -»User.Columns«ELSE-»Entity.Columns«ENDIF-» {
 		public static final Drawable COLOR = Tools.getColorChip(Color.parseColor(«IF color.length > 0-»"#«color»"«ELSE-»"black"«ENDIF-»));
@@ -68,6 +75,18 @@ public class «name.toFirstUpper()-» extends
 	
 	«EXPAND generateGetter FOREACH groups.fields»
 	«EXPAND generateSetter FOREACH groups.fields»
+	
+	«IF georeferenced != null-»
+	@Override
+	public Location getGeoreference() {
+		return m«georeferenced.name.toFirstUpper()»;
+	}
+	
+	@Override
+	public void setGeoreference(Location location) {
+		m«georeferenced.name.toFirstUpper()» = location;
+	}
+	«ENDIF-»
 	
 	@Override
 	protected final Uri getContentUri() {

@@ -1,9 +1,10 @@
 package org.imogene.android.app.setup;
 
-import org.imogene.android.template.R;
-import org.imogene.android.app.BaseActivity;
+import greendroid.app.GDActivity;
+import greendroid.widget.ActionBar;
+
 import org.imogene.android.preference.PreferenceHelper;
-import org.imogene.android.util.app.ApplicationHelper;
+import org.imogene.android.template.R;
 import org.imogene.android.util.base64.Base64;
 import org.imogene.android.util.encryption.EncryptionManager;
 
@@ -20,7 +21,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class AccountSetupShortPassword extends BaseActivity implements
+public class AccountSetupShortPassword extends GDActivity implements
 		OnClickListener, TextWatcher {
 
 	private static final int ERROR_DIALOG_ID = 1;
@@ -34,10 +35,14 @@ public class AccountSetupShortPassword extends BaseActivity implements
 		fromActivity.startActivity(i);
 	}
 
+	public AccountSetupShortPassword() {
+		super(ActionBar.Type.Empty);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ig_account_setup_short_password);
+		setActionBarContentView(R.layout.ig_account_setup_short_password);
 
 		mShortpwView = (EditText) findViewById(R.id.ig_account_shortpw);
 		mShortpwConfirmView = (EditText) findViewById(R.id.ig_account_shotpw_confirm);
@@ -55,12 +60,6 @@ public class AccountSetupShortPassword extends BaseActivity implements
 		mShortpwConfirmView.addTextChangedListener(this);
 	}
 	
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		getActivityHelper().setActionBarClickable(false);
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -116,7 +115,7 @@ public class AccountSetupShortPassword extends BaseActivity implements
 			PreferenceHelper.getSharedPreferences(this).edit().putString(
 					getString(R.string.ig_sync_shortpw_key), encsp).commit();
 
-			Intent intent = new Intent(this, ApplicationHelper.getHomeClass());
+			Intent intent = new Intent(this, getGDApplication().getHomeActivityClass());
 			startActivity(intent);
 			finish();
 		} else {

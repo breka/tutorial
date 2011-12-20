@@ -1,23 +1,22 @@
 package org.imogene.android.widget.field.view;
 
-import org.imogene.android.template.R;
-import org.imogene.android.util.content.IntentUtils;
-import org.imogene.android.widget.IntentChooserAdapter;
+import greendroid.widget.QuickAction;
+import greendroid.widget.QuickActionBar;
+import greendroid.widget.QuickActionWidget;
+import greendroid.widget.QuickActionWidget.OnQuickActionClickListener;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import org.imogene.android.template.R;
+
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class AddressFieldView extends BaseFieldView<String> implements OnClickListener {
+public class AddressFieldView extends BaseFieldView<String> implements OnQuickActionClickListener {
 
-	private Intent[] mIntents;
+	private QuickActionBar mBar;
 	
 	public AddressFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs, R.layout.ig_field_default);
@@ -27,28 +26,33 @@ public class AddressFieldView extends BaseFieldView<String> implements OnClickLi
 	
 	@Override
 	protected void dispatchClick(View v) {
-		mIntents = new Intent[] {
-			new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + getValue())),
-			new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + getValue()))
-		};
-		
-		Intent launch = IntentUtils.canLaunchWithoutChoose(getContext(), mIntents);
-		if (launch != null) {
-			getContext().startActivity(launch);
-		} else {
-			showDialog(null);
+		if (mBar == null) {
+			final Context context = getContext();
+			mBar = new QuickActionBar(context) {{
+				addQuickAction(new QuickAction(context, R.drawable.maps_navto, R.string.maps_navto));
+				addQuickAction(new QuickAction(context, R.drawable.maps_map, R.string.maps_show_on_map));
+				
+				setOnQuickActionClickListener(AddressFieldView.this);
+			}};
 		}
+		
+		mBar.show(this);
 	}
 	
 	@Override
-	protected void onPrepareDialogBuilder(Builder builder) {
-		builder.setIcon(android.R.drawable.ic_dialog_info);
-		builder.setAdapter(new IntentChooserAdapter(getContext(), mIntents), this);
-	}
-	
-	public void onClick(DialogInterface dialog, int which) {
-		IntentChooserAdapter adapter = (IntentChooserAdapter) ((AlertDialog) dialog).getListView().getAdapter();
-		getContext().startActivity(adapter.intentForPosition(which));
+	public void onQuickActionClicked(QuickActionWidget widget, int position) {
+		switch (position) {
+		case 0:
+			Intent navto = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + getValue()));
+			getContext().startActivity(navto);
+			return;
+		case 1:
+			Intent map = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + getValue()));
+			getContext().startActivity(map);
+			return;
+		default:
+			break;
+		}
 	}
 	
 	@Override
