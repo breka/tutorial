@@ -126,14 +126,12 @@ public class MapActivityWithoutActionBar extends MapActivity {
 		
 		@Override
 		public boolean onItemSingleTapUp(int index, OverlayItem item) {
-			boolean isRecycled;
+			boolean isRecycled = true;
 
 			if (mBalloonView == null) {
 				mBalloonView = new BalloonView(MapActivityWithoutActionBar.this);
 				mBalloonView.setOnClickListener(mBalloonClickListener);
 				isRecycled = false;
-			} else {
-				isRecycled = true;
 			}
 
 			mBalloonView.setTag(ContentUrisUtils.withAppendedId(mContentUri, item.mUid));
@@ -161,14 +159,14 @@ public class MapActivityWithoutActionBar extends MapActivity {
 		
 		@Override
 		public boolean onZoom(ZoomEvent event) {
+			if (mBalloonView != null && mBalloonView.getVisibility() == View.VISIBLE) {
+				mBalloonView.requestLayout();
+			}
 			return false;
 		}
 		
 		@Override
 		public boolean onScroll(ScrollEvent event) {
-			if (mBalloonView != null && mBalloonView.getVisibility() == View.VISIBLE) {
-				mBalloonView.requestLayout();
-			}
 			return false;
 		}
 	};
