@@ -178,6 +178,7 @@ public class MapActivityWithoutActionBar extends MapActivity {
 			Uri uri = (Uri) v.getTag();
 			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);
+			mBalloonView.setVisibility(View.GONE);
 		}
 	};
 	
