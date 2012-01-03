@@ -157,15 +157,6 @@ public class MedooAndroidGenHelper {
 		return false;
 	}
 	
-	public static boolean hasLocationFilter(Project project) {
-		for (CardEntity entity : project.getEntities()) {
-			if (entity.getGeoreferenced() != null) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	public static List<FieldGroup> getFilteredGroups(List<FieldEntity> filters) {
 		ArrayList<FieldGroup> result = new ArrayList<FieldGroup>();
 		for (FieldEntity field : filters)

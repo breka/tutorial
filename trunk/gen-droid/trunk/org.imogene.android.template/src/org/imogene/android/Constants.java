@@ -87,6 +87,11 @@ public final class Constants {
 		 */
 		public static final String EXTRA_FORCE = "org.imogene.android.extra.FORCE";
 		
+		/**
+		 * Extra to use when using preference screen with light theme to precise the
+		 * next preference file to display
+		 */
+		public static final String EXTRA_FILENAME = "org.imogene.android.extra.FILENAME";
 	}
 
 	public static interface SortOrder {
