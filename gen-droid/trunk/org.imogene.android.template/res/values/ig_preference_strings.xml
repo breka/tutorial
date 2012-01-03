@@ -70,8 +70,6 @@
     <string name="ig_screen_filters_title">Filters</string>
     <string name="ig_screen_filters_summary">Design filters for specific synchronization</string>
     <string name="ig_webservice_url_title">Web Services Address</string>
-    <string name="ig_location_filter_title">Location filter</string>
-    <string name="ig_tile_loader_filter_title">Donwload tiles</string>
     <string name="ig_security_parameters">Security parameters</string>
     <string name="ig_http_authentication_title">HTTP basic authentication</string>
     <string name="ig_http_authentication_summaryon">Authentication enabled</string>
