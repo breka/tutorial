@@ -105,7 +105,7 @@ public class FileUtils {
 	}
 	
 	public static String readableFileSize(long size) {
-	    if(size <= 0) return "0";
+	    if(size <= 0) return "0o";
 	    final String[] units = new String[] { "o", "Ko", "Mo", "Go", "To" };
 	    int digitGroups = (int) (Math.log(size)/Math.log(1000));
 	    return new DecimalFormat("#,##0.###").format(size/Math.pow(1000, digitGroups)) + " " + units[digitGroups];
