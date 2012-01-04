@@ -10,9 +10,6 @@ import org.imogene.android.maps.widget.BalloonView;
 import org.imogene.android.template.R;
 import org.imogene.android.util.content.ContentUrisUtils;
 import org.imogene.android.util.database.DatabaseUtils;
-import org.osmdroid.events.MapListener;
-import org.osmdroid.events.ScrollEvent;
-import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.views.MapView.LayoutParams;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener;
@@ -57,8 +54,6 @@ public class MapActivityWithoutActionBar extends MapActivity {
 		}
 		
 		mLoader.setOnOverlaysLoadedListener(mLoaderListener);
-		
-		mMapView.setMapListener(mMapListener);
 		
 		// hide the action bar
 		getActionBar().setVisibility(View.GONE);
@@ -152,22 +147,6 @@ public class MapActivityWithoutActionBar extends MapActivity {
 
 			autozoom(item.mGeoPoint);
 			return true;
-		}
-	};
-	
-	private final MapListener mMapListener = new MapListener() {
-		
-		@Override
-		public boolean onZoom(ZoomEvent event) {
-			if (mBalloonView != null && mBalloonView.getVisibility() == View.VISIBLE) {
-				mBalloonView.requestLayout();
-			}
-			return false;
-		}
-		
-		@Override
-		public boolean onScroll(ScrollEvent event) {
-			return false;
 		}
 	};
 	

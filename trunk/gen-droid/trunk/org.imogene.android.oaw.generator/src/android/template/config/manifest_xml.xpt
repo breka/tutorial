@@ -352,6 +352,28 @@
 			</intent-filter>
 		</service>
 		
+		<activity
+            android:name="org.imogene.android.maps.app.PreCacheMap"
+            android:label="@string/maps_offline_title"
+            android:launchMode="singleTask" />
+            
+        <activity
+            android:name="org.imogene.android.maps.app.PreCacheList"
+            android:label="@string/maps_offline_title" />
+            
+        <activity
+            android:name="org.imogene.android.maps.offline.TileLoaderSettings"
+            android:label="@string/maps_offline_title"
+            android:theme="@android:style/Theme.Dialog" />
+            
+        <activity
+            android:name="org.imogene.android.maps.offline.TileLoaderActivity"
+            android:label="@string/maps_offline_title"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <service android:name="org.imogene.android.maps.offline.TileLoaderService" />
+		
 		<receiver
 			android:name="org.imogene.android.service.AbstractSyncService$OnClickSentReceiver" />
 		

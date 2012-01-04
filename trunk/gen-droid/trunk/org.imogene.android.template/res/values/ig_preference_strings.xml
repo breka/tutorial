@@ -59,11 +59,11 @@
     <string name="ig_about_title">"About Imogene"</string>
     <string name="ig_about_summary">"Display informations about the Imogene application"</string>
     <string name="ig_about_dialog_message"><b>Imogene application for Android</b>
-		\nVersion: Beta Test\n
-		<b>Informations</b>
-		\nThis version is a test release.\n
-		<b>Contacts</b>
-		\nTo contact us please send a message to julien.dupouy@medes.fr or
+        \nVersion: Beta Test\n
+        <b>Informations</b>
+        \nThis version is a test release.\n
+        <b>Contacts</b>
+        \nTo contact us please send a message to julien.dupouy@medes.fr or
 		yann.lapeyre@medes.fr.\nYou can also contact us by phone, call M.
 		Julien Dupouy at +33 (0) 534 319 611 or M. Yann Lapeyre at +33 (0) 534 319 617.
 	</string>
@@ -75,7 +75,14 @@
     <string name="ig_http_authentication_summaryon">Authentication enabled</string>
     <string name="ig_http_authentication_summaryoff">Authentication disabled</string>
     <string name="ig_check_parameters">"Update parameters"</string>
-	<string name="ig_check_update_title">"Application updates"</string>
-	<string name="ig_check_update_summary">"Check for application updates"</string>
-	<string name="ig_check_server_title">"Server Update URL"</string>
+    <string name="ig_check_update_title">"Application updates"</string>
+    <string name="ig_check_update_summary">"Check for application updates"</string>
+    <string name="ig_check_server_title">"Server Update URL"</string>
+    <string name="ig_precache_title">"Cache Settings"</string>
+    <string name="ig_precache_caching_title">"Automatic caching"</string>
+    <string name="ig_precache_caching_summary">"Automatic caching the map areas"</string>
+    <string name="ig_precache_clear_title">"Clear map tile cache"</string>
+    <string name="ig_precache_clear_summary">"Current cache size is %1$s. To clear user data use the system application settings"</string>
+    <string name="ig_precache_area_title">"Precached map areas"</string>
+
 </resources>

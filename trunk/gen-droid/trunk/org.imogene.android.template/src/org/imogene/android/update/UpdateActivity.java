@@ -13,6 +13,7 @@ import org.imogene.android.app.MyProgressDialog.Formatter;
 import org.imogene.android.template.R;
 import org.imogene.android.update.PackageHelper.State;
 import org.imogene.android.util.file.FileUtils;
+import org.imogene.android.util.os.Locker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,7 +26,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.Pair;
 
 public class UpdateActivity extends Activity {
@@ -305,32 +305,6 @@ public class UpdateActivity extends Activity {
 			if (mActivity != null) {
 				mActivity.onApkReceived(result);
 			}
-		}
-		
-	}
-	
-	private static class Locker implements Runnable {
-
-		private boolean mLocked = false;
-		private final Handler mHandler = new Handler();
-		
-		public synchronized void lock() {
-			mLocked = true;
-			mHandler.postDelayed(this, 1000);
-		}
-		
-		public synchronized boolean isLocked() {
-			return mLocked;
-		}
-		
-		@Override
-		public synchronized void run() {
-			mLocked = false;
-		}
-		
-		public synchronized void cancel() {
-			mHandler.removeCallbacks(this);
-			mLocked = false;
 		}
 		
 	}
