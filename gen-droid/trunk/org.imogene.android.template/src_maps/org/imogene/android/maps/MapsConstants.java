@@ -3,19 +3,22 @@ package org.imogene.android.maps;
 
 public final class MapsConstants {
 	
-	public static final int DEFAULT_LATIUDE_E6 = 43604472;
-	public static final int DEFAULT_LONGITUDE_E6 = 1442975;
-	public static final int DEFAULT_NORTH_E6 = 44119142;
-	public static final int DEFAULT_WEST_E6 = 593262;
-	public static final int DEFAULT_SOUTH_E6 = 42488302;
-	public static final int DEFAULT_EAST_E6 = 2922363;
+	public static final double DEFAULT_LATIUDE = 43.589390;
+	public static final double DEFAULT_LONGITUDE = 1.445196;
+	public static final double DEFAULT_NORTH = 43.589390;
+	public static final double DEFAULT_WEST = 1.445196;
+	public static final double DEFAULT_SOUTH = 43.586204;
+	public static final double DEFAULT_EAST = 1.452513;
 	
-	public static final double DEFAULT_LATIUDE = DEFAULT_LATIUDE_E6 / 1E6;
-	public static final double DEFAULT_LONGITUDE = DEFAULT_LONGITUDE_E6 / 1E6;
-	public static final double DEFAULT_NORTH = DEFAULT_NORTH_E6 / 1E6;
-	public static final double DEFAULT_WEST = DEFAULT_WEST_E6 / 1E6;
-	public static final double DEFAULT_SOUTH = DEFAULT_SOUTH_E6 / 1E6;
-	public static final double DEFAULT_EAST = DEFAULT_EAST_E6 / 1E6;
+	/**
+	 * A radius WGS84 major axis
+	 */
+    public static final double EARTH_MAJOR_AXIS = 6378137.0;
+    
+    /**
+     * WGS84 semi-major axis
+     */
+    public static final double EARTH_SEMI_MAJOR_AXIS = 6356752.3142;
 	
 	/**
 	 * latitude extra (must be a double value) to use when trying to visualize
@@ -36,6 +39,54 @@ public final class MapsConstants {
 	 * using {@link MapsConstants.MIME_GPS}
 	 */
 	public static final String EXTRA_LOCATION = "location";
+	
+	/**
+	 * Tile source (name) parcelable to precise which tile source to use when
+	 * putting an area into the cache
+	 * @see ITileSource#name()
+	 * @see TileSourceFactory#getTileSource(String)
+	 */
+	public static final String EXTRA_TILE_SOURCE = "tileSource";
+	
+	/**
+	 * North latitute (double) parcelable of the bounding box to put into the cache 
+	 */
+	public static final String EXTRA_LAT_NORTH = "latitudeNorth";
+	
+	/**
+	 * South latitute (double) parcelable of the bounding box to put into the cache 
+	 */
+	public static final String EXTRA_LAT_SOUTH = "latitudeSouth";
+	
+	/**
+	 * East longitude (double) parcelable of the bounding box to put into the cache 
+	 */
+	public static final String EXTRA_LON_EAST = "longitudeEast";
+	
+	/**
+	 * West longitude (double) parcelable of the bounding box to put into the cache 
+	 */
+	public static final String EXTRA_LON_WEST = "longitudeWest";
+	
+	/**
+	 * Maximum zoom level to take into account to pre-cache the geographical area
+	 */
+	public static final String EXTRA_ZOOM_MAX = "zoomMax";
+	
+	/**
+	 * Minimum zoom level to take into account to pre-cache the geographical area
+	 */
+	public static final String EXTRA_ZOOM_MIN = "zoomMin";
+	
+	/**
+	 * Set to true to activate the visualization of the pre-cached areas
+	 */
+	public static final String EXTRA_SHOW_PRECACHE = "showPreCache";
+	
+	/**
+	 * Set to true to refresh the actual pre-cached areas
+	 */
+	public static final String EXTRA_REFRESH_PRECACHE = "refreshPreCache";
 	
 	/**
 	 * Mime type for gps coordinates.

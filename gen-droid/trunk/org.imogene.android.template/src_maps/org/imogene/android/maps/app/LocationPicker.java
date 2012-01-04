@@ -67,6 +67,11 @@ public class LocationPicker extends MapActivity implements OnQuickActionClickLis
 	}
 	
 	@Override
+	public boolean isPrecachingEnabled() {
+		return false;
+	}
+	
+	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		IGeoPoint point = mOverlay.getGeoPoint();

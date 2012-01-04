@@ -110,5 +110,39 @@ public class FileUtils {
 	    int digitGroups = (int) (Math.log(size)/Math.log(1000));
 	    return new DecimalFormat("#,##0.###").format(size/Math.pow(1000, digitGroups)) + " " + units[digitGroups];
 	}
+	
+	/**
+	 * Return the size of a directory in bytes
+	 */
+	public static long getDirectorySize(File dir) {
+	    long result = 0;
+	    File[] list = dir.listFiles();
+
+	    for(int i = 0; i < list.length; i++) {
+	        // Recursive call if it's a directory
+	        if (list[i].isDirectory()) {
+	            result += getDirectorySize(list[i]);
+	        } else {
+	            // Sum the file size in bytes
+	            result += list[i].length();
+	        }
+	    }
+	    return result; // return the file size
+	}
+	
+	/**
+	 * Remove directory
+	 */
+	public static void deleteDirectory(File dir) {
+		File[] list = dir.listFiles();
+		
+		for (int i = 0; i < list.length; i++) {
+			if (list[i].isDirectory()) {
+				deleteDirectory(list[i]);
+			} else {
+				list[i].delete();
+			}
+		}
+	}
 
 }

@@ -101,6 +101,20 @@
 		«ENDIF-»
 	</PreferenceCategory>
 	<PreferenceCategory
+	    android:title="@string/ig_precache_title" >
+    	<org.imogene.android.maps.preference.AutomaticCachingPreference
+        	android:title="@string/ig_precache_caching_title"
+        	android:summary="@string/ig_precache_caching_summary" />
+    	<org.imogene.android.maps.preference.ClearCachePreference
+        	android:title="@string/ig_precache_clear_title" />
+    	<org.imogene.android.maps.preference.PrecachedMapAreasPreference
+        	android:title="@string/ig_precache_area_title" >
+        	<intent
+            	android:targetClass="org.imogene.android.maps.app.PreCacheList"
+            	android:targetPackage="org.imogene.android.gestionflotteavion" />
+    	</org.imogene.android.maps.preference.PrecachedMapAreasPreference>
+    </PreferenceCategory>
+	<PreferenceCategory
 		android:title="@string/ig_about">
 		<org.imogene.android.preference.AboutPreference
 			android:title="@string/ig_about_title"

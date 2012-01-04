@@ -16,9 +16,12 @@ import org.imogene.android.database.sqlite.BinaryCursor;
 import org.imogene.android.database.sqlite.ClientFilterCursor;
 import org.imogene.android.database.sqlite.LocalizedTextCursor;
 import org.imogene.android.database.sqlite.SQLiteBuilder;
+import org.imogene.android.maps.database.PreCache;
+import org.imogene.android.maps.database.sqlite.PreCacheCursor;
 import org.imogene.android.util.content.ContentUrisUtils;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -46,8 +49,10 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 	private static final int CLIENT_FILTERS_ID = 4;
 	private static final int TRANSLATABLE_TEXT = 5;
 	private static final int TRANSLATABLE_TEXT_ID = 6;
+	private static final int PRECACHE_BOUNDS = 7;
+	private static final int PRECACHE_BOUNDS_ID = 8;
 	
-	protected static final int LAST_INDEX = TRANSLATABLE_TEXT_ID;
+	protected static final int LAST_INDEX = PRECACHE_BOUNDS_ID;
 	
 	static {
 		sURIMatcher.addURI(Constants.AUTHORITY, Binary.Columns.TABLE_NAME, BINARIES);
@@ -56,6 +61,8 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		sURIMatcher.addURI(Constants.AUTHORITY, ClientFilter.Columns.TABLE_NAME + "/*", CLIENT_FILTERS_ID);
 		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.Columns.TABLE_NAME, TRANSLATABLE_TEXT);
 		sURIMatcher.addURI(Constants.AUTHORITY, LocalizedText.Columns.TABLE_NAME + "/*", TRANSLATABLE_TEXT_ID);
+		sURIMatcher.addURI(Constants.AUTHORITY, PreCache.Columns.TABLE_NAME, PRECACHE_BOUNDS);
+		sURIMatcher.addURI(Constants.AUTHORITY, PreCache.Columns.TABLE_NAME + "/#", PRECACHE_BOUNDS_ID);
 	}
 
 	protected abstract ImogDatabase getHelper();
@@ -88,6 +95,13 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		case TRANSLATABLE_TEXT_ID:
 			String translatableTextId = uri.getLastPathSegment();
 			result = deleteSingle(LocalizedText.Columns.TABLE_NAME, translatableTextId, selection, selectionArgs);
+			break;
+		case PRECACHE_BOUNDS:
+			result = deleteMulti(PreCache.Columns.TABLE_NAME, selection, selectionArgs);
+			break;
+		case PRECACHE_BOUNDS_ID:
+			String precacheId = uri.getLastPathSegment();
+			result = deleteSingle(PreCache.Columns.TABLE_NAME, precacheId, selection, selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URL" + uri);
@@ -122,6 +136,10 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			return getVndDir() + LocalizedText.Columns.TABLE_NAME;
 		case TRANSLATABLE_TEXT_ID:
 			return getVndItem() + LocalizedText.Columns.TABLE_NAME;
+		case PRECACHE_BOUNDS:
+			return getVndDir() + PreCache.Columns.TABLE_NAME;
+		case PRECACHE_BOUNDS_ID:
+			return getVndItem() + PreCache.Columns.TABLE_NAME;
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
 		}
@@ -136,6 +154,8 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			return insertInTable(ClientFilter.Columns.TABLE_NAME, ClientFilter.Columns.CONTENT_URI, values);
 		case TRANSLATABLE_TEXT:
 			return insertInTable(LocalizedText.Columns.TABLE_NAME, LocalizedText.Columns.CONTENT_URI, values);
+		case PRECACHE_BOUNDS:
+			return insertInTableBase(PreCache.Columns.TABLE_NAME, PreCache.Columns.CONTENT_URI, values);
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
 		}
@@ -166,6 +186,13 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		case TRANSLATABLE_TEXT_ID:
 			qb.setTables(LocalizedText.Columns.TABLE_NAME);
 			qb.appendWhere(Entity.Columns._ID + "='" + uri.getLastPathSegment() + "'");
+			break;
+		case PRECACHE_BOUNDS:
+			qb.setTables(PreCache.Columns.TABLE_NAME);
+			break;
+		case PRECACHE_BOUNDS_ID:
+			qb.setTables(PreCache.Columns.TABLE_NAME);
+			qb.appendWhere(PreCache.Columns._ID + "='" + uri.getLastPathSegment() + "'");
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
@@ -200,6 +227,13 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 		case TRANSLATABLE_TEXT_ID:
 			String translatableTextId = uri.getLastPathSegment();
 			result = updateSingle(LocalizedText.Columns.TABLE_NAME, translatableTextId, values, selection, selectionArgs);
+			break;
+		case PRECACHE_BOUNDS:
+			result = updateMulti(PreCache.Columns.TABLE_NAME, values, selection, selectionArgs);
+			break;
+		case PRECACHE_BOUNDS_ID:
+			String precacheId = uri.getLastPathSegment();
+			result = updateSingle(PreCache.Columns.TABLE_NAME, precacheId, values, selection, selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URL " + uri);
@@ -265,6 +299,17 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			return rowUri;
 		}
 		throw new SQLException("Failed to insert row into binaries");
+	}
+	
+	protected final Uri insertInTableBase(String table, Uri contentUri, ContentValues values) {
+		SQLiteDatabase sqlDB = getHelper().getWritableDatabase();
+		long id = sqlDB.insert(table, "", values);
+		if (id > 0) {
+			Uri uri = ContentUris.withAppendedId(contentUri, id);
+			getContext().getContentResolver().notifyChange(uri, null);
+			return uri;
+		}
+		throw new SQLException("Failed to insert row into " + table);
 	}
 
 	protected final Uri insertInTable(String table, Uri contentUri, ContentValues values) {
@@ -452,6 +497,25 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				+ " integer, "
 				+ LocalizedText.Columns.POTENTIALY_WRONG
 				+ " integer);";
+		private static final String DATABASE_CREATE_PRECACHEBOUNDS = "create table if not exists "
+				+ PreCache.Columns.TABLE_NAME
+				+ " ("
+				+ PreCache.Columns._ID
+				+ " integer primary key autoincrement, "
+				+ PreCache.Columns.PROVIDER
+				+ " text, "
+				+ PreCache.Columns.NORTH
+				+ " real, "
+				+ PreCache.Columns.EAST
+				+ " real, "
+				+ PreCache.Columns.SOUTH
+				+ " real, "
+				+ PreCache.Columns.WEST
+				+ " real, "
+				+ PreCache.Columns.ZOOM_MIN
+				+ " integer, "
+				+ PreCache.Columns.ZOOM_MAX
+				+ " integer);";
 		protected interface Creator<T extends ImogDatabase> {
 			public T getDatabase(Context context);
 		}
@@ -480,6 +544,7 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 			db.execSQL(DATABASE_CREATE_SYNCHISTORY);
 			db.execSQL(DATABASE_CREATE_GPSLOCATION);
 			db.execSQL(DATABASE_CREATE_TRANSLATABLETEXT);
+			db.execSQL(DATABASE_CREATE_PRECACHEBOUNDS);
 		}
 		
 		public Cursor query(Uri uri, String where, String order) {
@@ -511,6 +576,15 @@ public abstract class AbstractProvider extends ContentProvider implements Openab
 				qb.setCursorFactory(new LocalizedTextCursor.Factory());
 				qb.setTables(LocalizedText.Columns.TABLE_NAME);
 				qb.appendWhere(Entity.Columns._ID + "='" + uri.getLastPathSegment() + "'");
+				break;
+			case PRECACHE_BOUNDS:
+				qb.setCursorFactory(new PreCacheCursor.Factory());
+				qb.setTables(PreCache.Columns.TABLE_NAME);
+				break;
+			case PRECACHE_BOUNDS_ID:
+				qb.setCursorFactory(new PreCacheCursor.Factory());
+				qb.setTables(PreCache.Columns.TABLE_NAME);
+				qb.appendWhere(PreCache.Columns._ID + "='" + uri.getLastPathSegment() + "'");
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown URL " + uri);
