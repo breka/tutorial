@@ -111,7 +111,7 @@
         	android:title="@string/ig_precache_area_title" >
         	<intent
             	android:targetClass="org.imogene.android.maps.app.PreCacheList"
-            	android:targetPackage="org.imogene.android.gestionflotteavion" />
+            	android:targetPackage="org.imogene.android.«name.toLowerCase()»" />
     	</org.imogene.android.maps.preference.PrecachedMapAreasPreference>
     </PreferenceCategory>
 	<PreferenceCategory
