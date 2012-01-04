@@ -106,6 +106,7 @@
         	android:title="@string/ig_precache_caching_title"
         	android:summary="@string/ig_precache_caching_summary" />
     	<org.imogene.android.maps.preference.ClearCachePreference
+    		android:key="@string/ig_precache_clear_key"
         	android:title="@string/ig_precache_clear_title" />
     	<org.imogene.android.maps.preference.PrecachedMapAreasPreference
         	android:title="@string/ig_precache_area_title" >
