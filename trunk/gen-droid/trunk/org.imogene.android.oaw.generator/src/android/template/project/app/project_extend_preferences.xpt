@@ -21,7 +21,7 @@ public class ExtendedPreferences extends Preferences {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		switch (mLayout) {
+		switch (mLayoutId) {
 		case R.xml.preferences:
 			findPreference("screen_filters").setEnabled(isPreferenceScreenFilterEnabled());
 			break;
