@@ -49,15 +49,20 @@ public class ClearCachePreference extends Preference {
 	
 	@Override
 	protected void onClick() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				FileUtils.deleteDirectory(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
-				blockingUpdate();
-			}
-		}).start();
+		nonBlockingDelete();
 	}
-
+	
+	private void blockingUpdate() {
+		long size = FileUtils.getDirectorySize(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
+		persistLong(size);
+		mHandler.sendEmptyMessage(MSG_UPDATE_ID);
+	}
+	
+	private void blockingDelete() {
+		FileUtils.deleteDirectory(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
+		blockingUpdate();
+	}
+	
 	private void nonBlockingUpdate() {
 		new Thread(new Runnable() {
 			@Override
@@ -67,10 +72,12 @@ public class ClearCachePreference extends Preference {
 		}).start();
 	}
 	
-	private void blockingUpdate() {
-		long size = FileUtils.getDirectorySize(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
-		persistLong(size);
-		mHandler.sendEmptyMessage(MSG_UPDATE_ID);
+	private void nonBlockingDelete() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				blockingDelete();
+			}
+		}).start();
 	}
-
 }
