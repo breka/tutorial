@@ -201,6 +201,7 @@ public class «name.toFirstUpper()»Listing extends GDExpandableListActivity imple
 		case DIALOG_SEARCH_SERVER_ID:
 			return new AlertDialog.Builder(this)
 			.setTitle(R.string.ig_scanned_notfound)
+			.setIcon(android.R.drawable.ic_dialog_info)
 			.setMessage(getString(R.string.ig_scanned_notfoundinapp, mScanned))
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				@Override
@@ -216,6 +217,7 @@ public class «name.toFirstUpper()»Listing extends GDExpandableListActivity imple
 		case DIALOG_EXIT_ID:
 			return new AlertDialog.Builder(this)
 			.setTitle(android.R.string.dialog_alert_title)
+			.setIcon(android.R.drawable.ic_dialog_alert)
 			.setMessage(R.string.ig_dialog_quit)
 			.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 				@Override
