@@ -1,5 +1,6 @@
 package org.imogene.android.app;
 
+import org.imogene.android.app.SntpOffsetTask.OnSntpOffsetListener;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.template.R;
 import org.imogene.android.util.ntp.SntpException;
@@ -10,22 +11,38 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 
-public class OffsetActivity extends Activity implements OnClickListener {
+public class OffsetActivity extends Activity {
 	
 	private static final int DIALOG_SNTPING_ID = 1;
 	private static final int DIALOG_SNTP_FAILED_ID = 2;
 
-	private Thread mSntpThread;
+	private String mServerUrl;
+	private SntpOffsetTask mTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);		
-		launchSntp();
+		super.onCreate(savedInstanceState);
+		
+		mServerUrl = PreferenceHelper.getNtpServerUrl(this);
+		
+		mTask = (SntpOffsetTask) getLastNonConfigurationInstance();
+		if (mTask == null) {
+			mTask = new SntpOffsetTask();
+		}
+		
+		mTask.setOnSntpOffsetListener(mSntpListener);
+		if (mTask.getStatus() == AsyncTask.Status.PENDING) {
+			mTask.execute(mServerUrl);
+		}
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		mTask.setOnSntpOffsetListener(null);
+		return mTask;
 	}
 	
 	@Override
@@ -43,109 +60,91 @@ public class OffsetActivity extends Activity implements OnClickListener {
 			.setIcon(android.R.drawable.ic_dialog_alert)
 			.setMessage(R.string.ig_obtaining_time_offset_failed)
 			.setCancelable(false)
-			.setPositiveButton(android.R.string.ok, this)
-			.setNegativeButton(android.R.string.no, this)
+			.setPositiveButton(android.R.string.ok, mFailedDialogListener)
+			.setNegativeButton(android.R.string.no, mFailedDialogListener)
 			.create();
 		default:
 			return super.onCreateDialog(id);
 		}
 	}
 	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (mSntpThread != null) {
-			mSntpThread.interrupt();
-			try {
-				mSntpThread.join();
-			} catch (InterruptedException e) {
-				// Don't care
-			}
-		}
-	}
-	
-	public void onClick(DialogInterface dialog, int which) {
-		switch (which) {
-		case DialogInterface.BUTTON_POSITIVE:
-			launchSntp();
-			break;
-		case DialogInterface.BUTTON_NEGATIVE:
-			setResult(RESULT_CANCELED);
-			finish();
-			break;
-		}
-	}
-	
-	private void launchSntp() {
-		mSntpThread = new Thread(new SntpRunnable(), "SntpThread");
-		mSntpThread.setPriority(Thread.MAX_PRIORITY);
-		mSntpThread.start();
-	}
-	
-	private void onSntpRunning() {
-		showDialog(DIALOG_SNTPING_ID);
-	}
-	
-	private void onSntpSucceed(long offset) {
-		PreferenceHelper.getSharedPreferences(this)
-		.edit()
-		.putLong(getString(R.string.ig_ntp_offset_key), offset)
-		.commit();
+	private final DialogInterface.OnClickListener mFailedDialogListener = new DialogInterface.OnClickListener() {
 		
-		removeDialog(DIALOG_SNTPING_ID);
-		setResult(RESULT_OK);
-		finish();
-	}
-	
-	private void onSntpFailed() {
-		removeDialog(DIALOG_SNTPING_ID);
-		showDialog(DIALOG_SNTP_FAILED_ID);
-	}
-	
-	private class SntpRunnable implements Runnable {
-		
-		public void run() {
-			reportSntpRunning();
-			try {
-				reportSntpSucceed(SntpProvider.getTimeOffsetFromNtp(OffsetActivity.this));
-			} catch (SntpException e) {
-				reportSntpFailed();
-			}
-
-		}
-
-		private void reportSntpRunning() {
-			mHandler.sendEmptyMessage(MSG_SNTPING);
-		}
-		
-		private void reportSntpSucceed(long offset) {
-			mHandler.sendMessage(Message.obtain(mHandler, MSG_SNTP_SUCCESS, offset));
-		}
-		
-		private void reportSntpFailed() {
-			mHandler.sendEmptyMessage(MSG_SNTP_FAILED);
-		}
-	}
-	
-	private static final int MSG_SNTPING = 1;
-	private static final int MSG_SNTP_SUCCESS = 2;
-	private static final int MSG_SNTP_FAILED = 3;
-	
-	private final Handler mHandler = new Handler() {
 		@Override
-		public void handleMessage(Message msg) {
-			switch(msg.what) {
-			case MSG_SNTPING:
-				onSntpRunning();
+		public void onClick(DialogInterface dialog, int which) {
+			switch (which) {
+			case DialogInterface.BUTTON_POSITIVE:
+				mTask = new SntpOffsetTask();
+				mTask.setOnSntpOffsetListener(mSntpListener);
+				mTask.execute(mServerUrl);
 				break;
-			case MSG_SNTP_SUCCESS:
-				onSntpSucceed((Long) msg.obj);
-				break;
-			case MSG_SNTP_FAILED:
-				onSntpFailed();
+			case DialogInterface.BUTTON_NEGATIVE:
+				setResult(RESULT_CANCELED);
+				finish();
 				break;
 			}
-			super.handleMessage(msg);
-		};
+		}
 	};
+	
+	private final OnSntpOffsetListener mSntpListener = new OnSntpOffsetListener() {
+		
+		@Override
+		public void onResult(Long offset) {
+			dismissDialog(DIALOG_SNTPING_ID);
+			if (offset == null) {
+				showDialog(DIALOG_SNTP_FAILED_ID);
+				return;
+			}
+			
+			PreferenceHelper.getSharedPreferences(OffsetActivity.this)
+			.edit().putLong(getString(R.string.ig_ntp_offset_key), offset).commit();
+			
+			finish();
+		}
+		
+		@Override
+		public void onPreLaunch() {
+			showDialog(DIALOG_SNTPING_ID);
+		}
+		
+	};
+	
+}
+
+class SntpOffsetTask extends AsyncTask<String, Void, Long> {
+	
+	public interface OnSntpOffsetListener {
+		public void onPreLaunch();
+		public void onResult(Long offset);
+	}
+	
+	private OnSntpOffsetListener mListener;
+	
+	public void setOnSntpOffsetListener(OnSntpOffsetListener listener) {
+		mListener = listener;
+	}
+	
+	@Override
+	protected void onPreExecute() {
+		if (mListener != null) {
+			mListener.onPreLaunch();
+		}
+	}
+	
+	@Override
+	protected Long doInBackground(String... params) {
+		try {
+			return SntpProvider.getTimeOffsetFromNtp(params[0]);
+		} catch (SntpException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	protected void onPostExecute(Long result) {
+		if (mListener != null) {
+			mListener.onResult(result);
+		}
+	}
 }

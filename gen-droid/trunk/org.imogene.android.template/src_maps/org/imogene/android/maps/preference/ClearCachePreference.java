@@ -18,7 +18,7 @@ public class ClearCachePreference extends Preference {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case MSG_UPDATE_ID:
-				notifyChanged();
+				updateSummary((Long) msg.obj);
 				break;
 			default:
 				super.handleMessage(msg);
@@ -41,10 +41,10 @@ public class ClearCachePreference extends Preference {
 		nonBlockingUpdate();
 	}
 	
-	@Override
-	public CharSequence getSummary() {
-		String readableSize = FileUtils.readableFileSize(getPersistedLong(0));
-		return getContext().getString(R.string.ig_precache_clear_summary, readableSize);
+	private void updateSummary(long size) {
+		String readableSize = FileUtils.readableFileSize(size);
+		String summary = getContext().getString(R.string.ig_precache_clear_summary, readableSize);
+		setSummary(summary);
 	}
 	
 	@Override
@@ -54,13 +54,11 @@ public class ClearCachePreference extends Preference {
 	
 	private void blockingUpdate() {
 		long size = FileUtils.getDirectorySize(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
-		persistLong(size);
-		mHandler.sendEmptyMessage(MSG_UPDATE_ID);
+		Message.obtain(mHandler, MSG_UPDATE_ID, size).sendToTarget();
 	}
 	
 	private void blockingDelete() {
 		FileUtils.deleteDirectory(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
-		blockingUpdate();
 	}
 	
 	private void nonBlockingUpdate() {
@@ -77,6 +75,7 @@ public class ClearCachePreference extends Preference {
 			@Override
 			public void run() {
 				blockingDelete();
+				blockingUpdate();
 			}
 		}).start();
 	}

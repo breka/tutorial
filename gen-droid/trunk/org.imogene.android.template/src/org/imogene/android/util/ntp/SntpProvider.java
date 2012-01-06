@@ -34,13 +34,11 @@ public class SntpProvider {
         }
 	}
 	
-    public static final long getTimeOffsetFromNtp(Context context) throws SntpException {
-    	String ntpServer = PreferenceHelper.getNtpServerUrl(context);
-    	
+    public static final long getTimeOffsetFromNtp(String serverUrl) throws SntpException {
 		try {
-			long real = SntpProvider.getRealTimeFromNtp(ntpServer);
+			long real = SntpProvider.getRealTimeFromNtp(serverUrl);
 			long local = System.currentTimeMillis();
-			return local-real;
+			return local - real;
 		} catch (SntpException e) {
 			throw new SntpException();
 		}

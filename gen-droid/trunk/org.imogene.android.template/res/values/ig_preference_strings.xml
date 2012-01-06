@@ -84,5 +84,6 @@
     <string name="ig_precache_clear_title">"Clear map tile cache"</string>
     <string name="ig_precache_clear_summary">"Current cache size is %1$s. To clear user data use the system application settings"</string>
     <string name="ig_precache_area_title">"Precached map areas"</string>
+    <string name="ig_precache_computing_summary">"Computing..."</string>
 
 </resources>

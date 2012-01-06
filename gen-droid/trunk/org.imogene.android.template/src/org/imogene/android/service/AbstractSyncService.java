@@ -220,7 +220,8 @@ public abstract class AbstractSyncService extends WakefulIntentService {
 
 	private void updateTimeOffset() {
 		try {
-			long offset = SntpProvider.getTimeOffsetFromNtp(this);
+			String url = PreferenceHelper.getNtpServerUrl(this);
+			long offset = SntpProvider.getTimeOffsetFromNtp(url);
 			onUpdateOffset(offset);
 		} catch (SntpException e) {
 			Log.e(TAG, "update offset from ntp ->", e);
