@@ -26,7 +26,6 @@ public class RenewHardwareId extends DialogPreference {
 		super.onDialogClosed(positiveResult);
 		if (positiveResult) {
 			persistString(UUID.randomUUID().toString());
-			notifyDependencyChange(shouldDisableDependents());
 			notifyChanged();
 		}
 	}

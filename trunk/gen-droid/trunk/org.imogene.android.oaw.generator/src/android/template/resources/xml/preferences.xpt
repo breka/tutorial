@@ -106,10 +106,11 @@
         	android:title="@string/ig_precache_caching_title"
         	android:summary="@string/ig_precache_caching_summary" />
     	<org.imogene.android.maps.preference.ClearCachePreference
-    		android:key="@string/ig_precache_clear_key"
-        	android:title="@string/ig_precache_clear_title" />
+        	android:title="@string/ig_precache_clear_title"
+        	android:summary="@string/ig_precache_computing_summary" />
     	<org.imogene.android.maps.preference.PrecachedMapAreasPreference
-        	android:title="@string/ig_precache_area_title" >
+        	android:title="@string/ig_precache_area_title"
+        	android:summary="@string/ig_precache_computing_summary" >
         	<intent
             	android:targetClass="org.imogene.android.maps.app.PreCacheList"
             	android:targetPackage="org.imogene.android.«name.toLowerCase()»" />

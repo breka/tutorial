@@ -2,14 +2,14 @@ package org.imogene.android.app;
 
 import org.imogene.android.Constants.Extras;
 import org.imogene.android.app.setup.AccountSetupBasics;
-import org.imogene.android.preference.MyPreferenceActivity;
 import org.imogene.android.preference.PreferenceHelper;
 import org.imogene.android.template.R;
 
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.text.TextUtils;
 
-public class Preferences extends MyPreferenceActivity {
+public class Preferences extends PreferenceActivity {
 	
 	protected int mLayoutId = 0;
 

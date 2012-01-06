@@ -1,14 +1,21 @@
 package org.imogene.android.maps.preference;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.imogene.android.database.sqlite.SQLiteWrapper;
 import org.imogene.android.maps.database.PreCache;
 import org.imogene.android.template.R;
 
 import android.content.Context;
+import android.database.ContentObserver;
+import android.os.Handler;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.preference.PreferenceManager.OnActivityDestroyListener;
 import android.util.AttributeSet;
 
-public class PrecachedMapAreasPreference extends Preference {
+public class PrecachedMapAreasPreference extends Preference implements OnActivityDestroyListener {
 	
 	private static final String COUNT_SQL = "select count(*) from " + PreCache.Columns.TABLE_NAME;
 	
@@ -21,8 +28,51 @@ public class PrecachedMapAreasPreference extends Preference {
 	}
 	
 	@Override
+	protected void onAttachedToHierarchy(PreferenceManager preferenceManager) {
+		super.onAttachedToHierarchy(preferenceManager);
+		
+		try {
+			Method method = PreferenceManager.class.getDeclaredMethod("registerOnActivityDestroyListener", OnActivityDestroyListener.class);
+			method.setAccessible(true);
+			method.invoke(preferenceManager, this);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	protected void onAttachedToActivity() {
+		super.onAttachedToActivity();
+		getContext().getContentResolver().registerContentObserver(PreCache.Columns.CONTENT_URI, true, mContentObserver);
+	}
+	
+	@Override
+	public void onActivityDestroy() {
+		getContext().getContentResolver().unregisterContentObserver(mContentObserver);
+	}
+	
+	@Override
 	public CharSequence getSummary() {
 		int count = (int) SQLiteWrapper.queryForLong(getContext(), COUNT_SQL);
 		return getContext().getResources().getQuantityString(R.plurals.ig_precache_area_summary, count, count);
 	}
+	
+	private final Handler mHandler = new Handler();
+	
+	private final ContentObserver mContentObserver = new ContentObserver(mHandler) {
+		
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
+			notifyChanged();
+		}
+	};
 }

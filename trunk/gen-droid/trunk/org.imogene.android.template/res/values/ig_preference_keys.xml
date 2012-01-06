@@ -28,6 +28,5 @@
     <string name="ig_http_authentication_key">HTTP_AUTHENTICATION</string>
     <string name="ig_check_update_key">CHECK_UPDATE</string>
     <string name="ig_check_server_key">CHECK_SERVER</string>
-    <string name="ig_precache_clear_key">PRECACHE_CLEAR</string>
 
 </resources>
