@@ -15,9 +15,12 @@ import java.util.Set;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
+import org.eclipse.emf.edit.provider.IItemFontProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -41,11 +44,7 @@ import org.imogene.model.core.editor.ImogeneModelEditPlugin;
 public class FieldGroupItemProvider
 	extends ItemProviderAdapter
 	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider, IItemFontProvider {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -232,7 +231,7 @@ public class FieldGroupItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/FieldGroup"));
+		return overlayImage(object, getResourceLocator().getImage("full/custom16/FieldGroup.png"));
 	}
 
     /**
@@ -266,7 +265,7 @@ public class FieldGroupItemProvider
         
         return label == null || label.length() == 0 ?
             getString("_UI_FieldGroup_type") + " " + buf.toString() :
-            getString("_UI_FieldGroup_type") + " " + label + " " + buf.toString();
+            label + " " + buf.toString();
     }
 
 	/**
@@ -425,6 +424,11 @@ public class FieldGroupItemProvider
 	@Override
 	public ResourceLocator getResourceLocator() {
 		return ImogeneModelEditPlugin.INSTANCE;
+	}
+
+	@Override
+	public Object getForeground(Object object) {		
+		return URI.createURI("color://rgb/0/141/0");
 	}
 
 }

@@ -12,9 +12,12 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
+import org.eclipse.emf.edit.provider.IItemFontProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -37,11 +40,7 @@ import org.imogene.model.core.editor.ImogeneModelEditPlugin;
 public class CardEntityItemProvider
 	extends ItemProviderAdapter
 	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider, IItemFontProvider {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -481,7 +480,7 @@ public class CardEntityItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/CardEntity"));
+		return overlayImage(object, getResourceLocator().getImage("full/custom16/CardEntity.png"));
 	}
 
     /**
@@ -496,7 +495,7 @@ public class CardEntityItemProvider
         String label = c.getName();
         return label == null || label.length() == 0 ?
             getString("_UI_CardEntity_type") :
-            getString("_UI_CardEntity_type") + " " + label + "(" + c.getShortName() + ")";
+            label + " (" + c.getShortName() + ")";
     }
 
 	/**
@@ -560,5 +559,15 @@ public class CardEntityItemProvider
 	public ResourceLocator getResourceLocator() {
 		return ImogeneModelEditPlugin.INSTANCE;
 	}
+
+	@Override
+	public Object getFont(Object object) {		
+		return IItemFontProvider.BOLD_FONT;
+	}
+
+	@Override
+	public Object getForeground(Object object) {		
+		return URI.createURI("color://rgb/80/80/148");
+	}		
 
 }
