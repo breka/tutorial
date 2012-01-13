@@ -96,9 +96,8 @@
 	app:igFilterMultiple="«multipleSelection»"
 	app:igFilterEntity="«parentGroup.parentCard.shortName.toUpperCase()»"
 	app:igFilterField="«EXPAND template::CommonFieldUtil::propertyName FOR this»"
-	app:igFilterEntries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
-	app:igFilterSize="«enumValues.size»"
-	app:igFilterArray="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
+	app:igFilterItems="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+	app:igFilterItemsValues="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
 />
 «ENDDEFINE»
 

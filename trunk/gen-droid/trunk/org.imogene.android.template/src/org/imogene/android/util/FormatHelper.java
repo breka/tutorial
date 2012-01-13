@@ -57,28 +57,34 @@ public class FormatHelper {
     	return context.getString(R.string.ig_location_format, location.getLatitude(), location.getLongitude());
     }
     
-    public static final String displayEnumSingle(CharSequence[] items, int[] itemsValues, int value) {
+    public static final String displayEnumSingle(String[] items, int[] itemsValues, int value) {
     	return items[Tools.find(itemsValues, value)].toString();
     }
     
     public static final String displayEnumSingle(Context context, int itemsId, int itemsValuesId, int value) {
-    	Resources r = context.getResources();
-    	return displayEnumSingle(r.getTextArray(itemsId), r.getIntArray(itemsValuesId), value);
+    	final Resources r = context.getResources();
+    	final String[] items = r.getStringArray(itemsId);
+    	final int[] itemsValues = r.getIntArray(itemsValuesId);
+    	return displayEnumSingle(items, itemsValues, value);
     }
     
-    public static final String displayEnumMulti(String[] array, boolean[] value) {
+    public static final String displayEnumMulti(String[] items, boolean[] value) {
     	StringBuilder builder = new StringBuilder();
     	boolean hasOne = false;
-    	for (int i = 0; i < array.length; i++) {
+    	for (int i = 0; i < items.length; i++) {
     		if (value[i]) {
     			if (hasOne)
     				builder.append(" ; ");
     			else
     				hasOne = true;
-    			builder.append(array[i]);
+    			builder.append(items[i]);
     		}
     	}
     	return builder.toString();
+    }
+    
+    public static final String displayEnumMulti(Context context, int itemsId, boolean[] value) {
+    	return displayEnumMulti(context.getResources().getStringArray(itemsId), value);
     }
     
 	public static final Long toLong(String str) {

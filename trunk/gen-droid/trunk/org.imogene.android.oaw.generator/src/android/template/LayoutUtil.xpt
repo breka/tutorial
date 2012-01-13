@@ -117,9 +117,8 @@ app:igIntMin="«min»"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR EnumField-»
-app:igEntries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
-app:igArray="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
-app:igSize="«enumValues.size»"
+app:igItems="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+app:igItemsValues="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR DatesField-»

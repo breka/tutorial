@@ -19,17 +19,17 @@ import android.view.View;
 
 public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements OnMultiChoiceClickListener, android.content.DialogInterface.OnClickListener {
 
-	private final int mEntries;
-	private final int mArray;
+	private final String[] mItems;
+	private final int[] mItemsValues;
 	private final int mSize;
 	
 	public EnumMultipleFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, R.layout.ig_field_default);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumField, 0, 0);
-		mEntries = a.getResourceId(R.styleable.EnumField_igEntries, 0);
-		mArray = a.getResourceId(R.styleable.EnumField_igArray, 0);
-		mSize = a.getInteger(R.styleable.EnumField_igSize, 0);
+		mItems = getResources().getStringArray(a.getResourceId(R.styleable.EnumField_igItems, 0));
+		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_igItemsValues, 0));
 		a.recycle();
+		mSize = mItems.length;
 		setValue(new boolean[mSize]);
 	}
 	
@@ -70,7 +70,7 @@ public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements O
 		if (value == null || Arrays.equals(value, new boolean[mSize])) {
 			return getEmptyText();
 		} else {
-			return FormatHelper.displayEnumMulti(getResources().getStringArray(mEntries), value);
+			return FormatHelper.displayEnumMulti(mItems, value);
 		}
 	}
 	
@@ -80,12 +80,12 @@ public class EnumMultipleFieldEdit extends BaseFieldEdit<boolean[]> implements O
 		if (array == null)
 			return false;
 		
-		return EnumConverter.convert(getContext(), mArray, array).matches(value);
+		return EnumConverter.convert(mItemsValues, array).matches(value);
 	}
 	
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
-		builder.setMultiChoiceItems(mEntries, getValue() != null ? getValue().clone() : null, this);
+		builder.setMultiChoiceItems(mItems, getValue() != null ? getValue().clone() : null, this);
 		builder.setPositiveButton(android.R.string.ok, this);
 		builder.setNeutralButton(android.R.string.cut, this);
 		builder.setNegativeButton(android.R.string.cancel, this);

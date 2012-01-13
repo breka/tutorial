@@ -6,8 +6,7 @@ import android.content.Context;
 
 public class EnumConverter {
 	
-	public static final String convert(Context context, final int resId, boolean[] values) {
-		int[] array = context.getResources().getIntArray(resId);
+	public static final String convert(int[] itemsValues, boolean[] values) {
 		StringBuilder builder = new StringBuilder();
 		boolean first = true;
 		for (int i = 0; i < values.length; i++) {
@@ -16,7 +15,7 @@ public class EnumConverter {
 					first = false;
 				else
 					builder.append(';');
-				builder.append(String.valueOf(array[i]));
+				builder.append(String.valueOf(itemsValues[i]));
 			}
 		}
 		if (first)
@@ -25,19 +24,29 @@ public class EnumConverter {
 			return builder.toString();
 	}
 	
-	public static final boolean[] parseMulti(Context context, final int resId, String str) {
-		int[] array = context.getResources().getIntArray(resId);
-		boolean[] b = new boolean[array.length];
+	public static final String convert(Context context, int itemsValuesId, boolean[] values) {
+		return convert(context.getResources().getIntArray(itemsValuesId), values);
+	}
+	
+	public static final boolean[] parseMulti(int[] itemsValues, String str) {
+		boolean[] b = new boolean[itemsValues.length];
 		if (str != null) {
 			for (String substr : str.split(";")) {
 				Integer i = FormatHelper.toInteger(substr);
-				if (i != null)
-					for (int j = 0; j < array.length; j++)
-						if (array[j] == i.intValue())
+				if (i != null) {
+					for (int j = 0; j < itemsValues.length; j++) {
+						if (itemsValues[j] == i.intValue()) {
 							b[j] = true;
+						}
+					}
+				}
 			}
 		}
 		return b;
+	}
+	
+	public static final boolean[] parseMulti(Context context, int itemsValuesId, String str) {
+		return parseMulti(context.getResources().getIntArray(itemsValuesId), str);
 	}
 
 }

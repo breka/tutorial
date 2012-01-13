@@ -16,7 +16,7 @@
 
 		<LinearLayout
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
+			android:layout_height="wrap_content"
 			android:orientation="vertical" >
 		
 		«EXPAND layout FOREACH group.fields-»
@@ -110,8 +110,8 @@ app:igFormat="@string/«EXPAND android::template::MedooAndroidFieldUtil::resource
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR EnumField-»
-app:igArray="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
-app:igEntries="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+app:igItems="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»"
+app:igItemsValues="@array/«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»_values"
 «ENDDEFINE»
 
 «DEFINE specificAttributes FOR RelationFieldEntity-»

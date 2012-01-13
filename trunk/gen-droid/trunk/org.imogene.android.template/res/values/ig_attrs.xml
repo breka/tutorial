@@ -29,11 +29,9 @@
         <!-- Defines whether this enumeration is a multiple selection. -->
         <attr format="boolean" name="igFilterMultiple" />
         <!-- The human-readable array to present as a list -->
-        <attr format="reference" name="igFilterEntries" />
-        <!-- Array size presented as list -->
-        <attr format="integer" name="igFilterSize" />
+        <attr format="reference" name="igFilterItems" />
         <!-- Conversion array for enumerate field -->
-        <attr format="reference" name="igFilterArray" />
+        <attr format="reference" name="igFilterItemsValues" />
     </declare-styleable>
     <declare-styleable name="RelationFilterPreference">
 
@@ -86,11 +84,9 @@
     <declare-styleable name="EnumField">
 
         <!-- The human-readable array to present as a list -->
-        <attr format="reference" name="igEntries" />
+        <attr format="reference" name="igItems" />
         <!-- Conversion array for enumerate field -->
-        <attr format="reference" name="igArray" />
-        <!-- Array size presented as list -->
-        <attr format="integer" name="igSize" />
+        <attr format="reference" name="igItemsValues" />
     </declare-styleable>
     <declare-styleable name="NumberField">
 
