@@ -13,14 +13,14 @@ import android.util.AttributeSet;
 
 public class EnumMultipleFieldView extends DefaultEntityView<boolean[]> {
 
-	private final int mEntries;
-	private final int mArray;
+	private final String[] mItems;
+	private final int[] mItemsValues;
 
 	public EnumMultipleFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumField, 0, 0);
-		mEntries = a.getResourceId(R.styleable.EnumField_igEntries, 0);
-		mArray = a.getResourceId(R.styleable.EnumField_igArray, 0);
+		mItems = getResources().getStringArray(a.getResourceId(R.styleable.EnumField_igItems, 0));
+		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_igItemsValues, 0));
 		a.recycle();
 	}
 	
@@ -34,7 +34,7 @@ public class EnumMultipleFieldView extends DefaultEntityView<boolean[]> {
 	public String getDisplay() {
 		boolean[] value = getValue();
 		if (value != null && !Arrays.equals(value, new boolean[value.length])) {
-			return FormatHelper.displayEnumMulti(getResources().getStringArray(mEntries), value);
+			return FormatHelper.displayEnumMulti(mItems, value);
 		}
 		return super.getDisplay();
 	}
@@ -53,7 +53,7 @@ public class EnumMultipleFieldView extends DefaultEntityView<boolean[]> {
 		if (array == null)
 			return false;
 		
-		return EnumConverter.convert(getContext(), mArray, array).matches(value);
+		return EnumConverter.convert(mItemsValues, array).matches(value);
 	}
 
 }

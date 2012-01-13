@@ -9,14 +9,14 @@ import android.util.AttributeSet;
 
 public class EnumSingleFieldView extends DefaultEntityView<Integer> {
 
-	private final CharSequence[] mItems;
+	private final String[] mItems;
 	private final int[] mItemsValues;
 	
 	public EnumSingleFieldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumField, 0, 0);
-		mItems = a.getTextArray(R.styleable.EnumField_igEntries);
-		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_igArray, 0));
+		mItems = getResources().getStringArray(a.getResourceId(R.styleable.EnumField_igItems, 0));
+		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_igItemsValues, 0));
 		a.recycle();
 	}
 	

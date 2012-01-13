@@ -14,14 +14,14 @@ import android.view.View;
 
 public class EnumSingleFieldEdit extends BaseFieldEdit<Integer> implements DialogInterface.OnClickListener {
 	
-	private final CharSequence[] mItems;
+	private final String[] mItems;
 	private final int[] mItemsValues;
 	
 	public EnumSingleFieldEdit(Context context, AttributeSet attrs) {
 		super(context, attrs, R.layout.ig_field_default);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EnumField, 0, 0);
-		mItems = a.getTextArray(R.styleable.EnumField_igEntries);
-		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_igArray, 0));
+		mItems = getResources().getStringArray(a.getResourceId(R.styleable.EnumField_igItems, 0));
+		mItemsValues = getResources().getIntArray(a.getResourceId(R.styleable.EnumField_igItemsValues, 0));
 		a.recycle();
 		setValue(-1);
 	}

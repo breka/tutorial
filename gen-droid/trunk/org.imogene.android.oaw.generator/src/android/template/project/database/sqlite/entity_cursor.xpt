@@ -319,7 +319,16 @@ if («name.toFirstLower()» != null) {
 «ENDDEFINE»
 
 «DEFINE getDisplay FOR EnumField-»
-«IF !multipleSelection -»
+«IF multipleSelection»
+boolean[] «name.toFirstLower()» = get«name.toFirstUpper()-»();
+if («name.toFirstLower()» != null) {
+	str.append(FormatHelper.displayEnumMulti(
+			context,
+			R.array.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR this»,
+			«name.toFirstLower()»));
+	str.append(" ");
+}
+«ELSE»
 int «name.toFirstLower()» = get«name.toFirstUpper()-»();
 if («name.toFirstLower()» != -1) {
 	str.append(FormatHelper.displayEnumSingle(
