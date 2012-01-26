@@ -1,11 +1,12 @@
 package org.imogene.android.app;
 
+import greendroid.app.GDPreferenceActivity;
+
 import org.imogene.android.template.R;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 
-public class HighPreferences extends PreferenceActivity {
+public class HighPreferences extends GDPreferenceActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
