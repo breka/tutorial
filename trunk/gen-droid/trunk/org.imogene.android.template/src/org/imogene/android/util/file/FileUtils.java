@@ -115,9 +115,13 @@ public class FileUtils {
 	 * Return the size of a directory in bytes
 	 */
 	public static long getDirectorySize(File dir) {
-	    long result = 0;
 	    File[] list = dir.listFiles();
+	    
+	    if (list == null) {
+	    	return 0;
+	    }
 
+	    long result = 0;
 	    for(int i = 0; i < list.length; i++) {
 	        // Recursive call if it's a directory
 	        if (list[i].isDirectory()) {
@@ -135,6 +139,10 @@ public class FileUtils {
 	 */
 	public static void deleteDirectory(File dir) {
 		File[] list = dir.listFiles();
+		
+		if (list == null) {
+			return;
+		}
 		
 		for (int i = 0; i < list.length; i++) {
 			if (list[i].isDirectory()) {
