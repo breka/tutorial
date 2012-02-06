@@ -296,6 +296,19 @@
 		</activity>
 		
 		<activity
+			android:name="org.imogene.android.maps.app.EnterManualLocation"
+			android:icon="@drawable/maps_manual"
+			android:label="@string/maps_manual"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+			<intent-filter>
+				<action android:name="android.intent.action.PICK" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="org.imogene.map.«name.toLowerCase()».category.MANUAL" />
+				<data android:mimeType="vnd.imogene.«name.toLowerCase()».maps/coordinates" />
+			</intent-filter>
+		</activity>
+		
+		<activity
 			android:name="org.imogene.android.maps.app.LocationViewer"
 			android:icon="@drawable/maps_map"
 			android:label="@string/maps_map" />
