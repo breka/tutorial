@@ -91,26 +91,26 @@ public final class MapsConstants {
 	/**
 	 * Mime type for gps coordinates.
 	 */
-	public static final String MIME_GPS = "vnd.imogene.gestionflotteavion.maps/coordinates";
+	public static final String MIME_GPS = "vnd.imogene.%realProjectName%.maps/coordinates";
 	
 	/**
 	 * Filter the available intents to ask for coordinates only using the sensor
 	 */
-	public static final String CATEGORY_GPS = "org.imogene.map.gestionflotteavion.category.GPS";
+	public static final String CATEGORY_GPS = "org.imogene.map.%realProjectName%.category.GPS";
 
 	/**
 	 * Filter the available intents to ask for coordinates from the best sensor available
 	 */
-	public static final String CATEGORY_BEST = "org.imogene.map.gestionflotteavion.category.BEST";
+	public static final String CATEGORY_BEST = "org.imogene.map.%realProjectName%.category.BEST";
 
 	/**
 	 * Filter the available intents to ask for coordinates from the network
 	 */
-	public static final String CATEGORY_NETWORK = "org.imogene.map.gestionflotteavion.category.NETWORK";
+	public static final String CATEGORY_NETWORK = "org.imogene.map.%realProjectName%.category.NETWORK";
 
 	/**
 	 * Filter the available intents to ask for coordinates picking a point on a map
 	 */
-	public static final String CATEGORY_MAP = "org.imogene.map.gestionflotteavion.category.MAP";
+	public static final String CATEGORY_MAP = "org.imogene.map.%realProjectName%.category.MAP";
 	
 }

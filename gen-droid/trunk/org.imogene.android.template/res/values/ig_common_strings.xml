@@ -136,7 +136,23 @@
     <string name="ig_check_available_title">"Application Update"</string>
     <string name="ig_check_available_message">"New application available. Would you like to install it now ?"</string>
     <string name="ig_check_unavailable_message">"There is no update available, check later."</string>
-    <string name="ig_update_app_title">"Loading..."</string>
+    <string name="ig_update_app_title">"Loading&#8230;"</string>
     <string name="ig_update_app_message">"Downloading updates"</string>
+
+    <!-- Geo Picker Dialog -->
+    <string name="ig_dialog_geopicker_title">"Coordinates"</string>
+    <string name="ig_latitude">"Latitude"</string>
+    <string name="ig_longitude">"Longitude"</string>
+    <string name="ig_geo_format">"Decimal"</string>
+    <string name="ig_east">"East"</string>
+    <string name="ig_west">"West"</string>
+    <string name="ig_north">"North"</string>
+    <string name="ig_south">"South"</string>
+
+    <!-- NOT TRANSLATABLE -->
+    <!-- Geo Picker Dialog -->
+    <string name="ig_degrees_unit" translatable="false">°</string>
+    <string name="ig_minutes_unit" translatable="false">"'"</string>
+    <string name="ig_seconds_unit" translatable="false">"''"</string>
 
 </resources>

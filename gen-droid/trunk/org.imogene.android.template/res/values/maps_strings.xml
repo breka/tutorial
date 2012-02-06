@@ -11,13 +11,14 @@
     <string name="maps_network">Network</string>
     <string name="maps_best">Best available</string>
     <string name="maps_map">Map</string>
-
+    <string name="maps_manual">Manual</string>
+    
     <!-- Location From sensor strings -->
     <string name="maps_obtaining_location">Obtaining current location</string>
     <string name="maps_provider_disabled">Provider %s is disabled</string>
 
     <!-- Radar strings -->
-    <string name="maps_scanning">"Scanning..."</string>
+    <string name="maps_scanning">"Scanning&#8230;"</string>
     <string name="maps_menu_standard">Standard</string>
     <string name="maps_menu_metric">Metric</string>
 
