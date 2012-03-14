@@ -1,0 +1,373 @@
+«IMPORT core»
+«EXTENSION template::CommonEntityUtilExt» 
+«DEFINE generate(String packageName, String projectName) FOR Project»
+«FILE packageName.toLowerCase()+"/security/Medoo" + projectName.toFirstUpper() + "Policy.java"»
+
+package org.imogene.«projectName.toLowerCase()».security;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+
+import org.imogene.ws.dao.GenericDao;
+import org.imogene.ws.dao.LocalizedTextDao;
+import org.imogene.ws.entity.LocalizedField;
+import org.imogene.ws.entity.LocalizedText;
+import org.imogene.ws.entity.LocalizedTextList;
+import org.imogene.ws.entity.MedooActor;
+import org.imogene.ws.entity.MedooBean;
+import org.imogene.ws.entity.MedooRole;
+import org.imogene.ws.security.MedooSecurityPolicy;
+
+«FOREACH entities AS e-»
+import org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»;
+«ENDFOREACH-»
+
+/**
+ * This class filters a persisted bean in order to send to the client a secured
+ * bean that contains only the data that the user is allowed to read. 
+ * @author MEDES-IMPS
+ */
+public class Medoo«projectName.toFirstUpper()»Policy implements MedooSecurityPolicy {
+
+	/* generic DAO access */
+	private GenericDao dao;
+	private LocalizedTextDao i18nDao;
+	
+
+	public Medoo«projectName.toFirstUpper()»Policy(){
+	}
+	
+
+	public MedooBean toHibernate(MedooBean bean, MedooActor actor) {		
+		«FOREACH entities AS e-»
+			«EXPAND dispatchUnsecure FOR e-»		
+		«ENDFOREACH-»		
+		return null;
+	}
+
+	public List<?> toHibernate(List<?> beans, MedooActor actor) {
+		
+		List<MedooBean> unsecuredList = new Vector<MedooBean>();	
+		for (Iterator<?> it = beans.iterator(); it.hasNext();) {
+			unsecuredList.add(toHibernate((MedooBean)it.next(), actor));
+		}			
+		return unsecuredList;
+	}
+	
+	public MedooBean toSecure(MedooBean bean, MedooActor actor) {
+		«FOREACH entities AS e-»
+			«EXPAND dispatchSecure FOR e-»
+		«ENDFOREACH-»		
+		return null;
+	}
+	
+	public List<?> toSecure(List<?> beans, MedooActor actor) {
+		
+		List<MedooBean> securedList = new Vector<MedooBean>();	
+		for (Iterator<?> it = beans.iterator(); it.hasNext();) {
+			securedList.add(toSecure((MedooBean)it.next(), actor));
+		}		
+		return securedList;
+	}
+
+	«FOREACH entities AS e-»	
+		
+		«EXPAND toSecure FOR e-»
+		
+		«EXPAND toUnSecure FOR e-»
+
+	«ENDFOREACH-»
+	
+	
+	«FOREACH entities AS e-»	
+	/**
+	 * Returns an «e.name.toFirstUpper()-» bean whose only affected properties are its mainfields
+	 * @param bean the bean that has to be filtered by its mainfields
+	 * @return an «e.name.toFirstUpper()-» bean whose only affected properties are its mainfields
+	 */
+	private «e.name.toFirstUpper()-» get«e.name.toFirstUpper()-»WithMainFields(«e.name.toFirstUpper()-» bean) {
+		if (bean!=null) {
+			«e.name.toFirstUpper()-» transformedBean = new «e.name.toFirstUpper()-»();
+			transformedBean.setId(bean.getId());
+			«EXPAND setField(true) FOREACH e.mainFields-»		
+			return transformedBean;
+		}
+		else
+			return null;			
+	}		
+	«ENDFOREACH-»		
+	
+	/**
+	 * Creates a LocalizedField for the given fieldId
+	 * @param fieldId a field id
+	 * @return a new LocalizedField
+	 */
+	private LocalizedField setLocalizedField(String fieldId) {
+		
+		LocalizedField result = null;
+		
+		if (fieldId!=null && !fieldId.equals("") ) {
+			LocalizedTextList translations = new LocalizedTextList();			
+			List<LocalizedText> texts = getLocalizedTexts(fieldId);					
+			translations.setLocalizedTexts(texts);
+			
+			result = new LocalizedField();
+			result.setFieldid(fieldId);
+			result.setTranslations(translations);		
+		}
+		return result;
+	}
+	
+	/**
+	 * Gets the Localized texts for a given field
+	 * @param fieldId the field id for which LocalizedTexts are searched
+	 * @return a list of LocalizedTexts
+	 */
+	private List<LocalizedText> getLocalizedTexts(String fieldId) {
+		if(fieldId!=null && !fieldId.equals(""))
+			return i18nDao.listLocalizedText(fieldId);
+		else
+			return null;
+	}	
+	
+	/**
+	 * Gets the roles as strings assigned to an actor
+	 * @param actor the actor whose roles are searched
+	 * @return a list of roles as strings
+	 */
+	private Set<String> getRoleNames(MedooActor actor){
+		Set<String> names = new HashSet<String>();
+		if(actor!=null){
+			for(MedooRole role: actor.getRoles()){
+				names.add(role.getId());			
+			}
+		}
+		return names;
+	}
+	
+	/**
+	 * Setter for bean injection
+	 * @param dao
+	 */
+	public void setDao(GenericDao dao) {
+		this.dao = dao;
+	}	
+
+	/**
+	 * Setter for bean injection
+	 * @param i18nDao
+	 */	
+	public void setI18nDao(LocalizedTextDao i18nDao) {
+		this.i18nDao = i18nDao;
+	}	
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM» CardEntity dispatcher to secure «ENDREM»
+«DEFINE dispatchSecure FOR CardEntity-»
+	if(bean instanceof «name.toFirstUpper()»)
+			return toSecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
+«ENDDEFINE»	
+
+«REM» CarEntity dispatcher to unsecure «ENDREM»
+«DEFINE dispatchUnsecure FOR CardEntity-»		
+	if(bean instanceof «name.toFirstUpper()»)
+			return toUnsecure«name.toFirstUpper()»((«name.toFirstUpper()»)bean, getRoleNames(actor));
+«ENDDEFINE»
+			
+«REM» Setter to affect the values to the new bean «ENDREM»
+«DEFINE setField(boolean toSecure) FOR FieldEntity-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+
+«DEFINE setField(boolean toSecure) FOR TextField-»
+	«IF this.translatable-»
+		«IF toSecure-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»LocalizedField(setLocalizedField(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ELSE-»		
+	LocalizedField «EXPAND template::CommonFieldUtil::propertyName FOR this-»Field = bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»LocalizedField();
+	if («EXPAND template::CommonFieldUtil::propertyName FOR this-»Field!=null && «EXPAND template::CommonFieldUtil::propertyName FOR this-»Field.getFieldid()!=null && !«EXPAND template::CommonFieldUtil::propertyName FOR this-»Field.getFieldid().equals("")) {
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«EXPAND template::CommonFieldUtil::propertyName FOR this-»Field.getFieldid());
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»LocalizedField(«EXPAND template::CommonFieldUtil::propertyName FOR this-»Field);
+	}
+	else {
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»LocalizedField(null);
+	}		
+		«ENDIF-»
+	«ELSE-»		
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());		
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE setField(boolean toSecure) FOR RelationFieldEntity-»
+	«IF this.cardinality>1||this.cardinality==-1-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	«ELSE-»
+		«IF toSecure-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(get«this.entity.name.toFirstUpper()»WithMainFields(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ELSE-»
+	if(transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()==null ||
+		bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»() == null ||
+		!transformedBean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId().equals(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId())){
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	}
+		«ENDIF-»		
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE setField(boolean toSecure) FOR GeoField-»
+«IF toSecure-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude());
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
+«ELSE-»	
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDIF-»	
+«ENDDEFINE»
+
+«REM» Set empty field to secure a bean «ENDREM»
+«DEFINE setEmptyField FOR FieldEntity-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
+«ENDDEFINE»
+
+«DEFINE setEmptyField FOR RelationFieldEntity-»
+	«IF this.cardinality>1 || this.cardinality==-1-»
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(new HashSet<«entity.name-»>());
+	«ELSE-»
+		transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE setEmptyField FOR GeoField-»
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Latitude(null);
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»Longitude(null);
+	transformedBean.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
+«ENDDEFINE»
+
+
+«REM» Handle administrative field «ENDREM»
+«DEFINE handleAdminField(boolean toSecure) FOR CardEntity-»«ENDDEFINE»
+«DEFINE handleAdminField(boolean toSecure) FOR Actor-»
+		«FOREACH (List[FieldEntity])getAdministrationFields(this) AS f-»
+			«EXPAND setField(toSecure) FOR f-»
+		«ENDFOREACH-»
+«ENDDEFINE»
+
+«REM» Handle filter field «ENDREM»
+«DEFINE handleFilterField(boolean toSecure) FOR CardEntity-»«ENDDEFINE»
+«DEFINE handleFilterField(boolean toSecure) FOR Actor-»
+	«FOREACH this.filters AS f-»
+		«EXPAND setField(toSecure) FOR f-»
+	«ENDFOREACH-»
+«ENDDEFINE»
+
+
+«REM» ---------------------------------------------------------- «ENDREM»
+«DEFINE toSecure FOR CardEntity»
+	/**
+	 * Secures an «this.name.toFirstUpper()» bean.
+	 * @param «this.name.toFirstLower()» The «this.name.toFirstUpper()» bean to secure
+	 * @param roleNames set of role ids for the user 
+	 * @return A secured «this.name.toFirstUpper()» bean
+	 */	 
+	private MedooBean toSecure«this.name.toFirstUpper()»(«this.name.toFirstUpper()» bean, Set<String> roleNames){
+		
+		«this.name.toFirstUpper()» transformedBean = new «this.name.toFirstUpper()»();
+		
+		«EXPAND toSecureCommon FOR this-»
+
+		return transformedBean;
+	}
+«ENDDEFINE»
+
+«REM» Common code between CardEntity and Actor for toSecure expand «ENDREM»
+«DEFINE toSecureCommon FOR CardEntity-»
+		/* unsecured data */		
+		transformedBean.setId(bean.getId());
+		transformedBean.setCreator(bean.getCreator());
+		transformedBean.setCreationDate(bean.getCreationDate());
+		transformedBean.setModifier(bean.getModifier());
+		transformedBean.setModifiedFrom(bean.getModifiedFrom());
+		transformedBean.setLastModificationDate(bean.getLastModificationDate());
+		transformedBean.setUploadDate(bean.getUploadDate());
+		
+		«FOREACH this.groups AS g»
+			«IF g.readers.size == 0-»
+				«FOREACH g.fields AS f-»
+					«EXPAND setField(true) FOR f -»
+				«ENDFOREACH-»			
+			«ELSE-»
+				if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH»«IF g.writers.size>0»||«ENDIF»«FOREACH g.writers AS w ITERATOR i» roleNames.contains("«w.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){
+					«FOREACH g.fields AS f-»
+						«EXPAND setField(true) FOR f -»
+					«ENDFOREACH-»
+				}
+				else{
+				«FOREACH g.fields AS f-»
+						«EXPAND setEmptyField FOR f -»
+				«ENDFOREACH-»
+				}
+			«ENDIF-»
+		«ENDFOREACH-»
+«ENDDEFINE»
+«REM» ---------------------------------------------------------- «ENDREM»
+
+
+«REM» ---------------------------------------------------------- «ENDREM»
+«DEFINE toUnSecure FOR CardEntity-»
+
+	private MedooBean toUnsecure«this.name.toFirstUpper()»(«this.name.toFirstUpper()» bean, Set<String> roleNames){	
+		«this.name.toFirstUpper()» transformedBean = («this.name.toFirstUpper()»)dao.loadEntity(«this.name.toFirstUpper()».class, bean.getId());
+
+		if(transformedBean == null){
+			transformedBean = new «this.name.toFirstUpper()»();			
+			transformedBean.setId(bean.getId());
+		}
+
+		«EXPAND toUnSecureCommon FOR this»
+		
+		return transformedBean;
+	}
+
+«ENDDEFINE»
+
+«REM» Common code between CardEntity and Actor for toUnSecure expand «ENDREM»
+«DEFINE toUnSecureCommon FOR CardEntity-»
+
+		transformedBean.setCreator(bean.getCreator());
+		transformedBean.setCreationDate(bean.getCreationDate());
+		transformedBean.setModifier(bean.getModifier());
+		transformedBean.setModifiedFrom(bean.getModifiedFrom());
+		transformedBean.setLastModificationDate(bean.getLastModificationDate());
+		transformedBean.setUploadDate(bean.getUploadDate());							
+		
+		«FOREACH this.groups AS g»
+			«IF g.writers.size == 0»
+				«IF g.readers.size>0»					
+					if(«FOREACH g.readers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){					
+					«FOREACH g.fields AS f-»
+						«EXPAND setField(false) FOR f-»
+					«ENDFOREACH-»
+				}
+				«ELSE»
+					«FOREACH g.fields AS f-»
+						«EXPAND setField(false) FOR f -»
+					«ENDFOREACH-»
+				«ENDIF»									
+			«ELSE»
+				if(«FOREACH g.writers AS r ITERATOR i» roleNames.contains("«r.name»") «IF !i.lastIteration»||«ENDIF»«ENDFOREACH» || roleNames.contains("administrator")){
+					«FOREACH g.fields AS f-»
+						«EXPAND setField(false) FOR f-»
+					«ENDFOREACH-»
+				}				
+			«ENDIF»
+		«ENDFOREACH»
+		
+«ENDDEFINE»
+«REM» ---------------------------------------------------------- «ENDREM»

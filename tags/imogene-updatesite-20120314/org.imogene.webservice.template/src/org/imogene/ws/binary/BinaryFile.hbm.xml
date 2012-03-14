@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class lazy="false" table="Binaries" name="org.imogene.ws.binary.BinaryFile">
+		
+		<id column="Binary_ID" name="id"/>
+
+		<property column="Binary_FileName" name="fileName"/>
+		<property column="Binary_ContentType" name="contentType"/>
+		<property column="Binary_Length" name="length"/>
+					
+		<property column="Binary_ParentEntity" name="parentEntity"/>
+		<property column="Binary_ParentKey" name="parentKey"/>
+		<property column="Binary_ParentFieldGetter" name="parentFieldGetter"/>
+			
+		<property column="LastModificationDate" name="lastModificationDate" type="timestamp"/>
+		<property column="UploadDate" name="uploadDate" type="timestamp"/>
+		<property column="Modifier" name="modifier"/>
+		<property column="ModifiedFrom" name="modifiedFrom"/>
+		<property column="CreationDate" name="creationDate" type="timestamp"/>			
+		<property column="Creator" name="creator"/>
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,177 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR CardEntity»
+«FILE packagePath.toLowerCase() + "/dao/" + name + "HibernateDao.java"»
+package «packageName.toLowerCase()».dao;
+
+import java.util.Date;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+«IF Actor.isAssignableFrom(this.metaType)-»
+import org.imogene.common.dao.UserDao;
+«ELSE -»
+import org.imogene.common.dao.EntityDao;
+«ENDIF -»
+import org.imogene.common.dao.criteria.ImogJunction;
+import org.imogene.common.data.Synchronizable;
+import «packageName.toLowerCase()».entity.«this.name.toFirstUpper()»;
+«IF Actor.isAssignableFrom(this.metaType)-»
+import org.imogene.common.data.SynchronizableUser;
+«ENDIF -»
+import org.imogene.common.dao.criteria.HibernateDaoUtil;
+
+
+
+
+
+
+
+
+/**
+ * Implements a Hibernate DAO for the «this.name» 
+ * @author Medes-IMPS
+ */
+public class «this.name»HibernateDao extends HibernateDaoSupport implements «this.name»Dao {
+
+	private Logger logger = Logger.getLogger("«packageName.toLowerCase()».dao");
+
+	@SuppressWarnings("unused")
+	public List<Synchronizable> loadEntities() {
+		logger.debug("Loading all «this.name»s");			
+		Criteria crit = getSession().createCriteria(«this.name».class);	
+		return crit.list();
+	}
+	
+	public List<Synchronizable> loadEntities(int arg0, int arg1, String arg2,
+			boolean arg3) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@SuppressWarnings("unused")
+	public List<Synchronizable> loadEntities(ImogJunction criterions) {
+		logger.debug("Loading all «this.name»s");			
+		Criteria crit = getSession().createCriteria(«this.name».class);	
+		crit.add(HibernateDaoUtil.addImogJunction(criterions));	
+		return crit.list();
+	}
+	
+	@SuppressWarnings("unused")
+	public Synchronizable loadEntity(String entityId) {
+		logger.debug("Loading the «this.name» with id '" + entityId + "'.");		
+		Criteria crit = getSession().createCriteria(«this.name».class);		
+		crit.add(Restrictions.eq("id", entityId));		
+		List resultList = crit.list();
+		if (resultList!=null && resultList.size()==1)
+			return («this.name»)resultList.get(0);
+		
+		return null;		
+	}
+	
+	@SuppressWarnings("unused")	
+	public List<Synchronizable> loadModified(Date date) {
+		logger.debug("Loading «this.name»s modified since '"+ date.toString()+ "'.");		
+		Criteria crit = getSession().createCriteria(«this.name».class);	
+		crit.add(Restrictions.ge("uploadDate", date));
+		return crit.list();
+	}
+
+	@SuppressWarnings("unused")
+	public List<Synchronizable> loadModified(Date date, ImogJunction criterions) {
+		logger.debug("Loading «this.name»s modified since '"+ date.toString()+ "'.");		
+		Criteria crit = getSession().createCriteria(«this.name».class);	
+		crit.add(HibernateDaoUtil.addImogJunction(criterions));	
+		crit.add(Restrictions.ge("uploadDate", date));
+		return crit.list();
+	}
+
+	@SuppressWarnings("unused")	
+	public Synchronizable loadModified(Date date, String entityId) {
+		logger.debug("Loading «this.name» with id='" + entityId + "' if modified since '"+ date.toString()+ "'.");	
+		Criteria crit = getSession().createCriteria(«this.name».class);	
+		crit.add(Restrictions.eq("id", entityId));
+		crit.add(Restrictions.ge("uploadDate", date));
+		
+		List resultList = crit.list();
+		if (resultList!=null && resultList.size()==1)
+			return («this.name»)resultList.get(0);
+		
+		return null;	
+	}
+
+	@SuppressWarnings("unused")
+	public Synchronizable loadModified(Date date, ImogJunction criterions, String entityId) {
+		logger.debug("Loading the «this.name» with id '"+ entityId + "' modified since '" + date + "'.");				
+		Criteria crit = getSession().createCriteria(«this.name».class);	
+		crit.add(HibernateDaoUtil.addImogJunction(criterions));	
+		crit.add(Restrictions.ge("uploadDate", date));
+		crit.add(Restrictions.eq("id", entityId));
+		
+		List resultList = crit.list();
+		if (resultList!=null && resultList.size()==1)
+			return («this.name»)resultList.get(0);
+		
+		return null;
+	}
+
+	public void saveOrUpdate(Synchronizable entity) {		
+		logger.debug("Saving or updating «this.name» with id '" + entity.getId() + "'.");		
+		getSession().beginTransaction();
+		getHibernateTemplate().saveOrUpdate(entity);
+		getSession().getTransaction().commit();
+	}
+	
+	public void merge(Synchronizable entity) {		
+		logger.debug("Merging «this.name» with id '" + entity.getId() + "'.");	
+		getSession().beginTransaction();	
+		getHibernateTemplate().merge(entity);
+		getSession().getTransaction().commit();
+	}
+	
+	@SuppressWarnings("unused")
+	public int countAll() {
+		Criteria crit = getSession().createCriteria(«this.name».class);
+		crit.setProjection(Projections.rowCount());
+		List list = crit.list();
+		return Integer.parseInt(list.get(0).toString());
+	}
+
+	public void delete(Synchronizable entity) {
+		logger.debug("Deleting «this.name» with id '" + entity.getId() + "'.");
+		getHibernateTemplate().delete(entity);
+	}
+
+	public void deleteEntities() {
+		logger.debug("Deleting «this.name»s");
+	    String hsql = "delete from Doctor";
+	    Query query = getSession().createQuery(hsql);
+	    query.executeUpdate();		
+	}
+	
+	«IF Actor.isAssignableFrom(this.metaType)-»
+	@SuppressWarnings("unused")
+	public List<SynchronizableUser> getUserFromLogin(String login) {
+		Criteria crit = getSession().createCriteria(«this.name».class);
+		crit.add(Restrictions.eq("login", login));
+		return crit.list();
+	}
+	«ENDIF -»	
+
+	public void clear() {
+		getHibernateTemplate().clear();	
+	}
+
+	public void flush() {
+		getHibernateTemplate().flush();
+	}
+	
+}
+
+«ENDFILE»
+«ENDDEFINE»

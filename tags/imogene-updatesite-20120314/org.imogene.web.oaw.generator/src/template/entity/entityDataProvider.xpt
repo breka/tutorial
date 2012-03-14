@@ -1,0 +1,505 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt»
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»
+«FILE projectName.toLowerCase()+"/client/entity/"+this.name.toFirstUpper() + "DataProvider.java"»
+package org.imogene.«projectName.toLowerCase()».client.entity;
+
+import java.util.List;
+import java.util.Vector;
+
+import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Widget;
+
+import org.imogene.gwt.widgets.client.dynaTable.DynaTableDataProvider;
+import org.imogene.gwt.widgets.client.dynaTable.DynaTableDataProvider.RowDataAcceptor;
+import org.imogene.web.gwt.client.i18n.BaseNLS;
+import org.imogene.web.gwt.client.util.DateUtil;
+import org.imogene.web.gwt.common.criteria.BasicCriteria;
+import org.imogene.web.gwt.common.criteria.ImogConjunction;
+import org.imogene.web.gwt.common.criteria.ImogDisjunction;
+import org.imogene.web.gwt.common.criteria.ImogJunction;
+import org.imogene.web.gwt.common.criteria.CriteriaConstants;
+
+import org.imogene.«projectName.toLowerCase()».client.AccessManager;
+import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
+import org.imogene.«projectName.toLowerCase()».client.remote.«name.toFirstUpper()»ServiceFacade;
+
+
+/**
+ * Data provider for dynatable that displays the «name.toFirstUpper()» list
+ * @author Medes-IMPS
+ */
+public class «name.toFirstUpper()»DataProvider implements DynaTableDataProvider {
+
+	private int lastMaxRows = -1;
+	private «name.toFirstUpper()»[] lastEntity;
+	private int lastStartRow = -1;
+	private List<String> rowDataIds = new Vector<String>();
+	private RowDataAcceptor acceptor;
+	private int startRow;
+	private List<String> columnList;
+	private ImogJunction searchCriterions;
+	// Total number of rows corresponding to query without pagination
+	private int totalNbOfRows = 0;
+
+	/**
+	 * Constructs the data provider
+	 */
+	public «name.toFirstUpper()»DataProvider() {
+		setColumnList();
+	}
+
+	/**
+	 * Constructs the data provider
+	 */
+	public «name.toFirstUpper()»DataProvider(ImogJunction searchCriterions) {
+		this.searchCriterions = searchCriterions;
+		setColumnList();
+	}
+
+	/**
+	 * Updates the raw data with the entities contained in database
+	 * @param startRow first row to update
+	 * @param maxRows number of row to update
+	 * @param acceptor data acceptor
+	 * @param sortProperty bean property used to sort rows
+	 * @param sortOrder sort order (true is ascending order)	 	 
+	 */
+	public void updateRowData(final int startRow, final int maxRows,
+			final RowDataAcceptor acceptor, String sortProperty,
+			Boolean sortOrder) {
+			
+		this.acceptor = acceptor;
+		this.startRow = startRow;
+		
+		/* Check the simple cache first. */
+		if (startRow == lastStartRow) {
+			if (maxRows == lastMaxRows) {
+				pushResults(acceptor, startRow, lastEntity, totalNbOfRows);
+				return;
+			}
+		}
+
+		/* get data from service */
+		if (searchCriterions != null)
+			«name.toFirstUpper()»ServiceFacade.getInstance().list«name.toFirstUpper()»(startRow, maxRows,
+					searchCriterions, sortProperty, sortOrder,
+					new PushResultCallback());
+		else{
+			«name.toFirstUpper()»ServiceFacade facade = «name.toFirstUpper()»ServiceFacade.getInstance();
+			if(facade==null){
+				Window.alert("Facade is null !");
+			}else{
+				facade.list«name.toFirstUpper()»(startRow, maxRows, sortProperty, sortOrder, new PushResultCallback());
+			}
+					
+		}
+	}
+
+	/**
+	 * Updates the raw data with the entities contained in database
+	 * @param startRow first row to update
+	 * @param maxRows number of row to update
+	 * @param acceptor data acceptor
+	 */
+	public void updateRowData(final int startRow, final int maxRows,
+			final RowDataAcceptor acceptor) {
+		«IF sortFields.isEmpty -»
+			updateRowData(startRow, maxRows, acceptor, null, true);			
+		«ELSE -»
+			«IF DateField.isAssignableFrom(sortFields.get(0).metaType) -»
+				updateRowData(startRow, maxRows, acceptor, "«EXPAND template::CommonFieldUtil::propertyName FOR sortFields.get(0)»", false);
+			«ELSE -»
+				«IF GeoField.isAssignableFrom(sortFields.get(0).metaType) -»
+				updateRowData(startRow, maxRows, acceptor, null, true);
+				«ELSE -»
+				updateRowData(startRow, maxRows, acceptor, "«EXPAND template::CommonFieldUtil::propertyName FOR sortFields.get(0)»", true);
+				«ENDIF -»
+			«ENDIF -»
+		«ENDIF -»
+	}
+
+	/** 
+	 * Returns the list entity Ids
+	 * @return list of entity ids
+	 */
+	public List<String> getRowDataIds() {
+		return rowDataIds;
+	}
+
+	/**
+	 * Pushes data to update the table
+	 * @param acceptor data acceptor
+	 * @param startRow first row index
+	 * @param array entities retrieve from data server
+	 */
+	private void pushResults(RowDataAcceptor acceptor, int startRow, «name.toFirstUpper()»[] array, int totalNbRows) {
+	
+		int colNum = columnList.size();
+		Widget[][] rows = new Widget[array.length][];
+		rowDataIds.clear();		
+		for (int i = 0, n = rows.length; i < n; i++) {
+			«name.toFirstUpper()» card = array[i];
+			
+			List<Widget> valueList = new Vector<Widget>();
+			
+			«FOREACH columnFields.union(mainFields) AS c-»
+			/* «c.name.toFirstLower()» column */	
+			if(columnList.contains("«c.name.toLowerCase()»")) {
+				Widget value = null;
+				«EXPAND setDataRow FOR c-»			
+				valueList.add(value);
+			}							
+			«ENDFOREACH»			
+			
+
+			rows[i] = new Widget[colNum];
+			int j = 0;
+			for(Widget value:valueList) {
+				if(value!=null)
+					rows[i][j] = value;
+				j++;	
+			}			
+			rowDataIds.add(card.getId());
+		}
+		acceptor.accept(startRow, rows, toString(rowDataIds.toArray()),
+				totalNbRows);
+	}
+	
+	/**
+	 * Sets the list of columns that the user is
+	 * authorized to read
+	 */
+	private void setColumnList() {
+
+		columnList = new Vector<String>();		
+		«FOREACH columnFields.union(mainFields) AS c-»
+		if (AccessManager.canReadGroup("«name.toLowerCase()».«c.parentGroup.name.toLowerCase()»"))
+			columnList.add("«c.name.toLowerCase()»");
+		«ENDFOREACH -»			
+	}	
+
+	/**
+	 * Configures the search criterions to search
+	 * the parameter text among the bean column fields
+	 * @param text string to be searched in the bean column fields
+	 */
+	public void fullTextSearch(String text) {
+		if (text == null || (text != null && text.equals(""))) {
+			this.searchCriterions = null;
+		} else {
+			ImogJunction main = new ImogConjunction();
+			ImogJunction junction = new ImogDisjunction();
+			«FOREACH columnFields.union(mainFields) AS c-»
+				«EXPAND createListCriteria FOR c»
+			«ENDFOREACH -»			
+			main.add(junction);
+			this.searchCriterions = main;
+		}
+	}
+
+	/**
+	 * Converts rowIds list to an array of string.
+	 */
+	private String[] toString(Object[] object) {
+		String[] toString = new String[object.length];
+		for (int i = 0; i < object.length; i++) {
+			toString[i] = (String) object[i];
+		}
+		return toString;
+	}
+
+	/* ********** Callback classes ********** */
+
+	/**
+	 * Callback of the remote call that fills the table
+	 */
+	private class PushResultCallback implements AsyncCallback<List<«name.toFirstUpper()»>> {
+
+		public void onFailure(Throwable caught) {
+			acceptor.failed(caught);
+		}
+
+		public void onSuccess(List<«name.toFirstUpper()»> result) {
+			«name.toFirstUpper()»[] entityArray = new «name.toFirstUpper()»[result.size()];
+			for (int i = 0; i < entityArray.length; i++) {
+				entityArray[i] = result.get(i);
+			}
+			lastEntity = entityArray;
+
+			/* get total nb of rows from service */
+			if (searchCriterions != null)
+				«name.toFirstUpper()»ServiceFacade.getInstance().count«name.toFirstUpper()»(searchCriterions,
+						new CountCallback());
+			else
+				«name.toFirstUpper()»ServiceFacade.getInstance().count«name.toFirstUpper()»(new CountCallback());
+		}
+	}
+
+	/**
+	 * Callback of the remote call that counts the total nb
+	 * of rows retrieved for query (without pagination)
+	 */
+	private class CountCallback implements AsyncCallback<Integer> {
+
+		public void onFailure(Throwable caught) {
+			acceptor.failed(caught);
+		}
+
+		public void onSuccess(Integer result) {
+			totalNbOfRows = result.intValue();
+			pushResults(acceptor, startRow, lastEntity, totalNbOfRows);
+		}
+	}
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM» Set the data in the row--«ENDREM»
+«DEFINE setDataRow FOR FieldEntity-»
+	if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		value = new HTML(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+«DEFINE setDataRow FOR TextField-»
+	if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+	«IF this.translatable -»
+		value = new HTML(card.getLocalizedFieldMap().getFieldI18nValue(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), NLS.constants().locale()));	
+	«ELSE -»
+		value = new HTML(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());	
+	«ENDIF -»
+«ENDDEFINE»
+«DEFINE setDataRow FOR FloatField-»
+	if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null) {
+		«IF this.DecimalNumber>-1 -»
+		Integer «name.toFirstLower()»Decimals = new Integer("«this.DecimalNumber»");
+		String «name.toFirstLower()»DecimalFormat = "0.";
+		for (int k= 0; k<«name.toFirstLower()»Decimals; k++) {
+			«name.toFirstLower()»DecimalFormat = «name.toFirstLower()»DecimalFormat + "#";
+		}	
+		NumberFormat format«name.toFirstUpper()» = NumberFormat.getFormat(«name.toFirstLower()»DecimalFormat);
+		String formatted«name.toFirstUpper()»Value = format«name.toFirstUpper()».format(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+		value = new HTML(formatted«name.toFirstUpper()»Value);
+		«ELSE -»
+		value = new HTML(String.valueOf(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ENDIF -»
+	}	
+«ENDDEFINE»
+«DEFINE setDataRow FOR IntegerField-»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		value = new HTML(String.valueOf(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR DateField-»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null){	
+		value = new HTML(DateUtil.getFormatedDate(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));		
+	}
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR DateTimeField-»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null){	
+		value = new HTML(DateUtil.getFormatedDateTime(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));		
+	}
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR TimeField-»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null){	
+		value = new HTML(DateUtil.getFormatedTime(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));		
+	}
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR GeoField-»
+	if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude() != null && card.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude() != null)
+		value = new HTML(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude() + ";" + card.«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR RelationFieldEntity-»	
+		if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null) 
+	«IF (cardinality >1) || (cardinality == -1)-»
+			value = new HTML(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»().size()+ " " + BaseNLS.constants().entity_card_number_txt());
+	«ELSE-»
+		«IF getOppositeCardinality(this) ==1 && this.type.toString() == (RelationType::Composition).toString() && MainRelationFieldEntity.isAssignableFrom(this.metaType)-»
+		«REM» Composition side of a OneToOne Relation with Composition «ENDREM»
+			«IF !this.entity.mainFields.isEmpty-»
+			«REM» Display mainfields «ENDREM»
+			value = new HTML(MainFieldsUtilImpl.get().getDisplayValue(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+			«ELSE-»
+			«REM» Display presence image «ENDREM»
+			value = new Image(GWT.getModuleBaseURL() + "images/button_view.png");
+		//else
+			//value = new Image(GWT.getModuleBaseURL() + "images/button_uk.png");			
+			«ENDIF-»
+		«ELSE-»
+			value = new HTML(MainFieldsUtilImpl.get().getDisplayValue(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+		«ENDIF-»	
+	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR VideoField-»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		value = new Image(GWT.getModuleBaseURL() + "images/video.png");
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR PhotoField-»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		value = new Image(GWT.getModuleBaseURL() + "images/photo.png");
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR SoundField»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		value = new Image(GWT.getModuleBaseURL() + "images/binary.png");
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR BinaryField-»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+		value = new Image(GWT.getModuleBaseURL() + "images/binary.png");
+«ENDDEFINE»
+
+«REM»
+«DEFINE setDataRow FOR EmailField»
+	if(card.«EXPAND GWTFieldUtil::getterName FOR this-»() != null)
+		rows[i][«row»] = new HTML("<a href=\"mailto:" + card.«EXPAND GWTFieldUtil::getterName FOR this-»() +"\">" + card.«EXPAND GWTFieldUtil::getterName FOR this-»() +"</a>");
+«ENDDEFINE»
+«ENDREM»
+
+«DEFINE setDataRow FOR BooleanField-»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null)
+	{
+		if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»().booleanValue() == true)
+			value = new Image(GWT.getModuleBaseURL() + "images/boolean_true.png");
+		else
+			value = new Image(GWT.getModuleBaseURL() + "images/boolean_false.png");	
+	}
+	// else	
+	//	value = new Image(GWT.getModuleBaseURL() + "images/boolean_nk.gif");			
+«ENDDEFINE»
+
+«DEFINE setDataRow FOR EnumField-»
+	«IF this.multipleSelection==true-»
+	if (card.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null && !card.«EXPAND template::CommonFieldUtil::getterName FOR this-»().equals("")) {				
+		String[] indexesStr = card.«EXPAND template::CommonFieldUtil::getterName FOR this-»().split(";");
+		String result = new String();
+		for(int j=0; j< indexesStr.length; j++){				
+		«FOREACH enumValues AS enumValue ITERATOR iter-»
+		«IF iter.counter1==1 -»
+			if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option();
+				else
+					result = result + ", " + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option();											
+			}				
+        «ELSE -»
+			else if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option();
+				else
+					result = result + ", " + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option();											
+			}			
+		«ENDIF -»
+		«ENDFOREACH -»	
+			else {
+			}								
+		}				
+		value = new HTML(result);
+
+			} else {
+				value = new HTML();
+	}		
+	«ELSE-»
+	if(card.«EXPAND template::CommonFieldUtil::getterName FOR this-»() != null && !card.«EXPAND template::CommonFieldUtil::getterName FOR this-»().equals(""))
+	{	
+		String «name.toFirstLower()» = card.«EXPAND template::CommonFieldUtil::getterName FOR this-»();		
+		«FOREACH enumValues AS enumValue ITERATOR iter-»
+		«IF iter.counter1==1 -»
+        if («name.toFirstLower()».equals("«enumValue.value»") )
+        	value = new HTML(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option());
+        «ELSE -»
+        else if («name.toFirstLower()».equals("«enumValue.value»") )
+        	value = new HTML(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option()); 		
+		«ENDIF -»
+		«ENDFOREACH -»	
+		else
+			value = new HTML();  		
+	}
+	else
+	{
+		value = new HTML();
+	}	
+	«ENDIF-»	
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+«REM» Create the search full text function «ENDREM»
+«DEFINE createListCriteria FOR FieldEntity-»«ENDDEFINE»
+«DEFINE createListCriteria FOR TextField-»
+	// Search field «this.name»
+	BasicCriteria «this.name»Crit = new BasicCriteria();
+	«this.name»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	«this.name»Crit.setOperation(CriteriaConstants.STRING_OPERATOR_CONTAINS);
+	«this.name»Crit.setValue(text);
+	junction.add(«this.name»Crit);
+«ENDDEFINE»
+«DEFINE createListCriteria FOR IntegerField-»
+	// Search field «this.name»
+	try{
+		Integer.valueOf(text);
+		BasicCriteria «this.name»Crit = new BasicCriteria();
+		«this.name»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name»Crit.setOperation(CriteriaConstants.INT_OPERATOR_EQUAL);
+		«this.name»Crit.setValue(text);
+		junction.add(«this.name»Crit);
+	}catch(Exception ex){/*criteria not added*/}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR FloatField-»
+	// Search field «this.name»
+	try{
+		Float.valueOf(text);
+		BasicCriteria «this.name»Crit = new BasicCriteria();
+		«this.name»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name»Crit.setOperation(CriteriaConstants.FLOAT_OPERATOR_EQUAL);
+		«this.name»Crit.setValue(text);
+		junction.add(«this.name»Crit);
+	}catch(Exception ex){/*criteria not added*/}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR DateField-»
+	// Search field «this.name»
+	try{
+		DateUtil.parseDate(text);
+		BasicCriteria «this.name»Crit = new BasicCriteria();
+		«this.name»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name»Crit.setOperation(CriteriaConstants.DATE_OPERATOR_EQUAL);
+		«this.name»Crit.setValue(text);
+		junction.add(«this.name»Crit);
+	}catch(Exception ex){/*criteria not added*/}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR BooleanField-»
+	// Search field «this.name»
+	if (text.toLowerCase().equals("true") || text.toLowerCase().equals("false")) {
+		BasicCriteria «this.name»Crit = new BasicCriteria();
+		«this.name»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name»Crit.setOperation(CriteriaConstants.BOOLEAN_OPERATOR_EQUAL);
+		«this.name»Crit.setValue(text.toLowerCase());
+		junction.add(«this.name»Crit);	
+	}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR EnumField-»
+	// Search field «this.name»
+	«FOREACH enumValues AS enumValue ITERATOR iter-»	
+	if (text.toLowerCase().equals(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option().toLowerCase())) {
+		BasicCriteria «this.name»Crit = new BasicCriteria();
+		«this.name»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«IF this.multipleSelection==true-»
+		«this.name»Crit.setOperation(CriteriaConstants.STRING_OPERATOR_CONTAINS);
+		«ELSE -»
+		«this.name»Crit.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
+		«ENDIF -»		
+		«this.name»Crit.setValue("«enumValue.value»");
+		junction.add(«this.name»Crit);		
+	}
+	«ENDFOREACH -»	
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»

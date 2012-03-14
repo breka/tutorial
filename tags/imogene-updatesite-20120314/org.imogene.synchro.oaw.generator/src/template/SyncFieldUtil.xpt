@@ -1,0 +1,139 @@
+«IMPORT core»
+
+
+«REM» ---------------------------------------------------- «ENDREM»
+«REM» Get java type for fieldEntity type                   «ENDREM»
+«REM» ---------------------------------------------------- «ENDREM»
+«DEFINE fieldType FOR FieldEntity-»String«ENDDEFINE»
+
+«DEFINE fieldType FOR GeoField»Double«ENDDEFINE»
+
+«DEFINE fieldType FOR FloatField-»Float«ENDDEFINE»
+
+«DEFINE fieldType FOR IntegerField-»Integer«ENDDEFINE»
+
+«DEFINE fieldType FOR BooleanField-»Boolean«ENDDEFINE»
+
+«DEFINE fieldType FOR DatesField-»Date«ENDDEFINE»
+
+«DEFINE fieldType FOR RelationFieldEntity-»
+	«IF (cardinality > 1) || (cardinality == -1) -»
+	Set<«entity.name-»>
+	«ELSE-»
+	«entity.name-»
+	«ENDIF-»
+«ENDDEFINE»
+
+
+«REM»----------------------------------------------------------- «ENDREM»
+«REM» Génère un import selon le type de champs recu.             «ENDREM»
+«REM»----------------------------------------------------------- «ENDREM»
+«DEFINE generateImportsForFields FOR CardEntity-»
+  «EXPAND importForField FOREACH groups.fields»
+«ENDDEFINE»
+
+«DEFINE importForField FOR FieldEntity-»
+«ENDDEFINE»
+«DEFINE importForField FOR RelationFieldEntity-»
+«IF (cardinality > 1) || (cardinality == -1) -»
+import java.util.Set;
+«ENDIF-»
+«ENDDEFINE»
+
+
+
+«REM» Entity field getters and setters declaration «ENDREM»
+«DEFINE getterDeclarationForField FOR FieldEntity-»
+public «EXPAND fieldType FOR this-» «EXPAND template::CommonFieldUtil::getterName FOR this-»()
+{
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
+«ENDDEFINE»
+«DEFINE getterDeclarationForField FOR GeoField-»
+public «EXPAND fieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Latitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude;
+}
+public «EXPAND fieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Longitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
+}
+public GeoField «EXPAND template::CommonFieldUtil::getterName FOR this»() {
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
+«ENDDEFINE»
+
+«DEFINE setterDeclarationForField FOR FieldEntity-»
+public void «EXPAND template::CommonFieldUtil::setterName FOR this-»(«EXPAND fieldType FOR this-» param)
+{
+	«EXPAND template::CommonFieldUtil::propertyName FOR this-» = param;
+}
+«ENDDEFINE»
+«DEFINE setterDeclarationForField FOR GeoField-»
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(«EXPAND fieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+	if («EXPAND template::CommonFieldUtil::propertyName FOR this -»!=null)
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLatitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(«EXPAND fieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+	if («EXPAND template::CommonFieldUtil::propertyName FOR this -»!=null)
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLongitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»(GeoField value) {
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+	if (value!=null){
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value.getLatitude();
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value.getLongitude();
+	}
+	else {
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = null;
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = null;			
+	}
+}
+«ENDDEFINE»
+
+«DEFINE getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR FieldEntity-»
+public «EXPAND fieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
+«ENDDEFINE»
+«DEFINE getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
+public «EXPAND fieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude;
+}
+public «EXPAND fieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
+}
+public GeoField «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»() {
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+}
+«ENDDEFINE»
+
+«DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR FieldEntity-»
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(«EXPAND fieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+}
+«ENDDEFINE»
+«DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(«EXPAND fieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
+	if («EXPAND template::CommonFieldUtil::propertyName FOR this -»!=null)
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLatitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(«EXPAND fieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+	if («EXPAND template::CommonFieldUtil::propertyName FOR this -»!=null)
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -».setLongitude(value);
+}
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(GeoField value) {
+	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+	if (value!=null){
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value.getLatitude();
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value.getLongitude();
+	}
+	else {
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = null;
+		«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = null;			
+	}
+}
+«ENDDEFINE»
+

@@ -1,0 +1,580 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+
+ 
+«DEFINE generate(String packageName, String projectName) FOR CardEntity»
+«FILE projectName.toLowerCase()+ "/client/entity/" + this.name.toFirstUpper() + "ExcelExportComposite.java"»
+package org.imogene.«projectName.toLowerCase()».client.entity;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.imogene.«projectName.toLowerCase()».client.AccessManager;
+import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
+import org.imogene.web.gwt.client.i18n.BaseNLS;
+import org.imogene.web.gwt.client.ui.field.search.*;
+import org.imogene.web.gwt.client.ui.form.DisclosureContainerComposite;
+import org.imogene.web.gwt.client.ui.panel.TaskWrapperPanel;
+import org.imogene.web.gwt.common.criteria.CriteriaConstants;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+/**
+ * Form for selecting and exporting «name.toFirstUpper()» entities to an Excel file
+ * @author MEDES-IMPS
+ */
+public class «name.toFirstUpper()»ExcelExportComposite extends DisclosureContainerComposite {
+	
+	/* constants */
+	private static final int MAX_COL = 1;
+	private static final String color = "«name.toFirstLower()»";
+	
+	private String title = NLS.constants().«name.toFirstLower()»_excel_title();	
+
+	/* widgets */
+	private TaskWrapperPanel container = null;
+	private VerticalPanel layout;
+	
+	/* for forms with group fields in one page */
+	private FlexTable contentTable;
+		
+	/* form action buttons */
+	private PushButton exportButton;	
+	private PushButton cancelButton;
+	private PushButton closeButton;
+	
+	/* Search section */
+	private SearchGroupField searchSection;
+
+	/* Searched fields */
+	«IF !columnFields.isEmpty -»
+		«FOREACH columnFields AS f -»
+			«EXPAND getDeclaration FOR f-»
+		«ENDFOREACH -»	
+	«ELSE -»
+		«FOREACH mainFields AS f -»
+			«EXPAND getDeclaration FOR f-»
+		«ENDFOREACH -»		
+	«ENDIF -»
+	private ImogSearchDateField creationDate;
+	private ImogSearchDateField lastModificationDate;
+
+
+	/**
+	 * Creates a form to search and export
+	 * «name.toFirstUpper()» instances
+	 */
+	public «name.toFirstUpper()»ExcelExportComposite() {
+		super(NLS.constants().«name.toFirstLower()»_excel_title(), color);		
+		layout();
+		properties();
+		behavior();
+	}
+
+	/**
+	 * Layouts the form
+	 */
+	private void layout() {
+		
+		layout = new VerticalPanel();
+		layoutButtonsPanel();
+		contentTable = new FlexTable();
+		layout.add(contentTable);
+		setContent(layout);
+
+		/* Layout sections */
+		layoutSearchSection();
+		addSection(searchSection);
+	}
+
+	/**
+	 * Sets the layout properties
+	 */
+	private void properties() {
+		
+		displayHeaderIcon(true);
+		propertiesButtonsPanel();
+		setSize("100%","100%");
+		layout.setWidth("100%");
+		layout.setVerticalAlignment(HorizontalPanel.ALIGN_TOP);
+		
+		layout.setCellVerticalAlignment(contentTable, VerticalPanel.ALIGN_TOP);	
+		layout.setCellWidth(contentTable, "100%");
+		layout.setStylePrimaryName("imogene-Form");	
+		layout.addStyleDependentName(color);
+		contentTable.setWidth("100%");
+		layout.setCellWidth(contentTable, "100%");		
+		
+		«IF (icon!=null && icon!="")-»
+		setIconPath(GWT.getModuleBaseURL() + "images/small/«icon»");
+		«ELSE -»
+		setIconPath(GWT.getModuleBaseURL() + "images/entity_default_24.png");
+		«ENDIF -»
+	}
+	
+	/**
+	 * buttons behavior
+	 */
+	private void behavior(){
+		
+		exportButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {
+					export();
+			}
+		});
+		
+		cancelButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {
+				cancel();
+			}
+		});		
+		
+		closeButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {				
+				closeForm();
+			}			
+		});
+	}
+	
+	/** buttons panel layout */
+	private void layoutButtonsPanel(){
+		
+		exportButton = new PushButton(BaseNLS.constants().button_download());
+		cancelButton = new PushButton(BaseNLS.constants().button_cancel());
+		closeButton = new PushButton(BaseNLS.constants().button_close());
+		addButton(exportButton);
+		addButton(cancelButton);
+		addButton(closeButton);
+	}
+	
+	/** buttons panel layout properties */
+	private void propertiesButtonsPanel(){	
+		exportButton.setStylePrimaryName("imogene-Button");
+		cancelButton.setStylePrimaryName("imogene-Button");
+		closeButton.setStylePrimaryName("imogene-Button");
+	}
+
+
+	/** 
+	 * Layouts the Search section 
+	 * */
+	private void layoutSearchSection() {
+
+		searchSection = new SearchGroupField(BaseNLS.constants().search_group());
+		searchSection.setImage(null);
+		
+		«FOREACH groups AS g -»
+			«IF !columnFields.isEmpty -»
+				«IF !g.fields.intersect(columnFields).isEmpty -»
+		if (AccessManager.canReadGroup("«g.parentCard.name.toLowerCase()».«g.name.toLowerCase()»")) {		
+					«FOREACH g.fields AS f -»
+						«IF columnFields.contains(f) -»
+							«EXPAND createFieldView FOR f-»
+						«ENDIF -»				
+					«ENDFOREACH -»
+		}
+				«ENDIF -»
+			«ELSE -»
+				«IF !g.fields.intersect(mainFields).isEmpty -»
+		if (AccessManager.canReadGroup("«g.parentCard.name.toLowerCase()».«g.name.toLowerCase()»")) {		
+					«FOREACH g.fields AS f -»
+						«IF mainFields.contains(f) -»
+							«EXPAND createFieldView FOR f-»
+						«ENDIF -»				
+					«ENDFOREACH -»
+		}
+				«ENDIF -»
+			«ENDIF -»
+		«ENDFOREACH -»								
+		
+		/* Search field creationDate */
+		creationDate = new ImogSearchDateField(BaseNLS.constants().field_creationDate());
+		searchSection.addField(creationDate);
+
+		/* Search field lastModificicationDate */
+		lastModificationDate = new ImogSearchDateField(BaseNLS.constants().field_lastModificationDate());
+		searchSection.addField(lastModificationDate);
+	}
+
+
+	private void export() {
+		
+		String locale = NLS.constants().locale();
+
+		String url = GWT.getHostPageBaseURL() + "get«name.toFirstUpper()»ExcelExport.sprg";
+		
+		List<String[]> parameters = new ArrayList<String[]>();
+			
+		«IF !columnFields.isEmpty -»
+			«FOREACH columnFields AS f -»
+				«EXPAND searchField FOR f-»
+			«ENDFOREACH -»	
+		«ELSE -»
+			«FOREACH mainFields AS f -»
+				«EXPAND searchField FOR f-»
+			«ENDFOREACH -»		
+		«ENDIF -»
+	
+		/* search for creationDate */
+		if(creationDate.toBeSearched()) {
+			parameters.add(new String[] {"creationDateOp", creationDate.getOperatorValue()} );		
+			if (!creationDate.getOperatorValue().equals(CriteriaConstants.OPERATOR_ISNULL)) {
+				if(creationDate.getFromDateDisplayValue()!=null && !creationDate.getFromDateDisplayValue().equals("")) {
+					parameters.add(new String[] {"creationDateFrom", creationDate.getFromDateDisplayValue()} );
+				}
+				if(creationDate.getToDateDisplayValue()!=null && !creationDate.getToDateDisplayValue().equals("")) {
+					parameters.add(new String[] {"creationDateTo", creationDate.getToDateDisplayValue()} );
+				}
+			}
+		}
+		
+		/* search for lastModificationDate */
+		if(lastModificationDate.toBeSearched()) {
+			parameters.add(new String[] {"lastModificationDateOp", lastModificationDate.getOperatorValue()} );		
+			if (!lastModificationDate.getOperatorValue().equals(CriteriaConstants.OPERATOR_ISNULL)) {
+				if(lastModificationDate.getFromDateDisplayValue()!=null && !lastModificationDate.getFromDateDisplayValue().equals("")) {
+					parameters.add(new String[] {"lastModificationDateFrom", lastModificationDate.getFromDateDisplayValue()} );
+				}
+				if(lastModificationDate.getToDateDisplayValue()!=null && !lastModificationDate.getToDateDisplayValue().equals("")) {
+					parameters.add(new String[] {"lastModificationDateTo", lastModificationDate.getToDateDisplayValue()} );
+				}
+			}
+		}
+
+		parameters.add(new String[] {"loc", locale} );
+		
+		String urlData = encodeURLData(parameters);				
+		url = url + "?" + urlData;
+		
+		Window.Location.assign(url);
+	}
+	
+	/**
+	 * 
+	 * @param entries
+	 * @return
+	 */
+	public String encodeURLData(List<String[]> entries) {
+		StringBuffer sb = new StringBuffer();
+
+		int i = 0;
+	    for (String[] entry:entries) {
+			  String name = entry[0];
+			  String value = entry[1];			
+			  if (i > 0) {
+			    sb.append("&");
+			  }			
+			  String encodedName = URL.encode(name);
+			  sb.append(encodedName);			  
+			  sb.append("=");
+			  String encodedValue = URL.encode(value);
+			  sb.append(encodedValue);
+			  i++;
+	    }	    
+	    return sb.toString();	
+	}
+
+
+	private void cancel() {
+	
+		«IF !columnFields.isEmpty -»
+			«FOREACH columnFields AS f -»
+				«EXPAND cancel FOR f-»
+			«ENDFOREACH -»	
+		«ELSE -»
+			«FOREACH mainFields AS f -»
+				«EXPAND cancel FOR f-»
+			«ENDFOREACH -»		
+		«ENDIF -»
+		creationDate.cancel();
+		lastModificationDate.cancel();
+	}
+
+	private void returnToList() {
+		History.newItem("list/«name.toLowerCase()»");
+	}
+	
+	/**
+	 * Adds a section to the form
+	 * @param newSection the section to be added to the form
+	 */
+	public void addSection(DisclosureContainerComposite newSection){
+		addSection(newSection, 1,1);
+	}
+	
+	/**
+	 * Adds a section to the form
+	 * @param newSection the section to be added to the form as a tabulation
+	 * @param title the title to be displayed in tabulation title
+	 */
+	public void addSection(DisclosureContainerComposite newSection, String title){
+		addSection(newSection, 1,1);
+	}
+	
+	/**
+	 * Adds a section to the form
+	 * @param newSection the section to be added to the form as a table cell
+	 * 
+	 */
+	public void addSection(DisclosureContainerComposite newSection, int rowSpan, int colSpan){
+				
+			int countRow = contentTable.getRowCount();
+			if(countRow==0){
+				contentTable.setWidget(0, 0, newSection);
+			}else{
+				int countCell = contentTable.getCellCount(countRow-1);
+				boolean lastColSpan = contentTable.getFlexCellFormatter().getColSpan(countRow-1, countCell-1)==2;
+				if(countCell<MAX_COL && !lastColSpan){
+					if(colSpan<2){
+						contentTable.setWidget(countRow-1, countCell, newSection);
+					}
+					else{
+						contentTable.setWidget(countRow-1, countCell, new Label(""));
+						contentTable.setWidget(countRow, 0, newSection);
+					}
+				}
+				else{								
+					contentTable.setWidget(countRow, 0, newSection);
+				}
+			}		
+			int lastRow = contentTable.getRowCount()-1;
+			int lastCell = contentTable.getCellCount(lastRow)-1;
+			newSection.setWidth("100%");
+			contentTable.getCellFormatter().setVerticalAlignment(lastRow, lastCell, HasAlignment.ALIGN_TOP);			
+			if(colSpan>1)
+				contentTable.getFlexCellFormatter().setColSpan(lastRow,lastCell, colSpan);
+			else
+				contentTable.getCellFormatter().setWidth(lastRow, lastCell, "50%");
+	}
+	
+	/**
+	 * Closes the form
+	 */
+	private void closeForm(){
+
+		if(container!=null) {
+			int last = container.countForms();
+			if (last>0)
+				container.removeForm(this);
+			else
+				returnToList();
+				
+		}
+		else {
+			this.removeFromParent();
+		}
+	}
+	
+	@Override
+	public void setTitle(String pTitle){
+		title = pTitle;
+		super.setTitle(title);
+	}
+	
+	/**
+	 * Sets the container in 
+	 * which the embedded form will be opened.
+	 * @param pContainer the form receiver
+	 */
+	public void setFormContainer(TaskWrapperPanel pContainer){
+		container = pContainer;
+	}	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+
+
+
+«REM» -------------------------- Ok -------------------- «ENDREM»
+
+«DEFINE getDeclaration FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getDeclaration FOR TextField-»
+	«IF !translatable-»
+	private ImogSearchTextBox «name.toFirstLower()»;
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE getDeclaration FOR EnumField-»
+	private ImogSearchEnumField «name.toFirstLower()»;
+«ENDDEFINE»
+«DEFINE getDeclaration FOR DateField-»
+	private ImogSearchDateField «name.toFirstLower()»;
+«ENDDEFINE»
+«DEFINE getDeclaration FOR BooleanField-»
+	private ImogSearchBooleanField «name.toFirstLower()»;
+«ENDDEFINE»
+«DEFINE getDeclaration FOR IntegerField-»
+	private ImogSearchIntegerField «name.toFirstLower()»;
+«ENDDEFINE»
+«DEFINE getDeclaration FOR FloatField-»
+	private ImogSearchFloatField «name.toFirstLower()»;
+«ENDDEFINE»
+«DEFINE getDeclaration FOR RelationFieldEntity -»
+	«IF cardinality == 1 && getOppositeCardinality(this)!=1 -»
+	private ImogSearchPaginatedRelationBox<«entity.name.toFirstUpper()»> «name.toFirstLower()»;
+	«ENDIF -»
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+«DEFINE createFieldView FOR FieldEntity-»«ENDDEFINE»
+«DEFINE createFieldView FOR TextField-»
+	«IF !translatable-»
+		/* Search field «name.toFirstLower()» */					
+		«name.toFirstLower()» = new ImogSearchTextBox(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»());
+		searchSection.addField(«name.toFirstLower()»);
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE createFieldView FOR EnumField-»
+		/* Search field «name.toFirstLower()» */
+		«name.toFirstLower()» = new ImogSearchEnumField(«multipleSelection», true, NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»());
+		«FOREACH enumValues AS ev-»
+		«name.toFirstLower()».addItem(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«ev.name.toFirstLower()»_option(), "«ev.value»");
+		«ENDFOREACH-»
+		searchSection.addField(«name.toFirstLower()»);		
+«ENDDEFINE»
+«DEFINE createFieldView FOR DateField-»
+		/* Search field «name.toFirstLower()» */
+		«name.toFirstLower()» = new ImogSearchDateField(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»());
+		searchSection.addField(«name.toFirstLower()»);
+«ENDDEFINE»
+«DEFINE createFieldView FOR BooleanField-»
+		/* Search field «name.toFirstLower()» */
+		«name.toFirstLower()» = new ImogSearchBooleanField(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»());
+		searchSection.addField(«name.toFirstLower()»);
+«ENDDEFINE»
+«DEFINE createFieldView FOR IntegerField-»
+		/* Search field «name.toFirstLower()» */
+		«name.toFirstLower()» = new ImogSearchIntegerField(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»());
+		searchSection.addField(«name.toFirstLower()»);
+«ENDDEFINE»
+«DEFINE createFieldView FOR FloatField-»
+		/* Search field «name.toFirstLower()» */
+		«name.toFirstLower()» = new ImogSearchFloatField(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»());
+		searchSection.addField(«name.toFirstLower()»);
+«ENDDEFINE»
+«DEFINE createFieldView FOR RelationFieldEntity -»
+	«IF cardinality == 1 && getOppositeCardinality(this)!=1 -»
+		/* Search field «name.toFirstLower()» */
+		«name.toFirstLower()» = new ImogSearchPaginatedRelationBox<«entity.name.toFirstUpper()»>(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_field_«name.toFirstLower()»());
+		«name.toFirstLower()».setDataProvider(new «entity.name.toFirstUpper()»SelectionListBoxDataProvider(), MainFieldsUtilImpl.get());
+		searchSection.addField(«name.toFirstLower()»);
+	«ENDIF -»
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+
+«DEFINE searchField FOR FieldEntity-»«ENDDEFINE»
+«DEFINE searchField FOR TextField-»
+	«IF !translatable-»
+		/* search for «name.toFirstLower()» */
+		if(«name.toFirstLower()».toBeSearched()) {
+			parameters.add(new String[] {"«name.toFirstLower()»Op", «name.toFirstLower()».getOperatorValue()});	
+			if (!«name.toFirstLower()».getOperatorValue().equals(CriteriaConstants.OPERATOR_ISNULL_OR_EMPTY))
+				parameters.add(new String[] {"«name.toFirstLower()»", «name.toFirstLower()».getValue()});
+		}
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE searchField FOR EnumField-»
+		/* search for «name.toFirstLower()» */
+		if(«name.toFirstLower()».toBeSearched()) {
+			parameters.add(new String[] {"«name.toFirstLower()»Op", «name.toFirstLower()».getOperatorValue()});	
+			if (!«name.toFirstLower()».getOperatorValue().equals(CriteriaConstants.OPERATOR_ISNULL_OR_EMPTY))
+				parameters.add(new String[] {"«name.toFirstLower()»", «name.toFirstLower()».getValue()});
+		}
+«ENDDEFINE»
+«DEFINE searchField FOR DateField-»
+		/* search for «name.toFirstLower()» */
+		if(«name.toFirstLower()».toBeSearched()) {
+			parameters.add(new String[] {"«name.toFirstLower()»Op", «name.toFirstLower()».getOperatorValue()});	
+			if (!«name.toFirstLower()».getOperatorValue().equals(CriteriaConstants.OPERATOR_ISNULL)) {
+				if(«name.toFirstLower()».getFromDateDisplayValue()!=null && !«name.toFirstLower()».getFromDateDisplayValue().equals("")) {
+					parameters.add(new String[] {"«name.toFirstLower()»From", «name.toFirstLower()».getFromDateDisplayValue()} );
+				}
+				if(«name.toFirstLower()».getToDateDisplayValue()!=null && !«name.toFirstLower()».getToDateDisplayValue().equals("")) {
+					parameters.add(new String[] {"«name.toFirstLower()»To", «name.toFirstLower()».getToDateDisplayValue()});
+				}
+			}
+		}
+«ENDDEFINE»
+«DEFINE searchField FOR BooleanField-»
+		/* search for «name.toFirstLower()» */
+		if(«name.toFirstLower()».toBeSearched()) {
+			parameters.add(new String[] {"«name.toFirstLower()»Op", «name.toFirstLower()».getOperatorValue()});	
+			if (!«name.toFirstLower()».getOperatorValue().equals(CriteriaConstants.OPERATOR_ISNULL))
+				parameters.add(new String[] {"«name.toFirstLower()»", «name.toFirstLower()».getDisplayValue()});
+		}
+«ENDDEFINE»
+«DEFINE searchField FOR IntegerField-»
+		/* search for «name.toFirstLower()» */
+		if(«name.toFirstLower()».toBeSearched()) {
+			parameters.add(new String[] {"«name.toFirstLower()»Op", «name.toFirstLower()».getOperatorValue()});	
+			if (!«name.toFirstLower()».getOperatorValue().equals(CriteriaConstants.OPERATOR_ISNULL))
+				parameters.add(new String[] {"«name.toFirstLower()»", «name.toFirstLower()».getDisplayValue()});
+		}
+«ENDDEFINE»
+«DEFINE searchField FOR FloatField-»
+		/* search for «name.toFirstLower()» */
+		if(«name.toFirstLower()».toBeSearched()) {
+			parameters.add(new String[] {"«name.toFirstLower()»Op", «name.toFirstLower()».getOperatorValue()});	
+			if (!«name.toFirstLower()».getOperatorValue().equals(CriteriaConstants.OPERATOR_ISNULL))
+				parameters.add(new String[] {"«name.toFirstLower()»", «name.toFirstLower()».getDisplayValue()});
+		}
+«ENDDEFINE»
+«DEFINE searchField FOR RelationFieldEntity -»
+	«IF cardinality == 1 && getOppositeCardinality(this)!=1 -»
+		/* search for «name.toFirstLower()» */
+		if(«name.toFirstLower()».toBeSearched()) {
+			parameters.add(new String[] {"«name.toFirstLower()»Op", «name.toFirstLower()».getOperatorValue()});		
+			if (!«name.toFirstLower()».getOperatorValue().equals(CriteriaConstants.RELATIONFIELD_OPERATOR_EQUAL_NULL))
+				parameters.add(new String[] {"«name.toFirstLower()»", «name.toFirstLower()».getValue().getId()});
+		}
+	«ENDIF -»
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+
+«DEFINE cancel FOR FieldEntity-»«ENDDEFINE»
+«DEFINE cancel FOR TextField-»
+	«IF !translatable-»
+		«name.toFirstLower()».cancel();
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE cancel FOR EnumField-»
+		«name.toFirstLower()».cancel();
+«ENDDEFINE»
+«DEFINE cancel FOR DateField-»
+		«name.toFirstLower()».cancel();
+«ENDDEFINE»
+«DEFINE cancel FOR BooleanField-»
+		«name.toFirstLower()».cancel();
+«ENDDEFINE»
+«DEFINE cancel FOR IntegerField-»
+		«name.toFirstLower()».cancel();
+«ENDDEFINE»
+«DEFINE cancel FOR FloatField-»
+		«name.toFirstLower()».cancel();
+«ENDDEFINE»
+«DEFINE cancel FOR RelationFieldEntity -»
+	«IF cardinality == 1 && getOppositeCardinality(this)!=1 -»
+		«name.toFirstLower()».cancel();
+	«ENDIF -»
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
