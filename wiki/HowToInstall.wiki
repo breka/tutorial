@@ -3,19 +3,18 @@
 
 <wiki:toc max_depth="3" />
 
-= Install From the Update Site =
+----
 
-== Prerequisite ==
+= Prerequisite =
 
 Before following these installation instructions, check that the Java runtime environment is installed on the machine.
 Check your configuration by running `java -version` in command line terminal or check it online [http://www.java.com/fr/download/installed.jsp here].
 
 If the Java runtime environment is not installed on the machine download the last *Java SE JDK* from http://www.oracle.com/technetwork/java/javase/downloads/index.html.
 
-<br />
 ----
 
-== Install the Eclipse IDE ==
+= Install the Eclipse IDE =
 
 The *Eclipse IDE* can be found [http://www.eclipse.org/downloads/ here]. Download and unpack the *Eclipse IDE for Java EE Developers*.
 
@@ -29,10 +28,9 @@ plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar
 ...
 }}}
 
-<br />
 ----
 
-== Installing Tomcat ==
+= Installing Tomcat =
 
 Install Tomcat version 7. It can be downloaded from the [http://tomcat.apache.org/ Apache Tomcat website].
 
@@ -54,10 +52,9 @@ Follow this steps to add *Tomcat* as a server in the *Eclipse Workbench*.
 	# Select *Apache > Tomcat v7.0 Server* and click "Next*
 	# Click *Finish* to create the server
 	
-<br />
 ----
 	
-== Install the GWT Plugins for Eclipse ==
+= Install the GWT Plugins for Eclipse =
 
 Use the Update Manager feature of your Eclipse installation to install the latest revision of GWT on your development computer. Follow these steps to download the GWT plugin and install it in your Eclipse environment.
 
@@ -70,19 +67,15 @@ Use the Update Manager feature of your Eclipse installation to install the lates
 	# Read and accept the license agreements, then click *Finish*.<br />Note: If you get a security warning saying that the authenticity or validity of the software can't be established, click *OK*.
 	# When the installation completes, restart Eclipse.
 	
-<br />
 ----
 
-== Install the Android Plugins for Eclipse and the Android SDK ==
+= Install the Android Plugins for Eclipse and the Android SDK =
 
-=== Download the Android SDK ===
+== Download the Android SDK ==
 
 Download and install the SDK starter package from the [http://developer.android.com/sdk/index.html SDK download page]
 
-<br />
-----
-
-=== Downloading the ADT Plugin ===
+== Downloading the ADT Plugin ==
 
 Use the Update Manager feature of your Eclipse installation to install the latest revision of ADT on your development computer.
 
@@ -97,10 +90,7 @@ Follow these steps to download the ADT plugin and install it in your Eclipse env
 	# Read and accept the license agreements, then click *Finish*.<br />Note: If you get a security warning saying that the authenticity or validity of the software can't be established, click *OK*.
 	# When the installation completes, restart Eclipse.
 
-<br />
-----
-	
-=== Configuring the ADT Plugin ===
+== Configuring the ADT Plugin ==
 
 After you've successfully downloaded the ADT as described above, the next step is to modify your ADT preferences in Eclipse to point to the Android SDK directory:
 
@@ -109,10 +99,7 @@ After you've successfully downloaded the ADT as described above, the next step i
 	# For the _SDK Location_ in the main panel, click *Browse...* and locate your downloaded SDK directory.
 	# Click *Apply*, then *OK*.
 	
-<br />
-----
-	
-=== Adding Platforms and Other Components ===
+== Adding Platforms and Other Components ==
 
 The last step in setting up your SDK is using the Android SDK Manager (a tool included in the SDK starter package) to download essential SDK components into your development environment.
 
@@ -125,10 +112,7 @@ Follow these steps to downlload SDK components needed for running *imogene*:
 	# Click *Install _n_ packages...*.
 	# Read and accept the license agreements by checking *Accept all*, then click *Install*.
 	
-<br />
-----
-	
-=== !GreenDroid library ===
+== !GreenDroid library ==
 
 The *imogene* Android applications need an external Android project which is used as a library. A library project is a standard Android project. This library is located at `https://github.com/jdupouy/GreenDroid`.
 
@@ -169,10 +153,9 @@ Follow these steps to declare the !GreenDroid project as a library in your gener
 	# Click *Apply*. 
 	# Click *OK* to close the Properties window.
 	
-<br />
 ----
 
-== Install Other Dependency Plugins for Eclipse ==
+= Install Other Dependency Plugins for Eclipse =
 
 The *imogene* plugin needs some other plugins to work properly.
 
@@ -185,10 +168,9 @@ Follow these steps to download and install these plugins into your Eclipse devel
 	# In the next window, you'll see a list of the tools to be downloaded. Click *Next*.
 	# Read and accept the license agreements, then click *Finish*.
 	
-<br />
 ----
 	
-== Install the Imogene Plugin for Eclipse ==
+= Install the Imogene Plugin for Eclipse =
 
 The last step is to install the *imogene* plugin.
 
@@ -204,20 +186,4 @@ Follow these steps to download and install the *imogene* plugin:
 	# Read and accept the license agreements, then click *Finish*.<br />Note: If you get a security warning saying that the authenticity or validity of the software can't be established, click *OK*.
 	# When the installation completes, restart Eclipse.
 	
-Done! If you haven't encountered any problems, then the installation is complete.
-
-<br />
-----
-
-= Install From the Source Code =
-
-To get the _*imogene*_ source code, install _*imogene*_ from the source.
-	
-A document explaining how to install _*imogene*_ from the source can be downloaded [http://code.google.com/p/imogene/downloads/detail?name=ImogeneInstallationFromSources.pdf&can=2&q=#makechanges here].
-
-<br />
-----
-	
-= Start Using Imogene =
-
-After the installation is done, find out HowToUse the studio.
+Done! If you haven't encountered any problems, then the installation is complete. Find out HowToUse the studio.

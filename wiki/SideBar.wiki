@@ -7,7 +7,7 @@
 		* [UserExperience Use cases]
 		* [UseContext Use context]
 		* [HowToInstall How to install]
-			* [HowToInstallFromUpdateSite Install From update site]
+			* [HowToInstallFromSources From sources]
 		* [HowToUse How to use]
 			* [ModelDescription Modeling]
 				* [RelationFieldRules Rules to model relation fields]	

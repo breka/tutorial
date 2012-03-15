@@ -1,0 +1,133 @@
+#summary How to install imogene
+#labels Eclipse,Java,Tomcat,GWT,Android
+
+<wiki:toc max_depth="3" />
+
+----
+
+= Prerequisite =
+
+Only install *imogene* from the sources if you want to inspect the code or adapt it for your own use.
+	* If you are not familiar with the Eclipse development environment.
+	* If you are not a developer.
+	* If you don't know what *imogene* is.
+	* If you don't know why you are here.
+Then you should not go further.
+
+...
+
+You stayed so we now assume that you are a developer familiar with Eclipse.
+
+If you don't have Subclipse installed install it from this update site `http://subclipse.tigris.org/update_1.8.x`. Check that you are getting the most recent update from the [http://subclipse.tigris.org/ Subclipse web page]. 	
+
+----
+
+= Code overview =
+
+	== General presentation ==
+
+The packages called `org.imogene.<name>.contrib` contain the source code of the plugin extension for the given generator.
+
+The packages called `org.imogene.<name>.oaw.generator` contain the source code of the generator for the given application.
+
+The packages called `org.imogene.<name>.template` contains the base source code of the future generated application (the administration application doesn't have one because it is using the one from the web application). This code is common for all target generated applications.
+
+The `dev-libs` remote folder contains source code of some libraries used by the *imogene* applications. The libraries are
+{{{
+org.imogene.lib.encryption 
+org.imogene.lib.gwt.widgets 
+org.imogene.lib.synchro.client 
+org.imogene.lib.synchro.common 
+org.imogene.lib.synchro.server
+}}} 
+
+The `dev-tools` remote folder contains Eclipse plugins that have to be installed to develop the *imogene* generators.
+{{{
+org.imogene.tools.encrypter 
+org.imogene.tools.libraryhelper
+}}} 
+
+= Generator for the 'Administration' application =
+
+gen-admin
+org.imogene.admin.contrib 
+org.imogene.admin.oaw.generator 
+
+2.1.3.  Methods for generation that are common with at least 2 generators
+
+gen-common 	
+org.imogene.oaw.generator.common 
+
+2.1.4.  Android application generator
+
+gen-droid 
+org.imogene.android.contrib 
+org.imogene.android.oaw.generator 
+org.imogene.android.template 
+
+2.1.5.  Generator for the 'Initialiser' application 
+
+gen-init 
+org.imogene.initializer.contrib 
+org.imogene.initializer.oaw.generator 
+org.imogene.initializer.template 
+
+2.1.6.  Plugin to initialise a new Imogene project in a launched studio
+
+gen-model 
+org.imogene.model.contrib 
+org.imogene.model.template 
+
+2.1.7.  Generator for the 'Notification' application
+
+gen-notif 
+org.imogene.notifier.contrib 
+org.imogene.notifier.oaw.generator 
+org.imogene.notifier.template 
+
+2.1.8.  Generator for the 'Desktop RCP' application
+
+gen-rcp 
+org.imogene.rcp.contrib 
+org.imogene.rcp.core 
+org.imogene.rcp.oaw.generator 
+org.imogene.rcp.template 
+
+2.1.9.  Geenrator for the 'Synchronisation server' application
+
+gen-sync 
+org.imogene.synchro.contrib 
+org.imogene.synchro.oaw.generator 
+org.imogene.synchro.template 
+
+2.1.10.  Generator for the 'Web' application
+
+gen-web 
+org.imogene.web.contrib 
+org.imogene.web.oaw.generator 
+org.imogene.web.template 
+
+2.1.11.  Generator for the 'Web services' application
+
+gen-ws 
+org.imogene.webservice.contrib 
+org.imogene.webservice.oaw.generator 
+org.imogene.webservice.template 
+
+2.1.12.  Libraries shared by the templates of the generators
+
+library 
+org.imogene.library 
+org.imogene.library.contrib 
+
+Model definition source code. Defines the elements of the model, the specific source code for editing the model and the validation rules.
+
+model 
+org.imogene.model.core 
+org.imogene.model.core.editor 
+org.imogene.model.validation 
+
+2.1.13.  The imogene plugin that is launched in a new eclipse
+
+studio 
+org.imogene.studio.contrib
