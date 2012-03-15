@@ -1,0 +1,189 @@
+#summary How to install imogene
+#labels Eclipse,Java,Tomcat,GWT,Android
+
+<wiki:toc max_depth="3" />
+
+= Prerequisite =
+
+Before following these installation instructions, check that the Java runtime environment is installed on the machine.
+Check your configuration by running `java -version` in command line terminal or check it online [http://www.java.com/fr/download/installed.jsp here].
+
+If the Java runtime environment is not installed on the machine download the last *Java SE JDK* from http://www.oracle.com/technetwork/java/javase/downloads/index.html.
+
+----
+
+= Install the Eclipse IDE =
+
+The *Eclipse IDE* can be found [http://www.eclipse.org/downloads/ here]. Download and unpack the *Eclipse IDE for Java EE Developers*.
+
+After the installation, configure the Eclipse launching parameters. In the *Eclipse* root directory, edit the file `eclipse.ini`, add the `-clean` parameter and save the file.
+
+{{{
+-startup
+plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar
+-clean
+--launcher.library
+...
+}}}
+
+----
+
+= Installing Tomcat =
+
+Install Tomcat version 7. It can be downloaded from the [http://tomcat.apache.org/ Apache Tomcat website].
+
+_Note: For Windows, do not select the option to start the service at start-up._
+
+Follow this steps to install the servlet container *Tomcat* and configure it for *Eclipse*.
+
+	# Start Eclipse, then select *Window > Preferences*
+	# Under *Server > Runtime Environments*
+	# On the right panel, click the *Add* button
+	# Under *Apache* select the *Apache Tomcat v7.0* and click *Next*
+	# Click *Browse* and select the folder where *Tomcat* is installed on your computer
+	# Click *Finish* and *OK* to close the *Preferences* view
+	
+Follow this steps to add *Tomcat* as a server in the *Eclipse Workbench*.
+
+	# Start Eclipse, then select *File > New > Other...*
+	# Select *Server > Server* and click *Next*
+	# Select *Apache > Tomcat v7.0 Server* and click "Next*
+	# Click *Finish* to create the server
+	
+----
+	
+= Install the GWT Plugins for Eclipse =
+
+Use the Update Manager feature of your Eclipse installation to install the latest revision of GWT on your development computer. Follow these steps to download the GWT plugin and install it in your Eclipse environment.
+
+	# Start Eclipse, then select *Help > Install New Software...*.
+	# Click *Add*, in the top-right corner.
+	# In the Add Repository dialog that appears, enter "ADT Plugin" for the _Name_ and the following URL for the _Location_:<br />`http://dl.google.com/eclipse/plugin/3.7`
+	# Click *OK*
+	# In the Available Software dialog, select the checkbox next to *Google Plugin for Eclipse (required)* and *SDKs* and click *Next*.
+	# In the next window, you'll see a list of the tools to be downloaded. Click *Next*.
+	# Read and accept the license agreements, then click *Finish*.<br />Note: If you get a security warning saying that the authenticity or validity of the software can't be established, click *OK*.
+	# When the installation completes, restart Eclipse.
+	
+----
+
+= Install the Android Plugins for Eclipse and the Android SDK =
+
+== Download the Android SDK ==
+
+Download and install the SDK starter package from the [http://developer.android.com/sdk/index.html SDK download page]
+
+== Downloading the ADT Plugin ==
+
+Use the Update Manager feature of your Eclipse installation to install the latest revision of ADT on your development computer.
+
+Follow these steps to download the ADT plugin and install it in your Eclipse environment.
+
+	# Start Eclipse, then select *Help > Install New Software...*.
+	# Click *Add*, in the top-right corner.
+	# In the Add Repository dialog that appears, enter "ADT Plugin" for the _Name_ and the following URL for the _Location_:<br />`https://dl-ssl.google.com/android/eclipse/`
+	# Click *OK*<br />Note: If you have trouble acquiring the plugin, try using "http" in the Location URL, instead of "https" (https is preferred for security reasons).
+	# In the Available Software dialog, select the checkbox next to *Developer Tools* and click *Next*.
+	# In the next window, you'll see a list of the tools to be downloaded. Click *Next*.
+	# Read and accept the license agreements, then click *Finish*.<br />Note: If you get a security warning saying that the authenticity or validity of the software can't be established, click *OK*.
+	# When the installation completes, restart Eclipse.
+
+== Configuring the ADT Plugin ==
+
+After you've successfully downloaded the ADT as described above, the next step is to modify your ADT preferences in Eclipse to point to the Android SDK directory:
+
+	# Select *Window > Preferences...* to open the Preferences panel.
+	# Select *Android* from the left panel.<br />You may see a dialog asking whether you want to send usage statistics to Google. If so, make your choice and click *Proceed*. You cannot continue with this procedure until you click *Proceed*.
+	# For the _SDK Location_ in the main panel, click *Browse...* and locate your downloaded SDK directory.
+	# Click *Apply*, then *OK*.
+	
+== Adding Platforms and Other Components ==
+
+The last step in setting up your SDK is using the Android SDK Manager (a tool included in the SDK starter package) to download essential SDK components into your development environment.
+
+The SDK uses a modular structure that separates the major parts of the SDK—Android platform versions, add-ons, tools, samples, and documentation—into a set of separately installable components. The SDK starter package, which you've already downloaded, includes only a single component: the latest version of the SDK Tools. You need to download at least one Android platform and the associated platform tools.
+
+Follow these steps to downlload SDK components needed for running *imogene*:
+
+	# Launch the Android SDK Manager from within Eclipse, select *Window > Android SDK Manager*.
+	# In the Packages list, select the checkbox next to *Android 2.1 (API 7)* and *Tools*, uncheck the others.<br />Note: The imogene Android generated applications are compatible from the API level 7 (Android 2.1) until the most recent levels. To insure compatibility with most of the devices you better choose the API level 7 which will make your application compatible with all the devices running Android 2.1 and above.
+	# Click *Install _n_ packages...*.
+	# Read and accept the license agreements by checking *Accept all*, then click *Install*.
+	
+----
+	
+== !GreenDroid library ==
+
+The *imogene* Android applications need an external Android project which is used as a library. A library project is a standard Android project. This library is located at `https://github.com/jdupouy/GreenDroid`.
+
+Follow these steps to import the library in your Eclipse workbench:
+	
+	# Download a `zip` file containing [https://github.com/jdupouy/GreenDroid/zipball/master the application].
+	# Extract it on your computer.
+	# From within Eclipse, click on *File > Import...*.
+	# Select *General > Existing Projects into Workspace*.
+	# In the *Select root directory* fill the path to the *!GreenDroid* folder you just extracted.
+	# Select *Copy projects into workspace*.
+	# Click *Finish*.
+
+Note: If the project is in error make sure that it is using the correct version of the Java compiler
+	# In the *Package Explorer*, right-click the library project and select *Properties*. 
+	# Select *Java Compiler*.
+	# Under *JDK Compliance* make sure that *Compiler compliance level* is upper or equal to *1.6* java version.
+	# Click *Apply*.
+
+Check that the project is declared correctly as a library:
+	# In the *Package Explorer*, right-click the library project and select *Properties*.
+	# Select *Android*.
+	# Select the checkbox next to *Is library*.
+	# Click *Apply*, then *OK* to close the Preferences view.
+	
+When you generate an Android application using Imogene this application is supposed to use this library. The Android plugin often messed up with the library feature, so when a project is generated you will certainly need to reference the !GreenDroid library in the newly generated project.
+
+Follow these steps to declare the !GreenDroid project as a library in your generated Android application:
+
+	# In the *Package Explorer*, right-click the dependent project and select *Properties*. 
+	# In the Properties window, select the *Android* properties group at left and locate the *Library* properties at right. 
+	# If a library appears in the list:
+		* Select it and click on *Remove* on the right side.
+		* Click *Apply*.
+		* The project should now be in error.
+	# Click *Add* to open the *Project Selection* dialog. 
+	# From the list of available library projects, select the *!GreenDroid* project and click *OK*. 
+	# Click *Apply*. 
+	# Click *OK* to close the Properties window.
+	
+----
+
+= Install Other Dependency Plugins for Eclipse =
+
+The *imogene* plugin needs some other plugins to work properly.
+
+Follow these steps to download and install these plugins into your Eclipse development environment:
+
+	# Start Eclipse, select *Help > Install New software...*.
+	# In the *Work with* list, select *Indigo* (or the Eclipse version name that you are using if different)
+	# Under *Modelling* select the checkboxes next to *EMF - Eclipse Modeling Framework SDK*, *EMF Validation Framework SDK*, *Xpand SDK* and *MWE SDK*.
+	# Click *Next*
+	# In the next window, you'll see a list of the tools to be downloaded. Click *Next*.
+	# Read and accept the license agreements, then click *Finish*.
+	
+----
+	
+= Install the Imogene Plugin for Eclipse =
+
+The last step is to install the *imogene* plugin.
+
+Follow these steps to download and install the *imogene* plugin:
+
+	# Start Eclipse, then select *Help > Install New Software...*.
+	# Click *Add*, in the top-right corner.
+	# In the Add Repository dialog that appears, enter "Imogene" for the _Name_ and the following URL for the _Location_:<br />`http://update-site.i-mogene.org/`
+	# Click *OK*.
+	# In the Available Software dialog, unselect the checkbox next to *Group items by category*.
+	# Click *Select All*, then *Next*
+	# In the next window, you'll see a list of the tools to be downloaded. Click *Next*.
+	# Read and accept the license agreements, then click *Finish*.<br />Note: If you get a security warning saying that the authenticity or validity of the software can't be established, click *OK*.
+	# When the installation completes, restart Eclipse.
+	
+Done! If you haven't encountered any problems, then the installation is complete. Find out HowToUse the studio.
