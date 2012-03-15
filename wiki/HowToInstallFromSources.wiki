@@ -24,7 +24,7 @@ If you don't have Subclipse installed install it from this update site `http://s
 
 From the *SVN Repository Exploring* perspective add the *imogene* source code repository location `http://imogene.googlecode.com/svn/trunk/`.
 
-Open the hierarchy in the *imogene* SVN repository and checkout all the `org.imogene` projects into your workbench.
+Browse the hierarchy in the SVN repository and checkout all the *`org.imogene`* projects into your workbench.
 
 Note: The project `org.imogene.tools.androidhelper` is not in use anymore.
 
@@ -144,8 +144,8 @@ org.imogene.studio.contrib
 
 The *imogene* studio needs some plugins to be installed to ease the development. These plugins can be found in the `dev-tools` folder.
 
-Follow these steps to install the 'org.imogene.tools.libraryhelper' plugin in your environment.
-	# From the *Java perspective* right-click on the 'org.imogene.tools.libraryhelper' project.
+Follow these steps to install the `org.imogene.tools.libraryhelper` plugin in your environment.
+	# From the *Java perspective* right-click on the `org.imogene.tools.libraryhelper` project.
 	# Select *Export...*.
 	# Under *Plug-in Development* select *Deployable plug-ins and fragments*.
 	# Select the checkbox next to *Install into host* (The repository will automatcally be selected).
@@ -168,9 +168,9 @@ Done ! *imogene* is now running from the source code.
 
 = Tips =
 
-* Each time you modify a `java` file outside the templates you have to rerun the *Imogene Studio*. This is not necessary if you modified an `Xpand` file or any files from the templates.
+	* Each time you modify a `java` file outside the templates you have to rerun the *Imogene Studio*. This is not necessary if you modified an `Xpand` file or any files from the templates.
 
-* The templates are compressed into `zip` files and placed into the contribution `(org.imogene.<generator>.contrib)` plug-ins. Follow these steps to update a template once you have made a modification:
-	# Right-click on the `build.xml` file in the corresponding `contrib` project of the template you just modified.
-	# Select *Run As > Ant build...*.
-	# Under the *JRE* tabulation, select the checkbox near to *Run in the same JRE as the workspace*.<br />Note: These steps have to be made for each contribution plug-ins at least once. Then you can just select *Run As > Ant build* this will run over the configuration page of step 3.
+	* The templates are compressed into `zip` files and placed into the contribution `(org.imogene.<generator>.contrib)` plug-ins. Follow these steps to update a template once you have made a modification:
+		# Right-click on the `build.xml` file in the corresponding `contrib` project of the template you just modified.
+		# Select *Run As > Ant build...*.
+		# Under the *JRE* tabulation, select the checkbox near to *Run in the same JRE as the workspace*.<br />Note: These steps have to be made for each contribution plug-ins at least once. Then you can just select *Run As > Ant build* this will run over the configuration page of step 3.
