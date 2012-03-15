@@ -104,9 +104,9 @@ Follow these steps to downlload SDK components needed for running *imogene*:
 	# Click *Install _n_ packages...*.
 	# Read and accept the license agreements by checking *Accept all*, then click *Install*.
 	
-=== GreenDroid library ===
+=== !GreenDroid library ===
 
-The *imogene* Android applications need an external Android project which is used as a library. A library project is a standard Android project. This library is located at `https://github.com/jdupouy/GreenDroid`.
+The *imogene* Android applications need an external Android project which is used as a library. A library project is a standard Android project. This library is located at `https://github.com/jdupouy/!GreenDroid`.
 
 Follow these steps to import the library in your Eclipse workbench:
 	
@@ -114,7 +114,7 @@ Follow these steps to import the library in your Eclipse workbench:
 	# Extract it on your computer.
 	# From within Eclipse, click on *File > Import...*.
 	# Select *General > Existing Projects into Workspace*.
-	# In the *Select root directory* fill the path to the *GreenDroid* folder you just extracted.
+	# In the *Select root directory* fill the path to the *!GreenDroid* folder you just extracted.
 	# Select *Copy projects into workspace*.
 	# Click *Finish*.
 
@@ -130,9 +130,9 @@ Check that the project is declared correctly as a library:
 	# Select the checkbox next to *Is library*.
 	# Click *Apply*, then *OK* to close the Preferences view.
 	
-When you generate an Android application using Imogene this application is supposed to use this library. The Android plugin often messed up with the library feature, so when a project is generated you will certainly need to reference the GreenDroid library in the newly generated project.
+When you generate an Android application using Imogene this application is supposed to use this library. The Android plugin often messed up with the library feature, so when a project is generated you will certainly need to reference the !GreenDroid library in the newly generated project.
 
-Follow these steps to declare the GreenDroid project as a library in your generated Android application:
+Follow these steps to declare the !GreenDroid project as a library in your generated Android application:
 
 	# In the *Package Explorer*, right-click the dependent project and select *Properties*. 
 	# In the Properties window, select the *Android* properties group at left and locate the *Library* properties at right. 
@@ -141,7 +141,7 @@ Follow these steps to declare the GreenDroid project as a library in your genera
 		* Click *Apply*.
 		* The project should now be in error.
 	# Click *Add* to open the *Project Selection* dialog. 
-	# From the list of available library projects, select the *GreenDroid* project and click *OK*. 
+	# From the list of available library projects, select the *!GreenDroid* project and click *OK*. 
 	# Click *Apply*. 
 	# Click *OK* to close the Properties window.
 
