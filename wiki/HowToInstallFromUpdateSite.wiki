@@ -3,6 +3,8 @@
 
 <wiki:toc max_depth="3" />
 
+----
+
 = Prerequisite =
 
 Before following these installation instructions, check that the Java runtime environment is installed on the machine.
@@ -109,8 +111,6 @@ Follow these steps to downlload SDK components needed for running *imogene*:
 	# In the Packages list, select the checkbox next to *Android 2.1 (API 7)* and *Tools*, uncheck the others.<br />Note: The imogene Android generated applications are compatible from the API level 7 (Android 2.1) until the most recent levels. To insure compatibility with most of the devices you better choose the API level 7 which will make your application compatible with all the devices running Android 2.1 and above.
 	# Click *Install _n_ packages...*.
 	# Read and accept the license agreements by checking *Accept all*, then click *Install*.
-	
-----
 	
 == !GreenDroid library ==
 
