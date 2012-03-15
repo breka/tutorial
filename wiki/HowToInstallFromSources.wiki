@@ -16,15 +16,21 @@ Then you should not go further.
 
 ...
 
-You stayed so we now assume that you are a developer familiar with Eclipse.
+You stayed ! We now assume that you are a developer familiar with Eclipse.
 
-If you don't have Subclipse installed install it from this update site `http://subclipse.tigris.org/update_1.8.x`. Check that you are getting the most recent update from the [http://subclipse.tigris.org/ Subclipse web page]. 	
+To prepare your development environment follow the HowToInstall guide but DON'T follow the last step (don't install the *imogene* plugin from the update site).
+
+If you don't have Subclipse installed install it from this update site `http://subclipse.tigris.org/update_1.8.x`. Check that you are getting the most recent update from the [http://subclipse.tigris.org/ Subclipse web page].
+
+From the *SVN Repository Exploring* perspective add the *imogene* source code repository location `http://imogene.googlecode.com/svn/trunk/`.
+
+Open the hierarchy in the *imogene* SVN repository and checkout all the `org.imogene` projects into your workbench.
+
+Note: The project `org.imogene.tools.androidhelper` is not in use anymore.
 
 ----
 
-= Code overview =
-
-	== General presentation ==
+= Code Overview =
 
 The packages called `org.imogene.<name>.contrib` contain the source code of the plugin extension for the given generator.
 
@@ -32,7 +38,7 @@ The packages called `org.imogene.<name>.oaw.generator` contain the source code o
 
 The packages called `org.imogene.<name>.template` contains the base source code of the future generated application (the administration application doesn't have one because it is using the one from the web application). This code is common for all target generated applications.
 
-The `dev-libs` remote folder contains source code of some libraries used by the *imogene* applications. The libraries are
+The `dev-libs` remote folder contains source code of some libraries used by the *imogene* applications.
 {{{
 org.imogene.lib.encryption 
 org.imogene.lib.gwt.widgets 
@@ -47,87 +53,124 @@ org.imogene.tools.encrypter
 org.imogene.tools.libraryhelper
 }}} 
 
-= Generator for the 'Administration' application =
+The `gen-common` remote folder contains methods for generation that are common with at least 2 generators.
+{{{
+org.imogene.oaw.generator.common
+}}}
 
-gen-admin
+The `gen-admin` remote folder contains the generator for the Administration application.
+{{{
 org.imogene.admin.contrib 
 org.imogene.admin.oaw.generator 
+}}}
 
-2.1.3.  Methods for generation that are common with at least 2 generators
-
-gen-common 	
-org.imogene.oaw.generator.common 
-
-2.1.4.  Android application generator
-
-gen-droid 
+The `gen-droid` remote folder contains the generator for the Android application.
+{{{
 org.imogene.android.contrib 
 org.imogene.android.oaw.generator 
 org.imogene.android.template 
+}}}
 
-2.1.5.  Generator for the 'Initialiser' application 
-
-gen-init 
+The `gen-init` remote folder contains the generator for the Initialiser application.
+{{{
 org.imogene.initializer.contrib 
 org.imogene.initializer.oaw.generator 
 org.imogene.initializer.template 
+}}}
 
-2.1.6.  Plugin to initialise a new Imogene project in a launched studio
-
-gen-model 
+The `gen-model` remote folder contains plugin source code to initialise a new Imogene project in a launched studio.
+{{{
 org.imogene.model.contrib 
 org.imogene.model.template 
+}}}
 
-2.1.7.  Generator for the 'Notification' application
-
-gen-notif 
+The `gen-notif` remote folder contains the generator for the Notification application.
+{{{
 org.imogene.notifier.contrib 
 org.imogene.notifier.oaw.generator 
 org.imogene.notifier.template 
+}}}
 
-2.1.8.  Generator for the 'Desktop RCP' application
-
-gen-rcp 
+The `gen-rcp` remote folder contains the generator for the Desktop RCP application.
+{{{
 org.imogene.rcp.contrib 
 org.imogene.rcp.core 
 org.imogene.rcp.oaw.generator 
 org.imogene.rcp.template 
+}}}
 
-2.1.9.  Geenrator for the 'Synchronisation server' application
-
-gen-sync 
+The `gen-sync` remote folder contains the generator for the Synchronisation server application.
+{{{ 
 org.imogene.synchro.contrib 
 org.imogene.synchro.oaw.generator 
 org.imogene.synchro.template 
+}}}
 
-2.1.10.  Generator for the 'Web' application
-
-gen-web 
+The `gen-web` remote folder contains the generator for the Web application.
+{{{
 org.imogene.web.contrib 
 org.imogene.web.oaw.generator 
 org.imogene.web.template 
+}}}
 
-2.1.11.  Generator for the 'Web services' application
-
-gen-ws 
+The `gen-ws` remote folder contains the generator for the Restful Web services application.
+{{{
 org.imogene.webservice.contrib 
 org.imogene.webservice.oaw.generator 
 org.imogene.webservice.template 
+}}}
 
-2.1.12.  Libraries shared by the templates of the generators
-
-library 
+The `library` remote folder contains libraries shared by the templates of the generators.
+{{{
 org.imogene.library 
 org.imogene.library.contrib 
+}}}
 
-Model definition source code. Defines the elements of the model, the specific source code for editing the model and the validation rules.
-
-model 
+The `model` remote folder contains the model definition source code. Defines the elements of the model, the specific source code for editing the model and the validation rules.
+{{{
 org.imogene.model.core 
 org.imogene.model.core.editor 
 org.imogene.model.validation 
+}}}
 
-2.1.13.  The imogene plugin that is launched in a new eclipse
-
-studio 
+The `studio` remote folder contains the *imogene* plugin source code that is launched in a new eclipse.
+{{{
 org.imogene.studio.contrib
+}}}
+
+----
+
+= Homemade Plugins for Development =
+
+The *imogene* studio needs some plugins to be installed to ease the development. These plugins can be found in the `dev-tools` folder.
+
+Follow these steps to install the 'org.imogene.tools.libraryhelper' plugin in your environment.
+	# From the *Java perspective* right-click on the 'org.imogene.tools.libraryhelper' project.
+	# Select *Export...*.
+	# Under *Plug-in Development* select *Deployable plug-ins and fragments*.
+	# Select the checkbox next to *Install into host* (The repository will automatcally be selected).
+	# Then click *Finish* and follow the instructions.
+	
+----
+	
+= Run Imogene From Source Code =
+
+Follow these steps to run *imogene* from the source code.
+	# From within Eclipse, select *Run > Run Configurations...*.
+	# Double-click *Eclipse Application*.
+	# Enter *Imogene Studio* for the _Name_.
+	# Under the *Plug-ins* tabulation make sure the *Launch with* option is configured with *all workspace and enabled target plug-ins*.
+	# Then click *Run*.
+	
+Done ! *imogene* is now running from the source code.
+
+----
+
+= Tips =
+
+* Each time you modify a `java` file outside the templates you have to rerun the *Imogene Studio*. This is not necessary if you modified an `Xpand` file or any files from the templates.
+
+* The templates are compressed into `zip` files and placed into the contribution `(org.imogene.<generator>.contrib)` plug-ins. Follow these steps to update a template once you have made a modification:
+	# Right-click on the `build.xml` file in the corresponding `contrib` project of the template you just modified.
+	# Select *Run As > Ant build...*.
+	# Under the *JRE* tabulation, select the checkbox near to *Run in the same JRE as the workspace*.<br />Note: These steps have to be made for each contribution plug-ins at least once. Then you can just select *Run As > Ant build* this will run over the configuration page of step 3.
