@@ -1,0 +1,195 @@
+«IMPORT core»
+
+«DEFINE generate(String projectName) FOR Project»
+«FILE projectName.toLowerCase()+"/client/entity/MainFieldsUtilImpl.java"»
+
+package org.imogene.«projectName.toLowerCase()».client.entity;
+
+import com.google.gwt.core.client.GWT;
+
+import org.imogene.web.gwt.client.util.BooleanUtil;
+import org.imogene.web.gwt.client.util.DateUtil;
+import org.imogene.web.gwt.common.entity.ImogBean;
+import org.imogene.web.gwt.client.ui.field.MainFieldsUtil;
+import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
+
+/**
+ *
+ */
+public class MainFieldsUtilImpl implements MainFieldsUtil {
+
+	private static MainFieldsUtilImpl instance = new MainFieldsUtilImpl();
+	
+	private MainFieldsUtilImpl(){
+	}
+
+
+	public static MainFieldsUtilImpl get(){
+		return instance;
+	}
+
+    /**
+     * Get display representation for a ImogBean     
+     * @param bean the ImogBean
+     * @return string representation for IHM display
+     */
+	public String getDisplayValue(ImogBean bean){
+		
+		/*if (bean instanceof GWTRole) {
+			return getDisplayValue((GWTRole) bean);
+		}*/		
+		«FOREACH entities AS e -»
+		if(bean instanceof «e.name.toFirstUpper()»){
+			return getDisplayValue((«e.name.toFirstUpper()») bean);
+		}
+		«ENDFOREACH -»		
+		return "";
+	}
+	
+	/**
+	 *
+	 */
+	/*private String getDisplayValue(GWTRole bean) {
+		String value = new String();
+
+		if (bean.getName() != null)
+			value = value + bean.getName();
+
+		return value.trim();
+	}*/		
+	
+	«FOREACH entities AS e -»
+	/**	 */
+	private String getDisplayValue(«e.name.toFirstUpper()» bean){
+		String value = new String();
+		«IF !(e.mainFields==null) && !e.mainFields.isEmpty -»
+		«FOREACH e.mainFields AS f -»
+			«EXPAND stringRepresentation FOR f -»
+		«ENDFOREACH -»	
+		«REM»
+		«FOREACH e.secondaryFields AS f -»
+			«EXPAND stringRepresentation FOR f -»
+		«ENDFOREACH -»	
+		«ENDREM»				
+		«ELSE -»
+		value = NLS.constants().no_display_value_text();
+		«ENDIF -»		
+		return value.trim();	
+	}
+	«ENDFOREACH»
+	
+	/**
+	 * Get the entity icon URL	 
+	 * @param bean The bean
+	 * @return The icon url as String
+	 */
+	 public String getIconUrl(ImogBean bean){
+	 	«FOREACH entities AS e -»
+	 	if(bean instanceof «e.name.toFirstUpper()»){
+			return getIconUrl((«e.name.toFirstUpper()») bean);
+		}
+	 	«ENDFOREACH -»
+	 	return new String();
+	 }
+	 
+	 «FOREACH entities AS e -»
+	 /**
+	  * Return the url of the icon of this entity
+	  */
+	  private String getIconUrl(«e.name.toFirstUpper()» bean){	  	
+	  	return GWT.getModuleBaseURL() + "images/icons/small/«e.icon»";
+	  }
+	 «ENDFOREACH -»
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM» Format date/time and enumeration field to current local «ENDREM»
+«DEFINE stringRepresentation FOR FieldEntity -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR TextField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		«IF this.translatable -»
+		value = value + bean.getLocalizedFieldMap().getFieldI18nValue(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»(), NLS.constants().locale()) + " ";
+		«ELSE -»
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»() + " ";
+		«ENDIF -»
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR RelationFieldEntity -»
+	«IF cardinality==1»
+	if(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + getDisplayValue(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()) + " " ;
+	«ENDIF»
+		
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR DateField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + DateUtil.getFormatedDate(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»())+	" " ;						
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR DateTimeField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + DateUtil.getFormatedDateTime(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()) + " " ;
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR TimeField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		value = value + DateUtil.getFormatedTime(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»())+	" " ;
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR EnumField -»
+	String «name.toFirstLower()» = bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»();
+	if ( «name.toFirstLower()»!=null)
+	{	
+	«IF this.multipleSelection==true-»		
+		String[] indexesStr = «name.toFirstLower()».split(";");
+		String result = new String();
+		for(int j=0; j< indexesStr.length; j++){				
+		«FOREACH enumValues AS enumValue ITERATOR iter-»
+		«IF iter.counter1==1 -»
+			if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option();
+				else
+					result = result + ", " + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option();											
+			}				
+        «ELSE -»
+			else if (indexesStr[j].equals("«enumValue.value»")) {
+				if(j==0)
+					result = result + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option();
+				else
+					result = result + ", " + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option();											
+			}			
+		«ENDIF -»
+		«ENDFOREACH -»									
+		}				
+		value = value + result + " ";		
+	«ELSE-»
+		«FOREACH enumValues AS enumValue ITERATOR iter-»		
+			«IF iter.counter1==1 -»
+        if («name.toFirstLower()».equals("«enumValue.value»") )
+        	value = value + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option()+ " ";
+        	«ELSE -»
+        else if («name.toFirstLower()».equals("«enumValue.value»") )
+        	 value = value + NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option()+ " ";		
+			«ENDIF -»
+		«ENDFOREACH -»	
+	«ENDIF-»	
+	}
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR BooleanField»
+	value = value +  BooleanUtil.getFormatedBoolean(bean.«EXPAND template::CommonFieldUtil::getterName FOR this»()) + " ";
+«ENDDEFINE»
+
+«DEFINE stringRepresentation FOR GeoField -»
+	if (bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude()!=null && bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude()!=null)
+		value = value + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Latitude() + ";" + bean.«EXPAND template::CommonFieldUtil::getterName FOR this»Longitude() + " ";
+«ENDDEFINE»
+
