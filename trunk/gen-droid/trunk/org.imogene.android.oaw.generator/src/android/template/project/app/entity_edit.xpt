@@ -128,7 +128,7 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 			«f.name.toFirstLower()».init(mEntity.get«f.name.toFirstUpper()»());
 		«ENDFOREACH»
 		
-		EntityPagerAdapter adapter = new EntityPagerAdapter();
+		EntityPagerAdapter adapter = new EntityPagerAdapter(this);
 		
 		«FOREACH groups AS group»
 		if («name.toFirstUpper()-»Roles.canRead«group.name.toFirstUpper()-»(this) ||
@@ -144,7 +144,7 @@ public class «name.toFirstUpper()-»Edit extends ViewPagerIndicatorActivity imple
 		«ENDFOREACH»
 		
 		getViewPager().setAdapter(adapter);
-		getViewPagerIndicator().init(0, adapter.getCount(), adapter);
+		getViewPager().setOffscreenPageLimit(«groups.size - 1»);
 		
 		addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class)
 				.setDrawable(R.drawable.ig_ic_title_save), ACTIONBAR_SAVE_ID);

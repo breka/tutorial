@@ -88,6 +88,8 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 	private boolean mCanModify;
 
 	private FieldManager mManager;
+	
+	private EntityPagerAdapter mAdapter;
 
 	«FOREACH groups.fields AS f-»
 	private «EXPAND nameViewField FOR f» «f.name.toFirstLower()»;
@@ -146,7 +148,15 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 
 		addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class)
 				.setDrawable(R.drawable.ig_ic_title_sync), ACTIONBAR_SYNC_ID);
-				
+		
+		mAdapter = new EntityPagerAdapter(this);
+		«FOREACH groups AS group-»
+		mAdapter.addPage(R.string.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group», R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group»);
+		«ENDFOREACH-»
+		
+		getViewPager().setAdapter(mAdapter);
+		getViewPager().setOffscreenPageLimit(«groups.size - 1»);
+		
 		refresh();
 	}
 	
@@ -185,7 +195,6 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 	private void refresh() {
 		mEntity = new «name.toFirstUpper()-»(this, getIntent().getData());
 		
-		EntityPagerAdapter adapter = new EntityPagerAdapter();
 		«FOREACH groups AS group ITERATOR i-»
 		if («name.toFirstUpper()-»Roles.canRead«group.name.toFirstUpper()-»(this)) {
 			boolean visible = false;
@@ -197,14 +206,14 @@ public class «name.toFirstUpper()-»View extends ViewPagerIndicatorActivity imple
 			visible |= «f.name.toFirstLower()».getVisibility() == View.VISIBLE;
 			«ENDFOREACH-»
 			
-			if (visible) {
-				adapter.addPage(R.string.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group», R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group»);
-			}
+			mAdapter.setPageVisible(R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group», visible);
+		} else {
+			mAdapter.setPageVisible(R.id.«EXPAND android::template::MedooAndroidFieldUtil::resourceName FOR group», false);
 		}
 		«ENDFOREACH-»
 		
-		getViewPager().setAdapter(adapter);
-		getViewPagerIndicator().init(0, adapter.getCount(), adapter);
+		mAdapter.notifyDataSetChanged();
+		changePageIfNeeded();
 	}
 	
 	@Override
