@@ -2,45 +2,85 @@ package org.imogene.android.widget;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 
-public class EntityPagerAdapter extends PagerAdapter implements ViewPagerIndicator.PageInfoProvider {
+public class EntityPagerAdapter extends PagerAdapter {
 
-	private static class Couple {
+	private static class Page {
 		int title;
 		int view;
+		boolean visible;
 		
-		public Couple(int title, int view) {
+		public Page(int title, int view, boolean visible) {
 			this.title = title;
 			this.view = view;
+			this.visible = true;
+		}
+		
+	}
+	
+	private final ArrayList<Page> mPages = new ArrayList<Page>();
+	private final Context mContext;
+	
+	public EntityPagerAdapter(Context context) {
+		mContext = context;
+	}
+	
+	public void addPage(int title, int view) {
+		mPages.add(new Page(title, view, true));
+	}
+	
+	public void setPageVisible(int view, boolean visible) {
+		for (Page c : mPages) {
+			if (c.view == view) {
+				c.visible = visible;
+			}
 		}
 	}
 	
-	private final ArrayList<Couple> mPages = new ArrayList<EntityPagerAdapter.Couple>();
-	
-	public void addPage(int title, int view) {
-		mPages.add(new Couple(title, view));
-	}
-	
 	public int getViewPosition(int viewId) {
-		for (int i = 0; i < mPages.size(); i++) {
-			if (mPages.get(i).view == viewId) {
-				return i;
+		int position = 0;
+		for (Page c : mPages) {
+			if (c.view == viewId) {
+				return position;
+			}
+			if (c.visible) {
+				position++;
 			}
 		}
 		return -1;
 	}
 	
+	public int getTitle(int position) {
+		int count = 0;
+		for (Page c : mPages) {
+			if (c.visible && count == position) {
+				return c.title;
+			}
+			if (c.visible) {
+				count++;
+			}
+		}
+		return 0;
+	}
+	
 	@Override
-	public int getTitle(int pos) {
-		return mPages.get(pos).title;
+	public CharSequence getPageTitle(int position) {
+		return mContext.getText(getTitle(position));
 	}
 
 	@Override
 	public int getCount() {
-		return mPages.size();
+		int count = 0;
+		for (Page c : mPages) {
+			if (c.visible) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	@Override
@@ -48,7 +88,15 @@ public class EntityPagerAdapter extends PagerAdapter implements ViewPagerIndicat
 
 	@Override
 	public Object instantiateItem(View container, int position) {
-		return container.findViewById(mPages.get(position).view);
+		int count = 0;
+		for (Page c : mPages) {
+			if (c.visible && count == position) {
+				return container.findViewById(c.view);
+			} else if (c.visible) {
+				count++;
+			}
+		}
+		return null;
 	}
 
 	@Override
