@@ -1,0 +1,385 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»
+«FILE projectName.toLowerCase()+"/server/dao/hibernate/"+this.name.toFirstUpper() + "DaoImpl.java"»
+package org.imogene.«projectName.toLowerCase()».server.dao.hibernate;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.collection.PersistentSet;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Property;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import org.imogene.web.gwt.common.criteria.ImogJunction;
+import org.imogene.web.server.dao.hibernate.HibernateDaoUtil;
+import org.imogene.web.server.binary.Binary;
+import org.imogene.web.server.binary.file.BinaryFile;
+
+import org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()»;
+«FOREACH groups.fields AS f -»
+«EXPAND importsForRelation(projectName) FOR f -»
+«ENDFOREACH -»
+import org.imogene.«projectName.toLowerCase()».server.dao.«name.toFirstUpper()»Dao;
+
+/**
+ * Manage persistence for «name.toFirstUpper()»
+ */
+public class «name.toFirstUpper()»DaoImpl extends HibernateDaoSupport implements «name.toFirstUpper()»Dao {
+
+	public Logger logger = Logger.getLogger(«name.toFirstUpper()»DaoImpl.class.getName());
+	
+	@Override
+	public void saveOrUpdate(«name.toFirstUpper()» bean, boolean isNew){	
+		bean.setUploadDate(new Date(System.currentTimeMillis())); 
+		«FOREACH groups.fields AS f-»
+		«EXPAND gileadFix FOR f-»
+		«ENDFOREACH-»		 	
+	 	getHibernateTemplate().merge(bean);
+	 	
+	 	«FOREACH groups.fields AS f -»
+	 	«EXPAND fixBinaryValues FOR f -»
+	 	«ENDFOREACH -»	 	
+	}
+	
+	@Override
+	public void saveOrUpdateShadow(«name.toFirstUpper()» bean, boolean isNew){	
+		«FOREACH groups.fields AS f-»
+		«EXPAND gileadFix FOR f-»
+		«ENDFOREACH-»	 		 	
+	 	getHibernateTemplate().merge(bean);
+	 	
+	 	«FOREACH groups.fields AS f -»
+	 	«EXPAND fixBinaryValues FOR f -»
+	 	«ENDFOREACH -»	 	
+	}
+	 
+	 @Override
+	 @SuppressWarnings("unchecked")
+	 public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(ImogJunction criterions){
+	  	DetachedCriteria dc = DetachedCriteria.forClass(«name.toFirstUpper()».class);
+	  	dc.add(HibernateDaoUtil.addImogJunction(criterions));
+	  	return getHibernateTemplate().findByCriteria(dc); 
+	 }
+	 
+	 @Override
+	 @SuppressWarnings("unchecked")
+	 public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int first, int max,
+			String property, boolean asc){		
+		DetachedCriteria dc = DetachedCriteria.forClass(«name.toFirstUpper()».class);
+		if(property==null)
+			property="lastModificationDate";
+		if (!asc)
+			dc.addOrder(Property.forName(property).desc());
+		else
+			dc.addOrder(Property.forName(property).asc());
+		dc.addOrder(Property.forName("id").asc());
+		return getHibernateTemplate().findByCriteria(dc, first, max);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(String property, boolean asc, ImogJunction criterions){
+	  	DetachedCriteria dc = DetachedCriteria.forClass(«name.toFirstUpper()».class);
+	  	if(property==null)
+			property="lastModificationDate";	  	
+	  	if (!asc)
+			dc.addOrder(Property.forName(property).desc());
+		else
+			dc.addOrder(Property.forName(property).asc());
+		dc.add(HibernateDaoUtil.addImogJunction(criterions));
+        return getHibernateTemplate().findByCriteria(dc);	  	
+	  }
+
+
+	 @Override
+	 @SuppressWarnings("unchecked")
+	 public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(int first, int max, String property, boolean asc, ImogJunction criterions){
+	  
+	  	DetachedCriteria dc = DetachedCriteria.forClass(«name.toFirstUpper()».class);
+	  	if(property==null)
+			property="lastModificationDate";
+	  	if (!asc)
+			dc.addOrder(Property.forName(property).desc());
+		else
+			dc.addOrder(Property.forName(property).asc());
+		dc.addOrder(Property.forName("id").asc());
+		dc.add(HibernateDaoUtil.addImogJunction(criterions));			  	
+	  	return getHibernateTemplate().findByCriteria(dc, first, max);	  		  
+	  }	  
+	
+	  
+	 @Override
+	  public int count«name.toFirstUpper()»(ImogJunction criterions){	  	
+	  	Criteria crit = getSession().createCriteria(«name.toFirstUpper()».class);
+    	crit.setProjection(Projections.rowCount());	
+    	crit.add(HibernateDaoUtil.addImogJunction(criterions));	
+    	List<?> list = crit.list();		
+    	return Integer.parseInt(list.get(0).toString());
+	  }
+	  
+	  @Override
+	  public int count«name.toFirstUpper()»(){	  	
+	  	Criteria crit = getSession().createCriteria(«name.toFirstUpper()».class);
+    	crit.setProjection(Projections.rowCount());	    	
+    	List<?> list = crit.list();		
+    	return Integer.parseInt(list.get(0).toString());
+	  }
+	  	  
+	  @Override
+	  public void delete(«name.toFirstUpper()» entity){
+	  	getHibernateTemplate().delete(entity);
+	  }
+	  
+	 @Override
+	 public «name.toFirstUpper()» get«name.toFirstUpper()»(String id){
+	 	return («name.toFirstUpper()»)getHibernateTemplate().get(«name.toFirstUpper()».class, id);	  	
+	 }
+	 
+	@Override
+	public List<«name.toFirstUpper()»> list«name.toFirstUpper()»(List<String> ids){
+	List<«name.toFirstUpper()»> entities = new Vector<«name.toFirstUpper()»>();
+		for(String id: ids){
+			«name.toFirstUpper()» entity = get«name.toFirstUpper()»(id);
+			if(entity != null)
+				entities.add(entity);
+		}
+		return entities;
+	} 
+	  	
+	 @Override
+	 @SuppressWarnings("unchecked")
+	 public «name.toFirstUpper()» get«name.toFirstUpper()»(String id, ImogJunction criterions){
+	  
+		DetachedCriteria dc = DetachedCriteria.forClass(«name.toFirstUpper()».class);
+		dc.add(HibernateDaoUtil.addImogJunction(criterions));
+		
+		List<«name.toFirstUpper()»> result = getHibernateTemplate().findByCriteria(dc);
+		if (result!=null && result.size()==1)		
+			return result.get(0);	
+		else 
+			return null;	  	
+	 }	  
+	 
+	 @Override
+	 @SuppressWarnings("unchecked")
+	 public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»(String property, ImogJunction criterions){
+	  	Criteria crit = getSession().createCriteria(«name.toFirstUpper()».class);
+	  	crit.add(Restrictions.isNull(property));
+	  	crit.add(HibernateDaoUtil.addImogJunction(criterions));	  	
+	  	return crit.list();
+	 }
+	  
+	  @Override
+	  @SuppressWarnings("unchecked")
+	  public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»(int first, int max, String sortProperty, boolean asc, String property, ImogJunction criterions){
+		  	Criteria crit = getSession().createCriteria(«name.toFirstUpper()».class);
+		  	crit.add(Restrictions.isNull(property));
+		  	crit.add(HibernateDaoUtil.addImogJunction(criterions));
+		  	crit.setFirstResult(first);
+			crit.setMaxResults(max);
+			if (asc)
+				crit.addOrder(Order.asc(sortProperty));
+			else
+				crit.addOrder(Order.desc(sortProperty));
+			crit.addOrder(Order.asc("id"));
+		  	return crit.list();
+	  }
+	  
+	@Override
+	public int countNonAffected«name.toFirstUpper()»(String property, ImogJunction criterions) {
+		Criteria crit = getSession().createCriteria(«name.toFirstUpper()».class);
+		crit.setProjection(Projections.rowCount());
+		crit.add(Restrictions.isNull(property));
+		if (criterions!=null)	
+			crit.add(HibernateDaoUtil.addImogJunction(criterions));
+		List<?> list = crit.list();
+		return Integer.parseInt(list.get(0).toString());
+	}	  
+	  
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<«name.toFirstUpper()»> listNonAffected«name.toFirstUpper()»Reverse(int first, int max, String sortProperty, boolean asc, String property, ImogJunction criterions){
+
+			Criteria crit = getSession().createCriteria(«name.toFirstUpper()».class)
+					.createAlias(property, "other", CriteriaSpecification.LEFT_JOIN)
+					.add(Restrictions.isNull("other.id"))
+					.add(HibernateDaoUtil.addImogJunction(criterions));
+			crit.setFirstResult(first);
+			crit.setMaxResults(max);
+			if (asc)
+				crit.addOrder(Order.asc(sortProperty));
+			else
+				crit.addOrder(Order.desc(sortProperty));
+			crit.addOrder(Order.asc("id"));
+	  		return crit.list();
+	  }	 
+	  
+	@Override
+	public int countNonAffected«name.toFirstUpper()»Reverse(String property, ImogJunction criterions) {
+		Criteria crit = getSession().createCriteria(«name.toFirstUpper()».class).createAlias(property,
+				"other", CriteriaSpecification.LEFT_JOIN).add(
+				Restrictions.isNull("other.id"));
+		if (criterions!=null)		
+			crit.add(HibernateDaoUtil.addImogJunction(criterions));
+		crit.setProjection(Projections.rowCount());
+		List<?> list = crit.list();
+		return Integer.parseInt(list.get(0).toString());
+	}	   
+	  
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<«name.toFirstUpper()»> listAffectedCardNProperty(String property, String id) {
+		Criteria crit = getSession()
+				.createCriteria(«name.toFirstUpper()».class)
+				.createAlias(property, "other", CriteriaSpecification.INNER_JOIN)
+				.add(Restrictions.eq("other.id",id) );
+		return crit.list();
+	}	  
+	  
+	  /**
+	   * Refresh the bean from database
+	   */
+	  public void refresh(«name.toFirstUpper()» entity){
+	  		getHibernateTemplate().refresh(entity);
+	  }
+	  
+	  /**
+	   * Flush the session
+	   */
+	  public void flush(){
+	  	getHibernateTemplate().flush();
+	  }
+	  
+	  /**
+	   *
+	   */
+	   public void clear(){
+	   	getHibernateTemplate().clear();
+	   }
+	  
+	  
+	/* relation dependencies */
+	«FOREACH groups.fields AS f -»
+		«EXPAND methodsForRelation(name.toFirstUpper()) FOR f -»
+	«ENDFOREACH -»
+	
+	«EXPAND specificPart FOR this -»
+	
+	«IF Actor.isAssignableFrom(this.metaType) -»
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<«name.toFirstUpper()»> get«name.toFirstUpper()»ActorFromLogin(String login){
+		Criteria crit = getSession().createCriteria(org.imogene.«projectName.toLowerCase()».client.entity.«name.toFirstUpper()».class);		
+		crit.add(Restrictions.eq("login", login));
+		return crit.list();		
+	}
+	«ENDIF -»
+	
+	/**
+	 * Convert an hibernate collection to a 
+	 * collection based on a Vector class.
+	 */
+	private static <T> List<T> lazyCollection(Set<T> lazyCollection){
+		Vector<T> collection = new Vector<T>();
+		for(T mt : lazyCollection){
+			collection.add(mt);
+		}
+		return collection;
+	}
+	
+	@SuppressWarnings("unused")
+	private void gileadFix(Object toFix){
+		if(toFix instanceof PersistentSet)
+			((PersistentSet)toFix).dirty();
+	}
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+«REM» Imports implied by the relation fields «ENDREM»
+«DEFINE importsForRelation(String projectName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE importsForRelation(String projectName) FOR RelationFieldEntity-»
+import org.imogene.«projectName.toLowerCase()».client.entity.«entity.name.toFirstUpper()»;
+«ENDDEFINE»
+
+
+«REM» DAO methods implied by the relation fields «ENDREM»
+«DEFINE methodsForRelation(String parentEntityType) FOR FieldEntity»«ENDDEFINE»
+«DEFINE methodsForRelation(String parentEntityType) FOR RelationFieldEntity»
+«IF cardinality==-1 || cardinality>1»
+  «IF getOppositeCardinality(this)==1 »
+/**
+ * List associated «entity.name.toFirstUpper()», 
+ * on the field «name.toFirstLower()»
+ * @param parent the parent entity
+ * @return the list of the associated entities
+ */
+@SuppressWarnings("unchecked")
+public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(«parentEntityType» parent){
+	DetachedCriteria dc = DetachedCriteria
+		.forClass(«entity.name.toFirstUpper()».class);
+		dc.add(Restrictions.conjunction().add(Restrictions.eq("«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»",
+						parent)));
+		return getHibernateTemplate().findByCriteria(dc);
+}
+  «ELSE»
+/**
+ * List associated «entity.name.toFirstUpper()», 
+ * on the field «name.toFirstLower()»
+ * @param parent the parent entity
+ * @return the list of the associated entities
+ */
+@SuppressWarnings("unchecked")
+public List<«entity.name.toFirstUpper()»> list«name.toFirstUpper()»(String parentId){
+		«parentEntityType» parent = («parentEntityType»)getHibernateTemplate().load(«parentEntityType».class, parentId);
+		if(parent == null)
+			return new Vector<«entity.name.toFirstUpper()»>();			
+		return lazyCollection(parent.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+}
+  «ENDIF»
+«ENDIF»
+«ENDDEFINE»
+
+
+«REM» Binary fix values code «ENDREM»
+«DEFINE fixBinaryValues FOR FieldEntity»«ENDDEFINE»
+«DEFINE fixBinaryValues FOR BinaryField»
+	/* fix binaries values for field «name.toFirstUpper()» */
+	if(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null){
+		Binary «name.toFirstLower()» = (Binary)getHibernateTemplate().get(BinaryFile.class, bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+		if(«name.toFirstLower()»!=null){
+			«name.toFirstLower()».setParentKey(bean.getId());
+			«name.toFirstLower()».setParentEntity("«parentGroup.parentCard.shortName»");
+			«name.toFirstLower()».setParentFieldGetter("«EXPAND template::CommonFieldUtil::getterName FOR this»");
+			«name.toFirstLower()».setCreator(bean.getCreator());
+			«name.toFirstLower()».setModifier(bean.getModifier());
+			getHibernateTemplate().saveOrUpdate(«name.toFirstLower()»);
+		}
+	}
+«ENDDEFINE»
+
+
+«REM» Generate methods need to fix the bug presents id gilead 1.3.2, 
+      relative to the empty collection, not set to dirty «ENDREM»
+«DEFINE gileadFix FOR FieldEntity-»«ENDDEFINE»
+«DEFINE gileadFix FOR RelationFieldEntity-»
+«IF cardinality > 1 || cardinality == -1 -»
+gileadFix(bean.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDIF-»
+«ENDDEFINE»
+
+
+«REM» Specific part AOP hook «ENDREM»
+«DEFINE specificPart FOR CardEntity»«ENDDEFINE»

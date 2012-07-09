@@ -1,0 +1,316 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+«DEFINE generate(String packageName, String projectName) FOR CardEntity»
+«FILE projectName.toLowerCase()+"/client/entity/" + this.name.toFirstUpper() + "SelectionListBoxDataProvider.java"»
+package org.imogene.«projectName.toLowerCase()».client.entity;
+
+import java.util.List;
+
+import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
+import org.imogene.«projectName.toLowerCase()».client.remote.«name.toFirstUpper()»ServiceFacade;
+import org.imogene.web.gwt.client.ui.field.paginatedList.AbstractImogListBoxDataProvider;
+import org.imogene.web.gwt.client.util.DateUtil;
+import org.imogene.web.gwt.common.criteria.BasicCriteria;
+import org.imogene.web.gwt.common.criteria.CriteriaConstants;
+import org.imogene.web.gwt.common.criteria.ImogConjunction;
+import org.imogene.web.gwt.common.criteria.ImogDisjunction;
+import org.imogene.web.gwt.common.criteria.ImogJunction;
+
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+
+/**
+ * DataProvider to fill the selection listbox values of «name.toFirstUpper()» entities
+ * @author Medes-IMPS
+ */
+public class «name.toFirstUpper()»SelectionListBoxDataProvider extends AbstractImogListBoxDataProvider {
+			
+			
+	private boolean nonAffected = false;
+	private boolean searchInReverse = false;
+	private String property = null;
+
+	/**
+	 * Provides all instances of the entity «name.toFirstUpper()» with pagination
+	 */	
+	public «name.toFirstUpper()»SelectionListBoxDataProvider() {
+		super();
+	}
+
+	/**
+	 * Provides filtered instances of the entity «name.toFirstUpper()» with pagination
+	 * @param isFiltered true if the box shall be filtered (setFilterParameters to define the filter)
+	 */		
+	public «name.toFirstUpper()»SelectionListBoxDataProvider(boolean isFiltered) {
+		super();
+		this.isFiltered = isFiltered;
+	}
+
+	/**
+	 * Provides instances of entity «name.toFirstUpper()» that have non affected values for a given property (RelationField with card==1) with pagination
+	 * @param pProperty the property for which non affected values are searched
+	 */		
+	public «name.toFirstUpper()»SelectionListBoxDataProvider(String pProperty) {
+		super();
+		nonAffected = true;
+		property = pProperty;
+	}
+
+	/**
+	 * Provides filtered instances of entity «name.toFirstUpper()» that have non affected values for a given property (RelationField with card==1) with pagination
+	 * @param pProperty the property for which non affected values are searched
+	 * @param isFiltered true if the box shall be filtered (setFilterParameters to define the filter)
+	 */		
+	public «name.toFirstUpper()»SelectionListBoxDataProvider(String pProperty, boolean isFiltered) {
+		super();
+		nonAffected = true;
+		property = pProperty;
+		this.isFiltered = isFiltered;
+	}
+	
+	/**
+	 * Provides filtered instances of entity «name.toFirstUpper()» that have non affected values for a given property (RelationField with card==1) with pagination
+	 * @param pProperty the property for which non affected values are searched
+	 * @param isFiltered true if the box shall be filtered (setFilterParameters to define the filter)
+	 * @param searchInReverse true for 1:1 realtions, if the property for which non affected values are searched shall be looked in reverse relation
+	 */
+	public «name.toFirstUpper()»SelectionListBoxDataProvider(String pProperty, boolean isFiltered, boolean searchInReverse) {
+		super();
+		nonAffected = true;
+		property = pProperty;
+		this.searchInReverse = searchInReverse;
+		this.isFiltered = isFiltered;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.imogene.web.gwt.client.ui.field.paginatedList.AbstractImogListBoxDataProvider#getData(int, int)
+	 */
+	public void getData(int startRow, int maxRows) {
+	
+		/* get data from service */
+		if(isFiltered) {
+			/* permanently filtered */
+			if (filterParameters != null) {
+				ImogJunction listCriterions = new ImogConjunction();
+				listCriterions.add(filterParameters);
+
+				if (searchCriterions != null)
+					/* search criterion added to the permanent filter */
+					listCriterions.add(searchCriterions);
+
+				if (nonAffected) {
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(startRow, maxRows, listCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, new PushRelation«name.toFirstUpper()»Callback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»Reverse(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, listCriterions, new PushRelation«name.toFirstUpper()»Callback());
+				}
+				else
+					«name.toFirstUpper()»ServiceFacade.getInstance().list«name.toFirstUpper()»(startRow, maxRows, listCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», new PushRelation«name.toFirstUpper()»Callback());			
+			}
+			else
+				acceptor.acceptEmpty();
+		}
+		else {
+			if(searchCriterions != null) {
+
+				if (nonAffected) {
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(startRow, maxRows, searchCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", false, property, new PushRelation«name.toFirstUpper()»Callback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»Reverse(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, searchCriterions, new PushRelation«name.toFirstUpper()»Callback());
+				}
+				else
+					«name.toFirstUpper()»ServiceFacade.getInstance().list«name.toFirstUpper()»(startRow, maxRows, searchCriterions, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», new PushRelation«name.toFirstUpper()»Callback());	
+			}
+			else {
+				
+				if (nonAffected) {
+					if (!searchInReverse)				
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, new PushRelation«name.toFirstUpper()»Callback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().listNonAffected«name.toFirstUpper()»Reverse(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», property, new PushRelation«name.toFirstUpper()»Callback());
+				}
+				else
+					«name.toFirstUpper()»ServiceFacade.getInstance().list«name.toFirstUpper()»(startRow, maxRows, "«EXPAND template::CommonFieldUtil::getFirstSortField FOR this»", «EXPAND template::CommonFieldUtil::getFirstSortFieldOrderDirection FOR this», new PushRelation«name.toFirstUpper()»Callback());
+			}	
+		}	
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.imogene.web.gwt.client.ui.field.paginatedList.AbstractImogListBoxDataProvider#countDataRows()
+	 */
+	public void countDataRows() {
+	
+		/* get data from service */
+		if(isFiltered) {
+			/* permanently filtered */
+			if (filterParameters != null) {
+				ImogJunction listCriterions = new ImogConjunction();
+				listCriterions.add(filterParameters);
+
+				if (searchCriterions != null)
+					/* search criterion added to the permanent filter */
+					listCriterions.add(searchCriterions);
+
+				if (nonAffected) {
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»(property, listCriterions, new CountCallback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»Reverse(property, listCriterions, new CountCallback());
+				}
+				else
+					«name.toFirstUpper()»ServiceFacade.getInstance().count«name.toFirstUpper()»(listCriterions, new CountCallback());			
+			}
+			else
+				acceptor.acceptEmpty();
+		}
+		else {
+			if(searchCriterions != null) {
+				
+				if (nonAffected){
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»(property, searchCriterions, new CountCallback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»Reverse(property, searchCriterions, new CountCallback());
+				}
+				else
+					«name.toFirstUpper()»ServiceFacade.getInstance().count«name.toFirstUpper()»(searchCriterions, new CountCallback());	
+			}
+			else {
+				
+				if (nonAffected) {
+					if (!searchInReverse)
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»(property, new CountCallback());
+					else
+						«name.toFirstUpper()»ServiceFacade.getInstance().countNonAffected«name.toFirstUpper()»Reverse(property, null, new CountCallback());
+				}
+				else
+					«name.toFirstUpper()»ServiceFacade.getInstance().count«name.toFirstUpper()»(new CountCallback());
+			}			
+		}	
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.imogene.web.gwt.client.ui.field.paginatedList.ImogPaginatedListBoxDataProvider#fullTextSearch(java.lang.String)
+	 */
+	public void fullTextSearch(String text) {
+		if (text == null || (text != null && text.equals(""))) {
+			this.searchCriterions = null;
+		} else {
+			ImogJunction main = new ImogConjunction();
+			ImogJunction junction = new ImogDisjunction();
+			
+			«IF !mainFields.isEmpty -»
+				«FOREACH mainFields AS field-»
+				«EXPAND createListCriteria FOR field»
+				«ENDFOREACH-»
+			«ENDIF -»				
+
+			main.add(junction);
+			this.searchCriterions = main;
+		}
+	}
+	
+
+
+	/**
+	 * Callback of the remote call that fills the table
+	 */
+	private class PushRelation«name.toFirstUpper()»Callback
+			implements
+				AsyncCallback<List<«name.toFirstUpper()»>> {
+
+		public void onFailure(Throwable caught) {
+			acceptor.failed(caught);
+		}
+
+		public void onSuccess(List<«name.toFirstUpper()»> result) {
+
+			«name.toFirstUpper()»[] beanArray = new «name.toFirstUpper()»[result.size()];
+			for (int i = 0; i < beanArray.length; i++) {
+				beanArray[i] = result.get(i);
+			}
+			lastBean = beanArray;
+
+			/* get total nb of rows from service */
+			countDataRows();
+		}
+	}	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+«REM» Create the search full text function «ENDREM»
+«DEFINE createListCriteria FOR FieldEntity-»«ENDDEFINE»
+«DEFINE createListCriteria FOR TextField-»
+	// Search field «this.name.toFirstLower()»
+	BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+	«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+	«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.STRING_OPERATOR_CONTAINS);
+	«this.name.toFirstLower()»Crit.setValue(text);
+	junction.add(«this.name.toFirstLower()»Crit);
+«ENDDEFINE»
+«DEFINE createListCriteria FOR IntegerField-»
+	// Search field «this.name.toFirstLower()»
+	try{
+		Integer.valueOf(text);
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.INT_OPERATOR_EQUAL);
+		«this.name.toFirstLower()»Crit.setValue(text);
+		junction.add(«this.name.toFirstLower()»Crit);
+	}catch(Exception ex){/*criteria not added*/}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR FloatField-»
+	// Search field «this.name.toFirstLower()»
+	try{
+		Float.valueOf(text);
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.FLOAT_OPERATOR_EQUAL);
+		«this.name.toFirstLower()»Crit.setValue(text);
+		junction.add(«this.name.toFirstLower()»Crit);
+	}catch(Exception ex){/*criteria not added*/}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR DateField-»
+	// Search field «this.name.toFirstLower()»
+	try{
+		DateUtil.parseDate(text);
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.DATE_OPERATOR_EQUAL);
+		«this.name.toFirstLower()»Crit.setValue(text);
+		junction.add(«this.name.toFirstLower()»Crit);
+	}catch(Exception ex){/*criteria not added*/}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR BooleanField-»
+	// Search field «this.name.toFirstLower()»
+	if (text.toLowerCase().equals("true") || text.toLowerCase().equals("false")) {
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.BOOLEAN_OPERATOR_EQUAL);
+		«this.name.toFirstLower()»Crit.setValue(text.toLowerCase());
+		junction.add(«this.name.toFirstLower()»Crit);	
+	}
+«ENDDEFINE»
+«DEFINE createListCriteria FOR EnumField-»
+	// Search field «this.name.toFirstLower()»
+	«FOREACH enumValues AS enumValue ITERATOR iter-»	
+	if (text.toLowerCase().equals(NLS.constants().«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«enumValue.name.toFirstLower()»_option().toLowerCase())) {
+		BasicCriteria «this.name.toFirstLower()»Crit = new BasicCriteria();
+		«this.name.toFirstLower()»Crit.setField("«EXPAND template::CommonFieldUtil::propertyName FOR this»");
+		«IF this.multipleSelection==true-»
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.STRING_OPERATOR_CONTAINS);
+		«ELSE -»
+		«this.name.toFirstLower()»Crit.setOperation(CriteriaConstants.STRING_OPERATOR_EQUAL);
+		«ENDIF -»		
+		«this.name.toFirstLower()»Crit.setValue("«enumValue.value»");
+		junction.add(«this.name.toFirstLower()»Crit);		
+	}
+	«ENDFOREACH -»	
+«ENDDEFINE»

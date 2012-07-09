@@ -1,0 +1,318 @@
+«IMPORT core»
+«EXTENSION template::CommonEntityUtilExt» 
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR Project»
+«FILE projectName.toLowerCase()+"/client/Imog"+projectName.toFirstUpper() + "EntryPoint.java"»
+package org.imogene.«projectName.toLowerCase()».client;
+
+import java.util.Date;
+
+import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
+import org.imogene.web.gwt.client.LocalSession;
+import org.imogene.web.gwt.client.i18n.BaseNLS;
+import org.imogene.web.gwt.client.ui.menu.MenuItem;
+import org.imogene.web.gwt.client.ui.menu.MenuItemImpl;
+import org.imogene.web.gwt.client.ui.menu.MenuList;
+import org.imogene.web.gwt.client.ui.menu.MenuListTema;
+import org.imogene.web.gwt.client.ui.panel.BottomBannerPanel;
+import org.imogene.web.gwt.client.ui.panel.MainContentPanel;
+import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.web.gwt.common.entity.SessionInfo;
+import org.imogene.web.gwt.remote.AuthenticationServiceAsyncFacade;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
+
+
+/**
+ * Entry point classes define <code>onModuleLoad()</code>.
+ * @author Medes-IMPS
+ */
+public class Imog«projectName.toFirstUpper()»EntryPoint implements EntryPoint, ValueChangeHandler<String> {
+	
+	/* session cookie with a validation period of 2 days */
+	private static String COOKIE_NAME = "imogene-«projectName.toLowerCase()»";
+	private final long COOKIE_DURATION = 1000 * 60 * 60 * 24 * 2;		
+	
+	/* site main composites */
+	private MainContentPanel content;	
+	private TopBannerPanel bc;
+	
+	private HandlerRegistration registration;
+	
+	/* timer to check session validity */
+	private Timer sessionTimer;
+	
+	private String lastToken="";
+	
+	/**
+	 * The message displayed to the user when the server cannot be reached or
+	 * returns an error.
+	 */
+	private static final String SERVER_ERROR = "An error occurred while "
+			+ "attempting to contact the server. Please check your network "
+			+ "connection and try again.";
+
+	/**
+	 * This is the entry point method.
+	 */
+	public void onModuleLoad() {	
+		
+		AuthenticationServiceAsyncFacade.getInstance().current(new AsyncCallback<SessionInfo>() {
+
+			@Override
+			public void onFailure(Throwable arg0) {				
+				Window.alert(SERVER_ERROR);
+			}
+
+			@Override
+			public void onSuccess(SessionInfo info) {
+				if(info.getActor()!=null){
+					LocalSession.get().setCurrentUser(info.getActor());
+					displayApplication(LocalSession.get().getCurrentUser());
+					initializeCookie(info.getSessionId());
+				}
+			}	
+		});
+	}
+	
+	/**
+	 * Initialize the cookie
+	 */
+	private void initializeCookie(String sessionId){
+		String cookieValue = Cookies.getCookie(COOKIE_NAME);
+		if(cookieValue==null || !sessionId.equals(cookieValue)){			
+			Cookies.setCookie(COOKIE_NAME, sessionId, new Date(
+					System.currentTimeMillis()
+							+ COOKIE_DURATION));
+		}
+		launchSessionTimer();
+	}
+	
+	private void displayApplication(ImogActor actor){
+		registration = History.addValueChangeHandler(this);
+		RootPanel.get("topBanner").clear();
+		bc = new TopBannerPanel(GWT.getModuleBaseURL()+ "/images/logo_web.png");
+		bc.setActor(actor);
+		RootPanel.get("topBanner").add(bc);
+		content = new MainContentPanel();	
+		populateMenu(content);
+		RootPanel.get("contentContainer").add(content);	
+		RootPanel.get("bottomBanner").add(new BottomBannerPanel());
+		History.fireCurrentHistoryState();
+	}
+
+	@Override
+	public void onValueChange(ValueChangeEvent<String> event) {
+		
+		boolean confirmed = true;
+		if(LocalSession.get().isEditing()){
+			confirmed = Window.confirm("Voulez-vous abandonner les modifications en cours ?");
+		}
+		if(confirmed){		
+			LocalSession.get().clearEdited();	
+			String token = event.getValue();
+			lastToken = token;
+			if(token.equals("")){
+				«FOREACH entities AS e ITERATOR i -»
+				«IF i.counter0 == 0 -»
+				History.newItem("list/«e.name.toLowerCase()»");
+				«ENDIF -»
+				«ENDFOREACH -»			
+			}
+			else if (token.equals("logout")) {
+				logout();
+				return;
+			}
+			else if(token.equals("back")){			
+				History.back();			
+				History.back();	
+				return;
+			}
+		
+			if (!token.equals("") && content!=null) {
+				Widget tokenView = TokenHandler.getViewForToken(token);
+				if (tokenView != null)
+					content.setContent(tokenView);
+			}	
+		}else{
+			History.newItem(lastToken, false);
+		}
+	}
+
+	/**
+	 * Populates the menu list on the left side of the main content panel
+	 * @param mc the main content panel of the application
+	 */	
+	public void populateMenu(MainContentPanel mc){
+		MenuList menu = mc.getMenuList();
+		
+	«LET this.themas AS tms-»
+		«IF tms.size>0 -»
+		«REM» Presentation of the entities grouped in themas «ENDREM»
+		/* creation of the themas */
+			«FOREACH tms AS t ITERATOR iter-»	
+		MenuListTema tema«t.name.toFirstUpper()-» = new MenuListTema();
+		tema«t.name.toFirstUpper()-».setHeader(NLS.constants().thema_«t.name.toFirstLower()»());
+				«IF iter.counter0<3 -»
+		tema«t.name.toFirstUpper()-».setOpen(true);		
+				«ENDIF-»	
+			«ENDFOREACH »	
+		MenuListTema temaUnknown = new MenuListTema();
+		temaUnknown.setHeader(BaseNLS.constants().thema_default());				
+			
+			«FOREACH tms AS t ITERATOR iter»	
+		/* entities included in thema «t.name.toFirstUpper()-» */			
+				«FOREACH t.entities AS e -»
+					«IF e.topLevel || !e.directAccess.isEmpty-»
+		if(AccessManager.canDirectAccessForm("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")) {			
+			MenuItem menuItem = new MenuItemImpl(NLS.constants().«e.name.toFirstLower()»_title(), "list/«e.name.toLowerCase()»", "«e.name.toLowerCase()»");
+			tema«t.name.toFirstUpper()-».addItem(menuItem);
+			«FOREACH tms AS t2-»
+			menuItem.addSelectionHandler(tema«t2.name.toFirstUpper()-»);			
+			«ENDFOREACH -»
+			menuItem.addSelectionHandler(temaUnknown);			
+		}
+					«ENDIF-»
+				«ENDFOREACH -»					
+		if (tema«t.name.toFirstUpper()-».getItemCount()>0)
+			menu.addItem(tema«t.name.toFirstUpper()-»);							
+			«ENDFOREACH -»
+			
+		/* entities without thema */	
+			«FOREACH getCardEntitiesWithoutThema(this) AS e-»
+					«IF e.topLevel || !e.directAccess.isEmpty -»
+		if(AccessManager.canDirectAccessForm("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")) {	
+			MenuItem menuItem = new MenuItemImpl(NLS.constants().«e.name.toFirstLower()»_title(), "list/«e.name.toLowerCase()»", "«e.name.toLowerCase()»");
+			temaUnknown.addItem(menuItem);
+			«FOREACH tms AS t2-»
+			menuItem.addSelectionHandler(tema«t2.name.toFirstUpper()-»);			
+			«ENDFOREACH -»
+			menuItem.addSelectionHandler(temaUnknown);			
+		}
+					«ENDIF-»		
+			«ENDFOREACH -»
+			
+		/* add themas to menu */
+			«FOREACH tms AS t-»
+		if (tema«t.name.toFirstUpper()-».getItemCount()>0)
+			menu.addItem(tema«t.name.toFirstUpper()-»);			
+			«ENDFOREACH -»
+		if (temaUnknown.getItemCount()>0)
+			menu.addItem(temaUnknown);
+					
+		«ELSE-»
+		«REM» Presentation of the entities without any grouping (flat list) «ENDREM»
+			MenuListEntity menuListEntity = new MenuListEntity();
+			«FOREACH entities AS e -»
+				«IF e.topLevel || !e.directAccess.isEmpty -»
+			if(AccessManager.canDirectAccessForm("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»"))			
+				menuListEntity.addItem(NLS.constants().«e.name.toFirstLower()»_title(), "list/«e.name.toLowerCase()»", "«e.name.toLowerCase()»");
+				«ENDIF-»
+			«ENDFOREACH -»
+			menu.addItem(menuListEntity);	
+		«ENDIF-»	
+	«ENDLET -»
+		
+	«EXPAND specificMenuItem FOR this -»
+	
+	}
+	
+	
+	/**
+	 * Logouts the user from the application
+	 * @param hasBeenDeconnected true if user has been disconnected
+	 */	
+	private void logout() {
+		
+		/* stop timer */
+		if (sessionTimer != null) {
+			sessionTimer.cancel();
+		}		
+		
+		Cookies.removeCookie(COOKIE_NAME);
+
+		/* clean local data */
+		LocalSession.get().setCurrentUser(null);
+		
+		/* disconnect from the server */
+		AuthenticationServiceAsyncFacade.getInstance().disconnect(
+				new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable arg0) {
+						clearModule();
+					}
+
+					@Override
+					public void onSuccess(Void arg0) {						
+						clearModule();
+					}					
+				});
+	}
+	
+	/**
+	 * Clears the module from its panels
+	 */
+	private void clearModule(){
+		RootPanel.get("topBanner").clear();		
+		RootPanel.get("contentContainer").clear();
+		RootPanel.get("bottomBanner").clear();
+		bc = null;
+		content = null;
+		registration.removeHandler();
+		String href = GWT.getHostPageBaseURL() + "logout";
+		Window.Location.assign(href);
+	}	
+	
+
+	/**
+	 * Launch a timer that checks every 5s that the current user 
+	 * session is valid. If it isn't (because the session expired),
+	 * then it displays the login form.
+	 */
+	private void launchSessionTimer() {
+
+		/* set timer to check session validity and disconnect if not valid */
+		if (sessionTimer != null) {
+			//Window.alert("Session timer is not null");
+		} else {
+			sessionTimer = new Timer() {
+				@SuppressWarnings("unchecked")
+				public void run() {
+
+					AuthenticationServiceAsyncFacade.getInstance().validateSession(Cookies.getCookie(COOKIE_NAME),
+									new AsyncCallback() {
+
+										public void onFailure(Throwable arg0) {
+											logout();
+										}
+
+										public void onSuccess(Object result) {
+											if (result == null) {
+												logout();
+											}
+										}
+									});
+				}
+			};
+		}
+		sessionTimer.cancel();
+		sessionTimer.scheduleRepeating(5000);
+	}	
+		
+}
+«ENDFILE-»
+«ENDDEFINE»
+
+«REM» specific part AOP hook for menu item «ENDREM»
+«DEFINE specificMenuItem FOR Project»«ENDDEFINE»
