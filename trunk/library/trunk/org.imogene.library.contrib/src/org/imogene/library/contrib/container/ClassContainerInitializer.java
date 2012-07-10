@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.imogene.studio.contrib.ui.navigator.AdminShadow;
+import org.imogene.studio.contrib.ui.navigator.DaoShadow;
 import org.imogene.studio.contrib.ui.navigator.InitializerShadow;
 import org.imogene.studio.contrib.ui.navigator.NotifierShadow;
 import org.imogene.studio.contrib.ui.navigator.SynchroShadow;
@@ -48,6 +49,9 @@ public class ClassContainerInitializer extends
 		}
 		else if(p.hasNature(WebServiceSoapShadow.NATURE)){
 			con = new WebServiceSoapClasspathContainer();
+		}
+		else if(p.hasNature(DaoShadow.NATURE)) {
+			con = new DaoClasspathContainer();
 		}
 		if(con==null)
 			con = new AllClasspathContainer();

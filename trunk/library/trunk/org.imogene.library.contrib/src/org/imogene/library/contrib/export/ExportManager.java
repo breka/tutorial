@@ -9,6 +9,7 @@ import org.imogene.library.Constants;
 import org.imogene.library.LibraryPlugin;
 import org.imogene.library.Tools;
 import org.imogene.studio.contrib.ui.navigator.AdminShadow;
+import org.imogene.studio.contrib.ui.navigator.DaoShadow;
 import org.imogene.studio.contrib.ui.navigator.InitializerShadow;
 import org.imogene.studio.contrib.ui.navigator.NotifierShadow;
 import org.imogene.studio.contrib.ui.navigator.SynchroShadow;
@@ -33,6 +34,8 @@ public class ExportManager {
 			return getEntries(Constants.WS_SOAP_DESC_PATH);
 		} else if(InitializerShadow.NATURE.equals(id)){
 			return getEntries(Constants.INIT_DESC_PATH);
+		} else if (DaoShadow.NATURE.equals(id)){
+			return getEntries(Constants.DAO_DESC_PATH);
 		}
 		return new ArrayList<ExportedEntry>();
 	}

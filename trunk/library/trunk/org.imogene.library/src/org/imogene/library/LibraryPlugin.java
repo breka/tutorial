@@ -52,7 +52,6 @@ public class LibraryPlugin extends Plugin {
 		return plugin;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<LibraryDesc> getAvailableLibraries(){
 		List<LibraryDesc> libs = new ArrayList<LibraryDesc>();
 		Enumeration<URL> entries = getBundle().findEntries("libs", "*.xml", false);

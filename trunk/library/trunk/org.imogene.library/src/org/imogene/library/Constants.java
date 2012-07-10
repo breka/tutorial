@@ -17,4 +17,6 @@ public class Constants {
 	public static final String NOTIF_DESC_PATH="libs/notifier.xml";
 	
 	public static final String INIT_DESC_PATH="libs/initializer.xml";
+	
+	public static final String DAO_DESC_PATH="libs/dao.xml";
 }
