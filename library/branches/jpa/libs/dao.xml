@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library id="org.imogene.library.dao" name="Imogene dao library" desc="Imogene dao library">
+
+	<!-- COMMON libraries -->
+	<jar file="org.imogene.lib.common.jar"/>
+	
+	<!-- SPRING -->
+	<jar file="spring-aop-3.1.1.RELEASE.jar"/>
+	<jar file="spring-asm-3.1.1.RELEASE.jar"/>
+	<jar file="spring-beans-3.1.1.RELEASE.jar"/>
+	<jar file="spring-context-3.1.1.RELEASE.jar"/>
+	<jar file="spring-core-3.1.1.RELEASE.jar"/>
+	<jar file="spring-expression-3.1.1.RELEASE.jar"/>
+	<jar file="spring-tx-3.1.1.RELEASE.jar"/>
+	
+	<!-- XStream -->
+	<jar file="xstream-1.4.2.jar"/>
+	<jar file="xmlpull-1.1.3.1.jar"/>
+	<jar file="xpp3_min-1.1.4c.jar"/>
+	
+	<!-- Hibernate -->
+	<jar file="hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+	
+	<!-- Other -->
+	<jar file="aopalliance-1.0.jar"/>
+	<jar file="commons-logging-1.1.1.jar"/>
+		
+</library>
