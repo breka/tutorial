@@ -9,25 +9,24 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TextBox;
 
-
 public class ImogTextBox extends ImogFieldAbstract<String> {
-	
+
 	/* status - behavior */
-	private String thisLabel;	
-	private String thisValue;	
+	private String thisLabel;
+	private String thisValue;
 	private boolean edited = false;
-	
+
 	/* widgets */
 	private HorizontalPanel layout;
 	private Image errorImage;
 	private TextBox textBox;
-	
-	public ImogTextBox(){
+
+	public ImogTextBox() {
 		layout();
 		properties();
 	}
-	
-	private void layout(){
+
+	private void layout() {
 		layout = new HorizontalPanel();
 		errorImage = new Image(GWT.getModuleBaseURL());
 		textBox = new TextBox();
@@ -35,35 +34,35 @@ public class ImogTextBox extends ImogFieldAbstract<String> {
 		layout.add(textBox);
 		initWidget(layout);
 	}
-	
-	private void properties(){
+
+	private void properties() {
 		layout.setCellWidth(textBox, "100%");
 		errorImage.setVisible(false);
 		textBox.setStylePrimaryName("imogene-FormText");
-		textBox.addValueChangeHandler(new ValueChangeHandler<String>() {			
+		textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<String> arg0) {
 				notifyValueChange();
 			}
 		});
 	}
-	
-	public TextBox getEmbedded(){
+
+	public TextBox getEmbedded() {
 		return textBox;
 	}
-	
-	public void setInError(boolean inError){
-		if(inError)
+
+	public void setInError(boolean inError) {
+		if (inError)
 			textBox.addStyleDependentName("error");
 		else
 			textBox.removeStyleDependentName("error");
 	}
-	
-	public void setEnabled(boolean enabled){
+
+	public void setEnabled(boolean enabled) {
 		textBox.setEnabled(enabled);
-		if(!enabled){
+		if (!enabled) {
 			textBox.addStyleDependentName("disabled");
-		}else{
+		} else {
 			textBox.removeStyleDependentName("disabled");
 		}
 		edited = enabled;
@@ -71,26 +70,26 @@ public class ImogTextBox extends ImogFieldAbstract<String> {
 
 	@Override
 	public boolean validate() {
-		if(isMandatory() && textBox.getText().equals("")){
+		if (isMandatory() && textBox.getText().equals("")) {
 			displayError(BaseNLS.constants().field_mandatory());
 			return false;
 		}
 		/* validation rules */
-		if(!textBox.getText().equals("")){
-			for(ValidationRule rule : rules){
-				if(!textBox.getText().matches(rule.getRegex())){
+		if (!textBox.getText().equals("")) {
+			for (ValidationRule rule : rules) {
+				if (!textBox.getText().matches(rule.getRegex())) {
 					displayError(rule.getText());
 					return false;
 				}
 			}
-		}	
+		}
 		hideError();
 		return true;
 	}
 
 	@Override
 	public String getLabel() {
-		if(thisLabel != null)
+		if (thisLabel != null)
 			return thisLabel;
 		return "";
 	}
@@ -110,9 +109,9 @@ public class ImogTextBox extends ImogFieldAbstract<String> {
 		if (value == null)
 			value = "";
 		thisValue = (String) value;
-		textBox.setText(thisValue);	
+		textBox.setText(thisValue);
 	}
-	
+
 	@Override
 	public void setValue(String value, boolean notifyChange) {
 		setValue(value);
@@ -121,10 +120,8 @@ public class ImogTextBox extends ImogFieldAbstract<String> {
 	}
 
 	@Override
-	public boolean isEdited() {		
+	public boolean isEdited() {
 		return edited;
-	}	
-	
-	
-	
+	}
+
 }

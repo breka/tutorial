@@ -6,31 +6,31 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class ImogListBox extends ImogFieldAbstract<String> {
-	
+
 	/* status - behavior */
-	
+
 	private String thisLabel;
-	
+
 	private boolean edited = false;
-	
+
 	/* widgets */
-	
+
 	private HorizontalPanel layout;
-	
+
 	private Image errorImage;
-	
-	private ListBox listBox;	
-	
-	public ImogListBox(){
+
+	private ListBox listBox;
+
+	public ImogListBox() {
 		layout();
 		properties();
 	}
-	
-	public ImogListBox(String label){
-		
+
+	public ImogListBox(String label) {
+
 	}
-	
-	private void layout(){
+
+	private void layout() {
 		layout = new HorizontalPanel();
 		errorImage = new Image(GWT.getModuleBaseURL());
 		listBox = new ListBox();
@@ -38,51 +38,51 @@ public class ImogListBox extends ImogFieldAbstract<String> {
 		layout.add(listBox);
 		initWidget(layout);
 	}
-	
-	private void properties(){
+
+	private void properties() {
 		layout.setCellWidth(errorImage, "16px");
 		layout.setCellWidth(listBox, "100%");
 		errorImage.setVisible(false);
 		listBox.setStylePrimaryName("imogene-FormText");
 	}
-	
-	public ListBox getEmbedded(){
+
+	public ListBox getEmbedded() {
 		return listBox;
 	}
-	
-	public void setInError(boolean inError){
-		if(inError)
+
+	public void setInError(boolean inError) {
+		if (inError)
 			listBox.addStyleDependentName("error");
 		else
 			listBox.removeStyleDependentName("error");
 	}
-	
+
 	@Override
-	public void setEnabled(boolean enabled){
+	public void setEnabled(boolean enabled) {
 		listBox.setEnabled(enabled);
-		if(!enabled){
+		if (!enabled) {
 			listBox.addStyleDependentName("disabled");
-		}else{
+		} else {
 			listBox.removeStyleDependentName("disabled");
 		}
 		edited = enabled;
 	}
-	
-	public void addItem(String display, String value){
+
+	public void addItem(String display, String value) {
 		listBox.addItem(display, value);
 	}
-	
-	public int getIndexForValue(String value){
-		for(int i = 0; i<listBox.getItemCount(); i++){
-			if(listBox.getValue(i).equals(value))
+
+	public int getIndexForValue(String value) {
+		for (int i = 0; i < listBox.getItemCount(); i++) {
+			if (listBox.getValue(i).equals(value))
 				return i;
 		}
 		return -1;
 	}
 
 	@Override
-	public boolean validate() {		
-		if(isMandatory() && listBox.getSelectedIndex()==-1){
+	public boolean validate() {
+		if (isMandatory() && listBox.getSelectedIndex() == -1) {
 			displayError("This field is mandatory.");
 			return false;
 		}
@@ -91,7 +91,7 @@ public class ImogListBox extends ImogFieldAbstract<String> {
 
 	@Override
 	public String getLabel() {
-		if(thisLabel != null)
+		if (thisLabel != null)
 			return thisLabel;
 		return "";
 	}
@@ -109,11 +109,11 @@ public class ImogListBox extends ImogFieldAbstract<String> {
 
 	@Override
 	public void setValue(String value) {
-		int index = getIndexForValue((String)value);
-		if(index > -1)
+		int index = getIndexForValue((String) value);
+		if (index > -1)
 			listBox.setSelectedIndex(index);
 	}
-	
+
 	@Override
 	public void setValue(String value, boolean notifyChange) {
 		setValue(value);
@@ -125,5 +125,5 @@ public class ImogListBox extends ImogFieldAbstract<String> {
 	public boolean isEdited() {
 		return edited;
 	}
-		
+
 }

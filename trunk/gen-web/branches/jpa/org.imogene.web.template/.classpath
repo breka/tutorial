@@ -11,5 +11,6 @@
 	<classpathentry kind="con" path="org.imogene.tools.libraryhelper.IMOGENE_DEV_LIB"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="gwt-deps/gwt-datepicker_medes.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.imogene.dao.template"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

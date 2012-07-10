@@ -7,26 +7,28 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 
-
 public class BottomBannerPanel extends Composite {
-	
+
 	private HorizontalPanel main;
-	
+
 	private Hyperlink legalLink;
-	
+
 	private Hyperlink copyrightsLink;
-	
+
 	private Hyperlink contactUsLink;
-	
-	public BottomBannerPanel(){
+
+	public BottomBannerPanel() {
 		layout();
 	}
-	
-	private void layout(){
+
+	private void layout() {
 		main = new HorizontalPanel();
-		legalLink = new Hyperlink(BaseNLS.constants().bottom_link_legal(), "legal");
-		copyrightsLink = new Hyperlink(BaseNLS.constants().bottom_link_copyrights(), "copyrights");
-		contactUsLink = new Hyperlink(BaseNLS.constants().bottom_link_contact(), "contactus");
+		legalLink = new Hyperlink(BaseNLS.constants().bottom_link_legal(),
+				"legal");
+		copyrightsLink = new Hyperlink(BaseNLS.constants()
+				.bottom_link_copyrights(), "copyrights");
+		contactUsLink = new Hyperlink(
+				BaseNLS.constants().bottom_link_contact(), "contactus");
 		main.add(legalLink);
 		main.add(new Label("|"));
 		main.add(copyrightsLink);
@@ -35,8 +37,8 @@ public class BottomBannerPanel extends Composite {
 		initWidget(main);
 		properties();
 	}
-	
-	private void properties(){
+
+	private void properties() {
 		main.setSpacing(5);
 		setStylePrimaryName("imogene-BottomPanel");
 	}

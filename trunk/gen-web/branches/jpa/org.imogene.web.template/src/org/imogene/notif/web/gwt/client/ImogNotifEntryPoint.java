@@ -6,7 +6,7 @@ public class ImogNotifEntryPoint implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-	
+
 	}
-	
+
 }

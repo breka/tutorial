@@ -8,20 +8,22 @@ import org.springframework.dao.CleanupFailureDataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 /**
- * Hibernate session request management.
- * The session is opened at the beginning 
+ * Hibernate session request management. The session is opened at the beginning
  * of the request and flushed and closed at the end of it.
+ * 
  * @author Medes-IMPS
  */
-public class HibernateSessionFilter extends org.springframework.orm.hibernate3.support.OpenSessionInViewFilter{
-	
+public class HibernateSessionFilter extends
+		org.springframework.orm.hibernate3.support.OpenSessionInViewFilter {
+
 	@Override
-	 protected Session getSession(SessionFactory sessionFactory) throws DataAccessResourceFailureException {
-	  Session session = super.getSession(sessionFactory);	 
-	  session.setFlushMode(FlushMode.AUTO);
-	  return session;
-	 }
-	 	 
+	protected Session getSession(SessionFactory sessionFactory)
+			throws DataAccessResourceFailureException {
+		Session session = super.getSession(sessionFactory);
+		session.setFlushMode(FlushMode.AUTO);
+		return session;
+	}
+
 	@Override
 	protected void closeSession(Session session, SessionFactory sessionFactory) {
 		try {

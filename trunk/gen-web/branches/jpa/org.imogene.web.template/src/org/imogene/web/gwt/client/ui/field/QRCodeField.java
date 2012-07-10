@@ -3,22 +3,22 @@ package org.imogene.web.gwt.client.ui.field;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Image;
 
-public class QRCodeField extends ImogFieldAbstract<String>{
+public class QRCodeField extends ImogFieldAbstract<String> {
 
 	private Image barcode;
-	
-	public QRCodeField(){
+
+	public QRCodeField() {
 		barcode = new Image();
 		initWidget(barcode);
 	}
-	
+
 	@Override
-	public String getLabel() {		
+	public String getLabel() {
 		return "";
 	}
 
 	@Override
-	public String getValue() {		
+	public String getValue() {
 		return null;
 	}
 
@@ -31,20 +31,21 @@ public class QRCodeField extends ImogFieldAbstract<String>{
 	@Override
 	public void setEnabled(boolean editable) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setLabel(String label) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void setValue(String value) {		
-		barcode.setUrl(GWT.getHostPageBaseURL()+"getbinary?barcodeId="+value);
+	public void setValue(String value) {
+		barcode.setUrl(GWT.getHostPageBaseURL() + "getbinary?barcodeId="
+				+ value);
 	}
-	
+
 	@Override
 	public void setValue(String value, boolean notifyChange) {
 		setValue(value);

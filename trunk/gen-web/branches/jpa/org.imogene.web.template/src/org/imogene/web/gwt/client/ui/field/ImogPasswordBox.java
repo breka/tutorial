@@ -8,27 +8,26 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-
 public class ImogPasswordBox extends ImogFieldAbstract<String> {
 
 	/* status - behavior */
-	
+
 	private String thisLabel;
-	
+
 	private boolean edited = false;
-	
+
 	private HorizontalPanel layout;
-	
+
 	private Image errorImage;
-	
+
 	private PasswordTextBox textBox;
-	
-	public ImogPasswordBox(){
+
+	public ImogPasswordBox() {
 		layout();
 		properties();
 	}
-	
-	private void layout(){
+
+	private void layout() {
 		layout = new HorizontalPanel();
 		errorImage = new Image(GWT.getModuleBaseURL());
 		textBox = new PasswordTextBox();
@@ -36,30 +35,30 @@ public class ImogPasswordBox extends ImogFieldAbstract<String> {
 		layout.add(textBox);
 		initWidget(layout);
 	}
-	
-	private void properties(){
+
+	private void properties() {
 		layout.setCellWidth(errorImage, "16px");
 		layout.setCellWidth(textBox, "100%");
 		errorImage.setVisible(false);
 		textBox.setStylePrimaryName("imogene-FormText");
 	}
-	
-	public TextBox getEmbedded(){
+
+	public TextBox getEmbedded() {
 		return textBox;
 	}
-	
-	public void setInError(boolean inError){
-		if(inError)
+
+	public void setInError(boolean inError) {
+		if (inError)
 			textBox.addStyleDependentName("error");
 		else
 			textBox.removeStyleDependentName("error");
 	}
-	
-	public void setEnabled(boolean enabled){
+
+	public void setEnabled(boolean enabled) {
 		textBox.setEnabled(enabled);
-		if(!enabled){
+		if (!enabled) {
 			textBox.addStyleDependentName("disabled");
-		}else{
+		} else {
 			textBox.removeStyleDependentName("disabled");
 		}
 		edited = enabled;
@@ -67,7 +66,7 @@ public class ImogPasswordBox extends ImogFieldAbstract<String> {
 
 	@Override
 	public boolean validate() {
-		if(isMandatory() && textBox.getText().equals("")){
+		if (isMandatory() && textBox.getText().equals("")) {
 			displayError(BaseNLS.constants().field_mandatory());
 			return false;
 		}
@@ -77,13 +76,13 @@ public class ImogPasswordBox extends ImogFieldAbstract<String> {
 
 	@Override
 	public String getLabel() {
-		if(thisLabel != null)
+		if (thisLabel != null)
 			return thisLabel;
 		return "";
 	}
 
 	@Override
-	public String getValue() {		
+	public String getValue() {
 		return textBox.getText();
 	}
 
@@ -94,9 +93,9 @@ public class ImogPasswordBox extends ImogFieldAbstract<String> {
 
 	@Override
 	public void setValue(String value) {
-		textBox.setText((String)value);
+		textBox.setText((String) value);
 	}
-	
+
 	@Override
 	public void setValue(String value, boolean notifyChange) {
 		setValue(value);
@@ -108,5 +107,5 @@ public class ImogPasswordBox extends ImogFieldAbstract<String> {
 	public boolean isEdited() {
 		return edited;
 	}
-	
+
 }

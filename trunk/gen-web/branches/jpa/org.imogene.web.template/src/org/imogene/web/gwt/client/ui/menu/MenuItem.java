@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Composite;
 public abstract class MenuItem extends Composite implements ClickHandler {
 
 	public abstract void setSelected(boolean selected);
-	
+
 	public abstract void addSelectionHandler(SelectionHandler handler);
-		
+
 }

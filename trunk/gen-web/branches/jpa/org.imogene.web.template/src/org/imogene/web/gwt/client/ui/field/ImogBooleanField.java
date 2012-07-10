@@ -7,43 +7,43 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 
-
-
-public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements ValueChangeHandler<Boolean> {
+public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements
+		ValueChangeHandler<Boolean> {
 
 	/* status - behavior */
 	private String thisLabel;
-	
-	private Boolean thisValue=null;		
-	
+
+	private Boolean thisValue = null;
+
 	private boolean edited = false;
-	
+
 	/* widgets */
 	private HorizontalPanel main;
-	
+
 	private RadioButton yesBox;
-	
+
 	private RadioButton noBox;
-	
+
 	private RadioButton nspBox;
-	
+
 	/**
 	 */
-	public ImogBooleanField(){
+	public ImogBooleanField() {
 		layout();
 	}
-	
-	/**	 
-	 * @param title field label
+
+	/**
+	 * @param title
+	 *            field label
 	 */
-	public ImogBooleanField(String title){
+	public ImogBooleanField(String title) {
 		this();
 		thisLabel = title;
 	}
-	
+
 	/**
 	 */
-	private void layout(){
+	private void layout() {
 		main = new HorizontalPanel();
 		String groupName = String.valueOf(this.hashCode());
 		yesBox = new RadioButton(groupName);
@@ -57,25 +57,25 @@ public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements Valu
 		main.add(nspBox);
 		initWidget(main);
 		properties();
-	}	
-	
+	}
+
 	/**
 	 */
-	private void properties(){
-		//nspBox.setValue(true);
+	private void properties() {
+		// nspBox.setValue(true);
 		nspBox.addValueChangeHandler(this);
 		noBox.addValueChangeHandler(this);
 		yesBox.addValueChangeHandler(this);
 	}
-				
+
 	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> arg0) {		
+	public void onValueChange(ValueChangeEvent<Boolean> arg0) {
 		notifyValueChange();
 	}
 
 	@Override
-	public boolean validate() {		
-		if(isMandatory() && !noBox.getValue() && !yesBox.getValue()){
+	public boolean validate() {
+		if (isMandatory() && !noBox.getValue() && !yesBox.getValue()) {
 			displayError(BaseNLS.constants().field_mandatory());
 			return false;
 		}
@@ -85,18 +85,18 @@ public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements Valu
 
 	@Override
 	public String getLabel() {
-		if(thisLabel != null)
+		if (thisLabel != null)
 			return thisLabel;
 		return "";
 	}
 
 	@Override
-	public Boolean getValue() {		
-		if(nspBox.getValue())
+	public Boolean getValue() {
+		if (nspBox.getValue())
 			return null;
-		if(yesBox.getValue())
+		if (yesBox.getValue())
 			return true;
-		if(noBox.getValue())
+		if (noBox.getValue())
 			return false;
 		return thisValue;
 	}
@@ -108,16 +108,16 @@ public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements Valu
 
 	@Override
 	public void setValue(Boolean value) {
-		if(value==null){
-			nspBox.setValue(true);			
-		}else if(value){
+		if (value == null) {
+			nspBox.setValue(true);
+		} else if (value) {
 			yesBox.setValue(true);
-		}else if(!value){
+		} else if (!value) {
 			noBox.setValue(true);
-		}		
+		}
 		thisValue = value;
 	}
-	
+
 	@Override
 	public void setValue(Boolean value, boolean notifyChange) {
 		setValue(value);
@@ -126,7 +126,7 @@ public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements Valu
 	}
 
 	@Override
-	public void setEnabled(boolean editable) {		
+	public void setEnabled(boolean editable) {
 		yesBox.setEnabled(editable);
 		noBox.setEnabled(editable);
 		nspBox.setEnabled(editable);
@@ -137,6 +137,5 @@ public class ImogBooleanField extends ImogFieldAbstract<Boolean> implements Valu
 	public boolean isEdited() {
 		return edited;
 	}
-	
-	
+
 }

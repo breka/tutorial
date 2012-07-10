@@ -1,16 +1,16 @@
 package org.imogene.web.gwt.remote;
 
-import org.imogene.web.gwt.common.entity.ImogActor;
-import org.imogene.web.gwt.common.entity.SessionInfo;
+import org.imogene.common.entity.ImogActor;
+import org.imogene.common.entity.SessionInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-
 /**
- * Facade classes that enables to call the remote procedures
- * defined by <code>AuthenticationService</code>
+ * Facade classes that enables to call the remote procedures defined by
+ * <code>AuthenticationService</code>
+ * 
  * @author Medes-IMPS
  */
 public class AuthenticationServiceAsyncFacade {
@@ -25,12 +25,13 @@ public class AuthenticationServiceAsyncFacade {
 		proxy = (AuthenticationServiceAsync) GWT
 				.create(AuthenticationService.class);
 
-		ServiceDefTarget target = (ServiceDefTarget) proxy;		
+		ServiceDefTarget target = (ServiceDefTarget) proxy;
 		target.setServiceEntryPoint(GWT.getHostPageBaseURL() + "/auth.serv");
 	}
 
 	/**
-	 * Singleton access.	 
+	 * Singleton access.
+	 * 
 	 * @return the instance
 	 */
 	public static AuthenticationServiceAsyncFacade getInstance() {
@@ -47,33 +48,33 @@ public class AuthenticationServiceAsyncFacade {
 			AsyncCallback<ImogActor> callback) {
 		proxy.validateLogin(login, passwd, callback);
 	}
-	
+
 	/**
 	 * @see <code>AuthenticationServiceAsync</code>
 	 */
-	public void disconnect(AsyncCallback<Void> callback){
+	public void disconnect(AsyncCallback<Void> callback) {
 		proxy.disconnect(callback);
 	}
-	
-	
+
 	/**
 	 * @see <code>AuthenticationServiceAsync</code>
 	 */
-	public void validateSession(String sessionId, AsyncCallback<ImogActor> callback) {
+	public void validateSession(String sessionId,
+			AsyncCallback<ImogActor> callback) {
 		proxy.validateSession(sessionId, callback);
 	}
-	
+
 	/**
 	 * @see <code>AuthenticationServiceAsync</code>
-	 */	
-	public void getSessionId(AsyncCallback<String> callback){
+	 */
+	public void getSessionId(AsyncCallback<String> callback) {
 		proxy.getSessionId(callback);
 	}
-	
+
 	/**
 	 * @see <code>AuthenticationServiceAsync</code>
-	 */	
-	public void current(AsyncCallback<SessionInfo> callback){
+	 */
+	public void current(AsyncCallback<SessionInfo> callback) {
 		proxy.currentUser(callback);
 	}
 }

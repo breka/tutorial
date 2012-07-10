@@ -31,8 +31,11 @@ public class ThumbnailTools {
 
 	/**
 	 * Create a thumbnail for the current image
-	 * @param size the size
-	 * @param dir the direction, Horizontal or Vertical
+	 * 
+	 * @param size
+	 *            the size
+	 * @param dir
+	 *            the direction, Horizontal or Vertical
 	 * @return the thumbnail image
 	 */
 	public Image getThumbnail(int size, int dir) {
@@ -48,9 +51,13 @@ public class ThumbnailTools {
 
 	/**
 	 * Create a thumbnail for the current image
-	 * @param size the size
-	 * @param dir the direction, Horizontal or Vertical
-	 * @param scale the scale
+	 * 
+	 * @param size
+	 *            the size
+	 * @param dir
+	 *            the direction, Horizontal or Vertical
+	 * @param scale
+	 *            the scale
 	 * @return the thumbnail image
 	 */
 	public Image getThumbnail(int size, int dir, int scale) {
@@ -66,13 +73,16 @@ public class ThumbnailTools {
 
 	/**
 	 * Save the thumbnail to the specified file, with the specified type
-	 * @param file the file
-	 * @param imageType the image type
+	 * 
+	 * @param file
+	 *            the file
+	 * @param imageType
+	 *            the image type
 	 */
 	public void saveThumbnail(File file, String imageType) {
 		if (thumb != null) {
-			BufferedImage bi = new BufferedImage(thumb.getIconWidth(), thumb
-					.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+			BufferedImage bi = new BufferedImage(thumb.getIconWidth(),
+					thumb.getIconHeight(), BufferedImage.TYPE_INT_RGB);
 			Graphics g = bi.getGraphics();
 			g.drawImage(thumb.getImage(), 0, 0, null);
 			try {
@@ -84,5 +94,5 @@ public class ThumbnailTools {
 			throw new RuntimeException("Thumbnail have to be created before.");
 		}
 	}
-	
+
 }

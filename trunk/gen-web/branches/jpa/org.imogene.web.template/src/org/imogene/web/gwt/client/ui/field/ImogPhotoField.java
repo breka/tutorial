@@ -13,63 +13,64 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-
 /**
  * Composite to manage the display of Photo fields
+ * 
  * @author Medes-IMPS
  */
-public class ImogPhotoField extends ImogFieldAbstract<String> implements ImogUploader{
-	
+public class ImogPhotoField extends ImogFieldAbstract<String> implements
+		ImogUploader {
+
 	/* status */
-	private String thisLabel;		
-	private String thisValue;		
+	private String thisLabel;
+	private String thisValue;
 	private boolean edited = false;
-			
+
 	/* widget */
-	private HorizontalPanel main;	
+	private HorizontalPanel main;
 	private VerticalPanel editPanel;
-	
-	/* edition widgets */ 	
+
+	/* edition widgets */
 	private ImogBinaryUploader uploader;
-	
-	/* consultation wdigets */	
-	private HorizontalPanel infoPanel;		
-	private VerticalPanel downloadPanel;	
-	private HTML nameLabel;	
-	private HTML sizeLabel;	
-	private HTML downloadLink;	
-	private Image thumbnail;	
-	
-	
-	public ImogPhotoField(){
+
+	/* consultation wdigets */
+	private HorizontalPanel infoPanel;
+	private VerticalPanel downloadPanel;
+	private HTML nameLabel;
+	private HTML sizeLabel;
+	private HTML downloadLink;
+	private Image thumbnail;
+
+	public ImogPhotoField() {
 		layout();
 	}
-	
-	public ImogPhotoField(String label){
+
+	public ImogPhotoField(String label) {
 		this();
-		thisLabel = label;		
+		thisLabel = label;
 	}
-	
-	private void layout(){
+
+	private void layout() {
 		main = new HorizontalPanel();
-		thumbnail = new Image(GWT.getModuleBaseURL()+"images/no_photo.png");
+		thumbnail = new Image(GWT.getModuleBaseURL() + "images/no_photo.png");
 		thumbnail.setPixelSize(50, 65);
-		
+
 		/* editPanel */
-		editPanel = new VerticalPanel();		
-		uploader = new ImogBinaryUploader();			
-		editPanel.add(uploader);		
-		
-		/* info Panel */		
+		editPanel = new VerticalPanel();
+		uploader = new ImogBinaryUploader();
+		editPanel.add(uploader);
+
+		/* info Panel */
 		infoPanel = new HorizontalPanel();
 		downloadPanel = new VerticalPanel();
-		thumbnail = new Image(GWT.getModuleBaseURL()+"images/no_photo.png");
-		thumbnail.setPixelSize(65, 50);		
-		nameLabel = new HTML(BaseNLS.messages().field_binary_file(BaseNLS.constants().binary_nofile()));
+		thumbnail = new Image(GWT.getModuleBaseURL() + "images/no_photo.png");
+		thumbnail.setPixelSize(65, 50);
+		nameLabel = new HTML(BaseNLS.messages().field_binary_file(
+				BaseNLS.constants().binary_nofile()));
 		sizeLabel = new HTML(BaseNLS.messages().field_binary_size("-"));
 		downloadLink = new HTML();
 		downloadPanel.add(nameLabel);
-		downloadPanel.add(sizeLabel);		
+		downloadPanel.add(sizeLabel);
 		infoPanel.add(downloadPanel);
 		infoPanel.add(downloadLink);
 		main.add(thumbnail);
@@ -77,8 +78,8 @@ public class ImogPhotoField extends ImogFieldAbstract<String> implements ImogUpl
 		initWidget(main);
 		properties();
 	}
-	
-	private void properties(){	
+
+	private void properties() {
 		main.setSpacing(3);
 		main.setWidth("100%");
 		main.setCellWidth(thumbnail, "50px");
@@ -88,21 +89,21 @@ public class ImogPhotoField extends ImogFieldAbstract<String> implements ImogUpl
 
 	@Override
 	public String getLabel() {
-		if(thisLabel != null)
+		if (thisLabel != null)
 			return thisLabel;
 		return "";
 	}
 
 	@Override
 	public String getValue() {
-		if(uploader.getEntityId()!=null)
+		if (uploader.getEntityId() != null)
 			return uploader.getEntityId();
 		return thisValue;
 	}
 
 	@Override
 	public void setLabel(String label) {
-		thisLabel = label;		
+		thisLabel = label;
 	}
 
 	@Override
@@ -110,12 +111,12 @@ public class ImogPhotoField extends ImogFieldAbstract<String> implements ImogUpl
 		if (value != null && !"".equals(value)) {
 			setThumbnail(value);
 			setDownloadLink(value);
-			if(value!=thisValue)
+			if (value != thisValue)
 				setBinaryMetadata(value);
 		}
 		thisValue = value;
 	}
-	
+
 	@Override
 	public void setValue(String value, boolean notifyChange) {
 		setValue(value);
@@ -125,65 +126,72 @@ public class ImogPhotoField extends ImogFieldAbstract<String> implements ImogUpl
 
 	@Override
 	public boolean validate() {
-		
+
 		return true;
 	}
 
 	@Override
-	public void setEnabled(boolean editable) {	
-		if(!edited && editable){
+	public void setEnabled(boolean editable) {
+		if (!edited && editable) {
 			main.remove(infoPanel);
-			main.add(editPanel);	
-			main.setCellVerticalAlignment(editPanel, HorizontalPanel.ALIGN_MIDDLE);
+			main.add(editPanel);
+			main.setCellVerticalAlignment(editPanel,
+					HorizontalPanel.ALIGN_MIDDLE);
 		}
-		if(edited && !editable){
+		if (edited && !editable) {
 			main.remove(editPanel);
 			main.add(infoPanel);
 		}
 		edited = editable;
 	}
-	
+
 	@Override
 	public boolean isEdited() {
 		return edited;
 	}
 
 	/**
-	 * set the thumbnail image 
+	 * set the thumbnail image
 	 */
-	private void setThumbnail(String value){
-		thumbnail.setUrl(BinaryTools.LINK_THUMB+value);	
+	private void setThumbnail(String value) {
+		thumbnail.setUrl(BinaryTools.LINK_THUMB + value);
 	}
-	
+
 	/**
 	 * display the download link.
 	 */
-	private void setDownloadLink(String value){
-		downloadLink.setHTML(BinaryTools.DOWNLOAD_TMPL.replace("%PARAM_ID%", value));
+	private void setDownloadLink(String value) {
+		downloadLink.setHTML(BinaryTools.DOWNLOAD_TMPL.replace("%PARAM_ID%",
+				value));
 	}
 
 	@Override
-	public boolean isUploading() {		
+	public boolean isUploading() {
 		return uploader.isUploading();
 	}
-	
+
 	/**
 	 * display the binary meta-data
 	 */
-	public void setBinaryMetadata(String value){
-		UtilServicesAsyncFacade.getInstance().getBinaryDesc(value, new AsyncCallback<String>() {
-			
-			@Override
-			public void onSuccess(String result) {	
-				BinaryDesc binaryDesc = BinaryTools.createBinaryDesc(result);
-				nameLabel.setHTML(BaseNLS.messages().field_binary_file(binaryDesc.getName()));
-				sizeLabel.setHTML(BaseNLS.messages().field_binary_size(BinaryTools.getSizeAsString(binaryDesc.getSize())));
-			}
-			
-			@Override
-			public void onFailure(Throwable arg0) {
-			}
-		});
+	public void setBinaryMetadata(String value) {
+		UtilServicesAsyncFacade.getInstance().getBinaryDesc(value,
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onSuccess(String result) {
+						BinaryDesc binaryDesc = BinaryTools
+								.createBinaryDesc(result);
+						nameLabel.setHTML(BaseNLS.messages().field_binary_file(
+								binaryDesc.getName()));
+						sizeLabel.setHTML(BaseNLS.messages().field_binary_size(
+								BinaryTools.getSizeAsString(binaryDesc
+										.getSize())));
+					}
+
+					@Override
+					public void onFailure(Throwable arg0) {
+					}
+				});
 	}
 
 }

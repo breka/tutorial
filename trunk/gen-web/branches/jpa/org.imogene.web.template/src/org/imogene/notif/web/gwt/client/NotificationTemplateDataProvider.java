@@ -3,23 +3,22 @@ package org.imogene.notif.web.gwt.client;
 import java.util.List;
 import java.util.Vector;
 
+import org.imogene.common.criteria.BasicCriteria;
+import org.imogene.common.criteria.CriteriaConstants;
+import org.imogene.common.criteria.ImogConjunction;
+import org.imogene.common.criteria.ImogDisjunction;
+import org.imogene.common.criteria.ImogJunction;
+import org.imogene.gwt.widgets.client.dynaTable.DynaTableDataProvider;
 import org.imogene.notif.web.gwt.remote.NotificationServiceFacade;
-import org.imogene.web.gwt.common.criteria.BasicCriteria;
-import org.imogene.web.gwt.common.criteria.CriteriaConstants;
-import org.imogene.web.gwt.common.criteria.ImogConjunction;
-import org.imogene.web.gwt.common.criteria.ImogDisjunction;
-import org.imogene.web.gwt.common.criteria.ImogJunction;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
-import org.imogene.gwt.widgets.client.dynaTable.DynaTableDataProvider;
-
 /**
- * Data provider for dynatable that 
- * displays the notification template list 
+ * Data provider for dynatable that displays the notification template list
+ * 
  * @author Medes-IMPS
  */
 public class NotificationTemplateDataProvider implements DynaTableDataProvider {
@@ -31,8 +30,9 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 	private RowDataAcceptor acceptor;
 	private int startRow;
 	private ImogJunction searchCriterions;
-	/* Total number of rows corresponding
-	to query without pagination*/
+	/*
+	 * Total number of rows corresponding to query without pagination
+	 */
 	private int totalNbOfRows = 0;
 
 	/**
@@ -50,12 +50,17 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 
 	/**
 	 * Update data with entities contained in database
-	 *
-	 * @param startRow first row to update
-	 * @param maxRows number of row to update
-	 * @param acceptor data acceptor
-	 * @param sortProperty bean property used to sort rows
-	 * @param sortOrder sort order (true is ascending order)	 	 
+	 * 
+	 * @param startRow
+	 *            first row to update
+	 * @param maxRows
+	 *            number of row to update
+	 * @param acceptor
+	 *            data acceptor
+	 * @param sortProperty
+	 *            bean property used to sort rows
+	 * @param sortOrder
+	 *            sort order (true is ascending order)
 	 */
 	public void updateRowData(final int startRow, final int maxRows,
 			final RowDataAcceptor acceptor, String sortProperty,
@@ -72,16 +77,17 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 
 		/* get data from service */
 		if (searchCriterions != null)
-			NotificationServiceFacade.getInstance().listNotification(startRow, maxRows,
-					searchCriterions, sortProperty, sortOrder,
+			NotificationServiceFacade.getInstance().listNotification(startRow,
+					maxRows, searchCriterions, sortProperty, sortOrder,
 					new PushResultCallback());
 		else {
-			NotificationServiceFacade facade = NotificationServiceFacade.getInstance();
+			NotificationServiceFacade facade = NotificationServiceFacade
+					.getInstance();
 			if (facade == null) {
 				Window.alert("facade is null ! ");
 			} else {
-				facade.listNotification(startRow, maxRows, sortProperty, sortOrder,
-						new PushResultCallback());
+				facade.listNotification(startRow, maxRows, sortProperty,
+						sortOrder, new PushResultCallback());
 			}
 
 		}
@@ -89,19 +95,22 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 
 	/**
 	 * Update data with entities contained in database
-	 *
-	 * @param startRow first row to update
-	 * @param maxRows number of row to update
-	 * @param acceptor data acceptor
+	 * 
+	 * @param startRow
+	 *            first row to update
+	 * @param maxRows
+	 *            number of row to update
+	 * @param acceptor
+	 *            data acceptor
 	 */
 	public void updateRowData(final int startRow, final int maxRows,
 			final RowDataAcceptor acceptor) {
 		updateRowData(startRow, maxRows, acceptor, null, true);
 	}
 
-	/** 
+	/**
 	 * Returns Ids of entities in the list
-	 *
+	 * 
 	 * @return list of entity ids
 	 */
 	public List<String> getRowDataIds() {
@@ -110,10 +119,13 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 
 	/**
 	 * push data to update the table
-	 *
-	 * @param acceptor data acceptor
-	 * @param startRow first row index
-	 * @param array entities retrieve from data server
+	 * 
+	 * @param acceptor
+	 *            data acceptor
+	 * @param startRow
+	 *            first row index
+	 * @param array
+	 *            entities retrieve from data server
 	 */
 	private void pushResults(RowDataAcceptor acceptor, int startRow,
 			NotificationTemplate[] array, int totalNbRows) {
@@ -124,12 +136,12 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 
 			rows[i] = new Widget[2];
 
-			/* patient  column */
+			/* patient column */
 
-			if (card.getName()!= null)
+			if (card.getName() != null)
 				rows[i][0] = new HTML(card.getName());
 
-			/* resultDate  column */
+			/* resultDate column */
 
 			if (card.getTitle() != null) {
 				rows[i][1] = new HTML(card.getTitle());
@@ -142,10 +154,11 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 	}
 
 	/**
-	 * Configures the search criterions to search
-	 * the parameter text among the bean column fields
-	 *
-	 * @param text string to be searched in the bean column fields
+	 * Configures the search criterions to search the parameter text among the
+	 * bean column fields
+	 * 
+	 * @param text
+	 *            string to be searched in the bean column fields
 	 */
 	public void fullTextSearch(String text) {
 		if (text == null || (text != null && text.equals(""))) {
@@ -187,7 +200,8 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 	/**
 	 * Callback of the remote call that fills the table
 	 */
-	private class PushResultCallback implements AsyncCallback<List<NotificationTemplate>> {
+	private class PushResultCallback implements
+			AsyncCallback<List<NotificationTemplate>> {
 
 		public void onFailure(Throwable caught) {
 			acceptor.failed(caught);
@@ -195,7 +209,8 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 		}
 
 		public void onSuccess(List<NotificationTemplate> result) {
-			NotificationTemplate[] entityArray = new NotificationTemplate[result.size()];
+			NotificationTemplate[] entityArray = new NotificationTemplate[result
+					.size()];
 			for (int i = 0; i < entityArray.length; i++) {
 				entityArray[i] = result.get(i);
 			}
@@ -212,8 +227,8 @@ public class NotificationTemplateDataProvider implements DynaTableDataProvider {
 	}
 
 	/**
-	 * Callback of the remote call that counts the total nb
-	 * of rows retrieved for query (without pagination)
+	 * Callback of the remote call that counts the total nb of rows retrieved
+	 * for query (without pagination)
 	 */
 	private class CountCallback implements AsyncCallback<Integer> {
 

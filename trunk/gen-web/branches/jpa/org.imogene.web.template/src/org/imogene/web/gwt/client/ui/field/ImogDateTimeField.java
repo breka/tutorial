@@ -11,63 +11,63 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
-
 public class ImogDateTimeField extends ImogFieldAbstract<Date> {
 
 	/* status - behavior */
-	private String thisLabel;	
-	private Date thisValue;	
+	private String thisLabel;
+	private Date thisValue;
 	private boolean edited = false;
-	
+
 	/* widgets */
-	private HorizontalPanel layout;	
-	private TextBox dateTimeDisplay;	
-	private DatePicker dateTimeEdit; 
-	
+	private HorizontalPanel layout;
+	private TextBox dateTimeDisplay;
+	private DatePicker dateTimeEdit;
+
 	/**
 	 */
-	public ImogDateTimeField(){
+	public ImogDateTimeField() {
 		layout();
 	}
-	
+
 	/**
-	 * @param label the field label
+	 * @param label
+	 *            the field label
 	 */
-	public ImogDateTimeField(String label){
+	public ImogDateTimeField(String label) {
 		this();
 		thisLabel = label;
 	}
 
 	/**
 	 */
-	private void layout(){
+	private void layout() {
 		layout = new HorizontalPanel();
 		dateTimeDisplay = new TextBox();
 		dateTimeEdit = new DatePicker();
-		
+
 		layout.add(dateTimeDisplay);
 		initWidget(layout);
 		properties();
 	}
-	
+
 	/**
 	 */
-	private void properties(){
-		dateTimeEdit.addChangeHandler(new ChangeHandler(){
+	private void properties() {
+		dateTimeEdit.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent arg0) {
 				notifyValueChange();
 			}
-			
+
 		});
-		dateTimeDisplay.setStylePrimaryName("imogene-FormText");	
+		dateTimeDisplay.setStylePrimaryName("imogene-FormText");
 		dateTimeDisplay.setEnabled(false);
-		dateTimeEdit.setStylePrimaryName("imogene-FormText");	
+		dateTimeEdit.setStylePrimaryName("imogene-FormText");
 	}
-	
+
 	@Override
 	public boolean validate() {
-		if(isMandatory() && dateTimeEdit.getValue()==null){
+		if (isMandatory() && dateTimeEdit.getValue() == null) {
 			displayError(BaseNLS.constants().field_mandatory());
 			return false;
 		}
@@ -77,7 +77,7 @@ public class ImogDateTimeField extends ImogFieldAbstract<Date> {
 
 	@Override
 	public String getLabel() {
-		if(thisLabel != null)
+		if (thisLabel != null)
 			return thisLabel;
 		return "";
 	}
@@ -95,12 +95,12 @@ public class ImogDateTimeField extends ImogFieldAbstract<Date> {
 	@Override
 	public void setValue(Date value) {
 		thisValue = value;
-		if(value!=null){
+		if (value != null) {
 			dateTimeEdit.setSelectedDate(value);
 			dateTimeDisplay.setText(DateUtil.getFormatedDateTime(value));
-		}		
+		}
 	}
-	
+
 	@Override
 	public void setValue(Date value, boolean notifyChange) {
 		setValue(value);
@@ -110,11 +110,11 @@ public class ImogDateTimeField extends ImogFieldAbstract<Date> {
 
 	@Override
 	public void setEnabled(boolean editable) {
-		if(!edited && editable){
+		if (!edited && editable) {
 			layout.remove(dateTimeDisplay);
 			layout.add(dateTimeEdit);
 		}
-		if(edited && !editable){
+		if (edited && !editable) {
 			layout.remove(dateTimeEdit);
 			layout.add(dateTimeDisplay);
 		}
@@ -125,5 +125,5 @@ public class ImogDateTimeField extends ImogFieldAbstract<Date> {
 	public boolean isEdited() {
 		return edited;
 	}
-	
+
 }
