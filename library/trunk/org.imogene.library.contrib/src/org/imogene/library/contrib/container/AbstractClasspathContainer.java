@@ -57,7 +57,11 @@ public abstract class AbstractClasspathContainer implements IClasspathContainer 
 		addJarsToEntries(confFile);
 	}
 	
-	@SuppressWarnings("unchecked")
+	protected void addDao() {
+		URL confFile = LibraryPlugin.getDefault().getBundle().getEntry(Constants.DAO_DESC_PATH);
+		addJarsToEntries(confFile);
+	}
+	
 	protected void addAll(){
 		Enumeration<URL> jars = LibraryPlugin.getDefault().getBundle().findEntries(Constants.JAR_PATH, "*.jar", true);	
 		addToEntries(Collections.list(jars));

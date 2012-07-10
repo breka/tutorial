@@ -18,7 +18,6 @@ public class MyClasspathContainer implements IClasspathContainer {
 	
 	private List<IClasspathEntry> entries = new Vector<IClasspathEntry>();
 		
-	@SuppressWarnings("unchecked")
 	public MyClasspathContainer(){			
 		Enumeration<URL> jars = Activator.getDefault().getBundle().findEntries("libs", "*.jar", false);				
 		while(jars.hasMoreElements()){
@@ -44,7 +43,7 @@ public class MyClasspathContainer implements IClasspathContainer {
 
 	@Override
 	public int getKind() {		
-		return 0;
+		return IClasspathContainer.K_APPLICATION;
 	}
 
 	@Override
