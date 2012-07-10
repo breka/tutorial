@@ -15,7 +15,7 @@
 		
 		<property name="jarDir" location="dist" />
 		<property name="srcDir" location="src"/>
-		<property name="binDir" location="target/classes"/>
+		<property name="binDir" location="bin"/>
 		<property name="jarName" value="${jarDir}/org.imogene.lib.common.jar"/>
 		<property name="version" value="Imogene 1.0" />
 	</target>
