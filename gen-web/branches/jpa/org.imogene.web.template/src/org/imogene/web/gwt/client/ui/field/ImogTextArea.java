@@ -9,16 +9,15 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TextArea;
 
-
 public class ImogTextArea extends ImogFieldAbstract<String> {
 
 	/* status - behavior */
 	private String thisLabel;
 
 	private String thisValue;
-	
+
 	private boolean edited = false;
-	
+
 	/* widgets */
 
 	private HorizontalPanel layout;
@@ -46,9 +45,9 @@ public class ImogTextArea extends ImogFieldAbstract<String> {
 		layout.setCellWidth(textArea, "100%");
 		errorImage.setVisible(false);
 		textArea.setStylePrimaryName("imogene-FormTextArea");
-		textArea.addChangeHandler(new ChangeHandler() {						
+		textArea.addChangeHandler(new ChangeHandler() {
 			@Override
-			public void onChange(ChangeEvent arg0) {				
+			public void onChange(ChangeEvent arg0) {
 				notifyValueChange();
 			}
 		});
@@ -77,18 +76,18 @@ public class ImogTextArea extends ImogFieldAbstract<String> {
 
 	@Override
 	public boolean validate() {
-		if(isMandatory() && textArea.getText().equals("")){
+		if (isMandatory() && textArea.getText().equals("")) {
 			displayError(BaseNLS.constants().field_mandatory());
 			return false;
 		}
-		if(!textArea.getText().equals("")){
-			for(ValidationRule rule : rules){
-				if(!textArea.getText().matches(rule.getRegex())){
+		if (!textArea.getText().equals("")) {
+			for (ValidationRule rule : rules) {
+				if (!textArea.getText().matches(rule.getRegex())) {
 					displayError(rule.getText());
 					return false;
 				}
 			}
-		}		
+		}
 		hideError();
 		return true;
 	}
@@ -115,7 +114,7 @@ public class ImogTextArea extends ImogFieldAbstract<String> {
 		thisValue = (String) value;
 		textArea.setText(thisValue);
 	}
-	
+
 	@Override
 	public void setValue(String value, boolean notifyChange) {
 		setValue(value);
@@ -127,5 +126,5 @@ public class ImogTextArea extends ImogFieldAbstract<String> {
 	public boolean isEdited() {
 		return edited;
 	}
-	
+
 }

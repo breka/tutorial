@@ -29,7 +29,8 @@ public class ImogUploadStatus implements IUploadStatus {
 	 * A basic progress bar implementation used when the user doesn't provide
 	 * anyone.
 	 */
-	public static class BasicProgressBar extends FlowPanel implements HasProgress {
+	public static class BasicProgressBar extends FlowPanel implements
+			HasProgress {
 
 		SimplePanel statusBar = new SimplePanel();
 		Label statusMsg = new Label();
@@ -63,18 +64,19 @@ public class ImogUploadStatus implements IUploadStatus {
 	private Widget prg = null;
 	private boolean hasCancelActions = false;
 
-	private UploadStatusConstants i18nStrs = GWT.create(UploadStatusConstants.class);
+	private UploadStatusConstants i18nStrs = GWT
+			.create(UploadStatusConstants.class);
 
 	private Set<CancelBehavior> cancelCfg = DEFAULT_CANCEL_CFG;
-	
+
 	protected Panel panel = new VerticalPanel();
-	
+
 	protected Panel topPanel = new HorizontalPanel();
-	
+
 	protected Label fileNameLabel = new Label();
-	
+
 	protected Label statusLabel = new Label();
-	
+
 	protected Label cancelLabel = new Label(" ");
 
 	/**
@@ -169,11 +171,13 @@ public class ImogUploadStatus implements IUploadStatus {
 		if (prg != null)
 			prg.setVisible(showProgress);
 
-		fileNameLabel.setVisible(prg instanceof BasicProgressBar || !showProgress);
+		fileNameLabel.setVisible(prg instanceof BasicProgressBar
+				|| !showProgress);
 		statusLabel.setVisible(!showProgress);
 
 		statusLabel.setText(message);
-		cancelLabel.setVisible(hasCancelActions && !cancelCfg.contains(CancelBehavior.DISABLED));
+		cancelLabel.setVisible(hasCancelActions
+				&& !cancelCfg.contains(CancelBehavior.DISABLED));
 	}
 
 	/*
@@ -244,7 +248,8 @@ public class ImogUploadStatus implements IUploadStatus {
 	 * @seegwtupload.client.IUploadStatus#addCancelHandler(gwtupload.client.
 	 * UploadCancelHandler)
 	 */
-	public HandlerRegistration addCancelHandler(final UploadCancelHandler handler) {
+	public HandlerRegistration addCancelHandler(
+			final UploadCancelHandler handler) {
 		hasCancelActions = true;
 		return cancelLabel.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -281,9 +286,7 @@ public class ImogUploadStatus implements IUploadStatus {
 	@Override
 	public void setStatusChangedHandler(UploadStatusChangedHandler handler) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
 
 }

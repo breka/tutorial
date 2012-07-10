@@ -11,81 +11,81 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
-
 public class ImogDateField extends ImogFieldAbstract<Date> {
-	
-	/* status - behavior */		
-	private String thisLabel;	
-	
-	//private Date thisValue;	
+
+	/* status - behavior */
+	private String thisLabel;
+
+	// private Date thisValue;
 	private boolean edited = false;
 
 	/* widgets */
-	private HorizontalPanel layout;	
-	
+	private HorizontalPanel layout;
+
 	/* display widget */
 	private TextBox dateDisplay;
 	/* edit widget */
 	private DatePicker dateBox;
-	
+
 	/**
 	 */
-	public ImogDateField(){
+	public ImogDateField() {
 		layout();
 		properties();
 	}
-	
+
 	/**
-	 * @param label the field label
+	 * @param label
+	 *            the field label
 	 */
-	public ImogDateField(String label){
+	public ImogDateField(String label) {
 		this();
 		thisLabel = label;
 	}
-	
+
 	/**
 	 */
-	private void layout(){
-		layout = new HorizontalPanel();		
+	private void layout() {
+		layout = new HorizontalPanel();
 		dateBox = new DatePicker(90);
 		dateBox.setDateFormatter(DateUtil.getDateFormater());
 		dateDisplay = new TextBox();
 		layout.add(dateDisplay);
 		initWidget(layout);
 	}
-	
+
 	/**
 	 */
-	private void properties(){					
-		dateDisplay.setStylePrimaryName("imogene-FormText");	
+	private void properties() {
+		dateDisplay.setStylePrimaryName("imogene-FormText");
 		dateDisplay.setEnabled(false);
-		dateBox.setStylePrimaryName("imogene-FormText");	
-		dateBox.addChangeHandler(new ChangeHandler(){
+		dateBox.setStylePrimaryName("imogene-FormText");
+		dateBox.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent arg0) {
 				notifyValueChange();
 			}
-			
+
 		});
 	}
-	
-	public DatePicker getEmbedded(){
+
+	public DatePicker getEmbedded() {
 		return dateBox;
 	}
-	
-	public void setInError(boolean inError){
-		if(inError)
+
+	public void setInError(boolean inError) {
+		if (inError)
 			dateBox.addStyleDependentName("error");
 		else
 			dateBox.removeStyleDependentName("error");
 	}
-	
-	public void setEnabled(boolean enabled){
-		if(!edited && enabled){
+
+	public void setEnabled(boolean enabled) {
+		if (!edited && enabled) {
 			layout.remove(dateDisplay);
 			layout.add(dateBox);
 		}
-		if(edited && !enabled){
+		if (edited && !enabled) {
 			layout.remove(dateBox);
 			layout.add(dateDisplay);
 		}
@@ -94,7 +94,7 @@ public class ImogDateField extends ImogFieldAbstract<Date> {
 
 	@Override
 	public boolean validate() {
-		if(isMandatory() && dateBox.getSelectedDate()==null){
+		if (isMandatory() && dateBox.getSelectedDate() == null) {
 			displayError(BaseNLS.constants().field_mandatory());
 			return false;
 		}
@@ -104,7 +104,7 @@ public class ImogDateField extends ImogFieldAbstract<Date> {
 
 	@Override
 	public String getLabel() {
-		if(thisLabel != null)
+		if (thisLabel != null)
 			return thisLabel;
 		return "";
 	}
@@ -113,7 +113,7 @@ public class ImogDateField extends ImogFieldAbstract<Date> {
 	public Date getValue() {
 		return dateBox.getSelectedDate();
 	}
-	
+
 	public String getDisplayValue() {
 		return dateDisplay.getText();
 	}
@@ -124,17 +124,16 @@ public class ImogDateField extends ImogFieldAbstract<Date> {
 	}
 
 	@Override
-	public void setValue(Date value) {				
-		if(value!=null){
+	public void setValue(Date value) {
+		if (value != null) {
 			dateBox.setSelectedDate(value);
 			dateDisplay.setText(DateUtil.getFormatedDate(value));
-		}
-		else {
+		} else {
 			dateBox.setSelectedDate(null);
 			dateDisplay.setText("");
 		}
 	}
-	
+
 	@Override
 	public void setValue(Date value, boolean notifyChange) {
 		setValue(value);
@@ -145,6 +144,6 @@ public class ImogDateField extends ImogFieldAbstract<Date> {
 	@Override
 	public boolean isEdited() {
 		return edited;
-	}	
-	
+	}
+
 }

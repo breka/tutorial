@@ -11,58 +11,59 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Abstract class that proposes some common field behaviors
- * for search fields
- * @author Medes-IMPS 
- * @param <T> the field type 
+ * Abstract class that proposes some common field behaviors for search fields
+ * 
+ * @author Medes-IMPS
+ * @param <T>
+ *            the field type
  */
-public abstract class ImogSearchFieldAbstract<T> extends Composite implements ImogSearchField<T> {	
-	
+public abstract class ImogSearchFieldAbstract<T> extends Composite implements
+		ImogSearchField<T> {
 
 	protected Set<SearchFieldValueChangeHandler> valueChangeHandler = new HashSet<SearchFieldValueChangeHandler>();
-		
-	protected HorizontalPanel layout;	
+
+	protected HorizontalPanel layout;
 	protected String thisLabel;
 	protected ListBox thisOperator;
-	
-	
+
 	/**
 	 * Field common parts
 	 */
-	public ImogSearchFieldAbstract(){
+	public ImogSearchFieldAbstract() {
 		layoutField();
 		propertiesForField();
 	}
-	
+
 	/**
 	 * Layout the field composite
 	 */
-	private void layoutField(){
+	private void layoutField() {
 		layout = new HorizontalPanel();
 		thisOperator = new ListBox();
 		layout.add(thisOperator);
 		super.initWidget(layout);
 	}
-	
+
 	/**
 	 * Set the widget properties
 	 */
-	private void propertiesForField(){
+	private void propertiesForField() {
 		thisOperator.setStylePrimaryName("imogene-search-operator");
 		layout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		layout.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		layout.setCellVerticalAlignment(thisOperator, HasVerticalAlignment.ALIGN_MIDDLE);
+		layout.setCellVerticalAlignment(thisOperator,
+				HasVerticalAlignment.ALIGN_MIDDLE);
 	}
-	
+
 	/**
 	 * 
 	 */
 	public String getLabel() {
-		if(thisLabel != null)
+		if (thisLabel != null)
 			return thisLabel;
 		return "";
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -74,43 +75,47 @@ public abstract class ImogSearchFieldAbstract<T> extends Composite implements Im
 	 * 
 	 */
 	public String getOperatorValue() {
-		if (thisOperator.getSelectedIndex()>0)
+		if (thisOperator.getSelectedIndex() > 0)
 			return thisOperator.getValue(thisOperator.getSelectedIndex());
 		else
 			return null;
 	}
-	
+
 	/**
 	 * An handler notified when the field value change
-	 * @param handler the handler to add
+	 * 
+	 * @param handler
+	 *            the handler to add
 	 */
-	public void addFieldValueChangeHandler(SearchFieldValueChangeHandler handler){
+	public void addFieldValueChangeHandler(SearchFieldValueChangeHandler handler) {
 		valueChangeHandler.add(handler);
 	}
-	
+
 	/**
 	 * Remove a handler notified when the field value change
-	 * @param handler the handler to remove
+	 * 
+	 * @param handler
+	 *            the handler to remove
 	 */
-	public void removeFieldValueChangeHandler(SearchFieldValueChangeHandler handler){
+	public void removeFieldValueChangeHandler(
+			SearchFieldValueChangeHandler handler) {
 		valueChangeHandler.remove(handler);
 	}
-		
+
 	/**
-	 * Notify handler the the field value changed 
+	 * Notify handler the the field value changed
 	 */
-	public void notifyValueChange() {		
-		for(SearchFieldValueChangeHandler handler : valueChangeHandler){
-			if(handler!=null)
+	public void notifyValueChange() {
+		for (SearchFieldValueChangeHandler handler : valueChangeHandler) {
+			if (handler != null)
 				handler.onFieldValueChange(this);
 		}
 	}
-	
-			
+
 	protected void addValueWidget(Widget widget) {
 		layout.add(widget);
 	}
-	
+
 	protected abstract void fillOperatorValues();
 
 }

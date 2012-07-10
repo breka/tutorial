@@ -5,8 +5,9 @@ import java.util.Map;
 
 /**
  * Holder of the exported spring properties
+ * 
  * @author Medes-IMPS
- *
+ * 
  */
 public class ExportedPropertiesHolder {
 
@@ -18,5 +19,5 @@ public class ExportedPropertiesHolder {
 
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
-	}		
+	}
 }

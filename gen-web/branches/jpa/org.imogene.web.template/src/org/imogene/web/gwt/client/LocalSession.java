@@ -3,41 +3,41 @@ package org.imogene.web.gwt.client;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.imogene.web.gwt.common.entity.ImogActor;
+import org.imogene.common.entity.ImogActor;
 
 public class LocalSession {
-	
+
 	private static LocalSession instance = new LocalSession();
-	
+
 	private ImogActor currentUser;
-	
+
 	private Set<Integer> edited = new HashSet<Integer>();
-	
-	public static LocalSession get(){
+
+	public static LocalSession get() {
 		return instance;
 	}
-	
-	public void setCurrentUser(ImogActor actor){
+
+	public void setCurrentUser(ImogActor actor) {
 		currentUser = actor;
 	}
-	
-	public ImogActor getCurrentUser(){
+
+	public ImogActor getCurrentUser() {
 		return currentUser;
 	}
 
-	public void addToEdited(Integer code){
+	public void addToEdited(Integer code) {
 		edited.add(code);
 	}
-	
-	public void removeFromEdited(Integer code){
+
+	public void removeFromEdited(Integer code) {
 		edited.remove(code);
 	}
-	
-	public boolean isEditing(){
+
+	public boolean isEditing() {
 		return !edited.isEmpty();
 	}
-	
-	public void clearEdited(){
+
+	public void clearEdited() {
 		edited.clear();
 	}
 }

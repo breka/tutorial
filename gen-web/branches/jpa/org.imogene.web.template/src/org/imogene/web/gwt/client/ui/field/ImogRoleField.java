@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.imogene.common.role.Role;
 import org.imogene.notif.web.gwt.remote.RoleActorServiceFacade;
 import org.imogene.web.gwt.client.i18n.BaseNLS;
-import org.imogene.web.gwt.client.ui.field.ImogFieldAbstract;
-import org.imogene.web.gwt.common.entity.ImogRole;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,76 +22,76 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-
-public class ImogRoleField extends ImogFieldAbstract<Set<ImogRole>> implements ClickHandler {
+public class ImogRoleField extends ImogFieldAbstract<Set<Role>> implements
+		ClickHandler {
 
 	/* status */
-	private String label;	
-	private boolean isEdited = false;	
-	private Map<String,ImogRole> values = new HashMap<String, ImogRole>();
-	
+	private String label;
+	private boolean isEdited = false;
+	private Map<String, Role> values = new HashMap<String, Role>();
+
 	/* widgets */
-	private HorizontalPanel panel;	
+	private HorizontalPanel panel;
 	private ListBox list;
-	private VerticalPanel buttons;	
-	private Image add;	
-	private Image remove;	
-	
-	
-	public ImogRoleField(){		
+	private VerticalPanel buttons;
+	private Image add;
+	private Image remove;
+
+	public ImogRoleField() {
 		layout();
 		properties();
 		setBehavior();
 	}
-	
-	private void layout(){
+
+	private void layout() {
 		panel = new HorizontalPanel();
 		list = new ListBox(true);
 		panel.add(list);
 		buttons = new VerticalPanel();
 		add = new Image(GWT.getModuleBaseURL() + "images/relation_affect.png");
 		add.setTitle(BaseNLS.constants().button_assign());
-		remove = new Image(GWT.getModuleBaseURL() + "images/relation_remove.png");
+		remove = new Image(GWT.getModuleBaseURL()
+				+ "images/relation_remove.png");
 		remove.setTitle(BaseNLS.constants().button_remove());
 		buttons.add(add);
 		buttons.add(remove);
 		panel.add(buttons);
 		initWidget(panel);
 	}
-	
-	private void properties(){
+
+	private void properties() {
 		list.setVisibleItemCount(5);
 		list.setStylePrimaryName("imogene-FormText");
 		add.setVisible(false);
 		remove.setVisible(false);
 	}
-	
-	private void setBehavior(){
+
+	private void setBehavior() {
 		add.addClickHandler(this);
 		remove.addClickHandler(this);
 	}
-	
+
 	@Override
-	public String getLabel() {		
+	public String getLabel() {
 		return label;
 	}
 
 	@Override
-	public Set<ImogRole> getValue() {	
-		Set<ImogRole> result = new HashSet<ImogRole>();
-		for(ImogRole entity : values.values()){
+	public Set<Role> getValue() {
+		Set<Role> result = new HashSet<Role>();
+		for (Role entity : values.values()) {
 			result.add(entity);
 		}
 		return result;
 	}
 
 	@Override
-	public boolean isEdited() {		
+	public boolean isEdited() {
 		return isEdited;
 	}
 
 	@Override
-	public void setEnabled(boolean editable) {		
+	public void setEnabled(boolean editable) {
 		list.setEnabled(editable);
 		add.setVisible(editable);
 		remove.setVisible(editable);
@@ -100,40 +99,40 @@ public class ImogRoleField extends ImogFieldAbstract<Set<ImogRole>> implements C
 
 	@Override
 	public void setLabel(String pLabel) {
-		label = pLabel;		
+		label = pLabel;
 	}
 
 	@Override
-	public void setValue(Set<ImogRole> pValue) {
-		values = new HashMap<String, ImogRole>();
+	public void setValue(Set<Role> pValue) {
+		values = new HashMap<String, Role>();
 		list.clear();
-		for(ImogRole b : pValue){
-			values.put(b.getId(), b);				
+		for (Role b : pValue) {
+			values.put(b.getId(), b);
 			list.addItem(b.getName(), b.getId());
-		}	
+		}
 	}
-	
+
 	@Override
-	public void setValue(Set<ImogRole>value, boolean notifyChange) {
+	public void setValue(Set<Role> value, boolean notifyChange) {
 		setValue(value);
 		if (notifyChange)
 			notifyValueChange();
 	}
 
 	@Override
-	public boolean validate() {		
+	public boolean validate() {
 		return true;
-	}		
-	
+	}
+
 	@Override
-	public void onClick(ClickEvent event) {		
-		if(event.getSource().equals(add)){
-			ImogRoleSelectionBox box = new ImogRoleSelectionBox();
+	public void onClick(ClickEvent event) {
+		if (event.getSource().equals(add)) {
+			RoleSelectionBox box = new RoleSelectionBox();
 			box.show(add.getAbsoluteLeft(), add.getAbsoluteTop());
 		}
-		if(event.getSource().equals(remove)){
-			for(int i=0; i<list.getItemCount(); i++){
-				if(list.isItemSelected(i)){
+		if (event.getSource().equals(remove)) {
+			for (int i = 0; i < list.getItemCount(); i++) {
+				if (list.isItemSelected(i)) {
 					String toRemove = list.getValue(i);
 					values.remove(toRemove);
 					list.removeItem(i);
@@ -141,38 +140,38 @@ public class ImogRoleField extends ImogFieldAbstract<Set<ImogRole>> implements C
 			}
 		}
 	}
-	
+
 	/* *************** */
 	/* PRIVATE CLASSES */
 	/* *************** */
-	
+
 	/**
-	 * Displays a popup panel to 
-	 * select the actor to add.
-	 * @author Medes-IMPS	 
+	 * Displays a popup panel to select the actor to add.
+	 * 
+	 * @author Medes-IMPS
 	 */
-	private class ImogRoleSelectionBox extends PopupPanel implements ClickHandler {
-				
-		//private Image wait = new Image(GWT.getModuleBaseURL()+"images/wait_actor.gif");
-		
-		private Map<String, ImogRole> alls = new HashMap<String, ImogRole>();
-		
-		private VerticalPanel panel;		
-		private ListBox listSyncs;		
-		private HorizontalPanel buttons;		
-		private Button ok;		
+	private class RoleSelectionBox extends PopupPanel implements ClickHandler {
+
+		// private Image wait = new
+		// Image(GWT.getModuleBaseURL()+"images/wait_actor.gif");
+
+		private Map<String, Role> alls = new HashMap<String, Role>();
+
+		private VerticalPanel panel;
+		private ListBox listSyncs;
+		private HorizontalPanel buttons;
+		private Button ok;
 		private Button cancel;
 		private HTML title;
-		
-		
-		public ImogRoleSelectionBox(){
-			super(true);			
-			layout();	
+
+		public RoleSelectionBox() {
+			super(true);
+			layout();
 			properties();
 			setBehavior();
 		}
-		
-		private void layout(){
+
+		private void layout() {
 			panel = new VerticalPanel();
 			title = new HTML("Select roles to add");
 			panel.add(title);
@@ -180,87 +179,96 @@ public class ImogRoleField extends ImogFieldAbstract<Set<ImogRole>> implements C
 			panel.add(listSyncs);
 			layoutButtons();
 			panel.add(buttons);
-			setWidget(panel);			
+			setWidget(panel);
 		}
-		
-		public void properties(){
+
+		public void properties() {
 			setStylePrimaryName("imogene-RelationSelectionBox");
 			addStyleDependentName("role");
-			
+
 			panel.setSize("100%", "100%");
-			
+
 			title.setStylePrimaryName("imogene-RelationSelectionBox-title");
 			title.addStyleDependentName("role");
-			
+
 			listSyncs.setVisibleItemCount(6);
-			listSyncs.setStylePrimaryName("imogene-RelationSelectionBox-Listbox");
-			
+			listSyncs
+					.setStylePrimaryName("imogene-RelationSelectionBox-Listbox");
+
 			buttons.setStylePrimaryName("imogene-RelationSelectionBox-ButtonsPanel");
 
 			ok.setStylePrimaryName("imogene-Button");
-			cancel.setStylePrimaryName("imogene-Button");					
+			cancel.setStylePrimaryName("imogene-Button");
 		}
-		
-		private void layoutButtons(){
+
+		private void layoutButtons() {
 			buttons = new HorizontalPanel();
 			ok = new Button(BaseNLS.constants().button_ok());
 			cancel = new Button(BaseNLS.constants().button_cancel());
 			buttons.add(ok);
 			buttons.add(cancel);
 		}
-		
-		private void setBehavior(){
+
+		private void setBehavior() {
 			ok.addClickHandler(this);
 			cancel.addClickHandler(this);
-		}				
-		
+		}
+
 		@Override
-		public void onClick(ClickEvent event) {			
-			if(event.getSource().equals(ok)){
-				for(int i=0; i<listSyncs.getItemCount(); i++){
-					if(listSyncs.isItemSelected(i)){
-						list.addItem(listSyncs.getItemText(i), listSyncs.getValue(i));
-						values.put(listSyncs.getValue(i), alls.get(listSyncs.getValue(i)));
+		public void onClick(ClickEvent event) {
+			if (event.getSource().equals(ok)) {
+				for (int i = 0; i < listSyncs.getItemCount(); i++) {
+					if (listSyncs.isItemSelected(i)) {
+						list.addItem(listSyncs.getItemText(i),
+								listSyncs.getValue(i));
+						values.put(listSyncs.getValue(i),
+								alls.get(listSyncs.getValue(i)));
 					}
 				}
 				hide();
 			}
-			if(event.getSource().equals(cancel)){
+			if (event.getSource().equals(cancel)) {
 				hide();
 			}
 		}
-		
+
 		/**
 		 * Show the popup panel panel at the given position
-		 * @param left the absolute left
-		 * @param top the absolute top
+		 * 
+		 * @param left
+		 *            the absolute left
+		 * @param top
+		 *            the absolute top
 		 */
-		public void show(int left, int top){			
+		public void show(int left, int top) {
 			setPopupPosition(left, top);
 			show();
-			RoleActorServiceFacade.getInstance().listRole(new AsyncCallback<List<ImogRole>>() {
-				@Override
-				public void onFailure(Throwable arg0) {					
-				}
-				
-				@Override
-				public void onSuccess(List<ImogRole> result) {				
-					for(ImogRole se : result){					
-						if(!isPresent(se)){
-							alls.put(se.getId(), se);							
-							listSyncs.addItem(se.getName(), se.getId());
+			RoleActorServiceFacade.getInstance().listRole(
+					new AsyncCallback<List<Role>>() {
+						@Override
+						public void onFailure(Throwable arg0) {
 						}
-					}
-				}				
-			});
+
+						@Override
+						public void onSuccess(List<Role> result) {
+							for (Role se : result) {
+								if (!isPresent(se)) {
+									alls.put(se.getId(), se);
+									listSyncs.addItem(se.getName(), se.getId());
+								}
+							}
+						}
+					});
 		}
-		
+
 		/**
 		 * Filter the actor already present
-		 * @param actor the actor to test
+		 * 
+		 * @param actor
+		 *            the actor to test
 		 * @return true is present, false otherwise
 		 */
-		private boolean isPresent(ImogRole se) {
+		private boolean isPresent(Role se) {
 			for (int i = 0; i < list.getItemCount(); i++) {
 				if (list.getValue(i).equals(se.getId()))
 					return true;

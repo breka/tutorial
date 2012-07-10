@@ -2,14 +2,15 @@ package org.imogene.web.gwt.client;
 
 /**
  * Class that describes an available binary entity
+ * 
  * @author Medes-IMPS
  */
 public class BinaryDesc {
-	
+
 	private String id;
-	
+
 	private String name = "-";
-	
+
 	private int size = 0;
 
 	public String getId() {
@@ -35,5 +36,5 @@ public class BinaryDesc {
 	public void setSize(int size) {
 		this.size = size;
 	}
-		
+
 }
