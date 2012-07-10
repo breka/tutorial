@@ -27,7 +27,7 @@ public class GeneratedShadow extends AbstractShadow {
 	
 	@Override
 	public Object[] getChildren() {
-		IShadow[] pp = new IShadow[8];
+		IShadow[] pp = new IShadow[10];
 		
 		IShadow init = (IShadow)objectCache.get(InitializerShadow.TYPE);
 		if(init==null){
@@ -92,6 +92,12 @@ public class GeneratedShadow extends AbstractShadow {
 		}
 		pp[8] = serv_soap;
 		
+		IShadow dao = (IShadow) objectCache.get(DaoShadow.TYPE);
+		if (dao == null) {
+			dao = new DaoShadow(parent);
+			objectCache.put(DaoShadow.TYPE, dao);
+		}
+		pp[9] = dao;
 		
 		return pp;
 	}
