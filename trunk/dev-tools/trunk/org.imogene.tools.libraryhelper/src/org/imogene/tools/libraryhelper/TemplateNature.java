@@ -11,4 +11,6 @@ public class TemplateNature {
 	public static String WS_SOAP_TEMPLATE_NATURE_ID = "org.imogene.template.ws.soap";
 	
 	public static String NOTIFIER_TEMPLATE_NATURE_ID = "org.imogene.template.notifier";
+	
+	public static String DAO_TEMPLATE_NATURE_ID = "org.imogene.template.notifier";
 }
