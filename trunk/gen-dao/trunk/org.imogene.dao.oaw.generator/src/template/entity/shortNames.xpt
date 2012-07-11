@@ -1,7 +1,7 @@
 «IMPORT core»
 «DEFINE generate(String projectName) FOR Project»
-«FILE projectName.toLowerCase()+"/entity/ShortNames.java"»
-package org.imogene.«projectName.toLowerCase()».entity;
+«FILE projectName.toLowerCase()+"/domain/entity/ShortNames.java"»
+package org.imogene.«projectName.toLowerCase()».domain.entity;
 
 import java.util.HashMap;
 import java.util.Map;

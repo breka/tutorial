@@ -1,8 +1,8 @@
 «IMPORT core»
 «EXTENSION template::CommonFieldUtilExt» 
 «DEFINE generate(String projectName) FOR CardEntity»
-«FILE projectName.toLowerCase()+"/dao/"+this.name.toFirstUpper() + "DaoImpl.java"»
-package org.imogene.«projectName.toLowerCase()».dao;
+«FILE projectName.toLowerCase()+"/domain/dao/"+this.name.toFirstUpper() + "DaoImpl.java"»
+package org.imogene.«projectName.toLowerCase()».domain.dao;
 
 import java.util.List;
 import java.util.Vector;
@@ -14,7 +14,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.imogene.lib.common.dao.«IF Actor.isAssignableFrom(this.metaType)»ImogActorDaoImpl«ELSE»ImogBeanDaoImpl«ENDIF»;
-import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»;
+import org.imogene.«projectName.toLowerCase()».domain.entity.«name.toFirstUpper()»;
 «FOREACH groups.fields AS f -»
 «EXPAND importsForRelation(projectName) FOR f -»
 «ENDFOREACH -»
@@ -47,7 +47,7 @@ public class «name.toFirstUpper()»DaoImpl extends «IF Actor.isAssignableFrom(thi
 «REM» Imports implied by the relation fields «ENDREM»
 «DEFINE importsForRelation(String projectName) FOR FieldEntity-»«ENDDEFINE»
 «DEFINE importsForRelation(String projectName) FOR RelationFieldEntity-»
-import org.imogene.«projectName.toLowerCase()».entity.«entity.name.toFirstUpper()»;
+import org.imogene.«projectName.toLowerCase()».domain.entity.«entity.name.toFirstUpper()»;
 «ENDDEFINE»
 
 
