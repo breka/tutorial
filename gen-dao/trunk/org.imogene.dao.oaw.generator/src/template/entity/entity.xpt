@@ -3,8 +3,8 @@
 «EXTENSION template::CommonEntityUtilExt» 
 
 «DEFINE generate(String projectName) FOR CardEntity»
-«FILE projectName.toLowerCase()+"/entity/"+this.name.toFirstUpper() + ".java"»
-package org.imogene.«projectName.toLowerCase()».entity;
+«FILE projectName.toLowerCase()+"/domain/entity/"+this.name.toFirstUpper() + ".java"»
+package org.imogene.«projectName.toLowerCase()».domain.entity;
 
 import java.util.Date;
 import java.util.HashMap;

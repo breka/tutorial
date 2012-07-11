@@ -1,8 +1,8 @@
 «IMPORT core»
 «DEFINE generate(String projectName) FOR Project»
-«FILE projectName.toLowerCase()+"/entity/LocalizedFieldMap.java"»
+«FILE projectName.toLowerCase()+"/domain/entity/LocalizedFieldMap.java"»
 
-package org.imogene.«projectName.toLowerCase()».entity;
+package org.imogene.«projectName.toLowerCase()».domain.entity;
 
 import java.io.Serializable;
 import java.util.HashMap;
