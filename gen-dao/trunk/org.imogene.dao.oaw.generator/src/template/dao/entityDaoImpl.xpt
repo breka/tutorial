@@ -35,7 +35,7 @@ public class «name.toFirstUpper()»DaoImpl extends «IF Actor.isAssignableFrom(thi
 	}
 	
 	/* relation dependencies */
-	«EXPAND methodsForRelation(name.toFirstUpper()) FOREACH groups.fields-»
+	«EXPAND methodsForRelation FOREACH groups.fields-»
 	
 	«EXPAND specificPart FOR this -»
 	
@@ -52,8 +52,8 @@ import org.imogene.«projectName.toLowerCase()».domain.entity.«entity.name.toFirs
 
 
 «REM» DAO methods implied by the relation fields «ENDREM»
-«DEFINE methodsForRelation(String parentEntityType) FOR FieldEntity»«ENDDEFINE»
-«DEFINE methodsForRelation(String parentEntityType) FOR RelationFieldEntity»
+«DEFINE methodsForRelation FOR FieldEntity»«ENDDEFINE»
+«DEFINE methodsForRelation FOR RelationFieldEntity»
 «IF cardinality==-1 || cardinality>1»
 «IF getOppositeCardinality(this)==1 »
 /**
@@ -64,12 +64,12 @@ import org.imogene.«projectName.toLowerCase()».domain.entity.«entity.name.toFirs
  */
 @Override
 @Transactional
-public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(«parentEntityType» parent){
+public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(«parentGroup.parentCard.name.toFirstUpper()» parent){
 	CriteriaBuilder builder = em.getCriteriaBuilder();
 	CriteriaQuery<«entity.name.toFirstUpper()»> query = builder.createQuery(«entity.name.toFirstUpper()».class);
 	Root<«entity.name.toFirstUpper()»> root = query.from(«entity.name.toFirstUpper()».class);
 	query.select(root);
-	query.where(builder.equal(root.<String> get("«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»"), parent));
+	query.where(builder.equal(root.<«parentGroup.parentCard.name.toFirstUpper()»> get("«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»"), parent));
 	return em.createQuery(query).getResultList();
 }
 «ELSE»
@@ -81,8 +81,7 @@ public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(«parentEntit
  */
 @Override
 @Transactional
-public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(String parentId){
-		«parentEntityType» parent = em.find(«parentEntityType».class, parentId);
+public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(«parentGroup.parentCard.name.toFirstUpper()» parent){
 		if (parent == null) {
 			return new Vector<«entity.name.toFirstUpper()»>();
 		}

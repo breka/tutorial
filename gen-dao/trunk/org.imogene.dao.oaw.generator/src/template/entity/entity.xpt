@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.persistence.Transient;
+
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.imogene.lib.common.entity.ImogActorImpl;

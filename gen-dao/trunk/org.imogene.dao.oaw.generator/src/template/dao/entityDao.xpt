@@ -19,7 +19,7 @@ import org.imogene.«projectName.toLowerCase()».domain.entity.«name.toFirstUpper(
 public interface «name.toFirstUpper()»Dao extends «IF Actor.isAssignableFrom(this.metaType)»ImogActorDao<«name.toFirstUpper()»>«ELSE»ImogBeanDao<«name.toFirstUpper()»>«ENDIF» {
 	
 	/* relation dependencies */
-	«EXPAND methodsForRelation(name.toFirstUpper()) FOREACH groups.fields-»
+	«EXPAND methodsForRelation FOREACH groups.fields-»
 	
 	«EXPAND specificPart FOR this-»
 	
@@ -35,26 +35,16 @@ import org.imogene.«projectName.toLowerCase()».domain.entity.«entity.name.toFirs
 «ENDDEFINE»
 
 «REM» DAO methods implied by the relation fields «ENDREM»
-«DEFINE methodsForRelation(String parentEntityType) FOR FieldEntity»«ENDDEFINE»
-«DEFINE methodsForRelation(String parentEntityType) FOR RelationFieldEntity»
+«DEFINE methodsForRelation FOR FieldEntity»«ENDDEFINE»
+«DEFINE methodsForRelation FOR RelationFieldEntity»
 «IF cardinality == -1 || cardinality>1 »
-«IF getOppositeCardinality(this)==1 »
 /**
  * List associated «entity.name.toFirstUpper()», 
  * on the field «name.toFirstLower()»
  * @param parent the parent entity
  * @return the list of the associated entities
  */
-public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(«parentEntityType» parent);
-«ELSE»
-/**
- * List associated «entity.name.toFirstUpper()», 
- * on the field «name.toFirstLower()»
- * @param parent the parent entity
- * @return the list of the associated entities
- */
-public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(String parentId);
-«ENDIF»
+public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(«parentGroup.parentCard.name.toFirstUpper()» parent);
 «ENDIF»
 «ENDDEFINE»
 
