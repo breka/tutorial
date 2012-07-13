@@ -6,13 +6,28 @@
 «FILE projectName.toLowerCase()+"/domain/entity/"+this.name.toFirstUpper() + ".java"»
 package org.imogene.«projectName.toLowerCase()».domain.entity;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -27,7 +42,7 @@ import org.imogene.lib.common.sync.entity.SynchronizableEntity;
  * ImogBean implementation for the entity «name.toFirstUpper()»
  * @author MEDES-IMPS
  */
-
+@Entity
 public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(this.metaType)»ImogActorImpl«ELSE»ImogBeanImpl«ENDIF»«IF this.georeferenced!=null» implements IsGeoreferenced«ENDIF» {
 
 	«IF Actor.isAssignableFrom(this.metaType)-»
@@ -170,11 +185,63 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(this.metaT
 «DEFINE fieldDeclaration FOR FieldEntity-»
 	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»; 
 «ENDDEFINE»
+«DEFINE fieldDeclaration FOR DatesField-»
+	@Temporal(TemporalType.TIMESTAMP)
+	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»;
+«ENDDEFINE»
 «DEFINE fieldDeclaration FOR GeoField-»
 	@XStreamOmitField
 	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude;
 	@XStreamOmitField 
 	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
+«ENDDEFINE»
+«DEFINE fieldDeclaration FOR MainRelationFieldEntity-»
+«IF cardinality == 1 -»
+	«IF getOppositeCardinality(this) == 1 -»
+	@OneToOne
+	«ELSE-»
+	@ManyToOne
+	«ENDIF-»
+«ELSE-»
+	«IF getOppositeCardinality(this)  == 1 -»
+	@OneToMany(targetEntity = «entity.name.toFirstUpper()».class, mappedBy = "«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»")
+	«ELSE-»
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+		name = "«name.toFirstUpper()-»«parentGroup.parentCard.name.toFirstUpper()»«entity.name.toFirstUpper()»",
+		joinColumns = @JoinColumn(
+			name = "«parentGroup.parentCard.name.toLowerCase()»_id",
+			referencedColumnName = "id"),
+		inverseJoinColumns = @JoinColumn(
+			name = "«entity.name.toLowerCase()»_id",
+			referencedColumnName = "id"))
+	«ENDIF-»
+«ENDIF»
+	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»;
+«ENDDEFINE»
+«DEFINE fieldDeclaration FOR ReverseRelationFieldEntity-»
+«IF cardinality == 1 -»
+	«IF getOppositeCardinality(this) == 1 -»
+	@OneToOne(mappedBy="«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»")
+	«ELSE-»
+	@ManyToOne
+	«ENDIF-»
+«ELSE-»
+	«IF getOppositeCardinality(this) == 1 -»
+	@OneToMany(targetEntity = «entity.name.toFirstUpper()».class, mappedBy = "«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»")
+	«ELSE-»
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+		name = "«oppositeRelationField.name.toFirstUpper()-»«entity.name.toFirstUpper()»«parentGroup.parentCard.name.toFirstUpper()»",
+		joinColumns = @JoinColumn(
+			name = "«parentGroup.parentCard.name.toLowerCase()»_id",
+			referencedColumnName = "id"),
+		inverseJoinColumns = @JoinColumn(
+			name = "«entity.name.toLowerCase()»_id",
+			referencedColumnName = "id"))
+	«ENDIF-»
+«ENDIF-»
+	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»;
 «ENDDEFINE»
 
 
@@ -201,21 +268,31 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(this.metaT
 
 	/** 
 	 * filter fields for the «this.entity.name.toFirstUpper()» entity 	
-	 */		
-	private List<«entity.name.toFirstUpper()»> «EXPAND template::CommonFieldUtil::propertyName FOR this» = new Vector<«entity.name.toFirstUpper()»>();
+	 */
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+		name = "«EXPAND template::CommonFieldUtil::propertyName FOR this-»",
+		joinColumns = @JoinColumn(
+			name = "«parentGroup.parentCard.name.toLowerCase()»_id",
+			referencedColumnName = "id"),
+		inverseJoinColumns = @JoinColumn(
+			name = "«entity.name.toLowerCase()»_id",
+			referencedColumnName = "id"))
+	private Set<«entity.name.toFirstUpper()»> «EXPAND template::CommonFieldUtil::propertyName FOR this» = new HashSet<«entity.name.toFirstUpper()»>();
 	
 	/**
 	 * Set the list of allowed «this.entity.name.toFirstUpper()» for card access.	
 	 */
-	public void «EXPAND template::CommonFieldUtil::setterName FOR this»(List<«entity.name.toFirstUpper()»> filterFields){
-		«EXPAND template::CommonFieldUtil::propertyName FOR this» = filterFields;
+	public void «EXPAND template::CommonFieldUtil::setterName FOR this»(Collection<«entity.name.toFirstUpper()»> filterFields){
+		«EXPAND template::CommonFieldUtil::propertyName FOR this».clear();
+		«EXPAND template::CommonFieldUtil::propertyName FOR this».addAll(filterFields);
 	}
 	
 	/**
 	 * Get the list of allowed «this.entity.name.toFirstUpper()» for card access.
 	 * @return a list of «this.entity.name.toFirstUpper()». 	
 	 */
-	public List<«entity.name.toFirstUpper()»> «EXPAND template::CommonFieldUtil::getterName FOR this»(){
+	public Collection<«entity.name.toFirstUpper()»> «EXPAND template::CommonFieldUtil::getterName FOR this»(){
 		return «EXPAND template::CommonFieldUtil::propertyName FOR this»;
 	} 
 «ENDDEFINE»
