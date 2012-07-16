@@ -21,10 +21,20 @@ import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.mwe.core.WorkflowRunner;
 import org.eclipse.emf.mwe.core.resources.ResourceLoaderFactory;
 import org.eclipse.emf.mwe.core.resources.ResourceLoaderImpl;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.internal.corext.codemanipulation.OrganizeImportsOperation;
+import org.eclipse.jdt.ui.SharedASTProvider;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
@@ -39,6 +49,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 
+@SuppressWarnings("restriction")
 public class GenerateJob extends WorkspaceJob implements GenerationManager {
 
 	private static final char DELIMITER = '%';
@@ -96,8 +107,7 @@ public class GenerateJob extends WorkspaceJob implements GenerationManager {
 			createConsole();
 			HashMap<String, String> slotContents = new HashMap<String, String>();
 			WorkflowRunner runner = new WorkflowRunner();
-			runner.run(mWorkflowPath, new ImogeneProgressMonitor(monitor),
-					mProperties, slotContents);
+			runner.run(mWorkflowPath, new ImogeneProgressMonitor(monitor), mProperties, slotContents);
 		}
 
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -113,8 +123,11 @@ public class GenerateJob extends WorkspaceJob implements GenerationManager {
 		
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		
+		
 		project.close(monitor);
 		project.open(monitor);
+
+		organizeImport(project, monitor);
 
 		return Status.OK_STATUS;
 	}
@@ -360,6 +373,25 @@ public class GenerateJob extends WorkspaceJob implements GenerationManager {
 
 				}
 			});
+		}
+	}
+	
+	private void organizeImport(final IProject project, final IProgressMonitor monitor) throws JavaModelException {
+		IJavaProject jProject = JavaCore.create(project);
+		for (IPackageFragment fragment : jProject.getPackageFragments()) {
+			if (fragment.getKind() == IPackageFragmentRoot.K_SOURCE) {
+				for (ICompilationUnit unit : fragment.getCompilationUnits()) {
+					CompilationUnit astRoot = SharedASTProvider.getAST(unit, SharedASTProvider.WAIT_ACTIVE_ONLY, monitor);
+					OrganizeImportsOperation op = new OrganizeImportsOperation(unit, astRoot, false, true, true, null);
+					try {
+						op.run(monitor);
+					} catch (OperationCanceledException e) {
+						e.printStackTrace();
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		}
 	}
 
