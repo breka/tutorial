@@ -98,24 +98,7 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(this.metaT
 	/* ----------------------------------------------------------------------------------------------------------- */
 	«ENDIF-»
 	
-	«IF RelationFieldEntity.isAssignableFrom(f.metaType) && (((RelationFieldEntity)f).cardinality != 1)-»
-	/**
-	 * @param param the «((RelationFieldEntity)f).entity.name-» to add to the «EXPAND template::CommonFieldUtil::propertyName FOR f-» collection
-	 */
-	public void addTo«EXPAND template::CommonFieldUtil::propertyName FOR f-»(«((RelationFieldEntity)f).entity.name.toFirstUpper()-» param)
-	{
-		«EXPAND template::CommonFieldUtil::propertyName FOR f-».add(param);
-	}	
-	
-	/**
-	 * @param param the «((RelationFieldEntity)f).entity.name-» to remove from the «EXPAND template::CommonFieldUtil::propertyName FOR f-» collection
-	 */
-	public void removeFrom«EXPAND template::CommonFieldUtil::propertyName FOR f-»(«((RelationFieldEntity)f).entity.name.toFirstUpper()-» param)
-	{
-		«EXPAND template::CommonFieldUtil::propertyName FOR f-».remove(param);
-	}	
-	«ENDIF-»	
-	
+	«EXPAND specificMethodForRelation FOR f-»
 	
 	«ENDFOREACH -»	
 	«ENDFOREACH»
@@ -297,4 +280,29 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(this.metaT
 	} 
 «ENDDEFINE»
 
-
+«DEFINE specificMethodForRelation FOR FieldEntity-»«ENDDEFINE»
+«DEFINE specificMethodForRelation FOR RelationFieldEntity-»
+«IF cardinality != 1-»
+	/**
+	 * @param param the «entity.name» to add to the «EXPAND template::CommonFieldUtil::propertyName FOR this» collection
+	 */
+	public void addTo«EXPAND template::CommonFieldUtil::propertyName FOR this»(«entity.name.toFirstUpper()-» param)
+	{
+		«IF getOppositeCardinality() == 1 && oppositeRelationField != null-»
+		param.«EXPAND template::CommonFieldUtil::setterName FOR oppositeRelationField»(this);
+		«ENDIF-»
+		«EXPAND template::CommonFieldUtil::propertyName FOR this».add(param);
+	}	
+	
+	/**
+	 * @param param the «entity.name-» to remove from the «EXPAND template::CommonFieldUtil::propertyName FOR this» collection
+	 */
+	public void removeFrom«EXPAND template::CommonFieldUtil::propertyName FOR this»(«entity.name.toFirstUpper()» param)
+	{
+		«IF getOppositeCardinality() == 1 && oppositeRelationField != null-»
+		param.«EXPAND template::CommonFieldUtil::setterName FOR oppositeRelationField»(null);
+		«ENDIF-»
+		«EXPAND template::CommonFieldUtil::propertyName FOR this».remove(param);
+	}
+«ENDIF-»
+«ENDDEFINE»
