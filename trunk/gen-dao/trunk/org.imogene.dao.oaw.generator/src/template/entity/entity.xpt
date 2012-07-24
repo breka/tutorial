@@ -59,7 +59,7 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(this.metaT
 	«ENDIF-»
 	
 	/* Entity fields */	
-	«EXPAND fieldDeclaration FOREACH groups.fields-»
+	«EXPAND fieldDeclaration FOREACH groups.fields»
 	
 	«IF isTranslatableFieldPresent(this.groups.fields)-»
 	/* For localized fields */
@@ -165,31 +165,41 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(this.metaT
 «ENDFILE»
 «ENDDEFINE»
 
-«DEFINE fieldDeclaration FOR FieldEntity-»
+
+
+
+«DEFINE fieldDeclaration FOR FieldEntity»
 	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»; 
 «ENDDEFINE»
-«DEFINE fieldDeclaration FOR DatesField-»
+
+«DEFINE fieldDeclaration FOR DatesField»
 	@Temporal(TemporalType.TIMESTAMP)
 	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»;
 «ENDDEFINE»
-«DEFINE fieldDeclaration FOR GeoField-»
+
+«DEFINE fieldDeclaration FOR GeoField»
 	@XStreamOmitField
 	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude;
 	@XStreamOmitField 
 	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
 «ENDDEFINE»
-«DEFINE fieldDeclaration FOR MainRelationFieldEntity-»
+
+«DEFINE fieldDeclaration FOR MainRelationFieldEntity»
 «IF cardinality == 1 -»
 	«IF getOppositeCardinality(this) == 1 -»
 	@OneToOne
 	«ELSE-»
 	@ManyToOne
+	«IF oppositeRelationField != null-»
+	@JoinColumn(name = "«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»«oppositeRelationField.parentGroup.parentCard.name.toFirstUpper()»_id")
+	«ENDIF-»
 	«ENDIF-»
 «ELSE-»
 	«IF getOppositeCardinality(this)  == 1 -»
-	@OneToMany(targetEntity = «entity.name.toFirstUpper()».class, mappedBy = "«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = «IF type == core::RelationType::Composition»true«ELSE»false«ENDIF»)
+	@JoinColumn(name = "«EXPAND template::CommonFieldUtil::propertyName FOR this»«parentGroup.parentCard.name.toFirstUpper()»_id")
 	«ELSE-»
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 		name = "«name.toFirstUpper()-»«parentGroup.parentCard.name.toFirstUpper()»«entity.name.toFirstUpper()»",
 		joinColumns = @JoinColumn(
@@ -202,18 +212,21 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(this.metaT
 «ENDIF»
 	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»;
 «ENDDEFINE»
-«DEFINE fieldDeclaration FOR ReverseRelationFieldEntity-»
+
+«DEFINE fieldDeclaration FOR ReverseRelationFieldEntity»
 «IF cardinality == 1 -»
 	«IF getOppositeCardinality(this) == 1 -»
 	@OneToOne(mappedBy="«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»")
 	«ELSE-»
 	@ManyToOne
+	@JoinColumn(name = "«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»«oppositeRelationField.parentGroup.parentCard.name.toFirstUpper()»_id")	
 	«ENDIF-»
 «ELSE-»
 	«IF getOppositeCardinality(this) == 1 -»
-	@OneToMany(targetEntity = «entity.name.toFirstUpper()».class, mappedBy = "«EXPAND template::CommonFieldUtil::propertyName FOR oppositeRelationField»")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = «IF type == core::RelationType::Composition»true«ELSE»false«ENDIF»)
+	@JoinColumn(name = "«EXPAND template::CommonFieldUtil::propertyName FOR this»«parentGroup.parentCard.name.toFirstUpper()»_id")
 	«ELSE-»
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 		name = "«oppositeRelationField.name.toFirstUpper()-»«entity.name.toFirstUpper()»«parentGroup.parentCard.name.toFirstUpper()»",
 		joinColumns = @JoinColumn(
@@ -226,6 +239,9 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(this.metaT
 «ENDIF-»
 	private «EXPAND template::DaoFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»;
 «ENDDEFINE»
+
+
+
 
 
 «REM» Set the actor roles «ENDREM»
