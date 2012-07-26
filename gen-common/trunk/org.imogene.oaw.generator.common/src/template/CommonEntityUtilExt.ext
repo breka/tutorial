@@ -84,6 +84,12 @@ CardEntityUIFormat getCardEntityUIFormat(CardEntity searchedCardEntity, Project 
 List[RelationFieldEntity] getHierarchicalFilterChilds(RelationFieldEntity searchedField, List entityFields) :
 	JAVA org.imogene.oaw.generator.common.CommonEntityHelper.getHierarchicalFilterChilds(org.imogene.model.core.RelationFieldEntity, java.util.List);  
 
+boolean hasChildsWithVisibilityDependent(FieldEntity searchedField, List entityFields) :
+	JAVA org.imogene.oaw.generator.common.CommonEntityHelper.hasChildsWithVisibilityDependent(org.imogene.model.core.FieldEntity, java.util.List);  
+
+boolean FieldDependentVisibilityContainedInList(List fieldDependentVisibilityList, List entityFields) :
+	JAVA org.imogene.oaw.generator.common.CommonEntityHelper.FieldDependentVisibilityContainedInList(java.util.List, java.util.List);  
+	
       	// An extension that lists the roles that can access the entity which owns the groups
 List[CardEntity] getCardEntitiesWithoutThema(Project project) :
 	JAVA org.imogene.oaw.generator.common.CommonEntityHelper.getCardEntitiesWithoutThema(org.imogene.model.core.Project);  
