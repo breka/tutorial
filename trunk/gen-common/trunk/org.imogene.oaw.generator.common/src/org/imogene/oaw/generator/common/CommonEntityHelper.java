@@ -480,6 +480,40 @@ public class CommonEntityHelper
 	}
 	
 	/**
+	 * Checks that a field has at least one child (a field whose visibility depends on the value of the searchedField) in a list of fields
+	 * @param searchedField
+	 * @param entityFields
+	 * @return
+	 */
+	public static boolean hasChildsWithVisibilityDependent(FieldEntity searchedField, List<FieldEntity> entityFields) {
+
+		for (FieldEntity field : entityFields) {
+			if (field.getFieldDependentVisibility() != null	&& field.getFieldDependentVisibility().size() > 0)
+				for (FieldDependentVisibility fieldDependentVisibility : field.getFieldDependentVisibility()) {
+					if (fieldDependentVisibility.getDependencyField() != null && fieldDependentVisibility.getDependencyField().getName().equals(searchedField.getName()))
+						return true;
+				}
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if the fields that are referenced in a list of FieldDependentVisibility are contained in a list of fields
+	 * @param fieldDependentVisibilityList list of FieldDependentVisibility
+	 * @param entityFields a list of fields
+	 * @return
+	 */
+	public static boolean FieldDependentVisibilityContainedInList(List<FieldDependentVisibility> fieldDependentVisibilityList, List<FieldEntity> entityFields) {
+				
+		boolean containsField = true;
+		for (FieldDependentVisibility fieldDependentVisibility : fieldDependentVisibilityList) {
+			if(!entityFields.contains(fieldDependentVisibility.getDependencyField()))
+				containsField= false;			
+		}
+		return containsField;
+	}
+	
+	/**
 	 * Returns the CardEntities that do not belong to a Thema
 	 * @param project the model project
 	 * @return List of CardEntities that do not belong to a Thema
