@@ -3,7 +3,7 @@
 
 «REM» Field type for entity «ENDREM»
 «DEFINE entityFieldType FOR FieldEntity»String«ENDDEFINE»
-«DEFINE entityFieldType FOR GeoField»Double«ENDDEFINE»
+«DEFINE entityFieldType FOR GeoField»GeoField«ENDDEFINE»
 «DEFINE entityFieldType FOR DateField»Date«ENDDEFINE»
 «DEFINE entityFieldType FOR DateTimeField»Date«ENDDEFINE»
 «DEFINE entityFieldType FOR TimeField»Date«ENDDEFINE»
@@ -25,11 +25,8 @@ public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::gett
 }
 «ENDDEFINE»
 «DEFINE getterDeclarationForField FOR GeoField-»
-public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Latitude(){
-	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude;
-}
-public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»Longitude(){
-	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterName FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
 }
 «ENDDEFINE»
 
@@ -39,39 +36,30 @@ public void «EXPAND template::CommonFieldUtil::setterName FOR this»(«EXPAND enti
 }
 «ENDDEFINE»
 «DEFINE setterDeclarationForField FOR GeoField-»
-public void «EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(«EXPAND entityFieldType FOR this» value){
-	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
-}
-public void «EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(«EXPAND entityFieldType FOR this» value){
-	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+public void «EXPAND template::CommonFieldUtil::setterName FOR this»(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this» = value;
 }
 «ENDDEFINE»
 
 «DEFINE getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR FieldEntity-»
 public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(){
-	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»;
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this»;
 }
 «ENDDEFINE»
 «DEFINE getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
-public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(){
-	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Latitude;
-}
-public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(){
-	return «EXPAND template::CommonFieldUtil::propertyName FOR this-»Longitude;
+public «EXPAND entityFieldType FOR this» «EXPAND template::CommonFieldUtil::getterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(){
+	return «EXPAND template::CommonFieldUtil::propertyName FOR this»;
 }
 «ENDDEFINE»
 
 «DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR FieldEntity-»
 public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(«EXPAND entityFieldType FOR this» value){
-	«EXPAND template::CommonFieldUtil::propertyName FOR this -» = value;
+	«EXPAND template::CommonFieldUtil::propertyName FOR this» = value;
 }
 «ENDDEFINE»
 «DEFINE setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR GeoField-»
-public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Latitude(«EXPAND entityFieldType FOR this» value){
-	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Latitude = value;
-}
-public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»Longitude(«EXPAND entityFieldType FOR this» value){
-	«EXPAND template::CommonFieldUtil::propertyName FOR this -»Longitude = value;
+public void «EXPAND template::CommonFieldUtil::setterNameForPropertyWithLowerUpperCaseFirstTwoChar FOR this»(«EXPAND entityFieldType FOR this» value){
+	«EXPAND template::CommonFieldUtil::propertyName FOR this» = value;
 }
 «ENDDEFINE»
 
