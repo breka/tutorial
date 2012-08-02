@@ -124,15 +124,15 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(metaType)»
 	}
 	«ENDIF»	
 	
-	«IF this.georeferenced != null -»
+	«IF georeferenced != null -»
 	@Override
 	public Double getLatitude() {
-		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Latitude;
+		return «EXPAND template::CommonFieldUtil::propertyName FOR georeferenced» != null ? «EXPAND template::CommonFieldUtil::propertyName FOR georeferenced».getLatitude() : null;
 	}
 	
 	@Override
 	public Double getLongitude() {
-		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Longitude;
+		return «EXPAND template::CommonFieldUtil::propertyName FOR georeferenced» != null ? «EXPAND template::CommonFieldUtil::propertyName FOR georeferenced».getLongitude() : null;
 	}
 	«ENDIF»	
 	
