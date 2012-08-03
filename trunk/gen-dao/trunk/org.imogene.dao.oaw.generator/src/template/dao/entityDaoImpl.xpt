@@ -12,10 +12,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.imogene.lib.common.dao.«IF Actor.isAssignableFrom(this.metaType)»ImogActorDaoImpl«ELSE»ImogBeanDaoImpl«ENDIF»;
-import org.imogene.«projectName.toLowerCase()».domain.entity.«name.toFirstUpper()»;
-«FOREACH groups.fields AS f -»
-«EXPAND importsForRelation(projectName) FOR f -»
-«ENDFOREACH -»
+«EXPAND template::DaoFieldUtil::importEntity(projectName) FOR eContainer-»
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Manage persistence for «name.toFirstUpper()»
@@ -27,6 +25,7 @@ public class «name.toFirstUpper()»DaoImpl extends «IF Actor.isAssignableFrom(thi
 	}
 	
 	@Override
+	@Transactional
 	public void delete() {
 		//TODO
 	}
@@ -58,6 +57,7 @@ import org.imogene.«projectName.toLowerCase()».domain.entity.«entity.name.toFirs
  * @return the list of the associated entities
  */
 @Override
+@Transactional(readOnly = true)
 public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(«parentGroup.parentCard.name.toFirstUpper()» parent){
 	CriteriaBuilder builder = em.getCriteriaBuilder();
 	CriteriaQuery<«entity.name.toFirstUpper()»> query = builder.createQuery(«entity.name.toFirstUpper()».class);
@@ -74,6 +74,7 @@ public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(«parentGroup
  * @return the list of the associated entities
  */
 @Override
+@Transactional(readOnly = true)
 public List<«entity.name.toFirstUpper()»> load«name.toFirstUpper()»(«parentGroup.parentCard.name.toFirstUpper()» parent){
 		if (parent == null) {
 			return new Vector<«entity.name.toFirstUpper()»>();
