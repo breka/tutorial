@@ -190,7 +190,7 @@ public class «name.toFirstUpper()» extends «IF Actor.isAssignableFrom(metaType)»
 	@Embedded
 	@AttributeOverrides({
     	@AttributeOverride(name="latitude", column=@Column(name="«name.toFirstLower()»Latitude")),
-    	@AttributeOverride(name="endDate", column=@Column(name="«name.toFirstLower()»Longitude"))
+    	@AttributeOverride(name="longitude", column=@Column(name="«name.toFirstLower()»Longitude"))
   	})
 «ENDDEFINE»
 

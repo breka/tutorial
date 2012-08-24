@@ -1,4 +1,6 @@
 «IMPORT core»
+«EXTENSION template::DaoUtilExt»
+
 «DEFINE generate(String projectName) FOR Project»
 «FILE projectName.toLowerCase()+"/domain/entity/LocalizedFieldMap.java"»
 
@@ -13,6 +15,11 @@ import java.util.Vector;
 import org.imogene.lib.common.localized.LocalizedText;
 
 public class LocalizedFieldMap implements Serializable {
+
+	/**
+	 * Serial version
+	 */
+	private static final long serialVersionUID = «generateSerialVersionUID()-»L;
 
 	«IF this.languages.size == 0 -»
 	private Map<String,LocalizedText> textValues;
