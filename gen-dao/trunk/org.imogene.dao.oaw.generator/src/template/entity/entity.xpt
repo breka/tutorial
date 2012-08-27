@@ -34,8 +34,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 import org.imogene.lib.common.entity.GeoField;
 import org.imogene.lib.common.entity.ImogActorImpl;
 import org.imogene.lib.common.entity.ImogBeanImpl;

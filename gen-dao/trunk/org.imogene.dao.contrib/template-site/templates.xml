@@ -7,7 +7,7 @@
 		</natures>
 		<content>template.zip</content>
  		<parseSet>
-              <include filenames=".project,.classpath"/>
+              <include filenames=".project,.classpath,pom.xml"/>
               <exclude extensions="jar"/>
         </parseSet>		
 	</template>
