@@ -1,0 +1,40 @@
+<workflow>
+
+	<!-- property definition -->
+	<property name="modelName" value="onsil" />
+	<property name="projectName" value="${modelName}" />
+	<property name="imogeneMetaModel" value="metamodel/ImogeneModel.ecore"/>
+	<property name="model" value="${modelFullPath}" />
+	<property name="home-gen" value="../SpringOnsil" />
+	<!-- packageName is the one used for the synchro server, used to set up the synchronizable entities -->
+	<property name="packageName" value="org.imogene.${modelName}"/>
+	<property name="JDBCDRIVER" value="driver"/>
+	<property name="JDBCPATH" value="path"/>
+	<property name="JDBCLOGIN" value="login"/>
+	<property name="JDBCPASSWORD" value="password"/>
+
+	<!-- model reader -->
+	<component file="workflow/modelReader.mwe" inheritAll="true" />
+	
+	<!-- ======================================================================================================================== -->
+	<!-- ===================================================== JAVA files part =============================== -->
+	<!-- ======================================================================================================================== -->
+
+	<!-- SqlInsert class -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='template::initializer::generate("${gen-project-name}","${ADMINPASSWORD}","${JDBCDRIVER}","${JDBCPATH}","${JDBCLOGIN}","${JDBCPASSWORD}","${packageName}") FOR project' />
+		<genPath value="${home-gen}/src/org/imogene/initializer" />
+		<beautifier class="org.eclipse.xpand2.output.JavaBeautifier" />
+	</component>
+		
+	<!-- application.properties -->
+	<component class="org.eclipse.xpand2.Generator">
+		<fileEncoding value="iso-8859-1"/>
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfMetaModel"><metaModelFile value="${imogeneMetaModel}" /></metaModel>
+		<expand value='template::application_properties::generate("${gen-project-name}","${JDBCDRIVER}","${JDBCPATH}","${JDBCLOGIN}","${JDBCPASSWORD}","${packageName}") FOR project' />
+		<genPath value="${home-gen}/src/" />		
+	</component>
+		
+</workflow>

@@ -1,0 +1,70 @@
+«IMPORT core»
+
+«DEFINE generate(String moduleName) FOR Project»
+«FILE moduleName.toLowerCase() + "/wrapper/DisplayValueWrapperForList.java"»
+
+package org.imogene.«moduleName.toLowerCase()».wrapper;
+
+import java.util.Locale;
+
+«FOREACH entities AS e-»
+«IF e.topLevel == true -»
+import org.imogene.«moduleName.toLowerCase()».entity.list.«e.name.toFirstUpper()»ForList;
+«ENDIF -»
+«ENDFOREACH-»
+import org.imogene.common.data.Synchronizable;
+import org.imogene.rcp.core.tools.DateHelper;
+import org.imogene.rcp.core.wrapper.CoreMessages;
+
+/**
+ *
+ */
+public class DisplayValueWrapperForList {
+	
+
+
+    /**
+     * Get display representation for a Synchronizable Entity
+     *
+     * @param bean a Synchronizable Entity
+     * @return string representation for IHM display
+     */
+	public static String getDisplayValue(Synchronizable bean){
+
+		«FOREACH entities AS e»
+			«IF e.topLevel == true -»
+		if(bean instanceof «e.name.toFirstUpper()»ForList){
+			return getDisplayValue((«e.name.toFirstUpper()»ForList) bean);
+		}
+			«ENDIF -»
+		«ENDFOREACH-»
+		return "";
+	}
+			
+	
+	«FOREACH entities AS e»
+		«IF e.topLevel == true -»
+	/**
+	 * String representation of entity «e.name»
+	 */
+	private static String getDisplayValue(«e.name.toFirstUpper()»ForList bean){
+		String value = new String();
+
+		«IF !(e.mainFields==null) && !e.mainFields.isEmpty»
+		«FOREACH e.mainFields AS f»
+			«EXPAND RcpDisplayValueWrapper::stringRepresentation FOR f»
+		«ENDFOREACH»				
+		«ELSE»
+		value = Messages.getString("no_display_value_text");
+		«ENDIF»
+		
+		return value.trim();				
+	}
+		«ENDIF -»
+	«ENDFOREACH»	
+
+}
+
+«ENDFILE»
+«ENDDEFINE»
+

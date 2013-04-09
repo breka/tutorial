@@ -1,0 +1,103 @@
+«IMPORT core»
+«DEFINE generate(String projectName) FOR Project-»
+«FILE "org/imogene/notifier/server/applicationContext.xml"-»
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<!-- Application properties -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propertyConfigurer">
+		<property name="location">
+		    <value>classpath:org/imogene/notifier/server/application.properties</value>
+		</property>
+	</bean>		
+	
+	<!--  C3PO data source -->
+	<bean class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" id="dataSource">
+        <property name="driverClass" value="${jdbc.driverClassName}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>        
+    </bean>
+	
+	<!-- Session factory -->
+	<bean class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" id="sessionFactory">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mappingResources">
+			<list>		
+				«FOREACH entities AS e -»
+					«IF !Actor.isAssignableFrom(e.metaType)-»
+				<value>org/imogene/«projectName.toLowerCase()»/dao/hibernate/«e.name.toFirstUpper()».hbm.xml</value>
+					«ENDIF -»		
+				«ENDFOREACH -»
+				<value>org/imogene/«projectName.toLowerCase()»/dao/hibernate/AllActors.hbm.xml</value>					
+				<value>org/imogene/notifier/server/dao/hibernate/RoleBeanImpl.hbm.xml</value>	
+				<value>org/imogene/notifier/server/dao/hibernate/Notification.hbm.xml</value>	
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!-- C3PO configuration -->
+				<prop key="hibernate.connection.release_mode">auto</prop>
+                <prop key="hibernate.c3p0.acquire_increment">1</prop>
+                <prop key="hibernate.c3p0.minPoolSize">3</prop>
+                <prop key="hibernate.c3p0.maxPoolSize">20</prop>
+                <prop key="hibernate.c3p0.timeout">50</prop>
+                <prop key="hibernate.c3p0.max_statement">0</prop>
+                <prop key="hibernate.c3p0.idle_test_period">30</prop>				
+			</props>
+		</property>
+		<property name="eventListeners">
+			<map>
+				<entry key="merge">
+					<bean class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- transaction manager for the Hibernate session factory -->
+	<bean class="org.springframework.orm.hibernate3.HibernateTransactionManager" id="transactionManager">		
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- Entity Hibernate dao -->
+	<bean class="org.imogene.«projectName.toLowerCase()».dao.hibernate.«projectName.toFirstUpper()»ActorsDao" id="actorDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean class="org.imogene.notifier.server.dao.hibernate.NotificationDaoImpl" id="notificationDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean class="org.imogene.notifier.server.dao.hibernate.GenericDaoImpl" id="genericDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- notification instances factory -->
+	<bean id="shortNameHelper" class="org.imogene.«projectName.toLowerCase()».entity.ShortNames"/>
+	<bean class="org.imogene.notifier.server.NotificationFactory" id="notifFactory">
+		<property name="shortNameHelper" ref="shortNameHelper"/>
+		<property name="notifDao"        ref="notificationDao"/>
+		<property name="actorDao"        ref="actorDao"/>
+		<property name="genericDao"      ref="genericDao"/>
+	</bean>
+		
+	<!-- mail server -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${smtp.server}"/>
+	</bean>
+	
+	<!-- notification services -->
+	<bean id="emailService" class="org.imogene.notifier.server.services.EmailNotification">
+		<property name="mailSender" ref="mailSender"/>
+	</bean>
+		
+	<bean id="smsService" class="org.imogene.notifier.server.services.NotImplementedService"/>		
+</beans>
+«ENDFILE»
+«ENDDEFINE»
+

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library id="org.imogene.library.common" name="Imogene common library" desc="Imogene common library">
+	
+	<!-- JPA -->
+	<jar file="hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+	
+</library>

@@ -1,0 +1,51 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+
+«DEFINE generate(String packageName, String projectName) FOR CardEntity»
+«FILE packageName.toLowerCase()+"/entity/display/" + this.name.toFirstUpper() + "Display.java"»
+package org.imogene.«projectName.toLowerCase()».entity.display;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
+
+import org.imogene.«projectName.toLowerCase()».entity.«name.toFirstUpper()»;
+import org.imogene.«projectName.toLowerCase()».entity.display.util.ServerMainFieldsUtilImpl;
+
+
+
+/**
+ * MedooBean representation for the entity «name.toFirstUpper()»
+ * @author MEDES-IMPS
+ */
+@XmlRootElement(name="«name.toLowerCase()»Display")
+public class «name.toFirstUpper()»Display  {
+
+	private String id;
+	private String displayValue;
+		
+	
+	public «name.toFirstUpper()»Display() {
+	}
+	
+	@XmlAttribute
+	public String getId() {
+		return id;
+	}
+	
+	@XmlValue
+	public String getDisplayValue() {
+		return displayValue;
+	}
+	
+	public void set«name.toFirstUpper()»(«name.toFirstUpper()» «name.toFirstLower()») {
+		id = «name.toFirstLower()».getId();
+		displayValue = ServerMainFieldsUtilImpl.get().getDisplayValue(«name.toFirstLower()»);
+	}	
+	
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+

@@ -1,0 +1,71 @@
+«IMPORT core»
+«DEFINE generate(boolean multilogin) FOR Project»
+«FILE "/" + name.toLowerCase() + "/app/" + name.toFirstUpper() + "App.java"»
+package org.imogene.android.«name.toLowerCase()-».app;
+
+import java.util.UUID;
+
+import greendroid.app.GDApplication;
+import android.content.Intent;
+import android.net.Uri;
+import org.imogene.android.preference.PreferenceHelper;
+import org.imogene.android.util.base64.Base64;
+import org.imogene.android.util.encryption.EncryptionManager;
+import org.imogene.android.«name.toLowerCase()».R;
+import org.imogene.android.«name.toLowerCase()».notification.«name.toFirstUpper()»Notification;
+
+public class «name.toFirstUpper()»App extends GDApplication {
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		
+		«name.toFirstUpper()»Notification.init();
+
+		if (PreferenceHelper.getHardwareId(this) == null)
+        	PreferenceHelper.getSharedPreferences(this)
+        	.edit()
+        	.putString(getString(R.string.ig_sync_hardware_key), UUID.randomUUID().toString())
+        	.commit();
+        
+        «IF multilogin-»
+        if (!PreferenceHelper.isMultilogin(this))
+			PreferenceHelper.getSharedPreferences(this)
+			.edit()
+			.putBoolean(getString(R.string.ig_multilogin), true)
+			.commit();
+        «ELSE-»
+        if (PreferenceHelper.isMultilogin(this))
+			PreferenceHelper.getSharedPreferences(this)
+			.edit()
+			.putBoolean(getString(R.string.ig_multilogin), false)
+			.commit();
+        «ENDIF-»
+        
+        if (!PreferenceHelper.isSetAdmin(this)) {
+        	EncryptionManager em = EncryptionManager.getInstance(this);
+        	String encLogin = new String(Base64.encodeBase64(em.encrypt("admin".getBytes())));
+			String encPassword = new String(Base64.encodeBase64(em.encrypt("epipassword".getBytes())));
+			String roles = "«FOREACH roles AS r SEPARATOR ';'»«r.name»«ENDFOREACH»";
+        	PreferenceHelper.getSharedPreferences(this)
+			.edit()
+			.putString(getString(R.string.ig_admin_login_key), encLogin)
+			.putString(getString(R.string.ig_admin_password_key), encPassword)
+			.putString(getString(R.string.ig_admin_roles_key), roles)
+			.commit();
+        }
+	}
+	
+	@Override
+    public Class<?> getHomeActivityClass() {
+        return «name.toFirstUpper()»Listing.class;
+    }
+    
+    @Override
+    public Intent getMainApplicationIntent() {
+        return new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+    }
+
+}
+«ENDFILE»
+«ENDDEFINE»

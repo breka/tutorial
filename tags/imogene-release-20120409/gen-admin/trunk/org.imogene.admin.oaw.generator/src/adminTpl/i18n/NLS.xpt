@@ -1,0 +1,32 @@
+«IMPORT core»
+«DEFINE generate(String modelName) FOR Project»
+«FILE modelName.toLowerCase()+"/client/i18n/NLS.java"»
+
+package org.imogene.«modelName.toLowerCase()».client.i18n;
+import com.google.gwt.core.client.GWT;
+
+
+public class NLS {
+
+	private static «modelName.toFirstUpper()»Translations constants = («modelName.toFirstUpper()»Translations)GWT.create(«modelName.toFirstUpper()»Translations.class);
+
+	/*private static MedanyMessages _messages = (MedanyMessages)GWT.create(MedanyMessages.class);
+	
+	private static MedanyValidationRules _valid = (MedanyValidationRules)GWT.create(MedanyValidationRules.class);*/
+
+
+	
+	public static «modelName.toFirstUpper()»Translations constants(){
+		return constants;
+	}
+	
+	/*public static MedanyMessages messages(){
+		return _messages;
+	}	
+	
+	public static MedanyValidationRules validationRules(){
+		return _valid;
+	}*/
+}
+«ENDFILE»
+«ENDDEFINE»

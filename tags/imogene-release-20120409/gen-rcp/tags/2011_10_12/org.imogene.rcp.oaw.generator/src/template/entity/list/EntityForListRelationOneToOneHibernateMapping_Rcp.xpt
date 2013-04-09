@@ -1,0 +1,60 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt»
+
+«DEFINE generate(String moduleName) FOR CardEntity»
+«IF this.topLevel == true -»
+		«IF columnFields.isEmpty -»
+			«EXPAND getOneToOneRelations(moduleName, this.mainFields.addAll(this.secondaryFields)) FOR this-»		
+		«ELSE -»
+			«EXPAND getOneToOneRelations(moduleName, this.columnFields) FOR this-»
+		«ENDIF- »	
+«ENDIF -»
+«ENDDEFINE»
+
+«REM» go through fields to identify one to one relations «ENDREM»
+«DEFINE getOneToOneRelations(String moduleName, Collection[FieldEntity] fieldList) FOR CardEntity»
+	«FOREACH fieldList AS field-» 
+	«EXPAND getOneToOneRelation(moduleName) FOR field-»		
+	«ENDFOREACH-»
+«ENDDEFINE»
+
+«REM» for a one to one relation, on the reverse side, generate bean and mapping of related entity «ENDREM»
+«DEFINE getOneToOneRelation(String packageName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getOneToOneRelation(String packageName) FOR ReverseRelationFieldEntity-»
+	«IF (this.cardinality == 1)-»
+		«IF (getOppositeCardinality(this) == 1)-»
+		«REM»Relation 1 <-> 1 «ENDREM»
+		«EXPAND getFile(packageName, this.oppositeRelationField) FOR this.entity-»
+		«ENDIF-»
+	«ENDIF-»
+«ENDDEFINE»
+
+
+«REM» --------------------------------------------------------------------------- «ENDREM»
+«REM» ---------------------- GET FILE CONTENT ----------------------------------- «ENDREM»
+«REM» ---------------------------------------------------------------------------- «ENDREM»
+
+«DEFINE getFile(String moduleName, RelationFieldEntity ofield) FOR CardEntity»
+«FILE name + "For" + ofield.name.toFirstUpper() + "List.hbm.xml"-»
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class lazy="false" table="«name»" name="org.imogene.«moduleName.toLowerCase()».entity.list.«name.toFirstUpper()»For«ofield.name.toFirstUpper()»List">
+		<id name="id" column="«name»_ID"/>			
+		«EXPAND EntityForListHibernateMapping_Rcp::fieldMapping(moduleName.toLowerCase()) FOREACH this.mainFields-»
+			«REM»Relation 1 <-> 1 property «ENDREM»
+		«IF !this.mainFields.contains(ofield)-»
+		«EXPAND EntityForListHibernateMapping_Rcp::fieldMapping(moduleName.toLowerCase()) FOR ofield-»
+		«ENDIF -»
+		<property column="«name»_Creator" name="createdBy"/>
+		<property column="«name»_CreationDate" name="created" type="timestamp"/>
+		<property column="«name»_Modifier" name="modifiedBy"/>
+		<property column="«name»_ModifiedFrom" name="modifiedFrom"/>
+		<property column="«name»_LastModificationDate" name="modified" type="timestamp"/>
+		<property column="«name»_UploadDate" name="uploadDate" type="timestamp"/>						
+    </class>		
+</hibernate-mapping>
+«ENDFILE»
+«ENDDEFINE»
+
+

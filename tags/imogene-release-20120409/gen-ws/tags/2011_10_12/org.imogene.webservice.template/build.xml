@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<project name="DemoSynchro" default="remoteDeploy" basedir=".">
+
+	<description>
+            Generate the .war and deploy it to remote tomcat server			
+    </description>
+	
+	<!-- init : set properties an create folder -->
+	
+	<target name="init">
+			<property name="appname"  value="DemoWebService" />
+			<property name="webDir"   location="WebContent" />
+			<property name="tmpDir"   location="tmp" />
+			<property name="libDir"   location="${webDir}/WEB-INF/lib" />
+			<property name="binDir"   location="${tmpDir}/WEB-INF/classes" />
+			<property name="catalina" location="C:\Tomcat_5_0_28" />
+			<property name="warDir"   location="wars" />
+			<property name="srcDir"   location="src" />
+			<!-- tomcat deployement -->
+			<property name="tomcatUrl"      value="http://junior.medes.fr:8080/manager" />
+			<property name="tomcatUsername" value="medany" />
+			<property name="tomcatPassword" value="medanypasswd" />
+						
+			<mkdir dir="${warDir}" />
+			<mkdir dir="${tmpDir}" />
+		
+			<copy toDir="${tmpDir}">
+				<fileset dir="${webDir}" includes="**/*"/>
+			</copy>
+		
+			<mkdir dir="${binDir}" />			
+	</target>
+	
+	<!-- delete all directories created by this script -->
+	<target name="clean" depends="init">
+		<delete dir="${warDir}"/>
+	</target>
+	
+	<!-- compile java src -->
+	<target name="javacompile" depends="init">
+		
+			<javac srcdir="${srcDir}"
+				   destdir="${binDir}"
+				   debug="true"
+			       deprecation="false"
+			       optimize="true">	
+				<classpath>
+					<pathelement path="${binDir}" />
+					<fileset dir="${libDir}" includes="*.jar" />
+					<fileset dir="${catalina}/common/lib">
+						<include name="*.jar"/>
+					</fileset>
+				</classpath>				
+			</javac>
+			<copy todir="${binDir}">
+			       <fileset dir="${srcDir}">
+			         <include name="**/*.*.xml"/>
+			       	 <include name="**/*.properties"/>
+			       </fileset>
+			</copy>
+	</target>
+	
+	<!-- create war file -->
+	<target name="createwar" depends="javacompile">
+
+		<jar destfile="${warDir}/${appname}.war">
+			<fileset dir="${tmpDir}"/>						
+		</jar>
+		
+		<delete dir="${tmpDir}"/>
+	</target>
+	
+	<!-- deploy war file to tomcat server -->
+	<target name="remoteDeploy" depends="createwar">		
+		<deploy url="${tomcatUrl}" username="${tomcatUsername}" password="${tomcatPassword}"
+		            path="/${appname}" war="${warDir}/${appname}.war" update="true"/>
+	</target>
+	
+	<target name="remoteUndeploy">
+		
+	</target>
+	
+	
+	
+</project> 

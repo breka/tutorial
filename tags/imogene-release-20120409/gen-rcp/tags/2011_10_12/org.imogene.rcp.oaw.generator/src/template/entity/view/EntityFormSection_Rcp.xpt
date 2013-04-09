@@ -1,0 +1,1105 @@
+«IMPORT core»
+«EXTENSION template::CommonEntityUtilExt»
+«EXTENSION template::CommonFieldUtilExt»
+
+«DEFINE generate(String moduleName) FOR CardEntity»
+«FILE moduleName.toLowerCase()+ "/view/" + this.name.toLowerCase() + "/" + this.name.toFirstUpper() + "RcpForm.java"-»
+package org.imogene.«moduleName.toLowerCase()».view.«this.name.toLowerCase()»;
+
+import java.util.Date;
+import java.util.UUID;
+
+import org.apache.log4j.Logger;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.forms.IFormColors;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
+
+import org.imogene.common.data.Synchronizable;
+import org.imogene.common.data.handler.BeanKeyGenerator;
+import org.imogene.rcp.core.ImogPlugin;
+import org.imogene.rcp.core.tools.DateHelper;
+import org.imogene.rcp.core.tools.NumericUtil;
+import org.imogene.rcp.core.view.HelpView;
+import org.imogene.rcp.core.view.IEntityForm;
+import org.imogene.rcp.core.widget.*;
+import org.imogene.rcp.core.widget.field.*;
+import org.imogene.rcp.core.wrapper.CoreMessages;
+import org.imogene.sync.client.EntityListener;
+import org.imogene.«moduleName.toLowerCase()».Plugin;
+import org.imogene.«moduleName.toLowerCase()».entity.«this.name»;
+import org.imogene.«moduleName.toLowerCase()».handler.«this.name.toFirstUpper()»Handler;
+import org.imogene.«moduleName.toLowerCase()».wrapper.Messages;
+
+«FOREACH this.groups.fields AS f-»
+	«EXPAND imports(moduleName.toLowerCase()) FOR f-»
+«ENDFOREACH-»
+
+
+/**
+ * Form to display and edit «name.toFirstUpper()» entity information 
+ * @author Medes-IMPS
+ */
+public class «name.toFirstUpper()»RcpForm extends IEntityForm {
+
+	private Logger logger = Logger.getLogger("org.imogene.«moduleName.toLowerCase()».view.«this.name.toLowerCase()».«name.toFirstUpper()»RcpForm");
+
+	public final static String ID = "Imog.«moduleName.toFirstUpper()».«name.toFirstUpper()».Form";
+	
+	private FormToolkit toolkit;
+	
+	private ScrolledForm form;	
+	private Label datesLabel;
+	private String formTitle;					
+	private «name» embedded;	
+
+	/* entity fields */
+	«FOREACH this.groups.fields AS f-»
+		«EXPAND fieldEditorDeclaration FOR f-»
+	«ENDFOREACH-»
+	
+	@Override
+	public void createPartControl(Composite parent) {
+		
+		super.setPartName(Messages.getString("«this.name.toFirstLower()»_viewpart_form"));
+		super.createAction();
+		super.initActionBar();
+		
+		/* the form */
+		toolkit = new FormToolkit(parent.getDisplay());
+		form = toolkit.createScrolledForm(parent);	
+		formTitle = Messages.getString("«this.name.toFirstLower()»_create_title");
+		form.setText(formTitle);
+		
+		/* form layout */
+		GridLayout layout = new GridLayout(2, true);
+		form.getBody().setLayout(layout);	
+			
+		/* creation and modification dates */
+		datesLabel = toolkit.createLabel(form.getBody(), "");	
+		datesLabel.setEnabled(false);
+		
+		/* help icon 
+		ImageHyperlink image = toolkit.createImageHyperlink(form.getBody(), SWT.NONE);
+		image.setImage(Plugin.getImageDescriptor("resources/system_help.png").createImage());
+		image.setToolTipText(Messages.getString("«this.name.toFirstLower()»_help_tooltip"));
+		GridData tdd = new GridData(GridData.FILL_HORIZONTAL);
+		tdd.horizontalAlignment = SWT.RIGHT;
+		image.setLayoutData(tdd);
+		image.addHyperlinkListener(new HyperlinkAdapter(){
+			
+			@Override
+			public void linkActivated(
+					org.eclipse.ui.forms.events.HyperlinkEvent e) {				
+				super.linkActivated(e);
+				try{
+					HelpView helpView = (HelpView)Plugin.getDefault().getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage()
+					.showView(HelpView.ID);
+					helpView.openUrl(ImogPlugin.getDefault().getDocUrl() + "«moduleName.toLowerCase()».«this.name.toLowerCase()»/index.html");				
+				
+					}
+				catch(PartInitException ex){
+						logger.error(ex.getMessage());
+					}
+			}			
+		});*/
+		
+		
+		«FOREACH groups AS group-»
+		create«group.name.toFirstUpper()»Group(form.getBody());		
+		«ENDFOREACH-»
+		toolkit.paintBordersFor(form.getBody());	
+		computeVisibility();
+		form.reflow(true);
+	}
+
+	@Override
+	public void setFocus() {
+		form.setFocus();
+	}
+	
+	«FOREACH groups AS group»
+	/**
+	 * Create tabulation for «group.name.toFirstUpper()» field group 
+	 * @param tabs tabulation container
+	 */	
+	private void create«group.name.toFirstUpper()»Group(Composite parent){		
+		Section section = toolkit.createSection(parent, Section.TITLE_BAR | Section.DESCRIPTION | Section.EXPANDED);
+		section.setText(Messages.getString("«this.name.toFirstLower()»_group_«group.name.toFirstLower()»"));
+		GridData sectionData = new GridData(GridData.GRAB_HORIZONTAL|GridData.FILL_HORIZONTAL|GridData.VERTICAL_ALIGN_BEGINNING);		
+		section.setLayoutData(sectionData);
+		Composite client = toolkit.createComposite(section);
+		section.setClient(client);		
+		/* layout client */
+		GridLayout clientLayout = new GridLayout(2, false);				
+		client.setLayout(clientLayout);
+		Label iconLabel = toolkit.createLabel(client, "");
+		try{
+			iconLabel.setImage(Plugin.getImageDescriptor("icons/«group.icon»").createImage());
+		}catch(Exception ex){
+			logger.warn("the image named '«group.name»' for the group '«group.name»' is not present");
+		}
+		GridData iconData = new GridData();
+		iconData.widthHint=64;
+		iconLabel.setLayoutData(iconData);
+		Composite content = toolkit.createComposite(client);
+		GridLayout contentLayout = new GridLayout(1, true);
+		content.setLayout(contentLayout);
+		GridData contentData = new GridData(GridData.FILL_HORIZONTAL);
+		content.setLayoutData(contentData);				
+		
+		
+		«FOREACH group.fields AS f ITERATOR iter »
+		/* field «f.name» */											
+			«EXPAND fieldEditorCreation(false, true, f.fieldDependentVisibility !=null && !f.fieldDependentVisibility.isEmpty) FOR f-»	
+			«f.name.toFirstLower()»Field.setHelp(Messages.getString("«f.parentGroup.parentCard.name.toFirstLower()»_field_«f.name.toFirstLower()»_help"));
+			GridData «f.name.toFirstLower()»LayoutData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+			«f.name.toFirstLower()»Field.setLayoutData(«f.name.toFirstLower()»LayoutData);									
+			«IF f.hidden == true-»	
+			/* hidden field style */
+			«f.name.toFirstLower()»LayoutData.exclude= true;
+			«ENDIF-»	    									
+			«IF isEntityVisibilityParameter(f, group.parentCard.groups.fields) »
+			/* add listener because other field visibility depends on this field */
+			«EXPAND setListenerForVisibilityDependence FOR f-»
+			«ENDIF-» 	
+			«EXPAND setAddButtonForRelationField FOR f-»			
+		«ENDFOREACH-»						
+		toolkit.paintBordersFor(client);
+	}
+	«ENDFOREACH-»
+	
+	
+	/**
+	 * For View mode, det the entity to display in this form.
+	 * @param pentity the entity to display in this form.
+	 */
+	public void setInput(Synchronizable pentity) {
+		
+		«this.name» entity = («this.name»)pentity;
+		if(entity != null){
+			embedded = entity;			
+			isDirty=false;
+			setEditable(false);
+			computeVisibility();
+			updateDates();
+			updateTitles();
+			
+			setEntity(entity);
+		}
+	}
+	
+	/**
+	 * For Edit mode, initialize the form with an empty entity having default values
+	 * and update the user interface
+	 */
+	public void initializeForm () {
+		
+		ImogPlugin plugin = ImogPlugin.getDefault();
+		
+		embedded = new «this.name»();
+		embedded.setId(BeanKeyGenerator.getNewId("«this.shortName»"));
+		embedded.setCreated(new Date(System.currentTimeMillis()));
+		embedded.setCreatedBy(plugin.getUserParameters().getLogin());
+
+		setReadonlyFieldStyle();	
+		setEntity(embedded);
+	}	
+	
+	/**
+	 * For Edit mode, initialize the form with parameter entity
+	 * and update the user interface
+	 */
+	public void initializeForm(Synchronizable pentity) {
+		
+		«this.name» entity = («this.name») pentity;
+		embedded = entity;
+
+		setReadonlyFieldStyle();
+		setEntity(embedded);
+	}	
+	
+	
+	/**
+	 * Sets the ui style for readonly fields
+	 */
+	private void setReadonlyFieldStyle() {
+	
+		// set readonly fields
+		«FOREACH this.groups.fields AS f-»
+			«IF f.readOnly -»
+		«f.name.toFirstLower()»Field.setReadonly(true);
+			«ENDIF-» 
+			«EXPAND setCompositionReadOnlyStyle FOR f-»		
+		«ENDFOREACH-»			
+	}	
+	
+	/**
+	 * Set the entity to display in this form.
+	 * @param entity the entity to display in this form.
+	 */
+	private void setEntity («this.name» entity) {
+		
+		// set entity values
+		«FOREACH this.groups.fields AS f-»
+			«EXPAND formPopulate FOR f-»
+		«ENDFOREACH-»
+
+		«REM» Define field dependent visibility «ENDREM»
+		// update user interface depending on entity values
+		«FOREACH this.groups.fields AS f ITERATOR iter -»
+			«IF isEntityVisibilityParameter(f, f.parentGroup.parentCard.groups.fields) -»
+		set«f.name.toFirstUpper()»DependentFieldVisibility();
+			«ENDIF-» 		
+		«ENDFOREACH-»	
+	}	
+	
+	
+	/**
+	 * Set if this form is in edit mode.
+	 * @param editable true if this form is in edit mode
+	 */
+	public void setEditable(boolean editable){
+	
+		this.editable = editable;
+		isDirty = editable;
+		firePropertyChange(PROP_DIRTY);	
+		
+		«FOREACH this.groups.fields AS f-»
+			«IF !f.hidden-»
+			«IF f.readOnly -»
+		if (editable)
+			«f.name.toFirstLower()»Field.setReadonly(true);
+		else
+			«f.name.toFirstLower()»Field.setEditableField(false);
+			«ELSE -»
+		«f.name.toFirstLower()»Field.setEditableField(editable);
+			«ENDIF -»
+			«ENDIF -»
+		«ENDFOREACH-»		
+	}
+	
+	/**
+	 * Save this form in the embedded entity, and persist the entity.
+	 */
+	public void save(){
+	
+		ImogPlugin plugin = ImogPlugin.getDefault();
+		«name.toFirstUpper()»Handler handler = («name.toFirstUpper()»Handler) plugin.getDataHandlerManager().getHandler(«name».class.getName());
+	
+		if (embedded == null) {
+			embedded = new «name»();
+		}
+		if (embedded.getId()==null) {
+			embedded.setId(BeanKeyGenerator.getNewId("«this.shortName»"));
+			embedded.setCreated(new Date(System.currentTimeMillis()));
+			embedded.setCreatedBy(plugin.getUserParameters().getLogin());						
+		}			
+		
+		embedded.setModified(new Date(System.currentTimeMillis()));
+		embedded.setModifiedBy(plugin.getUserParameters().getLogin());
+		embedded.setModifiedFrom(plugin.getTerminalId().toString());
+		
+		«FOREACH this.groups.fields AS f-»
+			«IF f.calculationFunctionName!=null && f.calculationFunctionName.length>0 -»
+		// calculated field
+		embedded.«EXPAND template::CommonFieldUtil::setterName FOR f-»(«f.calculationFunctionName -»());
+			«ELSE -»
+				«EXPAND saveField FOR f-»	
+			«ENDIF -»		
+		«ENDFOREACH-»		
+		
+		// TODO: manage user roles
+		handler.saveOrUpdate(embedded, null);
+		updateDates();
+		updateTitles();
+		
+		if (!listeners.isEmpty()) {
+			synchronized (listeners) {
+				for (EntityListener listener : listeners) {
+					listener.entitySavedOrUpdated(embedded);
+				}
+			}
+			getViewSite().getPage().hideView(«name.toFirstUpper()»RcpForm.this);
+		}		
+	}
+	
+	/**
+	 * Validate the current form
+	 */
+	public boolean validate(){
+		boolean validated = true;
+			
+	«FOREACH this.groups.fields AS f»  
+	
+	«IF (f.calculationFunctionName!=null && f.calculationFunctionName.length>0) || f.hidden==true -»
+	«ELSE -»
+		«IF f.required -»
+		/* validate field «f.name.toFirstLower()» */ 
+		if(!«f.name.toFirstLower()»Field.IsRequiredOk()){			
+			validated = false;
+		}
+		else {
+			«EXPAND validateField FOR f-»						
+		}     		
+		«ELSE -»
+			«EXPAND validateField FOR f-»  		
+		«ENDIF -»	
+	«ENDIF -»    		
+	«ENDFOREACH-»  
+	 				
+		if (!validated) {
+			MessageDialog
+					.openInformation(Display.getCurrent().getActiveShell(),
+							Messages.getString("form_validation_popup_title"),
+							Messages.getString("form_validation_popup_text"));	
+			form.layout(true, true);
+			form.reflow(true);	
+		}
+		
+		return validated;
+	}
+	
+	/**
+	 * 
+	 */
+	public void isValidated() {
+	«FOREACH this.groups.fields AS f-»
+		«f.name.toFirstLower()»Field.setOk();
+	«ENDFOREACH-»	
+	}	
+	
+	/**
+	 * Cancel the current edition.
+	 */
+	public void cancel(){
+		isValidated();
+		setInput(embedded);
+	}
+	
+	/**
+	 * Update the widgets that display the created and modified date.
+	 */
+	private void updateDates(){
+		if(embedded!=null){
+			StringBuffer buffer = new StringBuffer();
+			buffer.append(Messages.getString("form_created") + ": ").append(
+					DateHelper.toStringDateTime(embedded.getCreated()));
+			buffer.append("\n" + Messages.getString("form_modified") + ": ").append(
+					DateHelper.toStringDateTime(embedded.getModified()));
+			datesLabel.setText(buffer.toString());
+		}
+	}
+	
+	/**
+	 * Update the title with entity information
+	 */
+	private void updateTitles(){
+		if(embedded!=null){
+			String titleDisplay = embedded.getDisplayValue();		
+			setPartName(titleDisplay);
+			form.setText(titleDisplay);
+		}
+	}
+	
+	 «REM» Define field dependent visibility «ENDREM»
+	«FOREACH this.groups.fields AS f ITERATOR iter »
+		«IF isEntityVisibilityParameter(f, f.parentGroup.parentCard.groups.fields) -»
+	/**
+	 * Sets the visibility of the fields that depend on field «f.name»
+	 */
+	private void set«f.name.toFirstUpper()»DependentFieldVisibility() {
+			«EXPAND setMethodForVisibilityDependence FOR f-»
+		form.layout(true, true);
+		form.reflow(true);					
+	}
+		«ENDIF-» 		
+	«ENDFOREACH-»	
+	
+    «REM» Calculation of field value «ENDREM»
+    «FOREACH this.groups.fields AS f-»
+    	«IF f.calculationFunctionName!=null && f.calculationFunctionName.length>0 -»  
+    		
+	«PROTECT CSTART '/*' CEND '*/' ID 'calcul' + f.shortName »    	
+	/**
+	 * Procedure to calculate the value of the field «f.name-»
+	 */	
+	private «EXPAND template::ImogRcpFieldUtil::fieldType FOR f-» «f.calculationFunctionName-»(){	
+		«EXPAND template::ImogRcpFieldUtil::fieldType FOR f-» result = null;
+	
+	
+		return result;
+	}    
+	«ENDPROTECT»        
+    	«ENDIF-»
+    «ENDFOREACH-» 
+	«REM»-----------------------------------------------«ENDREM»		
+	
+	
+	/***********************************************
+	 *            Internal classes                 *
+	 ***********************************************/
+	«FOREACH this.groups.fields AS f ITERATOR iter »	
+		«EXPAND setAddButtonListenerForRelationField FOR f-»	
+	«ENDFOREACH-»
+		
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM»imports for fields «ENDREM»
+«DEFINE imports(String moduleName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE imports(String moduleName) FOR BinaryField-»
+import org.imogene.rcp.core.tools.BinaryHelper;
+«ENDDEFINE»
+«DEFINE imports(String moduleName) FOR RelationFieldEntity-»
+	«IF this.cardinality==1-»
+import org.imogene.«moduleName».entity.«entity.name»;
+	«ELSE-»
+		«IF MainRelationFieldEntity.isAssignableFrom(this.metaType)-»
+import org.imogene.«moduleName».entity.«entity.name»;
+		«ENDIF-»
+	«ENDIF-»
+import org.imogene.«moduleName».view.«entity.name.toLowerCase()».«entity.name.toFirstUpper()»RcpForm;
+«ENDDEFINE»
+
+«REM»Generate the declaration of the widget for display and set fields «ENDREM»
+«DEFINE fieldEditorDeclaration FOR FieldEntity-»
+	private StringFieldComposite «name.toFirstLower()»Field;	
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR TextAreaField-»
+	private TextFieldComposite «name.toFirstLower()»Field;	
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR IntegerField-»
+	private IntegerFieldComposite «name.toFirstLower()»Field;	
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR FloatField-»
+	private FloatFieldComposite «name.toFirstLower()»Field;	
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR DateField-»
+	private DateFieldComposite «name.toFirstLower()»Field;
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR DateTimeField-»
+	private TimeFieldComposite «name.toFirstLower()»Field;
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR TimeField-»
+	private TimeFieldComposite «name.toFirstLower()»Field;
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR BinaryField-»
+	private BinaryFieldComposite «name.toFirstLower()»Field;
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR EnumField-»
+	«IF this.multipleSelection==true-»
+	private MultiEnumFieldComposite «name.toFirstLower()»Field;	
+	«ELSE-»
+	private EnumFieldComposite «name.toFirstLower()»Field;
+	«ENDIF-»	
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR BooleanField-»
+	private BooleanFieldComposite «name.toFirstLower()»Field;
+«ENDDEFINE»
+«DEFINE fieldEditorDeclaration FOR RelationFieldEntity-»
+	«IF this.cardinality==1-»
+	private SimpleRelationFieldPaginatedListComposite «name.toFirstLower()»Field;	
+	«ELSE-»
+	private MultiRelationFieldComposite «name.toFirstLower()»Field;
+	«ENDIF-»
+«ENDDEFINE»
+
+«REM» -------------------------------------------------------------------
+----- Generate the instanciation of the widget for display and set fields 
+------------------------------------------------------------------------ «ENDREM»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR FieldEntity-»
+		«name.toFirstLower()»Field = new StringFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR TextAreaField-»	
+		«name.toFirstLower()»Field = new TextFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR IntegerField-»
+		«name.toFirstLower()»Field = new IntegerFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR FloatField-»
+		«name.toFirstLower()»Field = new FloatFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR DateField-»
+		«name.toFirstLower()»Field = new DateFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR TimeField-»
+		«name.toFirstLower()»Field = new TimeFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR DateTimeField-»
+		«name.toFirstLower()»Field = new TimeFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR BinaryField-»
+		«name.toFirstLower()»Field = new BinaryFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR EnumField-»	
+	«IF this.multipleSelection==true-»
+		«name.toFirstLower()»Field = new MultiEnumFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+	«ELSE-»
+		«name.toFirstLower()»Field = new EnumFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+	«ENDIF-»	
+	«FOREACH this.enumValues AS value-»
+		«name.toFirstLower()»Field.getValueControl().addValue(Messages.getString("«parentGroup.parentCard.name.toFirstLower()»_«name.toFirstLower()»_«value.name.toFirstLower()»_option"), "«value.value»");	
+	«ENDFOREACH-»
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR BooleanField-»
+		«name.toFirstLower()»Field = new BooleanFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «isFieldDependent»);
+«ENDDEFINE»
+«DEFINE fieldEditorCreation(boolean is2Columns, boolean isModulo2, boolean isFieldDependent) FOR RelationFieldEntity-»
+	«IF this.cardinality==1-»
+		«name.toFirstLower()»Field = new SimpleRelationFieldPaginatedListComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «entity.name».class.getName(), «entity.name.toFirstUpper()»RcpForm.ID, "«EXPAND template::ImogRcpFieldUtil::getFirstSortField FOR this.entity-»", «EXPAND template::ImogRcpFieldUtil::getFirstSortFieldOrderDirection FOR this.entity-»);	
+	«ELSE-»
+		«name.toFirstLower()»Field = new MultiRelationFieldComposite(content, toolkit, Messages.getString("«this.parentGroup.parentCard.name.toFirstLower()»_field_«this.name.toFirstLower()»"), «IF this.required»true«ELSE»false«ENDIF», «entity.name.toFirstUpper()»RcpForm.ID);	
+	«ENDIF-»
+«ENDDEFINE»
+
+«REM»Generate the form population from an entity instance «ENDREM»
+«DEFINE formPopulate FOR FieldEntity-»
+if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«name.toFirstLower()»Field.getValueControl().setText(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+«DEFINE formPopulate FOR DatesField-»
+if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«name.toFirstLower()»Field.getValueControl().setDate(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+«DEFINE formPopulate FOR NumericField-»
+if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«name.toFirstLower()»Field.getValueControl().setText(String.valueOf(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+«ENDDEFINE»
+«DEFINE formPopulate FOR BinaryField-»
+if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«name.toFirstLower()»Field.getValueControl().setFile(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+«DEFINE formPopulate FOR RelationFieldEntity-»
+	«IF cardinality == 1-»
+if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«name.toFirstLower()»Field.getValueControl().select(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	«ELSE-»
+if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«name.toFirstLower()»Field.getValueControl().setInput(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE formPopulate FOR EnumField-»
+if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«name.toFirstLower()»Field.getValueControl().setResult(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+«DEFINE formPopulate FOR BooleanField-»
+//if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+	«name.toFirstLower()»Field.getValueControl().setResult(entity.«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+«ENDDEFINE»
+
+«REM»Generate the save method for each field «ENDREM»
+«DEFINE saveField FOR FieldEntity -»
+	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«name.toFirstLower()»Field.getValueControl().getText());
+«ENDDEFINE»
+«DEFINE saveField FOR IntegerField -»
+if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
+	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(Integer.parseInt(«name.toFirstLower()»Field.getValueControl().getText()));
+«ENDDEFINE»
+«DEFINE saveField FOR FloatField -»
+if(«name.toFirstLower()»Field.getValueControl().getText().length()>0)
+	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(Float.parseFloat(«name.toFirstLower()»Field.getValueControl().getText()));
+«ENDDEFINE»
+«DEFINE saveField FOR BinaryField -»
+		String «name.toFirstLower()»Id = BinaryHelper.addBinary(embedded.getId(), "«parentGroup.parentCard.shortName»", "«EXPAND template::CommonFieldUtil::getterName FOR this-»", embedded.«EXPAND template::CommonFieldUtil::getterName FOR this-»(), «name.toFirstLower()»Field.getValueControl().getFile());
+		if («name.toFirstLower()»Id!=null)
+			embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«name.toFirstLower()»Id);	
+«ENDDEFINE»
+«DEFINE saveField FOR DatesField -»
+	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«name.toFirstLower()»Field.getValueControl().getDate());	
+«ENDDEFINE»
+«DEFINE saveField FOR RelationFieldEntity-»
+	«IF cardinality == 1-»
+	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»((«entity.name.toFirstUpper()»)«name.toFirstLower()»Field.getValueControl().getSelected());
+	«ENDIF-»	
+«ENDDEFINE»
+«DEFINE saveField FOR EnumField-»
+	«REM»embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»((String)«name.toFirstLower()»Combo.getData(String.valueOf(«name.toFirstLower()»Combo.getSelectionIndex())));«ENDREM»
+	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«name.toFirstLower()»Field.getValueControl().getResult());
+«ENDDEFINE»
+«DEFINE saveField FOR BooleanField-»
+	embedded.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«name.toFirstLower()»Field.getValueControl().getResult());
+«ENDDEFINE»
+
+
+«REM» ----------------------------------------------------------------------------------- «ENDREM»
+«REM» --------------------------------    FIELD VALIDATION      ------------------------- «ENDREM»
+«REM» ----------------------------------------------------------------------------------- «ENDREM»
+«DEFINE validateField FOR FieldEntity-»
+«EXPAND writeValidation FOR this»
+«ENDDEFINE»
+«DEFINE validateField FOR FloatField-»
+		
+		«IF this.DecimalNumber>-1 -»	
+		/* validate number of decimals for field «this.name.toFirstUpper()-» */
+		String «name.toFirstLower()»StringValueForDec = «name.toFirstLower()»Field.getValueControl().getText();
+		if («name.toFirstLower()»StringValueForDec!=null && !«name.toFirstLower()»StringValueForDec.isEmpty() && !«name.toFirstLower()»Field.validateExpression("\\w*.[0-9]{«this.DecimalNumber- »}", "«this.DecimalNumber-»" + " decimals")) {
+			validated = false;
+		}	
+		«ENDIF-»	
+		
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		String «name.toFirstLower()»StringValue = «name.toFirstLower()»Field.getValueControl().getText();
+		if («name.toFirstLower()»StringValue!=null && !«name.toFirstLower()»StringValue.isEmpty()) {
+			java.lang.Float «name.toFirstLower()»Value = Float.parseFloat(«name.toFirstLower()»StringValue);		
+		«ENDIF-»
+		
+		«IF this.min!=null && this.min.length>0 »
+			/* validate minimum value for field «this.name.toFirstUpper()-» */
+			java.lang.Float «name.toFirstLower()»FloatMin = Float.parseFloat("«this.min-»");	
+			if («name.toFirstLower()»Value.floatValue()<«name.toFirstLower()»FloatMin.floatValue()) {
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_num_min") + "«this.min-»");
+			}				
+		«ENDIF»
+		«IF this.max!=null && this.max.length>0 »
+			/* validate maximum value for field «this.name.toFirstUpper()-» */
+			java.lang.Float «name.toFirstLower()»FloatMax = Float.parseFloat("«this.max-»");	
+			if («name.toFirstLower()»Value.floatValue()>«name.toFirstLower()»FloatMax.floatValue()) {
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_num_max") + "«this.max-»");
+			}				
+		«ENDIF»	
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		}	
+		«ENDIF-»		
+	
+«ENDDEFINE»
+«DEFINE validateField FOR IntegerField-»
+
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		String «name.toFirstLower()»StringValue = «name.toFirstLower()»Field.getValueControl().getText();
+		if («name.toFirstLower()»StringValue!=null && !«name.toFirstLower()»StringValue.isEmpty()) {
+			java.lang.Integer «name.toFirstLower()»Value = Integer.parseInt(«name.toFirstLower()»StringValue);		
+		«ENDIF-»
+		
+		«IF this.min!=null && this.min.length>0 -»
+			/* validate minimum value for field «this.name.toFirstUpper()-» */
+			java.lang.Integer «name.toFirstLower()»IntMin = Integer.parseInt("«this.min-»");	
+			if («name.toFirstLower()»Value.intValue()<«name.toFirstLower()»IntMin.intValue()) {
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_num_min") + "«this.min-»");
+			}				
+		«ENDIF-»
+		«IF this.max!=null && this.max.length>0 -»
+			/* validate maximum value for field «this.name.toFirstUpper()-» */
+			java.lang.Integer «name.toFirstLower()»IntMax = Integer.parseInt("«this.max-»");	
+			if («name.toFirstLower()»Value.intValue()>«name.toFirstLower()»IntMax.intValue()) {
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_num_max") + "«this.max-»");
+			}				
+		«ENDIF-»	
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		}	
+		«ENDIF-»	
+	
+«ENDDEFINE»
+«DEFINE validateField FOR DateField-»
+
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		java.util.Date «name.toFirstLower()»Value = «name.toFirstLower()»Field.getValueControl().getDate();	
+		if («name.toFirstLower()»Value!=null) {
+		«ENDIF-»
+
+		«IF this.min!=null && this.min.length>0 »
+			/* validate minimum value for field «this.name.toFirstUpper()-» */
+			java.util.Date «name.toFirstLower()»MinDate = DateHelper.toDate(new String("«this.min-»").trim());
+			if («name.toFirstLower()»Value.before(«name.toFirstLower()»MinDate)){
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_date_min") + "«this.min-»");
+			}												
+		«ENDIF-»						
+		«IF this.max!=null && this.max.length>0 »
+			/* validate maximum value for field «this.name.toFirstUpper()-» */
+			java.util.Date «name.toFirstLower()»MaxDate = DateHelper.toDate(new String("«this.max-»").trim());
+			if («name.toFirstLower()»Value.after(«name.toFirstLower()»MaxDate)){
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_date_max") + "«this.max-»");
+			}							
+		«ENDIF-»
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		}	
+		«ENDIF-»	
+		
+«ENDDEFINE»
+
+«DEFINE validateField FOR TimeField-»
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		java.util.Date «name.toFirstLower()»Value = «name.toFirstLower()»Field.getValueControl().getDate();	
+		if («name.toFirstLower()»Value!=null) {
+		«ENDIF-»
+
+		«IF this.min!=null && this.min.length>0 »
+			/* validate minimum value for field «this.name.toFirstUpper()-» */
+			java.util.Date «name.toFirstLower()»MinDate = DateHelper.toTime(new String("«this.min-»").trim());
+			if («name.toFirstLower()»Value.before(«name.toFirstLower()»MinDate)){
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_date_min") + "«this.min-»");
+			}												
+		«ENDIF-»						
+		«IF this.max!=null && this.max.length>0 »
+			/* validate maximum value for field «this.name.toFirstUpper()-» */
+			java.util.Date «name.toFirstLower()»MaxDate = DateHelper.toTime(new String("«this.max-»").trim());
+			if («name.toFirstLower()»Value.after(«name.toFirstLower()»MaxDate)){
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_date_max") + "«this.max-»");
+			}							
+		«ENDIF-»
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		}	
+		«ENDIF-»	
+«ENDDEFINE»
+
+«DEFINE validateField FOR DateTimeField-»
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		java.util.Date «name.toFirstLower()»Value = «name.toFirstLower()»Field.getValueControl().getDate();	
+		if («name.toFirstLower()»Value!=null) {	
+		«ENDIF-»
+
+		«IF this.min!=null && this.min.length>0 »
+			/* validate minimum value for field «this.name.toFirstUpper()-» */
+			java.util.Date «name.toFirstLower()»MinDate = DateHelper.toDateTime(new String("«this.min-»").trim());
+			if («name.toFirstLower()»Value.before(«name.toFirstLower()»MinDate)){
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_date_min") + "«this.min-»");
+			}												
+		«ENDIF-»						
+		«IF this.max!=null && this.max.length>0 »
+			/* validate maximum value for field «this.name.toFirstUpper()-» */
+			java.util.Date «name.toFirstLower()»MaxDate = DateHelper.toDateTime(new String("«this.max-»").trim());
+			if («name.toFirstLower()»Value.after(«name.toFirstLower()»MaxDate)){
+				validated = false;
+				«name.toFirstLower()»Field.setInError(Messages.getString("error_date_max") + "«this.max-»");
+			}							
+		«ENDIF-»
+		«IF (this.min!=null && this.min.length>0) || (this.max!=null && this.max.length>0) -»
+		}	
+		«ENDIF-»	
+«ENDDEFINE»
+
+
+«REM» Write specificaly defined validation rule ----------------------------------- «ENDREM»
+«DEFINE writeValidation FOR FieldEntity-»«ENDDEFINE»
+«DEFINE writeValidation FOR TextField-»
+	«IF this.validationRules!=null && !this.validationRules.isEmpty »		
+		«FOREACH this.validationRules AS rule ITERATOR iter-»
+		/* specific validation for field «this.name.toFirstUpper()-» */
+		if (!«name.toFirstLower()»Field.isEmpty() && !«name.toFirstLower()»Field.validateExpression("«rule.validationRegularExpression»", "«IF rule.descriptions!=null && rule.descriptions.size>0 »«rule.descriptions.get(0).display-»«ELSE »«rule.validationRegularExpression»«ENDIF »")) {
+			validated = false;
+			«name.toFirstLower()»Field.setInError(Messages.getString("error_format") + "«IF rule.descriptions!=null && rule.descriptions.size>0 »«rule.descriptions.get(0).display-»«ELSE »«rule.validationRegularExpression»«ENDIF »");
+		}			
+		«ENDFOREACH-»	
+	«ENDIF-»
+«ENDDEFINE»
+«REM» ---------------------------------------------------------------- «ENDREM»
+
+
+
+«DEFINE setMethodForVisibilityDependence FOR FieldEntity-»
+	«FOREACH this.parentGroup.parentCard.groups.fields AS f»
+		«IF !f.hidden && f.fieldDependentVisibility!=null && !f.fieldDependentVisibility.isEmpty && isFieldVisibilityParameter(this,f.fieldDependentVisibility )-»
+			«EXPAND setVisibilityDependency FOR f-»		
+		«ENDIF-»		
+	«ENDFOREACH-»  										
+«ENDDEFINE»
+
+
+«REM» set Listener to listen to value changes on which other fields visibility will depend on-- «ENDREM»
+«DEFINE setListenerForVisibilityDependence FOR FieldEntity-»
+		((Text)«this.name.toFirstLower()»Field.getValueControl()).addModifyListener(new ModifyListener(){		
+			public void modifyText(ModifyEvent e) {		
+				Text «this.name.toFirstLower()»Text = (Text)«this.name.toFirstLower()»Field.getValueControl();
+				if(«this.name.toFirstLower()»Text.isFocusControl()) 
+					set«this.name.toFirstUpper()»DependentFieldVisibility();
+			}			
+		});
+«ENDDEFINE»
+«DEFINE setListenerForVisibilityDependence FOR DatesField-»
+		((DateText)«this.name.toFirstLower()»Field.getValueControl()).addModifyListener(new ModifyListener(){		
+			public void modifyText(ModifyEvent e) {		
+				DateText «this.name.toFirstLower()»DateText = (DateText)«this.name.toFirstLower()»Field.getValueControl();
+				if(«this.name.toFirstLower()»DateText.isFocusControl()) 
+					set«this.name.toFirstUpper()»DependentFieldVisibility();									
+			}			
+		});
+«ENDDEFINE»
+«DEFINE setListenerForVisibilityDependence FOR EnumField-»
+		«REM»«IF !this.multipleSelection -»
+		value«this.name.toFirstUpper()».addChangeListener(this);
+		«ELSE -»«ENDREM»
+		((EnumSelect)«this.name.toFirstLower()»Field.getValueControl()).addSelectionListener(new SelectionAdapter(){		
+			@Override
+			public void widgetSelected(SelectionEvent e) {		
+				EnumSelect «this.name.toFirstLower()»Enum = (EnumSelect)«this.name.toFirstLower()»Field.getValueControl();
+				if(«this.name.toFirstLower()»Enum.isFocusControl())
+					set«this.name.toFirstUpper()»DependentFieldVisibility();							
+			}			
+		});
+		«REM»«ENDIF -»«ENDREM»
+«ENDDEFINE»
+«DEFINE setListenerForVisibilityDependence FOR BooleanField-»
+		((BooleanRadio)«this.name.toFirstLower()»Field.getValueControl()).addSelectionListener(new SelectionAdapter(){		
+			@Override
+			public void widgetSelected(SelectionEvent e) {		
+				BooleanRadio «this.name.toFirstLower()»Bool = (BooleanRadio)«this.name.toFirstLower()»Field.getValueControl();
+				if(«this.name.toFirstLower()»Bool.isFocusControl())
+					set«this.name.toFirstUpper()»DependentFieldVisibility();								
+			}			
+		});
+«ENDDEFINE»
+«DEFINE setListenerForVisibilityDependence FOR BinaryField-»
+		«REM»value«this.name.toFirstUpper()».addChangeListener(this);«ENDREM»
+«ENDDEFINE»
+«DEFINE setListenerForVisibilityDependence FOR RelationFieldEntity-»
+		«REM»value«this.name.toFirstUpper()».addChangeListener(this);«ENDREM»
+«ENDDEFINE»
+«REM» ---------------------------------------------------------------- «ENDREM»
+
+«REM» ----------------------------------------------------------------- «ENDREM»
+«DEFINE setVisibilityDependency FOR FieldEntity-»
+			«FOREACH this.fieldDependentVisibility AS fdv ITERATOR iter»
+									
+			boolean condition«fdv.dependencyField.name.toFirstUpper()»For«this.name.toFirstUpper()»IsOk=false;
+				«EXPAND writeDependency(fdv.dependencyFieldValue, this, iter.counter0) FOR fdv.dependencyField -»
+			if («EXPAND combineVisibilityConditions(this) FOR this.fieldDependentVisibility -») {
+				«name.toFirstLower()»Field.setGone(false);	
+			}
+			else {
+				«name.toFirstLower()»Field.setGone(true);							
+			}
+			«ENDFOREACH-»										
+						
+«ENDDEFINE»
+«DEFINE setVisibilityDependency(List[FieldEntity] fieldList) FOR RelationFieldEntity-»«ENDDEFINE»
+«REM» ---------------------------------------------------------------- «ENDREM»
+
+«REM» ---------------------------------------------------------------- «ENDREM»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR TextField-»
+	«IF conditionValue.length>0-»
+		if (((Text)«this.name.toFirstLower()»Field.getValueControl()).getText().matches("«conditionValue-»")) {
+			condition«this.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk=true;
+		}	
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR IntegerField-»
+	«IF conditionValue.length>0-»
+		try {
+			int «this.name.toFirstLower()»FieldVal = Integer.parseInt(«this.name.toFirstLower()»Field.getValueControl().getText());
+			if (NumericUtil.numberMatches("«conditionValue»",«this.name.toFirstLower()»FieldVal)) {
+				condition«this.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk=true;
+			}
+		} catch (NumberFormatException e) {
+			logger.info("FieldDependentVisibility: " + e.getMessage());
+		}	
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR FloatField-»
+	«IF conditionValue.length>0-»
+		try {
+			float «this.name.toFirstLower()»FieldVal = Float.parseFloat(«this.name.toFirstLower()»Field.getValueControl().getText());
+			if (NumericUtil.numberMatches("«conditionValue»",«this.name.toFirstLower()»FieldVal)) {
+				condition«this.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk=true;
+			}
+		} catch (NumberFormatException e) {
+			logger.info("FieldDependentVisibility: " + e.getMessage());
+		}	
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR DateField-»
+	«IF conditionValue.length>0-»
+		Date «this.name.toFirstLower()»FieldVal = ((DateText)«this.name.toFirstLower()»Field.getValueControl()).getDate();
+		if (DateHelper.matchesDate("«conditionValue»",«this.name.toFirstLower()»FieldVal)) {
+			condition«this.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk=true;
+		}		
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR DateTimeField-»
+	«IF conditionValue.length>0-»
+		Date «this.name.toFirstLower()»FieldVal = ((DateText)«this.name.toFirstLower()»Field.getValueControl()).getDate();
+		if (DateHelper.matchesDateTime("«conditionValue»",«this.name.toFirstLower()»FieldVal)) {
+			condition«this.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk=true;
+		}		
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR TimeField-»
+	«IF conditionValue.length>0-»
+		Date «this.name.toFirstLower()»FieldVal = ((DateText)«this.name.toFirstLower()»Field.getValueControl()).getDate();
+		if (DateHelper.matchesTime("«conditionValue»",«this.name.toFirstLower()»FieldVal)) {
+			condition«this.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk=true;
+		}		
+	«ENDIF-»
+«ENDDEFINE»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR BooleanField-»
+		«IF conditionValue.toLowerCase().matches("true") || conditionValue.toLowerCase().matches("false")-»
+		if (((BooleanRadio) «this.name.toFirstLower()»Field.getValueControl()).getResult()!=null && ((BooleanRadio)«this.name.toFirstLower()»Field.getValueControl()).getResult()==«conditionValue.toLowerCase()-») {	
+			condition«this.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk=true;
+		}	
+		«ENDIF-»	
+«ENDDEFINE»
+«DEFINE writeDependency(String conditionValue, FieldEntity f, int counter) FOR EnumField-»
+	«IF conditionValue.length>0-»
+		if (((EnumSelect)«this.name.toFirstLower()»Field.getValueControl()).getResult()!=null && ((EnumSelect)«this.name.toFirstLower()»Field.getValueControl()).getResult().matches("«conditionValue-»")) {
+			condition«this.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk=true;
+		}		
+	«ENDIF -»
+«ENDDEFINE»
+«REM» ---------------------------------------------------------------- «ENDREM»
+
+«REM» ---------------------------------------------------------------- «ENDREM»
+«DEFINE combineVisibilityConditions(FieldEntity f) FOR List[FieldDependentVisibility]  -»
+	«FOREACH this AS fdv ITERATOR iter-» 
+	«IF iter.counter0 == 0-»condition«fdv.dependencyField.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk«ELSE-» && condition«fdv.dependencyField.name.toFirstUpper()»For«f.name.toFirstUpper()»IsOk«ENDIF-»	
+	«ENDFOREACH-»
+«ENDDEFINE»
+«REM» ---------------------------------------------------------------- «ENDREM»
+
+«REM» ---------------------------------------------------------------- «ENDREM»
+«DEFINE setCompositionReadOnlyStyle FOR FieldEntity-»
+«ENDDEFINE»
+«DEFINE setCompositionReadOnlyStyle FOR RelationFieldEntity-»
+	«IF (cardinality == 1 && getOppositeCardinality(this) ==1)-»
+	«REM»Relation 1<->1 «ENDREM»
+		«IF MainRelationFieldEntity.isAssignableFrom(this.metaType)-»
+			«IF (this.type.toString() == (RelationType::Composition).toString()) -»
+				«REM»ReadOnly«ENDREM»
+				«name.toFirstLower()»Field.setReadonly(true);
+			«ENDIF-»
+		«ELSE-»
+			«REM»ReverseRelationFieldEntity«ENDREM»
+			«IF (getOppositeRelationType(this) == (RelationType::Composition).toString()) -»
+				«REM»ReadOnly«ENDREM»
+				«name.toFirstLower()»Field.setReadonly(true);
+			«ENDIF-»
+		«ENDIF-»
+	«ELSEIF (cardinality == 1 && (getOppositeCardinality(this) >1 || getOppositeCardinality(this) == -1))-»
+	«REM»Relation N <-> 1 «ENDREM»
+		«IF (getOppositeRelationType(this) == (RelationType::Composition).toString()) -»
+			«REM»ReadOnly«ENDREM»
+			«name.toFirstLower()»Field.setReadonly(true);
+		«ENDIF-»		
+	«ENDIF-»
+«ENDDEFINE»
+«REM» ---------------------------------------------------------------- «ENDREM»
+
+«REM» ---------------------------------------------------------------- «ENDREM»
+«DEFINE setAddButtonForRelationField FOR FieldEntity-»«ENDDEFINE»
+«DEFINE setAddButtonForRelationField FOR RelationFieldEntity-»«ENDDEFINE»
+«DEFINE setAddButtonForRelationField FOR MainRelationFieldEntity-»
+		// add create button for related entity
+		«name.toFirstLower()»Field.getValueControl().addCreateRelationEntityButton(new MouseAdapter(){
+			@Override
+			public void mouseUp(MouseEvent e) {
+				
+				«IF this.oppositeRelationField!=null && this.oppositeRelationField.cardinality == 1-»
+				if (!isNew) {
+				«ENDIF-»
+					if (embedded != null) {
+						try {			
+							ImogPlugin plugin = ImogPlugin.getDefault();
+							
+							IWorkbenchPage page = plugin.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+							IViewPart lview = page.showView(«this.entity.name.toFirstUpper()»RcpForm.ID, UUID.randomUUID().toString(), IWorkbenchPage.VIEW_ACTIVATE);
+							«this.entity.name» relatedEntity = new «this.entity.name»();
+										
+							«REM» oppositeRelationField initialization «ENDREM»				
+							«IF this.oppositeRelationField!=null-»
+								«IF this.oppositeRelationField.cardinality == 1-»
+							// Instanciate opposite relationfield in related Entity Bean
+							relatedEntity.«EXPAND template::CommonFieldUtil::setterName FOR this.oppositeRelationField-»(embedded);
+								«ENDIF-»
+							«ENDIF-»	
+													
+							«REM» commonFields initialization «ENDREM»	
+							«IF !this.commonFields.isEmpty && (modulo(this.commonFields.size+2,2)==0)-»
+							// Instanciate common fields in related Entity Bean
+							«FOREACH this.commonFields AS cf ITERATOR iter-»
+								«IF (modulo(iter.counter0+2,2)==0) && iter.counter0<=(commonFields.size-2)-»
+									«EXPAND instanciateInRelationEntity(commonFields.get(iter.counter0),commonFields.get(iter.counter0+1)) FOR this-»
+								«ENDIF-»
+							«ENDFOREACH-»
+
+							«ENDIF-»
+							
+							«this.entity.name.toFirstUpper()»RcpForm relatedForm = («this.entity.name.toFirstUpper()»RcpForm) lview;
+							relatedForm.initializeForm(relatedEntity);
+							relatedForm.addListener(new «this.name.toFirstUpper()»Listener());					
+							
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}																
+					}	
+				«IF this.oppositeRelationField!=null && this.oppositeRelationField.cardinality == 1-»					
+				}
+				else {
+					MessageDialog.openInformation(
+							Display.getCurrent().getActiveShell(), Messages.getString("form_warning_popup_title"), Messages.getString("form_save_popup_text"));
+				}
+				«ENDIF-»
+			}
+		});
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+«REM» ----------------------------------------------------------------
+----- Create the buttons behavior attached to the relation fields ---- 
+------------------------------------------------------------  «ENDREM»
+«DEFINE setAddButtonListenerForRelationField FOR FieldEntity-»«ENDDEFINE»
+«DEFINE setAddButtonListenerForRelationField FOR RelationFieldEntity-»«ENDDEFINE»
+«DEFINE setAddButtonListenerForRelationField FOR MainRelationFieldEntity-»
+	/**
+	 * Listener for field «this.name.toFirstUpper()»
+	 * @author Medes-IMPS
+	 */
+	private class «this.name.toFirstUpper()»Listener implements EntityListener {
+
+		public void entitySavedOrUpdated(Synchronizable entity) {
+			«IF (cardinality == 1)-»
+			RelationPaginatedCombo widget = (RelationPaginatedCombo)«name.toFirstLower()»Field.getValueControl();
+			widget.select(entity);
+			«ELSE-»
+			MultiRelationCombo widget = (MultiRelationCombo)«name.toFirstLower()»Field.getValueControl();
+			widget.add(entity);
+			form.reflow(true);
+			«ENDIF-»						
+		}
+	}
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+
+
+«REM» ------------------------------------------------
+------ Pre fill related entity with common fields values 
+----------------------------------------------- «ENDREM»
+«DEFINE instanciateInRelationEntity FOR FieldEntity-»«ENDDEFINE»
+«DEFINE instanciateInRelationEntity FOR ReverseRelationFieldEntity-»«ENDDEFINE»
+«DEFINE instanciateInRelationEntity(RelationFieldEntity rf1, RelationFieldEntity rf2) FOR MainRelationFieldEntity-»
+		if (embedded.«EXPAND template::CommonFieldUtil::getterName FOR rf1-»()!=null)
+			relatedEntity.«EXPAND template::CommonFieldUtil::setterName FOR rf2-»(embedded.«EXPAND template::CommonFieldUtil::getterName FOR rf1-»());
+«ENDDEFINE»
+«REM» --------------------------------------------------------------------------- «ENDREM»
+

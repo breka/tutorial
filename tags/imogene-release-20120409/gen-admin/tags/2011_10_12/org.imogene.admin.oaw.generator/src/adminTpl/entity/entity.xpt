@@ -1,0 +1,161 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR CardEntity»
+«FILE projectName.toLowerCase()+"/client/entity/"+this.name.toFirstUpper() + ".java"»
+package org.imogene.«projectName.toLowerCase()».client.entity;
+
+import java.util.Date;
+import java.util.Set;
+
+import org.imogene.web.gwt.common.entity.ImogBean;
+«IF this.georeferenced!=null -»
+import org.imogene.web.gwt.common.entity.IsGeoreferenced;
+«ENDIF»
+
+/**
+ * ImogBean implementation for the entity «name.toFirstUpper()»
+ * @author MEDES-IMPS
+ */
+public class «name.toFirstUpper()» implements ImogBean «IF this.georeferenced!=null», IsGeoreferenced«ENDIF»{
+
+	/* Imog bean fields */
+	private String id;
+	
+	private Date creationDate;
+	
+	private Date lastModificationDate;
+	
+	private Date uploadDate;
+	
+	private String creator;
+	
+	private String modifier;
+	
+	private String modifiedFrom;
+	
+	/* entity fields */
+	«FOREACH groups.fields AS f -»
+	«EXPAND fieldDeclaration FOR f-»
+	«ENDFOREACH -»
+	
+	public «name.toFirstUpper()»(){
+	}
+	
+	@Override
+	public Date getCreationDate() {		
+		return creationDate;
+	}	
+
+	@Override
+	public String getCreator() {		
+		return creator;
+	}
+
+	@Override
+	public String getDisplayValue() {		
+		StringBuffer buffer = new StringBuffer();
+		«FOREACH this.mainFields AS m -»
+		//TODO Compute main fields
+		«ENDFOREACH -»
+		return buffer.toString();
+	}
+
+	@Override
+	public String getId() {		
+		return id;
+	}
+
+	@Override
+	public Date getLastModificationDate() {		
+		return lastModificationDate;
+	}
+
+	@Override
+	public String getModifiedFrom() {		
+		return modifiedFrom;
+	}
+
+	@Override
+	public String getModifier() {		
+		return modifier;
+	}
+
+	@Override
+	public Date getUploadDate() {		
+		return uploadDate;
+	}
+
+	@Override
+	public void setCreationDate(Date date) {		
+		creationDate = date;
+	}
+
+	@Override
+	public void setCreator(String pCreator) {
+		creator =pCreator;		
+	}
+
+	@Override
+	public void setId(String pId) {		
+		id = pId;
+	}
+
+	@Override
+	public void setLastModificationDate(Date date) {
+		lastModificationDate = date;		
+	}
+
+	@Override
+	public void setModifiedFrom(String terminal) {
+		modifiedFrom = terminal;		
+	}
+
+	@Override
+	public void setModifier(String pModifier) {
+		modifier = pModifier;		
+	}
+
+	@Override
+	public void setUploadDate(Date date) {		
+		uploadDate = date;
+	}
+	
+	«FOREACH groups.fields AS f -»
+	«EXPAND adminTpl::WebFieldUtil::getterDeclarationForField FOR f»
+	«EXPAND adminTpl::WebFieldUtil::setterDeclarationForField FOR f»
+	«REM»
+	When a property has a lowercase first char and an upper case second char,
+	some bean introspectors need getter/setter with type getXxxx
+	and some other need getter/setter with type getxxx
+	«ENDREM»
+	«IF isPropertyWithLowerUpperCaseFirstTwoChar(f.name)-»
+	/* second set of getter/setter because of property has first char with lowercase and second char with uppercase 
+	   and bean introspectors do not use same naming conventions */
+	«EXPAND adminTpl::WebFieldUtil::getterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR f»
+	«EXPAND adminTpl::WebFieldUtil::setterDeclarationForFieldWithLowerUpperCaseFirstTwoChar FOR f-»
+	/* ----------------------------------------------------------------------------------------------------------- */
+	«ENDIF-»		
+	«ENDFOREACH -»
+
+	«IF this.georeferenced!=null -»
+	public Double getLatitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Latitude;
+	}
+	public Double getLongitude() {
+		return «EXPAND template::CommonFieldUtil::propertyName FOR this.georeferenced»Longitude;
+	}
+	«ENDIF»		
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE fieldDeclaration FOR FieldEntity-»
+	private «EXPAND adminTpl::WebFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»; 
+«ENDDEFINE»
+«DEFINE fieldDeclaration FOR GeoField-»
+	private «EXPAND adminTpl::WebFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Latitude; 
+	private «EXPAND adminTpl::WebFieldUtil::entityFieldType FOR this -» «EXPAND template::CommonFieldUtil::propertyName FOR this»Longitude; 
+«ENDDEFINE»
+
+

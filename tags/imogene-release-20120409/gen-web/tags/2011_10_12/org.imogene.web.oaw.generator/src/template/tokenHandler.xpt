@@ -1,0 +1,104 @@
+«IMPORT core»
+«DEFINE generate(String packageName, String projectName, boolean gmaps) FOR Project»
+«FILE projectName.toLowerCase()+"/client/TokenHandler.java"»
+package org.imogene.«projectName.toLowerCase()».client;
+
+import java.util.Map;
+
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Widget;
+
+import org.imogene.web.gwt.client.TokenHelper;
+import org.imogene.web.gwt.client.TokenHelper.EntityToken;
+import org.imogene.web.gwt.client.i18n.BaseNLS;
+import org.imogene.web.gwt.client.ui.panel.RoundedWrapperPanel;
+import org.imogene.web.gwt.client.ui.panel.TaskWrapperPanel;
+
+import org.imogene.«projectName.toLowerCase()».client.i18n.NLS;
+«FOREACH entities AS e-»
+import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»ListComposite;
+import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»ExcelExportComposite;
+import org.imogene.«projectName.toLowerCase()».client.entity.«e.name.toFirstUpper()»FormComposite;
+«ENDFOREACH -»
+«EXPAND specificImports FOR this -»
+
+/**
+ * Class which controls the creation of the views
+ * that are associated with a token handler.
+ * @author MEDES-IMPS
+ */
+public class TokenHandler {
+
+	public static String TK_LIST = "list";
+	public static String TK_VIEW = "view";
+	public static String TK_NEW = "new";
+	public static String TK_XLS = "xls";
+	
+
+	/**
+	 * Create and return the view to display after
+	 * this token event.
+	 */
+	public static Widget getViewForToken(String token){
+	
+		EntityToken entityToken = TokenHelper.getToken(token);
+		
+		if (entityToken!=null) {		
+		
+			«EXPAND specificTokenHandler FOR this -»
+			
+			«FOREACH entities AS e -»
+			/* list view for «e.name.toFirstUpper()» */		
+			if(entityToken.getType().equals("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")){
+				if(entityToken.getAction().equals(TK_LIST)){	
+					«e.name.toFirstUpper()»ListComposite listComposite = new «e.name.toFirstUpper()»ListComposite();
+					Map<String, Command> commands = listComposite.getCommands();
+					return new RoundedWrapperPanel(commands, NLS.constants().«e.name.toFirstLower()»_table_text(), listComposite, "«e.name.toFirstLower()»");					
+				}
+			}
+			/* new «e.name.toFirstUpper()» */
+			if(entityToken.getType().equals("«e.name.toLowerCase()»") && AccessManager.canEditForm("«e.name.toLowerCase()»")) {
+				if(entityToken.getAction().equals(TK_NEW)){
+					//Hyperlink back = new Hyperlink("Back", "list/«e.name.toLowerCase()»");
+					TaskWrapperPanel task = new TaskWrapperPanel(NLS.constants().«e.name.toFirstLower()»_create_title(),
+							"«e.name.toLowerCase()»", /*new Hyperlink[]{back}*/ null);
+					«e.name.toFirstUpper()»FormComposite form = new «e.name.toFirstUpper()»FormComposite();
+					task.addForm(form);
+					form.setFormContainer(task);
+					return task;
+				}
+			}		
+			/* view for «e.name.toFirstUpper()» */	
+			if(entityToken.getType().equals("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")){
+				if(entityToken.getAction().equals(TK_VIEW)){
+					//Hyperlink back = new Hyperlink("<< Back", "back");
+					TaskWrapperPanel task = new TaskWrapperPanel(NLS.constants().«e.name.toFirstLower()»_name(), "«e.name.toFirstLower()»", null);
+					«e.name.toFirstUpper()»FormComposite form = new «e.name.toFirstUpper()»FormComposite(entityToken.getId());				
+					task.addForm(form);	
+					form.setFormContainer(task);
+					return task;
+				}
+			}
+			/* excel export for «e.name.toFirstUpper()» */
+			if (entityToken.getType().equals("«e.name.toLowerCase()»") && AccessManager.canReadForm("«e.name.toLowerCase()»")) {
+				if (entityToken.getAction().equals(TK_XLS)) {
+					TaskWrapperPanel task = new TaskWrapperPanel(NLS.constants().«e.name.toFirstLower()»_excel_title(), "«e.name.toFirstLower()»", null);
+					«e.name.toFirstUpper()»ExcelExportComposite form = new «e.name.toFirstUpper()»ExcelExportComposite();
+					task.addForm(form);
+					form.setFormContainer(task);
+					return task;
+				}
+			}	
+			«ENDFOREACH -»	
+		}				
+		return null;
+	}
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM»
+	Hook for specific definition by AOP «ENDREM»
+«DEFINE specificTokenHandler FOR Project»«ENDDEFINE»
+«DEFINE specificImports FOR Project»«ENDDEFINE»

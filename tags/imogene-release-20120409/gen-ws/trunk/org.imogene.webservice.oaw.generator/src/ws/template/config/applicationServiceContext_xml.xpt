@@ -1,0 +1,198 @@
+«IMPORT core»
+«EXTENSION template::CommonFieldUtilExt» 
+«EXTENSION template::CommonEntityUtilExt» 
+
+«DEFINE generate(String projectName) FOR Project-»
+«FILE projectName.toFirstUpper() + "Service-servlet.xml"-»
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<!-- <context:component-scan base-package="org.imogene.avion.service" />  -->
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="serverPropertyConfigurer">
+		<property name="location">
+		    <value>WEB-INF/context.properties</value>
+		</property>
+	</bean>
+	
+	<!-- To enable @RequestMapping process on type level and method level -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+					<property name="marshaller" ref="jaxbMarshaller" />
+					<property name="unmarshaller" ref="jaxbMarshaller" />
+					<property name="supportedMediaTypes">
+						<list>
+							<value>application/XML</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>	
+	
+
+	<!-- XML / JAVA binder -->
+	
+	<bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>			
+				«FOREACH entities AS e -»
+				<value>org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»</value>
+				<value>org.imogene.«projectName.toLowerCase()».entity.«e.name.toFirstUpper()»List</value>
+				<value>org.imogene.«projectName.toLowerCase()».entity.display.«e.name.toFirstUpper()»Display</value>
+				<value>org.imogene.«projectName.toLowerCase()».entity.display.«e.name.toFirstUpper()»DisplayList</value>				
+				«ENDFOREACH -»	
+				<value>org.imogene.ws.entity.LocalizedText</value>	
+				<value>org.imogene.ws.entity.LocalizedTextList</value>
+				<value>org.imogene.ws.entity.LocalizedField</value>	
+				<value>org.imogene.ws.entity.GeoField</value>							
+			</list>
+		</property>
+		<property name="adapters">
+			<list>
+		    «FOREACH entities AS e-»
+		    	«FOREACH e.groups.fields AS f-»
+		    		«EXPAND getAdapter FOR f-»
+		    	«ENDFOREACH-»			    		    	
+			«ENDFOREACH-»				
+			</list>
+		</property>	
+		<property name="marshallerProperties">
+			<map>
+				<entry key="jaxb.encoding">
+					<value>UTF-8</value>
+				</entry>
+			</map>
+		</property>			
+	</bean>
+	
+	<!-- Web Service controllers /-->
+	
+	<bean id="binaryController" class="org.imogene.ws.binary.BinaryService">
+		<property name="genericDao" ref="genericDao"/>
+		<property name="binaryPath" value="${binary.path}"/>
+	</bean>
+	
+	«FOREACH entities AS e -»
+	<bean id="«e.name.toFirstLower()»Controller" class="org.imogene.«projectName.toLowerCase()».service.«e.name.toFirstUpper()»Service">
+		<property name="dao" ref="«e.name.toFirstLower()»Dao" />
+		«IF isTranslatableFieldPresent(e.groups.fields)-»
+		<property name="i18nDao" ref="localizedTextDao" />		
+		«ENDIF-»
+		«IF isBinaryFieldPresent(e.groups.fields) -»
+		<property name="binaryDao" ref="binaryDao" />	
+		«ENDIF-»
+		«EXPAND declareDaoForForeignKeyDeletion(e) FOR this-»
+		<property name="restClient" ref="restClient"/>
+	</bean>				
+	«ENDFOREACH -»		
+
+	
+	<!-- JAXB Adapters /-->
+	
+    «FOREACH entities AS e-»
+    	«FOREACH e.groups.fields AS f-»
+    		«EXPAND configureAdapter(projectName) FOR f-»
+    	«ENDFOREACH-»			    		    	
+	«ENDFOREACH-»	
+	
+
+	<!-- REST client part (push data to other web service)  -->
+	
+	<!-- application properties 
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propertyConfigurer">
+		<property name="location">
+		    <value>WEB-INF/restclient.properties</value>
+		</property>
+	</bean>	-->	
+	
+  	<bean class="org.imogene.ws.client.RestClient" id="restClient">
+        <property name="restTemplate" ref="restTemplate" /> 
+        <property name="credentials" ref="credentials" />  
+		<property name="wsUrl" value="${restclient.url}" />
+  	</bean>      
+
+    <bean id="credentials" class="org.apache.commons.httpclient.UsernamePasswordCredentials"> 
+        <constructor-arg value="${restclient.username}"/> 
+        <constructor-arg value="${restclient.password}"/> 
+    </bean>	
+	
+    <bean id="httpClientFactory" class="org.springframework.http.client.CommonsClientHttpRequestFactory"/> 
+    	
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<constructor-arg ref="httpClientFactory"/>
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+					<property name="marshaller" ref="jaxbMarshaller" />
+					<property name="unmarshaller" ref="jaxbMarshaller" />
+				</bean>
+			</list>
+		</property>
+	</bean>		
+		
+
+</beans>
+«ENDFILE»
+«ENDDEFINE»
+
+
+
+«REM» ----------------------------------------------- «ENDREM»
+«DEFINE getAdapter FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getAdapter FOR RelationFieldEntity-»
+	«IF cardinality==-1 || cardinality>1 -»
+				<ref bean="«name.toFirstLower()»«this.parentGroup.parentCard.name.toFirstUpper()»ListAdapter"/>
+	«ELSE -»
+				<ref bean="«name.toFirstLower()»«this.parentGroup.parentCard.name.toFirstUpper()»Adapter"/>
+	«ENDIF -»
+«ENDDEFINE»
+
+
+«REM» ----------------------------------------------- «ENDREM»
+«DEFINE configureAdapter(String projectName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE configureAdapter(String projectName) FOR RelationFieldEntity-»
+	«IF cardinality==-1 || cardinality>1 -»
+	<bean id="«name.toFirstLower()»«this.parentGroup.parentCard.name.toFirstUpper()»ListAdapter" class="org.imogene.«projectName.toLowerCase()».entity.serializer.xml.«entity.name.toFirstUpper()»ListAdapter">
+		<property name="dao" ref="«entity.name.toFirstLower()»Dao" />
+	</bean>	
+	«ELSE -»
+	<bean id="«name.toFirstLower()»«this.parentGroup.parentCard.name.toFirstUpper()»Adapter" class="org.imogene.«projectName.toLowerCase()».entity.serializer.xml.«entity.name.toFirstUpper()»Adapter">
+		<property name="dao" ref="«entity.name.toFirstLower()»Dao" />
+	</bean>	
+	«ENDIF -»
+«ENDDEFINE»
+
+
+«REM» ------------------------------------------ 
+      Declare DAO for foreign key deletion
+------------------------------------------------«ENDREM»
+«DEFINE declareDaoForForeignKeyDeletion(CardEntity cardEntity) FOR emf::EObject-»«ENDDEFINE»
+«DEFINE declareDaoForForeignKeyDeletion(CardEntity cardEntity) FOR Project-»
+		«FOREACH entities AS e-»		
+			 «FOREACH e.groups.fields AS field-»
+			 	«EXPAND declareDaoForForeignKey(cardEntity) FOR field-»
+			«ENDFOREACH-» 	   	   
+	    «ENDFOREACH-»	    
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE declareDaoForForeignKey(CardEntity cardEntity) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE declareDaoForForeignKey(CardEntity cardEntity) FOR RelationFieldEntity-»
+«IF cardEntity.name==this.entity.name -»	
+	«IF (this.cardinality == 1 && !(ReverseRelationFieldEntity.isAssignableFrom(this.metaType) && (getOppositeCardinality(this) == 1)))
+	|| (this.cardinality != 1 && (getOppositeCardinality(this) != 1))-»		
+		<property name="«this.parentGroup.parentCard.name.toFirstLower()»«this.name.toFirstUpper()»Dao" ref="«this.parentGroup.parentCard.name.toFirstLower()»Dao" />     
+     «ENDIF -»
+«ENDIF -»
+«ENDDEFINE»
+«REM» ------------------------------------------ «ENDREM»

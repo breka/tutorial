@@ -1,0 +1,170 @@
+«IMPORT core»
+«DEFINE generate(String projectName) FOR Project»
+«FILE "Login.jsp"»
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<%@ page import="java.util.ResourceBundle" %>
+
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<link rel="icon" href="../imog«projectName.toLowerCase()»/images/logo_16x16.png" type="image/png">
+<link type="text/css" rel="stylesheet" href="../imog«projectName.toLowerCase()»/ImogCommon.css">
+
+<title>«name.toFirstUpper()» Admin</title>
+
+</head>
+
+
+<body>
+<%
+	ResourceBundle rb = null;
+	String locale = request.getParameter("locale");
+	if (locale==null)
+		rb = ResourceBundle.getBundle("org.imogene.web.gwt.client.i18n.ImogConstants", request.getLocale());
+	else {
+		try {
+			rb = ResourceBundle.getBundle("org.imogene.web.gwt.client.i18n.ImogConstants_" + locale);
+		}
+		catch (Exception e){
+			rb = ResourceBundle.getBundle("org.imogene.web.gwt.client.i18n.ImogConstants", request.getLocale());
+		}
+	}	
+%>
+
+<center>
+<table width="100%" height="100%" align="center">
+	<tbody>
+		<tr>
+			<td align="center">
+			<div class="imogene-Login" style="position: relative;">
+			<table cellspacing="0" cellpadding="0"
+				style="position: absolute; left: 0px; top: 100px;">
+				<tbody>
+					<tr>
+						<td align="left" style="vertical-align: top;">
+						<div class="imogene-LoginPanel">
+						<%if(locale!=null){ %>
+							<form action="../j_spring_security_check?locale=<%=locale%>" method="post" >
+						<%}else{ %>
+							<form action="../j_spring_security_check" method="post" >
+						<%} %>
+						
+						<table>
+							<tbody>
+								<tr>
+									<td></td>
+									<td>
+									<div class="imogene-LoginMessage" style="white-space: normal;"><%=rb.getString("login_identify")%></div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									<div class="imogene-LoginBox"><%=rb.getString("login_login")%></div>
+									</td>
+									<td>
+									<table cellspacing="0" cellpadding="0">
+										<tbody>
+											<tr>
+												<td align="left" style="vertical-align: top;">
+												<div class="imogene-errorLabel" style="display: none;"></div>
+												</td>
+											</tr>
+											<tr>
+												<td align="left" style="vertical-align: top;">
+												<table cellspacing="0" cellpadding="0">
+													<tbody>
+														<tr>
+															<td align="left" style="vertical-align: top;"></td>
+															<td width="100%" align="left" style="vertical-align: top;">
+																<input class="imogene-FormText" type="text" id="j_username" name="j_username">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									<div class="imogene-LoginBox"><%=rb.getString("login_password")%></div>
+									</td>
+									<td>
+									<table cellspacing="0" cellpadding="0">
+										<tbody>
+											<tr>
+												<td align="left" style="vertical-align: top;">
+												<div class="imogene-errorLabel" style="display: none;"></div>
+												</td>
+											</tr>
+											<tr>
+												<td align="left" style="vertical-align: top;">
+												<table cellspacing="0" cellpadding="0">
+													<tbody>
+														<tr>
+															<td></td>
+															<td width="100%" align="left" style="vertical-align: top;">
+																<input class="imogene-FormText" type="password" id="j_password" name="j_password">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+									<button class="Login-Button" type="submit"><%=rb.getString("login_button")%></button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						</form>
+						</div>
+						</td>
+					</tr>
+					<tr>
+						<td align="right" style="vertical-align: top;">
+						<table cellspacing="0" cellpadding="0">
+							<tbody>
+								<tr>
+									«FOREACH languages AS l-»
+									<td class="imogene-Login-locale" align="left" style="vertical-align: top;">
+									<div><a href="?locale=«l.isoCode»">«l.name.toFirstUpper()»</a></div>
+									</td>
+									«ENDFOREACH-»								
+								</tr>
+							</tbody>
+						</table>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+			<div class="imogene-LoginImage"
+				style="position: absolute; left: -100px; top: 85px;"><img
+				class="gwt-Image" src="../imog«projectName.toLowerCase()»/images/logo_admin.png"></div>
+			</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</center>
+
+</body>
+
+</html>
+«ENDFILE»
+«ENDDEFINE»

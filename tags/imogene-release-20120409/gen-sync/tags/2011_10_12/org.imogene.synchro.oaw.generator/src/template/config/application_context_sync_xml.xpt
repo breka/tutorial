@@ -1,0 +1,267 @@
+«IMPORT core»
+«EXTENSION template::CommonEntityUtilExt» 
+
+«DEFINE generate(String packageName, String packagePath) FOR Project-»
+«FILE "application-context.xml"-»
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+
+	<!-- Instantiate the session manager (singleton) 
+	<bean id="sessionManager" class="org.imogene.sync.server.session.SyncSessionManager" factory-method="getInstance"/> -->
+	
+	<!-- Instantiate the synchronizable util (singleton) -->
+	<bean id="synchronizableUtil" class="org.imogene.common.data.SynchronizableUtil" factory-method="getInstance">
+		<property name="entityClassReferences">
+			<map>
+			    «FOREACH entities AS e-»
+				<entry key="«e.shortName»" value="«packageName.toLowerCase()».entity.«e.name»"/>
+				«ENDFOREACH-»		
+			</map>
+		</property>
+		<property name="entityShortNameReferences">
+			<map>
+			    «FOREACH entities AS e-»
+				<entry key="«packageName.toLowerCase()».entity.«e.name»" value="«e.shortName»" />
+			    	«IF Actor.isAssignableFrom(e.metaType)-»
+				<entry key="«packageName.toLowerCase()».entity.«e.name»User" value="«e.shortName»" />
+					«ENDIF -»				
+				«ENDFOREACH-»		
+			</map>
+		</property>		
+	</bean>	
+	
+	<!-- User Access control -->
+	<bean id="userAccessControl" class="«packageName.toLowerCase()».uao.UserAccessControlImpl" >
+		<property name="defaultUserHandler" ref="defaultUserHandler"/>
+	    «FOREACH entities AS e-»
+	    	«IF Actor.isAssignableFrom(e.metaType)-»
+		<property name="«e.name.toFirstLower()»Handler" ref="«e.name.toFirstLower()»Handler"/>
+			«ENDIF -»
+		«ENDFOREACH-»			
+	</bean>	
+	
+	<!-- Generic Handler -->
+	<bean id="genericDataHandler" class="org.imogene.data.handler.server.GenericDataHandler" >
+		<property name="dao" ref="genericDao"/>
+	</bean>		
+	
+	<!-- Entity Handlers -->
+	<bean id="defaultUserHandler" class="org.imogene.uao.defaultuser.server.DefaultUserHandler" >
+		<property name="dao" ref="defaultUserDao"/>
+	</bean>		
+	
+	<bean id="binaryHandler" class="org.imogene.sync.server.binary.file.BinaryFileHandler" >
+		<property name="dao" ref="binaryDao"/>
+		<property name="dataHandlerManager" ref="dataHandlerManager"/>
+	</bean>	
+	
+	<bean class="org.imogene.sync.server.clientfilter.ClientFilterHandler" id="clientFilterHandler">
+		<property name="dao" ref="clientFilterDao"/>
+	</bean>		
+
+    «FOREACH entities AS e»
+	<bean id="«e.name.toFirstLower()»Handler" class="«packageName.toLowerCase()».handler.«e.name»Handler" >
+		<property name="dao" ref="«e.name.toFirstLower()»Dao"/>
+		«IF e.clientFilterFields.size>0 || e.clientPeriodFilterable -»
+		<property name="clientFilterDao" ref="clientFilterDao"/>
+		«ENDIF -»
+		«IF isTranslatableFieldPresent(e.groups.fields)-»
+		<property name="i18nDao" ref="localizedTextDao"/>
+		«ENDIF -»
+	</bean>	
+	«ENDFOREACH»	
+	
+	 <!--  Initialize the DataHandler Manager -->	
+	<bean id="dataHandlerManager" class="org.imogene.common.data.handler.DataHandlerManager">	
+		<property name="packagePath" value="«packageName.toLowerCase()».entity."/>	
+		<property name="handlers">
+			<map>
+			    «FOREACH entities AS e-»
+			    «IF Actor.isAssignableFrom(e.metaType)-»
+			    <entry key="«packageName.toLowerCase()».entity.«e.name»User" value-ref="«e.name.toFirstLower()»Handler"/>
+			    «ENDIF -»
+				<entry key="«packageName.toLowerCase()».entity.«e.name»" value-ref="«e.name.toFirstLower()»Handler"/>
+				«ENDFOREACH-»	
+				<entry key="org.imogene.sync.server.binary.file.BinaryFile" value-ref="binaryHandler"/>
+				<entry key="org.imogene.uao.clientfilter.ClientFilter" value-ref="clientFilterHandler"/>					
+			</map>
+		</property>
+	</bean>		
+	
+	<!--  Entity Stream Serializers -->
+    «FOREACH entities AS e»
+	<bean id="«e.name.toFirstLower()»StreamSerializer" class="«packageName.toLowerCase()».serializer.stream.«e.name»StreamSerializer" >
+		<property name="dataHandlerManager" ref="dataHandlerManager"/>
+	</bean>	
+    	«IF Actor.isAssignableFrom(e.metaType)-»
+	<bean id="«e.name.toFirstLower()»UserStreamSerializer" class="«packageName.toLowerCase()».serializer.stream.«e.name»UserStreamSerializer" >
+		<property name="dataHandler" ref="genericDataHandler"/>
+	</bean>	
+		«ENDIF -»		
+	«ENDFOREACH»	
+	
+	<bean id="binaryStreamSerializer" class="org.imogene.sync.server.binary.file.BinaryFileStreamSerializer"/>
+	
+	<bean class="org.imogene.sync.server.clientfilter.ClientFilterStreamSerializer" id="clientFilterStreamSerializer"/>	
+	
+	<!--  Initialize the stream serializer -->
+	<bean id="streamSerializer" class="org.imogene.sync.serializer.stream.ImogStreamSerializer">
+		<property name="dataHandlerManager" ref="dataHandlerManager"/>
+		<property name="entitySerializers">
+			<map>
+			    «FOREACH entities AS e-»
+				<entry key="«packageName.toLowerCase()».entity.«e.name»" value-ref="«e.name.toFirstLower()»StreamSerializer"/>
+		    	«IF Actor.isAssignableFrom(e.metaType)-»
+				<entry key="«packageName.toLowerCase()».entity.«e.name»User" value-ref="«e.name.toFirstLower()»UserStreamSerializer"/>
+				«ENDIF -»				
+				«ENDFOREACH-»	
+				<entry key="org.imogene.sync.server.binary.file.BinaryFile" value-ref="binaryStreamSerializer"/>	
+				<entry key="org.imogene.uao.clientfilter.ClientFilter" value-ref="clientFilterStreamSerializer"/>				
+			</map>
+		</property>
+	</bean>	
+	
+	<!-- Initialize the XML serializer -->
+	<bean id="xmlSerializer" class="org.imogene.sync.serializer.xml.ImogXmlSerializer">
+		<property name="dataHandlerManager" ref="dataHandlerManager"/>
+		<property name="propertyConverters">
+		  <set>
+		    «FOREACH entities AS e-»
+		    	«FOREACH e.groups.fields AS f-»
+		    		«EXPAND getConverter FOR f-»
+		    	«ENDFOREACH-»
+		    	«IF Actor.isAssignableFrom(e.metaType)-»
+			<ref bean="password«e.name.toFirstUpper()»Converter"/>
+			<ref bean="roles«e.name.toFirstUpper()»Converter"/>
+			<ref bean="synchronizables«e.name.toFirstUpper()»Converter"/>
+			«EXPAND filterField FOREACH ((Actor)e).filters-»
+				«ENDIF -»			    		    	
+			«ENDFOREACH-»		  
+		  </set>
+		</property>
+		<property name="classConverters">
+		  <set>
+		  	«REM»
+		    «FOREACH entities AS e-»
+	    	«IF Actor.isAssignableFrom(e.metaType)-»
+			<ref bean="«e.name.toFirstLower()»UserClassConverter"/>
+			«ENDIF -»				
+			«ENDFOREACH-»
+			«ENDREM»
+			<ref bean="geoFieldClassConverter"/>
+			<ref bean="binaryClassConverter"/>	
+			<ref bean="localizedFieldMapClassConverter"/>		  
+		  </set>
+		</property>		
+	</bean>	
+	
+	<!--  Initialize the SerializerManager -->
+	<bean id="serializerManager" class="org.imogene.sync.serializer.SerializerManager">
+		<property name="serializers">
+			<map>
+				<entry key="bin" value-ref="streamSerializer"/>
+				<entry key="xml" value-ref="xmlSerializer"/>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Entity helper -->
+	<bean class="«packageName.toLowerCase()».entity.EntityHelperImpl" id="entityHelper"/>
+	
+	<!-- Synchronization server -->
+	<bean class="org.imogene.sync.server.OptimizedSyncServerImpl" id="syncServer">
+		<property name="dataHandlerManager" ref="dataHandlerManager"/>
+		<property name="serializerManager" ref="serializerManager"/>
+		<property name="metadataDao" ref="metadataDao"/>
+		<property name="historyDao" ref="syncHistoryDao"/>
+		<property name="sessionDao" ref="syncSessionDao"/>
+		<property name="defaultUserHandler" ref="defaultUserHandler"/>
+		<property name="entityHelper" ref="entityHelper"/>
+	</bean>
+	
+	<!--  the synchronization controller -->
+	<bean id="syncController" class="org.imogene.sync.server.http.OptimizedSyncController">
+		<property name="methodNameResolver">
+			<bean class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+				<property name="paramName" value="cmd"/>
+			</bean>
+		</property>
+		<property name="syncServer" ref="syncServer"/>	
+		<property name="userAccessControl" ref="userAccessControl"/>	
+	</bean>
+	
+	<!--  Encryption system initialization -->
+	<bean id="encryptionKeyProvider" class="org.imogene.sync.server.encryption.DefaultSecretKeyProvider"/>	
+	<bean id="encryptionManager" class="org.imogene.encryption.EncryptionManager" init-method="getInstance">
+		<property name="keyProvider" ref="encryptionKeyProvider"/>
+	</bean>
+	
+	<!-- Security handler --> 
+	<bean class="«packageName.toLowerCase()».uao.security.ImogDefaultPolicy" id="imogPolicy">
+  		<property name="dao" ref="genericDao"/>
+  		<property name="i18nDao" ref="localizedTextDao"/>
+  	</bean>  
+	
+  	<bean class="org.imogene.uao.security.ImogSecurityHandler" factory-method="getInstance" id="imogSecurityHandler">
+  		<property name="imogPolicy" ref="imogPolicy"/>
+  	</bean>  	
+  	
+  	<!-- Binary post operations catcher -->
+  	<!-- video conversion -->
+  	<bean id="videoConverter" class="org.imogene.synchro.video.VideoConverter">
+  		<property name="commandLine" value="${converter.video}"/>
+  	</bean>
+  	<bean id="videoToFlv" class="org.imogene.synchro.video.VideoToFlvOperation">
+  		<property name="videoConverter" ref="videoConverter"/>
+  	</bean>
+  	
+  	<!-- audio conversion -->
+  	<bean id="audioConverter" class="org.imogene.synchro.audio.AudioConverter">
+  		<property name="commandLine" value="${converter.audio}"/>
+  	</bean>
+  	<bean id="audioToMp3" class="org.imogene.synchro.audio.AudioToMp3Operation">
+  		<property name="audioConverter" ref="audioConverter"/>
+  	</bean>
+  	<!-- photo thumbnail -->
+  	<bean id="photoToThumb" class="org.imogene.synchro.photo.PhotoToThumbnailOperation"/>
+  	
+  	<!-- Binary post operations catcher -->
+  	<bean class="org.imogene.sync.server.binary.BinaryOperationCatcher" factory-method="get" id="imogOperationCatcher">
+  		<property name="operations">
+    		<set>
+      			<!-- place your operations implemented binaryOperation here, like the sample bellow -->
+      			<ref bean="videoToFlv"/>
+      			<ref bean="audioToMp3"/>
+      			<ref bean="photoToThumb"/>
+    		</set>
+  		</property>
+  	</bean>	
+  	
+  	<!--  Spring-security user access control -->	
+	<bean class="«packageName.toLowerCase()».uao.security.MedooSecurityDetailService" id="medooSecurityDetailService">		
+		<property name="userAccessControl" ref="userAccessControl"/>
+  	</bean>	
+
+</beans>
+«ENDFILE»
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+
+
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE getConverter FOR FieldEntity-»«ENDDEFINE»
+«DEFINE getConverter FOR RelationFieldEntity-»
+		    <ref bean="«EXPAND template::CommonFieldUtil::propertyName FOR this»«parentGroup.parentCard.name.toFirstUpper()»Converter"/>
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+
+
+«REM» ------------------------------------------------«ENDREM»
+«DEFINE filterField FOR FilterField-»
+			<ref bean="«EXPAND template::CommonFieldUtil::propertyName FOR this-»PropertyConverter"/>
+«ENDDEFINE»
+«REM» ------------------------------------------------«ENDREM»
+

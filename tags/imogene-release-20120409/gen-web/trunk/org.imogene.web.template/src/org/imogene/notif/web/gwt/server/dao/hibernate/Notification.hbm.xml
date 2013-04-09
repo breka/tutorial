@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class lazy="false" name="org.imogene.notif.web.gwt.client.NotificationTemplate" table="NotificationTemplate">
+		<id column="Notification_ID" name="id"/>			
+		<property column="Notification_name" name="name"/>	
+		<property column="Notification_title" name="title"/>
+		<property column="Notification_message" name="message"/>
+		<property column="Notification_card" name="sourceCard"/>
+		<property column="Notification_users" name="userRecipients"/>
+		<property column="Notification_operation" name="operation"/>
+		<property column="Notification_method" name="method" />
+		<set lazy="false" name="roleRecipients" table="NotificationRoles">
+			<key column="Notification_ID"/>
+			<many-to-many class="org.imogene.web.gwt.common.entity.RoleBeanImpl" column="Role_ID"/>
+		</set>			    		  				
+    </class>		
+</hibernate-mapping>

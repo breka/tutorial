@@ -1,0 +1,290 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR CardEntity»
+«FILE packagePath.toLowerCase() + "/serializer/stream/" + name + "StreamSerializer.java"»
+package «packageName.toLowerCase()».serializer.stream;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+
+import org.imogene.common.data.Synchronizable;
+import org.imogene.common.data.handler.DataHandlerManager;
+import org.imogene.common.data.handler.EntityHandler;
+import «packageName.toLowerCase()».entity.«this.name»;
+«FOREACH this.groups.fields AS f-»
+	«EXPAND importEntityForRelationField(packageName) FOR f-»
+«ENDFOREACH-»
+import org.imogene.sync.serializer.ImogSerializationException;
+import org.imogene.sync.serializer.stream.EntityStreamSerializer;
+import org.imogene.sync.serializer.SerializationConstants;
+
+
+/**
+ * Serialize and un-serialize a «this.name»
+ * @author Medes-IMPS
+ */
+public class «this.name»StreamSerializer implements EntityStreamSerializer {
+
+	private Logger logger = Logger.getLogger("«packageName.toLowerCase()».serializer.stream");
+
+	private DataHandlerManager dataManager;
+	
+	/*
+	 * (non-Javadoc)
+	 * @see EntityStreamSerializer#deSerialize(java.io.DataInputStream)
+	 */
+	public Synchronizable deSerialize(DataInputStream data) throws ImogSerializationException {
+		logger.debug("Un-serializing a «this.name»");
+		«this.name» entity = null;
+		try{
+			entity = new «this.name»();
+			entity.setId(data.readUTF());
+			entity.setModifiedBy(data.readUTF());
+			entity.setModifiedFrom(data.readUTF());
+			entity.setModified(new Date(data.readLong()));
+			entity.setUploadDate(new Date(data.readLong()));
+			entity.setCreatedBy(data.readUTF());
+			entity.setCreated(new Date(data.readLong()));
+			
+			«FOREACH this.groups.fields AS f»
+				«EXPAND deSerialize FOR f-»
+			«ENDFOREACH-»							
+
+			logger.debug("«this.name» with id "+ entity.getId() + " un-serialized");
+		}catch(Exception ex){
+			logger.error(ex.getMessage());
+			throw new ImogSerializationException(ex);
+		}
+		return entity;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see EntityStreamSerializer#serialize(org.imogene.data.Synchronizable, java.io.DataOutputStream)
+	 */
+	public void serialize(Synchronizable entity, DataOutputStream data) throws ImogSerializationException {
+		logger.debug("Serializing a «this.name»");		
+		try{
+			«this.name» «this.name.toFirstLower()» = («this.name»)entity;			
+			data.writeUTF(«this.name.toFirstLower()».getId());
+			data.writeUTF(«this.name.toFirstLower()».getModifiedBy());
+			data.writeUTF(«this.name.toFirstLower()».getModifiedFrom());
+			data.writeLong(«this.name.toFirstLower()».getModified().getTime());
+			data.writeLong(«this.name.toFirstLower()».getUploadDate().getTime());
+			data.writeUTF(«this.name.toFirstLower()».getCreatedBy());
+			data.writeLong(«this.name.toFirstLower()».getCreated().getTime());
+			
+			«FOREACH this.groups.fields AS f»
+				«EXPAND Serialize FOR f-»
+			«ENDFOREACH-»							
+			
+			logger.debug("«this.name» with id "+ «this.name.toFirstLower()».getId() + "serialized.");
+		}catch(Exception ex){
+			logger.error(ex.getMessage());
+			throw new ImogSerializationException(ex);
+		}
+	}
+	
+	/**
+	 * Setter for bean injection
+	 * @param manager
+	 */
+	public void setDataHandlerManager(DataHandlerManager manager){
+		dataManager = manager;
+	}
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+«REM» Import for relation field«ENDREM»
+«DEFINE importEntityForRelationField(String packageName) FOR FieldEntity-»«ENDDEFINE»
+«DEFINE importEntityForRelationField(String packageName) FOR RelationFieldEntity-»
+import «packageName.toLowerCase()».entity.«this.entity.name»;
+«IF (cardinality == -1 || cardinality >1)-»
+import java.util.Set;
+import java.util.HashSet;
+«ENDIF-»
+«ENDDEFINE»
+
+
+«REM» deSerialize field «ENDREM»
+«DEFINE deSerialize FOR FieldEntity-»
+			/* «this.name» */
+			String «this.name.toFirstLower()» = data.readUTF();
+			if (!«this.name.toFirstLower()».equals(""))
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«this.name.toFirstLower()»);
+«ENDDEFINE»
+
+«DEFINE deSerialize FOR DatesField-»
+			/* «this.name» */
+			Long «this.name.toFirstLower()» = data.readLong();
+			if (!«this.name.toFirstLower()».equals(-1))
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(new Date(«this.name.toFirstLower()»));
+«ENDDEFINE»
+
+«DEFINE deSerialize FOR BooleanField-»
+			/* «this.name» */
+			String «this.name.toFirstLower()» = data.readUTF();
+			if (!«this.name.toFirstLower()».equals("")) {
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(new Boolean(«this.name.toFirstLower()»));
+			}
+«ENDDEFINE»
+
+«DEFINE deSerialize FOR IntegerField-»
+			/* «this.name» */
+			int «this.name.toFirstLower()» = data.readInt();
+			if (!(«this.name.toFirstLower()»==-1))
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(new Integer(«this.name.toFirstLower()»));
+«ENDDEFINE»
+
+«DEFINE deSerialize FOR FloatField-»
+			/* «this.name» */
+			float «this.name.toFirstLower()» = data.readFloat();
+			if (!(«this.name.toFirstLower()»==-1))
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(new Float(«this.name.toFirstLower()»));
+«ENDDEFINE»
+
+«DEFINE deSerialize FOR BinaryField-»
+			/* «this.name» */
+			String «this.name.toFirstLower()»Id = data.readUTF();
+			if (!«this.name.toFirstLower()»Id.equals(""))
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«this.name.toFirstLower()»Id);	
+«ENDDEFINE»
+
+«DEFINE deSerialize FOR GeoField-»
+			/* «this.name» */
+			String «this.name.toFirstLower()» = data.readUTF();			
+			if («name.toFirstLower()»!=null) {
+				String[] «name.toFirstLower()»Values = «name.toFirstLower()».split(";");
+				if («name.toFirstLower()»Values.length==2) {
+					entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(Double.valueOf(«name.toFirstLower()»Values[0]));
+					entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(Double.valueOf(«name.toFirstLower()»Values[1]));
+		
+				}
+				else {
+					entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(null);
+					entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(null);
+				}
+			}
+			else {
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Latitude(null);
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this»Longitude(null);
+			}			
+«ENDDEFINE»
+
+«DEFINE deSerialize FOR RelationFieldEntity-»
+	«IF (this.cardinality == 1)-»
+			/* «this.name» */
+			String «this.name.toFirstLower()»Id = data.readUTF();			
+			if («this.name.toFirstLower()»Id != null && !«this.name.toFirstLower()»Id.equals("")){		
+				EntityHandler handler = dataManager.getHandler(«this.entity.name».class.getName());
+				«this.entity.name» linked«this.entity.name» = («this.entity.name»)handler.getDao().loadEntity(«this.name.toFirstLower()»Id);
+				if(linked«this.entity.name» == null){					
+					linked«this.entity.name» = («this.entity.name»)handler.createNewEntity(«this.name.toFirstLower()»Id);
+					handler.getDao().saveOrUpdate(linked«this.entity.name»);
+				}
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(linked«this.entity.name»);
+			}
+			else
+				entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(null);
+	«ELSE-»
+			/* «this.name» */
+			String «this.name.toFirstLower()»Ids = data.readUTF();
+			Set<«this.entity.name»> «this.name.toFirstLower()» = new HashSet<«this.entity.name»>();
+			if (!«this.name.toFirstLower()»Ids.equals("")) {
+				String[] ids = «this.name.toFirstLower()»Ids.split(SerializationConstants.COLLECTION_SEPARATOR);
+				if (ids.length>0) {			
+					for (String id:ids) {
+						EntityHandler handler = dataManager.getHandler(«this.entity.name».class.getName());
+						«this.entity.name» linked«this.entity.name» = («this.entity.name»)handler.getDao().loadEntity(id);
+						if(linked«this.entity.name» == null){					
+							linked«this.entity.name» = («this.entity.name»)handler.createNewEntity(id);
+							handler.getDao().saveOrUpdate(linked«this.entity.name»);
+						}
+						«this.name.toFirstLower()».add(linked«this.entity.name»);				
+					}		
+				}
+			}
+			entity.«EXPAND template::CommonFieldUtil::setterName FOR this-»(«this.name.toFirstLower()»);
+	«ENDIF-»
+«ENDDEFINE»
+
+
+«REM» Serialize field «ENDREM»
+«DEFINE Serialize FOR FieldEntity-»
+			/* «this.name» */
+			if («this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+				data.writeUTF(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+			else
+				data.writeUTF("");	
+«ENDDEFINE»
+
+«DEFINE Serialize FOR DatesField-»
+			/* «this.name» */
+			if («this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+				data.writeLong(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»().getTime());
+			else
+				data.writeLong(-1);	
+«ENDDEFINE»
+
+«DEFINE Serialize FOR BooleanField-»
+			/* «this.name» */
+			if («this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+				data.writeUTF(String.valueOf(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»()));
+			else
+				data.writeUTF("");	
+«ENDDEFINE»
+
+«DEFINE Serialize FOR IntegerField-»
+			/* «this.name» */
+			if («this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+				data.writeInt(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+			else
+				data.writeInt(-1);	
+«ENDDEFINE»
+
+«DEFINE Serialize FOR FloatField-»
+			/* «this.name» */
+			if («this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+				data.writeFloat(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»());
+			else
+				data.writeFloat(-1);	
+«ENDDEFINE»
+
+«DEFINE Serialize FOR GeoField-»
+			/* «this.name» */
+			if («this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude()!=null && «this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude()!=null)
+				data.writeUTF(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»Latitude() + ";" + «this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»Longitude());
+			else
+				data.writeUTF("");	
+«ENDDEFINE»
+
+«DEFINE Serialize FOR RelationFieldEntity-»
+	«IF (this.cardinality == 1)-»
+			/* «this.name» */
+			if(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»()!=null)
+				data.writeUTF(«this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»().getId());
+			else
+				data.writeUTF("");
+	«ELSE-»
+			/* «this.name» */
+			Set<«this.entity.name»> «this.name.toFirstLower()» = «this.parentGroup.parentCard.name.toFirstLower()».«EXPAND template::CommonFieldUtil::getterName FOR this-»();
+			if («this.name.toFirstLower()»!=null && «this.name.toFirstLower()».size()>0){
+				String «this.name.toFirstLower()»Ids = new String();
+				for («this.entity.name» current:«this.name.toFirstLower()»){
+					«this.name.toFirstLower()»Ids = «this.name.toFirstLower()»Ids + current.getId() + SerializationConstants.COLLECTION_SEPARATOR;
+				}
+				data.writeUTF(«this.name.toFirstLower()»Ids);
+			}
+			else
+				data.writeUTF("");
+	«ENDIF-»
+«ENDDEFINE»
+
+
+
+

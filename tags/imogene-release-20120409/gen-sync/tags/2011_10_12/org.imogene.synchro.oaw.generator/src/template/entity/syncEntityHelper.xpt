@@ -1,0 +1,79 @@
+«IMPORT core»
+
+«DEFINE generate(String packageName, String packagePath, String projectName) FOR Project»
+«FILE packagePath.toLowerCase() + "/entity/EntityHelperImpl.java"»
+package «packageName.toLowerCase()».entity;
+
+import java.util.List;
+import java.util.ArrayList;
+import org.imogene.sync.server.EntityHelper;
+import org.imogene.common.data.Synchronizable;
+
+/**
+ * «this.name» Bean Implementation
+ * @author Medes-IMPS
+ */
+public class EntityHelperImpl implements EntityHelper {
+
+	public List<Synchronizable> getAssociatedEntitiesIds(Synchronizable entity){
+		«FOREACH entities AS e -»
+		if(entity instanceof «e.name.toFirstUpper()»)
+			return getFor«e.name.toFirstUpper()-»((«e.name.toFirstUpper()»)entity);
+		«ENDFOREACH -»
+		return new ArrayList<Synchronizable>();
+	}
+	
+	«FOREACH entities AS e -»
+	private List<Synchronizable> getFor«e.name.toFirstUpper()-»(«e.name.toFirstUpper()» entity){
+		List<Synchronizable> result = new ArrayList<Synchronizable>();
+		«FOREACH e.groups.fields AS f-»
+		«EXPAND addRelationField FOR f-»
+		«ENDFOREACH»
+		return result;
+	}
+	«ENDFOREACH»
+
+	«FOREACH entities AS e -»
+	«EXPAND reduceVisibility FOR e-»
+	«ENDFOREACH»
+	
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«REM» ------------------------------------------------
+----- If the field is a relation with a cardinality 1, 
+----- we add it the list of associated card entity «ENDREM»  
+«DEFINE addRelationField FOR FieldEntity»«ENDDEFINE»
+«DEFINE addRelationField FOR RelationFieldEntity-»
+	«IF cardinality==1 -»
+	if(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»()!=null)
+		«IF Actor.isAssignableFrom(this.entity.metaType)»
+		result.add(reduceHierarchy((«entity.name.toFirstUpper()»User)entity.«EXPAND template::CommonFieldUtil::getterName FOR this»()));
+		«ELSE»
+		result.add(entity.«EXPAND template::CommonFieldUtil::getterName FOR this»());
+		«ENDIF»
+	«ENDIF -»
+«ENDDEFINE»
+
+«REM» -----------------------------------------------
+----- Convert a User to its base entity class 
+----- (implied by the serialization process)
+--------------------------------------------  «ENDREM»
+«DEFINE reduceVisibility FOR CardEntity-»
+«IF Actor.isAssignableFrom(metaType) -»
+	public «this.name.toFirstUpper()» reduceHierarchy(«name.toFirstUpper()»User actor){
+		«name.toFirstUpper()» entity = new «name.toFirstUpper()»();
+		entity.setId(actor.getId());
+		entity.setCreated(actor.getCreated());
+		entity.setModified(actor.getModified());
+		entity.setCreatedBy(actor.getCreatedBy());
+		entity.setModifiedBy(actor.getModifiedBy());
+		entity.setModifiedFrom(actor.getModifiedFrom());
+		«FOREACH groups.fields AS f -»		
+		entity.«EXPAND template::CommonFieldUtil::setterName FOR f-»(actor.«EXPAND template::CommonFieldUtil::getterName FOR f-»());
+		«ENDFOREACH-»
+		return entity;
+	}
+«ENDIF-»
+«ENDDEFINE»

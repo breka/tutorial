@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library id="org.imogene.library.dao" name="Imogene dao library" desc="Imogene dao library">
+
+	<!-- COMMON libraries -->
+	<jar file="org.imogene.lib.common.jar"/>
+	
+	<!-- XStream -->
+	<jar file="xstream-1.3.jar"/>	
+	
+	<!-- Hibernate -->
+	<jar file="hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+	
+</library>

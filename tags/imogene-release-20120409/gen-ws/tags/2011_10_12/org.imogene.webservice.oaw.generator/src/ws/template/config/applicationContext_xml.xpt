@@ -1,0 +1,119 @@
+«IMPORT core»
+«DEFINE generate(String projectName) FOR Project-»
+«FILE "ws-context.xml"-»
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<!-- application properties -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propertyConfigurer">
+		<property name="location">
+		    <value>WEB-INF/context.properties</value>
+		</property>
+	</bean>	
+	
+	<!--  C3PO data source -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl" value="${jdbc.url}" />
+        <property name="user" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+	     <!-- C3PO configuration -->
+        <property name="acquireIncrement" value="1" />
+        <property name="minPoolSize" value="3" />
+        <property name="maxPoolSize" value="20" />
+        <property name="maxStatements" value="0" />
+        <property name="idleConnectionTestPeriod" value="30"/>       
+    </bean>
+	
+	<!-- Session factory -->
+	<bean
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" id="sessionFactory">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				«FOREACH entities AS e -»
+				<value>org/imogene/«projectName.toLowerCase()»/entity/«e.name.toFirstUpper()».hbm.xml</value>	
+				«ENDFOREACH -»			
+				<value>org/imogene/ws/entity/RoleBeanImpl.hbm.xml</value>	
+				<value>org/imogene/ws/entity/DefaultActor.hbm.xml</value>
+				<value>org/imogene/ws/binary/BinaryFile.hbm.xml</value>		
+				<value>org/imogene/ws/entity/LocalizedText.hbm.xml</value>
+				<value>org/imogene/ws/entity/SynchronizableEntity.hbm.xml</value>				
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.connection.release_mode">after_transaction</prop>			
+			</props>
+		</property>
+	</bean>
+	
+	<!-- Transaction manager -->
+	<bean
+		id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">		
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- BinaryFile manager -->
+	<bean id="binaryFileManager" class="org.imogene.ws.binary.BinaryFileManager" factory-method="getInstance">
+		<property name="binary_file_dir" value="${binary.path}"/>
+	</bean>
+	
+	<!-- Application DAOs -->
+	«FOREACH entities AS e -»
+	<bean 
+		id="«e.name.toFirstLower()»Dao"
+		class="org.imogene.«projectName.toLowerCase()».dao.«e.name.toFirstUpper()»DaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	«ENDFOREACH -»
+	<!-- binary dao	-->
+	<bean class="org.imogene.ws.dao.BinaryFileDaoHibernate" id="binaryDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean> 
+	
+  	<!-- LocalizedText DAO -->
+  	<bean class="org.imogene.ws.dao.LocalizedTextDaoHibernate" id="localizedTextDao">
+  		<property name="sessionFactory" ref="sessionFactory"/>
+  	</bean>	
+	
+  	<!-- Generic DAO -->
+  	<bean class="org.imogene.ws.dao.GenericDaoHibernate" id="genericDao">
+  		<property name="sessionFactory" ref="sessionFactory"/>
+  	</bean>	
+	
+	<!-- Security handler --> 
+	<bean class="org.imogene.«projectName.toLowerCase()».security.Medoo«projectName.toFirstUpper()»Policy" id="medooPolicy">
+  		<property name="dao" ref="genericDao"/>
+   		<property name="i18nDao" ref="localizedTextDao"/>
+  	</bean>  
+	
+  	<bean class="org.imogene.ws.security.MedooSecurityHandler" factory-method="getInstance" id="medooSecurityHandler">
+  		<property name="medooPolicy" ref="medooPolicy"/>
+  	</bean>  
+  	
+	<!-- User access control --> 
+	<bean class="org.imogene.«projectName.toLowerCase()».security.MedooSecurityDetailService" id="medooSecurityDetailService">
+	«FOREACH entities AS e -»
+		«IF Actor.isAssignableFrom(e.metaType)-»
+  		<property name="«e.name.toFirstLower()»Dao" ref="«e.name.toFirstLower()»Dao"/>
+		«ENDIF -»
+	«ENDFOREACH -»	
+		<property name="genericDao" ref="genericDao"/>
+  	</bean>    	  	
+	
+</beans>
+«ENDFILE»
+«ENDDEFINE»
