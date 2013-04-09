@@ -1,1 +1,0 @@
-Ce repertoire contient les fichiers .project et .classpath à recopier dans le template. 

@@ -1,6 +1,0 @@
-imog.ident.id=admin
-imog.ident.name=Lapeyre
-imog.ident.firstname=yann
-imog.ident.login=yann
-imog.ident.password=yann
-imog.ident.roles=administrator;delete;PersonnelNavigant;PersonnelTechnique
