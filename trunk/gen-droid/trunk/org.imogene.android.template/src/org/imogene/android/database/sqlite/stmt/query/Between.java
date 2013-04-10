@@ -2,6 +2,13 @@ package org.imogene.android.database.sqlite.stmt.query;
 
 import java.util.List;
 
+import org.imogene.android.database.sqlite.stmt.Where;
+/**
+ * Internal class handling the SQL 'between' query part. Used by {@link Where#between}.
+ * 
+ * @author Medes-IMPS
+ */
+
 public class Between extends BaseComparison {
 
 	private Object low;

@@ -2,6 +2,7 @@ package org.imogene.android.database.sqlite.stmt;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +16,12 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+/**
+ * Assists in building sql query (SELECT) statements for a particular table in a
+ * particular database.
+ * 
+ * @author Medes-IMPS
+ */
 public class QueryBuilder extends StatementBuilder {
 
 	private boolean distinct;
@@ -43,10 +50,23 @@ public class QueryBuilder extends StatementBuilder {
 		this.helper = helper;
 	}
 
+	/**
+	 * This is used by the internal call structure to note when a query builder
+	 * is being used as an inner query. This is necessary because by default, we
+	 * add in the ID column on every query. When you are returning a data item,
+	 * its ID field must be set otherwise you can't do a refresh() or update().
+	 * But internal queries must have 1 select column set so we can't add the
+	 * ID.
+	 */
 	void enableInnerQuery() {
 		this.isInnerQuery = true;
 	}
 
+	/**
+	 * Return the number of selected columns in the query.
+	 * 
+	 * @return Number of selected columns.
+	 */
 	int getSelectColumnCount() {
 		if (selectColumnList == null) {
 			return 0;
@@ -55,6 +75,12 @@ public class QueryBuilder extends StatementBuilder {
 		}
 	}
 
+	/**
+	 * Return the selected columns in the query or an empty list if none were
+	 * specified.
+	 * 
+	 * @return The list of selected columns.
+	 */
 	List<String> getSelectColumns() {
 		if (selectColumnList == null) {
 			return Collections.emptyList();
@@ -63,6 +89,15 @@ public class QueryBuilder extends StatementBuilder {
 		}
 	}
 
+	/**
+	 * Add columns to be returned by the SELECT query. If no columns are
+	 * selected then all columns are returned by default. For classes with id
+	 * columns, the id column is added to the select list automatically.
+	 * 
+	 * @param columns The columns to select.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder selectColumns(String... columns) {
 		if (selectColumnList == null) {
 			selectColumnList = new ArrayList<String>();
@@ -73,6 +108,14 @@ public class QueryBuilder extends StatementBuilder {
 		return this;
 	}
 
+	/**
+	 * Same as {@link #selectColumns(String...)} except the columns are
+	 * specified as an iterable -- probably will be a {@link Collection}.
+	 * 
+	 * @param columns The columns to select.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder selectColumns(Iterable<String> columns) {
 		if (selectColumnList == null) {
 			selectColumnList = new ArrayList<String>();
@@ -83,6 +126,13 @@ public class QueryBuilder extends StatementBuilder {
 		return this;
 	}
 
+	/**
+	 * Add raw columns or aggregate functions (COUNT, MAX, ...) to the query.
+	 * 
+	 * @param The raw columns or aggregate functions to add.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder selectRaw(String... columns) {
 		if (selectRawList == null) {
 			selectRawList = new ArrayList<String>();
@@ -93,6 +143,15 @@ public class QueryBuilder extends StatementBuilder {
 		return this;
 	}
 
+	/**
+	 * Add "GROUP BY" clause to the SQL query statement. Use of this means that
+	 * the resulting objects may not have a valid ID column value so cannot be
+	 * deleted or updated.
+	 * 
+	 * @param The column name to group by.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder groupBy(String columnName) {
 		if (groupByList == null) {
 			groupByList = new ArrayList<String>();
@@ -102,11 +161,28 @@ public class QueryBuilder extends StatementBuilder {
 		return this;
 	}
 
+	/**
+	 * Add a raw SQL "GROUP BY" clause to the SQL query statement.
+	 * 
+	 * @param The raw SQL "GROUP BY" clause. This should not include the
+	 *            "GROUP BY".
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder groupByRaw(String rawSql) {
 		groupByRaw = rawSql;
 		return this;
 	}
 
+	/**
+	 * Add "ORDER BY" clause to the SQL query statement.
+	 * 
+	 * @param columnName The columns name to order by.
+	 * @param ascending {@code true} for ascending order, {@code false}
+	 *            otherwise.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder orderBy(String columnName, boolean ascending) {
 		if (orderByList == null) {
 			orderByList = new ArrayList<OrderBy>();
@@ -115,53 +191,149 @@ public class QueryBuilder extends StatementBuilder {
 		return this;
 	}
 
+	/**
+	 * Add raw SQL "ORDER BY" clause to the SQL query statement.
+	 * 
+	 * @param rawSql The raw SQL order by clause. This should not include the
+	 *            "ORDER BY".
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder orderByRaw(String rawSql) {
 		return orderByRaw(rawSql, (Object[]) null);
 	}
 
+	/**
+	 * Add raw SQL "ORDER BY" clause to the SQL query statement.
+	 * 
+	 * @param rawSql The raw SQL order by clause. This should not include the
+	 *            "ORDER BY".
+	 * @param args Optional arguments that correspond to any ? specified in the
+	 *            rawSql. Each of the arguments must have the sql-type set.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder orderByRaw(String rawSql, Object... args) {
 		orderByRaw = rawSql;
 		orderByArgs = args;
 		return this;
 	}
 
+	/**
+	 * Add "DISTINCT" clause to the SQL query statement. Use of this means that
+	 * the resulting objects may not have a valid ID column value so cannot be
+	 * deleted or updated.
+	 * 
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder distinct() {
 		distinct = true;
 		selectIdColumn = false;
 		return this;
 	}
 
+	/**
+	 * Limit the output to maxRows maximum number of rows. Set to null for no
+	 * limit (the default).
+	 * 
+	 * @param maxRows The maximum number of rows returned by the query.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder limit(Long maxRows) {
 		limit = maxRows;
 		return this;
 	}
 
+	/**
+	 * Start the output at this row number. Set to null for no offset (the
+	 * default). If you are paging you probably want to specify a
+	 * {@link #orderBy(String, boolean)}.
+	 * 
+	 * @param startRow Row number to start the output.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder offset(Long startRow) throws SQLException {
 		offset = startRow;
 		return this;
 	}
 
+	/**
+	 * Set whether or not we should only return the count of the results. To get
+	 * the count-of directly, use {@link #countOf()}.
+	 * 
+	 * @param {@code true} for a count-of query, {@code false} otherwise.
+	 * 
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder setCountOf(boolean countOf) {
 		this.isCountOfQuery = countOf;
 		return this;
 	}
-	
+
+	/**
+	 * Sets the count-of query flag using {@link #setCountOf(boolean)} to true.
+	 * 
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
+	public QueryBuilder countOf() {
+		setCountOf(true);
+		return this;
+	}
+
+	/**
+	 * Makes the query return the largest value of the selected column.
+	 * 
+	 * @param column The column to find the largest value.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder setMaxColumn(String column) {
 		this.isMaxQuery = true;
 		this.maxColumn = column;
 		return this;
 	}
 
+	/**
+	 * Add raw SQL "HAVING" clause to the SQL query statement.
+	 * 
+	 * @param The raw SQL "HAVING" clause. This should not include the "HAVING"
+	 *            string.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder having(String having) {
 		this.having = having;
 		return this;
 	}
 
+	/**
+	 * Sets the cursor factory to be used for the query. You can use one factory
+	 * for all queries on a database but it is normally easier to specify the
+	 * factory when doing this query.
+	 * 
+	 * @param factory The factory to use.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder setCursorFactory(CursorFactory factory) {
 		this.factory = factory;
 		return this;
 	}
 
+	/**
+	 * Register to watch a content URI for changes. This can be the URI of a
+	 * specific data row (for example, "content://my_provider_type/23"), or a a
+	 * generic URI for a content type.
+	 * 
+	 * @param uri The content URI to watch.
+	 * @return This QueryBuilder object to allow for chaining of calls to set
+	 *         methods.
+	 */
 	public QueryBuilder setUri(Uri uri) {
 		this.uri = uri;
 		return this;
@@ -193,6 +365,12 @@ public class QueryBuilder extends StatementBuilder {
 		addTableName = false;
 	}
 
+	/**
+	 * Query the given statement, returning a {@link Cursor} over the result
+	 * set.
+	 * 
+	 * @return A Cursor object, which is positioned before the first entry.
+	 */
 	public Cursor query() {
 		List<Object> args = new ArrayList<Object>();
 		String sql = buildStatementString(args);
@@ -204,6 +382,12 @@ public class QueryBuilder extends StatementBuilder {
 		return cursor;
 	}
 
+	/**
+	 * Execute a statement that returns a 1 by 1 table with a numeric value. For
+	 * example, SELECT COUNT(*) FROM table, see {@link #countOf()}.
+	 * 
+	 * @return The result of the query.
+	 */
 	public long queryForLong() {
 		List<Object> args = new ArrayList<Object>();
 		String sql = buildStatementString(args);
@@ -217,6 +401,12 @@ public class QueryBuilder extends StatementBuilder {
 		return result;
 	}
 
+	/**
+	 * Execute a statement that returns a 1 by 1 table with a text value. For
+	 * example, SELECT COUNT(*) FROM table.
+	 * 
+	 * @return The result of the query.
+	 */
 	public String queryForString() {
 		List<Object> args = new ArrayList<Object>();
 		String sql = buildStatementString(args);
@@ -230,6 +420,14 @@ public class QueryBuilder extends StatementBuilder {
 		return result;
 	}
 
+	/**
+	 * Update row(s) for the query. If the content provider supports
+	 * transactions the update will be atomic.
+	 * 
+	 * @param values The new field values. The key is the column name for the
+	 *            field. A null value will remove an existing field value.
+	 * @return The number of rows updated.
+	 */
 	public int update(ContentValues values) {
 		if (where != null) {
 			StringBuilder sb = new StringBuilder();
@@ -240,7 +438,13 @@ public class QueryBuilder extends StatementBuilder {
 			return helper.update(tableName, values, null, null);
 		}
 	}
-	
+
+	/**
+	 * Deletes row(s) specified by the query. If the content provider supports
+	 * transactions, the deletion will be atomic.
+	 * 
+	 * @return The number of rows deleted.
+	 */
 	public int delete() {
 		if (where != null) {
 			StringBuilder sb = new StringBuilder();

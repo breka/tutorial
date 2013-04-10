@@ -19,6 +19,13 @@ import org.imogene.android.database.sqlite.stmt.query.SimpleComparison;
 
 import android.provider.BaseColumns;
 
+/**
+ * Manages the various clauses that make up the WHERE part of a SQL statement.
+ * You get one of these when you call {@link StatementBuilder#where} or you can
+ * set the where clause by calling {@link StatementBuilder#setWhere}.
+ * 
+ * @author Medes-IMPS
+ */
 public class Where implements Clause {
 
 	private static final int START_CLAUSE_SIZE = 4;
@@ -27,11 +34,27 @@ public class Where implements Clause {
 	private int clauseStackLevel = 0;
 	private NeedsFutureClause needsFuture = null;
 
+	/**
+	 * AND operation which takes the previous clause and the next clause and
+	 * AND's them together.
+	 * 
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where and() {
 		addNeedsFuture(new ManyClause(pop("AND"), ManyClause.AND_OPERATION));
 		return this;
 	}
 
+	/**
+	 * AND operation which takes 2 (or more) arguments and AND's them together.
+	 * There is no guarantee of the order of the clauses that are generated in
+	 * the final query.
+	 * 
+	 * @param first The first Where clause.
+	 * @param second The second Where clause.
+	 * @param others Others Where clauses.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where and(Where first, Where second, Where... others) {
 		Clause[] clauses = buildClauseArray(others, "AND");
 		Clause secondClause = pop("AND");
@@ -40,6 +63,17 @@ public class Where implements Clause {
 		return this;
 	}
 
+	/**
+	 * This method needs to be used carefully. This will absorb a number of
+	 * clauses that were registered previously with calls to
+	 * {@link Where#eq(String, Object)} or other methods and will string them
+	 * together with AND's. There is no way to verify the number of previous
+	 * clauses so the programmer has to count precisely. There is no guarantee
+	 * of the order of the clauses that are generated in the final query.
+	 * 
+	 * @param numClauses The number of clauses to absorb.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where and(int numClauses) {
 		if (numClauses == 0) {
 			throw new IllegalArgumentException("Must have at least one clause in and(numClauses)");
@@ -52,52 +86,143 @@ public class Where implements Clause {
 		return this;
 	}
 
+	/**
+	 * Add a BETWEEN clause so the column must be between the low and high
+	 * parameters.
+	 * 
+	 * @param columnName Column to apply the BETWEEN clause.
+	 * @param low The lower value.
+	 * @param high The higher value.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where between(String columnName, Object low, Object high) {
 		addClause(new Between(columnName, low, high));
 		return this;
 	}
 
+	/**
+	 * Add a '=' clause so the column must be equal to the value.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param value The comparison value.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where eq(String columnName, Object value) {
 		addClause(new SimpleComparison(columnName, value, SimpleComparison.EQUAL_TO_OPERATION));
 		return this;
 	}
 
+	/**
+	 * Add a '&gt;=' clause so the column must be greater-than or equals-to the
+	 * value.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param value The comparison value.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where ge(String columnName, Object value) {
 		addClause(new SimpleComparison(columnName, value, SimpleComparison.GREATER_THAN_EQUAL_TO_OPERATION));
 		return this;
 	}
 
+	/**
+	 * Add a '&gt;' clause so the column must be greater-than the value.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param value The comparison value.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where gt(String columnName, Object value) {
 		addClause(new SimpleComparison(columnName, value, SimpleComparison.GREATER_THAN_OPERATION));
 		return this;
 	}
 
+	/**
+	 * Add a IN clause so the column must be equal-to one of the objects from
+	 * the list passed in.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param objects The list of values to compare with.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where in(String columnName, Iterable<?> objects) {
 		addClause(new In(columnName, objects, true));
 		return this;
 	}
 
+	/**
+	 * Same as {@link #in(String, Iterable)} except with a NOT IN clause.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param objects The list of values to compare with.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where notIn(String columnName, Iterable<?> objects) {
 		addClause(new In(columnName, objects, false));
 		return this;
 	}
 
+	/**
+	 * Add a IN clause so the column must be equal-to one of the objects passed
+	 * in.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param objects The list of values to compare with.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where in(String columnName, Object... objects) {
 		return in(true, columnName, objects);
 	}
 
+	/**
+	 * Same as {@link #in(String, Object...)} except with a NOT IN clause.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param objects The list of values to compare with.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where notIn(String columnName, Object... objects) {
 		return in(false, columnName, objects);
 	}
 
+	/**
+	 * Add a IN clause which makes sure the column is in one of the columns
+	 * returned from a sub-query inside of parenthesis. The QueryBuilder must
+	 * return 1 and only one column which can be set with the
+	 * {@link QueryBuilder#selectColumns(String...)} method calls. That 1
+	 * argument must match the SQL type of the column-name passed to this
+	 * method. The sub-query will be prepared at the same time that the outside
+	 * query is.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param subQueryBuilder The sub-query which results will be used for
+	 *            comparison.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where in(String columnName, QueryBuilder subQueryBuilder) {
 		return in(true, columnName, subQueryBuilder);
 	}
 
+	/**
+	 * Same as {@link #in(String, QueryBuilder)} except with a NOT IN clause.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param subQueryBuilder The sub-query which results will be used for
+	 *            comparison.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where notIn(String columnName, QueryBuilder subQueryBuilder) {
 		return in(false, columnName, subQueryBuilder);
 	}
 
+	/**
+	 * Add a EXISTS clause with a sub-query inside of parenthesis. The sub-query
+	 * will be prepared at the same time that the outside query is.
+	 * 
+	 * @param subQueryBuilder The sub-query which results will be used for
+	 *            determining existence.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where exists(QueryBuilder subQueryBuilder) {
 		// we do this to turn off the automatic addition of the ID column in the
 		// select column list
@@ -106,51 +231,121 @@ public class Where implements Clause {
 		return this;
 	}
 
+	/**
+	 * Add a 'IS NULL' clause so the column must be null. '=' NULL does not
+	 * work.
+	 * 
+	 * @param columnName The column name which value must be tested.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where isNull(String columnName) {
 		addClause(new IsNull(columnName));
 		return this;
 	}
 
+	/**
+	 * Add a 'IS NOT NULL' clause so the column must not be null. '<>' NULL does
+	 * not work.
+	 * 
+	 * @param columnName The column name which value must be tested.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where isNotNull(String columnName) {
 		addClause(new IsNotNull(columnName));
 		return this;
 	}
 
+	/**
+	 * Add a '&lt;=' clause so the column must be less-than or equals-to the
+	 * value.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param value The comparison value.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where le(String columnName, Object value) {
 		addClause(new SimpleComparison(columnName, value, SimpleComparison.LESS_THAN_EQUAL_TO_OPERATION));
 		return this;
 	}
 
+	/**
+	 * Add a '&lt;' clause so the column must be less-than the value.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param value The comparison value.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where lt(String columnName, Object value) {
 		addClause(new SimpleComparison(columnName, value, SimpleComparison.LESS_THAN_OPERATION));
 		return this;
 	}
 
+	/**
+	 * Add a LIKE clause so the column must match the value using '%' patterns.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param value The comparison value.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where like(String columnName, Object value) {
 		addClause(new SimpleComparison(columnName, value, SimpleComparison.LIKE_OPERATION));
 		return this;
 	}
 
+	/**
+	 * Add a '&lt;&gt;' clause so the column must be not-equal-to the value.
+	 * 
+	 * @param columnName The column to apply the clause.
+	 * @param value The comparison value.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where ne(String columnName, Object value) {
 		addClause(new SimpleComparison(columnName, value, SimpleComparison.NOT_EQUAL_TO_OPERATION));
 		return this;
 	}
 
+	/**
+	 * Used to NOT the next clause specified.
+	 * 
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where not() {
 		addNeedsFuture(new Not());
 		return this;
 	}
 
+	/**
+	 * Used to NOT the argument clause specified.
+	 * 
+	 * @param comparison The clause to NOT.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where not(Where comparison) {
 		addClause(new Not(pop("NOT")));
 		return this;
 	}
 
+	/**
+	 * OR operation which takes the previous clause and the next clause and OR's
+	 * them together.
+	 * 
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where or() {
 		addNeedsFuture(new ManyClause(pop("OR"), ManyClause.OR_OPERATION));
 		return this;
 	}
 
+	/**
+	 * OR operation which takes 2 arguments and OR's them together. There is no
+	 * guarantee of the order of the clauses that are generated in the final
+	 * query.
+	 * 
+	 * @param first The first Where clause.
+	 * @param second The second Where clause.
+	 * @param others Others Where clauses.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where or(Where left, Where right, Where... others) {
 		Clause[] clauses = buildClauseArray(others, "OR");
 		Clause secondClause = pop("OR");
@@ -159,6 +354,17 @@ public class Where implements Clause {
 		return this;
 	}
 
+	/**
+	 * This method needs to be used carefully. This will absorb a number of
+	 * clauses that were registered previously with calls to
+	 * {@link Where#eq(String, Object)} or other methods and will string them
+	 * together with OR's. There is no way to verify the number of previous
+	 * clauses so the programmer has to count precisely. There is no guarantee
+	 * of the order of the clauses that are generated in the final query.
+	 * 
+	 * @param numClauses The number of clauses to absorb.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where or(int numClauses) {
 		if (numClauses == 0) {
 			throw new IllegalArgumentException("Must have at least one clause in or(numClauses)");
@@ -171,21 +377,54 @@ public class Where implements Clause {
 		return this;
 	}
 
+	/**
+	 * Add a clause where the ID is equal to the argument.
+	 * 
+	 * @param id The value of the ID to test.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where idEq(Object id) {
 		addClause(new SimpleComparison(BaseColumns._ID, id, SimpleComparison.EQUAL_TO_OPERATION));
 		return this;
 	}
 
+	/**
+	 * Add a raw statement as part of the where that can be anything that the
+	 * database supports. Using more structured methods is recommended but this
+	 * gives more control over the query and allows you to utilize database
+	 * specific features.
+	 * 
+	 * @param rawStatement The statement that we should insert into the WHERE.
+	 * @param args Optional arguments that correspond to any ? specified in the
+	 *            rawStatement. Each of the arguments must have either the
+	 *            corresponding columnName or the sql-type set.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where raw(String rawStatement, Object... args) {
 		addClause(new Raw(rawStatement, args));
 		return this;
 	}
 
+	/**
+	 * Make a comparison where the operator is specified by the caller. It is up
+	 * to the caller to specify an appropriate operator for the database and
+	 * that it be formatted correctly.
+	 * 
+	 * @param columnName The column name to apply the clause.
+	 * @param rawOperator The operator for comparison.
+	 * @param value The value to compare the column with.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where rawComparison(String columnName, String rawOperator, Object value) {
 		addClause(new SimpleComparison(columnName, value, rawOperator));
 		return this;
 	}
-	
+
+	/**
+	 * Add a clause to this clause.
+	 * @param clause The Clause to add.
+	 * @return This Where object to allow for chaining of calls to set methods.
+	 */
 	public Where clause(Clause clause) {
 		addClause(clause);
 		return this;
