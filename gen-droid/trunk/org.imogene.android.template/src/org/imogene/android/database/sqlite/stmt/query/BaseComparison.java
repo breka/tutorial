@@ -2,6 +2,11 @@ package org.imogene.android.database.sqlite.stmt.query;
 
 import java.util.List;
 
+/**
+ * Internal base class for all comparison operations.
+ * 
+ * @author Medes-IMPS
+ */
 abstract class BaseComparison implements Comparison {
 
 	protected final String columnName;
@@ -36,6 +41,14 @@ abstract class BaseComparison implements Comparison {
 		appendArgOrValue(sb, argList, value);
 	}
 
+	/**
+	 * Append to the string builder a value object.
+	 * 
+	 * @param sb The StringBuilder to append the clause to.
+	 * @param argList The list of arguments. New arguments values will be added
+	 *            to this list.
+	 * @param argOrValue Argument to add to the clause.
+	 */
 	protected void appendArgOrValue(StringBuilder sb, List<Object> argList, Object argOrValue) {
 		sb.append('?');
 		sb.append(' ');

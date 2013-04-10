@@ -2,6 +2,11 @@ package org.imogene.android.database.sqlite.stmt.query;
 
 import java.util.List;
 
+/**
+ * For operations with a number of them in a row.
+ * 
+ * @author Medes-IMPS
+ */
 public class ManyClause implements Clause, NeedsFutureClause {
 
 	public static final String AND_OPERATION = "AND";

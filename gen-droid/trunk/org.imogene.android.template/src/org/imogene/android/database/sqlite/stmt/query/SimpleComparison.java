@@ -4,7 +4,7 @@ package org.imogene.android.database.sqlite.stmt.query;
  * Internal class handling a simple comparison query part where the operation is
  * passed in.
  * 
- * @author graywatson
+ * @author Medes-IMPS
  */
 public class SimpleComparison extends BaseComparison {
 

@@ -3,7 +3,13 @@ package org.imogene.android.database.sqlite.stmt.query;
 import java.util.List;
 
 import org.imogene.android.database.sqlite.stmt.QueryBuilder.InternalQueryBuilderWrapper;
+import org.imogene.android.database.sqlite.stmt.Where;
 
+/**
+ * Internal class handling the SQL 'in' query part. Used by {@link Where#in}.
+ * 
+ * @author Medes-IMPS
+ */
 public class InSubQuery extends BaseComparison {
 
 	private final InternalQueryBuilderWrapper subQueryBuilder;

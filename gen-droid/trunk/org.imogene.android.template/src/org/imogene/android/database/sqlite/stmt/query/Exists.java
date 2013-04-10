@@ -3,7 +3,14 @@ package org.imogene.android.database.sqlite.stmt.query;
 import java.util.List;
 
 import org.imogene.android.database.sqlite.stmt.QueryBuilder.InternalQueryBuilderWrapper;
+import org.imogene.android.database.sqlite.stmt.Where;
 
+/**
+ * Internal class handling the SQL 'EXISTS' query part. Used by
+ * {@link Where#exists}.
+ * 
+ * @author Medes-IMPS
+ */
 public class Exists implements Clause {
 
 	private final InternalQueryBuilderWrapper subQueryBuilder;

@@ -2,14 +2,31 @@ package org.imogene.android.database.sqlite.stmt.query;
 
 import java.util.List;
 
+/**
+ * Internal class handling the SQL 'NOT' boolean comparison operation. Used by
+ * {@link Where#not}.
+ * 
+ * @author Medes-IMPS
+ */
 public class Not implements Clause, NeedsFutureClause {
 
 	private Comparison comparison = null;
 	private Exists exists = null;
 
+	/**
+	 * In this case we will consume a future clause.
+	 */
 	public Not() {
 	}
 
+	/**
+	 * Create a Not from a {@link Clause}.
+	 * 
+	 * @param clause The clause to NOT.
+	 * 
+	 * @throws IllegalArgumentException If the {@link Clause} is not a
+	 *             {@link Comparison}.
+	 */
 	public Not(Clause clause) {
 		setMissingClause(clause);
 	}

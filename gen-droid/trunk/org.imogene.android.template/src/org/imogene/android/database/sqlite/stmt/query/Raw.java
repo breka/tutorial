@@ -2,6 +2,12 @@ package org.imogene.android.database.sqlite.stmt.query;
 
 import java.util.List;
 
+/**
+ * Raw part of the where to just stick in a string in the middle of the WHERE.
+ * It is up to the user to do so properly.
+ * 
+ * @author Medes-IMPS
+ */
 public class Raw implements Clause {
 
 	private final String statement;
