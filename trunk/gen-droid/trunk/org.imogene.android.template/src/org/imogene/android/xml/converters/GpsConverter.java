@@ -44,10 +44,10 @@ public class GpsConverter extends AbstractFieldConverter {
 			IllegalStateException, IOException {
 		Location location = (Location) obj;
 		serializer.startTag(null, "latitude");
-		serializer.text(Double.toString(location.getLatitude()));
+		serializer.text(String.valueOf(location.getLatitude()));
 		serializer.endTag(null, "latitude");
 		serializer.startTag(null, "longitude");
-		serializer.text(Double.toString(location.getLongitude()));
+		serializer.text(String.valueOf(location.getLongitude()));
 		serializer.endTag(null, "longitude");
 	}
 
